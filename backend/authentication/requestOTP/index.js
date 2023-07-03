@@ -52,7 +52,8 @@ async function createOTP(email, hashedOTP) {
   const data = {
     PK: `${email}`, 
     SK: `otp`,
-    hashedOTP: hashedOTP
+    hashedOTP: hashedOTP,
+    createdAt: new Date().toJSON()
   };
 
   await dbService.putItem(data);
