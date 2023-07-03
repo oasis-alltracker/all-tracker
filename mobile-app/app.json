@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "mobile-app",
+    "slug": "mobile-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "com.alltracker.authsessiongoogle",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.alltracker.authsessiongoogle"
+    },
+    "android": {
+      "package": "com.alltracker.authsessiongoogle"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b49f7c85-544d-4fe7-8b4a-13122ec547bb"
+      }
+    }
+  }
+}

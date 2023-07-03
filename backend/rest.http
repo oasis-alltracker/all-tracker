@@ -1,0 +1,644 @@
+//-----------H E A L T H   I N F O-----------
+//-------------------------------------------
+//Get health info.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/healthInfo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Update health info.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/healthInfo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "weight": 200,
+    "height": 180,
+    "weightGoal": 220,
+    "calorieGoal": 4000,
+    "proteinGoal": 200,    
+    "fatGoal": 30
+}
+###
+
+
+
+//----------F O O D   E N T R I E S----------
+//-------------------------------------------
+//Get food entries for one day.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodEntries?dateStamp=20230208
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Get food entries for multiple days.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodEntries?startDate=20230208&endDate=20230209
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create food entry.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodEntries
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Eggs",
+    "meal": "breakfast",
+    "calorieCount": 30,
+    "fatCount": 34,
+    "foodItemID": "ehdfh",
+    "proteinCount": 34,
+    "quantity": 10,
+    "measurement": "grams",
+    "dateStamp": "20230208"
+}
+###
+
+
+//Update food entry.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Eggs",
+    "meal": "breakfast",
+    "calorieCount": 50,
+    "fatCount": 34,
+    "foodItemID": "ehdfh",
+    "proteinCount": 39,
+    "quantity": 1,
+    "measurement": "egg"
+}
+###
+
+
+//Delete food entry.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodEntries/20230208-62bf2b90-a763-11ed-b963-07de06ca3659
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+
+//------------F O O D   I T E M S------------
+//-------------------------------------------
+//Get all food items.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodItems
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Get single food item.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodItems/cc9e4c30-a772-11ed-a2c7-89aa2d378228
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create food item.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodItems
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "oeuf",
+    "caloriesPerMeasure": 67,
+    "fatsPerMeasure": 67,
+    "proteinsPerMeasure": 76,
+    "servingOption": "2 eggs",
+    "foodIDs": []
+}
+###
+
+
+//Update food item.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodItems/f8494d90-a771-11ed-8a9d-a788f93ef81c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "oeuf",
+    "caloriesPerMeasure": 34,
+    "fatsPerMeasure": 34,
+    "proteinsPerMeasure": 39,
+    "servingOption": "1 eggs",
+    "foodIDs": []
+}
+###
+
+
+//Delete food item.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/foodItems/f8494d90-a771-11ed-8a9d-a788f93ef81c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//----------------H A B I T S----------------
+//-------------------------------------------
+//Get all habits.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habits
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create habit.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habits
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Wash Shoes",
+    "isPositive": true,
+    "threshold": 1
+}
+###
+
+
+//Update habit.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Wash Shoes",
+    "isPositive": true,
+    "threshold": 2
+}
+###
+
+
+//Delete habit.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+
+//--------H A B I T   S T A S U S E S--------
+//-------------------------------------------
+//Get habit statuses for one day.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habitStatuses?dateStamp=20230209
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Get habit statuses for multiple days.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habitStatuses?startDate=20230208&endDate=20230210
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create habit status.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habitStatuses
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "count": 0,
+    "habitID": "497bef50-a773-11ed-8679-d7059b0ed0d6",
+    "status": "not started",
+    "dateStamp": "20230209"
+}
+###
+
+
+//Update habit status.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habitStatuses/20230208-497bef50-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "count": 2,
+    "status": "complete"
+}
+###
+
+
+//Delete habit status
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/habitStatuses/20230209-497bef50-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//---------S L E E P   R E P O R T S---------
+//-------------------------------------------
+//Get sleep report for one day.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/sleepReports?dateStamp=20230208
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Get sleep report for multiple days.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/sleepReports?startDate=20230208&endDate=20230210
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create sleep report.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/sleepReports
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "rating": 7,
+    "wasComfyEnvironment": true,
+    "didWindDown": true,
+    "didManageIntake": true,
+    "didRelaxation": true,
+    "dateStamp": "20230209"
+}
+###
+
+
+//Update sleep report.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/sleepReports/20230209-cc3fba90-a7f8-11ed-bee5-edd4f1743780
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "rating": 8,
+    "wasComfyEnvironment": false,
+    "didWindDown": true,
+    "didManageIntake": true,
+    "didRelaxation": true
+}
+###
+
+
+//Delete sleep report.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/sleepReports/20230209-e4452c60-a7f8-11ed-bee5-edd4f1743780
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//------W E L L N E S S   R E P O R T S------
+//-------------------------------------------
+//Get wellness report for one day.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/wellnessReports?dateStamp=20230209
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Get wellness report for multiple days.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/wellnessReports?startDate=20230208&endDate=20230210
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create wellness report.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/wellnessReports
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "feeling": "elated",
+    "mood": "slightly above neutral",
+    "time": 1234,
+    "location": "Thom Baragen Corydon",
+    "company": "Alone",
+    "activity": "Coding",
+    "dateStamp": "20230208"
+}
+###
+
+
+//Update wellness report.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/wellnessReports/20230208-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "feeling": "elated",
+    "mood": "slightly above neutral",
+    "location": "Thom Baragen Corydon",
+    "company": "with myself",
+    "activity": "Coding"
+}
+###
+
+
+//Delete wellness report.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/wellnessReports/20230208-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//-----------------T A S K S-----------------
+//-------------------------------------------
+//Get all recurring tasks.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create recurring task.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Finish this app",
+    "schedule": "MWF",
+    "priorityTag": "High"
+}
+###
+
+
+//Update recurring task.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/tasks/9abd4360-a7fe-11ed-a168-b10e30576ca1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Finish this app",
+    "schedule": "MWF",
+    "priorityTag": "Regular"
+}
+###
+
+
+//Delete recurring task.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/tasks/8813e390-a7fe-11ed-a168-b10e30576ca1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+//----------------T O - D O S----------------
+//-------------------------------------------
+//Get to-dos for one day.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/toDos?dateStamp=20230208
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Get to-dos for multiple days.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/toDos?startDate=20230208&endDate=20230210
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create to-do.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/toDos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "isComplete": false,
+    "name": "Finish this app",
+    "priorityTag": "High",
+    "isRecurring": false,
+    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
+    "dateStamp": "20230209"
+}
+###
+
+
+//Update to-do.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/toDos/20230208-17fa0100-a800-11ed-a98f-79871c76ade1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "isComplete": true,
+    "name": "Finish this app",
+    "priorityTag": "High",
+    "isRecurring": false
+}
+###
+
+
+//Delete to-do.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/toDos/20230209-17fa0100-a800-11ed-a98f-79871c76ade1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+
+//----------W O R K O U T   P L A N S----------
+//-------------------------------------------
+//Get workout plans.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutPlans
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create workout plan.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutPlans
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Upper",
+    "exerciseIDs": []
+}
+###
+
+
+//Update workout plan.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Upper",
+    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
+}
+###
+
+
+//Delete workout plan.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+//----------E X E R C I S E S----------
+//-------------------------------------------
+//Get exercises for a given workout plan.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exercises?workoutPlanID=b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create exercise.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exercises
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "pull ups",
+    "type": "strength",
+    "muscle": "back",
+    "equipment": "bar",
+    "difficulty": "medium",
+    "instructions": "Grab par and pull yourself up",
+    "sets": 3,
+    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab"
+}
+###
+
+
+//Update exercise.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exercises/72-ee5b41b0-abe2-11ed-82c5-61c662303908
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "pull ups",
+    "type": "back",
+    "muscle": "shoulder",
+    "equipment": "bar",
+    "difficulty": "medium",
+    "instructions": "Grab par and pull yourself up",
+    "sets": 4
+}
+###
+
+
+//Delete exercise.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exercises/72-7b0b54b0-abd4-11ed-990e-03ef98465e29
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//----------W O R K O U T   E N T R I E S----------
+//-------------------------------------------
+//Get workout entries for one day.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutEntries?dateStamp=20230208
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Get workout entries for multiple days.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutEntries?startDate=20230208&endDate=20230210
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create workout entry.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutEntries
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "time": "12:00",
+    "dateStamp": "20230208",
+    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab",
+    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
+}
+###
+
+
+//Update workout entry.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutEntries/20230209-65fb8d40-aa55-11ed-bfee-c93f00eb950c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "exerciseEntryIDs": ["1"]
+}
+###
+
+
+//Delete workout entry.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/workoutEntries/20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//----------E X E R C I S E   E N T R I E S----------
+//-------------------------------------------
+//Get exercise entries for a given workout.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exerciseEntries?workoutEntryID=20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+//Create exercise entry.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exerciseEntries
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "name": "Pull-ups",
+    "exerciseID": "c81c88b0-ac14-11ed-83ff-bbb6a057b089",
+    "workoutEntryID": "20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c",
+    "sets": [ {
+        "weight": 30,
+        "reps": 34,
+        "time": "ehdfh"
+    }]
+
+}
+###
+
+
+//Update exercise entry.
+PUT https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exerciseEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+    "sets": [ {
+        "weight": 33,
+        "reps": 34,
+        "time": "ehdfh"
+    }]
+}
+###
+
+
+//Delete exercise entry.
+DELETE https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/exerciseEntries/23-1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+###
+
+
+GET https://www.googleapis.com/userinfo/v2/me
+Authorization: Bearer ya29.a0Ael9sCMsF0XEDFbn9QFUx9zD6q3rKHUjr6VkBBJn0X7ZeEKrZWEFMfntP3jJxGJU4M5d1qUhaAtuFxpL6yG8Hr109oT619NfHT3xUDBy8vxQh2aA0hs9noMzyK8OIk3AyAbScTj3z54qPvDaiNBYHulE7BTWaCgYKAfgSARESFQF4udJhi2W4yX5TXRA0R243c_4N9A0163
+###
+
+
+//----------A U T H E N T I C A T I O N----------
+//-------------------------------------------
+//Check if user exists.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/authentication/userExists
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+{
+   "email": "hodgerta@gmail.com"
+}
+###
+
+
+//Refresh token.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/authentication/refreshToken
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTY4MjEyODQ2MywiZXhwIjoxNjkwNzY4NDYzfQ.Rmq6DrCx2_RJGlrVMkf8G1_P1NpSQcvOB5csHI5ef3s
+
+###
+
+
+//Request OTP.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/authentication/requestOTP
+
+{
+   "email": "hodgerta@gmail.com"
+}
+###
+
+
+//Login with OTP.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/authentication/loginOTP
+
+{
+   "email": "hodgerta@gmail.com",
+   "otp": "2759"
+}
+###
+
+
+//Login with google.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/authentication/loginGoogle
+
+{
+    "token": "ya29.a0Ael9sCPJJ4bSKH46pJApsDz0uKeq4OctUhQ_N7i0Db2sZS0Q7izcEafZPgy5hV1xThQRFWBTN0ChuBRgFMfYWoR1udcCkmfgLp4hxBWvpBkhUozzlksxeU2FFI0X4ncjBMYirBmutik_wTrujBX4qWusuDjFLQaCgYKAZMSARESFQF4udJhv7ZydnCrFpZ7UM7IBnHeBA0165"
+}
+###
+
+
+//Login with apple.
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/authentication/loginApple
+
+{
+   "token": "eyJraWQiOiJZdXlYb1kiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwcGxlaWQuYXBwbGUuY29tIiwiYXVkIjoiaG9zdC5leHAuRXhwb25lbnQiLCJleHAiOjE2ODIyMjgxMTYsImlhdCI6MTY4MjE0MTcxNiwic3ViIjoiMDAxNjczLjkwNzk5MzkzNWUxNjQ1YjE5OTk3ZjVmNjM0NTA0NGU4LjE4MjAiLCJjX2hhc2giOiJEX01VSkVXZHRFUUhyY0tIR1VGcHlBIiwiZW1haWwiOiJodGRxeTRmanI0QHByaXZhdGVyZWxheS5hcHBsZWlkLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImlzX3ByaXZhdGVfZW1haWwiOiJ0cnVlIiwiYXV0aF90aW1lIjoxNjgyMTQxNzE2LCJub25jZV9zdXBwb3J0ZWQiOnRydWV9.oixC67E9MMAhAGAMkzn281_EH7ibbZMqv_JRb3MfOAsxtRDJP8yikT8wuavi9w2Bwgtwi8Ur-Cs-aCZQbfxaZK0B3RbSGz6pb6IsPozW4piJxmlge_mcD1OLWTfaotiflaoig8uiyOI-uakK9QtxtwimnTFu9dfSSFiQJ2-twGo_unJOUV96DydoIFqRwdmvaj6CaUId2ctWW8Cg9rkh3fkTiTiV8c5MrRp74v5BULn53l0xUFFm2Z8LsCa9v-N25nitlwb6QsCaQvJjdxdfI91RQtL1aml4GNUPO40zrPzBEOQ78HiykoTAPf7iAIRGvHtN1cGZeSXA4ULH0A64TA"
+}
+###
+
+
+//----------------N O T I O N----------------
+//-------------------------------------------
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/notion/initiateIntegration
+
+{
+    "user":"UUp1yy3kZLs9+QuwCUfhia0N7UUHgVsowkIt1I+8G8U3xmYwyWVgWugZq3YlpSxT57QhVRPHWrkuIVukXLC1FhnQqxtpm3YFZFD0VGBFiB8iXHpZca8Id87gwqJ4IFoovvjpkWshIp9l2cwH+zzFdp88tgzuUztMnEJNEfyaH+kSX1PrAM9Y+SfM+v5kvyTai2b4T7kcMRSr8dnt1fh8KEaMBPOFm89bkRqD2UEBNtUbT9JnLWnqs4HE3Pl3BbFLq+TkUfOomgygSgOxI8ij1gzyvAVHsJXYnvdht95/8BiaDGtov3CYaua93wtxs6P8kA3cV041pT7FCxtKzIirAw==",
+    "code": "0315c979-e0c0-4b56-b185-4bf04a5c98cb"
+}
+###
+
+POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/notion/checkIntegration
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+
+###
