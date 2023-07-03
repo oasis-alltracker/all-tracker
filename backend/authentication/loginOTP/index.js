@@ -15,6 +15,8 @@ const userDB = new UserDB(dbService);
 
 const { isEmptyObject } = require('../../utils/objectUtils');
 
+const FIVE_MINUTES=5*60*1000;
+
 module.exports.handler = async (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
     var body = "";
@@ -28,23 +30,32 @@ module.exports.handler = async (event, context, callback) => {
         
         if(!isEmptyObject(otpResponse)){
           const hashedPassword = otpResponse.Item.hashedOTP;
+          const creationTime = new Date(otpResponse.Item.createdAt);
+
+          if (new Date() - creationTime > FIVE_MINUTES) {
+            body = JSON.stringify({loginFailed: "OTP expired."})
+            statusCode = 410
+          }
   
-          if (await bcrypt.compare(userCredentials.otp, hashedPassword)) {
+          else if (await bcrypt.compare(userCredentials.otp, hashedPassword)) {
               await userDB.userExistsOrCreateUser(userCredentials.email);
               const accessToken = jwt.sign({email: userCredentials.email}, ACCESS_TOKEN_SECRET, { expiresIn: '48h' });
               const refreshToken = jwt.sign({email: userCredentials.email}, ACCESS_TOKEN_SECRET, { expiresIn: '100d' });
               body = JSON.stringify({accessToken: accessToken, refreshToken: refreshToken});
+              statusCode = 200
           }
           else{
               body = JSON.stringify({loginFailed: "Incorrect password."});
+              statusCode = 401
           }
         }
         else{
           body = JSON.stringify({loginFailed: "User does not exist."});
+          statusCode = 400;
         }
       }
       callback(null, {
-          statusCode: 200,
+          statusCode: statusCode,
           body: body,
           headers: {
             'Access-Control-Allow-Origin': '*',
