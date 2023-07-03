@@ -8,8 +8,8 @@ import {
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
-import LogoHeader from '../../components/LogoHeader/LogoHeader'
-import ContinueButton from '../../components/ContinueButton/ContinueButton'
+import LogoHeader from '../../../components/LogoHeader/LogoHeader'
+import ContinueButton from '../../../components/ContinueButton/ContinueButton'
 import dynamicStyles from './styles'
 import { useTheme } from 'dopenative'
 

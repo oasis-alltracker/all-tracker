@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import dynamicStyles from './styles'
-import MenuButton from '../../components/MenuButton/MenuButton'
+import MenuButton from '../../../components/MenuButton/MenuButton'
 import { useTheme } from 'dopenative'
 
 export default function DrawerContainer({ navigation }) {
@@ -13,7 +13,7 @@ export default function DrawerContainer({ navigation }) {
       <View style={styles.container}>
         <MenuButton
           title="Home"
-          source={require('../../assets/icons/home.png')}
+          source={require('../../../assets/icons/home.png')}
           onPress={() => {
             navigation.navigate('Home')
             navigation.closeDrawer()
@@ -21,7 +21,7 @@ export default function DrawerContainer({ navigation }) {
         />
         <MenuButton
           title="Settings"
-          source={require('../../assets/icons/settings.png')}
+          source={require('../../../assets/icons/settings.png')}
           onPress={() => {
             navigation.navigate('Settings')
             navigation.closeDrawer()

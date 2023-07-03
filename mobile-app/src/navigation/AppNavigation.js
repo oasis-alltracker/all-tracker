@@ -6,15 +6,12 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { View, TouchableHighlight, Image, StyleSheet } from 'react-native'
 import { useTheme } from 'dopenative'
-import HomeScreen from '../pages/Home/HomeScreen'
-import LandingScreen from '../pages/Landing/LandingScreen'
-import DrawerContainer from '../pages/DrawerContainer/DrawerContainer'
-import EmailAdressScreen from '../pages/EmailAdress/EmailAdressScreen'
-import PasswordScreen from '../pages/Password/PasswordScreen'
-import InterestsScreen from '../pages/Interests/InterestsScreen'
-import SettingsScreen from '../pages/Settings/SettingsScreen'
-import NutritionScreen from '../pages/Nutrition/NutritionScreen'
-import SignInScreen from '../pages/SignIn/SignInScreen'
+import HomeScreen from '../pages/dashboard/Home/HomeScreen'
+import LandingScreen from '../pages/login/Landing/LandingScreen'
+import DrawerContainer from '../pages/dashboard/DrawerContainer/DrawerContainer'
+import PasswordScreen from '../pages/login/Password/PasswordScreen'
+import SettingsScreen from '../pages/settings/SettingsScreen'
+import SignInScreen from '../pages/login/SignIn/SignInScreen'
 import MenuImage from '../components/MenuButton/MenuButton'
 
 
@@ -132,9 +129,7 @@ const LandingNavigator = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Landing" component={LandingScreen} />
-      <Stack.Screen name="Email" component={EmailAdressScreen} />
       <Stack.Screen name="Password" component={PasswordScreen} />
-      <Stack.Screen name="Interests" component={InterestsScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
     </Stack.Navigator>
   )

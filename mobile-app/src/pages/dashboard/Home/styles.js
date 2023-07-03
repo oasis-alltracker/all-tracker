@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { registration } from '../../AppStyles'
+import { registration } from '../../../AppStyles'
 
 const dynamicStyles = (theme, appearance) => {
   const colorSet = theme.colors[appearance]

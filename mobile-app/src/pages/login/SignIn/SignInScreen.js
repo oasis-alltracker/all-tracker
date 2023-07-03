@@ -9,8 +9,8 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native'
-import LogoHeader from '../../components/LogoHeader/LogoHeader'
-import ContinueButton from '../../components/ContinueButton/ContinueButton'
+import LogoHeader from '../../../components/LogoHeader/LogoHeader'
+import ContinueButton from '../../../components/ContinueButton/ContinueButton'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
@@ -122,7 +122,7 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
           <View style={styles.inputContainer}>
             <Image
               style={styles.icon}
-              source={require('../../assets/icons/email.png')}
+              source={require('../../../assets/icons/email.png')}
             />
             <TextInput
               style={styles.input}
@@ -144,7 +144,7 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
                   underlayColor="rgba(73,182,77,1,0.9)">
                   <Image
                     style={styles.accountIcon}
-                    source={require('../../assets/icons/apple-32.png')}
+                    source={require('../../../assets/icons/apple-32.png')}
                   />
                 </TouchableHighlight>
               : null
@@ -155,7 +155,7 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
               underlayColor="rgba(73,182,77,1,0.9)">
               <Image
                 style={styles.accountIcon}
-                source={require('../../assets/icons/google.png')}
+                source={require('../../../assets/icons/google.png')}
               />
             </TouchableHighlight>
           </View>

@@ -81,7 +81,7 @@ function HomeScreen({ navigation }) {
         <View style={styles.rowContainer}>
           <Image
             style={styles.questionIcon}
-            source={require('../../assets/icons/colorFood.png')}
+            source={require('../../../assets/icons/colorFood.png')}
           />
           <View style={styles.columnContainer}>
             <View style={styles.rowContainer2}>
@@ -146,7 +146,7 @@ function HomeScreen({ navigation }) {
         <View style={styles.rowContainer}>
           <Image
             style={styles.questionIcon}
-            source={require('../../assets/icons/colorWater.png')}
+            source={require('../../../assets/icons/colorWater.png')}
           />
           <View style={styles.columnContainer}>
             <View style={styles.rowContainer2}>
@@ -212,7 +212,7 @@ function HomeScreen({ navigation }) {
         <View style={styles.rowContainer}>
           <Image
             style={styles.questionIcon}
-            source={require('../../assets/icons/colorWalk.png')}
+            source={require('../../../assets/icons/colorWalk.png')}
           />
           <View style={styles.columnContainer}>
             <View style={styles.rowContainer2}>

@@ -112,7 +112,7 @@ function NutritionScreen({ navigation, route }) {
         onPress={() => onPressDeleteIcon(item.id)}>
         <Image
           style={styles.deleteIcon}
-          source={require('../../assets/icons/deleteIcon.png')}
+          source={require('../../../assets/icons/deleteIcon.png')}
         />
       </TouchableHighlight>
     </View>

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { logoContainer, registration } from '../../AppStyles'
+import { logoContainer, registration } from '../../../AppStyles'
 
 const { width, height } = Dimensions.get('window')
 const viewportWidth = width < height ? width : height

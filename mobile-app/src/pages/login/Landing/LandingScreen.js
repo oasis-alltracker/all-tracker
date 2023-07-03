@@ -10,7 +10,7 @@ import {
 import { useTheme } from 'dopenative'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import dynamicStyles from './styles'
-import { landingArray } from '../../data/dataArrays'
+import { landingArray } from '../../../data/dataArrays'
 
 const { width, height } = Dimensions.get('window')
 const SCREEN_WIDTH = width < height ? width : height
@@ -32,7 +32,7 @@ export default function LandingScreen(props) {
   )
 
   const onPressGetStarted = () => {
-    navigation.navigate('Email')
+    navigation.navigate('SignIn')
   }
 
   const onPressLogin = () => {
@@ -44,7 +44,7 @@ export default function LandingScreen(props) {
       <View style={styles.headerContainer}>
         <Image
           style={styles.logo}
-          source={require('../../assets/icons/logo.png')}
+          source={require('../../../assets/icons/logo.png')}
         />
       </View>
       <View style={styles.infoContainer}>

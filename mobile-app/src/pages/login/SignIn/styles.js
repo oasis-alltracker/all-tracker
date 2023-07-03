@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { registration } from '../../AppStyles'
+import { registration } from '../../../AppStyles'
 // screen sizing
 const { width, height } = Dimensions.get('window')
 const SCREEN_WIDTH = width < height ? width : height
