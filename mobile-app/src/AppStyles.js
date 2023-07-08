@@ -1,34 +1,35 @@
 import { StyleSheet, Dimensions } from 'react-native'
 
 const { width, height } = Dimensions.get('window')
-const CONTAINER_HEIGHT = 50
 const SCREEN_WIDTH = width < height ? width : height
 
 export const logoContainer = (theme, appearance) => {
   const colorSet = theme.colors[appearance]
 
   return StyleSheet.create({
-    headerContainer: {
-      height: CONTAINER_HEIGHT,
+    landingHeaderContainer: {
       marginTop: 80,
       marginBottom: 25,
       justifyContent: 'flex-start',
       alignItems: 'center',
     },
+    headerContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+    },
     logo: {
       alignSelf: 'center',
-      width: 60,
-      height: 60,
+      width: '50%',
+      height: '50%',
     },
     backIcon: {
       tintColor: colorSet.primaryText,
-      width: 25,
-      height: 25,
     },
     iconContainer: {
-      position: 'absolute',
-      left: 25,
-      top: 10,
+      alignItems: 'center',
+      paddingLeft: 20,
+      paddingRight: 50,
     },
   })
 }

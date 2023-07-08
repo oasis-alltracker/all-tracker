@@ -10,7 +10,7 @@ import HomeScreen from '../pages/dashboard/Home/HomeScreen'
 import LandingScreen from '../pages/login/Landing/LandingScreen'
 import DrawerContainer from '../pages/dashboard/DrawerContainer/DrawerContainer'
 import PasswordScreen from '../pages/login/Password/PasswordScreen'
-import SettingsScreen from '../pages/settings/SettingsScreen'
+import SettingsScreen from '../pages/Settings/SettingsScreen'
 import SignInScreen from '../pages/login/SignIn/SignInScreen'
 import MenuImage from '../components/MenuButton/MenuButton'
 

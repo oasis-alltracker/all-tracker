@@ -22,6 +22,16 @@ const dynamicStyles = (theme, appearance) => {
       marginTop: 20,
       marginBottom: 20,
     },
+    signupHeader: {
+      flex: 1,
+      backgroundColor: 'pink'
+    },
+    signupContent: {
+      flex: 3,
+      backgroundColor: 'lightgreen',
+      justifyContent: 'center',
+      alignSelf: 'center',
+    },
     inputContainer: {
       flexDirection: 'row',
       margin: 10,

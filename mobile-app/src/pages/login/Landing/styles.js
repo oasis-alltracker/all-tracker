@@ -102,7 +102,7 @@ const dynamicStyles = (theme, appearance) => {
       justifyContent: 'center',
       alignItems: 'stretch',
     },
-    headerContainer: logoContainerStyles.headerContainer,
+    headerContainer: logoContainerStyles.landingHeaderContainer,
     logo: logoContainerStyles.logo,
   })
 }

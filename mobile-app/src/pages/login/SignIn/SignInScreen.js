@@ -111,56 +111,54 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView style={styles.container}>
-        <LogoHeader
-          onPress={() => {
-            props.navigation.goBack()
-          }}
-        />
-        <View style={styles.mainContainer}>
-        <Text style={styles.title}>What is your email address?</Text>
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.icon}
-              source={require('../../../assets/icons/email.png')}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email Address"
-              placeholderTextColor="#9c9eb9"
-              onChangeText={setEmail}
-              value={email}
-            />
-          </View>
+      <ScrollView contentContainerStyle ={styles.container}>
+        <View style={styles.signupHeader}>
+          <LogoHeader
+            onPress={() => {
+              props.navigation.goBack()
+            }}
+          />
         </View>
-        <View style={styles.signContainer}>
-          <Text style={styles.txt}>Sign in with</Text>
-          <View style={styles.rowContainer}>
-          {
-              appleAuthAvailable
-              ? <TouchableHighlight
-                  style={styles.iconContainer}
-                  onPress={() => login()}
-                  underlayColor="rgba(73,182,77,1,0.9)">
-                  <Image
-                    style={styles.accountIcon}
-                    source={require('../../../assets/icons/apple-32.png')}
-                  />
-                </TouchableHighlight>
-              : null
-              }
-            <TouchableHighlight
-              style={styles.iconContainer}
-              onPress={async () => googleSignin()}
-              underlayColor="rgba(73,182,77,1,0.9)">
-              <Image
-                style={styles.accountIcon}
-                source={require('../../../assets/icons/google.png')}
+        <View style={styles.signupContent}>
+          <Text style={styles.title}>What is your email address?</Text>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Email Address"
+                placeholderTextColor="#9c9eb9"
+                onChangeText={setEmail}
+                value={email}
               />
-            </TouchableHighlight>
+            </View>
+          <ContinueButton onPress={() => onPressContinue()} />
+          <View style={styles.signContainer}>
+            <Text style={styles.txt}>Sign in with</Text>
+            <View style={styles.rowContainer}>
+            {
+                appleAuthAvailable
+                ? <TouchableHighlight
+                    style={styles.iconContainer}
+                    onPress={() => login()}
+                    underlayColor="rgba(73,182,77,1,0.9)">
+                    <Image
+                      style={styles.accountIcon}
+                      source={require('../../../assets/icons/apple-32.png')}
+                    />
+                  </TouchableHighlight>
+                : null
+                }
+              <TouchableHighlight
+                style={styles.iconContainer}
+                onPress={async () => googleSignin()}
+                underlayColor="rgba(73,182,77,1,0.9)">
+                <Image
+                  style={styles.accountIcon}
+                  source={require('../../../assets/icons/google.png')}
+                />
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
-        <ContinueButton onPress={() => onPressContinue()} />
       </ScrollView>
     </TouchableWithoutFeedback>
   )
