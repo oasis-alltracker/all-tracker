@@ -20,16 +20,25 @@ export const logoContainer = (theme, appearance) => {
     },
     logo: {
       alignSelf: 'center',
+      height: 150,
+      width: 150,
+      marginLeft: 60,
+      resizeMode:'contain',
+      opacity: 0.5,
+    },
+    landingLogo: {
+      alignSelf: 'center',
       width: '50%',
       height: '50%',
     },
     backIcon: {
-      tintColor: colorSet.primaryText,
+      height: 40,
+      width: 40,
+      opacity: 0.5,
     },
     iconContainer: {
       alignItems: 'center',
-      paddingLeft: 20,
-      paddingRight: 50,
+      marginLeft: 20,
     },
   })
 }

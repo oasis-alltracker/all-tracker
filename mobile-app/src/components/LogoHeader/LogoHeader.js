@@ -21,7 +21,7 @@ export default function LogoHeader({ onPress }) {
 
       <Image
         style={styles.logo}
-        source={require('../../assets/balance-icons/logo-blue.png')}
+        source={require('../../assets/icons/logo-blue.png')}
       />
     </View>
   )

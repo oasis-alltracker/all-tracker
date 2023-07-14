@@ -1,5 +1,4 @@
 import {
-  Text,
   View,
   TextInput,
   TouchableWithoutFeedback,
@@ -7,14 +6,13 @@ import {
   ScrollView,
   Image,
   StyleSheet,
-  Platform,
 } from 'react-native'
 import LogoHeader from '../../../components/LogoHeader/LogoHeader'
 import ContinueButton from '../../../components/ContinueButton/ContinueButton'
+import ScribbledText from '../../../components/ScribbledText'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
-import { StatusBar } from 'expo-status-bar';
 
 import * as Google from 'expo-auth-session/providers/google';
 import {useEffect, useState} from 'react';
@@ -120,11 +118,11 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
           />
         </View>
         <View style={styles.signupContent}>
-          <Text style={styles.title}>What is your email address?</Text>
+          <ScribbledText style={styles.title}>What is your email address?</ScribbledText>
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
-                placeholder="Email Address"
+                placeholder="Enter your email address"
                 placeholderTextColor="#9c9eb9"
                 onChangeText={setEmail}
                 value={email}
@@ -132,8 +130,8 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
             </View>
           <ContinueButton onPress={() => onPressContinue()} />
           <View style={styles.signContainer}>
-            <Text style={styles.txt}>Sign in with</Text>
-            <View style={styles.rowContainer}>
+            <ScribbledText style={styles.txt}>--or--</ScribbledText>
+            <View style={[styles.rowContainer, appleAuthAvailable && {flexDirection: 'row',gap: 30}]}>
             {
                 appleAuthAvailable
                 ? <TouchableHighlight
@@ -142,7 +140,7 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
                     underlayColor="rgba(73,182,77,1,0.9)">
                     <Image
                       style={styles.accountIcon}
-                      source={require('../../../assets/icons/apple-32.png')}
+                      source={require('../../../assets/balance-icons/apple-black.png')}
                     />
                   </TouchableHighlight>
                 : null
@@ -153,7 +151,7 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
                 underlayColor="rgba(73,182,77,1,0.9)">
                 <Image
                   style={styles.accountIcon}
-                  source={require('../../../assets/icons/google.png')}
+                  source={require('../../../assets/balance-icons/google.png')}
                 />
               </TouchableHighlight>
             </View>

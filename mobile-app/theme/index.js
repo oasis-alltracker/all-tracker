@@ -6,11 +6,12 @@ const VERTICAL_SPACING_BASE = 4
 const lightColors = {
   primaryBackground: '#F4F6FA',
   secondaryBackground: '#ffffff',
-  primaryForeground: '#7265E3',
+  primaryForeground: '#D7F6FF',
   secondaryForeground: '#8442bd',
   foregroundContrast: 'black',
-  primaryText: '#2d3142',
+  primaryText: '#25436B',
   secondaryText: '#9c9eb9',
+  primaryBorder: 'lightgray',
   hairline: '#e0e0e0',
   grey0: '#fafafa',
   grey3: '#f5f5f5',
@@ -26,7 +27,7 @@ const AppTheme = {
     dark: {
       primaryBackground: '#121212',
       secondaryBackground: '#000000',
-      primaryForeground: '#7265E3',
+      primaryForeground: '#D7F6FF',
       secondaryForeground: '#8442bd',
       foregroundContrast: 'white',
       primaryText: '#ffffff',

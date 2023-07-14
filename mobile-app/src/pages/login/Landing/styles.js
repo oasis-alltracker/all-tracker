@@ -103,7 +103,7 @@ const dynamicStyles = (theme, appearance) => {
       alignItems: 'stretch',
     },
     headerContainer: logoContainerStyles.landingHeaderContainer,
-    logo: logoContainerStyles.logo,
+    logo: logoContainerStyles.landingLogo,
   })
 }
 
