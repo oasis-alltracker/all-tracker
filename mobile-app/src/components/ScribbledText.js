@@ -15,7 +15,7 @@ export default function ScribbledText({children, style}) {
       });
 
     return (
-        <Text style={[style, {fontFamily: baseStyle.fontFamily, fontWeight: 'normal', color: colorSet.primaryText}]}>{children}</Text>
+        <Text style={[{fontFamily: baseStyle.fontFamily, color: colorSet.primaryText}, style, {fontWeight: 'normal'}]}>{children}</Text>
     );
   }
 

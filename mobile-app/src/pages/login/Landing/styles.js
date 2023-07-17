@@ -11,18 +11,16 @@ const dynamicStyles = (theme, appearance) => {
 
   return StyleSheet.create({
     container: registrationStyles.container,
-    carouselContainer: {
-      // minHeight: 250, // comentat => containerul este centrat pe mijloc
-      flex: 1,
-    },
-    carousel: {
-      alignSelf: 'center',
-    },
 
     image: {
       ...StyleSheet.absoluteFillObject,
       width: viewportWidth,
       height: 250,
+    },
+    mainImage: {
+      width: '80%',
+      height: 300,
+      alignSelf: 'center',
     },
     imageContainer: {
       backgroundColor: 'blue',
@@ -44,55 +42,35 @@ const dynamicStyles = (theme, appearance) => {
       borderRadius: 4,
       marginHorizontal: 0,
     },
-    title: {
-      margin: 10,
-      fontSize: 24,
-      color: colorSet.primaryText,
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    description: {
-      fontSize: 16,
-      color: colorSet.secondaryText,
-      textAlign: 'center',
-      height: 55,
-    },
-    infoContainer: {
-      alignItems: 'center',
-      margin: 20,
-    },
     logContainer: {
       justifyContent: 'flex-end',
-      marginBottom: 20,
       alignItems: 'center',
       alignSelf: 'center',
     },
     btnContainer: {
       marginTop: 30,
       borderRadius: 60,
-      width: viewportWidth - 100,
+      width: viewportWidth - 50,
       height: 50,
-      borderWidth: 1,
+      borderWidth: 2,
+      borderColor: colorSet.primaryBorder,
       alignItems: 'center',
-      padding: 12,
       backgroundColor: colorSet.primaryForeground,
-      borderColor: colorSet.primaryForeground,
     },
     btnText: {
-      color: 'white',
-      fontSize: 17,
-      fontWeight: 'bold',
+      color: colorSet.tertiaryText,
+      fontSize: 30,
     },
     signText: {
       margin: 10,
       marginLeft: 0,
-      color: colorSet.primaryForeground,
+      color: colorSet.tertiaryText,
       fontWeight: 'bold',
-      fontSize: 17,
+      fontSize: 14,
     },
     text: {
       margin: 10,
-      fontSize: 17,
+      fontSize: 14,
       color: colorSet.secondaryText,
     },
     bottomRowContainer: {
@@ -103,7 +81,13 @@ const dynamicStyles = (theme, appearance) => {
       alignItems: 'stretch',
     },
     headerContainer: logoContainerStyles.landingHeaderContainer,
-    logo: logoContainerStyles.landingLogo,
+    logo: {
+      marginTop: 30,
+      alignSelf: 'center',
+      width: '80%',
+      height: 300,
+      resizeMode:'contain',
+    },
   })
 }
 

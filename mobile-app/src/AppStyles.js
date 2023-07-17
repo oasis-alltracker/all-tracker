@@ -26,11 +26,6 @@ export const logoContainer = (theme, appearance) => {
       resizeMode:'contain',
       opacity: 0.5,
     },
-    landingLogo: {
-      alignSelf: 'center',
-      width: '50%',
-      height: '50%',
-    },
     backIcon: {
       height: 40,
       width: 40,
