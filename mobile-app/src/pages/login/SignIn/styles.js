@@ -19,17 +19,34 @@ const dynamicStyles = (theme, appearance) => {
     signContainer: {
       justifyContent: 'center',
       alignSelf: 'center',
-      marginTop: 20,
+      marginTop: 70,
       marginBottom: 20,
     },
+    signupHeader: {
+      flex: 1,
+    },
+    signupContent: {
+      flex: 3,
+      width: '100%',
+      alignSelf: 'center',
+    },
     inputContainer: {
-      flexDirection: 'row',
       margin: 10,
+      marginBottom: 40,
       padding: 5,
       width: SCREEN_WIDTH - 50,
       borderRadius: 10,
+      borderColor: colorSet.primaryBorder,
+      borderWidth: 2,
       backgroundColor: 'white',
       alignSelf: 'center',
+    },
+    title:{
+      alignSelf: 'center',
+      fontSize: 23,
+      color: '#25436B',
+      fontWeight: 'bold',
+      marginBottom: 20,
     },
     icon: {
       marginLeft: 10,
@@ -40,29 +57,31 @@ const dynamicStyles = (theme, appearance) => {
     },
     input: {
       color: 'black',
-      fontSize: 17,
+      fontSize: 20,
       marginLeft: 10,
-      textAlign: 'left',
       height: 40,
+      textAlign: 'center',
+      fontFamily: 'Segoe',
     },
     rowContainer: {
-      flexDirection: 'row',
       alignItems: 'center',
     },
     iconContainer: {
       backgroundColor: 'white',
-      padding: 10,
-      margin: 10,
       borderRadius: 100,
+      borderColor: colorSet.primaryBorder,
+      borderWidth: 2,
+      padding: 20
     },
     accountIcon: {
       alignSelf: 'center',
-      width: 20,
-      height: 20,
+      height: 50,
+      width: 50
     },
     txt: {
-      marginBottom: 10,
-      fontSize: 17,
+      marginTop: 20,
+      marginBottom: 20,
+      fontSize: 30,
       color: colorSet.primaryText,
       textAlign: 'center',
     },

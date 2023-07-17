@@ -1,5 +1,4 @@
 import {
-  Text,
   View,
   TextInput,
   TouchableWithoutFeedback,
@@ -7,14 +6,13 @@ import {
   ScrollView,
   Image,
   StyleSheet,
-  Platform,
 } from 'react-native'
 import LogoHeader from '../../../components/LogoHeader/LogoHeader'
 import ContinueButton from '../../../components/ContinueButton/ContinueButton'
+import ScribbledText from '../../../components/ScribbledText'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
-import { StatusBar } from 'expo-status-bar';
 
 import * as Google from 'expo-auth-session/providers/google';
 import {useEffect, useState} from 'react';
@@ -111,56 +109,54 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView style={styles.container}>
-        <LogoHeader
-          onPress={() => {
-            props.navigation.goBack()
-          }}
-        />
-        <View style={styles.mainContainer}>
-        <Text style={styles.title}>What is your email address?</Text>
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.icon}
-              source={require('../../../assets/icons/email.png')}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email Address"
-              placeholderTextColor="#9c9eb9"
-              onChangeText={setEmail}
-              value={email}
-            />
-          </View>
+      <ScrollView contentContainerStyle ={styles.container}>
+        <View style={styles.signupHeader}>
+          <LogoHeader
+            onPress={() => {
+              props.navigation.goBack()
+            }}
+          />
         </View>
-        <View style={styles.signContainer}>
-          <Text style={styles.txt}>Sign in with</Text>
-          <View style={styles.rowContainer}>
-          {
-              appleAuthAvailable
-              ? <TouchableHighlight
-                  style={styles.iconContainer}
-                  onPress={() => login()}
-                  underlayColor="rgba(73,182,77,1,0.9)">
-                  <Image
-                    style={styles.accountIcon}
-                    source={require('../../../assets/icons/apple-32.png')}
-                  />
-                </TouchableHighlight>
-              : null
-              }
-            <TouchableHighlight
-              style={styles.iconContainer}
-              onPress={async () => googleSignin()}
-              underlayColor="rgba(73,182,77,1,0.9)">
-              <Image
-                style={styles.accountIcon}
-                source={require('../../../assets/icons/google.png')}
+        <View style={styles.signupContent}>
+          <ScribbledText style={styles.title}>What is your email address?</ScribbledText>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email address"
+                placeholderTextColor="#9c9eb9"
+                onChangeText={setEmail}
+                value={email}
               />
-            </TouchableHighlight>
+            </View>
+          <ContinueButton onPress={() => onPressContinue()} />
+          <View style={styles.signContainer}>
+            <ScribbledText style={styles.txt}>--or--</ScribbledText>
+            <View style={[styles.rowContainer, appleAuthAvailable && {flexDirection: 'row',gap: 30}]}>
+            {
+                appleAuthAvailable
+                ? <TouchableHighlight
+                    style={styles.iconContainer}
+                    onPress={() => login()}
+                    underlayColor="rgba(73,182,77,1,0.9)">
+                    <Image
+                      style={styles.accountIcon}
+                      source={require('../../../assets/balance-icons/apple-black.png')}
+                    />
+                  </TouchableHighlight>
+                : null
+                }
+              <TouchableHighlight
+                style={styles.iconContainer}
+                onPress={async () => googleSignin()}
+                underlayColor="rgba(73,182,77,1,0.9)">
+                <Image
+                  style={styles.accountIcon}
+                  source={require('../../../assets/balance-icons/google.png')}
+                />
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
-        <ContinueButton onPress={() => onPressContinue()} />
       </ScrollView>
     </TouchableWithoutFeedback>
   )

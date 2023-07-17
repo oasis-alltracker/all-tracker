@@ -102,8 +102,8 @@ const dynamicStyles = (theme, appearance) => {
       justifyContent: 'center',
       alignItems: 'stretch',
     },
-    headerContainer: logoContainerStyles.headerContainer,
-    logo: logoContainerStyles.logo,
+    headerContainer: logoContainerStyles.landingHeaderContainer,
+    logo: logoContainerStyles.landingLogo,
   })
 }
 
