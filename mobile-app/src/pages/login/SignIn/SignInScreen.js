@@ -104,7 +104,7 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
 
 //--------------------- OTP LOGIN
   const onPressContinue = () => {
-    props.navigation.navigate('Main', { screen: 'Home' })
+    props.navigation.navigate('OTP', { screen: 'OTP' })
   }
 
   return (

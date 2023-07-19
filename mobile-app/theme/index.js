@@ -7,7 +7,7 @@ const lightColors = {
   primaryBackground: '#F4F6FA',
   secondaryBackground: '#ffffff',
   primaryForeground: '#D7F6FF',
-  secondaryForeground: '#8442bd',
+  secondaryForeground: '#FFD8FF',
   foregroundContrast: 'black',
   primaryText: '#25436B',
   secondaryText: 'black',
