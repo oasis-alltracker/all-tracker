@@ -2,19 +2,17 @@ import {StyleSheet, Platform} from 'react-native';
 import { registration } from '../../AppStyles';
 
 export const CELL_SIZE = 70;
-export const CELL_BORDER_RADIUS = 8;
+export const CELL_BORDER_RADIUS = 20;
 export const DEFAULT_CELL_BG_COLOR = '#FFD8FF';
 export const NOT_EMPTY_CELL_BG_COLOR = '#FFD8FF';
 export const ACTIVE_CELL_BG_COLOR = '#FFD8FF';
 
 const dynamicStyles = (theme, appearance) => {
   const colorSet = theme.colors[appearance]
-  const registrationStyles = registration(theme, appearance)
 
   return StyleSheet.create({
   codeFieldRoot: {
     height: CELL_SIZE,
-    marginTop: 30,
     paddingHorizontal: 20,
     justifyContent: 'center',
   },
@@ -27,10 +25,9 @@ const dynamicStyles = (theme, appearance) => {
     fontSize: 30,
     textAlign: 'center',
     borderRadius: CELL_BORDER_RADIUS,
-    // color: colorSet.secondaryBackground,
-    // color: '#3759b8',
+    borderWidth: 1,
+    borderColor: 'silver',
     backgroundColor: colorSet.secondaryForeground,
-    // backgroundColor: '#fff',
     
 
     // IOS
@@ -44,47 +41,6 @@ const dynamicStyles = (theme, appearance) => {
 
     // Android
     elevation: 3,
-  },
-
-  // =======================
-
-  root: {
-    minHeight: 800,
-    padding: 20,
-  },
-  title: {
-    paddingTop: 50,
-    color: '#000',
-    fontSize: 25,
-    fontWeight: '700',
-    textAlign: 'center',
-    paddingBottom: 40,
-  },
-  icon: {
-    width: 217 / 2.4,
-    height: 158 / 2.4,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  subTitle: {
-    paddingTop: 30,
-    color: '#000',
-    textAlign: 'center',
-  },
-  nextButton: {
-    marginTop: 30,
-    borderRadius: 60,
-    height: 60,
-    backgroundColor: '#3557b7',
-    justifyContent: 'center',
-    minWidth: 300,
-    marginBottom: 100,
-  },
-  nextButtonText: {
-    textAlign: 'center',
-    fontSize: 20,
-    color: '#fff',
-    fontWeight: '700',
   },
 });
 }

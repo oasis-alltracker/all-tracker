@@ -54,9 +54,9 @@ export default function OTPScreen(props) {
       </View>
       <View style={styles.signupContent}> 
         <ScribbledText style={styles.title}>Check your inbox for OTP Code</ScribbledText>
-            <View style={styles.inputContainer}>
+        <View style={styles.inputContainer}>
             <OTPInput setValue={setOTPValue}/>
-            </View>
+        </View>
         <ContinueButton onPress={() => {console.log(otpValue)}} />
       </View>
     </ScrollView>
