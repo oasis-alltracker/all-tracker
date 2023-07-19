@@ -82,7 +82,7 @@ export default function SignInScreen(props) {
   }, [response]);
 
   const googleSignin = () => {
-    promptAsyncNotion({ useProxy: true, shownInRecents: true});
+    promptAsync({ useProxy: true, shownInRecents: true});
     //setLoading to true
   }
 
