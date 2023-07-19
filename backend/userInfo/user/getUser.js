@@ -5,8 +5,7 @@ class GetUser {
 
     async getUser(user) {
         try {
-            const healthInfo = await this.getInfo(user.email);
-            console.log(healthInfo);
+            const healthInfo = await this.getItem(user.email);
             return {
                 statusCode: 200,
                 body: JSON.stringify(healthInfo),
@@ -17,7 +16,6 @@ class GetUser {
             };
         }
         catch (e) {
-            console.log(e);
             return {
                 statusCode: 500,
                 body: JSON.stringify("Request failed"),
@@ -29,7 +27,8 @@ class GetUser {
         }
     }
 
-    async getUser(user) {
+    async getItem(user) {
+        console.log(user);
         const expression =  '#pk = :pk AND #sk = :sk';
         const names = {
             '#pk': 'PK',
@@ -41,7 +40,6 @@ class GetUser {
         };
     
         const response = await this.DB.queryItem(expression, names, values);
-        console.log(response);
         return response?.Items;
     }
 }

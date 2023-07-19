@@ -35,7 +35,7 @@ class GetHealthInfo {
             '#pk': 'PK',
             '#sk': 'SK',
         };
-            const values = {
+        const values = {
             ':pk': `${user}-healthInfo`,
             ':sk': `healthInfo`,
         };
