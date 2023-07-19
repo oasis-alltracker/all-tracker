@@ -6,7 +6,7 @@ class GetUser {
     async getUser(user) {
         try {
             const healthInfo = await this.getInfo(user.email);
-            
+            console.log(healthInfo);
             return {
                 statusCode: 200,
                 body: JSON.stringify(healthInfo),
@@ -41,6 +41,7 @@ class GetUser {
         };
     
         const response = await this.DB.queryItem(expression, names, values);
+        console.log(response);
         return response?.Items;
     }
 }

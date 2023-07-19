@@ -13,7 +13,9 @@ const { authenticateToken } = require('../../utils/authenticateToken');
 
 module.exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
+  console.log(event.headers);
   const user = authenticateToken(event.headers);
+  console.log(user);
   var response;
 
   if(!user?.email) {
@@ -27,9 +29,9 @@ module.exports.handler = async (event, context, callback) => {
     });
   }
 
-  if(event.httpMethod == "GET") {
-    response = await getUser.getUser(user);
-  }
+  response = await getUser.getUser(user);
+  console.log(response);
+  
 
   callback(null, response);
 };
