@@ -1,8 +1,17 @@
+//-----------U S E R   I N F O-----------
+//-------------------------------------------
+//Get user info.
+GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTc4OTg3NiwiZXhwIjoxNjg5OTYyNjc2fQ.1wSYLuL7jz8UmFP_2KZi-W-3anLn3HUsxMkhnA_he8o
+###
+
+
+
 //-----------H E A L T H   I N F O-----------
 //-------------------------------------------
 //Get health info.
 GET https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/healthInfo
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTY4OTc4OTg3NiwiZXhwIjoxNjg5OTYyNjc2fQ.1wSYLuL7jz8UmFP_2KZi-W-3anLn3HUsxMkhnA_he8o
 ###
 
 
@@ -605,7 +614,7 @@ POST https://tx804i0nbc.execute-api.ca-central-1.amazonaws.com/dev/authenticatio
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "2759"
+   "otp": "4815"
 }
 ###
 

@@ -21,31 +21,28 @@ import * as SecureStore from 'expo-secure-store';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as AuthSession from 'expo-auth-session';
 
+import LoginAPI from '../../../api/auth/loginAPI';
+
 export default function SignInScreen(props) {
   const [email, setEmail] = useState('')
   const { theme, appearance } = useTheme()
-  const [token, setToken] = useState('')
   const styles = dynamicStyles(theme, appearance)
 
 
 //--------------------- APPLE LOGIN
   const [appleAuthAvailable, setAppleAuthAvailable] = useState(false);
-  const [userToken, setUserToken] = useState();
+  const [appleToken, setAppleToken] = useState();
 
   useEffect(() => {
     const checkAvailable = async () => {
       const isAvailable = await AppleAuthentication.isAvailableAsync();
       setAppleAuthAvailable(isAvailable);
 
-      if (isAvailable) {
-        const credentialJson = await SecureStore.getItemAsync('apple-credentials');
-        setUserToken(JSON.parse(credentialJson));
-      }
     }
     checkAvailable();
   }, []);
 
-  const login = async () => {
+  const appleSignin = async () => {
     try {
       const credential = await AppleAuthentication.signInAsync({
         requestedScopes: [
@@ -53,37 +50,19 @@ export default function SignInScreen(props) {
           AppleAuthentication.AppleAuthenticationScope.EMAIL
         ]
       });
-      console.log(credential);
-      setUserToken(credential);
-      SecureStore.setItemAsync('apple-credentials', JSON.stringify(credential));
+      setAppleToken(credential);
+      LoginAPI.loginApple(appleToken);
+      // make api call
+      // save tokens
+      // go to next page
+
     } catch (e) {
       console.log(e);
     }
   }
 
-//--------------------- NOTION AUTH
-const redirectUri = AuthSession.makeRedirectUri({
-  scheme: 'balance-tracker',
-  path: 'redirect'
-});
-
-useEffect(() => {
-  console.log("\n\n\n\nNOTION  HAS RESPONDED\n\n\n\n\n\=");
-  console.log(notionResponse);
-}, [notionResponse]);
-
-const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRequest({
-  clientId:"48daaa94-6352-4aef-ac2b-8ba6cdfcfc0b",
-  clientSecret:"secret_wPW0WE1YOEIAVaUv6PFxscbzZs1A0cY9xUOc22LZiXj",
-  redirectUri:  "https://127.0.0.1:19000",
-  responseType: "code",
-  owner: "user"
-
-},{
-  authorizationEndpoint: "https://api.notion.com/v1/oauth/authorize"
-})
-
 //--------------------- GOOGLE LOGIN
+  const [googleToken, setGoogleToken] = useState('')
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:"315014991553-b534c0cndl001dm0b9kr9m0876rv20df.apps.googleusercontent.com",
     iosClientId:"315014991553-rs5sa19o9599kk3mnv3p9is0m5d13kgj.apps.googleusercontent.com",
@@ -92,8 +71,13 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
 
   useEffect(() => {
     if (response?.type === "success") {
-      setToken(response.authentication);
-      console.log(response.authentication);
+      googleToken(response.authentication);
+      LoginAPI.loginGoogle(googleToken);
+      // save tokens
+      // get user
+      // if setup complete - go to dshboard
+      // else go to setup
+      // go to next page
     }
   }, [response]);
 
@@ -136,7 +120,7 @@ const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRe
                 appleAuthAvailable
                 ? <TouchableHighlight
                     style={styles.iconContainer}
-                    onPress={() => login()}
+                    onPress={() => appleSignin()}
                     underlayColor="rgba(73,182,77,1,0.9)">
                     <Image
                       style={styles.accountIcon}
@@ -174,3 +158,28 @@ const appleStyles = StyleSheet.create({
     height: 64
   }
 });
+
+
+
+
+// //--------------------- NOTION AUTH
+// const redirectUri = AuthSession.makeRedirectUri({
+//   scheme: 'balance-tracker',
+//   path: 'redirect'
+// });
+
+// useEffect(() => {
+//   console.log("\n\n\n\nNOTION  HAS RESPONDED\n\n\n\n\n\=");
+//   console.log(notionResponse);
+// }, [notionResponse]);
+
+// const [notionRequest, notionResponse, promptAsyncNotion] = AuthSession.useAuthRequest({
+//   clientId:"48daaa94-6352-4aef-ac2b-8ba6cdfcfc0b",
+//   clientSecret:"secret_wPW0WE1YOEIAVaUv6PFxscbzZs1A0cY9xUOc22LZiXj",
+//   redirectUri:  "https://127.0.0.1:19000",
+//   responseType: "code",
+//   owner: "user"
+
+// },{
+//   authorizationEndpoint: "https://api.notion.com/v1/oauth/authorize"
+// })

@@ -183,6 +183,19 @@ functions:
           method: put
           cors: true 
 
+##Health Info##
+  user:
+    handler: userInfo/user/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: user
+          method: get
+          cors: true
+
 
 ##### F O O D #####
 ##Food Entries##

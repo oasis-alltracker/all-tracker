@@ -61,28 +61,3 @@ module.exports.handler = async (event, context, callback) => {
     });
   }
 };
-
-
-async function userExistsOrCreateUser(email){
-  const emailKey = {PK: email, SK: email};
-  const existingEmail = await dbService.getItem(emailKey);
-    
-  if(!isEmptyObject(existingEmail)) {
-    return;
-  }
-  else {
-    await createUser(email)
-  }
-};
-
-
-async function createUser(email) {
-  const data = {
-    PK: `${email}`, 
-    SK: `${email}`,
-    isSetupComplete: false
-  };
-
-  await this.DB.putItem(data);
-  return {ID: data.SK};
-};
