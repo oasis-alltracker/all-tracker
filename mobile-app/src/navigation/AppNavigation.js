@@ -9,7 +9,6 @@ import { useTheme } from 'dopenative'
 import HomeScreen from '../pages/dashboard/Home/HomeScreen'
 import LandingScreen from '../pages/login/Landing/LandingScreen'
 import DrawerContainer from '../pages/dashboard/DrawerContainer/DrawerContainer'
-import SettingsScreen from '../pages/Settings/SettingsScreen'
 import SignInScreen from '../pages/login/SignIn/SignInScreen'
 import MenuImage from '../components/MenuButton/MenuButton'
 import OTPScreen from '../pages/login/OTP/OTPScreen'
@@ -129,7 +128,6 @@ const LandingNavigator = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Landing" component={LandingScreen} />
-      <Stack.Screen name="Password" component={PasswordScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
     </Stack.Navigator>
