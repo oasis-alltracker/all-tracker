@@ -31,7 +31,6 @@ export default function SignInScreen(props) {
 
 //--------------------- APPLE LOGIN
   const [appleAuthAvailable, setAppleAuthAvailable] = useState(false);
-  const [appleToken, setAppleToken] = useState();
 
   useEffect(() => {
     const checkAvailable = async () => {
@@ -44,14 +43,15 @@ export default function SignInScreen(props) {
 
   const appleSignin = async () => {
     try {
+      console.log("attempting apple sign in")
       const credential = await AppleAuthentication.signInAsync({
         requestedScopes: [
           AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
           AppleAuthentication.AppleAuthenticationScope.EMAIL
         ]
       });
-      setAppleToken(credential);
-      LoginAPI.loginApple(appleToken);
+      const tokens = await LoginAPI.loginApple(credential.identityToken);
+      console.log(tokens);
       // make api call
       // save tokens
       // go to next page
@@ -71,8 +71,9 @@ export default function SignInScreen(props) {
 
   useEffect(() => {
     if (response?.type === "success") {
-      googleToken(response.authentication);
-      LoginAPI.loginGoogle(googleToken);
+
+      const tokens = LoginAPI.loginGoogle(response.authentication);
+      console.log(tokens);
       // save tokens
       // get user
       // if setup complete - go to dshboard
@@ -82,7 +83,7 @@ export default function SignInScreen(props) {
   }, [response]);
 
   const googleSignin = () => {
-    promptAsync({ useProxy: true, shownInRecents: true});
+    promptAsync({ useProxy: false, shownInRecents: true});
     //setLoading to true
   }
 

@@ -1,14 +1,12 @@
 import axios from 'axios';
-// require('dotenv').config();
-import { baseURL } from '@env';
-// const baseURL = process.env.REACT_APP_BASE_URL;
+const baseURL = process.env['REACT_APP_BASE_URL'];
 const API = baseURL + '/authentication/';
 
 
 
 class LoginAPI{
 
-    static async loginApple(token){
+    static async loginApple(token) {
         const url = API + 'loginApple';
 
         const body = {
@@ -16,7 +14,8 @@ class LoginAPI{
         }
 
         try{
-            await axios.post(url, body);
+            const response = await axios.post(url, body);
+            return response?.data;
         }
         catch(e){
             console.log(e);
@@ -31,7 +30,8 @@ class LoginAPI{
         }
 
         try{
-            await axios.post(url, body);
+            const response = await axios.post(url, body);
+            return response?.data;
         }
         catch(e){
             console.log(e);
