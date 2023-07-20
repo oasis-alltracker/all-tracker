@@ -129,7 +129,6 @@ const LandingNavigator = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Landing" component={LandingScreen} />
-      <Stack.Screen name="Password" component={PasswordScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
     </Stack.Navigator>
