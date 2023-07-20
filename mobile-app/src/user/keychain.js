@@ -1,53 +1,79 @@
-import * as Keychain from 'react-native-keychain';
+import * as SecureStore from 'expo-secure-store';
+import jwtDecode from 'jwt-decode';
+import LoginAPI from '../api/auth/loginAPI';
 
-// Function to store the access token
-const storeToken = async (tokenType, token) => {
+
+const isTokenValid = (token) => {
   try {
-    // Store the access token in the device's secure storage (Keychain on iOS, Keystore on Android)
-    await Keychain.setGenericPassword(tokenType, token);
-    console.log('Access token stored successfully!');
+    // Decode the JWT token
+    const decodedToken = jwtDecode(token);
+
+    // Check if the token has an expiration time (exp field)
+    if (decodedToken.exp) {
+      // Get the current timestamp in seconds
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      // Compare the current time with the token's expiration time
+      return decodedToken.exp > currentTime;
+    }
+
+    // If the token doesn't have an expiration time, consider it as valid
+    return true;
   } catch (error) {
-    console.error('Error storing access token:', error);
+    // If there's an error decoding the token, consider it as invalid
+    return false;
   }
 };
 
-
-
-// Function to retrieve the access token
-const getTokens = async (tokenType) => {
-  try {
-    // Retrieve the access token from the device's secure storage
-    const credentials = await Keychain.getAllGenericPasswordServices();
-    if (credentials && credentials.password) {
-        for(credential in credentials){
-            if(credential.user == "refresh_token"){
-                // if token expired
-                // delete all tokens
-                // refresh token
-            }
-            else if(credential.user == "access_token"){
-                    // if token expired
-                    // request new access token
-            }
-        }
-    } else {
-      console.log('No access tokens found.');
-      //delete all tokens
-      //refresh app
-      return null;
-    }
-  } catch (error) {
-    console.error('Error retrieving access token:', error);
-    return null;
+export async function saveToken(key, value) {
+  try{
+    await SecureStore.setItemAsync(key, value);
   }
-};
+  catch(e){
+    console.log(e);
+  }
+}
 
-const deleteAccessToken = async () => {
-    try {
-      // Delete the access token from the device's secure storage
-      await Keychain.resetGenericPassword();
-      console.log('Access token deleted successfully!');
-    } catch (error) {
-      console.error('Error deleting access token:', error);
+export async function getAccessToken() {
+  const accessToken = await SecureStore.getItemAsync("accessToken");
+  if (accessToken && isTokenValid(accessToken)) {
+    return accessToken;
+  }
+  else if(refreshToken && isTokenValid(refreshToken)){
+    try{
+      const newAccessToken = await LoginAPI.refreshToken(refreshToken);
+      await saveToken("accessToken", newAccessToken.accessToken);
     }
-  };
+    catch(e){
+      //reload app
+    }
+  }
+  else{
+    //reload app
+  }
+}
+
+export async function isLoggedIn() {
+  try {
+    const refreshToken = await SecureStore.getItemAsync("refreshToken");
+    if (!refreshToken || !isTokenValid(refreshToken)) {
+      return false
+    }
+
+    const accessToken = await SecureStore.getItemAsync("accessToken");
+    if (!accessToken || !isTokenValid(accessToken)) {
+      try {
+        const newAccessToken = await LoginAPI.refreshToken(refreshToken);
+        await saveToken("accessToken", newAccessToken.accessToken);
+      }
+      catch(e){
+        console.log(e)
+        return false;
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    return false
+  }
+  return true;
+}

@@ -22,6 +22,8 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import * as AuthSession from 'expo-auth-session';
 
 import LoginAPI from '../../../api/auth/loginAPI';
+import {saveToken, getAccessToken} from '../../../user/keychain'
+
 
 export default function SignInScreen(props) {
   const [email, setEmail] = useState('')
@@ -51,11 +53,13 @@ export default function SignInScreen(props) {
         ]
       });
       const tokens = await LoginAPI.loginApple(credential.identityToken);
-      console.log(tokens);
-      // make api call
-      // save tokens
-      // go to next page
-
+      await saveToken("accessToken", tokens.accessToken);
+      await saveToken("refreshToken", tokens.refreshToken);
+      accessToken = await getAccessToken();
+      //get user
+        //if setup complete
+            //go to dashboard
+        //else go to setup
     } catch (e) {
       console.log(e);
     }
@@ -70,15 +74,21 @@ export default function SignInScreen(props) {
   })
 
   useEffect(() => {
+
+
     if (response?.type === "success") {
 
+      const saveTokens = async (tokens) => {
+        await saveToken("accessToken", tokens.accessToken);
+        await saveToken("refreshToken", tokens.refreshToken);
+        //get user
+        //if setup complete
+            //go to dashboard
+        //else go to setup
+      }
+      
       const tokens = LoginAPI.loginGoogle(response.authentication);
-      console.log(tokens);
-      // save tokens
-      // get user
-      // if setup complete - go to dshboard
-      // else go to setup
-      // go to next page
+      saveTokens(tokens);
     }
   }, [response]);
 

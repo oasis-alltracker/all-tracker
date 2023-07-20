@@ -45,7 +45,6 @@ export const registration = (theme, appearance) => {
     container: {
       flex: 1,
       backgroundColor: colorSet.primaryBackground,
-      fontFamily: 'Rubik',
     },
   })
 }
@@ -56,7 +55,6 @@ export const homeStyle = (theme, appearance) => {
     container: {
       flex: 1,
       backgroundColor: colorSet.primaryBackground,
-      fontFamily: 'Rubik',
     },
     titleContainer: {
       marginTop: 40,

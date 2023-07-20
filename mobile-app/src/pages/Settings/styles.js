@@ -7,7 +7,6 @@ const dynamicStyles = (theme, appearance) => {
     container: {
       flex: 1,
       backgroundColor: colorSet.primaryBackground,
-      fontFamily: 'Rubik',
       padding: 20,
       paddingTop: 10,
     },

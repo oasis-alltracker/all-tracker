@@ -1,4 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import CircularProgress from 'react-native-circular-progress-indicator';
+import {isLoggedIn} from '../../../user/keychain'
+
 import {
   Text,
   View,
@@ -20,13 +23,21 @@ export default function LandingScreen(props) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
-  const renderImage = ({ item }) => (
-    <TouchableHighlight underlayColor="rgba(73,182,77,1,0.9)">
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: item.photoUrl }} />
-      </View>
-    </TouchableHighlight>
-  )
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const checkIsLoggedIn = async () => {
+      if(await isLoggedIn()){
+        console.log("Logged in.")
+        //go to dashboard
+      }
+      setLoading(false);
+    }
+    
+    checkIsLoggedIn();
+  }, [loading]);
+
+
+
 
   const onPressGetStarted = () => {
     navigation.navigate('SignIn')
@@ -36,8 +47,10 @@ export default function LandingScreen(props) {
     navigation.navigate('SignIn')
   }
 
-  return (
-    <ScrollView style={styles.container}>
+  const Screen = () => {
+    if (!loading) {
+      return (
+        <ScrollView style={styles.container}>
       <Image
         style={styles.logo}
         source={require('../../../assets/icons-draft2/landing-logo.png')}
@@ -63,5 +76,16 @@ export default function LandingScreen(props) {
         </View>
       </View>
     </ScrollView>
+      )
+    }
+    else{
+      return(
+        <CircularProgress />
+      )
+    }
+  }
+
+  return (
+      <Screen/>
   )
 }

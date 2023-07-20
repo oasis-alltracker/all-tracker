@@ -139,7 +139,7 @@ const DrawerStack = () => {
   return (
     <Drawer.Navigator
       drawerPosition="left"
-      initialRouteName="Landing"
+      initialRouteName="Login"
       drawerWidth={250}
       drawerContent={({ navigation }) => {
         return <DrawerContainer navigation={navigation} />
@@ -151,7 +151,7 @@ const DrawerStack = () => {
       />
       <Drawer.Screen
         options={{ headerShown: false }}
-        name="Landing"
+        name="Login"
         component={LandingNavigator}
       />
     </Drawer.Navigator>

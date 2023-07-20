@@ -110,13 +110,11 @@ const dynamicStyles = (theme, appearance) => {
     },
     deleteTxt: {
       textAlign: 'center',
-      fontFamily: 'Rubik',
       color: colorSet.primaryText,
       fontSize: 18,
       margin: 10,
     },
     deleteSecTxt: {
-      fontFamily: 'Rubik',
       color: colorSet.primaryText,
       fontSize: 16,
       marginLeft: 5,
