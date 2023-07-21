@@ -25,9 +25,9 @@ module.exports.handler = async (event, context, callback) => {
     });
 
     if(userInfoResponse?.status == 200 && userInfoResponse?.data?.email){
-      await userDB.userExistsOrCreateUser(userInfoResponse.email);
-      const accessToken = jwt.sign({email: userInfoResponse.email}, ACCESS_TOKEN_SECRET, { expiresIn: '48h' });
-      const refreshToken = jwt.sign({email: userInfoResponse.email}, ACCESS_TOKEN_SECRET, { expiresIn: '100d' });
+      await userDB.userExistsOrCreateUser(userInfoResponse.data.email);
+      const accessToken = jwt.sign({email: userInfoResponse.data.email}, ACCESS_TOKEN_SECRET, { expiresIn: '48h' });
+      const refreshToken = jwt.sign({email: userInfoResponse.data.email}, ACCESS_TOKEN_SECRET, { expiresIn: '100d' });
 
       callback(null, {
         statusCode: 200,

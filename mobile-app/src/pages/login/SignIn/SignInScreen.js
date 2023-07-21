@@ -52,6 +52,7 @@ export default function SignInScreen(props) {
           AppleAuthentication.AppleAuthenticationScope.EMAIL
         ]
       });
+    
       const tokens = await LoginAPI.loginApple(credential.identityToken);
       await saveToken("accessToken", tokens.accessToken);
       await saveToken("refreshToken", tokens.refreshToken);
@@ -75,25 +76,22 @@ export default function SignInScreen(props) {
 
   useEffect(() => {
 
-
+    const saveTokens = async (googleToken) => {
+      const tokens = await LoginAPI.loginGoogle(googleToken);
+      await saveToken("accessToken", tokens.accessToken);
+      await saveToken("refreshToken", tokens.refreshToken);
+      //get user
+      //if setup complete
+          //go to dashboard
+      //else go to setup
+    }
     if (response?.type === "success") {
-
-      const saveTokens = async (tokens) => {
-        await saveToken("accessToken", tokens.accessToken);
-        await saveToken("refreshToken", tokens.refreshToken);
-        //get user
-        //if setup complete
-            //go to dashboard
-        //else go to setup
-      }
-      
-      const tokens = LoginAPI.loginGoogle(response.authentication);
-      saveTokens(tokens);
+      saveTokens(response.authentication.accessToken);
     }
   }, [response]);
 
   const googleSignin = () => {
-    promptAsync({ useProxy: false, shownInRecents: true});
+    promptAsync({ useProxy: true, shownInRecents: true});
     //setLoading to true
   }
 
