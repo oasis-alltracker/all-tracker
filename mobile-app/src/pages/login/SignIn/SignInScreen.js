@@ -23,6 +23,7 @@ import LoginAPI from '../../../api/auth/loginAPI';
 import UserAPI from '../../../api/user/userAPI'
 import {saveToken, getAccessToken} from '../../../user/keychain'
 import Toast from 'react-native-root-toast'
+import { isEmailValid } from '../../../utils/commonUtils'
 
 export default function SignInScreen(props) {
   const [email, setEmail] = useState('')
@@ -111,8 +112,14 @@ export default function SignInScreen(props) {
 
 //--------------------- OTP LOGIN
   const onPressContinue = async () => {
-    await LoginAPI.requestOTP(email)
-    await props.navigation.navigate('OTP', { screen: 'OTP', email })
+    if(isEmailValid(email)){
+      await LoginAPI.requestOTP(email)
+      await props.navigation.navigate('OTP', { screen: 'OTP', email })
+    }
+    else {
+      Toast.show('Please enter a valid email', {...styles.errorToast, duration: Toast.durations.LONG}
+        );
+    }
   }
 
   return (
