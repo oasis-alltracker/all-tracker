@@ -21,9 +21,12 @@ const dynamicStyles = (theme, appearance) => {
       justifyContent: 'center',
     },
     btnText: {
+      textAlign:'center',
       color: colorSet.primaryText,
       fontSize: 25,
       justifyContent: 'center',
+      paddingRight: 15,
+      paddingLeft: 10,
     },
   })
 }

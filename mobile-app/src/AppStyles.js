@@ -46,6 +46,10 @@ export const registration = (theme, appearance) => {
       flex: 1,
       backgroundColor: colorSet.primaryBackground,
     },
+    errorToast: {
+      backgroundColor: '#FFD7D7',
+      textColor: colorSet.primaryText,
+    },
   })
 }
 export const homeStyle = (theme, appearance) => {

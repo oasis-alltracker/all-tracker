@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   View,
@@ -11,35 +11,80 @@ import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
 import ScribbledText from '../../../components/ScribbledText'
 import LogoHeader from '../../../components/LogoHeader/LogoHeader'
-import { TextInput } from 'react-native-gesture-handler'
 import ContinueButton from '../../../components/ContinueButton/ContinueButton'
 import OTPInput from '../../../components/OTPInput/OTPInput'
-
-const { width, height } = Dimensions.get('window')
-const SCREEN_WIDTH = width < height ? width : height
+import {saveToken, getAccessToken} from '../../../user/keychain'
+import LoginAPI from '../../../api/auth/loginAPI'
+import UserAPI from '../../../api/user/userAPI'
+import Toast from 'react-native-root-toast'
 
 export default function OTPScreen(props) {
-  const { navigation } = props
+  const {route} = props
+  const {email} = route.params
 
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
   const [otpValue, setOTPValue] = useState('')
+  const [showError, setShowError] = useState(false)
+  const [showBottomText, setShowBottomText] = useState(false)
 
-  const renderImage = ({ item }) => (
-    <TouchableHighlight underlayColor="rgba(73,182,77,1,0.9)">
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: item.photoUrl }} />
-      </View>
-    </TouchableHighlight>
-  )
+  const onPressLogin = async () => {
+    const {status, data} = await LoginAPI.loginOTP(email, otpValue)
+    if(status == 200){
+        await saveToken("accessToken", data.accessToken);
+        await saveToken("refreshToken", data.refreshToken);
+        const accessToken = await getAccessToken()
+        const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
+        console.log("Status: ", userStatus, " data:", userData)
+        
+        const setupStatus = userData['isSetupComplete']
+        
+        if(setupStatus) {
+            console.log("Go to navigation page")
+        }
+        else{
+            console.log("Go to setup page")
+        }
 
-  const onPressGetStarted = () => {
-    navigation.navigate('SignIn')
+    }
+    else {
+        setShowBottomText(true)
+        // Add a Toast on screen.
+        Toast.show('Invalid OTP', {...styles.errorToast, duration: Toast.durations.LONG}
+        );
+        console.log("Something failed! Request data is", data)
+        //please wait 30 seconds before clicking resend email
+    }
+
   }
 
-  const onPressLogin = () => {
-    navigation.navigate('SignIn')
+  const resendOTP = async () => {
+    setShowError(false)
+    await LoginAPI.requestOTP(email)
+  }
+
+  const ErrorMessage = () => {
+    return(
+      <View style={styles.errorContainer}>
+          <ScribbledText style={styles.errorText}>Didn't get an email? </ScribbledText>
+          <TouchableHighlight
+              underlayColor="rgba(73,182,77,1,0.9)"
+              onPress={resendOTP}>
+              <ScribbledText style={styles.resendOTPText}>Resend OTP</ScribbledText>
+          </TouchableHighlight>
+      </View>
+    )}
+
+  const LoadingMessage = () => {
+    setTimeout(() =>{
+      setShowError(true)
+    },5000);  
+    return(
+      <View style={styles.errorContainer}>
+          <ScribbledText style={styles.waitingText}>OTP sent! Please wait 30 seconds to send a new code. </ScribbledText>
+      </View>
+    )
   }
 
   return (
@@ -57,8 +102,10 @@ export default function OTPScreen(props) {
         <View style={styles.inputContainer}>
             <OTPInput setValue={setOTPValue}/>
         </View>
-        <ContinueButton onPress={() => {console.log(otpValue)}} />
+        <ContinueButton onPress={onPressLogin} />
+        {showBottomText && (showError ? <ErrorMessage/> : <LoadingMessage/>)}
       </View>
+      
     </ScrollView>
   )
 }

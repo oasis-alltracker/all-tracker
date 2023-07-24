@@ -46,13 +46,18 @@ class LoginAPI{
             otp: otp
         }
 
+        var status,data
+
         try{
             const response = await axios.post(url, body);
-            return response?.data;
+            status = response?.status
+            data = response?.data
         }
-        catch(e){
-            console.log(e);
+        catch(error){
+            status = error.response.status
+            data = error.response.data
         }
+        return {status, data}
     }
 
     static async requestOTP(email){

@@ -16,14 +16,13 @@ import dynamicStyles from './styles'
 
 import * as Google from 'expo-auth-session/providers/google';
 import {useEffect, useState} from 'react';
-import * as SecureStore from 'expo-secure-store';
 
 import * as AppleAuthentication from 'expo-apple-authentication';
-import * as AuthSession from 'expo-auth-session';
 
 import LoginAPI from '../../../api/auth/loginAPI';
+import UserAPI from '../../../api/user/userAPI'
 import {saveToken, getAccessToken} from '../../../user/keychain'
-
+import Toast from 'react-native-root-toast'
 
 export default function SignInScreen(props) {
   const [email, setEmail] = useState('')
@@ -67,37 +66,53 @@ export default function SignInScreen(props) {
   }
 
 //--------------------- GOOGLE LOGIN
-  const [googleToken, setGoogleToken] = useState('')
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request, googleResponse, promptAsync] = Google.useAuthRequest({
     androidClientId:"315014991553-b534c0cndl001dm0b9kr9m0876rv20df.apps.googleusercontent.com",
     iosClientId:"315014991553-rs5sa19o9599kk3mnv3p9is0m5d13kgj.apps.googleusercontent.com",
     expoClientId: "315014991553-n73e15nhisbkdecaetgbqo017pm9dqel.apps.googleusercontent.com"
   })
 
-  useEffect(() => {
+  useEffect( () => {
 
     const saveTokens = async (googleToken) => {
       const tokens = await LoginAPI.loginGoogle(googleToken);
       await saveToken("accessToken", tokens.accessToken);
       await saveToken("refreshToken", tokens.refreshToken);
-      //get user
-      //if setup complete
-          //go to dashboard
-      //else go to setup
+      await processUserAccessToken();
     }
-    if (response?.type === "success") {
-      saveTokens(response.authentication.accessToken);
+    if (googleResponse?.type === "success") {
+      saveTokens(googleResponse.authentication.accessToken);
     }
-  }, [response]);
+    else {
+      Toast.show('Something went wrong. Please try again later!', {...styles.errorToast, duration: Toast.durations.LONG}
+        );
+    }
+  
+  }, [googleResponse]);
 
   const googleSignin = () => {
     promptAsync({ useProxy: true, shownInRecents: true});
-    //setLoading to true
   }
 
+  const processUserAccessToken = async () => {
+    const accessToken = await getAccessToken()
+    const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
+    console.log("Status: ", userStatus, " data:", userData)
+    const setupStatus = userData['isSetupComplete']
+      
+    if(setupStatus) {
+        console.log("Go to navigation page")
+    }
+    else{
+        console.log("Go to setup page")
+    }
+  }
+
+
 //--------------------- OTP LOGIN
-  const onPressContinue = () => {
-    props.navigation.navigate('OTP', { screen: 'OTP' })
+  const onPressContinue = async () => {
+    await LoginAPI.requestOTP(email)
+    await props.navigation.navigate('OTP', { screen: 'OTP', email })
   }
 
   return (

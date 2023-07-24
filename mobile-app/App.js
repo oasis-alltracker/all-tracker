@@ -15,6 +15,7 @@ import AppTheme from './theme'
 import { Provider } from 'react-redux'
 import store from './src/redux/store'
 import { useFonts } from 'expo-font';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 function App() {
   
@@ -33,8 +34,10 @@ function App() {
   return (
     <Provider store={store}>
       <DNProvider theme={theme}>
-        <StatusBar barStyle="dark-content" />
-        <AppContainer />
+        <RootSiblingParent>
+          <StatusBar barStyle="dark-content" />
+          <AppContainer />
+        </RootSiblingParent>
       </DNProvider>
     </Provider>
   );

@@ -10,6 +10,7 @@ const dynamicStyles = (theme, appearance) => {
 
   return StyleSheet.create({
     container: registrationStyles.container,
+    errorToast: registrationStyles.errorToast,
     mainContainer: {
       justifyContent: 'center',
       alignSelf: 'center',
