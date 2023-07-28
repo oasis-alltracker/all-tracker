@@ -4,7 +4,7 @@ import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
 import ScribbledText from '../ScribbledText'
 
-export default function ContinueButton({ onPress }) {
+export default function ContinueButton({ onPress, title }) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
   const [isLoading, setIsLoading] = useState(false)
@@ -33,7 +33,7 @@ export default function ContinueButton({ onPress }) {
         style={[styles.btnContainer, isLoading && {opacity: 0.5} ]}>
           <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <ActivityIndicator animating={isLoading}/>
-          <ScribbledText style={styles.btnText}>Continue</ScribbledText>
+          <ScribbledText style={styles.btnText}>{title || 'Continue'}</ScribbledText>
           </View>
         
       </TouchableHighlight>

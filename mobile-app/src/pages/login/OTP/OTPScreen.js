@@ -19,7 +19,7 @@ import UserAPI from '../../../api/user/userAPI'
 import Toast from 'react-native-root-toast'
 
 export default function OTPScreen(props) {
-  const {route} = props
+  const {route, navigation} = props
   const {email} = route.params
 
   const { theme, appearance } = useTheme()
@@ -44,7 +44,7 @@ export default function OTPScreen(props) {
             console.log("Go to navigation page")
         }
         else{
-            console.log("Go to setup page")
+          await navigation.navigate('ChooseTrack')
         }
 
     }

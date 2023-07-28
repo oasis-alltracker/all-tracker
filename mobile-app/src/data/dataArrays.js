@@ -1,3 +1,43 @@
+export const trackerLogos = [
+  {
+    id: 1,
+    title: 'habits',
+    photoUrl: require('@assets/icons-draft2/habits.png'),
+    backgroundColor: '#FFD8FF'
+  },
+  {
+    id: 2,
+    title: 'to-dos',
+    photoUrl: require('@assets/icons-draft2/to-dos.png'),
+    backgroundColor: '#FFD8FF'
+  },
+  {
+    id: 3,
+    title: 'diet',
+    photoUrl: require('@assets/icons-draft2/diet.png'),
+    backgroundColor: '#CABDFF'
+  },
+  {
+    id: 4,
+    title: 'fitness',
+    photoUrl: require('@assets/icons-draft2/fitness.png'),
+    backgroundColor: '#CABDFF'
+  },
+  {
+    id: 5,
+    title: 'sleep',
+    photoUrl: require('@assets/icons-draft2/sleep.png'),
+    backgroundColor: '#FFEFBD'
+  },
+  {
+    id: 6,
+    title: 'mood',
+    photoUrl: require('@assets/icons-draft2/mood.png'),
+    backgroundColor: '#FFEFBD'
+  },
+  
+]
+
 export const profileIcons = [
   {
     url:

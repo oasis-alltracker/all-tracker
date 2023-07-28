@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import CircularProgress from 'react-native-circular-progress-indicator';
-import {isLoggedIn} from '../../../user/keychain'
+import {getAccessToken, isLoggedIn} from '../../../user/keychain'
 
 import {
   Text,
@@ -13,6 +13,7 @@ import {
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
 import ScribbledText from '../../../components/ScribbledText'
+import UserAPI from '../../../api/user/userAPI';
 
 const { width, height } = Dimensions.get('window')
 const SCREEN_WIDTH = width < height ? width : height
@@ -27,8 +28,16 @@ export default function LandingScreen(props) {
   useEffect(() => {
     const checkIsLoggedIn = async () => {
       if(await isLoggedIn()){
-        console.log("Logged in.")
-        //go to dashboard
+        const accessToken = await getAccessToken()
+        const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
+        const setupStatus = userData['isSetupComplete']
+          
+        if(setupStatus) {
+            console.log("Go to navigation page")
+        }
+        else{
+          await navigation.navigate('ChooseTrack')
+        }
       }
       setLoading(false);
     }

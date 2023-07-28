@@ -67,12 +67,18 @@ class LoginAPI{
             email: email
         }
 
+        var status,data
+
         try{
-            await axios.post(url, body);
+            const response = await axios.post(url, body);
+            status = response?.status
+            data = response?.data
         }
-        catch(e){
-            console.log(e);
+        catch(error){
+            status = error.response.status
+            data = error.response.data
         }
+        return {status, data}
     }
 
     static async refreshToken(token){

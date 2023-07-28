@@ -25,8 +25,8 @@ const dynamicStyles = (theme, appearance) => {
       color: colorSet.primaryText,
       fontSize: 25,
       justifyContent: 'center',
-      paddingRight: 15,
       paddingLeft: 10,
+      marginRight: 20,
     },
   })
 }

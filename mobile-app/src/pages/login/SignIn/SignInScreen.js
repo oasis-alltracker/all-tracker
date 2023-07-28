@@ -26,6 +26,7 @@ import Toast from 'react-native-root-toast'
 import { isEmailValid } from '../../../utils/commonUtils'
 
 export default function SignInScreen(props) {
+  const {navigation} = props
   const [email, setEmail] = useState('')
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
@@ -105,7 +106,7 @@ export default function SignInScreen(props) {
         console.log("Go to navigation page")
     }
     else{
-        console.log("Go to setup page")
+      await navigation.navigate('ChooseTrack')
     }
   }
 
@@ -113,8 +114,13 @@ export default function SignInScreen(props) {
 //--------------------- OTP LOGIN
   const onPressContinue = async () => {
     if(isEmailValid(email)){
-      await LoginAPI.requestOTP(email)
-      await props.navigation.navigate('OTP', { screen: 'OTP', email })
+      const {status} = await LoginAPI.requestOTP(email)
+      if(status == 200)
+        await props.navigation.navigate('OTP', { screen: 'OTP', email })
+      else {
+        Toast.show('Unable to send OTP to email. Please try again.', {...styles.errorToast, duration: Toast.durations.LONG}
+        );
+        }
     }
     else {
       Toast.show('Please enter a valid email', {...styles.errorToast, duration: Toast.durations.LONG}

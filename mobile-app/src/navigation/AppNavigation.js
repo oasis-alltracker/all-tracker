@@ -13,6 +13,7 @@ import SettingsScreen from '../pages/Settings/SettingsScreen'
 import SignInScreen from '../pages/login/SignIn/SignInScreen'
 import MenuImage from '../components/MenuButton/MenuButton'
 import OTPScreen from '../pages/login/OTP/OTPScreen'
+import ChooseTrack from '../pages/Setup/ChooseTrack'
 
 
 const Stack = createStackNavigator()
@@ -131,6 +132,7 @@ const LandingNavigator = () => {
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
+      <Stack.Screen name="ChooseTrack" component={ChooseTrack} />
     </Stack.Navigator>
   )
 }

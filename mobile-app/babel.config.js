@@ -21,6 +21,15 @@ module.exports = function(api) {
   api.cache(true);
   return {
     presets: ['babel-preset-expo'],
-    plugins: ['module:react-native-dotenv', 'react-native-reanimated/plugin']
+    plugins: ['module:react-native-dotenv',
+     'react-native-reanimated/plugin',
+      ['module-resolver',
+        {
+          root: ['./mobile-app'],
+          extensions: ['.png', '.js', '.ios.js', '.android.js', '.json'],
+          alias: {
+            '@assets': 'mobile-app/src/assets'
+          }
+        }]]
   };
 };
