@@ -195,6 +195,10 @@ functions:
           path: user
           method: get
           cors: true
+      - http:
+          path: user
+          method: put
+          cors: true
 
 
 ##### F O O D #####

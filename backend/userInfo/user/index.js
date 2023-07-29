@@ -7,6 +7,8 @@ const dbService = new DbUtils(DB, tableName);
 
 const GetUser = require('./getUser');
 const getUser = new GetUser(dbService);
+const UpdateUser = require('./updateUser');
+const updateUser = new UpdateUser(dbService);
 
 
 const { authenticateToken } = require('../../utils/authenticateToken');
@@ -29,7 +31,13 @@ module.exports.handler = async (event, context, callback) => {
     });
   }
 
-  response = await getUser.getUser(user);
+  if(event.httpMethod == "GET") {
+    response = await getUser.getUser(user);
+  }
+
+  else if(event.httpMethod == "PUT") {
+    response = await updateUser.updateUser(user, JSON.parse(event.body));
+  }
   console.log(response);
   
 
