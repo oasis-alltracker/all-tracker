@@ -40,7 +40,7 @@ export default function OTPScreen(props) {
         
         const setupStatus = userData['isSetupComplete']
         
-        if(setupStatus) {
+        if(setupStatus === 'true') {
             console.log("Go to navigation page")
         }
         else{

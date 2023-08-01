@@ -102,7 +102,7 @@ export default function SignInScreen(props) {
     console.log("Status: ", userStatus, " data:", userData)
     const setupStatus = userData['isSetupComplete']
       
-    if(setupStatus) {
+    if(setupStatus === 'true') {
         console.log("Go to navigation page")
     }
     else{

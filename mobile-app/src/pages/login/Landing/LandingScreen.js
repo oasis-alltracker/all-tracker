@@ -32,7 +32,7 @@ export default function LandingScreen(props) {
         const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
         const setupStatus = userData['isSetupComplete']
           
-        if(setupStatus) {
+        if(setupStatus === 'true') {
             console.log("Go to navigation page")
         }
         else{

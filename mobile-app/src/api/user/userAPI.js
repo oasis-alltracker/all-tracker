@@ -21,5 +21,28 @@ class UserAPI{
         }
         return {status, data}
     }
+
+    static async updateUser(isSetupComplete, trackingPreferences, token){
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        console.log("Token: ", token)
+
+        const body = {
+            isSetupComplete: isSetupComplete,
+            trackingPreferences: trackingPreferences
+        }
+
+        var status
+        try{
+            const response = await axios.put(API, body, {headers: headers});
+            status = response?.status
+        }
+        catch(error){
+            status = error.response.status
+        }
+        return {status}
+    }
 }
 export default UserAPI;
