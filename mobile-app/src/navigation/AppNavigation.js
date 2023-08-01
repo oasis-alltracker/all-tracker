@@ -14,6 +14,7 @@ import SignInScreen from '../pages/login/SignIn/SignInScreen'
 import MenuImage from '../components/MenuButton/MenuButton'
 import OTPScreen from '../pages/login/OTP/OTPScreen'
 import ChooseTrack from '../pages/Setup/ChooseTrack'
+import SubscriptionScreen from '../pages/subscription/SubscriptionScreen'
 
 
 const Stack = createStackNavigator()

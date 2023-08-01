@@ -20,9 +20,10 @@ export const logoContainer = (theme, appearance) => {
     },
     logo: {
       alignSelf: 'center',
-      height: 150,
-      width: 150,
-      marginLeft: 60,
+      height: 170,
+      width: 170,
+      marginLeft: 50,
+      marginTop: 15,
       resizeMode:'contain',
       opacity: 0.5,
     },
@@ -33,6 +34,7 @@ export const logoContainer = (theme, appearance) => {
     },
     iconContainer: {
       alignItems: 'center',
+      marginTop: 5,
       marginLeft: 20,
     },
   })

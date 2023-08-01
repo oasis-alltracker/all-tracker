@@ -47,6 +47,7 @@ const dynamicStyles = (theme, appearance) => {
       fontSize: 23,
       color: '#25436B',
       fontWeight: 'bold',
+      marginTop: 30,
       marginBottom: 20,
     },
     icon: {

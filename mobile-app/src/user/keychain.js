@@ -77,3 +77,14 @@ export async function isLoggedIn() {
   }
   return true;
 }
+
+export async function logout(navigation) {
+  try {
+    console.log("logout")
+    await SecureStore.deleteItemAsync("refreshToken");
+    await SecureStore.deleteItemAsync("accessToken");
+    await navigation.navigate('Landing')
+  } catch (e) {
+    console.log(e);
+  }
+}

@@ -28,6 +28,7 @@ import { isEmailValid } from '../../../utils/commonUtils'
 export default function SignInScreen(props) {
   const {navigation} = props
   const [email, setEmail] = useState('')
+  const [loginAttempted, setLoginAttempted] = useState(false);
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
@@ -57,11 +58,7 @@ export default function SignInScreen(props) {
       const tokens = await LoginAPI.loginApple(credential.identityToken);
       await saveToken("accessToken", tokens.accessToken);
       await saveToken("refreshToken", tokens.refreshToken);
-      accessToken = await getAccessToken();
-      //get user
-        //if setup complete
-            //go to dashboard
-        //else go to setup
+      await processUserAccessToken();
     } catch (e) {
       console.log(e);
     }
@@ -85,7 +82,7 @@ export default function SignInScreen(props) {
     if (googleResponse?.type === "success") {
       saveTokens(googleResponse.authentication.accessToken);
     }
-    else {
+    else if(loginAttempted) {
       Toast.show('Something went wrong. Please try again later!', {...styles.errorToast, duration: Toast.durations.LONG}
         );
     }

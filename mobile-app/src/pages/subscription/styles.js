@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { logoContainer, registration } from '../../../AppStyles'
+import { logoContainer, registration } from '../../AppStyles'
 
 const { width, height } = Dimensions.get('window')
 const viewportWidth = width < height ? width : height
@@ -11,6 +11,8 @@ const dynamicStyles = (theme, appearance) => {
   console.log("Height is", height )
 
   return StyleSheet.create({
+    backIcon: logoContainerStyles.backIcon,
+    iconContainer: logoContainerStyles.iconContainer,
     container: registrationStyles.container,
 
     image: {
@@ -25,8 +27,8 @@ const dynamicStyles = (theme, appearance) => {
       resizeMode:'contain',
     },
     mainImage: {
-      width: '80%',
-      height: height*0.35,
+      width: '100%',
+      height: height*0.45,
       alignSelf: 'center',
     },
     logContainer: {
@@ -65,27 +67,50 @@ const dynamicStyles = (theme, appearance) => {
       backgroundColor: colorSet.primaryForeground,
     },
     btnText: {
-      color: colorSet.tertiaryText,
+      color: colorSet.primaryText,
       fontSize: 30,
     },
-    signText: {
-      margin: 10,
-      marginLeft: 0,
-      color: colorSet.tertiaryText,
-      fontWeight: 'bold',
-      fontSize: 14,
+    regularTextContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    text: {
-      margin: 10,
-      fontSize: 14,
-      color: colorSet.secondaryText,
-    },
-    bottomRowContainer: {
-      margin: 0,
+    topRowContainer: {
+      marginTop: 100,
+      marginLeft: 50,
       flexDirection: 'row',
       width: viewportWidth - 100,
       justifyContent: 'center',
       alignItems: 'stretch',
+    },
+    salesText: {
+      fontSize: 30,
+      color: colorSet.primaryText,
+    },
+    purpleTextSales: {
+      marginLeft: 10,
+      color: colorSet.tertiaryText,
+      fontWeight: 'bold',
+      fontSize: 30,
+    },
+    bottomRowContainer: {
+      marginLeft: 50,
+      flexDirection: 'row',
+      width: viewportWidth - 100,
+      justifyContent: 'center',
+      alignItems: 'stretch',
+    },
+    quoteText: {
+      fontSize: 25,
+      color: colorSet.primaryText,
+    },
+    purpleTextQuote: {
+      marginLeft: 10,
+      color: colorSet.tertiaryText,
+      fontWeight: 'bold',
+      fontSize: 25,
+    },
+    backHeader: {
+      flex: 1,
     },
     headerContainer: logoContainerStyles.landingHeaderContainer,
   })

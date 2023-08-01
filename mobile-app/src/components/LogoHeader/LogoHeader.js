@@ -15,7 +15,7 @@ export default function LogoHeader({ onPress }) {
         style={styles.iconContainer}>
         <Image
           style={styles.backIcon}
-          source={require('../../assets/icons/backIcon.png')}
+          source={require('../../assets/icons-draft2/back-arrow.png')}
         />
       </TouchableHighlight>
 
