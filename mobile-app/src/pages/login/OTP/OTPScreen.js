@@ -30,25 +30,22 @@ export default function OTPScreen(props) {
   const [showBottomText, setShowBottomText] = useState(false)
 
   const onPressLogin = async () => {
-    if(otpValue.length >= 4){
-      const {status, data} = await LoginAPI.loginOTP(email, otpValue);
-
-    
-      if(status == 200){
-          await saveToken("accessToken", data.accessToken);
-          await saveToken("refreshToken", data.refreshToken);
-          const accessToken = await getAccessToken()
-          const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
-          console.log("Status: ", userStatus, " data:", userData)
-          
-          const setupStatus = userData['isSetupComplete']
-          
-          if(setupStatus) {
-              console.log("Go to navigation page")
-          }
-          else{
-            await navigation.navigate('ChooseTrack')
-          }
+    const {status, data} = await LoginAPI.loginOTP(email, otpValue)
+    if(status == 200){
+        await saveToken("accessToken", data.accessToken);
+        await saveToken("refreshToken", data.refreshToken);
+        const accessToken = await getAccessToken()
+        const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
+        console.log("Status: ", userStatus, " data:", userData)
+        
+        const setupStatus = userData['isSetupComplete']
+        
+        if(setupStatus) {
+            console.log("Go to navigation page")
+        }
+        else{
+          await navigation.navigate('ChooseTrack')
+        }
 
       }
       else {
