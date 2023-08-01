@@ -31,31 +31,32 @@ export default function OTPScreen(props) {
 
   const onPressLogin = async () => {
     const {status, data} = await LoginAPI.loginOTP(email, otpValue)
-    if(status == 200){
-        await saveToken("accessToken", data.accessToken);
-        await saveToken("refreshToken", data.refreshToken);
-        const accessToken = await getAccessToken()
-        const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
-        console.log("Status: ", userStatus, " data:", userData)
-        
-        const setupStatus = userData['isSetupComplete']
-        
-        if(setupStatus) {
-            console.log("Go to navigation page")
-        }
-        else{
-          await navigation.navigate('ChooseTrack')
-        }
+    if(otpValue.length>=4){
+      if(status == 200){
+          await saveToken("accessToken", data.accessToken);
+          await saveToken("refreshToken", data.refreshToken);
+          const accessToken = await getAccessToken()
+          const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
+          console.log("Status: ", userStatus, " data:", userData)
+          
+          const setupStatus = userData['isSetupComplete']
+          
+          if(setupStatus) {
+              console.log("Go to navigation page")
+          }
+          else{
+            await navigation.navigate('ChooseTrack')
+          }
 
-      }
-      else {
-          setShowBottomText(true)
-          // Add a Toast on screen.
-          Toast.show('Invalid OTP', {...styles.errorToast, duration: Toast.durations.LONG}
-          );
-          console.log("Something failed! Request data is", data)
-          //please wait 30 seconds before clicking resend email
-      }
+        }
+        else {
+            setShowBottomText(true)
+            // Add a Toast on screen.
+            Toast.show('Invalid OTP', {...styles.errorToast, duration: Toast.durations.LONG}
+            );
+            console.log("Something failed! Request data is", data)
+            //please wait 30 seconds before clicking resend email
+        }
     }
     else{
       Toast.show('Invalid OTP', {...styles.errorToast, duration: Toast.durations.LONG});
