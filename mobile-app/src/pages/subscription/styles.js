@@ -8,11 +8,8 @@ const dynamicStyles = (theme, appearance) => {
   const colorSet = theme.colors[appearance]
   const registrationStyles = registration(theme, appearance)
   const logoContainerStyles = logoContainer(theme, appearance)
-  console.log("Height is", height )
 
   return StyleSheet.create({
-    backIcon: logoContainerStyles.backIcon,
-    iconContainer: logoContainerStyles.iconContainer,
     container: registrationStyles.container,
 
     image: {
@@ -30,18 +27,13 @@ const dynamicStyles = (theme, appearance) => {
       width: '100%',
       height: height*0.45,
       alignSelf: 'center',
+      marginTop: 10,
+      marginBottom: 10,
     },
     logContainer: {
       justifyContent: 'flex-end',
       alignItems: 'center',
       alignSelf: 'center',
-    },
-    imageContainer: {
-      backgroundColor: 'blue',
-      flex: 1,
-      justifyContent: 'center',
-      width: viewportWidth,
-      height: 250,
     },
     paginationContainer: {
       flex: 1,
@@ -57,7 +49,7 @@ const dynamicStyles = (theme, appearance) => {
       marginHorizontal: 0,
     },
     btnContainer: {
-      marginTop: 30,
+      marginTop: 20,
       borderRadius: 60,
       width: viewportWidth - 60,
       height: 50,
@@ -75,7 +67,7 @@ const dynamicStyles = (theme, appearance) => {
       alignItems: 'center',
     },
     topRowContainer: {
-      marginTop: 100,
+      marginTop: 10,
       marginLeft: 50,
       flexDirection: 'row',
       width: viewportWidth - 100,
@@ -111,6 +103,15 @@ const dynamicStyles = (theme, appearance) => {
     },
     backHeader: {
       flex: 1,
+    },
+    backIcon: {
+      height: 40,
+      width: 40,
+      opacity: 0.5,
+    },
+    iconContainer: {
+      marginTop: 60,
+      marginLeft: 20,
     },
     headerContainer: logoContainerStyles.landingHeaderContainer,
   })

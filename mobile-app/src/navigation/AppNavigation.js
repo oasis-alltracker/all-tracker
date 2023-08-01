@@ -134,6 +134,7 @@ const LandingNavigator = () => {
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
       <Stack.Screen name="ChooseTrack" component={ChooseTrack} />
+      <Stack.Screen name="Subscription" component={SubscriptionScreen} />
     </Stack.Navigator>
   )
 }
