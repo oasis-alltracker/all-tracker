@@ -103,7 +103,7 @@ export default function SignInScreen(props) {
         console.log("Go to navigation page")
     }
     else{
-      await navigation.navigate('ChooseTrack')
+      await navigation.navigate('SelectTrackers')
     }
   }
 
@@ -158,7 +158,7 @@ export default function SignInScreen(props) {
                     underlayColor="rgba(73,182,77,1,0.9)">
                     <Image
                       style={styles.accountIcon}
-                      source={require('../../../assets/balance-icons/apple-black.png')}
+                      source={require('../../../assets/icons/apple-black.png')}
                     />
                   </TouchableHighlight>
                 : null
@@ -169,7 +169,7 @@ export default function SignInScreen(props) {
                 underlayColor="rgba(73,182,77,1,0.9)">
                 <Image
                   style={styles.accountIcon}
-                  source={require('../../../assets/balance-icons/google.png')}
+                  source={require('../../../assets/icons/google.png')}
                 />
               </TouchableHighlight>
             </View>

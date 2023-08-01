@@ -2,37 +2,37 @@ export const trackerLogos = [
   {
     id: 1,
     title: 'habits',
-    photoUrl: require('@assets/icons-draft2/habits.png'),
+    photoUrl: require('@assets/icons/habits.png'),
     backgroundColor: '#FFD8FF'
   },
   {
     id: 2,
     title: 'to-dos',
-    photoUrl: require('@assets/icons-draft2/to-dos.png'),
+    photoUrl: require('@assets/icons/to-dos.png'),
     backgroundColor: '#FFD8FF'
   },
   {
     id: 3,
     title: 'diet',
-    photoUrl: require('@assets/icons-draft2/diet.png'),
+    photoUrl: require('@assets/icons/diet.png'),
     backgroundColor: '#CABDFF'
   },
   {
     id: 4,
     title: 'fitness',
-    photoUrl: require('@assets/icons-draft2/fitness.png'),
+    photoUrl: require('@assets/icons/fitness.png'),
     backgroundColor: '#CABDFF'
   },
   {
     id: 5,
     title: 'sleep',
-    photoUrl: require('@assets/icons-draft2/sleep.png'),
+    photoUrl: require('@assets/icons/sleep.png'),
     backgroundColor: '#FFEFBD'
   },
   {
     id: 6,
     title: 'mood',
-    photoUrl: require('@assets/icons-draft2/mood.png'),
+    photoUrl: require('@assets/icons/mood.png'),
     backgroundColor: '#FFEFBD'
   },
   

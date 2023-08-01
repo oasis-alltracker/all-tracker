@@ -36,7 +36,7 @@ export default function LandingScreen(props) {
             console.log("Go to navigation page")
         }
         else{
-          await navigation.navigate('ChooseTrack')
+          await navigation.navigate('SelectTrackers')
         }
       }
       setLoading(false);
@@ -62,11 +62,11 @@ export default function LandingScreen(props) {
         <ScrollView style={styles.container}>
       <Image
         style={styles.logo}
-        source={require('../../../assets/icons-draft2/landing-logo.png')}
+        source={require('../../../assets/icons/landing-logo.png')}
       />
       <Image
         style={styles.mainImage}
-        source={require('../../../assets/icons-draft2/landing-image.png')}
+        source={require('../../../assets/icons/landing-image.png')}
       />
       <View style={styles.logContainer}>
         <TouchableHighlight

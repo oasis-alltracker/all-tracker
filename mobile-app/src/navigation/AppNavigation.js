@@ -6,15 +6,15 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { View, TouchableHighlight, Image, StyleSheet } from 'react-native'
 import { useTheme } from 'dopenative'
-import HomeScreen from '../pages/dashboard/Home/HomeScreen'
 import LandingScreen from '../pages/login/Landing/LandingScreen'
 import DrawerContainer from '../pages/dashboard/DrawerContainer/DrawerContainer'
-import SettingsScreen from '../pages/Settings/SettingsScreen'
 import SignInScreen from '../pages/login/SignIn/SignInScreen'
 import MenuImage from '../components/MenuButton/MenuButton'
 import OTPScreen from '../pages/login/OTP/OTPScreen'
-import ChooseTrack from '../pages/Setup/ChooseTrack'
-import SubscriptionScreen from '../pages/subscription/SubscriptionScreen'
+import SelectTrackers from '../pages/setup/SelectTrackers/SelectTrackersScreen'
+import SubscriptionScreen from '../pages/setup/Subscription/SubscriptionScreen'
+import TempScreen from '../pages/temp/tempScreen'
+
 
 
 const Stack = createStackNavigator()
@@ -67,29 +67,7 @@ const MainNavigator = () => {
           }
         }}
         name="Home"
-        component={HomeScreen}
-      />
-      <Stack.Screen
-        options={({ navigation }) => ({
-          headerStyle: {
-            backgroundColor: colorSet.primaryBackground,
-            elevation: 0,
-            shadowColor: 'transparent',
-            borderBottomWidth: 0,
-          },
-          headerLeft: () => (
-            <MenuImage
-              onPress={() => {
-                navigation.openDrawer()
-              }}
-            />
-          ),
-          headerTitleStyle: {
-            color: colorSet.primaryText,
-          },
-        })}
-        name="Settings"
-        component={SettingsScreen}
+        component={LandingScreen}
       />
       <Stack.Screen
         options={({ route }) => {
@@ -133,8 +111,9 @@ const LandingNavigator = () => {
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
-      <Stack.Screen name="ChooseTrack" component={ChooseTrack} />
+      <Stack.Screen name="SelectTrackers" component={SelectTrackers} />
       <Stack.Screen name="Subscription" component={SubscriptionScreen} />
+      <Stack.Screen name="TempScreen" component={TempScreen} />
     </Stack.Navigator>
   )
 }

@@ -45,7 +45,7 @@ export default function OTPScreen(props) {
               console.log("Go to navigation page")
           }
           else{
-            await navigation.navigate('ChooseTrack')
+            await navigation.navigate('SelectTrackers')
           }
 
         }

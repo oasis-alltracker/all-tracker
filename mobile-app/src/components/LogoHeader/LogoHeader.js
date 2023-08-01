@@ -15,13 +15,13 @@ export default function LogoHeader({ onPress }) {
         style={styles.iconContainer}>
         <Image
           style={styles.backIcon}
-          source={require('../../assets/icons-draft2/back-arrow.png')}
+          source={require('../../assets/icons/back-arrow.png')}
         />
       </TouchableHighlight>
 
       <Image
         style={styles.logo}
-        source={require('../../assets/icons-draft2/logo-pink.png')}
+        source={require('../../assets/icons/logo-pink.png')}
       />
     </View>
   )

@@ -8,7 +8,6 @@ const dynamicStyles = (theme, appearance) => {
   const colorSet = theme.colors[appearance]
   const registrationStyles = registration(theme, appearance)
   const logoContainerStyles = logoContainer(theme, appearance)
-  console.log("Height is", height )
 
   return StyleSheet.create({
     container: registrationStyles.container,
@@ -19,27 +18,22 @@ const dynamicStyles = (theme, appearance) => {
       height: 250,
     },
     logo: {
-      marginTop: 50,
+      marginTop: 65,
       alignSelf: 'center',
-      height: height*0.40,
+      height: height*0.35,
       resizeMode:'contain',
     },
     mainImage: {
-      width: '90%',
-      height: height*0.37,
+      width: '100%',
+      height: height*0.45,
       alignSelf: 'center',
+      marginTop: 10,
+      marginBottom: 10,
     },
     logContainer: {
       justifyContent: 'flex-end',
       alignItems: 'center',
       alignSelf: 'center',
-    },
-    imageContainer: {
-      backgroundColor: 'blue',
-      flex: 1,
-      justifyContent: 'center',
-      width: viewportWidth,
-      height: 280,
     },
     paginationContainer: {
       flex: 1,
@@ -55,7 +49,7 @@ const dynamicStyles = (theme, appearance) => {
       marginHorizontal: 0,
     },
     btnContainer: {
-      marginTop: 30,
+      marginTop: 20,
       borderRadius: 60,
       width: viewportWidth - 60,
       height: 50,
@@ -65,27 +59,59 @@ const dynamicStyles = (theme, appearance) => {
       backgroundColor: colorSet.primaryForeground,
     },
     btnText: {
-      color: colorSet.tertiaryText,
+      color: colorSet.primaryText,
       fontSize: 30,
     },
-    signText: {
-      margin: 10,
-      marginLeft: 0,
-      color: colorSet.tertiaryText,
-      fontWeight: 'bold',
-      fontSize: 14,
+    regularTextContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    text: {
-      margin: 10,
-      fontSize: 14,
-      color: colorSet.secondaryText,
-    },
-    bottomRowContainer: {
-      margin: 0,
+    topRowContainer: {
+      marginTop: 10,
+      marginLeft: 50,
       flexDirection: 'row',
       width: viewportWidth - 100,
       justifyContent: 'center',
       alignItems: 'stretch',
+    },
+    salesText: {
+      fontSize: 30,
+      color: colorSet.primaryText,
+    },
+    purpleTextSales: {
+      marginLeft: 10,
+      color: colorSet.tertiaryText,
+      fontWeight: 'bold',
+      fontSize: 30,
+    },
+    bottomRowContainer: {
+      marginLeft: 50,
+      flexDirection: 'row',
+      width: viewportWidth - 100,
+      justifyContent: 'center',
+      alignItems: 'stretch',
+    },
+    quoteText: {
+      fontSize: 25,
+      color: colorSet.primaryText,
+    },
+    purpleTextQuote: {
+      marginLeft: 10,
+      color: colorSet.tertiaryText,
+      fontWeight: 'bold',
+      fontSize: 25,
+    },
+    backHeader: {
+      flex: 1,
+    },
+    backIcon: {
+      height: 40,
+      width: 40,
+      opacity: 0.5,
+    },
+    iconContainer: {
+      marginTop: 60,
+      marginLeft: 20,
     },
     headerContainer: logoContainerStyles.landingHeaderContainer,
   })
