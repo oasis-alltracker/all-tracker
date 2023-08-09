@@ -51,9 +51,7 @@ export default function LandingScreen(props) {
     <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.setupHeader}>
           <LogoHeader
-            onPress={() => {
-              props.navigation.goBack()
-            }}
+            navigation={navigation}
           />
         </View>
         <View style={styles.setupContent}>
