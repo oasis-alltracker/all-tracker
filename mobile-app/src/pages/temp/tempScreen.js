@@ -26,35 +26,34 @@ function TempScreen(props) {
     if (!loading) {
       return (
         <ScrollView style={styles.container}>
-          <Text style={styles.title}>Settings</Text>
+          <Text style={styles.title}>Temp</Text>
           <TouchableHighlight
             style={styles.settingContainer}
             underlayColor="rgba(73,182,77,1,0.9)">
-            <Text style={styles.settingText}>Edit Profile</Text>
+            <Text style={styles.settingText}>N/A</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.settingContainer}
             underlayColor="rgba(73,182,77,1,0.9)">
-            <Text style={styles.settingText}>Invite Friends</Text>
+            <Text style={styles.settingText}>N/A</Text>
           </TouchableHighlight>
           <View style={styles.rowContainer}>
-            <Text style={styles.settingText}>{settings[0].title}</Text>
+            <Text style={styles.settingText}>N/a</Text>
             <Switch onValueChange={() => update(0)} value={settings[0].switch} />
           </View>
           <View style={styles.rowContainer}>
-            <Text style={styles.settingText}>{settings[1].title}</Text>
+            <Text style={styles.settingText}>N/a</Text>
             <Switch onValueChange={() => update(1)} value={settings[1].switch} />
           </View>
           <TouchableHighlight
             style={styles.settingContainer}
             underlayColor="rgba(73,182,77,1,0.9)">
-            <Text style={styles.settingText}>Give Feedback</Text>
+            <Text style={styles.settingText}>N/A</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.settingContainer}
-            underlayColor="rgba(73,182,77,1,0.9)"
-            onPress={() => navigation.navigate('Subscription')}>
-            <Text style={styles.settingText}>Help and Support</Text>
+            underlayColor="rgba(73,182,77,1,0.9)">
+            <Text style={styles.settingText}>N/A</Text>
           </TouchableHighlight>
 
           <TouchableHighlight
