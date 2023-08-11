@@ -14,8 +14,10 @@ import OTPScreen from '../pages/login/OTP/OTPScreen'
 import SelectTrackers from '../pages/setup/SelectTrackers/SelectTrackersScreen'
 import SubscriptionScreen from '../pages/setup/Subscription/SubscriptionScreen'
 import TempScreen from '../pages/temp/tempScreen'
-
-
+import SetupHabits from '../pages/setup/SetupHabits/SetupHabitsScreen'
+import SetupToDos from '../pages/setup/SetupToDos/SetupToDoScreen'
+import SetupFitness from '../pages/setup/SetupFitness/SetupFitnessScreen'
+import SetupSleep from '../pages/setup/SetupSleep/SetupSleepScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -114,6 +116,11 @@ const LandingNavigator = () => {
       <Stack.Screen name="SelectTrackers" component={SelectTrackers} />
       <Stack.Screen name="Subscription" component={SubscriptionScreen} />
       <Stack.Screen name="TempScreen" component={TempScreen} />
+      <Stack.Screen name="SetupHabits" component={SetupHabits} />
+      <Stack.Screen name="SetupToDos" component={SetupToDos} />
+      <Stack.Screen name="SetupFitness" component={SetupFitness} />
+      <Stack.Screen name="SetupSleep" component={SetupSleep} />
+
     </Stack.Navigator>
   )
 }

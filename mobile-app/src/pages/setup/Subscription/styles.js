@@ -92,14 +92,14 @@ const dynamicStyles = (theme, appearance) => {
       alignItems: 'stretch',
     },
     quoteText: {
-      fontSize: 25,
+      fontSize: 20,
       color: colorSet.primaryText,
     },
     purpleTextQuote: {
       marginLeft: 10,
       color: colorSet.tertiaryText,
       fontWeight: 'bold',
-      fontSize: 25,
+      fontSize: 20,
     },
     backHeader: {
       flex: 1,

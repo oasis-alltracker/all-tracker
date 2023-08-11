@@ -96,11 +96,7 @@ export default function OTPScreen(props) {
 
     <ScrollView contentContainerStyle ={styles.container}>
       <View style={styles.signupHeader}>
-        <LogoHeader
-            onPress={() => {
-                props.navigation.goBack()
-            }}
-        />
+        <LogoHeader navigation={navigation}/>
       </View>
       <View style={styles.signupContent}> 
         <ScribbledText style={styles.title}>Check your inbox for OTP Code</ScribbledText>

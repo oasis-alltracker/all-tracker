@@ -130,9 +130,7 @@ export default function SignInScreen(props) {
       <ScrollView contentContainerStyle ={styles.container}>
         <View style={styles.signupHeader}>
           <LogoHeader
-            onPress={() => {
-              props.navigation.goBack()
-            }}
+            navigation={ navigation }
           />
         </View>
         <View style={styles.signupContent}>

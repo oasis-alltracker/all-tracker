@@ -3,14 +3,14 @@ import { TouchableHighlight, Image, View } from 'react-native'
 import dynamicStyles from './styles'
 import { useTheme } from 'dopenative'
 
-export default function LogoHeader({ onPress }) {
+export default function LogoHeader({ navigation }) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
   return (
     <View style={styles.headerContainer}>
       <TouchableHighlight
-        onPress={onPress}
+        onPress={() => navigation.goBack()}
         underlayColor="rgba(73,182,77,1,0.9)"
         style={styles.iconContainer}>
         <Image

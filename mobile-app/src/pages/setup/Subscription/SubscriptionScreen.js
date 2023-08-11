@@ -11,17 +11,18 @@ import dynamicStyles from './styles'
 import ScribbledText from '../../../components/ScribbledText'
 
 export default function SubscriptionScreen(props) {
-  const navigation = props
+  const { navigation } = props
+  
 
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
   const [loading, setLoading] = useState(false);
 
   const onPressContinue = () => {
-    console.log("do subscriptions...")
+    navigation.navigate('SetupHabits')
   }
   const onPressGoBack = () => {
-    props.navigation.navigate('SelectTrackers')
+    navigation.goBack()
   }
 
   const Screen = () => {
@@ -31,6 +32,7 @@ export default function SubscriptionScreen(props) {
         <View style={styles.backHeader}>
           <TouchableHighlight
             onPress={() => onPressGoBack()}
+            underlayColor="rgba(73,182,77,1,0.9)"
             style={styles.iconContainer}>
             <Image
               style={styles.backIcon}

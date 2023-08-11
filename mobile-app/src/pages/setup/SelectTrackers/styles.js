@@ -27,24 +27,24 @@ const dynamicStyles = (theme, appearance) => {
       borderRadius: 100,
       borderWidth: 1,
       backgroundColor: colorSet.primaryBackground,
-      height: 130,
-      marginHorizontal: 30,
+      height: 120,
+      marginHorizontal: 37,
       marginBottom: 20,
       alignItems: 'center',
       alignSelf: 'center',
       justifyContent: 'center'
     },
     iconText: {
-      fontSize: 25,
+      fontSize: 20,
       alignSelf: 'center',
     },
     iconImage: {
-      height:  60,
+      height:  55,
       resizeMode:'contain',
       alignSelf: 'center',
     },
     continueButton: {
-      marginTop: 20,
+      marginTop: 20, 
     }
 });
 }
