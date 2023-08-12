@@ -4,7 +4,7 @@ const HORIZONTAL_SPACING_BASE = Platform.OS === 'web' ? 4 : 2
 const VERTICAL_SPACING_BASE = 4
 
 const lightColors = {
-  primaryBackground: '#F4F6FA',
+  primaryBackground: '#FFFFFF',
   secondaryBackground: '#ffffff',
   primaryForeground: '#D7F6FF',
   secondaryForeground: '#FFD8FF',
