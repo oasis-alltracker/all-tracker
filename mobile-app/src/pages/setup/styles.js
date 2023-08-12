@@ -83,5 +83,8 @@ export const setup = (theme, appearance) => {
           marginRight: 20,
           fontWeight: 'bold'
         },
+        selectedButton: {
+          backgroundColor: colorSet.primaryForeground,
+        }
     })
   }

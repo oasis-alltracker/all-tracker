@@ -4,11 +4,16 @@ import {
   View,
   TouchableHighlight,
   ScrollView,
+  Button
 } from 'react-native'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
 import ScribbledText from '../../../components/ScribbledText'
 import TrackerIcon from '../../../components/TrackerIcon/TrackerIcon'
+import NotificationToggle from '../../../components/NotificationToggle/NotificationToggle'
+import ToggleSwitch from 'toggle-switch-react-native'
+import DaySelector from '../../../components/DaySelector/DaySelector'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 export default function SetupSleep(props) {
   const { navigation } = props
@@ -16,39 +21,74 @@ export default function SetupSleep(props) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
+  const [toggleState, setToggleState] = useState(false)
+  const [time, setTime] = useState(new Date(1598051730000))
+
   const nextButton = () => {
     navigation.navigate('SetupFitness')
   }
   const backButton = () => {
     navigation.goBack()
   }
+
+  const onChange = (event, selectedDate) => {
+    setShowPicker(false);
+    setTime(selectedDate);
+  };
+
+  const [showPicker, setShowPicker] = useState(false)
  
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <TrackerIcon title='sleep' buttonStyle={styles.trackerIcon} imageStyle={styles.iconImage} textStyle={styles.iconText}/>
       </View>
-      <View style={styles.headerTextView}>
-        <ScribbledText style={styles.headerText}>Would you like to receive</ScribbledText>
-        <ScribbledText style={styles.headerText}>reminders for upcoming tasks?</ScribbledText>
-      </View>
       <View style={styles.content}>
-        <TouchableHighlight
-          onPress={backButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.todoSelection}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <ScribbledText style={styles.selectionText}>1 hour before</ScribbledText>
-            </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          onPress={backButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.todoSelection}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <ScribbledText style={styles.selectionText}>No, thanks</ScribbledText>
-            </View>
-        </TouchableHighlight>
+        <NotificationToggle/>
+        <View style={styles.reminderContainer}>
+          <View style={styles.reminderHeader}>
+            <ScribbledText style={styles.reminderTitle}>Morning alarm</ScribbledText>
+            <ToggleSwitch isOn={toggleState} onColor={'#25436B'} onToggle={(isOn) => {setToggleState(isOn)}}/>
+          </View>
+          <DaySelector/>
+          <View style={{justifyContent: 'flex-start', width: '100%', flexDirection: 'row'}}>
+            <ScribbledText style={{flex: 1,}}>At what time?</ScribbledText>
+            <TouchableHighlight
+              onPress={() => {setShowPicker(true)}}
+              style={{flex: 1}}>
+                <ScribbledText>{time.toLocaleTimeString()}</ScribbledText>   
+            </TouchableHighlight>
+            {showPicker && (<DateTimePicker
+                testID="dateTimePicker"
+                value={time}
+                mode={'time'}
+                is24Hour={true}
+                onChange={onChange}
+                />)}   
+          </View>
+        </View>
+        <View style={styles.reminderContainer}>
+          <View style={styles.reminderHeader}>
+            <ScribbledText style={styles.reminderTitle}>Bedtime reminder</ScribbledText>
+            <ToggleSwitch isOn={toggleState} onColor={'#25436B'} onToggle={(isOn) => {setToggleState(isOn)}}/>
+          </View>
+          <DaySelector/>
+          <View style={{justifyContent: 'flex-start', width: '100%', flexDirection: 'row'}}>
+            <ScribbledText style={{flex: 1,}}>At what time?</ScribbledText>
+            <TouchableHighlight
+              onPress={() => {setShowPicker(true)}}
+              style={{flex: 1}}>
+                <ScribbledText>{time.toLocaleTimeString()}</ScribbledText>   
+            </TouchableHighlight>
+            {showPicker && (<DateTimePicker
+                testID="dateTimePicker"
+                value={time}
+                mode={'time'}
+                is24Hour={true}
+                onChange={onChange}
+                />)}   
+          </View>
+        </View>
       </View>
       <View style={styles.navigation}>
         <TouchableHighlight

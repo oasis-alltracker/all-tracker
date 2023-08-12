@@ -7,8 +7,7 @@ const viewportWidth = width < height ? width : height
 const dynamicStyles = (theme, appearance) => {
   const colorSet = theme.colors[appearance]
   const registrationStyles = registration(theme, appearance)
-  const logoContainerStyles = logoContainer(theme, appearance)
-  console.log("Height is", height )
+  const logoContainerStyles = logoContainer(theme, appearance) 
 
   return StyleSheet.create({
     container: registrationStyles.container,

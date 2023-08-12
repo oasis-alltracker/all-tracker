@@ -4,6 +4,7 @@ import {
   View,
   TouchableHighlight,
   ScrollView,
+  Image,
 } from 'react-native'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
@@ -22,6 +23,10 @@ export default function SetupHabits(props) {
   const backButton = () => {
     navigation.goBack()
   }
+
+  const createHabit = () => {
+
+  }
  
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -37,13 +42,14 @@ export default function SetupHabits(props) {
           <ScribbledText style={styles.placeHolderText}>You can do this later if you'd like</ScribbledText>
         </View>
         <TouchableHighlight
-          onPress={backButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.createButton}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-            <ScribbledText style={styles.createText}>Create</ScribbledText>
-            </View> 
-        </TouchableHighlight>
+        onPress={createHabit}
+        underlayColor="rgba(73,182,77,1,0.9)"
+        style={styles.createButton}>
+        <Image
+          style={styles.addIcon}
+          source={require('@assets/icons/addIcon.png')}
+        />
+      </TouchableHighlight>
       </View>
       <View style={styles.navigation}>
         <TouchableHighlight

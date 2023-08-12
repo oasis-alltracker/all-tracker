@@ -15,12 +15,17 @@ export default function SetupFitness(props) {
 
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
+  const [selectedButton, setSelectedButton] = useState()
 
   const nextButton = () => {
     navigation.navigate('SetupSleep')
   }
   const backButton = () => {
     navigation.goBack()
+  }
+
+  const selectButton = (selectedButton) => {
+    setSelectedButton(selectedButton)
   }
  
   return (
@@ -29,33 +34,32 @@ export default function SetupFitness(props) {
         <TrackerIcon title='fitness' buttonStyle={styles.trackerIcon} imageStyle={styles.iconImage} textStyle={styles.iconText}/>
       </View>
       <View style={styles.headerTextView}>
-        <ScribbledText style={styles.headerText}>Start your fitness journey with</ScribbledText>
-        <ScribbledText style={styles.headerText}>custom workout templates</ScribbledText>
+        <ScribbledText style={styles.headerText}>What is your goal?</ScribbledText>
       </View>
       <View style={styles.content}>
         <TouchableHighlight
-          onPress={backButton}
+          onPress={() => {selectButton(0)}} 
           underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.fitnessSelection}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <ScribbledText style={styles.selectionText}>Create your own templates</ScribbledText>
-            </View>
+          style={[styles.fitnessSelection, selectedButton==0 && styles.selectedButton]}>
+            <ScribbledText style={styles.selectionText}>Improve explosivity</ScribbledText>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={backButton}
+          onPress={() => {selectButton(1)}} 
           underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.fitnessSelection}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <ScribbledText style={styles.selectionText}>Browse our list of templates</ScribbledText>
-            </View>
+          style={[styles.fitnessSelection, selectedButton==1 && styles.selectedButton]}>
+            <ScribbledText style={styles.selectionText}>Increase strength</ScribbledText>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={backButton}
+          onPress={() => {selectButton(2)}} 
           underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.fitnessSelection}>
-            <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <ScribbledText style={styles.selectionText}>Skip for now</ScribbledText>
-            </View>
+          style={[styles.fitnessSelection, selectedButton==2 && styles.selectedButton]}>
+            <ScribbledText style={styles.selectionText}>Build muscle</ScribbledText>
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={() => {selectButton(3)}} 
+          underlayColor="rgba(73,182,77,1,0.9)"
+          style={[styles.fitnessSelection, selectedButton==3 && styles.selectedButton]}>
+            <ScribbledText style={styles.selectionText}>Improve cardio</ScribbledText>
         </TouchableHighlight>
       </View>
       <View style={styles.navigation}>

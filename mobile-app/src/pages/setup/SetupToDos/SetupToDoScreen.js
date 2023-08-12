@@ -16,11 +16,17 @@ export default function SetupToDos(props) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
+  const [selectedButton, setSelectedButton] = useState()
+
   const nextButton = () => {
     navigation.navigate('SetupFitness')
   }
   const backButton = () => {
     navigation.goBack()
+  }
+
+  const selectButton = (selectedButton) => {
+    setSelectedButton(selectedButton)
   }
  
   return (
@@ -34,33 +40,33 @@ export default function SetupToDos(props) {
       </View>
       <View style={styles.content}>
         <TouchableHighlight
-          onPress={backButton}
+          onPress={() => {selectButton(0)}} 
           underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.todoSelection}>
+          style={[styles.todoSelection, selectedButton==0 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>1 hour before</ScribbledText>
             </View>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={backButton}
+          onPress={() => {selectButton(1)}} 
           underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.todoSelection}>
+          style={[styles.todoSelection, selectedButton==1 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>1 day before</ScribbledText>
             </View>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={backButton}
+          onPress={() => {selectButton(2)}} 
           underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.todoSelection}>
+          style={[styles.todoSelection, selectedButton==2 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>Custom</ScribbledText>
             </View>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={backButton}
+          onPress={() => {selectButton(3)}} 
           underlayColor="rgba(73,182,77,1,0.9)"
-          style={styles.todoSelection}>
+          style={[styles.todoSelection, selectedButton==3 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>No, thanks</ScribbledText>
             </View>
