@@ -12,12 +12,16 @@ const dynamicStyles = (theme, appearance) => {
       iconImage: setupStyles.iconImage,
       header: setupStyles.header,
       headerTextView: setupStyles.headerTextView,
-      headerText: setupStyles.headerText,
+      headerText: {
+        fontSize: 30,
+        fontWeight: 'bold'
+      },
       content: setupStyles.content,
       navigation: setupStyles.navigation,
       navigationNext: setupStyles.navigationNext,
       navigationBack: setupStyles.navigationBack,
       navigationText: setupStyles.navigationText,
+      selectedButton: setupStyles.selectedButton,
       fitnessSelection: {
         alignItems: 'center',
         borderWidth: 2,
@@ -27,7 +31,7 @@ const dynamicStyles = (theme, appearance) => {
         alignSelf: 'center',
         justifyContent: 'center',
         width: '87%',
-        margin: 10,
+        margin: 5,
         paddingVertical: 25,
       },
       selectionText: {

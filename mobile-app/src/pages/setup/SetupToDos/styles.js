@@ -18,6 +18,7 @@ const dynamicStyles = (theme, appearance) => {
       navigationNext: setupStyles.navigationNext,
       navigationBack: setupStyles.navigationBack,
       navigationText: setupStyles.navigationText,
+      selectedButton: setupStyles.selectedButton,
       todoSelection: {
         alignItems: 'center',
         borderWidth: 2,
@@ -34,7 +35,7 @@ const dynamicStyles = (theme, appearance) => {
         color: colorSet.primaryText,
         fontSize: 25,
         justifyContent: 'center',
-      }
+      },
     })
 }
 
