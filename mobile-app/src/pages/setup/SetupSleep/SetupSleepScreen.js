@@ -10,9 +10,7 @@ import dynamicStyles from './styles'
 import ScribbledText from '../../../components/ScribbledText'
 import TrackerIcon from '../../../components/TrackerIcon/TrackerIcon'
 import NotificationToggle from '../../../components/NotificationToggle/NotificationToggle'
-import ToggleSwitch from 'toggle-switch-react-native'
-import DaySelector from '../../../components/DaySelector/DaySelector'
-import DateTimePicker from '@react-native-community/datetimepicker'
+import ReminderComponent from '../../../components/ReminderComponent/ReminderComponent'
 
 export default function SetupSleep(props) {
   const { navigation } = props
@@ -20,22 +18,12 @@ export default function SetupSleep(props) {
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
 
-  const [toggleState, setToggleState] = useState(false)
-  const [time, setTime] = useState(new Date(1598051730000))
-
   const nextButton = () => {
     navigation.navigate('SetupFitness')
   }
   const backButton = () => {
     navigation.goBack()
   }
-
-  const onChange = (event, selectedDate) => {
-    setShowPicker(false);
-    setTime(selectedDate);
-  };
-
-  const [showPicker, setShowPicker] = useState(false)
  
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -44,50 +32,8 @@ export default function SetupSleep(props) {
       </View>
       <View style={styles.content}>
         <NotificationToggle/>
-        <View style={styles.reminderContainer}>
-          <View style={styles.reminderHeader}>
-            <ScribbledText style={styles.reminderTitle}>Morning alarm</ScribbledText>
-            <ToggleSwitch isOn={toggleState} onColor={'#25436B'} onToggle={(isOn) => {setToggleState(isOn)}}/>
-          </View>
-          <DaySelector/>
-          <View style={{justifyContent: 'flex-start', width: '100%', flexDirection: 'row'}}>
-            <ScribbledText style={{flex: 1,}}>At what time?</ScribbledText>
-            <TouchableOpacity
-              onPress={() => {setShowPicker(true)}}
-              style={{flex: 1}}>
-                <ScribbledText>{time.toLocaleTimeString()}</ScribbledText>   
-            </TouchableOpacity>
-            {showPicker && (<DateTimePicker
-                testID="dateTimePicker"
-                value={time}
-                mode={'time'}
-                is24Hour={true}
-                onChange={onChange}
-                />)}   
-          </View>
-        </View>
-        <View style={styles.reminderContainer}>
-          <View style={styles.reminderHeader}>
-            <ScribbledText style={styles.reminderTitle}>Bedtime reminder</ScribbledText>
-            <ToggleSwitch isOn={toggleState} onColor={'#25436B'} onToggle={(isOn) => {setToggleState(isOn)}}/>
-          </View>
-          <DaySelector/>
-          <View style={{justifyContent: 'flex-start', width: '100%', flexDirection: 'row'}}>
-            <ScribbledText style={{flex: 1,}}>At what time?</ScribbledText>
-            <TouchableOpacity
-              onPress={() => {setShowPicker(true)}}
-              style={{flex: 1}}>
-                <ScribbledText>{time.toLocaleTimeString()}</ScribbledText>   
-            </TouchableOpacity>
-            {showPicker && (<DateTimePicker
-                testID="dateTimePicker"
-                value={time}
-                mode={'time'}
-                is24Hour={true}
-                onChange={onChange}
-                />)}   
-          </View>
-        </View>
+        <ReminderComponent title='Morning alarm'/>
+        <ReminderComponent title='Bedtime reminder'/>
       </View>
       <View style={styles.navigation}>
         <TouchableOpacity
@@ -107,7 +53,6 @@ export default function SetupSleep(props) {
           
         </TouchableOpacity>
       </View>
-      
   </ScrollView>
   )
   }

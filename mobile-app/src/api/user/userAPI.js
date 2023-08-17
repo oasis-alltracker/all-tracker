@@ -27,8 +27,6 @@ class UserAPI{
             'Authorization': `Bearer ${token}`
         };
 
-        console.log("Token: ", token)
-
         const body = {
             isSetupComplete: isSetupComplete,
             trackingPreferences: trackingPreferences
