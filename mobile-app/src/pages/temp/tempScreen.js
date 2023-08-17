@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import {
   Text,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
   Switch,
 } from 'react-native'
@@ -27,16 +27,14 @@ function TempScreen(props) {
       return (
         <ScrollView style={styles.container}>
           <Text style={styles.title}>Temp</Text>
-          <TouchableHighlight
-            style={styles.settingContainer}
-            underlayColor="rgba(73,182,77,1,0.9)">
+          <TouchableOpacity
+            style={styles.settingContainer}>
             <Text style={styles.settingText}>N/A</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.settingContainer}
-            underlayColor="rgba(73,182,77,1,0.9)">
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.settingContainer}>
             <Text style={styles.settingText}>N/A</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <View style={styles.rowContainer}>
             <Text style={styles.settingText}>N/a</Text>
             <Switch onValueChange={() => update(0)} value={settings[0].switch} />
@@ -45,24 +43,21 @@ function TempScreen(props) {
             <Text style={styles.settingText}>N/a</Text>
             <Switch onValueChange={() => update(1)} value={settings[1].switch} />
           </View>
-          <TouchableHighlight
-            style={styles.settingContainer}
-            underlayColor="rgba(73,182,77,1,0.9)">
+          <TouchableOpacity
+            style={styles.settingContainer}>
             <Text style={styles.settingText}>N/A</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.settingContainer}
-            underlayColor="rgba(73,182,77,1,0.9)">
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.settingContainer}>
             <Text style={styles.settingText}>N/A</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.settingContainer}
-            underlayColor="rgba(73,182,77,1,0.9)"
             onPress={() => logout(navigation)}>
             <Text style={styles.settingText}>Log Out</Text>
             
-          </TouchableHighlight>
+          </TouchableOpacity>
         </ScrollView>
        )
       }

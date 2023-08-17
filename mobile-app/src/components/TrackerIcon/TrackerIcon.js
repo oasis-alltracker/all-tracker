@@ -1,5 +1,5 @@
 import React, { useState} from 'react'
-import { TouchableHighlight, Image, View } from 'react-native'
+import { TouchableOpacity, Image, View } from 'react-native'
 import { trackerLogos } from '../../data/dataArrays'
 import ScribbledText from '../ScribbledText'
 
@@ -20,9 +20,8 @@ export default function TrackerIcon({ onPress , title, buttonStyle, imageStyle, 
 
   return (
     onPress ?
-    <TouchableHighlight
+    <TouchableOpacity
         onPress={onSelect}
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[buttonStyle, isTrackerSelected && {opacity: 0.5}, {backgroundColor: selectedTracker.backgroundColor}]}>
         <View style={{ justifyContent: 'space-around'}}>
             <Image
@@ -31,7 +30,7 @@ export default function TrackerIcon({ onPress , title, buttonStyle, imageStyle, 
             />
             <ScribbledText style={textStyle}>{selectedTracker.title}</ScribbledText>
         </View>
-    </TouchableHighlight> :
+    </TouchableOpacity> :
     <View style={[buttonStyle, {backgroundColor: selectedTracker.backgroundColor}]}>
       <View style={{ justifyContent: 'space-around'}}>
             <Image

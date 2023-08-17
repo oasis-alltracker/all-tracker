@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableHighlight, Image, View } from 'react-native'
+import { TouchableOpacity, Image, View } from 'react-native'
 import dynamicStyles from './styles'
 import { useTheme } from 'dopenative'
 
@@ -9,15 +9,14 @@ export default function LogoHeader({ navigation }) {
 
   return (
     <View style={styles.headerContainer}>
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={() => navigation.goBack()}
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={styles.iconContainer}>
         <Image
           style={styles.backIcon}
           source={require('../../assets/icons/back-arrow.png')}
         />
-      </TouchableHighlight>
+      </TouchableOpacity>
 
       <Image
         style={styles.logo}

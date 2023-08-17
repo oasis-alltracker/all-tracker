@@ -5,7 +5,7 @@ import {getAccessToken, isLoggedIn} from '../../../user/keychain'
 import {
   Text,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   Dimensions,
   ScrollView,
@@ -69,19 +69,17 @@ export default function LandingScreen(props) {
         source={require('../../../assets/icons/landing-image.png')}
       />
       <View style={styles.logContainer}>
-        <TouchableHighlight
-          underlayColor="rgba(73,182,77,1,0.9)"
+        <TouchableOpacity
           style={styles.btnContainer}
           onPress={() => onPressGetStarted()}>
           <ScribbledText style={styles.btnText}>Get Started</ScribbledText>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <View style={styles.bottomRowContainer}>
           <ScribbledText style={styles.text}>Already have an account?</ScribbledText>
-          <TouchableHighlight
-            underlayColor="rgba(73,182,77,1,0.9)"
+          <TouchableOpacity
             onPress={() => onPressLogin()}>
             <ScribbledText style={styles.signText}>Sign in</ScribbledText>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

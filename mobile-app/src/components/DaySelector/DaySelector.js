@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { TouchableHighlight, View, Switch } from 'react-native'
+import { TouchableOpacity, View, Switch } from 'react-native'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
 import ScribbledText from '../ScribbledText'
@@ -40,54 +40,46 @@ export default function DaySelector({ onPress, title }) {
 
   return (
     <View style={styles.container}>
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.EVERYDAY)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.EVERYDAY) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.EVERYDAY}</ScribbledText>
-      </TouchableHighlight>
-      <TouchableHighlight
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.SUN)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.SUN) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.SUN}</ScribbledText>
-      </TouchableHighlight>
-      <TouchableHighlight
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.MON)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.MON) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.MON}</ScribbledText>
-      </TouchableHighlight>
-      <TouchableHighlight
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.TUE)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.TUE) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.TUE}</ScribbledText>
-      </TouchableHighlight>
-      <TouchableHighlight
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.WED)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.WED) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.WED}</ScribbledText>
-      </TouchableHighlight>
-      <TouchableHighlight
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.THU)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.THU) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.THU}</ScribbledText>
-      </TouchableHighlight>
-      <TouchableHighlight
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.FRI)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.FRI) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.FRI}</ScribbledText>
-      </TouchableHighlight>
-      <TouchableHighlight
+      </TouchableOpacity>
+      <TouchableOpacity
         onPress={() => {chooseDay(DAYS.SAT)}} 
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={[styles.dayContainer, selectedDays.includes(DAYS.SAT) && styles.daySelected]}>
         <ScribbledText style={styles.dayText}>{DAYS.SAT}</ScribbledText>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   )
 }

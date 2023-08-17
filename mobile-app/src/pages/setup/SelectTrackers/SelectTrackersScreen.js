@@ -14,8 +14,6 @@ import ContinueButton from '../../../components/ContinueButton/ContinueButton'
 import UserAPI from '../../../api/user/userAPI'
 import { getAccessToken } from '../../../user/keychain'
 
-const { width, height } = Dimensions.get('window')
-
 export default function LandingScreen(props) {
   const { navigation } = props
 

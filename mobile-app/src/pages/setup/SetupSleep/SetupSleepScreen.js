@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
-  Button
 } from 'react-native'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
@@ -53,11 +52,11 @@ export default function SetupSleep(props) {
           <DaySelector/>
           <View style={{justifyContent: 'flex-start', width: '100%', flexDirection: 'row'}}>
             <ScribbledText style={{flex: 1,}}>At what time?</ScribbledText>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {setShowPicker(true)}}
               style={{flex: 1}}>
                 <ScribbledText>{time.toLocaleTimeString()}</ScribbledText>   
-            </TouchableHighlight>
+            </TouchableOpacity>
             {showPicker && (<DateTimePicker
                 testID="dateTimePicker"
                 value={time}
@@ -75,11 +74,11 @@ export default function SetupSleep(props) {
           <DaySelector/>
           <View style={{justifyContent: 'flex-start', width: '100%', flexDirection: 'row'}}>
             <ScribbledText style={{flex: 1,}}>At what time?</ScribbledText>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => {setShowPicker(true)}}
               style={{flex: 1}}>
                 <ScribbledText>{time.toLocaleTimeString()}</ScribbledText>   
-            </TouchableHighlight>
+            </TouchableOpacity>
             {showPicker && (<DateTimePicker
                 testID="dateTimePicker"
                 value={time}
@@ -91,24 +90,22 @@ export default function SetupSleep(props) {
         </View>
       </View>
       <View style={styles.navigation}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={backButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationBack}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Back</ScribbledText>
             </View>
           
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={nextButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationNext}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Next</ScribbledText>
             </View>
           
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       
   </ScrollView>

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   ScrollView,
 } from 'react-native'
@@ -30,15 +30,14 @@ export default function SubscriptionScreen(props) {
       return (
         <ScrollView style={styles.container}>
         <View style={styles.backHeader}>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => onPressGoBack()}
-            underlayColor="rgba(73,182,77,1,0.9)"
             style={styles.iconContainer}>
             <Image
               style={styles.backIcon}
               source={require('../../../assets/icons/back-arrow.png')}
             />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.topRowContainer}>
@@ -62,10 +61,10 @@ export default function SubscriptionScreen(props) {
 
         <View style={styles.bottomRowContainer}>
           <ScribbledText style={styles.quoteText}>Discover</ScribbledText>
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => onPressLogin()}>
             <ScribbledText style={styles.purpleTextQuote}>balance</ScribbledText>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.regularTextContainer}>
@@ -74,12 +73,11 @@ export default function SubscriptionScreen(props) {
 
 
         <View style={styles.logContainer}>
-          <TouchableHighlight
-            underlayColor="rgba(73,182,77,1,0.9)"
+          <TouchableOpacity
             style={styles.btnContainer}
             onPress={() => onPressContinue()}>
             <ScribbledText style={styles.btnText}>Continue</ScribbledText>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </ScrollView>
       )

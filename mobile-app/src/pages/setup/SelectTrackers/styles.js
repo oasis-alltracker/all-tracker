@@ -1,9 +1,12 @@
 import {StyleSheet} from 'react-native';
+import { setup } from '../styles'
 
 const dynamicStyles = (theme, appearance) => {
   const colorSet = theme.colors[appearance]
+  const setupStyles = setup(theme, appearance)
 
   return StyleSheet.create({
+    container: setupStyles.container,
     setupHeader: {
       flex: 1,
     },
@@ -44,7 +47,8 @@ const dynamicStyles = (theme, appearance) => {
       alignSelf: 'center',
     },
     continueButton: {
-      marginTop: 20, 
+      marginTop: 20,
+      marginBottom: 10, 
     }
 });
 }

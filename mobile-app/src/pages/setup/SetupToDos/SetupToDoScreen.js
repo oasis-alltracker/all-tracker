@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
 } from 'react-native'
 import { useTheme } from 'dopenative'
@@ -39,58 +39,52 @@ export default function SetupToDos(props) {
         <ScribbledText style={styles.headerText}>reminders for upcoming tasks?</ScribbledText>
       </View>
       <View style={styles.content}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => {selectButton(0)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.todoSelection, selectedButton==0 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>1 hour before</ScribbledText>
             </View>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {selectButton(1)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.todoSelection, selectedButton==1 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>1 day before</ScribbledText>
             </View>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {selectButton(2)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.todoSelection, selectedButton==2 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>Custom</ScribbledText>
             </View>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {selectButton(3)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.todoSelection, selectedButton==3 && styles.selectedButton]}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <ScribbledText style={styles.selectionText}>No, thanks</ScribbledText>
             </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       <View style={styles.navigation}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={backButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationBack}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Back</ScribbledText>
             </View>
           
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={nextButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationNext}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Next</ScribbledText>
             </View>
           
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       
   </ScrollView>

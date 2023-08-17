@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { TouchableHighlight, Text, View, ActivityIndicator } from 'react-native'
+import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native'
 import { useTheme } from 'dopenative'
 import dynamicStyles from './styles'
 import ScribbledText from '../ScribbledText'
@@ -26,17 +26,16 @@ export default function ContinueButton({ onPress, title }) {
 
   return (
     <View>
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={setLoading}
-        disabled={isLoading}
-        underlayColor="rgba(73,182,77,1,0.9)"
+        disabled={isLoading}  
         style={[styles.btnContainer, isLoading && {opacity: 0.5} ]}>
           <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <ActivityIndicator animating={isLoading}/>
           <ScribbledText style={styles.btnText}>{title || 'Continue'}</ScribbledText>
           </View>
         
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   )
 }

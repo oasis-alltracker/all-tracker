@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
 } from 'react-native'
 import { useTheme } from 'dopenative'
@@ -37,50 +37,44 @@ export default function SetupFitness(props) {
         <ScribbledText style={styles.headerText}>What is your goal?</ScribbledText>
       </View>
       <View style={styles.content}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={() => {selectButton(0)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.fitnessSelection, selectedButton==0 && styles.selectedButton]}>
             <ScribbledText style={styles.selectionText}>Improve explosivity</ScribbledText>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {selectButton(1)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.fitnessSelection, selectedButton==1 && styles.selectedButton]}>
             <ScribbledText style={styles.selectionText}>Increase strength</ScribbledText>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {selectButton(2)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.fitnessSelection, selectedButton==2 && styles.selectedButton]}>
             <ScribbledText style={styles.selectionText}>Build muscle</ScribbledText>
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {selectButton(3)}} 
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={[styles.fitnessSelection, selectedButton==3 && styles.selectedButton]}>
             <ScribbledText style={styles.selectionText}>Improve cardio</ScribbledText>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       <View style={styles.navigation}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={backButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationBack}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Back</ScribbledText>
             </View>
           
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={nextButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationNext}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Next</ScribbledText>
             </View>
           
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       
   </ScrollView>

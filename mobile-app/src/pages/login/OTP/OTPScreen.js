@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
   Text,
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   Dimensions,
   ScrollView,
@@ -73,11 +73,10 @@ export default function OTPScreen(props) {
     return(
       <View style={styles.errorContainer}>
           <ScribbledText style={styles.errorText}>Didn't get an email? </ScribbledText>
-          <TouchableHighlight
-              underlayColor="rgba(73,182,77,1,0.9)"
+          <TouchableOpacity
               onPress={resendOTP}>
               <ScribbledText style={styles.resendOTPText}>Resend OTP</ScribbledText>
-          </TouchableHighlight>
+          </TouchableOpacity>
       </View>
     )}
 

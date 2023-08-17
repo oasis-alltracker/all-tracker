@@ -55,7 +55,7 @@ const dynamicStyles = (theme, appearance) => {
       reminderHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '90%',
+        width: '100%',
       },
       reminderTitle: {
         fontSize: 20,

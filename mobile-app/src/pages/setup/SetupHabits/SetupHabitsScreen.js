@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
   Image,
 } from 'react-native'
@@ -41,35 +41,32 @@ export default function SetupHabits(props) {
         <View style={styles.placeHolderView}>
           <ScribbledText style={styles.placeHolderText}>You can do this later if you'd like</ScribbledText>
         </View>
-        <TouchableHighlight
+        <TouchableOpacity
         onPress={createHabit}
-        underlayColor="rgba(73,182,77,1,0.9)"
         style={styles.createButton}>
         <Image
           style={styles.addIcon}
           source={require('@assets/icons/addIcon.png')}
         />
-      </TouchableHighlight>
+      </TouchableOpacity>
       </View>
       <View style={styles.navigation}>
-        <TouchableHighlight
+        <TouchableOpacity
           onPress={backButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationBack}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Back</ScribbledText>
             </View>
           
-        </TouchableHighlight>
-        <TouchableHighlight
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={nextButton}
-          underlayColor="rgba(73,182,77,1,0.9)"
           style={styles.navigationNext}>
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <ScribbledText style={styles.navigationText}>Next</ScribbledText>
             </View>
           
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       
   </ScrollView>
