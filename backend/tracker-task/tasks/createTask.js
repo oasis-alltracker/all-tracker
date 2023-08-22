@@ -40,7 +40,7 @@ class CreateTask {
         SK: `${taskID}`,
         name: task.name,
         schedule: task.schedule,
-        priorityTag: task.priorityTag,
+        isRecurring: task.isRecurring,
       };
 
       await this.DB.putItem(data);

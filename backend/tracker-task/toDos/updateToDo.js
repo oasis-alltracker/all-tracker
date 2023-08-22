@@ -30,18 +30,14 @@ class UpdateToDo {
 
     async updateStatus(email, toDoID, toDo) {
         const key = {PK: `${email}-taskStatus`, SK: toDoID};
-        const expression =  'SET #isComplete = :isComplete, #name = :name, #priorityTag = :priorityTag, #isRecurring = :isRecurring';
+        const expression =  'SET #isComplete = :isComplete, #name = :name';
         const names = {
             '#isComplete': 'isComplete',
             '#name': 'name',
-            '#priorityTag': 'priorityTag',
-            '#isRecurring': 'isRecurring',
         };
         const values = {
             ':isComplete': toDo.isComplete,
             ':name': toDo.name,
-            ':priorityTag': toDo.priorityTag,   
-            ':isRecurring': toDo.isRecurring,
         };
         await this.DB.updateItem(expression, key, names, values);
     }

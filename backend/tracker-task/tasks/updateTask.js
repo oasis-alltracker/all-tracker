@@ -28,18 +28,18 @@ class UpdateTask {
         }
     }
 
-    async update(email, taskID, habit) {
+    async update(email, taskID, task) {
         const key = {PK: `${email}-task`, SK: taskID};
-        const expression =  'SET #name = :name, #schedule = :schedule, #priorityTag = :priorityTag';
+        const expression =  'SET #name = :name, #schedule = :schedule, #isRecurring = :isRecurring';
         const names = {
             '#name': 'name',
             '#schedule': 'schedule',
-            '#priorityTag': 'priorityTag',
+            '#isRecurring': 'isRecurring',
         };
         const values = {
-            ':name': habit.name,
-            ':schedule': habit.schedule,
-            ':priorityTag': habit.priorityTag,       
+            ':name': task.name,
+            ':schedule': task.schedule,
+            ':isRecurring': task.isRecurring,       
         };
         await this.DB.updateItem(expression, key, names, values);
     }

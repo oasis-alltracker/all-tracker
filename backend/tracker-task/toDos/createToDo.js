@@ -35,9 +35,7 @@ class CreateToDo {
         PK: `${email}-taskStatus`, 
         SK: `${taskStatus.dateStamp}-${taskStatus.taskID}`,
         isComplete: taskStatus.count,
-        name: taskStatus.taskID,
-        priorityTag: taskStatus.status,
-        isRecurring: taskStatus.isRecurring,
+        name: taskStatus.name,
         taskID: taskStatus.taskID
       };
 
