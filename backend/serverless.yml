@@ -29,7 +29,7 @@ functions:
         - Arn
     events:
       - http:
-          path: notion/initiateIntegration
+          path: v1/notion/initiateIntegration
           method: post
           cors: true
 
@@ -55,7 +55,7 @@ functions:
         - Arn
     events:
       - http:
-          path: notion/checkIntegration
+          path: v1/notion/checkIntegration
           method: post
           cors: true
 
@@ -67,7 +67,7 @@ functions:
         - Arn
     events:
       - http:
-          path: notion/createEntry
+          path: v1/notion/createEntry
           method: post
           cors: true
 
@@ -80,7 +80,7 @@ functions:
         - Arn
     events:
       - http:
-          path: authentication/loginApple
+          path: v1/authentication/loginApple
           method: post
           cors: true
   loginGoogle:
@@ -91,7 +91,7 @@ functions:
         - Arn
     events:
       - http:
-          path: authentication/loginGoogle
+          path: v1/authentication/loginGoogle
           method: post
           cors: true
   loginOTP:
@@ -102,7 +102,7 @@ functions:
         - Arn
     events:
       - http:
-          path: authentication/loginOTP
+          path: v1/authentication/loginOTP
           method: post
           cors: true
   requestOTP:
@@ -113,7 +113,7 @@ functions:
         - Arn
     events:
       - http:
-          path: authentication/requestOTP
+          path: v1/authentication/requestOTP
           method: post
           cors: true
   userExists:
@@ -124,7 +124,7 @@ functions:
         - Arn
     events:
       - http:
-          path: authentication/userExists
+          path: v1/authentication/userExists
           method: post
           cors: true
   refreshToken:
@@ -135,7 +135,7 @@ functions:
         - Arn
     events:
       - http:
-          path: authentication/refreshToken
+          path: v1/authentication/refreshToken
           method: post
           cors: true
   sendOTPEmail:
@@ -175,11 +175,11 @@ functions:
         - Arn
     events:
       - http:
-          path: healthInfo
+          path: v1/healthInfo
           method: get
           cors: true
       - http:
-          path: healthInfo
+          path: v1/healthInfo
           method: put
           cors: true 
 
@@ -192,11 +192,11 @@ functions:
         - Arn
     events:
       - http:
-          path: user
+          path: v1/user
           method: get
           cors: true
       - http:
-          path: user
+          path: v1/user
           method: put
           cors: true
 
@@ -211,19 +211,19 @@ functions:
         - Arn
     events:
       - http:
-          path: foodEntries
+          path: v1/foodEntries
           method: get
           cors: true
       - http:
-          path: foodEntries
+          path: v1/foodEntries
           method: post
           cors: true
       - http:
-          path: foodEntries/{foodEntryID}
+          path: v1/foodEntries/{foodEntryID}
           method: put
           cors: true 
       - http:
-          path: foodEntries/{foodEntryID}
+          path: v1/foodEntries/{foodEntryID}
           method: delete
           cors: true
 
@@ -236,23 +236,23 @@ functions:
         - Arn
     events:
       - http:
-          path: foodItems
+          path: v1/foodItems
           method: get
           cors: true
       - http:
-          path: foodItems/{foodItemID}
+          path: v1/foodItems/{foodItemID}
           method: get
           cors: true
       - http:
-          path: foodItems
+          path: v1/foodItems
           method: post
           cors: true
       - http:
-          path: foodItems/{foodItemID}
+          path: v1/foodItems/{foodItemID}
           method: put
           cors: true
       - http:
-          path: foodItems/{foodItemID}
+          path: v1/foodItems/{foodItemID}
           method: delete
           cors: true
 
@@ -267,19 +267,19 @@ functions:
         - Arn
     events:
       - http:
-          path: habits
+          path: v1/habits
           method: get
           cors: true
       - http:
-          path: habits
+          path: v1/habits
           method: post
           cors: true
       - http:
-          path: habits/{habitID}
+          path: v1/habits/{habitID}
           method: put
           cors: true
       - http:
-          path: habits/{habitID}
+          path: v1/habits/{habitID}
           method: delete
           cors: true
 
@@ -292,19 +292,19 @@ functions:
         - Arn
     events:
       - http:
-          path: habitStatuses
+          path: v1/habitStatuses
           method: get
           cors: true
       - http:
-          path: habitStatuses
+          path: v1/habitStatuses
           method: post
           cors: true
       - http:
-          path: habitStatuses/{habitStatusID}
+          path: v1/habitStatuses/{habitStatusID}
           method: put
           cors: true
       - http:
-          path: habitStatuses/{habitStatusID}
+          path: v1/habitStatuses/{habitStatusID}
           method: delete
           cors: true
 
@@ -319,19 +319,19 @@ functions:
         - Arn
     events:
       - http:
-          path: sleepReports
+          path: v1/sleepReports
           method: get
           cors: true
       - http:
-          path: sleepReports
+          path: v1/sleepReports
           method: post
           cors: true
       - http:
-          path: sleepReports/{sleepReportID}
+          path: v1/sleepReports/{sleepReportID}
           method: put
           cors: true
       - http:
-          path: sleepReports/{sleepReportID}
+          path: v1/sleepReports/{sleepReportID}
           method: delete
           cors: true
 
@@ -344,19 +344,19 @@ functions:
         - Arn
     events:
       - http:
-          path: wellnessReports
+          path: v1/wellnessReports
           method: get
           cors: true
       - http:
-          path: wellnessReports
+          path: v1/wellnessReports
           method: post
           cors: true
       - http:
-          path: wellnessReports/{wellnessReportID}
+          path: v1/wellnessReports/{wellnessReportID}
           method: put
           cors: true
       - http:
-          path: wellnessReports/{wellnessReportID}
+          path: v1/wellnessReports/{wellnessReportID}
           method: delete
           cors: true
 
@@ -371,19 +371,19 @@ functions:
         - Arn
     events:
       - http:
-          path: tasks
+          path: v1/tasks
           method: get
           cors: true
       - http:
-          path: tasks
+          path: v1/tasks
           method: post
           cors: true
       - http:
-          path: tasks/{taskID}
+          path: v1/tasks/{taskID}
           method: put
           cors: true
       - http:
-          path: tasks/{taskID}
+          path: v1/tasks/{taskID}
           method: delete
           cors: true    
 
@@ -396,19 +396,19 @@ functions:
         - Arn
     events:
       - http:
-          path: toDos
+          path: v1/toDos
           method: get
           cors: true
       - http:
-          path: toDos
+          path: v1/toDos
           method: post
           cors: true
       - http:
-          path: toDos/{toDoID}
+          path: v1/toDos/{toDoID}
           method: put
           cors: true
       - http:
-          path: toDos/{toDoID}
+          path: v1/toDos/{toDoID}
           method: delete
           cors: true
 
@@ -423,19 +423,19 @@ functions:
         - Arn
     events:
       - http:
-          path: exerciseEntries
+          path: v1/exerciseEntries
           method: get
           cors: true
       - http:
-          path: exerciseEntries
+          path: v1/exerciseEntries
           method: post
           cors: true
       - http:
-          path: exerciseEntries/{exerciseEntryID}
+          path: v1/exerciseEntries/{exerciseEntryID}
           method: put
           cors: true
       - http:
-          path: exerciseEntries/{exerciseEntryID}
+          path: v1/exerciseEntries/{exerciseEntryID}
           method: delete
           cors: true 
 
@@ -448,19 +448,19 @@ functions:
         - Arn
     events:
       - http:
-          path: exercises
+          path: v1/exercises
           method: get
           cors: true
       - http:
-          path: exercises
+          path: v1/exercises
           method: post
           cors: true
       - http:
-          path: exercises/{exerciseID}
+          path: v1/exercises/{exerciseID}
           method: put
           cors: true
       - http:
-          path: exercises/{exerciseID}
+          path: v1/exercises/{exerciseID}
           method: delete
           cors: true
 
@@ -474,19 +474,19 @@ functions:
         - Arn
     events:
       - http:
-          path: workoutEntries
+          path: v1/workoutEntries
           method: get
           cors: true
       - http:
-          path: workoutEntries
+          path: v1/workoutEntries
           method: post
           cors: true
       - http:
-          path: workoutEntries/{workoutEntryID}
+          path: v1/workoutEntries/{workoutEntryID}
           method: put
           cors: true
       - http:
-          path: workoutEntries/{workoutEntryID}
+          path: v1/workoutEntries/{workoutEntryID}
           method: delete
           cors: true
 
@@ -499,19 +499,19 @@ functions:
         - Arn
     events:
       - http:
-          path: workoutPlans
+          path: v1/workoutPlans
           method: get
           cors: true
       - http:
-          path: workoutPlans
+          path: v1/workoutPlans
           method: post
           cors: true
       - http:
-          path: workoutPlans/{workoutPlanID}
+          path: v1/workoutPlans/{workoutPlanID}
           method: put
           cors: true
       - http:
-          path: workoutPlans/{workoutPlanID}
+          path: v1/workoutPlans/{workoutPlanID}
           method: delete
           cors: true
 

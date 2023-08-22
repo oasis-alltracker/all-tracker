@@ -1,24 +1,21 @@
-const { v1: uuidv1 } = require('uuid');
-
-class CreateTask {
+class DeleteNotification {
     constructor(db) {
-        this.DB = db;
+      this.DB = db;
     }
 
-    async createTask(user, body) {      
+    async deleteNotification(user, NotificationID) {
+        
         try {
-            const response = await this.create(user.email, body);
+            await this.remove(user.email, NotificationID);
 
             return {
                 statusCode: 200,
-                body: JSON.stringify(response),
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Credentials': true,
                 }
             };
         }
-        
         catch (e) {
             console.log(e);
             return {
@@ -28,23 +25,13 @@ class CreateTask {
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Credentials': true,
                 }
-            }
+            };
         }
     }
 
-    async create(email, task) {
-      const taskID = uuidv1();
-
-      const data = {
-        PK: `${email}-task`, 
-        SK: `${taskID}`,
-        name: task.name,
-        schedule: task.schedule,
-        isRecurring: task.isRecurring,
-      };
-
-      await this.DB.putItem(data);
-      return {ID: data.SK};
+    async remove(email, notificationID) {
+        const key = {PK: `${email}-notification`, SK: notificationID};
+        await this.DB.deleteItem(key);
     }
 };
-module.exports = CreateTask;   
+module.exports = DeleteNotification;   

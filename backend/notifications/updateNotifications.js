@@ -1,11 +1,11 @@
-class UpdateTask {
+class UpdateNotifications {
     constructor(db) {
       this.DB = db;
     }
 
-    async updateTask(user, taskID, body) {
+    async updateNotifications(user, notificationID, body) {
         try {
-            await this.update(user.email, taskID, body);
+            await this.updateEntry(user.email, notificationID, body);
 
             return {
                 statusCode: 200,
@@ -28,20 +28,21 @@ class UpdateTask {
         }
     }
 
-    async update(email, taskID, task) {
-        const key = {PK: `${email}-task`, SK: taskID};
-        const expression =  'SET #name = :name, #schedule = :schedule, #isRecurring = :isRecurring';
+    async updateEntry(email, notificationID, notification) {
+        const key = {PK: `${email}-notification`, SK: notificationID};
+        const expression =  'SET #schedule = :schedule, #message = :message, #isOn = :isOn' ;
         const names = {
-            '#name': 'name',
             '#schedule': 'schedule',
-            '#isRecurring': 'isRecurring',
+            '#message': 'message',
+            '#isOn': 'isOn',
         };
         const values = {
-            ':name': task.name,
-            ':schedule': task.schedule,
-            ':isRecurring': task.isRecurring,       
+            ':schedule': notification.schedule,
+            ':message': notification.message,
+            ':isOn': notification.isOn,     
         };
+
         await this.DB.updateItem(expression, key, names, values);
     }
 };
-module.exports = UpdateTask;
+module.exports = UpdateFoodEntry;
