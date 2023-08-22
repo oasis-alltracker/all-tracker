@@ -19,7 +19,7 @@ export default function SetupToDos(props) {
   const [selectedButton, setSelectedButton] = useState()
 
   const nextButton = () => {
-    navigation.navigate('SetupFitness')
+    navigation.navigate('SetupDiet')
   }
   const backButton = () => {
     navigation.goBack()

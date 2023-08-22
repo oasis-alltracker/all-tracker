@@ -18,6 +18,7 @@ import SetupHabits from '../pages/setup/SetupHabits/SetupHabitsScreen'
 import SetupToDos from '../pages/setup/SetupToDos/SetupToDoScreen'
 import SetupFitness from '../pages/setup/SetupFitness/SetupFitnessScreen'
 import SetupSleep from '../pages/setup/SetupSleep/SetupSleepScreen'
+import SetupDiet from '../pages/setup/SetupDiet/SetupDietScreen'
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -120,6 +121,7 @@ const LandingNavigator = () => {
       <Stack.Screen name="SetupToDos" component={SetupToDos} />
       <Stack.Screen name="SetupFitness" component={SetupFitness} />
       <Stack.Screen name="SetupSleep" component={SetupSleep} />
+      <Stack.Screen name="SetupDiet" component={SetupDiet} />
 
     </Stack.Navigator>
   )
