@@ -1,68 +1,68 @@
 import axios from 'axios';
 require('dotenv').config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + '/foodItems/';
+const API = baseURL + '/sleepReports/';
 
-class FoodItemsAPI{
+class SleepReportsAPI{
 
-    static async getFoodItems(token){
+    static async getSleepReportsForToday(token, dateStamp){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
 
         try {
-            const response = await axios.get(API, {headers: headers});
+            const response = await axios.get(API, {headers: headers, params: { dateStamp: dateStamp }});
             return (response?.data);
         }
         catch(e) {
             console.log(e);
         }
     }
-    static async getFoodItem(token){
+    static async getSleepReportsForMutlipleDays(token, startDate, endDate){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
 
         try {
-            const response = await axios.get(API, {headers: headers});
+            const response = await axios.get(API, {headers: headers, params: { startDate: startDate, endDate: endDate }});
             return (response?.data);
         }
         catch(e) {
             console.log(e);
         }
     }
-    static async createFoodItem(token, foodItem){
+    static async createSleepReport(token, sleepReport){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
 
         try {
-            await axios.post(API, foodItem, {headers: headers});
+            await axios.post(API, sleepReport, {headers: headers});
         }
         catch(e) {
             console.log(e);
         }
     }
 
-    static async updateFoodItem(token, foodItemID, foodItem){
+    static async updateSleepReport(token, sleepReportID, sleepReport){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
-        const url = API + foodItemID;
+        const url = API + sleepReportID;
 
         try{
-            await axios.put(url, foodItem, {headers: headers});
+            await axios.put(url, sleepReport, {headers: headers});
         }
         catch(e){
             console.log(e);
         }
     }
 
-    static async deleteFoodItem(token, foodItemID){
+    static async deleteSleepReport(token, sleepReportID){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
-        const url = API + foodItemID;
+        const url = API + sleepReportID;
 
         try {
             await axios.delete(url, {headers: headers});
@@ -74,4 +74,4 @@ class FoodItemsAPI{
 
 
 }
-export default FoodItemsAPI;
+export default SleepReportsAPI;

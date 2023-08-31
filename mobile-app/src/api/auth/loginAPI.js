@@ -38,6 +38,32 @@ class LoginAPI{
         }
     }
 
+    static async doesUserExist(email){
+        const headers = {
+            'Authorization': `Bearer emptyToken`
+        };
+        const url = API + 'userExists';
+        
+
+        const body = {
+            email: email
+        }
+
+        var status,data
+        console.log(email)
+        console.log(url)
+        try{
+            const response = await axios.post(url, body);
+            status = response?.status
+            data = response?.data
+        }
+        catch(error){
+            status = error.response.status
+            data = error.response.data
+        }
+        return {status, data}
+    }
+
     static async loginOTP(email, otp){
         const url = API + 'loginOTP';
 

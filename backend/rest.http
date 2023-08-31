@@ -585,7 +585,6 @@ Authorization: Bearer ya29.a0Ael9sCMsF0XEDFbn9QFUx9zD6q3rKHUjr6VkBBJn0X7ZeEKrZWE
 //-------------------------------------------
 //Check if user exists.
 POST https://c5denntlll.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/userExists
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 
 {
    "email": "hodgerta@gmail.com"

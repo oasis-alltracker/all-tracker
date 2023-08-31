@@ -1,17 +1,17 @@
 import axios from 'axios';
 require('dotenv').config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + '/cartItems/';
+const API = baseURL + '/exercise/';
 
-class CartItemsAPI{
+class ExercisesAPI{
 
-    static async getCartItems(token){
+    static async getExercisesForWorkout(token, workoutPlanID){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
 
         try {
-            const response = await axios.get(API, {headers: headers});
+            const response = await axios.get(API, {headers: headers, params: { workoutPlanID: workoutPlanID }});
             return (response?.data);
         }
         catch(e) {
@@ -19,24 +19,38 @@ class CartItemsAPI{
         }
     }
 
-    static async clearCartItems(token){
+    static async createExercise(token, exercise){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
 
         try {
-            await axios.delete(API, {headers: headers});
+            await axios.post(API, exercise, {headers: headers});
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+
+    static async updateExercise(token, exerciseID, exercise){
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+        const url = API + exerciseID;
+
+        try{
+            await axios.put(url, exercise, {headers: headers});
         }
         catch(e){
             console.log(e);
         }
     }
 
-    static async deleteCartItem(productId, token){
+    static async deleteExercise(token, exerciseID){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
-        const url = API + productId;
+        const url = API + exerciseID;
 
         try {
             await axios.delete(url, {headers: headers});
@@ -46,27 +60,6 @@ class CartItemsAPI{
         }
     }
 
-    static async updateCartItem(cartItem, changeInQuantity, token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + cartItem.productId;
-
-        const body = {
-            price: cartItem.price,
-            name: cartItem.name,
-            productId: cartItem.productId,
-            quantity: changeInQuantity,
-            image: cartItem.image,
-        }
-
-        try{
-            await axios.put(url, body, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
-    }
 
 }
-export default CartItemsAPI;
+export default ExercisesAPI;

@@ -1,11 +1,11 @@
 import axios from 'axios';
 require('dotenv').config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + '/cartItems/';
+const API = baseURL + '/tasks/';
 
-class CartItemsAPI{
+class TasksAPI{
 
-    static async getCartItems(token){
+    static async getTasks(token){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
@@ -19,24 +19,38 @@ class CartItemsAPI{
         }
     }
 
-    static async clearCartItems(token){
+    static async createTask(token, task){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
 
         try {
-            await axios.delete(API, {headers: headers});
+            await axios.post(API, task, {headers: headers});
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+
+    static async updateTask(token, taskID, task){
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+        const url = API + taskID;
+
+        try{
+            await axios.put(url, task, {headers: headers});
         }
         catch(e){
             console.log(e);
         }
     }
 
-    static async deleteCartItem(productId, token){
+    static async deleteTask(token, taskID){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
-        const url = API + productId;
+        const url = API + taskID;
 
         try {
             await axios.delete(url, {headers: headers});
@@ -46,27 +60,6 @@ class CartItemsAPI{
         }
     }
 
-    static async updateCartItem(cartItem, changeInQuantity, token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + cartItem.productId;
-
-        const body = {
-            price: cartItem.price,
-            name: cartItem.name,
-            productId: cartItem.productId,
-            quantity: changeInQuantity,
-            image: cartItem.image,
-        }
-
-        try{
-            await axios.put(url, body, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
-    }
 
 }
-export default CartItemsAPI;
+export default TasksAPI;

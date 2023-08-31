@@ -1,11 +1,11 @@
 import axios from 'axios';
 require('dotenv').config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + '/cartItems/';
+const API = baseURL + '/habits/';
 
-class CartItemsAPI{
+class HabitsAPI{
 
-    static async getCartItems(token){
+    static async getHabits(token){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
@@ -19,24 +19,38 @@ class CartItemsAPI{
         }
     }
 
-    static async clearCartItems(token){
+    static async createHabit(token, habit){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
 
         try {
-            await axios.delete(API, {headers: headers});
+            await axios.post(API, habit, {headers: headers});
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+
+    static async updateHabit(token, habitID, habit){
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+        const url = API + habitID;
+
+        try{
+            await axios.put(url, habit, {headers: headers});
         }
         catch(e){
             console.log(e);
         }
     }
 
-    static async deleteCartItem(productId, token){
+    static async deleteHabit(token, habitID){
         const headers = {
             'Authorization': `Bearer ${token}`
         };
-        const url = API + productId;
+        const url = API + habitID;
 
         try {
             await axios.delete(url, {headers: headers});
@@ -46,27 +60,6 @@ class CartItemsAPI{
         }
     }
 
-    static async updateCartItem(cartItem, changeInQuantity, token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + cartItem.productId;
-
-        const body = {
-            price: cartItem.price,
-            name: cartItem.name,
-            productId: cartItem.productId,
-            quantity: changeInQuantity,
-            image: cartItem.image,
-        }
-
-        try{
-            await axios.put(url, body, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
-    }
 
 }
-export default CartItemsAPI;
+export default HabitsAPI;
