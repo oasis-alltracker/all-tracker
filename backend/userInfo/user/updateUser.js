@@ -4,7 +4,6 @@ class UpdateUser {
     }
 
     async updateUser(user, body) {
-        console.log("BODY is ", body)
         try {
             await this.updateInfo(user.email, body);
 

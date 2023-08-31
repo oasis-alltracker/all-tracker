@@ -5,15 +5,16 @@ class UserDB {
       this.dbService = dbService;
     }
   
-    async userExistsOrCreateUser(email){
+    async userExistsOrCreateUser(email, hashedPassword){
         const emailKey = {PK: email, SK: email};
-        const existingEmail = await this.dbService.getItem(emailKey);
+        const existingUser = await this.dbService.getItem(emailKey);
           
         if(!isEmptyObject(existingEmail)) {
-          return;
+          return existingUser;
         }
         else {
-          await this.createUser(email)
+          await this.createUser(email, hashedPassword)
+          return false;
         }
     };
       
@@ -22,7 +23,8 @@ class UserDB {
         const data = {
           PK: `${email}`, 
           SK: `${email}`,
-          isSetupComplete: false
+          isSetupComplete: false,
+          hashedPassword: hashedPassword
         };
       
         await this.dbService.putItem(data);

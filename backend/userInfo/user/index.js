@@ -15,9 +15,7 @@ const { authenticateToken } = require('../../utils/authenticateToken');
 
 module.exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
-  console.log(event.headers);
   const user = authenticateToken(event.headers);
-  console.log(user);
   var response;
 
   if(!user?.email) {
@@ -37,9 +35,7 @@ module.exports.handler = async (event, context, callback) => {
 
   else if(event.httpMethod == "PUT") {
     response = await updateUser.updateUser(user, JSON.parse(event.body));
-  }
-  console.log(response);
-  
+  }  
 
   callback(null, response);
 };

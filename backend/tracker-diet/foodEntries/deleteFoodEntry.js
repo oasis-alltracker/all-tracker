@@ -31,7 +31,6 @@ class DeleteFoodEntry {
 
     async deleteEntry(email, SK) {
         const key = {PK: `${email}-foodEntry`, SK: SK};
-        console.log(key);
         await this.DB.deleteItem(key);
     }
 };

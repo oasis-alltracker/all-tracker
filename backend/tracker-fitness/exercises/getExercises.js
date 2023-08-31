@@ -6,7 +6,6 @@ class GetExercises {
     async getExercises(user, queryStringParameters) {
         try {
             var exercises;
-            console.log(queryStringParameters);
             if(queryStringParameters.workoutPlanID){
                 exercises = await this.get(user.email, queryStringParameters.workoutPlanID);
             }

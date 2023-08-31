@@ -201,6 +201,31 @@ functions:
           cors: true
 
 
+##### N O T I F I C A T I O N S #####
+  notifications:
+    handler: notifications/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/notifications
+          method: get
+          cors: true
+      - http:
+          path: v1/notifications/{notificationID}
+          method: get
+          cors: true
+      - http:
+          path: v1/notifications/{notificationID}
+          method: put
+          cors: true 
+      - http:
+          path: v1/notifications/{notificationID}
+          method: delete
+          cors: true
+
 ##### F O O D #####
 ##Food Entries##
   foodEntries:

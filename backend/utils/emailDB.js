@@ -29,10 +29,7 @@ class EmailDB {
   async verifyEmailAddress(emailAddress){
     try {
       const { expression, names, values } = this.getVerifyEmailCondition(emailAddress);
-      console.log(emailAddress);
-      console.log(expression);
-      console.log(names);
-      console.log(values);
+
       const response = await this.dbService.queryItem(expression, names, values);
 
       if(response?.Items?.[0]?.failedReason){

@@ -14,9 +14,7 @@ module.exports.handler = async (event, context, callback) => {
     const user = authenticateToken(event.headers);
   
     const emailKey = {PK: user.email, SK: user.email};
-    console.log(emailKey);
     const account = await dbService.getItem(emailKey);
-    console.log(account);
     
     if(account?.Item?.notionIntegrated) {
       callback( null, {

@@ -1,16 +1,15 @@
-class DeleteWorkoutPlan {
+class GetNotification {
     constructor(db) {
       this.DB = db;
-
     }
 
-    async deleteWorkoutPlan(user, workoutPlanID) {
-        
+    async getNotification(user, notificationID) {
         try {
-            await this.deletePlan(user.email, workoutPlanID);
-
+            const notification = await this.getItem(user.email, notificationID);
+ 
             return {
                 statusCode: 200,
+                body: JSON.stringify(notification),
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Credentials': true,
@@ -30,31 +29,19 @@ class DeleteWorkoutPlan {
         }
     }
 
-    async deletePlan(email, workoutPlanID) {
-        var key;
-        const workoutPlan = await this.getPlan(email);
-        for(const exerciseID of workoutPlan.exerciseIDs){
-            key = {PK: `${email}-exercise`, SK: `${workoutPlanID}-${exerciseID}`};
-            console.log(key);
-            await this.DB.deleteItem(key);
-        }
-        
-        key = {PK: `${email}-workoutPlan`, SK: workoutPlanID};
-        await this.DB.deleteItem(key);
-        
-    }
-
-    async getPlan(user) {
-        const expression =  '#pk = :pk';
+    async getItem(user, notificationID) {
+        const expression =  '#pk = :pk AND begins_with(#sk, :sk)';
         const names = {
             '#pk': 'PK',
+            '#sk': 'SK',
         };
             const values = {
-            ':pk': `${user}-workoutPlan`
+            ':pk': `${user}-notification`,
+            ':sk': notificationID,
         };
     
         const response = await this.DB.queryItem(expression, names, values);
-        return response?.Items[0];
+        return response?.Items;
     }
-};
-module.exports = DeleteWorkoutPlan;   
+}
+module.exports = GetNotification;

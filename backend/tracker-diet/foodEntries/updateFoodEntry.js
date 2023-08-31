@@ -6,8 +6,6 @@ class UpdateFoodEntry {
     async updateFoodEntry(user, foodEntryID, body) {
         try {
             await this.updateEntry(user.email, foodEntryID, body);
-            console.log(foodEntryID);
-            console.log(body);
 
             return {
                 statusCode: 200,

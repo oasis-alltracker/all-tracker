@@ -28,7 +28,6 @@ class GetUser {
     }
 
     async getItem(user) {
-        console.log(user);
         const expression =  '#pk = :pk AND #sk = :sk';
         const names = {
             '#pk': 'PK',

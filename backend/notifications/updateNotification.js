@@ -1,9 +1,9 @@
-class UpdateNotifications {
+class UpdateNotification {
     constructor(db) {
       this.DB = db;
     }
 
-    async updateNotifications(user, notificationID, body) {
+    async updateNotification(user, notificationID, body) {
         try {
             await this.updateEntry(user.email, notificationID, body);
 
@@ -30,19 +30,23 @@ class UpdateNotifications {
 
     async updateEntry(email, notificationID, notification) {
         const key = {PK: `${email}-notification`, SK: notificationID};
-        const expression =  'SET #schedule = :schedule, #message = :message, #isOn = :isOn' ;
+        const expression =  'SET #trigger = :trigger, #ids = :ids, #title = :title, #body = :body, #preference = :preference' ;
         const names = {
-            '#schedule': 'schedule',
-            '#message': 'message',
-            '#isOn': 'isOn',
+            '#trigger': 'trigger',
+            '#ids': 'ids',
+            '#title': 'title',
+            '#body': 'body',
+            '#preference': 'preference',
         };
         const values = {
-            ':schedule': notification.schedule,
-            ':message': notification.message,
-            ':isOn': notification.isOn,     
+            ':trigger': notification.trigger,
+            ':ids': notification.ids,
+            ':title': notification.title,
+            ':body': notification.body,   
+            ':preference': notification.preference,  
         };
 
         await this.DB.updateItem(expression, key, names, values);
     }
 };
-module.exports = UpdateFoodEntry;
+module.exports = UpdateNotification;
