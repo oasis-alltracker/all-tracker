@@ -1,77 +1,75 @@
-import axios from 'axios';
-require('dotenv').config();
+import axios from "axios";
+require("dotenv").config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + '/exerciseEntries/';
+const API = baseURL + "exerciseEntries/";
 
-class ExerciseEntriesAPI{
+class ExerciseEntriesAPI {
+  static async getExerciseEntriesForToday(token, dateStamp) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-    static async getExerciseEntriesForToday(token, dateStamp){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-
-        try {
-            const response = await axios.get(API, {headers: headers, params: { dateStamp: dateStamp }});
-            return (response?.data);
-        }
-        catch(e) {
-            console.log(e);
-        }
+    try {
+      const response = await axios.get(API, {
+        headers: headers,
+        params: { dateStamp: dateStamp },
+      });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
     }
-    static async getExerciseEntriesForMutlipleDays(token, startDate, endDate){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
+  }
+  static async getExerciseEntriesForMutlipleDays(token, startDate, endDate) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-        try {
-            const response = await axios.get(API, {headers: headers, params: { startDate: startDate, endDate: endDate }});
-            return (response?.data);
-        }
-        catch(e) {
-            console.log(e);
-        }
+    try {
+      const response = await axios.get(API, {
+        headers: headers,
+        params: { startDate: startDate, endDate: endDate },
+      });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
     }
-    static async createExerciseEntry(token, exerciseEntry){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
+  }
+  static async createExerciseEntry(token, exerciseEntry) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-        try {
-            await axios.post(API, exerciseEntry, {headers: headers});
-        }
-        catch(e) {
-            console.log(e);
-        }
+    try {
+      await axios.post(API, exerciseEntry, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    static async updateExerciseEntry(token, exerciseEntryID, exerciseEntry){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + exerciseEntryID;
+  static async updateExerciseEntry(token, exerciseEntryID, exerciseEntry) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const url = API + exerciseEntryID;
 
-        try{
-            await axios.put(url, exerciseEntry, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      await axios.put(url, exerciseEntry, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    static async deleteExerciseEntry(token, exerciseEntryID){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + exerciseEntryID;
+  static async deleteExerciseEntry(token, exerciseEntryID) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const url = API + exerciseEntryID;
 
-        try {
-            await axios.delete(url, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      await axios.delete(url, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
-
-
+  }
 }
 export default ExerciseEntriesAPI;

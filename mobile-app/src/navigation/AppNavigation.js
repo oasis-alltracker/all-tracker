@@ -1,54 +1,57 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
-import { NavigationContainer } from '@react-navigation/native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
-import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
-import { View, TouchableHighlight, Image, StyleSheet } from 'react-native'
-import { useTheme } from 'dopenative'
-import LandingScreen from '../pages/login/Landing/LandingScreen'
-import DrawerContainer from '../pages/dashboard/DrawerContainer/DrawerContainer'
-import SignInScreen from '../pages/login/SignIn/SignInScreen'
-import MenuImage from '../components/MenuButton/MenuButton'
-import OTPScreen from '../pages/login/OTP/OTPScreen'
-import SelectTrackers from '../pages/setup/SelectTrackers/SelectTrackersScreen'
-import SubscriptionScreen from '../pages/setup/Subscription/SubscriptionScreen'
-import TempScreen from '../pages/temp/tempScreen'
-import SetupHabits from '../pages/setup/SetupHabits/SetupHabitsScreen'
-import SetupToDos from '../pages/setup/SetupToDos/SetupToDoScreen'
-import SetupFitness from '../pages/setup/SetupFitness/SetupFitnessScreen'
-import SetupSleep from '../pages/setup/SetupSleep/SetupSleepScreen'
-import SetupDiet from '../pages/setup/SetupDiet/SetupDietScreen'
+import { NavigationContainer } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
+import { View, TouchableHighlight, Image, StyleSheet } from "react-native";
+import { useTheme } from "dopenative";
+import LandingScreen from "../pages/login/Landing/LandingScreen";
+import DrawerContainer from "../pages/dashboard/DrawerContainer/DrawerContainer";
+import SignInScreen from "../pages/login/SignIn/SignInScreen";
+import MenuImage from "../components/MenuButton/MenuButton";
+import OTPScreen from "../pages/login/OTP/OTPScreen";
+import EnterPassword from "../pages/login/EnterPassword/EnterPasswordScreen";
+import CreatePassword from "../pages/login/CreatePassword/CreatePasswordScreen";
+import SelectTrackers from "../pages/setup/SelectTrackers/SelectTrackersScreen";
+import SubscriptionScreen from "../pages/setup/Subscription/SubscriptionScreen";
+import TempScreen from "../pages/temp/tempScreen";
+import SetupHabits from "../pages/setup/SetupHabits/SetupHabitsScreen";
+import SetupToDos from "../pages/setup/SetupToDos/SetupToDoScreen";
+import SetupFitness from "../pages/setup/SetupFitness/SetupFitnessScreen";
+import SetupSleep from "../pages/setup/SetupSleep/SetupSleepScreen";
+import SetupDiet from "../pages/setup/SetupDiet/SetupDietScreen";
 
-const Stack = createStackNavigator()
-const Drawer = createDrawerNavigator()
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 const styles = StyleSheet.create({
   addIcon: {
     width: 35,
     height: 35,
     margin: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   goalAchievedIcon: {
     width: 30,
     height: 30,
     margin: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
-})
+});
 const MainNavigator = () => {
-  const { theme, appearance } = useTheme()
-  const colorSet = theme.colors[appearance]
+  const { theme, appearance } = useTheme();
+  const colorSet = theme.colors[appearance];
   return (
     <Stack.Navigator
       screenOptions={{
         headerTitleStyle: {
-          fontWeight: 'bold',
-          textAlign: 'center',
-          alignSelf: 'center',
+          fontWeight: "bold",
+          textAlign: "center",
+          alignSelf: "center",
         },
         headerRight: () => <View />,
-      }}>
+      }}
+    >
       <Stack.Screen
         options={({ navigation, route }) => {
           return {
@@ -56,18 +59,18 @@ const MainNavigator = () => {
               backgroundColor: colorSet.primaryBackground,
               elevation: 0,
               height: 80,
-              shadowColor: 'transparent',
+              shadowColor: "transparent",
               borderBottomWidth: 0,
             },
-            title: '',
+            title: "",
             headerLeft: () => (
               <MenuImage
                 onPress={() => {
-                  navigation.openDrawer()
+                  navigation.openDrawer();
                 }}
               />
             ),
-          }
+          };
         }}
         name="Home"
         component={LandingScreen}
@@ -78,30 +81,31 @@ const MainNavigator = () => {
             headerStyle: {
               backgroundColor: colorSet.primaryBackground,
               elevation: 0,
-              shadowColor: 'transparent',
+              shadowColor: "transparent",
               borderBottomWidth: 0,
             },
             headerRight: () => (
               <TouchableHighlight
                 underlayColor="rgba(73,182,77,1,0.9)"
-                onPress={() => route.params.onPressModal()}>
+                onPress={() => route.params.onPressModal()}
+              >
                 <Image
                   style={styles.addIcon}
-                  source={require('../assets/icons/addIcon.png')}
+                  source={require("../assets/icons/addIcon.png")}
                 />
               </TouchableHighlight>
             ),
             headerTitleStyle: {
               color: colorSet.primaryText,
             },
-          }
+          };
         }}
         name="Nutrition"
         component={NutritionScreen}
       />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const LandingNavigator = () => {
   return (
@@ -110,7 +114,8 @@ const LandingNavigator = () => {
       headerShown="false"
       screenOptions={{
         headerShown: false,
-      }}>
+      }}
+    >
       <Stack.Screen name="Landing" component={LandingScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="OTP" component={OTPScreen} />
@@ -122,10 +127,11 @@ const LandingNavigator = () => {
       <Stack.Screen name="SetupFitness" component={SetupFitness} />
       <Stack.Screen name="SetupSleep" component={SetupSleep} />
       <Stack.Screen name="SetupDiet" component={SetupDiet} />
-
+      <Stack.Screen name="EnterPassword" component={EnterPassword} />
+      <Stack.Screen name="CreatePassword" component={CreatePassword} />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const DrawerStack = () => {
   return (
@@ -134,8 +140,9 @@ const DrawerStack = () => {
       initialRouteName="Login"
       drawerWidth={250}
       drawerContent={({ navigation }) => {
-        return <DrawerContainer navigation={navigation} />
-      }}>
+        return <DrawerContainer navigation={navigation} />;
+      }}
+    >
       <Drawer.Screen
         options={{ headerShown: false }}
         name="Main"
@@ -147,15 +154,15 @@ const DrawerStack = () => {
         component={LandingNavigator}
       />
     </Drawer.Navigator>
-  )
-}
+  );
+};
 
 const AppContainer = () => {
   return (
     <NavigationContainer>
       <DrawerStack />
     </NavigationContainer>
-  )
-}
+  );
+};
 
-export default AppContainer
+export default AppContainer;

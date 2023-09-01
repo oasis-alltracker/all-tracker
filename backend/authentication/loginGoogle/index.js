@@ -1,14 +1,14 @@
-const jwt = require('jsonwebtoken');
-const axios = require('axios');
+const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
-const DynamoDB = require('aws-sdk/clients/dynamodb');
-const DbUtils = require('../../utils/databaseManager');
+const DynamoDB = require("aws-sdk/clients/dynamodb");
+const DbUtils = require("../../utils/databaseManager");
 const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 
 const DB = new DynamoDB.DocumentClient();
 const dbService = new DbUtils(DB, tableName);
 
-const UserDB = require('../../utils/userDB');
+const UserDB = require("../../utils/userDB");
 const userDB = new UserDB(dbService);
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -20,44 +20,53 @@ module.exports.handler = async (event, context, callback) => {
     const body = JSON.parse(event.body);
     var googleToken = body.token;
 
-    const userInfoResponse = await axios.get("https://www.googleapis.com/userinfo/v2/me", {
-      headers: { Authorization: `Bearer ${googleToken}` }
-    });
+    const userInfoResponse = await axios.get(
+      "https://www.googleapis.com/userinfo/v2/me",
+      {
+        headers: { Authorization: `Bearer ${googleToken}` },
+      }
+    );
 
-    if(userInfoResponse?.status == 200 && userInfoResponse?.data?.email){
-      await userDB.userExistsOrCreateUser(userInfoResponse.data.email);
-      const accessToken = jwt.sign({email: userInfoResponse.data.email}, ACCESS_TOKEN_SECRET, { expiresIn: '48h' });
-      const refreshToken = jwt.sign({email: userInfoResponse.data.email}, ACCESS_TOKEN_SECRET, { expiresIn: '100d' });
+    if (userInfoResponse?.status == 200 && userInfoResponse?.data?.email) {
+      const email = userInfoResponse.data.email.toLowerCase();
+      await userDB.userExistsOrCreateUser(email);
+      const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
+        expiresIn: "48h",
+      });
+      const refreshToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
+        expiresIn: "100d",
+      });
 
       callback(null, {
         statusCode: 200,
-        body: JSON.stringify({accessToken: accessToken, refreshToken: refreshToken}),
+        body: JSON.stringify({
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        }),
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        }
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
       });
-    }
-    else{
+    } else {
       console.log("Google auth did not return an email");
       callback(null, {
         statusCode: 401,
-        body: JSON.stringify({accessToken: accessToken}),
+        body: JSON.stringify({ accessToken: accessToken }),
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        }
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
       });
     }
-  } 
-  catch (e) {
+  } catch (e) {
     console.log(e);
     callback(null, {
       statusCode: 500,
       headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      }
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
     });
   }
 };

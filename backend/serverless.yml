@@ -2,7 +2,7 @@ service: all-tracker
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
   region: ca-central-1
   environment: 
     ALL_TRACKER_TABLE_NAME: ${opt:stage, 'dev'}-all-tracker-table
@@ -780,6 +780,8 @@ resources:
                 - Effect: 'Allow'
                   Action:
                     - dynamodb:PutItem
+                    - dynamodb:Query
+                    - dynamodb:GetItem
                   Resource:
                     Fn::GetAtt:
                       - trackerTable

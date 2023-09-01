@@ -14,42 +14,30 @@ import {logout} from '../../user/keychain'
 
 function TempScreen(props) {
   const { navigation } = props
-  const dispatch = useDispatch()
   const { theme, appearance } = useTheme()
   const styles = dynamicStyles(theme, appearance)
-  const [loading, setLoading] = useState(false);
 
-  const update = id => dispatch({ type: 'UPDATE_SETTINGS', id })
-  const settings = useSelector(state => state.setting.settings)
-  
   const Screen = () => {
-    if (!loading) {
       return (
         <ScrollView style={styles.container}>
           <Text style={styles.title}>Temp</Text>
+
           <TouchableOpacity
-            style={styles.settingContainer}>
-            <Text style={styles.settingText}>N/A</Text>
+            style={styles.settingContainer}
+            onPress={() => logout(navigation)}>
+            <Text style={styles.settingText}>Wellness</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.settingContainer}>
-            <Text style={styles.settingText}>N/A</Text>
+            style={styles.settingContainer}
+            onPress={() => logout(navigation)}>
+            <Text style={styles.settingText}>Productivity</Text>
           </TouchableOpacity>
-          <View style={styles.rowContainer}>
-            <Text style={styles.settingText}>N/a</Text>
-            <Switch onValueChange={() => update(0)} value={settings[0].switch} />
-          </View>
-          <View style={styles.rowContainer}>
-            <Text style={styles.settingText}>N/a</Text>
-            <Switch onValueChange={() => update(1)} value={settings[1].switch} />
-          </View>
+
           <TouchableOpacity
-            style={styles.settingContainer}>
-            <Text style={styles.settingText}>N/A</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.settingContainer}>
-            <Text style={styles.settingText}>N/A</Text>
+            style={styles.settingContainer}
+            onPress={() => logout(navigation)}>
+            <Text style={styles.settingText}>Health</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -60,12 +48,6 @@ function TempScreen(props) {
           </TouchableOpacity>
         </ScrollView>
        )
-      }
-      else{
-        return(
-          <CircularProgress />
-        )
-      }
     }
   
     return (

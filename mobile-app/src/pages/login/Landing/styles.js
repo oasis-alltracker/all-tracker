@@ -18,15 +18,16 @@ const dynamicStyles = (theme, appearance) => {
       height: 250,
     },
     logo: {
-      marginTop: 50,
+      marginTop: 60,
       alignSelf: 'center',
-      height: height*0.40,
+      height: height*0.43,
       resizeMode:'contain',
     },
     mainImage: {
       width: '90%',
       height: height*0.37,
       alignSelf: 'center',
+      marginTop: 10,
     },
     logContainer: {
       justifyContent: 'flex-end',
@@ -54,9 +55,9 @@ const dynamicStyles = (theme, appearance) => {
       marginHorizontal: 0,
     },
     btnContainer: {
-      marginTop: 30,
+      marginTop: 25,
       borderRadius: 60,
-      width: viewportWidth - 60,
+      width: viewportWidth - 50,
       height: 50,
       borderWidth: 2,
       borderColor: colorSet.primaryBorder,
@@ -65,6 +66,7 @@ const dynamicStyles = (theme, appearance) => {
     },
     btnText: {
       color: colorSet.tertiaryText,
+      fontWeight: 'bold',
       fontSize: 30,
     },
     signText: {

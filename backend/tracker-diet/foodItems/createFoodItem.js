@@ -34,8 +34,6 @@ class CreateFoodItem {
 
     async createItem(email, foodItem) {
         const foodItemID = uuidv1();
-        const timestamp = new Date().getTime();
-
 
         const data = {
           PK: `${email}-foodItem`, 

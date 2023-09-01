@@ -11,7 +11,7 @@
   "dependencies": {
     "@notionhq/client": "^2.2.4",
     "aws-sdk": "^2.1009.0",
-    "axios": "^1.3.6",
+    "axios": "^1.5.0",
     "bcryptjs": "^2.4.3",
     "expo-auth-session": "^4.0.3",
     "jsonwebtoken": "^8.5.1",

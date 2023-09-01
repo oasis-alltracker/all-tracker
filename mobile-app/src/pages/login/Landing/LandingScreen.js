@@ -46,15 +46,10 @@ export default function LandingScreen(props) {
   }, [loading]);
 
 
-
-
   const onPressGetStarted = () => {
     navigation.navigate('SignIn')
   }
 
-  const onPressLogin = () => {
-    navigation.navigate('SignIn')
-  }
 
   const Screen = () => {
     if (!loading) {
@@ -74,13 +69,6 @@ export default function LandingScreen(props) {
           onPress={() => onPressGetStarted()}>
           <ScribbledText style={styles.btnText}>Get Started</ScribbledText>
         </TouchableOpacity>
-        <View style={styles.bottomRowContainer}>
-          <ScribbledText style={styles.text}>Already have an account?</ScribbledText>
-          <TouchableOpacity
-            onPress={() => onPressLogin()}>
-            <ScribbledText style={styles.signText}>Sign in</ScribbledText>
-          </TouchableOpacity>
-        </View>
       </View>
     </ScrollView>
       )
