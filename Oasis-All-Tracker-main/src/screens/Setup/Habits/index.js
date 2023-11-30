@@ -17,7 +17,7 @@ const Habits = () => {
         <View style={styles.imageCon}>
           <Image
             style={styles.image}
-            source={require("../../../assets/images/all-apps.png")}
+            source={require("../../../assets/images/habits.png")}
           />
           <Text style={styles.imageText}>habits</Text>
         </View>

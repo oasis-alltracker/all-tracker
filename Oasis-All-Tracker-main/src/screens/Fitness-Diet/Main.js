@@ -17,7 +17,7 @@ export default function Main() {
       <View style={styles.imageCon}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/fitness-diet.png")}
+          source={require("../../assets/images/body-white.png")}
         />
       </View>
       <View style={styles.dateLine}>

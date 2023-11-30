@@ -20,7 +20,7 @@ const Drawer = createDrawerNavigator();
 const Main = ({ navigation }) => {
   const buttons = [
     {
-      image: require("../assets/images/creative-mind.png"),
+      image: require("../assets/images/mind-white.png"),
       color: "rgba(255, 207, 245, 0.65)",
       border: "rgba(255, 207, 245, 0.70)",
       onPress: () => {
@@ -28,7 +28,7 @@ const Main = ({ navigation }) => {
       },
     },
     {
-      image: require("../assets/images/fitness-diet.png"),
+      image: require("../assets/images/body-white.png"),
       color: "rgba(213, 203, 255, 0.65)",
       border: "rgba(213, 203, 255, 0.70)",
       onPress: () => {
@@ -36,7 +36,7 @@ const Main = ({ navigation }) => {
       },
     },
     {
-      image: require("../assets/images/mood-sleep.png"),
+      image: require("../assets/images/soul-white.png"),
       color: "rgba(255, 233, 167, 0.75)",
       border: "rgba(255, 233, 167, 0.80)",
       onPress: () => {

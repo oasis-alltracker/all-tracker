@@ -30,7 +30,7 @@ const EnterEmail = () => {
             <TouchableOpacity style={styles.iconView}>
               <Image
                 style={styles.icon}
-                source={require("../../assets/images/apple.png")}
+                source={require("../../assets/images/apple-black.png")}
               />
             </TouchableOpacity>
           </View>

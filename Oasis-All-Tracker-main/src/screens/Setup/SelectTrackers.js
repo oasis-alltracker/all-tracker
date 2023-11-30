@@ -16,14 +16,14 @@ const SelectTrackers = () => {
           <TouchableOpacity disabled={true} style={styles.button}>
             <Image
               style={styles.image}
-              source={require("../../assets/images/all-apps.png")}
+              source={require("../../assets/images/habits.png")}
             />
             <Text style={styles.title}>Habits</Text>
           </TouchableOpacity>
           <TouchableOpacity disabled={true} style={styles.button}>
             <Image
               style={styles.image}
-              source={require("../../assets/images/calendar.png")}
+              source={require("../../assets/images/to-dos.png")}
             />
             <Text style={styles.title}>To-dos</Text>
           </TouchableOpacity>

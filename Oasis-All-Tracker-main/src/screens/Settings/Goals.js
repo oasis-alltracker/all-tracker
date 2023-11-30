@@ -13,7 +13,7 @@ const Goals = () => {
   const [datas] = useState([
     {
       title: "200 g/day",
-      img: require("../../assets/images/rice.png"),
+      img: require("../../assets/images/carbs.png"),
       text: "Carbs",
     },
     {

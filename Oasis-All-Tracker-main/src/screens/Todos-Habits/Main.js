@@ -32,7 +32,7 @@ export default function Main() {
       <View style={styles.imageCon}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/creative-mind.png")}
+          source={require("../../assets/images/mind-white.png")}
         />
       </View>
       <View style={styles.dateLine}>

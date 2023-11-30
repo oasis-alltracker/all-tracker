@@ -29,7 +29,7 @@ const Todos = () => {
         <View style={styles.imageCon}>
           <Image
             style={styles.image}
-            source={require("../../assets/images/calendar.png")}
+            source={require("../../assets/images/to-dos.png")}
           />
           <Text style={styles.imageText}>to-dos</Text>
         </View>

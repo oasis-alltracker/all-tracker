@@ -35,7 +35,7 @@ export default function MyHabits() {
       <View style={styles.imageCon}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/calendar.png")}
+          source={require("../../assets/images/to-dos.png")}
         />
       </View>
       <View style={[styles.line, { marginBottom: 15 }]}>

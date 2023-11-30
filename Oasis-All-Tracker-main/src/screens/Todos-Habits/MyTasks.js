@@ -42,7 +42,7 @@ export default function MyTasks() {
       <View style={styles.imageCon}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/all-apps.png")}
+          source={require("../../assets/images/habits.png")}
         />
       </View>
       <View style={[styles.line, { marginBottom: 15 }]}>

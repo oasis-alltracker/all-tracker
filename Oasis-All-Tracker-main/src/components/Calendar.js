@@ -286,7 +286,7 @@ const DatePicker = ({ getRef, onConfirm }) => {
                 <Text style={styles.bottomItemValue}>None</Text>
                 <Image
                   style={styles.arrow}
-                  source={require("../assets/images/arrowLeft.png")}
+                  source={require("../assets/images/back-arrow.png")}
                 />
               </View>
             </TouchableOpacity>

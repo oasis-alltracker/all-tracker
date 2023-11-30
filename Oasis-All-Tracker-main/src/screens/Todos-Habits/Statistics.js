@@ -26,11 +26,11 @@ const data = [
 
 const data2 = [
   {
-    src: require("../../assets/images/calendar.png"),
+    src: require("../../assets/images/to-dos.png"),
     title: "habits",
   },
   {
-    src: require("../../assets/images/all-apps.png"),
+    src: require("../../assets/images/habits.png"),
     title: "to-dos",
   },
 ];

@@ -19,7 +19,7 @@ const Header = (props) => {
               <Image
                 style={styles.leftImage}
                 resizeMode="cover"
-                source={require("../assets/images/arrowLeft.png")}
+                source={require("../assets/images/back-arrow.png")}
               />
             </TouchableOpacity>
           )

@@ -39,7 +39,7 @@ const Step9 = () => {
           <Image
             style={styles.selectImage}
             resizeMode="contain"
-            source={require("../../../assets/images/rice.png")}
+            source={require("../../../assets/images/carbs.png")}
           />
           <View style={styles.flex}>
             <Text style={[styles.text]}>200 g</Text>

@@ -8,7 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { getAccessToken, isLoggedIn } from "./src/user/keychain";
 

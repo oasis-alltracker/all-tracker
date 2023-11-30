@@ -76,14 +76,14 @@ export default function Modal({ getRef }) {
           >
             <Image
               style={styles.searchImage}
-              source={require("../../assets/images/date_picker.png")}
+              source={require("../../assets/images/date-picker.png")}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <Image
             style={styles.editData}
-            source={require("../../assets/images/edit-data.png")}
+            source={require("../../assets/images/edit.png")}
           />
           <TextInput
             multiline

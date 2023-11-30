@@ -13,19 +13,19 @@ const Drawer = ({ navigation }) => {
       },
     },
     {
-      image: require("../assets/images/creative-mind.png"),
+      image: require("../assets/images/mind-white.png"),
       onPress: () => {
         navigation.navigate("todos-habits");
       },
     },
     {
-      image: require("../assets/images/fitness-diet.png"),
+      image: require("../assets/images/body-white.png"),
       onPress: () => {
         navigation.navigate("fitness-diet");
       },
     },
     {
-      image: require("../assets/images/mood-sleep.png"),
+      image: require("../assets/images/soul-white.png"),
       onPress: () => {
         navigation.navigate("mood-sleep");
       },

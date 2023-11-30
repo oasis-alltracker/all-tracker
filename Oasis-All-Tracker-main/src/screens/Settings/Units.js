@@ -27,12 +27,12 @@ const data = [
     title: "Body",
     data: [
       {
-        src: require("../../assets/images/weight-2.png"),
+        src: require("../../assets/images/weight.png"),
         unit: "Weight",
         unitValue: "Kilograms (kg)",
       },
       {
-        src: require("../../assets/images/height-2.png"),
+        src: require("../../assets/images/height.png"),
         unit: "Height",
         unitValue: "Centimetres (cm)",
       },

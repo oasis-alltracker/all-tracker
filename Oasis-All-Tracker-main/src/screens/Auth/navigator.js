@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import EnterEmail from "./EnterEmail";
 import EnterPassword from "./EnterPassword";
 import EnterCode from "./EnterCode";
+import Agreement from "./Agreement";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ function AuthNavigator() {
       <Stack.Screen name="enterEmail" component={EnterEmail} />
       <Stack.Screen name="enterPassword" component={EnterPassword} />
       <Stack.Screen name="enterCode" component={EnterCode} />
+      <Stack.Screen name="agreement" component={Agreement} />
     </Stack.Navigator>
   );
 }

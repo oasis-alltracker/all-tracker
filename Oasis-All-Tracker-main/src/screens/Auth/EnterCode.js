@@ -66,7 +66,7 @@ const EnterCode = () => {
             ))}
           </View>
           <Button
-            onPress={() => navigationService.navigate("setup")}
+            onPress={() => navigationService.navigate("agreement")}
             style={styles.button}
           >
             Continue

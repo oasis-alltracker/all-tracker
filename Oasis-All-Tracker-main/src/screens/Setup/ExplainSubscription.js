@@ -11,7 +11,7 @@ const ExplainSubscription = () => {
       <Text style={styles.subtitle}>1 month free then $2.99/month</Text>
       <View style={styles.middleContainer}>
         <Image
-          source={require("../../assets/images/poster.png")}
+          source={require("../../assets/images/subscription-image.png")}
           style={styles.poster}
         />
         <Text style={styles.text}>
