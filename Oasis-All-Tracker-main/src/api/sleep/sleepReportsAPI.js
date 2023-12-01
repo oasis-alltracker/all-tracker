@@ -1,10 +1,10 @@
 import axios from "axios";
 require("dotenv").config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + "exerciseEntries/";
+const API = baseURL + "sleepReports/";
 
-class ExerciseEntriesAPI {
-  static async getExerciseEntriesForToday(token, dateStamp) {
+class SleepReportsAPI {
+  static async getSleepReportsForToday(token, dateStamp) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -19,7 +19,7 @@ class ExerciseEntriesAPI {
       console.log(e);
     }
   }
-  static async getExerciseEntriesForMutlipleDays(token, startDate, endDate) {
+  static async getSleepReportsForMutlipleDays(token, startDate, endDate) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -34,36 +34,36 @@ class ExerciseEntriesAPI {
       console.log(e);
     }
   }
-  static async createExerciseEntry(token, exerciseEntry) {
+  static async createSleepReport(token, sleepReport) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
     try {
-      await axios.post(API, exerciseEntry, { headers: headers });
+      await axios.post(API, sleepReport, { headers: headers });
     } catch (e) {
       console.log(e);
     }
   }
 
-  static async updateExerciseEntry(token, exerciseEntryID, exerciseEntry) {
+  static async updateSleepReport(token, sleepReportID, sleepReport) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const url = API + exerciseEntryID;
+    const url = API + sleepReportID;
 
     try {
-      await axios.put(url, exerciseEntry, { headers: headers });
+      await axios.put(url, sleepReport, { headers: headers });
     } catch (e) {
       console.log(e);
     }
   }
 
-  static async deleteExerciseEntry(token, exerciseEntryID) {
+  static async deleteSleepReport(token, sleepReportID) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const url = API + exerciseEntryID;
+    const url = API + sleepReportID;
 
     try {
       await axios.delete(url, { headers: headers });
@@ -72,4 +72,4 @@ class ExerciseEntriesAPI {
     }
   }
 }
-export default ExerciseEntriesAPI;
+export default SleepReportsAPI;

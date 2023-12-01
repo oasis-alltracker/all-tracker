@@ -1,72 +1,58 @@
-import axios from 'axios';
-require('dotenv').config();
+import axios from "axios";
+require("dotenv").config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + '/cartItems/';
+const API = baseURL + "tasks/";
 
-class CartItemsAPI{
+class TasksAPI {
+  static async getTasks(token) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-    static async getCartItems(token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-
-        try {
-            const response = await axios.get(API, {headers: headers});
-            return (response?.data);
-        }
-        catch(e) {
-            console.log(e);
-        }
+    try {
+      const response = await axios.get(API, { headers: headers });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    static async clearCartItems(token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
+  static async createTask(token, task) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-        try {
-            await axios.delete(API, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      await axios.post(API, task, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    static async deleteCartItem(productId, token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + productId;
+  static async updateTask(token, taskID, task) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const url = API + taskID;
 
-        try {
-            await axios.delete(url, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      await axios.put(url, task, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    static async updateCartItem(cartItem, changeInQuantity, token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + cartItem.productId;
+  static async deleteTask(token, taskID) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const url = API + taskID;
 
-        const body = {
-            price: cartItem.price,
-            name: cartItem.name,
-            productId: cartItem.productId,
-            quantity: changeInQuantity,
-            image: cartItem.image,
-        }
-
-        try{
-            await axios.put(url, body, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      await axios.delete(url, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
-
+  }
 }
-export default CartItemsAPI;
+export default TasksAPI;

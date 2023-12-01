@@ -1,72 +1,75 @@
-import axios from 'axios';
-require('dotenv').config();
+import axios from "axios";
+require("dotenv").config();
 const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + '/cartItems/';
+const API = baseURL + "foodEntries/";
 
-class CartItemsAPI{
+class FoodEntriesAPI {
+  static async getFoodEntriesForToday(token, dateStamp) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-    static async getCartItems(token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-
-        try {
-            const response = await axios.get(API, {headers: headers});
-            return (response?.data);
-        }
-        catch(e) {
-            console.log(e);
-        }
+    try {
+      const response = await axios.get(API, {
+        headers: headers,
+        params: { dateStamp: dateStamp },
+      });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
     }
+  }
+  static async getFoodEntriesForMutlipleDays(token, startDate, endDate) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-    static async clearCartItems(token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-
-        try {
-            await axios.delete(API, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      const response = await axios.get(API, {
+        headers: headers,
+        params: { startDate: startDate, endDate: endDate },
+      });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
     }
+  }
+  static async createFoodEntry(token, foodEntry) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
 
-    static async deleteCartItem(productId, token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + productId;
-
-        try {
-            await axios.delete(url, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      await axios.post(API, foodEntry, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    static async updateCartItem(cartItem, changeInQuantity, token){
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        };
-        const url = API + cartItem.productId;
+  static async updateFoodEntry(token, foodEntryID, foodEntry) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const url = API + foodEntryID;
 
-        const body = {
-            price: cartItem.price,
-            name: cartItem.name,
-            productId: cartItem.productId,
-            quantity: changeInQuantity,
-            image: cartItem.image,
-        }
-
-        try{
-            await axios.put(url, body, {headers: headers});
-        }
-        catch(e){
-            console.log(e);
-        }
+    try {
+      await axios.put(url, foodEntry, { headers: headers });
+    } catch (e) {
+      console.log(e);
     }
+  }
 
+  static async deleteFoodEntry(token, foodEntryID) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const url = API + foodEntryID;
+
+    try {
+      await axios.delete(url, { headers: headers });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
-export default CartItemsAPI;
+export default FoodEntriesAPI;

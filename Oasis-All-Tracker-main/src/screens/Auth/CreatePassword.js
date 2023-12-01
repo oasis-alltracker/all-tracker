@@ -14,7 +14,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Button, Header, Input } from "../../components";
 import navigationService from "../../navigators/navigationService";
 
-const EnterEmail = () => {
+const CreatePassword = () => {
   const [loginAttempted, setLoginAttempted] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -95,7 +95,6 @@ const EnterEmail = () => {
   //--------------------- EMAIL LOGIN
   const onPressContinue = async () => {
     if (isEmailValid(email)) {
-      console.log("MAKING REQUEST")
       const { status, data } = await LoginAPI.doesUserExist(email);
 
       if (status == 200)
@@ -256,10 +255,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#25436B',
   },
-  errorToast: {
-    backgroundColor: '#FFD7D7',
-    textColor: '#25436B',
-  },
 });
 
-export default EnterEmail;
+export default CreatePassword;

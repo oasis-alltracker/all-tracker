@@ -65,12 +65,13 @@ const styles = StyleSheet.create({
   logoCon: {
     flex: 1,
     alignItems: "center",
-    paddingRight: 40,
+    paddingRight: 51,
   },
   logo: {
-    width: 80,
-    height: 80,
+    width: 120,
+    height: 120,
     alignSelf: "center",
+    opacity: 0.5,
   },
   title: {
     fontSize: 16,

@@ -4,6 +4,7 @@ import EnterEmail from "./EnterEmail";
 import EnterPassword from "./EnterPassword";
 import EnterCode from "./EnterCode";
 import Agreement from "./Agreement";
+import CreatePassword from "./CreatePassword";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ function AuthNavigator() {
       <Stack.Screen name="enterPassword" component={EnterPassword} />
       <Stack.Screen name="enterCode" component={EnterCode} />
       <Stack.Screen name="agreement" component={Agreement} />
+      <Stack.Screen name="createPassword" component={CreatePassword} />
     </Stack.Navigator>
   );
 }
