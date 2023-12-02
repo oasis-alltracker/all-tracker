@@ -1,7 +1,6 @@
 import axios from "axios";
-require("dotenv").config();
-const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + "exerciseEntries/";
+import { BASE_URL } from "@env";
+const API = BASE_URL + "exerciseEntries/";
 
 class ExerciseEntriesAPI {
   static async getExerciseEntriesForToday(token, dateStamp) {

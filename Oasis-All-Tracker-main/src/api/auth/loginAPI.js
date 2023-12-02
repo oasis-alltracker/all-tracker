@@ -1,6 +1,6 @@
 import axios from "axios";
-const baseURL = process.env["REACT_APP_BASE_URL"];
-const API = baseURL + "authentication/";
+import { BASE_URL } from "@env";
+const API = BASE_URL + "authentication/";
 
 class LoginAPI {
   static async loginApple(token) {
@@ -43,19 +43,13 @@ class LoginAPI {
     var status, data;
 
     try {
-      console.log(url + "   url")
       const response = await axios.post(url, body);
-      console.log(email + "  EMAIL")
-      console.log(response + "  RESPONSE")
       status = response?.status;
       data = response?.data;
     } catch (error) {
-      console.log(error + "  error")
       status = error.response.status;
       data = error.response.data;
     }
-    console.log(email + "  EMAIL")
-    console.log(response + "  RESPONSE")
     return { status, data };
   }
 

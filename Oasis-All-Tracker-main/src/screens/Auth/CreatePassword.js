@@ -1,175 +1,35 @@
-import { TouchableHighlight } from "react-native-gesture-handler";
-
-import * as Google from "expo-auth-session/providers/google";
-import { useEffect, useState } from "react";
-
-import * as AppleAuthentication from "expo-apple-authentication";
-
-import LoginAPI from "../../api/auth/loginAPI";
-import UserAPI from "../../api/user/userAPI";
-import { saveToken, getAccessToken } from "../../user/keychain";
-import Toast from "react-native-root-toast";
-import { isEmailValid } from "../../utils/commonUtils";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
+import React from "react";
 import { Button, Header, Input } from "../../components";
 import navigationService from "../../navigators/navigationService";
 
-const CreatePassword = () => {
-  const [loginAttempted, setLoginAttempted] = useState(false);
-  const [email, setEmail] = useState("");
-
-  //--------------------- APPLE LOGIN
-  const [appleAuthAvailable, setAppleAuthAvailable] = useState(false);
-
-  useEffect(() => {
-    const checkAvailable = async () => {
-      const isAvailable = await AppleAuthentication.isAvailableAsync();
-      setAppleAuthAvailable(isAvailable);
-    };
-    checkAvailable();
-  }, []);
-
-  const appleSignin = async () => {
-    try {
-      const credential = await AppleAuthentication.signInAsync({
-        requestedScopes: [
-          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-          AppleAuthentication.AppleAuthenticationScope.EMAIL,
-        ],
-      });
-
-      const tokens = await LoginAPI.loginApple(credential.identityToken);
-      await saveToken("accessToken", tokens.accessToken);
-      await saveToken("refreshToken", tokens.refreshToken);
-      await processUserAccessToken();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  //--------------------- GOOGLE LOGIN
-  const [request, googleResponse, promptAsync] = Google.useAuthRequest({
-    androidClientId:
-      "315014991553-b534c0cndl001dm0b9kr9m0876rv20df.apps.googleusercontent.com",
-    iosClientId:
-      "315014991553-rs5sa19o9599kk3mnv3p9is0m5d13kgj.apps.googleusercontent.com",
-    expoClientId:
-      "315014991553-n73e15nhisbkdecaetgbqo017pm9dqel.apps.googleusercontent.com",
-  });
-
-  useEffect(() => {
-    const saveTokens = async (googleToken) => {
-      const tokens = await LoginAPI.loginGoogle(googleToken);
-      await saveToken("accessToken", tokens.accessToken);
-      await saveToken("refreshToken", tokens.refreshToken);
-      await processUserAccessToken();
-    };
-    if (googleResponse?.type === "success") {
-      saveTokens(googleResponse.authentication.accessToken);
-    } else if (loginAttempted) {
-      Toast.show("Something went wrong. Please try again later!", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  }, [googleResponse]);
-
-  const googleSignin = () => {
-    promptAsync({ useProxy: true, shownInRecents: true });
-  };
-
-  const processUserAccessToken = async () => {
-    const accessToken = await getAccessToken();
-    const { status: userStatus, data: userData } = await UserAPI.getUser(
-      accessToken
-    );
-    const setupStatus = userData["isSetupComplete"];
-
-    if (setupStatus === "true") {
-      console.log("Go to navigation page");
-    } else {
-      await navigation.navigate("SelectTrackers");
-    }
-  };
-
-  //--------------------- EMAIL LOGIN
-  const onPressContinue = async () => {
-    if (isEmailValid(email)) {
-      const { status, data } = await LoginAPI.doesUserExist(email);
-
-      if (status == 200)
-        if (data?.exists) {
-          await props.navigation.navigate("enterPassword", {
-            email
-          });
-        } else {
-          await props.navigation.navigate("createPassword", {
-            email,
-          });
-        }
-      else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        });
-      }
-    } else {
-      Toast.show("Please enter a valid email", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
+const CreatePassword = (email) => {
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.view}>
         <View style={styles.center}>
-          <Text style={styles.title}>What is your email address?</Text>
-          <Input input={styles.input} 
-            onChangeText={setEmail}
-            placeholder="Enter your email address" />
+          <Text style={styles.title}>Create a password</Text>
+          <Input
+            input={styles.input}
+            type="password"
+            name="password"
+            autoCapitalize="none"
+            placeholder="Enter your password"
+          />
+          <Input
+            input={styles.input}
+            type="password"
+            autoCapitalize="none"
+            placeholder="Re-enter your password"
+          />
           <Button
-            onPress={() => onPressContinue()}
+            onPress={() => navigationService.navigate("enterCode")}
             style={styles.button}
-            textStyle={styles.buttonText}
           >
             Continue
           </Button>
         </View>
-      <View style={styles.signContainer}>
-            <Text style={styles.txt}>--or--</Text>
-            <View
-              style={[
-                styles.rowContainer,
-                appleAuthAvailable && { flexDirection: "row", gap: 30 },
-              ]}
-            >
-              {appleAuthAvailable ? (
-                <TouchableHighlight
-                  style={styles.iconContainer}
-                  onPress={() => appleSignin()}
-                  underlayColor="rgba(73,182,77,1,0.9)"
-                >
-                  <Image
-                    style={styles.accountIcon}
-                    source={require("../../assets/images/apple-black.png")}
-                  />
-                </TouchableHighlight>
-              ) : null}
-              <TouchableHighlight
-                style={styles.iconContainer}
-                onPress={async () => googleSignin()}
-                underlayColor="rgba(73,182,77,1,0.9)"
-              >
-                <Image
-                  style={styles.accountIcon}
-                  source={require("../../assets/images/google.png")}
-                />
-              </TouchableHighlight>
-            </View>
-          </View>
       </View>
     </View>
   );
@@ -182,13 +42,13 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#25436B",
-    fontSize: 23,
+    fontSize: 24,
     fontFamily: "Sego-Bold",
     marginVertical: 30,
-    textAlign: "center",
   },
   input: {
     color: "#25436B",
+    fontSize: 20,
     fontFamily: "Sego",
   },
   button: {
@@ -202,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "space-between",
-    paddingBottom: 80,
+    paddingBottom: 50,
   },
   seperator: {
     fontSize: 20,
@@ -218,42 +78,9 @@ const styles = StyleSheet.create({
     height: 80,
     marginHorizontal: 10,
   },
-  signContainer: {
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginTop: 0,
-  },
   icon: {
-    marginLeft: 10,
-    marginRight: 10,
-    alignSelf: 'center',
-    width: 20,
-    height: 20,
-  },
-  rowContainer: {
-    alignItems: 'center',
-  },
-  iconContainer: {
-    backgroundColor: 'white',
-    borderRadius: 100,
-    borderColor: 'lightgray',
-    borderWidth: 2,
-    padding: 20
-  },
-  accountIcon: {
-    alignSelf: 'center',
-    height: 50,
-    width: 50
-  },
-  txt: {
-    marginTop: 20,
-    marginBottom: 20,
-    fontSize: 30,
-    fontFamily: "Sego",
-    textAlign: 'center',
-  },
-  buttonText: {
-    color: '#25436B',
+    width: "100%",
+    height: "100%",
   },
 });
 

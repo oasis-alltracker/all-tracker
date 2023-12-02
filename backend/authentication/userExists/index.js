@@ -5,6 +5,9 @@ const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 const DB = new DynamoDB.DocumentClient();
 const dbService = new DbUtils(DB, tableName);
 
+const UserDB = require("../../utils/userDB");
+const userDB = new UserDB(dbService);
+
 const { isEmptyObject } = require("../../utils/objectUtils");
 
 module.exports.handler = async (event, context, callback) => {
@@ -20,16 +23,31 @@ module.exports.handler = async (event, context, callback) => {
     const existingEmail = await dbService.getItem(emailKey);
 
     if (!isEmptyObject(existingEmail)) {
-      callback(null, {
-        statusCode: 200,
-        body: JSON.stringify({
-          exists: true,
-        }),
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
-      });
+      if (existingEmail.failedAttempts >= 5) {
+        callback(null, {
+          statusCode: 200,
+          body: JSON.stringify({
+            exists: true,
+            accountIsLocked: true,
+          }),
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+      } else {
+        callback(null, {
+          statusCode: 200,
+          body: JSON.stringify({
+            exists: true,
+            accountIsLocked: false,
+          }),
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+      }
     } else {
       callback(null, {
         statusCode: 200,

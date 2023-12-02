@@ -4,8 +4,8 @@ import { cancelPushNotification } from "../../../App.js";
 import { cancelAllPushNotifications } from "../../../App.js";
 import * as SecureStore from "expo-secure-store";
 
-const baseURL = process.env["REACT_APP_BASE_URL"];
-const API = baseURL + "notifications/";
+import { BASE_URL } from "@env";
+const API = BASE_URL + "notifications/";
 
 class NotificationHandler {
   static async getAllNotificationsState(token) {

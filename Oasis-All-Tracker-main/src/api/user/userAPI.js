@@ -1,6 +1,6 @@
 import axios from "axios";
-const baseURL = process.env.REACT_APP_BASE_URL;
-const API = baseURL + "user/";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const API = BASE_URL + "user/";
 
 class UserAPI {
   static async getUser(token) {

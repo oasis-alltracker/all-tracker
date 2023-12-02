@@ -31,35 +31,43 @@ module.exports.handler = async (event, context, callback) => {
       email,
       hashedPassword
     );
-    console.log(existingUser);
-    if (
-      !existingUser ||
-      (existingUser &&
-        (await bcrypt.compare(
+    var body;
+    if (existingUser && existingUser.failedAttempts < 5)
+      if (
+        await bcrypt.compare(
           userCredentials.password,
           existingUser.hashedPassword
-        )))
-    ) {
-      await createOTP(email, hashedOTP);
+        )
+      ) {
+        await createOTP(email, hashedOTP);
 
-      const params = {
-        MessageBody: JSON.stringify({ email: email, otp: otp }),
-        QueueUrl: queueUrl,
-      };
-      await sqs.sendMessage(params).promise();
-      callback(null, {
-        statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
-      });
-      //rest failed attempts
-    } else {
-      body = JSON.stringify({ loginFailed: "Incorrect password." });
-      statusCode = 401;
-      //update failed attempts
+        const params = {
+          MessageBody: JSON.stringify({ email: email, otp: otp }),
+          QueueUrl: queueUrl,
+        };
+        await sqs.sendMessage(params).promise();
+        body = { isCorrectPassword: true, isAccountLocked: false };
+        await userDB.updateFailedAttemptsCount(0);
+      } else {
+        if (failedAttempts >= 4) {
+          body = { isCorrectPassword: false, isAccountLocked: true };
+        } else {
+          body = { isCorrectPassword: false, isAccountLocked: false };
+        }
+        await userDB.updateFailedAttemptsCount(existingUser.failedAttempts);
+      }
+    else {
+      body = { isCorrectPassword: false, isAccountLocked: true };
     }
+
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(body),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+    });
   } catch (e) {
     console.log(e);
     callback(null, {

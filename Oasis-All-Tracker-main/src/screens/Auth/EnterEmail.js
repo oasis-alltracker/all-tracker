@@ -95,16 +95,15 @@ const EnterEmail = () => {
   //--------------------- EMAIL LOGIN
   const onPressContinue = async () => {
     if (isEmailValid(email)) {
-      console.log("MAKING REQUEST")
       const { status, data } = await LoginAPI.doesUserExist(email);
 
       if (status == 200)
         if (data?.exists) {
-          await props.navigation.navigate("enterPassword", {
-            email
+          await navigationService.navigate("enterPassword", {
+            email,
           });
         } else {
-          await props.navigation.navigate("createPassword", {
+          await navigationService.navigate("createPassword", {
             email,
           });
         }
@@ -128,9 +127,14 @@ const EnterEmail = () => {
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>What is your email address?</Text>
-          <Input input={styles.input} 
+          <Input
+            input={styles.input}
             onChangeText={setEmail}
-            placeholder="Enter your email address" />
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+            placeholder="Enter your email address"
+            spellCheck="false"
+          />
           <Button
             onPress={() => onPressContinue()}
             style={styles.button}
@@ -139,38 +143,38 @@ const EnterEmail = () => {
             Continue
           </Button>
         </View>
-      <View style={styles.signContainer}>
-            <Text style={styles.txt}>--or--</Text>
-            <View
-              style={[
-                styles.rowContainer,
-                appleAuthAvailable && { flexDirection: "row", gap: 30 },
-              ]}
-            >
-              {appleAuthAvailable ? (
-                <TouchableHighlight
-                  style={styles.iconContainer}
-                  onPress={() => appleSignin()}
-                  underlayColor="rgba(73,182,77,1,0.9)"
-                >
-                  <Image
-                    style={styles.accountIcon}
-                    source={require("../../assets/images/apple-black.png")}
-                  />
-                </TouchableHighlight>
-              ) : null}
+        <View style={styles.signContainer}>
+          <Text style={styles.txt}>--or--</Text>
+          <View
+            style={[
+              styles.rowContainer,
+              appleAuthAvailable && { flexDirection: "row", gap: 30 },
+            ]}
+          >
+            {appleAuthAvailable ? (
               <TouchableHighlight
                 style={styles.iconContainer}
-                onPress={async () => googleSignin()}
+                onPress={() => appleSignin()}
                 underlayColor="rgba(73,182,77,1,0.9)"
               >
                 <Image
                   style={styles.accountIcon}
-                  source={require("../../assets/images/google.png")}
+                  source={require("../../assets/images/apple-black.png")}
                 />
               </TouchableHighlight>
-            </View>
+            ) : null}
+            <TouchableHighlight
+              style={styles.iconContainer}
+              onPress={async () => googleSignin()}
+              underlayColor="rgba(73,182,77,1,0.9)"
+            >
+              <Image
+                style={styles.accountIcon}
+                source={require("../../assets/images/google.png")}
+              />
+            </TouchableHighlight>
           </View>
+        </View>
       </View>
     </View>
   );
@@ -183,7 +187,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#25436B",
-    fontSize: 23,
+    fontSize: 22,
     fontFamily: "Sego-Bold",
     marginVertical: 30,
     textAlign: "center",
@@ -203,7 +207,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "space-between",
-    paddingBottom: 80,
+    paddingBottom: 100,
   },
   seperator: {
     fontSize: 20,
@@ -220,45 +224,46 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   signContainer: {
-    justifyContent: 'center',
-    alignSelf: 'center',
+    justifyContent: "center",
+    alignSelf: "center",
     marginTop: 0,
   },
   icon: {
     marginLeft: 10,
     marginRight: 10,
-    alignSelf: 'center',
+    alignSelf: "center",
     width: 20,
     height: 20,
   },
   rowContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   iconContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 100,
-    borderColor: 'lightgray',
+    borderColor: "lightgray",
     borderWidth: 2,
-    padding: 20
+    padding: 20,
   },
   accountIcon: {
-    alignSelf: 'center',
+    alignSelf: "center",
     height: 50,
-    width: 50
+    width: 50,
   },
   txt: {
     marginTop: 20,
     marginBottom: 20,
     fontSize: 30,
     fontFamily: "Sego",
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonText: {
-    color: '#25436B',
+    color: "#25436B",
+    fontSize: 28,
   },
   errorToast: {
-    backgroundColor: '#FFD7D7',
-    textColor: '#25436B',
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 

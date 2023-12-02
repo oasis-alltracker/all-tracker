@@ -1,11 +1,17 @@
-import { View, StyleSheet, Image, Dimensions, TouchableOpacity, Text} from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button } from "../components";
 import navigationService from "../navigators/navigationService";
 
-const { width, height } = Dimensions.get('window')
-const viewportWidth = width < height ? width : height
+const { width, height } = Dimensions.get("window");
+const viewportWidth = width < height ? width : height;
 
 const Landing = () => {
   return (
@@ -23,7 +29,8 @@ const Landing = () => {
       <View style={styles.logContainer}>
         <TouchableOpacity
           style={styles.btnContainer}
-          onPress={() => navigationService.navigate("auth")}>
+          onPress={() => navigationService.navigate("auth")}
+        >
           <Text style={styles.btnText}>Get Started</Text>
         </TouchableOpacity>
       </View>
@@ -35,18 +42,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 10,
     justifyContent: "space-between",
   },
   logo: {
     width: "100%",
-    height: height*0.43,
+    height: height * 0.43,
     marginTop: 5,
   },
-  image:{
+  image: {
     width: "100%",
     height: 320,
-    marginTop: 20,
+    marginTop: 5,
   },
   buttonText: {
     color: "#B981E7",
@@ -55,25 +61,25 @@ const styles = StyleSheet.create({
   logContainer: {
     marginTop: 0,
     marginBottom: 20,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    alignSelf: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center",
+    alignSelf: "center",
   },
   btnContainer: {
-    marginTop: 20,
+    marginTop: 17,
     borderRadius: 60,
-    width: viewportWidth - 40,
+    width: viewportWidth - 25,
     height: 60,
     borderWidth: 2,
-    borderColor: 'lightgray',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#D7F6FF',
+    borderColor: "lightgray",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#D7F6FF",
   },
   btnText: {
-    color: '#B981E7',
-    fontFamily: 'Sego',
-    fontSize: 38,
+    color: "#B981E7",
+    fontFamily: "Sego",
+    fontSize: 35,
   },
 });
 
