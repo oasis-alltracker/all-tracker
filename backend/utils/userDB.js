@@ -56,5 +56,16 @@ class UserDB {
     await this.dbService.putItem(data);
     return { ID: data.SK };
   }
+
+  async updatePassword(email, hashedPassword) {
+    const data = {
+      PK: `${email}`,
+      SK: `${email}`,
+      hashedPassword: hashedPassword,
+    };
+
+    await this.dbService.putItem(data);
+    return { ID: data.SK };
+  }
 }
 module.exports = UserDB;
