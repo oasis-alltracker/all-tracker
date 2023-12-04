@@ -32,31 +32,39 @@ module.exports.handler = async (event, context, callback) => {
       hashedPassword
     );
     var body;
-    if (existingUser && existingUser.failedAttempts < 5)
-      if (
-        await bcrypt.compare(
-          userCredentials.password,
-          existingUser.hashedPassword
-        )
-      ) {
-        await createOTP(email, hashedOTP);
-
-        const params = {
-          MessageBody: JSON.stringify({ email: email, otp: otp }),
-          QueueUrl: queueUrl,
-        };
-        await sqs.sendMessage(params).promise();
-        body = { isCorrectPassword: true, isAccountLocked: false };
-        await userDB.updateFailedAttemptsCount(0);
-      } else {
-        if (failedAttempts >= 4) {
-          body = { isCorrectPassword: false, isAccountLocked: true };
-        } else {
-          body = { isCorrectPassword: false, isAccountLocked: false };
+    if (!existingUser || existingUser.failedAttempts < 5) {
+      if (existingUser) {
+        if (
+          !(await bcrypt.compare(
+            userCredentials.password,
+            existingUser.hashedPassword
+          ))
+        ) {
+          if (failedAttempts >= 4) {
+            body = { isCorrectPassword: false, isAccountLocked: true };
+          } else {
+            body = { isCorrectPassword: false, isAccountLocked: false };
+          }
+          await userDB.updateFailedAttemptsCount(existingUser.failedAttempts);
+          callback(null, {
+            statusCode: 200,
+            body: JSON.stringify(body),
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Credentials": true,
+            },
+          });
         }
-        await userDB.updateFailedAttemptsCount(existingUser.failedAttempts);
       }
-    else {
+      await createOTP(email, hashedOTP);
+      const params = {
+        MessageBody: JSON.stringify({ email: email, otp: otp }),
+        QueueUrl: queueUrl,
+      };
+      await sqs.sendMessage(params).promise();
+      body = { isCorrectPassword: true, isAccountLocked: false };
+      await userDB.updateFailedAttemptsCount(0);
+    } else {
       body = { isCorrectPassword: false, isAccountLocked: true };
     }
 

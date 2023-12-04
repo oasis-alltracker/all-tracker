@@ -599,7 +599,7 @@ Authorization: Bearer ya29.a0Ael9sCMsF0XEDFbn9QFUx9zD6q3rKHUjr6VkBBJn0X7ZeEKrZWE
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/userExists
 
 {
-   "email": "Hodgerta@gmail.com"
+   "email": "hodgerta@gmail.ca"
 }
 ###
 
@@ -617,6 +617,14 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 {
    "email": "hodgerta@gmail.com",
    "password": "Password"
+}
+###
+
+//Request new password.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/requestNewPassword
+
+{
+   "email": "hodgerta@gmail.com"
 }
 ###
 

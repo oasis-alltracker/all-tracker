@@ -17,6 +17,7 @@ import navigationService from "../../navigators/navigationService";
 const EnterEmail = () => {
   const [loginAttempted, setLoginAttempted] = useState(false);
   const [email, setEmail] = useState("");
+  const [accountIsLocked, setAccountIsLocked] = useState(false);
 
   //--------------------- APPLE LOGIN
   const [appleAuthAvailable, setAppleAuthAvailable] = useState(false);
@@ -98,21 +99,25 @@ const EnterEmail = () => {
       const { status, data } = await LoginAPI.doesUserExist(email);
 
       if (status == 200)
-        if (data?.exists) {
-          await navigationService.navigate("enterPassword", {
-            email,
-          });
+        if (data) {
+          if (data.isAccountLocked) {
+            setAccountIsLocked(true);
+          }
+          if (data?.exists) {
+            await navigationService.navigate("enterPassword", {
+              email,
+            });
+          } else {
+            await navigationService.navigate("createPassword", {
+              email,
+            });
+          }
         } else {
-          await navigationService.navigate("createPassword", {
-            email,
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
           });
         }
-      else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        });
-      }
     } else {
       Toast.show("Please enter a valid email", {
         ...styles.errorToast,

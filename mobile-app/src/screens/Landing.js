@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
   logo: {
     width: "100%",
     height: height * 0.43,
-    marginTop: 5,
+    marginTop: 8,
   },
   image: {
     width: "100%",
-    height: 320,
+    height: 340,
     marginTop: 5,
   },
   buttonText: {
@@ -60,13 +60,12 @@ const styles = StyleSheet.create({
   },
   logContainer: {
     marginTop: 0,
-    marginBottom: 20,
+    marginBottom: 30,
     justifyContent: "flex-end",
     alignItems: "center",
     alignSelf: "center",
   },
   btnContainer: {
-    marginTop: 17,
     borderRadius: 60,
     width: viewportWidth - 25,
     height: 60,

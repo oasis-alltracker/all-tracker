@@ -27,10 +27,13 @@ class UserDB {
       ":isSetupComplete": true,
     };
 
-    await this.DB.updateItem(expression, key, names, values);
+    await this.dbService.updateItem(expression, key, names, values);
   }
 
   async updateFailedAttemptsCount(email, count) {
+    if (!count) {
+      count = 0;
+    }
     const key = { PK: `${email}`, SK: `${email}` };
     const expression = "SET #failedAttempts = :failedAttempts";
     const names = {
@@ -40,7 +43,7 @@ class UserDB {
       ":failedAttempts": count,
     };
 
-    await this.DB.updateItem(expression, key, names, values);
+    await this.dbService.updateItem(expression, key, names, values);
   }
 
   async createUser(email, hashedPassword) {
