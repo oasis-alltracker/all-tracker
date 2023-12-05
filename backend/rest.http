@@ -599,7 +599,7 @@ Authorization: Bearer ya29.a0Ael9sCMsF0XEDFbn9QFUx9zD6q3rKHUjr6VkBBJn0X7ZeEKrZWE
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/userExists
 
 {
-   "email": "hodgerta@gmail.ca"
+   "email": "hodgerta@gmail.com"
 }
 ###
 
@@ -616,7 +616,16 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "password": "Password"
+   "password": "12345"
+}
+###
+
+//Login with OTP.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginOTP
+
+{
+   "email": "hodgerta@gmail.com",
+   "otp": "3047"
 }
 ###
 
@@ -628,13 +637,24 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 }
 ###
 
-
-//Login with OTP.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginOTP
+// Verify temp password
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/verifyTempPassword
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "8983"
+   "tempPassword": "GNErTpqsQG"
+}
+###
+
+
+
+//Create new password.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/createNewPassword
+
+{
+   "email": "hodgerta@gmail.com",
+   "tempPassword": "I2TsFOh4fr",
+   "password": "12345"
 }
 ###
 

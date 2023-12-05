@@ -71,6 +71,7 @@ async function createHashedPassword(email, hashedTempPassword) {
     SK: `tempPassword`,
     hashedTempPassword: hashedTempPassword,
     createdAt: new Date().toJSON(),
+    failedAttempts: 0,
   };
 
   await dbService.putItem(data);

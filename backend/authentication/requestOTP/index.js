@@ -40,12 +40,15 @@ module.exports.handler = async (event, context, callback) => {
             existingUser.hashedPassword
           ))
         ) {
-          if (failedAttempts >= 4) {
+          if (existingUser.failedAttempts >= 4) {
             body = { isCorrectPassword: false, isAccountLocked: true };
           } else {
             body = { isCorrectPassword: false, isAccountLocked: false };
           }
-          await userDB.updateFailedAttemptsCount(existingUser.failedAttempts);
+          await userDB.updateFailedAttemptsCount(
+            email,
+            existingUser.failedAttempts + 1
+          );
           callback(null, {
             statusCode: 200,
             body: JSON.stringify(body),
@@ -54,6 +57,7 @@ module.exports.handler = async (event, context, callback) => {
               "Access-Control-Allow-Credentials": true,
             },
           });
+          return;
         }
       }
       await createOTP(email, hashedOTP);
@@ -63,7 +67,7 @@ module.exports.handler = async (event, context, callback) => {
       };
       await sqs.sendMessage(params).promise();
       body = { isCorrectPassword: true, isAccountLocked: false };
-      await userDB.updateFailedAttemptsCount(0);
+      await userDB.updateFailedAttemptsCount(email, 0);
     } else {
       body = { isCorrectPassword: false, isAccountLocked: true };
     }

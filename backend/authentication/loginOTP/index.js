@@ -27,16 +27,23 @@ module.exports.handler = async (event, context, callback) => {
       const email = userCredentials.email.toLowerCase();
       const otpKey = { PK: email, SK: "otp" };
       const otpResponse = await dbService.getItem(otpKey);
+      const emailKey = { PK: email, SK: email };
+      const existingUser = await dbService.getItem(emailKey);
 
-      if (!isEmptyObject(otpResponse)) {
+      if (
+        !isEmptyObject(existingUser) &&
+        existingUser.Item.failedAttempts > 5
+      ) {
+        body = JSON.stringify({ loginFailed: "locked" });
+        statusCode = 200;
+      } else if (!isEmptyObject(otpResponse) && !isEmptyObject(existingUser)) {
         const hashedPassword = otpResponse.Item.hashedOTP;
         const creationTime = new Date(otpResponse.Item.createdAt);
 
         if (new Date() - creationTime > FIVE_MINUTES) {
-          body = JSON.stringify({ loginFailed: "OTP expired." });
-          statusCode = 410;
+          body = JSON.stringify({ loginFailed: "expired." });
+          statusCode = 200;
         } else if (await bcrypt.compare(userCredentials.otp, hashedPassword)) {
-          await userDB.userExistsOrCreateUser(email);
           const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
             expiresIn: "48h",
           });
@@ -48,13 +55,18 @@ module.exports.handler = async (event, context, callback) => {
             refreshToken: refreshToken,
           });
           statusCode = 200;
+          await userDB.updateFailedAttemptsCount(email, 0);
         } else {
-          body = JSON.stringify({ loginFailed: "Incorrect password." });
-          statusCode = 401;
+          body = JSON.stringify({ loginFailed: "incorrectOTP" });
+          statusCode = 200;
+          await userDB.updateFailedAttemptsCount(
+            email,
+            existingUser.Item.failedAttempts + 1
+          );
         }
       } else {
         body = JSON.stringify({ loginFailed: "User does not exist." });
-        statusCode = 400;
+        statusCode = 401;
       }
     }
     callback(null, {

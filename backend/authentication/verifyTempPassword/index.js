@@ -4,8 +4,6 @@ const jwt = require("jsonwebtoken");
 const DynamoDB = require("aws-sdk/clients/dynamodb");
 const DbUtils = require("../../utils/databaseManager");
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-
 const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 const DB = new DynamoDB.DocumentClient();
 const dbService = new DbUtils(DB, tableName);
@@ -29,33 +27,45 @@ module.exports.handler = async (event, context, callback) => {
       const tempPasswordResponse = await dbService.getItem(tempPasswordKey);
 
       if (!isEmptyObject(tempPasswordResponse)) {
-        if(tempPasswordResponse.failedAttempts < 5) {
-          const hashedTempPassword = tempPasswordResponse.Item.hashedTempPassword;
+        if (tempPasswordResponse.Item.failedAttempts < 5) {
+          const hashedTempPassword =
+            tempPasswordResponse.Item.hashedTempPassword;
           const creationTime = new Date(tempPasswordResponse.Item.createdAt);
 
           if (new Date() - creationTime > FIVE_MINUTES) {
-            body = JSON.stringify({requestNewTempPassword: "expired"});
-          }
-          else if (await bcrypt.compare(userCredentials.tempPassword, hashedTempPassword)) {
-            await userDB.userExistsOrCreateUser(email);
-
+            body = JSON.stringify({ requestNewTempPassword: "expired" });
+          } else if (
+            await bcrypt.compare(
+              userCredentials.tempPassword,
+              hashedTempPassword
+            )
+          ) {
             body = JSON.stringify({
-              requestNewTempPassword: false, passwordMatch: true
+              requestNewTempPassword: false,
+              passwordMatch: true,
             });
+          } else {
+            body = JSON.stringify({
+              requestNewTempPassword: false,
+              passwordMatch: false,
+            });
+            await failedAttempt(
+              email,
+              tempPasswordResponse.Item.failedAttempts
+            );
           }
-          else {
-            body = JSON.stringify({ requestNewTempPassword: false, passwordMatch: false });
-            //update failed attempts inside tempPassword
-          }
+        } else {
+          body = JSON.stringify({
+            requestNewTempPassword: "locked",
+            passwordMatch: false,
+          });
         }
-        else{
-          body = JSON.stringify({ requestNewTempPassword: "locked", passwordMatch: false });
-        }
+      } else {
+        body = JSON.stringify({
+          requestNewTempPassword: "empty",
+          passwordMatch: false,
+        });
       }
-      else {
-            body = JSON.stringify({ requestNewTempPassword: "empty", passwordMatch: false });
-      }
-        
     }
     callback(null, {
       statusCode: 200,
@@ -77,3 +87,16 @@ module.exports.handler = async (event, context, callback) => {
     });
   }
 };
+
+async function failedAttempt(email, count) {
+  const key = { PK: `${email}`, SK: `tempPassword` };
+  const expression = "SET #failedAttempts = :failedAttempts";
+  const names = {
+    "#failedAttempts": "failedAttempts",
+  };
+  const values = {
+    ":failedAttempts": count + 1,
+  };
+
+  await dbService.updateItem(expression, key, names, values);
+}
