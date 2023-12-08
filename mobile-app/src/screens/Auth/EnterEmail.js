@@ -11,11 +11,11 @@ import { saveToken, getAccessToken } from "../../user/keychain";
 import Toast from "react-native-root-toast";
 import { isEmailValid } from "../../utils/commonUtils";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Button, Header, Input } from "../../components";
+import { Button, Header, Input, ContinueButton } from "../../components";
 import navigationService from "../../navigators/navigationService";
 
 const EnterEmail = () => {
-  const [loginAttempted, setLoginAttempted] = useState(false);
+  const [googleLoginAttempted, setGoogleLoginAttempted] = useState(false);
   const [email, setEmail] = useState("");
   const [accountIsLocked, setAccountIsLocked] = useState(false);
 
@@ -67,15 +67,17 @@ const EnterEmail = () => {
     };
     if (googleResponse?.type === "success") {
       saveTokens(googleResponse.authentication.accessToken);
-    } else if (loginAttempted) {
+    } else if (googleLoginAttempted) {
       Toast.show("Something went wrong. Please try again later!", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
       });
     }
   }, [googleResponse]);
 
   const googleSignin = () => {
+    setGoogleLoginAttempted(true);
     promptAsync({ useProxy: true, shownInRecents: true });
   };
 
@@ -116,12 +118,14 @@ const EnterEmail = () => {
           Toast.show("Something went wrong. Please try again.", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
+            position: Toast.positions.CENTER,
           });
         }
     } else {
-      Toast.show("Please enter a valid email", {
+      Toast.show("Please enter a valid email address.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
       });
     }
   };
@@ -138,15 +142,9 @@ const EnterEmail = () => {
             underlineColorAndroid="transparent"
             autoCapitalize="none"
             placeholder="Enter your email address"
-            spellCheck="false"
+            spellCheck={false}
           />
-          <Button
-            onPress={() => onPressContinue()}
-            style={styles.button}
-            textStyle={styles.buttonText}
-          >
-            Continue
-          </Button>
+          <ContinueButton onPress={() => onPressContinue()} />
         </View>
         <View style={styles.signContainer}>
           <Text style={styles.txt}>--or--</Text>

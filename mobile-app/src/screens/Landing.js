@@ -20,10 +20,12 @@ const Landing = () => {
         <Image
           style={styles.logo}
           source={require("../assets/images/landing-logo.png")}
+          resizeMode="contain"
         />
         <Image
           style={styles.image}
           source={require("../assets/images/landing-image.png")}
+          resizeMode="contain"
         />
       </View>
       <View style={styles.logContainer}>
@@ -46,21 +48,17 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: "100%",
-    height: height * 0.43,
-    marginTop: 8,
+    height: 375,
   },
   image: {
     width: "100%",
-    height: 340,
-    marginTop: 5,
+    height: 375,
   },
   buttonText: {
     color: "#B981E7",
     fontSize: 35,
   },
   logContainer: {
-    marginTop: 0,
-    marginBottom: 30,
     justifyContent: "flex-end",
     alignItems: "center",
     alignSelf: "center",

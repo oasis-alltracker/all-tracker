@@ -4,11 +4,11 @@
     "slug": "Oasis-All-Tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/logo.png",
+    "icon": "./src/assets/images/logo.png",
     "userInterfaceStyle": "light",
     "scheme": "com.alltracker.authsessiongoogle",
     "splash": {
-      "image": "./src/assets/logo.png",
+      "image": "./src/assets/images/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.alltracker.authsessiongoogle"

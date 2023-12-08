@@ -10,6 +10,7 @@ import LoanSheet from "./LoanSheet";
 import Select from "./Select";
 import Calendar from "./Calendar";
 import Switch from "./Switch";
+import ContinueButton from "./ContinueButton/ContinueButton";
 
 export {
   Header,
@@ -24,4 +25,5 @@ export {
   Select,
   Calendar,
   Switch,
+  ContinueButton,
 };
