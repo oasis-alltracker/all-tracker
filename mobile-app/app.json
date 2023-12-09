@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "scheme": "com.alltracker.authsessiongoogle",
     "splash": {
-      "image": "./src/assets/images/logo.png",
+      "image": "./src/assets/images/landing-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

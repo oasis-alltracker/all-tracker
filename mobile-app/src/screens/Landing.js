@@ -16,18 +16,17 @@ const viewportWidth = width < height ? width : height;
 const Landing = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Image
-          style={styles.logo}
-          source={require("../assets/images/landing-logo.png")}
-          resizeMode="contain"
-        />
-        <Image
-          style={styles.image}
-          source={require("../assets/images/landing-image.png")}
-          resizeMode="contain"
-        />
-      </View>
+      <Image
+        style={styles.logo}
+        source={require("../assets/images/landing-logo.png")}
+        resizeMode="contain"
+      />
+      <Image
+        style={styles.image}
+        source={require("../assets/images/landing-image.png")}
+        resizeMode="contain"
+      />
+
       <View style={styles.logContainer}>
         <TouchableOpacity
           style={styles.btnContainer}
@@ -44,24 +43,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "space-between",
+    paddingTop: 5,
   },
   logo: {
     width: "100%",
-    height: 375,
+    height: 0.4 * height,
   },
   image: {
     width: "100%",
-    height: 375,
+    height: 0.44 * height,
+    paddingBottom: 0,
   },
   buttonText: {
     color: "#B981E7",
     fontSize: 35,
   },
   logContainer: {
-    justifyContent: "flex-end",
+    paddingTop: 0,
     alignItems: "center",
-    alignSelf: "center",
+    paddingBottom: 5000,
   },
   btnContainer: {
     borderRadius: 60,
