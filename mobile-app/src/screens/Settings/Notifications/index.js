@@ -37,7 +37,6 @@ const emotionalData = [
 ];
 
 const Notifications = () => {
-  console.log("--->");
   return (
     <View style={styles.container}>
       <Header showCenter={false} />

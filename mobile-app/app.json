@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Oasis-All-Tracker",
-    "slug": "Oasis-All-Tracker",
+    "name": "oasis-all-tracker",
+    "slug": "oasis-all-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/logo.png",
     "userInterfaceStyle": "light",
-    "scheme": "com.alltracker.authsessiongoogle",
+    "scheme": "com.oasis-alltracker",
     "splash": {
       "image": "./src/assets/images/landing-logo.png",
       "resizeMode": "contain",
@@ -17,17 +17,22 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alltracker.authsessiongoogle"
+      "bundleIdentifier": "com.oasis-alltracker"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.alltracker.authsessiongoogle"
+      "package": "com.oasis-alltracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0c2c06f7-d379-4b51-b133-a433efa711c4"
+      }
     }
   }
 }

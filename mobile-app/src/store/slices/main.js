@@ -15,7 +15,6 @@ export const main = createSlice({
       state.isLight = action.payload;
     },
     setUserData: (state, action) => {
-      console.log("state.data", state.user);
       state.user = { ...state.user, ...action.payload };
     },
     setLogout: (state, action) => {

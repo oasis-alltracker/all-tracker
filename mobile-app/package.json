@@ -15,6 +15,7 @@
     "@react-navigation/stack": "^6.3.17",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.6.2",
+    "core-js": "^3.34.0",
     "expo": "~49.0.13",
     "expo-apple-authentication": "^6.1.2",
     "expo-auth-session": "~5.0.2",

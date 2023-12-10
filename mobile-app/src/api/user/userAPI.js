@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+import { BASE_URL } from "@env";
 const API = BASE_URL + "user/";
 
 class UserAPI {
@@ -14,6 +14,7 @@ class UserAPI {
       status = response?.status;
       data = response?.data[0];
     } catch (error) {
+      console.log(error);
       status = error.response.status;
       data = error.response.data;
     }

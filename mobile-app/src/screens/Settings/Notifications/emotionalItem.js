@@ -6,7 +6,7 @@ const weekDays = ["Every day", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const EmotionalItem = ({ item }) => {
   const [active, setActive] = useState(0);
-  console.log("--->");
+
   return (
     <View style={[styles.itemContainer, styles.itemContainer2]}>
       <View style={styles.line}>

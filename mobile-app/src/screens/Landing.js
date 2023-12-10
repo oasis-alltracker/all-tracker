@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   logContainer: {
     paddingTop: 0,
     alignItems: "center",
-    paddingBottom: 5000,
+    paddingBottom: 0,
   },
   btnContainer: {
     borderRadius: 60,

@@ -10,7 +10,6 @@ function navigate(routeName, params) {
 }
 
 function reset(routeName, index, params) {
-  // console.log("_navigator", _navigator)
   if (!!_navigator)
     _navigator.current.reset({
       index,

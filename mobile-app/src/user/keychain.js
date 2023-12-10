@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import LoginAPI from "../api/auth/loginAPI";
+import "core-js/stable/atob";
 
 const isTokenValid = (token) => {
   try {
@@ -34,6 +35,7 @@ export async function saveToken(key, value) {
 
 export async function getAccessToken() {
   const accessToken = await SecureStore.getItemAsync("accessToken");
+  const refreshToken = await SecureStore.getItemAsync("refreshToken");
   if (accessToken && isTokenValid(accessToken)) {
     return accessToken;
   } else if (refreshToken && isTokenValid(refreshToken)) {

@@ -11,6 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { getAccessToken, isLoggedIn } from "./src/user/keychain";
+import UserAPI from "./src/api/user/userAPI";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,12 +25,11 @@ export default function App() {
     const checkIsLoggedIn = async () => {
       if (await isLoggedIn()) {
         const accessToken = await getAccessToken();
-        const { nostatus: userStatus, data: userData } = await UserAPI.getUser(
+        const { status: status, data: userData } = await UserAPI.getUser(
           accessToken
         );
-        const setupStatus = userData["isSetupComplete"];
 
-        if (setupStatus === "true") {
+        if (userData["isSetupComplete"]) {
           setInitialRoute("main");
         } else {
           setInitialRoute("setup");

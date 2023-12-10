@@ -45,6 +45,11 @@ const EnterEmail = () => {
       await processUserAccessToken();
     } catch (e) {
       console.log(e);
+      Toast.show("Something went wrong. Please try again later!", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
+      });
     }
   };
 
@@ -53,7 +58,7 @@ const EnterEmail = () => {
     androidClientId:
       "315014991553-b534c0cndl001dm0b9kr9m0876rv20df.apps.googleusercontent.com",
     iosClientId:
-      "315014991553-rs5sa19o9599kk3mnv3p9is0m5d13kgj.apps.googleusercontent.com",
+      "315014991553-eo63jke24uk35ihhuqg8ltpa4iqp48aq.apps.googleusercontent.com",
     expoClientId:
       "315014991553-n73e15nhisbkdecaetgbqo017pm9dqel.apps.googleusercontent.com",
   });
@@ -86,12 +91,10 @@ const EnterEmail = () => {
     const { status: userStatus, data: userData } = await UserAPI.getUser(
       accessToken
     );
-    const setupStatus = userData["isSetupComplete"];
-
-    if (setupStatus === "true") {
-      console.log("Go to navigation page");
+    if (userData["isSetupComplete"]) {
+      await navigationService.navigate("main");
     } else {
-      await navigation.navigate("SelectTrackers");
+      await navigationService.navigate("setup");
     }
   };
 

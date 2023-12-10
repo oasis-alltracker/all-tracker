@@ -47,6 +47,7 @@ class LoginAPI {
       status = response?.status;
       data = response?.data;
     } catch (error) {
+      console.log(error);
       status = error.response.status;
       data = error.response.data;
     }
