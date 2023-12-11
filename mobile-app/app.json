@@ -17,7 +17,16 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.oasistracker"
+      "bundleIdentifier": "com.oasistracker",
+      "infoPlist": {
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "com.googleusercontent.apps.315014991553-eo63jke24uk35ihhuqg8ltpa4iqp48aq"
+            ]
+          }
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -29,12 +38,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "expo": {
-      "plugins":["@react-native-google-signin/google-signin"]
-    },
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
     "extra": {
       "eas": {
-        "projectId": "f2bd5be7-8f69-4ac7-acf2-f12bf7d6e825"
+        "projectId": "1f663676-052c-4f8b-8c8b-20bcbcf7056a"
       }
     }
   }
