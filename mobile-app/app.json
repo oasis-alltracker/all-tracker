@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "oasis-all-tracker",
-    "slug": "oasis-all-tracker",
+    "name": "oasistracker",
+    "slug": "oasistracker",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/logo.png",
     "userInterfaceStyle": "light",
-    "scheme": "com.oasis-alltracker",
+    "scheme": "com.oasistrackerr",
     "splash": {
       "image": "./src/assets/images/landing-logo.png",
       "resizeMode": "contain",
@@ -17,21 +17,24 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.oasis-alltracker"
+      "bundleIdentifier": "com.oasistracker"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.oasis-alltracker"
+      "package": "com.oasistracker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "expo": {
+      "plugins":["@react-native-google-signin/google-signin"]
+    },
     "extra": {
       "eas": {
-        "projectId": "0c2c06f7-d379-4b51-b133-a433efa711c4"
+        "projectId": "f2bd5be7-8f69-4ac7-acf2-f12bf7d6e825"
       }
     }
   }

@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.oasisalltracker"
+    namespace 'com.oasistracker'
     defaultConfig {
-        applicationId 'com.oasisalltracker'
+        applicationId 'com.oasistracker'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

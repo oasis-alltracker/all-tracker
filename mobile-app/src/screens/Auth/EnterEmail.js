@@ -8,11 +8,16 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
+import { makeRedirectUri } from "expo-auth-session";
 import Toast from "react-native-root-toast";
 import { isEmailValid } from "../../utils/commonUtils";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Button, Header, Input, ContinueButton } from "../../components";
 import navigationService from "../../navigators/navigationService";
+
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
+
+GoogleSignin.configure();
 
 const EnterEmail = () => {
   const [googleLoginAttempted, setGoogleLoginAttempted] = useState(false);
@@ -56,12 +61,30 @@ const EnterEmail = () => {
   //--------------------- GOOGLE LOGIN
   const [request, googleResponse, promptAsync] = Google.useAuthRequest({
     androidClientId:
-      "315014991553-b534c0cndl001dm0b9kr9m0876rv20df.apps.googleusercontent.com",
+      "315014991553-j5b6on7h282vrtkvlmjuaksaoh989t9c.apps.googleusercontent.com",
     iosClientId:
       "315014991553-eo63jke24uk35ihhuqg8ltpa4iqp48aq.apps.googleusercontent.com",
     expoClientId:
-      "315014991553-n73e15nhisbkdecaetgbqo017pm9dqel.apps.googleusercontent.com",
+      "315014991553-k1o91bv0a3br4uhltske4rqmhd7m28bf.apps.googleusercontent.com",
+    redirectUri: makeRedirectUri(),
   });
+
+  // Somewhere in your code
+  const googleSignIn = async () => {
+    setGoogleLoginAttempted(true);
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please try again later!", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
+      });
+    }
+  };
 
   useEffect(() => {
     const saveTokens = async (googleToken) => {
@@ -81,11 +104,7 @@ const EnterEmail = () => {
     }
   }, [googleResponse]);
 
-  const googleSignin = () => {
-    setGoogleLoginAttempted(true);
-    promptAsync({ useProxy: true, shownInRecents: true });
-  };
-
+  //--------------------- LOGIN TOKENS
   const processUserAccessToken = async () => {
     const accessToken = await getAccessToken();
     const { status: userStatus, data: userData } = await UserAPI.getUser(
@@ -171,7 +190,7 @@ const EnterEmail = () => {
             ) : null}
             <TouchableHighlight
               style={styles.iconContainer}
-              onPress={async () => googleSignin()}
+              onPress={async () => googleSignIn()}
               underlayColor="rgba(73,182,77,1,0.9)"
             >
               <Image
