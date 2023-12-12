@@ -7,8 +7,6 @@ provider:
   environment: 
     ALL_TRACKER_TABLE_NAME: ${opt:stage, 'dev'}-all-tracker-table
     ACCESS_TOKEN_SECRET: ${file(./config.yml):ACCESS_TOKEN_SECRET}
-    ENCRYPTER: ${file(./config.yml):ENCRYPTER}
-    DECRYPTER: ${file(./config.yml):DECRYPTER}
     NOTION_CLIENT_ID: ${file(./config.yml):NOTION_CLIENT_ID}
     NOTION_CLIENT_SECRET: ${file(./config.yml):NOTION_CLIENT_SECRET}
     SEND_OTP_URL: !Ref sendOTPEmailQueue

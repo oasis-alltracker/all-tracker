@@ -1,6 +1,5 @@
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-import * as Google from "expo-auth-session/providers/google";
 import { useEffect, useState } from "react";
 
 import * as AppleAuthentication from "expo-apple-authentication";
@@ -8,11 +7,10 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
-import { makeRedirectUri } from "expo-auth-session";
 import Toast from "react-native-root-toast";
 import { isEmailValid } from "../../utils/commonUtils";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Button, Header, Input, ContinueButton } from "../../components";
+import { View, Text, StyleSheet, Image } from "react-native";
+import { Header, Input, ContinueButton } from "../../components";
 import navigationService from "../../navigators/navigationService";
 
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -87,7 +85,7 @@ const EnterEmail = () => {
     }
   };
 
-  //--------------------- LOGIN TOKENS
+  //--------------------- SAVE USER TOKENS
   const processUserAccessToken = async () => {
     const accessToken = await getAccessToken();
     const { status: userStatus, data: userData } = await UserAPI.getUser(
