@@ -18,7 +18,7 @@ module.exports.handler = async (event, context, callback) => {
 
     const emailKey = {
       PK: userCredentials.email.toLowerCase(),
-      SK: userCredentials.email,
+      SK: userCredentials.email.toLowerCase(),
     };
     const existingEmail = await dbService.getItem(emailKey);
 
