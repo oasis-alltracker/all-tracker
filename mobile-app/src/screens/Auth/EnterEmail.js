@@ -70,7 +70,6 @@ const EnterEmail = () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo.idToken);
       const tokens = await LoginAPI.loginGoogle(userInfo.idToken);
       await saveToken("accessToken", tokens.accessToken);
       await saveToken("refreshToken", tokens.refreshToken);
