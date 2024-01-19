@@ -1,5 +1,4 @@
 export default (file, fileKey) => {
-  console.log('files', file);
   let formData = new FormData();
   const parts = file.path.split('/');
   formData.append(fileKey, {

@@ -6,7 +6,7 @@ import {
   Animated,
 } from "react-native";
 import dynamicStyles from "./styles";
-import ScribbledText from "./ScribbledText";
+import ScribbledText from "../ScribbledText";
 
 const av = new Animated.Value(0);
 av.addListener(() => {

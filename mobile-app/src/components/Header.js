@@ -5,7 +5,7 @@ import NavigationService from "../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Header = (props) => {
-  return (
+    return (
     <SafeAreaView edges={["top"]} style={[styles.container, props.style]}>
       <View style={styles.leftCon}>
         {props.showLeft ? (

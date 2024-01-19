@@ -11,6 +11,9 @@ import Select from "./Select";
 import Calendar from "./Calendar";
 import Switch from "./Switch";
 import ContinueButton from "./ContinueButton/ContinueButton";
+import ExpiredMessage from "./OTPMessages/ExpiredMessage";
+import LoadingMessage from "./OTPMessages/LoadingMessage";
+import ResendMessage  from "./OTPMessages/ResendMessage";
 
 export {
   Header,
@@ -26,4 +29,7 @@ export {
   Calendar,
   Switch,
   ContinueButton,
+  ExpiredMessage,
+  LoadingMessage,
+  ResendMessage
 };

@@ -96,6 +96,70 @@ class LoginAPI {
     return { status, data };
   }
 
+  static async createNewPassword(email, tempPassword, password) {
+    const url = API + "createNewPassword";
+
+    const body = {
+      email: email,
+      tempPassword: tempPassword,
+      password: password,
+    };
+
+    var status, data;
+
+    try {
+      const response = await axios.post(url, body);
+      status = response?.status;
+      data = response?.data;
+    } catch (error) {
+      status = error.response.status;
+      data = error.response.data;
+    }
+    return { status, data };
+  }
+
+  static async verifyTempPassword(email, tempPassword) {
+    const url = API + "verifyTempPassword";
+
+    const body = {
+      email: email,
+      tempPassword: tempPassword,
+    };
+
+    var status, data;
+
+    try {
+      const response = await axios.post(url, body);
+      status = response?.status;
+      data = response?.data;
+    } catch (error) {
+      status = error.response.status;
+      data = error.response.data;
+    }
+    return { status, data };
+  }
+
+  static async requestNewPassword(email) {
+    const url = API + "requestNewPassword";
+
+    const body = {
+      email: email,
+    };
+
+    var status, data;
+
+    try {
+      const response = await axios.post(url, body);
+      status = response?.status;
+      data = response?.data;
+    } catch (error) {
+      status = error.response.status;
+      data = error.response.data;
+    }
+    return { status, data };
+  }
+
+
   static async refreshToken(token) {
     const headers = {
       Authorization: `Bearer ${token}`,

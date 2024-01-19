@@ -1,30 +1,95 @@
-import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
+import { Alert, View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import { Button, Header, Input } from "../../components";
+import { ContinueButton, Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
+import LoginAPI from "../../api/auth/loginAPI";
+import Toast from "react-native-root-toast";
+import { logout } from "../../user/keychain";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
 
-const EnterPassword = (email) => {
+const EnterPassword = (props) => {
   const [password, setPassword] = useState("");
+
+  const { email } = props.route.params;
+
+  const forgotPassword = async () => {
+    Alert.alert(
+      "Reset Password",
+      "Are you sure you would like to reset your password?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Yes",
+          isPreferred: true,
+          onPress: async () => {
+            try{
+              await LoginAPI.requestNewPassword(email)
+              await navigationService.navigate("tempPassword" , {
+                email
+              });
+              setPassword("")
+            }
+            catch(e){
+              logout();
+              navigationService.reset("landing", 0);
+            }
+
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  }
 
   const onPressContinue = async () => {
     if (password.length > 0) {
       const { status, data } = await LoginAPI.requestOTP(email, password);
-      if (status == 200) {
-        if (data?.exists) {
-          await props.navigation.navigate("OTP", {
-            screen: "OTP",
-            email,
-          });
-        } else {
-          await props.navigation.navigate("CreatePassword", {
-            screen: "CreatePassword",
-            email,
+
+      if (status == 200 && data) {
+        if(data.isCorrectPassword){
+          navigationService.navigate("enterCode", { email, password });
+          setPassword("")
+        }
+        else if(data.isAccountLocked) {
+          Alert.alert(
+            "Account Locked",
+            "Your account has been locked for security reasons. To unlock it, you must reset your password",
+            [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Unlock",
+                isPreferred: true,
+                onPress: async () => {
+                  try{
+                    await LoginAPI.requestNewPassword(email)
+                    await navigationService.navigate("tempPassword", {email});
+                    setPassword("")
+                  }
+                  catch(e){
+                    logout();
+                    navigationService.reset("landing", 0);
+                  }
+
+                },
+              },
+            ],
+            {
+              cancelable: true,
+            }
+          );
+        }
+        else{
+          Toast.show("Password is incorrect. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
           });
         }
-      } else {
+      }
+      else {
         Toast.show("Something went wrong. Please try again.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
@@ -54,13 +119,12 @@ const EnterPassword = (email) => {
               value={password}
             />
           </View>
-          <Button
-            onPress={() => navigationService.navigate("enterCode")}
-            style={styles.button}
-            textStyle={styles.buttonText}
-          >
-            Continue
-          </Button>
+          <ContinueButton onPress={() => onPressContinue()} />
+          <TouchableOpacity style={styles.linkBtn } onPress={() => forgotPassword()}>
+            <Text style={styles.linkText}>
+             Lost you password?
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -137,6 +201,22 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignSelf: "center",
   },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
+  },
+  linkBtn: {
+    marginVertical: 10,
+    marginTop: 350,
+    paddingBottom: 10
+  },
+  linkText: {
+    fontSize: 18,
+    fontFamily: "Sego",
+    marginVertical: 5,
+    color: "#25436B",
+  },
+  
 });
 
 export default EnterPassword;

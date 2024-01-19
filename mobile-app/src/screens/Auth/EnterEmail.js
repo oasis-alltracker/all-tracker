@@ -8,10 +8,12 @@ import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
 import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
 import { isEmailValid } from "../../utils/commonUtils";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Header, Input, ContinueButton } from "../../components";
 import navigationService from "../../navigators/navigationService";
+import { logout } from "../../user/keychain";
 
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
@@ -25,9 +27,8 @@ GoogleSignin.configure({
 });
 
 const EnterEmail = () => {
-  const [googleLoginAttempted, setGoogleLoginAttempted] = useState(false);
   const [email, setEmail] = useState("");
-  const [accountIsLocked, setAccountIsLocked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //--------------------- APPLE LOGIN
   const [appleAuthAvailable, setAppleAuthAvailable] = useState(false);
@@ -41,6 +42,7 @@ const EnterEmail = () => {
   }, []);
 
   const appleSignin = async () => {
+    setIsLoading(true);
     try {
       const credential = await AppleAuthentication.signInAsync({
         requestedScopes: [
@@ -54,6 +56,7 @@ const EnterEmail = () => {
       await saveToken("refreshToken", tokens.refreshToken);
       await processUserAccessToken();
     } catch (e) {
+      setIsLoading(false);
       console.log(e);
       Toast.show("Something went wrong. Please try again later!", {
         ...styles.errorToast,
@@ -66,15 +69,17 @@ const EnterEmail = () => {
   //--------------------- GOOGLE LOGIN
 
   const googleSignIn = async () => {
-    setGoogleLoginAttempted(true);
     try {
+      setIsLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const tokens = await LoginAPI.loginGoogle(userInfo.idToken);
       await saveToken("accessToken", tokens.accessToken);
       await saveToken("refreshToken", tokens.refreshToken);
       await processUserAccessToken();
+      await navigationService.navigate("setup");
     } catch (e) {
+      setIsLoading(false);
       console.log(e);
       Toast.show("Something went wrong. Please try again later!", {
         ...styles.errorToast,
@@ -90,6 +95,7 @@ const EnterEmail = () => {
     const { status: userStatus, data: userData } = await UserAPI.getUser(
       accessToken
     );
+
     if (userData["isSetupComplete"]) {
       await navigationService.navigate("main");
     } else {
@@ -105,16 +111,44 @@ const EnterEmail = () => {
       if (status == 200)
         if (data) {
           if (data.isAccountLocked) {
-            setAccountIsLocked(true);
+            Alert.alert(
+              "Oasis Account Locked",
+              "Your account has been locked for security reasons. To unlock it, you must reset your password",
+              [
+                { text: "Cancel", style: "cancel" },
+                {
+                  text: "Unlock",
+                  isPreferred: true,
+                  onPress: async () => {
+                    try{
+                      await LoginAPI.requestNewPassword(email)
+                      await navigationService.navigate("tempPassword" , {
+                        email,
+                      });
+                    }
+                    catch(e){
+                      logout();
+                      navigationService.reset("landing", 0);
+                    }
+
+                  },
+                },
+              ],
+              {
+                cancelable: true,
+              }
+            );
           }
-          if (data?.exists) {
+          else if (data?.exists) {
             await navigationService.navigate("enterPassword", {
               email,
             });
+            setEmail("");
           } else {
             await navigationService.navigate("createPassword", {
               email,
             });
+            setEmail("");
           }
         } else {
           Toast.show("Something went wrong. Please try again.", {
@@ -134,6 +168,10 @@ const EnterEmail = () => {
 
   return (
     <View style={styles.container}>
+      <Spinner
+        visible={isLoading}
+        textStyle={styles.spinnerTextStyle}>
+      </Spinner>
       <Header />
       <View style={styles.view}>
         <View style={styles.center}>
@@ -147,7 +185,6 @@ const EnterEmail = () => {
             spellCheck={false}
           />
           <ContinueButton onPress={() => onPressContinue()} />
-        </View>
         <View style={styles.signContainer}>
           <Text style={styles.txt}>--or--</Text>
           <View
@@ -170,7 +207,7 @@ const EnterEmail = () => {
             ) : null}
             <TouchableHighlight
               style={styles.iconContainer}
-              onPress={async () => googleSignIn()}
+              onPress={() => googleSignIn()}
               underlayColor="rgba(73,182,77,1,0.9)"
             >
               <Image
@@ -179,6 +216,7 @@ const EnterEmail = () => {
               />
             </TouchableHighlight>
           </View>
+        </View>
         </View>
       </View>
     </View>
@@ -229,9 +267,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   signContainer: {
+    marginTop: 200,
     justifyContent: "center",
     alignSelf: "center",
-    marginTop: 0,
   },
   icon: {
     marginLeft: 10,
@@ -242,6 +280,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     alignItems: "center",
+    marginTop: 20
   },
   iconContainer: {
     backgroundColor: "white",
@@ -256,8 +295,6 @@ const styles = StyleSheet.create({
     width: 50,
   },
   txt: {
-    marginTop: 20,
-    marginBottom: 20,
     fontSize: 30,
     fontFamily: "Sego",
     textAlign: "center",

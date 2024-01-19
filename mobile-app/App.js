@@ -10,7 +10,7 @@ import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
-import { getAccessToken, isLoggedIn } from "./src/user/keychain";
+import { getAccessToken, isLoggedIn, logout } from "./src/user/keychain";
 import UserAPI from "./src/api/user/userAPI";
 
 export default function App() {
@@ -25,15 +25,25 @@ export default function App() {
     const checkIsLoggedIn = async () => {
       if (await isLoggedIn()) {
         const accessToken = await getAccessToken();
-        const { status: status, data: userData } = await UserAPI.getUser(
-          accessToken
-        );
-
-        if (userData["isSetupComplete"]) {
-          setInitialRoute("main");
-        } else {
-          setInitialRoute("setup");
+        try{
+          const { status: status, data: userData } = await UserAPI.getUser(
+            accessToken
+          );
+          if(userData){
+            if (userData["isSetupComplete"]) {
+              setInitialRoute("main");
+            } else {
+              setInitialRoute("setup");
+            }
+          }
+          else{
+            logout();
+          }
         }
+        catch(e){
+          logout();
+        }
+
       }
       setLoading(false);
     };
