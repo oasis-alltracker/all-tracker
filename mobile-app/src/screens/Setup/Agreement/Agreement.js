@@ -1,28 +1,43 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { Button, Header, Input } from "../../components";
-import navigationService from "../../navigators/navigationService";
-import CheckBox from "../../assets/icons/checkbox";
+import { Button, Header } from "../../../components";
+import navigationService from "../../../navigators/navigationService";
+import Toast from "react-native-root-toast";
+import CheckBox from "../../../assets/icons/checkbox";
 
 const Agreement = () => {
   const [checked, setChecked] = useState(false);
+
+
+  const onPressContinue = async () => {
+    if(checked){
+      navigationService.navigate("setup")
+    }
+    else{
+      Toast.show("You must agree sign the agreement to continue.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>Your personal data is secure</Text>
-          <TouchableOpacity style={styles.linkBtn}>
+          <TouchableOpacity onPress={() => navigationService.navigate("termsOfService")} style={styles.linkBtn}>
             <Text style={styles.linkText}>
               Read our <Text style={styles.boldText}>Terms of Service</Text>
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.linkBtn}>
+          <TouchableOpacity onPress={() => navigationService.navigate("userAgreement")} style={styles.linkBtn}>
             <Text style={styles.linkText}>
               Read the <Text style={styles.boldText}>Privacy Policy</Text>
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.linkBtn}>
+          <TouchableOpacity onPress={() => navigationService.navigate("privacyPolicy")} style={styles.linkBtn}>
             <Text style={styles.linkText}>
               Read the <Text style={styles.boldText}>User Agreement</Text>
             </Text>
@@ -40,7 +55,7 @@ const Agreement = () => {
           </View>
         </View>
         <Button
-          onPress={() => navigationService.navigate("setup")}
+          onPress={() => onPressContinue()}
           style={styles.button}
         >
           Continue
