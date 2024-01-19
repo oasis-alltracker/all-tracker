@@ -41,7 +41,7 @@ module.exports.handler = async (event, context, callback) => {
         const creationTime = new Date(otpResponse.Item.createdAt);
 
         if (new Date() - creationTime > FIVE_MINUTES) {
-          body = JSON.stringify({ loginFailed: "expired." });
+          body = JSON.stringify({ loginFailed: "expired" });
           statusCode = 200;
         } else if (await bcrypt.compare(userCredentials.otp, hashedPassword)) {
           const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {

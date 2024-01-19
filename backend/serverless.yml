@@ -938,3 +938,5 @@ resources:
                           - Ref: 'AWS::Region'
                           - Ref: 'AWS::AccountId'
                           - 'log-group:/aws/lambda/*:*:*'
+plugins:
+  - serverless-prune-plugin

@@ -18,7 +18,7 @@ module.exports.handler = async (event, context, callback) => {
 
   try {
     const userCredentials = JSON.parse(event.body);
-    const email = userCredentials.email.toLowerCase();
+        const email = userCredentials.email.toLowerCase();
     const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
 
     const saltRounds = 10;
@@ -34,7 +34,7 @@ module.exports.handler = async (event, context, callback) => {
     var body;
     if (!existingUser || existingUser.failedAttempts < 5) {
       if (existingUser) {
-        if (
+        if ( !existingUser.hashedPassword || 
           !(await bcrypt.compare(
             userCredentials.password,
             existingUser.hashedPassword
