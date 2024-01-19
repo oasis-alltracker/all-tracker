@@ -24,5 +24,8 @@
     "stripe": "^8.184.0",
     "uuid": "^8.3.2",
     "verify-apple-id-token": "^3.0.1"
+  },
+  "devDependencies": {
+    "serverless-prune-plugin": "^2.0.2"
   }
 }

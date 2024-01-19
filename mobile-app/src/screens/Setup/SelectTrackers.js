@@ -13,24 +13,23 @@ const SelectTrackers = () => {
       </Text>
       <View style={styles.middleContainer}>
         <View style={styles.center}>
-          <TouchableOpacity disabled={true} style={styles.button}>
+          <TouchableOpacity style={styles.button}>
             <Image
               style={styles.image}
               source={require("../../assets/images/habits.png")}
             />
-            <Text style={styles.title}>Habits</Text>
+            <Text style={styles.title}>habits</Text>
           </TouchableOpacity>
-          <TouchableOpacity disabled={true} style={styles.button}>
+          <TouchableOpacity style={styles.button}>
             <Image
               style={styles.image}
               source={require("../../assets/images/to-dos.png")}
             />
-            <Text style={styles.title}>To-dos</Text>
+            <Text style={styles.title}>to-dos</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.center}>
           <TouchableOpacity
-            disabled={true}
             style={[
               styles.button,
               {
@@ -43,10 +42,9 @@ const SelectTrackers = () => {
               style={styles.image}
               source={require("../../assets/images/diet.png")}
             />
-            <Text style={styles.title}>Diet</Text>
+            <Text style={styles.title}>diet</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            disabled={true}
             style={[
               styles.button,
               {
@@ -59,12 +57,11 @@ const SelectTrackers = () => {
               style={styles.image}
               source={require("../../assets/images/fitness.png")}
             />
-            <Text style={styles.title}>Fitness</Text>
+            <Text style={styles.title}>fitness</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.center}>
           <TouchableOpacity
-            disabled={true}
             style={[
               styles.button,
               {
@@ -77,10 +74,9 @@ const SelectTrackers = () => {
               style={styles.image}
               source={require("../../assets/images/sleep.png")}
             />
-            <Text style={styles.title}>Sleep</Text>
+            <Text style={styles.title}>sleep</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            disabled={true}
             style={[
               styles.button,
               {
@@ -93,7 +89,7 @@ const SelectTrackers = () => {
               style={styles.image}
               source={require("../../assets/images/mood.png")}
             />
-            <Text style={styles.title}>Mood</Text>
+            <Text style={styles.title}>mood</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -120,7 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
     width: "100%",
   },
   image: {
