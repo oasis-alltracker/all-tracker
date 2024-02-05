@@ -75,9 +75,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 26,
-    color: "#fff",
     fontFamily: "Sego",
-    color: "#1C1B20",
+    color: "#25436B",
   },
 });
 

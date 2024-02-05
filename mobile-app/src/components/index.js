@@ -1,4 +1,5 @@
 import Header from "./Header";
+import MainHeader from "./MainHeader";
 import Button from "./Button";
 import Input from "./Input";
 import Spinner from "./Spinner";
@@ -17,6 +18,7 @@ import ResendMessage  from "./OTPMessages/ResendMessage";
 
 export {
   Header,
+  MainHeader,
   Button,
   Input,
   Spinner,
