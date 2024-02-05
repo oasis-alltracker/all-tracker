@@ -29,17 +29,19 @@ class UpdateToDo {
     }
 
     async updateStatus(email, toDoID, toDo) {
-        const key = {PK: `${email}-taskStatus`, SK: toDoID};
-        const expression =  'SET #isComplete = :isComplete, #name = :name';
-        const names = {
-            '#isComplete': 'isComplete',
-            '#name': 'name',
-        };
-        const values = {
-            ':isComplete': toDo.isComplete,
-            ':name': toDo.name,
-        };
-        await this.DB.updateItem(expression, key, names, values);
+        const deleteKey = {PK: `${email}-toDo`, SK: `${toDo.prevSK}`};
+        await this.DB.deleteItem(deleteKey);
+
+        const data = {
+            PK: `${email}-toDo`, 
+            SK: `${toDo.isComplete}-${toDo.dateStamp}-${toDo.taskID}`,
+            description: toDo.description,
+            name: toDo.name,
+            taskID: toDo.taskID,
+            notifcations: toDo.notifcations
+          };
+    
+        await this.DB.putItem(data);
     }
 };
 module.exports = UpdateToDo;
