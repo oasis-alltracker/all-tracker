@@ -50,14 +50,14 @@ export default function Statistics() {
       <View style={styles.dateLine}>
         <TouchableOpacity style={styles.button}>
           <Image
-            style={styles.preButton}
+            style={[styles.preButton, styles.nextButton]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
         <Text style={styles.dateName}>This week</Text>
         <TouchableOpacity style={styles.button}>
           <Image
-            style={[styles.preButton, styles.nextButton]}
+            style={[styles.preButton]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>

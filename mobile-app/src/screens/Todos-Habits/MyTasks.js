@@ -42,7 +42,7 @@ export default function MyTasks() {
       <View style={styles.imageCon}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/habits.png")}
+          source={require("../../assets/images/to-dos512.png")}
         />
       </View>
       <View style={[styles.line, { marginBottom: 15 }]}>
@@ -190,10 +190,5 @@ const styles = StyleSheet.create({
   nextButton: {
     width: 30,
     height: 30,
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
   },
 });

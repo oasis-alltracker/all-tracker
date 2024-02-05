@@ -1,10 +1,10 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
-import React, { useState } from "react";
 import MenuIcon from "../../assets/icons/menu";
 import Main from "./Main";
 import MyTasks from "./MyTasks";
@@ -12,27 +12,59 @@ import MyHabits from "./MyHabits";
 import Statistics from "./Statistics";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView, SceneMap } from "react-native-tab-view";
+import Spinner from "react-native-loading-spinner-overlay";
+import { getAccessToken } from "../../user/keychain";
+import UserAPI from "../../api/user/userAPI";
 
 const renderScene = SceneMap({
   first: Main,
-  second: MyTasks,
-  third: MyHabits,
-  fourth: Statistics,
+  second: MyHabits,
+  third: MyTasks
 });
 
 const Habits = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [routes] = useState([
-    { key: "first", title: "First" },
-    { key: "second", title: "Second" },
-    { key: "third", title: "Third" },
-    { key: "fourth", title: "Fourth" },
-  ]);
+  const [routes, setRoutes] = useState([]);
+  const [dots, setDots] = useState([]);
+
+  useEffect(() => {
+    const getPreferencesOnLoad = async() =>{
+      if(isLoading){
+        
+        token = await getAccessToken()
+        user = await UserAPI.getUser(token)
+
+        routesPreference = [{ key: "first", title: "First" }]
+
+        if(user.data.trackingPreferences.habitsSelected){
+          routesPreference.push(          
+            { key: "second", title: "Second" },)
+        }
+        if(user.data.trackingPreferences.toDosSelected){
+          routesPreference.push(          
+            { key: "third", title: "Third" },)
+        }
+
+        setRoutes(routesPreference)
+
+        var numDots = [0];
+        for(var i=0; i<routesPreference.length; i++){
+          numDots.push(i+1)
+        }
+        setIsLoading(false)
+      }    
+    }
+    getPreferencesOnLoad()
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.headerButton}
@@ -46,10 +78,9 @@ const Habits = ({ navigation }) => {
           onIndexChange={setIndex}
           initialLayout={{ width }}
           renderTabBar={() => null}
-          // lazy
         />
         <View style={styles.pagination}>
-          {[0, 1, 2, 3].map((val, key) => {
+          {[0, 1].map((val, key) => {
             return (
               <View
                 key={key.toString()}
@@ -94,12 +125,12 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   dot: {
-    width: 16,
-    height: 16,
+    width: 13,
+    height: 13,
     borderRadius: 10,
     backgroundColor: "transparent",
     marginHorizontal: 5,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "rgba(0,0,0,0.3)",
   },
   pagination: {

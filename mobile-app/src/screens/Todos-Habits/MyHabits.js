@@ -1,86 +1,231 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React, { useRef } from "react";
-import Modal from "./AddHabits";
+import React, { useRef, useState, useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Image } from "react-native";
+import { Button } from "../../components";
+import navigationService from "../../navigators/navigationService";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import CreateHabitModal from "./CreateHabitModal";
+import UpdateHabitModal from "./UpdateHabitModal"
+import HabitsAPI from "../../api/habits/habitsAPI";
+import Spinner from "react-native-loading-spinner-overlay";
+import Toast from "react-native-root-toast";
+import { getAccessToken } from '../../user/keychain'
 
-const items = [
-  {
-    name: "Go for a walk",
-    isCheck: true,
-  },
-  {
-    name: "Meditate",
-    isCheck: false,
-  },
-  {
-    name: "Stop smoking",
-    isCheck: false,
-  },
-];
+const { width, height } = Dimensions.get("window");
 
 export default function MyHabits() {
+  const [habits, setHabits] = useState([]);
+  const [habitsIsLoaded, setHabitsIsLoaded] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+  
   const modalRef = useRef(null);
 
-  return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
-      <View style={styles.imageCon}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/to-dos.png")}
-        />
+  const createHabit = async (habit) => {
+    setIsLoading(true);
+    try{
+      token = await getAccessToken()
+      await HabitsAPI.createHabit(token, habit)
+      await getHabits();
+    }
+    catch(e){
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  }
+
+  const refreshHabits = async(token) => {
+    setIsLoading(true)
+    try{
+      await getHabits();
+    }
+    catch(e){
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  }
+
+  const deleteHabit = async(habitID) => {
+    setIsLoading(true);
+    try{
+      token = await getAccessToken()
+      await HabitsAPI.deleteHabit(token, habitID)
+      await getHabits();
+    }
+    catch(e){
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+
+
+  }
+  const updateHabit = async(habitID, habit) => {
+    try{
+      setIsLoading(true);
+      token = await getAccessToken()
+      await HabitsAPI.updateHabit(token, habitID, habit)
+      await getHabits();
+    }
+    catch(e){
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+
+  }
+
+  const getHabits = async() => {
+    setIsLoading(true);
+    try{
+      token = await getAccessToken()
+      userHabits =  await HabitsAPI.getHabits(token)
+      setHabits(userHabits);
+    }
+    catch(e){
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+    
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    const getHabitsOnLoad = async() =>{
+      if(!habitsIsLoaded){
+        setHabitsIsLoaded(true)
+        await getHabits();
+      }    
+    }
+    getHabitsOnLoad()
+  }, []);
+
+  const Habits = () => (  
+    <>
+      <View style={{ height: 365 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContainer}>          
+  
+          {habits.map((val, key) => {
+            return (
+              <TouchableOpacity
+                key={key.toString()}
+                onPress={() => {
+                  modalRef.current.open(true, {
+                    isPositive: val.isPositive,
+                    habitName: val.name,
+                    pngURL: val.pngURL,
+                    threshold: val.threshold,
+                    time: val.time,
+                    habitID: val.SK
+                  });
+                }}
+                style={[
+                  styles.item,
+                  key === habits.length - 1 && { borderBottomWidth: 2 },
+                ]}
+              >
+                <Text style={styles.itemText}>{val.name}</Text>
+                <Text
+                  style={[styles.itemText2, val.isPositive && { color: "#7FE5FF" }]}
+                >
+                  {val.isPositive ? "Good" : "Bad"}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+          <CreateHabitModal getRef={(ref) => (modalRef.secondary = ref)} createHabit={createHabit}/>
+          <UpdateHabitModal getRef={(ref) => (modalRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
+        </ScrollView>
       </View>
-      <View style={[styles.line, { marginBottom: 15 }]}>
-        <Text style={styles.title}>My habits</Text>
+    </>
+    );
+  
+    const CreatHabits = () => (
+      <>
         <TouchableOpacity
           onPress={() => {
             modalRef.current.open();
           }}
+          style={styles.addButton}
         >
-          <Image
-            style={styles.plus}
-            source={require("../../assets/images/plus-2.png")}
-          />
+          <Text style={styles.buttonText}>
+            Click here to create your first habit
+          </Text>
+          <View style={styles.plusCon}>
+            <Image
+              style={styles.plusImage}
+              source={require("../../assets/images/plus.png")}
+            />
+          </View>
         </TouchableOpacity>
-      </View>
-      {items.map((val, key) => {
-        return (
-          <TouchableOpacity
-            key={key.toString()}
-            onPress={() => {
-              modalRef.current.open(true, {
-                title: "Meditate",
-                status: "Bad",
-                count: "3",
-              });
-            }}
-            style={[
-              styles.item,
-              key === items.length - 1 && { borderBottomWidth: 2 },
-            ]}
-          >
-            <Text style={styles.itemText}>{val.name}</Text>
-            <Text
-              style={[styles.itemText2, val.isCheck && { color: "#7FE5FF" }]}
-            >
-              {val.isCheck ? "Good" : "Bad"}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+        <CreateHabitModal getRef={(ref) => (modalRef.current = ref)} createHabit={createHabit}/>
+      </>
+    );
 
-      <Modal getRef={(ref) => (modalRef.current = ref)} />
+  return (
+    <ScrollView
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={styles.container}
+    scrollEnabled={false}
+  >
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
+      <View style={styles.headerImageCon}>
+        <Image
+          style={styles.headerImage}
+          source={require("../../assets/images/habits512.png")}
+        />
+      </View>
+      <View style={[styles.line, { paddingTop:15, marginBottom: 15 }]}>
+        <Text style={styles.habitsTitle}>My habits</Text>
+        <View style={styles.buttonItems}>
+          <TouchableOpacity
+            onPress={() => {
+              modalRef.secondary.open();
+            }}
+          >
+            <Image
+              style={styles.plus}
+              source={require("../../assets/images/plus-2.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => refreshHabits()}
+          >
+            <Image
+              style={styles.refresh}
+              source={require("../../assets/images/reload.png")}
+            />
+          </TouchableOpacity>
+        </View>
+
+      </View>
+      <View style={styles.center}>
+        {
+        habits.length>0 ? <Habits/> : <CreatHabits/>
+        }
+      </View>
     </ScrollView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -93,6 +238,16 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
+    backgroundColor: "rgba(255, 216, 247, 0.62)",
+    borderWidth: 2,
+    borderColor: "rgba(204, 173, 198, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerImageCon: {
+    width: 180,
+    height: 180,
+    borderRadius: 100,
     backgroundColor: "rgba(255, 207, 245, 0.65)",
     borderColor: "rgba(255, 207, 245, 0.70)",
     borderWidth: 2,
@@ -100,8 +255,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
+  },
+  headerImage: {
+    width: 90,
+    height: 90,
   },
   imageText: {
     fontSize: 22,
@@ -109,9 +268,59 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     marginTop: 10,
   },
-  plus: {
-    width: 40,
-    height: 40,
+  title: {
+    padding: 10,
+    fontSize: 22,
+    color: "#25436B",
+    fontFamily: "Sego-Bold",
+    marginTop: 15,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingTop: 20
+  },
+  button: {
+    width: "47%",
+  },
+  back: {
+    backgroundColor: "transparent",
+    borderColor: "#CCCCCC",
+  },
+  center: {
+    alignItems: "center",
+  },
+  plusImage: {
+    width: 30,
+    height: 30,
+    resizeMode: "contain",
+  },
+  plusCon: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    alignItems: "center",
+    paddingVertical: 15,
+  },
+  addButton: {
+    borderWidth: 1.5,
+    borderColor: "rgba(204, 204, 204, 0.728)",
+    width: width - 30,
+    height: 350,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: 0.7,
+  },
+  scrollContainer: {
+    alignItems: "center",
+    overflow: "visible",
+    paddingBottom: 80,
+    width: width-30,
   },
   line: {
     flexDirection: "row",
@@ -121,13 +330,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 30,
   },
-  title: {
-    fontSize: 33,
+  habitsTitle: {
+    fontSize: 31,
     color: "#25436B",
     fontFamily: "Sego-Bold",
   },
-  contentContainerStyle: {
-    paddingHorizontal: 20,
+  plus: {
+    width: 40,
+    height: 40,
+  },
+  itemText: {
+    color: "#1E1E1E",
+    fontSize: 20,
+    fontFamily: "Sego",
+
+    flex: 1,
+  },
+  itemText2: {
+    color: "#FFBEF1",
+    fontSize: 13,
+    fontFamily: "Sego",
   },
   item: {
     flexDirection: "row",
@@ -142,38 +364,24 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  check: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#ccc",
+  buttonText: {
+    color: "rgba(37, 67, 107, 0.6)",
+    fontFamily: "Sego",
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
+  },
+  buttonItems: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    paddingLeft: 15,
+    width: 100,
   },
-  checkImage: {
-    width: 20,
-    height: 20,
-  },
-  itemText: {
-    color: "#1E1E1E",
-    fontSize: 20,
-    fontFamily: "Sego",
-    marginLeft: 20,
-    flex: 1,
-  },
-  itemText2: {
-    color: "#FFBEF1",
-    fontSize: 13,
-    fontFamily: "Sego",
-  },
-  nextButton: {
-    width: 30,
+  refresh: {
+    width:30,
     height: 30,
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
   },
 });
+
