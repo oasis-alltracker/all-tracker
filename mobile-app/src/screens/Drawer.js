@@ -1,10 +1,18 @@
-import { TouchableOpacity, Image, StyleSheet } from "react-native";
+import { TouchableOpacity, Image, StyleSheet, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MenuIcon from "../assets/icons/menu";
 import navigationService from "../navigators/navigationService";
+import Toast from "react-native-root-toast";
 
 const Drawer = ({ navigation }) => {
+  const comingSoon = () => {
+    Toast.show("Coming soon!", {
+      ...styles.errorToast,
+      duration: Toast.durations.SHORT,
+    });
+  }
+
   const buttons = [
     {
       image: require("../assets/images/home.png"),
@@ -13,25 +21,25 @@ const Drawer = ({ navigation }) => {
       },
     },
     {
-      image: require("../assets/images/mind-white.png"),
+      image: require("../assets/images/mind-white512.png"),
       onPress: () => {
         navigation.navigate("todos-habits");
       },
     },
     {
-      image: require("../assets/images/body-white.png"),
+      image: require("../assets/images/body-white512.png"),
       onPress: () => {
-        navigation.navigate("fitness-diet");
+        comingSoon();
       },
     },
     {
-      image: require("../assets/images/soul-white.png"),
+      image: require("../assets/images/soul-white512.png"),
       onPress: () => {
-        navigation.navigate("mood-sleep");
+        comingSoon();
       },
     },
     {
-      image: require("../assets/images/settings.png"),
+      image: require("../assets/images/settings512.png"),
       onPress: () => {
         navigationService.navigate("settings");
       },
@@ -59,6 +67,15 @@ const Drawer = ({ navigation }) => {
           />
         </TouchableOpacity>
       ))}
+        <View
+          style={styles.logoContainer}
+        >
+          <Image
+            resizeMode="contain"
+            style={styles.logoImage}
+            source={require("../assets/images/logo.png")}
+          />
+        </View>
     </SafeAreaView>
   );
 };
@@ -79,10 +96,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  logoContainer: {
+    borderTopWidth: 2,
+    borderTopColor: "#CCCCCC",
+    height: 300,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   image: {
     width: 50,
     height: 50,
     tintColor: "#25436B",
+  },
+  logoImage: {
+    width: 120,
+    height: 120,
+    opacity:0.5
   },
 });
 
