@@ -10,10 +10,13 @@ import { saveToken, getAccessToken } from "../../user/keychain";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import { isEmailValid } from "../../utils/commonUtils";
-import { View, Text, StyleSheet, Image } from "react-native";
-import { Header, Input, ContinueButton } from "../../components";
+import { View, Text, TextInput, StyleSheet, Image, Dimensions } from "react-native";
+import { Header, ContinueButton } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { logout } from "../../user/keychain";
+
+const { width, height } = Dimensions.get("window");
+const SCREEN_WIDTH = width < height ? width : height;
 
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
@@ -77,7 +80,6 @@ const EnterEmail = () => {
       await saveToken("accessToken", tokens.accessToken);
       await saveToken("refreshToken", tokens.refreshToken);
       await processUserAccessToken();
-      await navigationService.navigate("setup");
     } catch (e) {
       setIsLoading(false);
       console.log(e);
@@ -96,7 +98,8 @@ const EnterEmail = () => {
       accessToken
     );
 
-    if (userData["isSetupComplete"]) {
+    setIsLoading(false);
+    if (userData.isSetupComplete) {
       await navigationService.navigate("main");
     } else {
       await navigationService.navigate("setup");
@@ -125,6 +128,7 @@ const EnterEmail = () => {
                       await navigationService.navigate("tempPassword" , {
                         email,
                       });
+                      setEmail("");
                     }
                     catch(e){
                       logout();
@@ -148,7 +152,8 @@ const EnterEmail = () => {
             await navigationService.navigate("createPassword", {
               email,
             });
-            setEmail("");
+                  setEmail("");
+
           }
         } else {
           Toast.show("Something went wrong. Please try again.", {
@@ -169,21 +174,26 @@ const EnterEmail = () => {
   return (
     <View style={styles.container}>
       <Spinner
-        visible={isLoading}
-        textStyle={styles.spinnerTextStyle}>
+        visible={isLoading}>
       </Spinner>
       <Header />
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>What is your email address?</Text>
-          <Input
-            input={styles.input}
-            onChangeText={setEmail}
-            underlineColorAndroid="transparent"
-            autoCapitalize="none"
-            placeholder="Enter your email address"
-            spellCheck={false}
-          />
+          <View style={styles.emailInputContainer}>
+            <TextInput
+              style={styles.emailInput}
+              placeholder="Enter your email address"
+              placeholderTextColor="#9c9eb9"
+              onChangeText={setEmail}
+              underlineColorAndroid="transparent"
+              spellCheck={false}
+              autoCorrect={false}
+              autoCapitalize="none"
+              value={email}
+            />
+          </View>
+
           <ContinueButton onPress={() => onPressContinue()} />
         <View style={styles.signContainer}>
           <Text style={styles.txt}>--or--</Text>
@@ -267,7 +277,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   signContainer: {
-    marginTop: 200,
+    marginTop: 150,
     justifyContent: "center",
     alignSelf: "center",
   },
@@ -306,6 +316,25 @@ const styles = StyleSheet.create({
   errorToast: {
     backgroundColor: "#FFD7D7",
     textColor: "#25436B",
+  },
+  emailInput: {
+    color: "black",
+    fontSize: 22,
+    marginLeft: 10,
+    height: 40,
+    textAlign: "center",
+    fontFamily: "Sego",
+  },
+  emailInputContainer: {
+    margin: 10,
+    marginBottom: 40,
+    padding: 5,
+    width: SCREEN_WIDTH - 50,
+    borderRadius: 10,
+    borderColor: "lightgray",
+    borderWidth: 2,
+    backgroundColor: "white",
+    alignSelf: "center",
   },
 });
 

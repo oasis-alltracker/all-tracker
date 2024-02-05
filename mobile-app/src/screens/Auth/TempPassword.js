@@ -67,6 +67,7 @@ const EnterPassword = (props) => {
               placeholderTextColor="#9c9eb9"
               onChangeText={setTempPassword}
               value={tempPassword}
+              autoCapitalize="none"
             />
           </View>
           <ContinueButton onPress={() => onPressContinue()} />

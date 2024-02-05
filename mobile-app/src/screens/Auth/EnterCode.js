@@ -31,6 +31,8 @@ const EnterCode = (props) => {
       const {status, data} = await LoginAPI.loginOTP(email, otpValue)
       if(status == 200){
         if(data?.loginFailed == "locked") {
+          setCode(["", "", "", ""]);
+          setShowBottomText(false)
           Alert.alert(
             "Account Locked",
             "Your account has been locked for security reasons. To unlock it, you must reset your password",
@@ -49,7 +51,6 @@ const EnterCode = (props) => {
                     logout();
                     navigationService.reset("landing", 0);
                   }
-
                 },
               },
             ],

@@ -12,7 +12,7 @@ const SCREEN_WIDTH = width < height ? width : height;
 const EnterPassword = (props) => {
   const [password, setPassword] = useState("");
 
-  const { email } = props.route.params;
+  const  { email }  = props.route.params;
 
   const forgotPassword = async () => {
     Alert.alert(
@@ -86,6 +86,7 @@ const EnterPassword = (props) => {
           Toast.show("Password is incorrect. Please try again.", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
+            position: Toast.positions.CENTER,
           });
         }
       }
@@ -93,12 +94,14 @@ const EnterPassword = (props) => {
         Toast.show("Something went wrong. Please try again.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
         });
       }
     } else {
       Toast.show("Please enter a password.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
       });
     }
   };
@@ -117,6 +120,7 @@ const EnterPassword = (props) => {
               placeholderTextColor="#9c9eb9"
               onChangeText={setPassword}
               value={password}
+              autoCapitalize="none"
             />
           </View>
           <ContinueButton onPress={() => onPressContinue()} />
@@ -207,7 +211,7 @@ const styles = StyleSheet.create({
   },
   linkBtn: {
     marginVertical: 10,
-    marginTop: 350,
+    marginTop: 330,
     paddingBottom: 10
   },
   linkText: {
