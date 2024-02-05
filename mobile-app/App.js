@@ -1,4 +1,4 @@
-import "react-native-gesture-handler";
+import React, { useState, useEffect, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,10 +8,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
-import { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { getAccessToken, isLoggedIn, logout } from "./src/user/keychain";
 import UserAPI from "./src/api/user/userAPI";
+import * as Notifications from 'expo-notifications';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,6 +20,26 @@ export default function App() {
   });
   const [loading, setLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState("landing");
+
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   useEffect(() => {
     const checkIsLoggedIn = async () => {
