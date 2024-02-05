@@ -1,14 +1,29 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
-import { Header } from "../../components";
+import React, { useState } from "react";
+import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const ExplainSubscription = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const subscribe = async () => {
+    setIsLoading(true)
+    setIsLoading(false)
+    navigationService.navigate("main");
+  }
+
+
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <Header showCenter={false} />
-      <Text style={styles.subtitle}>1 month free then $2.99/month</Text>
+      <Text style={styles.title}>1 month <Text style={styles.bold}>free</Text>
+        </Text>
+      <Text style={styles.title}>then $2.99/month</Text>
       <View style={styles.middleContainer}>
         <Image
           source={require("../../assets/images/subscription-image.png")}
@@ -22,17 +37,15 @@ const ExplainSubscription = () => {
         </Text>
         <Text style={styles.text}>
           Unleash your{" "}
-          <Text style={[styles.bold, { color: "#B981E7" }]}>oasis</Text>
+          <Text style={[styles.bold, { color: "#B981E7" }]}>Oasis</Text>
         </Text>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          navigationService.navigate("habits");
-        }}
+      <Button
+        onPress={() => subscribe()}
         style={styles.nextButton}
       >
-        <Text style={styles.buttonText}>Continue</Text>
-      </TouchableOpacity>
+        Continue
+      </Button>
     </SafeAreaView>
   );
 };
@@ -44,11 +57,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  title: {
-    color: "#25436B",
-    fontSize: 24,
-    marginTop: 7,
-  },
   subtitle: {
     color: "#25436B",
     fontSize: 24,
@@ -59,13 +67,6 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     marginHorizontal: 20,
-    borderColor: "#ACC5CC",
-    borderRadius: 20,
-    borderWidth: 2,
-    backgroundColor: "#D7F6FF",
-    alignItems: "center",
-    paddingVertical: 10,
-    marginBottom: 20,
   },
   buttonText: {
     color: "#25436B",
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
   middleContainer: {
     flex: 1,
-    paddingVertical: 15,
+    paddingVertical: 5,
     alignItems: "center",
     overflow: "hidden",
   },
@@ -89,6 +90,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "#25436B",
     marginTop: 2,
+    textAlign: "center",
+  },
+  title: {
+    color: "#25436B",
+    fontFamily: "Sego",
+    fontSize: 32,
+    marginTop: 7,
+    textAlign: "center",
   },
   bold: {
     fontFamily: "Sego-Bold",

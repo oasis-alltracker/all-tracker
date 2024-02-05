@@ -4,24 +4,71 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
+import UserAPI from "../../api/user/userAPI";
+import Toast from "react-native-root-toast";
+import { getAccessToken } from "../../user/keychain";
 
-const Todos = () => {
-  const [active, setActive] = useState(1);
+const Todos = (props) => {
+  const { selectedTrackers } = props.route.params;
+  const [active, setActive] = useState(0);
 
   const data = [
     {
+      name: "1 minute before",
+    },
+    {
+      name: "10 minutes before",
+    },
+    {
       name: "1 hour before",
-    },
-    {
-      name: "1 day before",
-    },
-    {
-      name: "Custom",
     },
     {
       name: "No, thanks",
     },
   ];
+
+  const onNext = async() =>{
+
+    if(active == 0){
+      Toast.show("Please make a selection.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+    else{
+      var minuteOffset = -1;
+      if(active == 1){
+        minuteOffset = 1
+      }
+      if(active == 2){
+        minuteOffset = 10
+      }
+      if(active == 3){
+        minuteOffset = 60
+      }
+
+      try{
+        const accessToken = await getAccessToken();
+        await UserAPI.updateTaskPreference(minuteOffset, accessToken)
+
+        //check if more trackers
+        await UserAPI.updateUser(true , selectedTrackers, accessToken);
+        //TO-DO check if user is subscribed
+        navigationService.navigate("main");
+      }
+      catch(e){
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
+      }
+
+
+    }
+
+
+
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +108,7 @@ const Todos = () => {
           Back
         </Button>
         <Button
-          onPress={() => navigationService.navigate("diet")}
+          onPress={() => onNext()}
           style={styles.button}
         >
           Next
@@ -99,11 +146,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     color: "#25436B",
     fontFamily: "Sego-Bold",
     marginTop: 15,
-    marginBottom: 20,
+    marginBottom: 35,
     textAlign: "center",
   },
   buttons: {
@@ -132,6 +179,10 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 20,
     fontFamily: "Sego",
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 

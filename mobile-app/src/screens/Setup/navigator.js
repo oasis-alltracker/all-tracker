@@ -2,7 +2,8 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import SelectTrackers from "./SelectTrackers";
 import ExplainSubscription from "./ExplainSubscription";
-import Habits from "./Habits";
+import HabitsCreation from "./Habits/step1";
+import HabitsNotifications from "./Habits/step2";
 import Todos from "./Todos";
 import Diet from "./Diet/navigator";
 import Fitness from "./Fitness/navigator";
@@ -33,7 +34,8 @@ function SetupNavigator() {
       <Stack.Screen name="fitness" component={Fitness} />
       <Stack.Screen name="sleep" component={Sleep} />
       <Stack.Screen name="mood" component={Mood} />
-      <Stack.Screen name="habits" component={Habits} />
+      <Stack.Screen name="habitsNotifications" component={HabitsNotifications} />
+      <Stack.Screen name="habitsCreation" component={HabitsCreation} />
       <Stack.Screen name="todos" component={Todos} />
       <Stack.Screen name="termsOfService" component={TermsOfService} />
       <Stack.Screen name="userAgreement" component={UserAgreement} />
