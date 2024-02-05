@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./src/assets/images/logo.png",
     "userInterfaceStyle": "light",
-    "scheme": "com.oasistrackerr",
+    "scheme": "com.oasistracker",
     "splash": {
       "image": "./src/assets/images/landing-logo.png",
       "resizeMode": "contain",
@@ -29,6 +29,7 @@
       }
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff"
@@ -39,11 +40,24 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
-        "projectId": "1f663676-052c-4f8b-8c8b-20bcbcf7056a"
+        "projectId": "a8f7cc7a-8ef8-4fc9-af87-b5c9c06a57ed"
       }
     }
   }
