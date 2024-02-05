@@ -40,5 +40,24 @@ class UserAPI {
     }
     return { status };
   }
+
+  static async updateTaskPreference(taskPreference, token) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const body = {
+      taskPreference: taskPreference,
+    };
+
+    var status;
+    try {
+      const response = await axios.put(API, body, { headers: headers });
+      status = response?.status;
+    } catch (error) {
+      status = error.response.status;
+    }
+    return { status };
+  }
 }
 export default UserAPI;
