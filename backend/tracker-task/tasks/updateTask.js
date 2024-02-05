@@ -30,16 +30,22 @@ class UpdateTask {
 
     async update(email, taskID, task) {
         const key = {PK: `${email}-task`, SK: taskID};
-        const expression =  'SET #name = :name, #schedule = :schedule, #isRecurring = :isRecurring';
+        const expression =  'SET #name = :name, #schedule = :schedule, #description = :description, #notifications = :notifications, #completionList = :completionList, #nextDueDate = :nextDueDate';
         const names = {
             '#name': 'name',
             '#schedule': 'schedule',
-            '#isRecurring': 'isRecurring',
+            '#description': 'description',
+            '#notifications': 'notifications',
+            '#completionList': 'completionList',
+            '#nextDueDate': 'nextDueDate',
         };
         const values = {
             ':name': task.name,
             ':schedule': task.schedule,
-            ':isRecurring': task.isRecurring,       
+            ':description': task.description,     
+            ':notifications': task.notifications,
+            ':completionList': task.completionList,    
+            ':nextDueDate': task.nextDueDate,    
         };
         await this.DB.updateItem(expression, key, names, values);
     }

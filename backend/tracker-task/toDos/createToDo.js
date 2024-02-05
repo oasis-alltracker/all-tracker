@@ -30,13 +30,14 @@ class CreateToDo {
       }
   }
 
-  async create(email, taskStatus) {
+  async create(email, toDo) {
       const data = {
-        PK: `${email}-taskStatus`, 
-        SK: `${taskStatus.dateStamp}-${taskStatus.taskID}`,
-        isComplete: taskStatus.count,
-        name: taskStatus.name,
-        taskID: taskStatus.taskID
+        PK: `${email}-toDo`, 
+        SK: `${false}-${toDo.dateStamp}-${toDo.taskID}`,
+        description: toDo.description,
+        name: toDo.name,
+        taskID: toDo.taskID,
+        notifcations: toDo.notifcations
       };
 
       await this.DB.putItem(data);

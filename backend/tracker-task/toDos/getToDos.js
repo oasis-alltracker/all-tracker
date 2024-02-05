@@ -7,10 +7,10 @@ class GetToDos {
         try {
             var toDos;
             if(queryStringParameters.dateStamp) {
-                toDos = await this.getToDosForOneDay(user.email, queryStringParameters.dateStamp);
+                toDos = await this.getToDosForOneDay(user.email, queryStringParameters.isComplete ,queryStringParameters.dateStamp);
             }
             else if(queryStringParameters.startDate && queryStringParameters.endDate){
-                toDos = await this.getToDosForMulitpleDays(user.email, queryStringParameters.startDate, queryStringParameters.endDate);
+                toDos = await this.getToDosForMulitpleDays(user.email, queryStringParameters.isComplete, queryStringParameters.startDate, queryStringParameters.endDate);
             }
             else{
                 throw new Error("Missing queryStringParameters");
@@ -38,31 +38,31 @@ class GetToDos {
         }
     }
 
-    async getToDosForOneDay(user, dateStamp) {
+    async getToDosForOneDay(user, isComplete, dateStamp) {
         const expression =  '#pk = :pk AND begins_with(#sk, :sk)';
         const names = {
             '#pk': 'PK',
             '#sk': 'SK',
         };
             const values = {
-            ':pk': `${user}-taskStatus`,
-            ':sk': dateStamp,
+            ':pk': `${user}-toDo`,
+            ':sk': `${isComplete}-${dateStamp}`,
         };
     
         const response = await this.DB.queryItem(expression, names, values);
         return response?.Items;
     }
 
-    async getToDosForMulitpleDays(user, startDate, endDate) {
+    async getToDosForMulitpleDays(user, isComplete, startDate, endDate) {
         const expression =  '#pk = :pk AND #sk BETWEEN :startDate AND :endDate';
         const names = {
             '#pk': 'PK',
             '#sk': 'SK',
         };
             const values = {
-            ':pk': `${user}-taskStatus`,
-            ':startDate': `${startDate}`,
-            ':endDate': `${endDate}`,
+            ':pk': `${user}-toDo`,
+            ':startDate': `${isComplete}-${startDate}`,
+            ':endDate': `${isComplete}-${endDate}`,
         };
     
         const response = await this.DB.queryItem(expression, names, values);

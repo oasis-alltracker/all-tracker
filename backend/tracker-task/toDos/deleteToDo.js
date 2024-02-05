@@ -29,7 +29,7 @@ class DeleteToDo {
     }
 
     async delete(email, toDoID) {
-        const key = {PK: `${email}-taskStatus`, SK: toDoID};
+        const key = {PK: `${email}-toDo`, SK: toDoID};
         await this.DB.deleteItem(key);
     }
 };
