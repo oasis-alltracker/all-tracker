@@ -30,15 +30,15 @@ class UpdateHabitStatus {
 
     async updateStatus(email, habitStatusID, habitStatus) {
         const key = {PK: `${email}-habitStatus`, SK: habitStatusID};
-        const expression =  'SET #count = :count, #status = :status';
+        const expression =  'SET #count = :count';
         const names = {
             '#count': 'count',
-            '#status': 'status',
         };
         const values = {
             ':count': habitStatus.count,
-            ':status': habitStatus.status,       
+  
         };
+        
         await this.DB.updateItem(expression, key, names, values);
     }
 };

@@ -5,6 +5,7 @@ class CreateHabitStatus {
 
     async createHabitStatus(user, body) {      
         try {
+            console.log(body);
             const response = await this.createStatus(user.email, body);
 
             return {
@@ -36,7 +37,10 @@ class CreateHabitStatus {
           SK: `${habitStatus.dateStamp}-${habitStatus.habitID}`,
           count: habitStatus.count,
           habitID: habitStatus.habitID,
-          status: habitStatus.status,
+          name: habitStatus.name,
+          isPositive: habitStatus.isPositive,
+          threshold: habitStatus.threshold,
+          pngURL: habitStatus.pngURL,
         };
 
         await this.DB.putItem(data);

@@ -30,19 +30,23 @@ class UpdateHabit {
   async update(email, habitID, habit) {
     const key = { PK: `${email}-habit`, SK: habitID };
     const expression =
-      "SET #name = :name, #isPositive = :isPositive, #threshold = :threshold, #pngURL = :pngURL";
+      "SET #name = :name, #isPositive = :isPositive, #threshold = :threshold, #pngURL = :pngURL, #time = :time";
     const names = {
       "#name": "name",
       "#isPositive": "isPositive",
       "#threshold": "threshold",
       "#pngURL": "pngURL",
+      "#time": "time",
     };
     const values = {
       ":name": habit.name,
       ":isPositive": habit.isPositive,
       ":threshold": habit.threshold,
       ":pngURL": habit.pngURL,
+      ":time": habit.time,
+
     };
+    
     await this.DB.updateItem(expression, key, names, values);
   }
 }

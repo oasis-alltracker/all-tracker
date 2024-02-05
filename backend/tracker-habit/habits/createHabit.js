@@ -33,6 +33,7 @@ class CreateHabit {
   async create(email, habit) {
     const habitID = uuidv1();
 
+    
     const data = {
       PK: `${email}-habit`,
       SK: `${habitID}`,
@@ -40,6 +41,7 @@ class CreateHabit {
       isPositive: habit.isPositive,
       threshold: habit.threshold,
       pngURL: habit.pngURL,
+      time: habit.time
     };
 
     await this.DB.putItem(data);
