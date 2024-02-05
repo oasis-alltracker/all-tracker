@@ -30,17 +30,17 @@ class UpdateNotification {
 
     async updateEntry(email, notificationID, notification) {
         const key = {PK: `${email}-notification`, SK: notificationID};
-        const expression =  'SET #trigger = :trigger, #ids = :ids, #title = :title, #body = :body, #preference = :preference' ;
+        const expression =  'SET #trigger = :trigger, #expoIDs = :expoIDs, #title = :title, #body = :body, #preference = :preference' ;
         const names = {
             '#trigger': 'trigger',
-            '#ids': 'ids',
+            '#expoIDs': 'expoIDs',
             '#title': 'title',
             '#body': 'body',
             '#preference': 'preference',
         };
         const values = {
             ':trigger': notification.trigger,
-            ':ids': notification.ids,
+            ':expoIDs': notification.expoIDs,
             ':title': notification.title,
             ':body': notification.body,   
             ':preference': notification.preference,  

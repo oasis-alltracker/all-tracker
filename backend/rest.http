@@ -6,11 +6,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlc
 ###
 
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTY5MzU4OTU1MiwiZXhwIjoxNjkzNzYyMzUyfQ.riWfQs-v3PNqcr1fRGeHVGNdD-JNMd1Y6B7deIzIzGw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hc2lzQG9hc2lzLWFsbHRyYWNrZXIuY29tIiwiaWF0IjoxNzA2NDc0NzcxLCJleHAiOjE3MDY2NDc1NzF9.CGxAeDgYEY5mm3Pxityblq4mqyWwMplxGJRksiy-xh0
 
 {
     "isSetupComplete": false,
-    "trackingPreferences": ["diet", "mood"]
+    "trackingPreferences": {"dietSelected": true, "fitnessSelected": true, "habits": false, "moodSelected": false, "sleepSelected": false, "toDosSelected": false}
+}
+###
+
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hc2lzQG9hc2lzLWFsbHRyYWNrZXIuY29tIiwiaWF0IjoxNzA2NDc0NzcxLCJleHAiOjE3MDY2NDc1NzF9.CGxAeDgYEY5mm3Pxityblq4mqyWwMplxGJRksiy-xh0
+
+{
+    "taskPreference": false
 }
 ###
 
@@ -163,7 +171,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxM
     "name": "Wash Shoes",
     "isPositive": true,
     "threshold": 1,
-    "pngURL": "url"
+    "pngURL": "url",
+    "time": "13:00"
 }
 ###
 
@@ -176,7 +185,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxM
     "name": "Wash Shoes",
     "isPositive": true,
     "threshold": 2,
-    "pngURL": "url"
+    "pngURL": "url",
+    "time": "15:00"
 }
 ###
 
@@ -204,13 +214,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxM
 
 //Create habit status.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcwNjkzNjU1OSwiZXhwIjoxNzA3MTA5MzU5fQ.bfw8cqppLhFQ0IGTHsqEcv18CJrwtyIuvj6LPBoZ2jU
 
 {
-    "count": 0,
-    "habitID": "497bef50-a773-11ed-8679-d7059b0ed0d6",
-    "status": "not started",
-    "dateStamp": "20230209"
+    "habitID": "0a60c9e0-c233-11ee-835e-1b72bb169a75", 
+    "name": "Walk", 
+    "count":1
 }
 ###
 
@@ -221,7 +230,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxM
 
 {
     "count": 2,
-    "status": "complete"
 }
 ###
 
@@ -346,19 +354,25 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxM
 {
     "name": "Finish this app",
     "schedule": "MWF",
-    "priorityTag": "High"
+    "description": "Description",
+    "notifications": false,
+    "completionList": ["1", "2", "3"],
+    "nextDueDate": "20230208"
 }
 ###
 
 
 //Update recurring task.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/9abd4360-a7fe-11ed-a168-b10e30576ca1
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/bf072450-c05a-11ee-8f01-23a18fd0766d
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 
 {
     "name": "Finish this app",
     "schedule": "MWF",
-    "priorityTag": "Regular"
+    "description": "Description",
+    "notifications": false,
+    "completionList": ["1", "2", "3"],
+    "nextDueDate": "20230209"
 }
 ###
 
@@ -371,13 +385,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxM
 //----------------T O - D O S----------------
 //-------------------------------------------
 //Get to-dos for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?dateStamp=20230208
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?dateStamp=20230209&isComplete=true
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 ###
 
 
 //Get to-dos for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?startDate=20230208&endDate=20230210
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?startDate=20230208&endDate=20230210&isComplete=false
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 ###
 
@@ -387,9 +401,8 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 
 {
-    "isComplete": false,
     "name": "Finish this app",
-    "priorityTag": "High",
+    "notifications": true,
     "isRecurring": false,
     "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
     "dateStamp": "20230209"
@@ -402,10 +415,13 @@ PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/20230
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 
 {
-    "isComplete": true,
-    "name": "Finish this app",
-    "priorityTag": "High",
-    "isRecurring": false
+    "name": "Finish",
+    "notifications": true,
+    "isRecurring": false,
+    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
+    "dateStamp": "20230209",
+    "prevSK": "false-20230209-17fa0100-a800-11ed-a98f-79871c76ade1",
+    "isComplete": true
 }
 ###
 
@@ -687,24 +703,23 @@ GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/notificatio
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 ###
 
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/notifications/breakfast
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/notifications/habit
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 
 {
     "trigger": {
-        "weekday": "2",
         "hour": "12",
         "minute": "30"
     },
     "title":"title",
     "body":"body",
-    "ids": 123,
+    "expoIDs": 123,
     "preference": "on"
 }
 ###
 
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/notifications/breakfast
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
+DELETE https://pc42o3mjj7.execute-api.ca-central-1.amazonaws.com/production/v1/notifications/habit
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE3MDcxMDIwNTIsImV4cCI6MTcwNzI3NDg1Mn0.-L2dK-PIvAqOSikZ1udVGl8Ouu30DsyULyLESJ5zckQ
 ###
 
 
