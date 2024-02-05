@@ -4,10 +4,17 @@ import { Header } from "../../components";
 
 const Contact = () => {
   return (
+    <>
     <View style={styles.container}>
       <Header showCenter={false} />
       <Text style={styles.title}>Contact</Text>
     </View>
+    <View style={styles.container}>
+        <Text style={styles.text}>If you would like to contact us,</Text>
+        <Text style={styles.text}>please DM on instagram</Text>
+        <Text style={styles.texBold}>@oasis.all-tracker</Text>
+      </View>
+      </>
   );
 };
 
@@ -22,6 +29,21 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
     color: "#25436B",
     marginTop: 50,
+  },
+  text: {
+    alignSelf: "center",
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Sego",
+    color: "#25436B",
+    marginTop: 10,
+  },
+  texBold: {
+    alignSelf: "center",
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Sego-Bold",
+    color: "#25436B",
   },
 });
 

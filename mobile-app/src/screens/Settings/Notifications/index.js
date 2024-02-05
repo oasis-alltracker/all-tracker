@@ -1,8 +1,15 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
-import { Header, Switch } from "../../../components";
+import React, {useEffect, useState} from "react";
+import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity } from "react-native";
+
+import { Header } from "../../../components";
 import MentalItem from "./mentalItem";
 import EmotionalItem from "./emotionalItem";
+import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
+import { getAccessToken } from "../../../user/keychain";
+import DateTimePicker from '@react-native-community/datetimepicker'
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import UserAPI from "../../../api/user/userAPI";
 
 const mentalData = [
   {
@@ -37,46 +44,285 @@ const emotionalData = [
 ];
 
 const Notifications = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [trackingPreferences, setTrackingPreferences] = useState({});
+
+  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
+  const [isHabitsEnabled, setIsHabitsEnabled] = useState(false);
+  const [habitExpoIDs, setHabitExpoIDs] = useState([]);
+  const [habitTime, setHabitTime] = useState(new Date('1995-12-17T12:00:00'));
+  const [show, setShow] = useState(false);
+
+
+  const habitsToggled = async() => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+    timeArray = formatDateObjectBackend(habitTime).split(":")
+    hour = timeArray[0]
+    minute = timeArray[1]
+
+    if(isHabitsEnabled){
+      await NotificationsHandler.turnOffNotification(token, "habit", habitExpoIDs);
+      setIsHabitsEnabled(previousState => !previousState);
+    }
+    else{
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
+      if(systemNotificationsStatus){
+        notificationCreated = await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}] )
+        if(notificationCreated){
+          setIsHabitsEnabled(previousState => !previousState);
+        }
+      }
+      else{
+        Toast.show("To get reminders, you need to turn on notifications in your phone's settings.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
+      }
+    }
+
+    
+    setIsLoading(false);
+  }
+
+  const allNotificationsToggled = async() => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    if(isNotificationsEnabled){
+      await NotificationsHandler.turnOffAllNotifications(token);
+      setIsNotificationsEnabled(previousState => !previousState);
+    }
+    else{
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
+      if(systemNotificationsStatus){
+        await NotificationsHandler.turnOnAllNotifications(token);
+        setIsNotificationsEnabled(previousState => !previousState);
+      }
+      else{
+        Toast.show("To get reminders, you need to turn on notifications in your phone's settings.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
+      }
+    }
+
+    
+    setIsLoading(false);
+  }
+
+  const formatDateObject = (dateObject) => {
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    };
+    return dateObject.toLocaleString('en-US', options)
+  }
+
+  const onChange = async (event, selectedDate) => {
+    setIsLoading(true);
+    if (Platform.OS === 'android') {
+      setShow(false);
+    }
+    
+    const token = await getAccessToken();
+    timeArray = formatDateObjectBackend(selectedDate).split(":")
+    hour = timeArray[0]
+    minute = timeArray[1]
+
+    if(isHabitsEnabled){
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
+      if(systemNotificationsStatus){
+        await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}] );
+      }
+      else{
+        Toast.show("To get reminders, you need to turn on notifications in your phone's settings.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
+      }
+    }
+
+    setHabitTime(selectedDate);
+    setIsLoading(false);
+
+  };
+
+  const formatDateObjectBackend = (dateObject) => {
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    };
+    return dateObject.toLocaleString('en-US', options)
+  }
+
+  useEffect(() => {
+    const onLoad = async() =>{
+      if(isLoading){
+        
+        token = await getAccessToken()
+        user = await UserAPI.getUser(token)
+
+        setTrackingPreferences(user.data.trackingPreferences)
+
+        allNotifications = await NotificationsHandler.getNotificationsForGroup(token, "notifications")
+        habitNotifications = await NotificationsHandler.getNotificationsForGroup(token, "habit")
+
+
+        
+        setIsNotificationsEnabled(allNotifications[0]?.preference === "on" )
+        setIsHabitsEnabled(habitNotifications[0]?.preference === "on" )
+        setHabitExpoIDs(habitNotifications[0]?.expoIDs )
+
+        var hour = habitNotifications[0]?.trigger[0]?.hour
+        if( hour == 0 || hour === undefined){
+          hour = "00"
+        }
+        var minute = habitNotifications[0]?.trigger[0]?.minute
+        if( minute == 0 || minute === undefined){
+          minute = "00"
+        }
+        var newTime = `1995-12-17T${hour}:${minute}:00`
+
+        setHabitTime(new Date(newTime));
+
+        setIsLoading(false)
+      }    
+    }
+    onLoad()
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header showCenter={false} />
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.itemContainer}>
+
+
           <Text style={styles.screenName}>Notifications</Text>
-          <Switch width={55} height={33} />
+          <Switch width={55}
+                height={32}
+                onValueChange={allNotificationsToggled}
+                value={isNotificationsEnabled}
+                trackColor={{true: '#d7f6ff',false: '#ffd8f7', }}
+                thumbColor={isNotificationsEnabled ? '#d7f6ff' : '#ffd8f7'}/>
         </View>
-        <Text style={styles.sectionTitle}>mental</Text>
-        {mentalData.map((val, key) => {
-          return <MentalItem item={val} key={key.toString()} />;
-        })}
-        <Text style={styles.sectionTitle}>Physical</Text>
-        {physicalData.map((val, key) => {
-          return (
-            <View
-              key={key.toString()}
-              style={[styles.itemContainer, styles.itemContainer4]}
-            >
-              <Switch />
-              <Text style={styles.itemTitle}>{val.title}</Text>
+
+        {(trackingPreferences.habitsSelected || trackingPreferences.toDosSelected) &&
+          <>
+            <Text style={styles.sectionTitle}>Mental</Text>
+
+            {trackingPreferences.habitsSelected &&
               <View
-                style={[
-                  styles.itemContainer,
-                  styles.itemContainer3,
-                  { backgroundColor: "#D7F6FF" },
-                ]}
-              >
-                <Text style={styles.smallText}>{val.time}</Text>
+                  style={[styles.habitContainer, styles.itemContainer4]}
+                >
+                  <Switch width={55}
+                    height={32}
+                    onValueChange={habitsToggled}
+                    value={isHabitsEnabled}
+                    trackColor={{true: '#d7f6ff',false: '#ffd8f7', }}
+                    thumbColor={isHabitsEnabled ? '#d7f6ff' : '#ffd8f7'}/>
+                  <Text style={styles.itemTitle}>Habits</Text>
+                  <View
+                    style={[
+                      styles.habitTimeContainer,
+                      styles.itemContainer3,
+                      { backgroundColor: "#D7F6FF" },
+                    ]}
+                  >
+                    <>
+                      {Platform.OS === 'ios' ? 
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={habitTime}
+                          mode={'time'}
+                          is24Hour={true}
+                          onChange={onChange}
+                        />
+                        :
+                        <TouchableOpacity
+                          style={styles.timeButton}
+                          testID="setMinMax"
+                          value="time"
+                          onPress={() => {
+                          setShow(true);
+                          }}
+                          title="toggleMinMaxDate">
+                            <Text style={styles.timeText}>{formatDateObject(habitTime)}</Text>
+                        </TouchableOpacity>
+                      }
+                    </>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <>
+                          {show && (                 
+                            <DateTimePicker
+                              testID="dateTimePicker"
+                              value={habitTime}
+                              mode={'time'}
+                              is24Hour={true}
+                              onChange={onChange}
+                            />)}
+                        </>
+                    </View>
+                  </View>
               </View>
-            </View>
-          );
-        })}
-        <Text style={styles.sectionTitle}>Emotional</Text>
-        {emotionalData.map((val, key) => {
-          return <EmotionalItem item={val} key={key} />;
-        })}
+            }
+            {trackingPreferences.toDosSelected &&
+              <MentalItem item={mentalData[1]}/>
+            }
+          </>
+        }
+
+
+
+        {(trackingPreferences.fitnessSelected || trackingPreferences.dietSelected) &&
+          <>
+            <Text style={styles.sectionTitle}>Physical</Text>
+            {physicalData.map((val, key) => {
+              return (
+                <View
+                  key={key.toString()}
+                  style={[styles.itemContainer, styles.itemContainer4]}
+                >
+                  <Switch />
+                  <Text style={styles.itemTitle}>{val.title}</Text>
+                  <View
+                    style={[
+                      styles.itemContainer,
+                      styles.itemContainer3,
+                      { backgroundColor: "#D7F6FF" },
+                    ]}
+                  >
+                    <Text style={styles.smallText}>{val.time}</Text>
+                  </View>
+                </View>
+              );
+            })}
+          </>
+        }
+
+
+        {(trackingPreferences.fitnessSelected || trackingPreferences.dietSelected) &&
+          <>
+            <Text style={styles.sectionTitle}>Emotional</Text>
+            {emotionalData.map((val, key) => {
+              return <EmotionalItem item={val} key={key} />;
+            })}
+          </>
+        }
+
+
       </ScrollView>
     </View>
   );
@@ -93,6 +339,28 @@ export const styles = StyleSheet.create({
     paddingTop: 20,
   },
   itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 25,
+    marginTop:25,
+    marginBottom: 10,
+  },
+
+  habitContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    marginBottom: 10,
+  },
+  habitTimeContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
@@ -122,15 +390,16 @@ export const styles = StyleSheet.create({
   },
   screenName: {
     color: "#25436B",
-    fontSize: 30,
+    fontSize: 32,
     fontFamily: "Sego-Bold",
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 40,
+    fontSize: 35,
     color: "#25436B",
     fontFamily: "Sego",
     marginTop: 30,
+    marginBottom: 5,
     paddingHorizontal: 20,
   },
   itemTitle: {
@@ -139,6 +408,11 @@ export const styles = StyleSheet.create({
     fontFamily: "Sego",
     marginLeft: 15,
     flex: 1,
+  },
+  timeText: {
+    fontSize: 17,
+    color: "#25436B",
+    fontFamily: "Sego",
   },
   bottomItems: {
     flexDirection: "row",

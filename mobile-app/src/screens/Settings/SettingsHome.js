@@ -11,6 +11,7 @@ import React from "react";
 import { Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { logout } from "../../user/keychain";
+import Toast from "react-native-root-toast";
 
 const buttons = [
   {
@@ -18,12 +19,14 @@ const buttons = [
     title: "Personal",
     childs: [
       {
-        title: "Personal detail",
+        title: "Personal details",
         route: "personal",
+        isPersonalDetails: true
       },
       {
         title: "Goals",
         route: "goals",
+        isGoals: true
       },
     ],
   },
@@ -38,20 +41,7 @@ const buttons = [
       {
         title: "Units",
         route: "units",
-      },
-    ],
-  },
-  {
-    img: require("../../assets/images/tracking.png"),
-    title: "Personal",
-    childs: [
-      {
-        title: "Tracking preferences",
-        route: "tracks",
-      },
-      {
-        title: "Coming soon",
-        route: "comingSoon",
+        isUnits: true,
       },
     ],
   },
@@ -62,7 +52,9 @@ const buttons = [
       {
         title: "Contact",
         route: "contact",
+        isContact: true,
       },
+      
     ],
   },
   {
@@ -79,6 +71,13 @@ const buttons = [
 ];
 
 const SettingsHome = () => {
+  const comingSoon = () => {
+    Toast.show("Coming soon!", {
+      ...styles.errorToast,
+      duration: Toast.durations.SHORT,
+    });
+  }
+
   const logoutHandler = () => {
     Alert.alert(
       "Logout",
@@ -115,9 +114,22 @@ const SettingsHome = () => {
             {item.childs.map((item, index) => (
               <TouchableOpacity
                 onPress={(e) => {
-                  if (item.isLogout) {
+                  if (item.Units) {
+                    comingSoon();
+                  }
+                  else if (item.isUnits) {
+                    comingSoon();
+                  }
+                  else if (item.isPersonalDetails) {
+                    comingSoon();
+                  }
+                  else if (item.isGoals) {
+                    comingSoon();
+                  }
+                  else if (item.isLogout) {
                     logoutHandler();
-                  } else {
+                  }
+                  else {
                     navigationService.navigate(item.route);
                   }
                 }}
@@ -182,7 +194,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   arrowRight: {
-    transform: [{ rotate: "180deg" }],
     width: 10,
     height: 20,
   },
