@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { Button, Header } from "../../../components";
+import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import CheckBox from "../../../assets/icons/checkbox";
@@ -11,10 +11,11 @@ const Agreement = () => {
 
   const onPressContinue = async () => {
     if(checked){
-      navigationService.navigate("setup")
+      setChecked(false);
+      navigationService.navigate("selectTrackers")
     }
     else{
-      Toast.show("You must agree sign the agreement to continue.", {
+      Toast.show("You must sign the agreement to continue.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
@@ -23,21 +24,20 @@ const Agreement = () => {
 
   return (
     <View style={styles.container}>
-      <Header />
       <View style={styles.view}>
         <View style={styles.center}>
-          <Text style={styles.title}>Your personal data is secure</Text>
+          <Text style={styles.title}>Welcome to Oasis!</Text>
           <TouchableOpacity onPress={() => navigationService.navigate("termsOfService")} style={styles.linkBtn}>
             <Text style={styles.linkText}>
               Read our <Text style={styles.boldText}>Terms of Service</Text>
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigationService.navigate("userAgreement")} style={styles.linkBtn}>
+          <TouchableOpacity onPress={() => navigationService.navigate("privacyPolicy")} style={styles.linkBtn}>
             <Text style={styles.linkText}>
               Read the <Text style={styles.boldText}>Privacy Policy</Text>
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigationService.navigate("privacyPolicy")} style={styles.linkBtn}>
+          <TouchableOpacity onPress={() => navigationService.navigate("userAgreement")} style={styles.linkBtn}>
             <Text style={styles.linkText}>
               Read the <Text style={styles.boldText}>User Agreement</Text>
             </Text>
@@ -55,11 +55,11 @@ const Agreement = () => {
           </View>
         </View>
         <Button
-          onPress={() => onPressContinue()}
-          style={styles.button}
-        >
-          Continue
-        </Button>
+        onPress={() => onPressContinue()}
+        style={styles.nextButton}
+      >
+        Continue
+      </Button>
       </View>
     </View>
   );
@@ -72,17 +72,18 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#25436B",
-    fontSize: 32,
+    fontSize: 35,
     textAlign: "center",
     fontFamily: "Sego-Bold",
-    marginVertical: 30,
+    marginTop: 35,
+    marginBottom: 50,
   },
   linkBtn: {
     marginVertical: 10,
   },
   row: {
     flexDirection: "row",
-    marginVertical: 25,
+    marginVertical: 45,
     paddingHorizontal: 10,
   },
   agreementText: {
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
+    marginTop: 150
   },
   view: {
     flex: 1,
@@ -130,6 +132,10 @@ const styles = StyleSheet.create({
   icon: {
     width: "100%",
     height: "100%",
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 
