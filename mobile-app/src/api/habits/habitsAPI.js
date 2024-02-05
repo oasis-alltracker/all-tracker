@@ -17,6 +17,9 @@ class HabitsAPI {
   }
 
   static async createHabit(token, habit) {
+    console.log(habit);
+    console.log(token);
+    console.log(API);
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -34,11 +37,7 @@ class HabitsAPI {
     };
     const url = API + habitID;
 
-    try {
-      await axios.put(url, habit, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, habit, { headers: headers });
   }
 
   static async deleteHabit(token, habitID) {
@@ -47,11 +46,8 @@ class HabitsAPI {
     };
     const url = API + habitID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+
+    await axios.delete(url, { headers: headers });
   }
 }
 export default HabitsAPI;

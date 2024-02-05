@@ -3,7 +3,7 @@ import { BASE_URL } from "@env";
 const API = BASE_URL + "habitStatuses/";
 
 class HabitStatusesAPI {
-  static async getHabitStatusesForToday(token, dateStamp) {
+  static async getHabitStatusesForToday(token, dateStamp, isComplete) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -11,14 +11,14 @@ class HabitStatusesAPI {
     try {
       const response = await axios.get(API, {
         headers: headers,
-        params: { dateStamp: dateStamp },
+        params: { dateStamp: dateStamp, isComplete: isComplete},
       });
       return response?.data;
     } catch (e) {
       console.log(e);
     }
   }
-  static async getHabitStatusesForMutlipleDays(token, startDate, endDate) {
+  static async getHabitStatusesForMutlipleDays(token, startDate, endDate, isComplete) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -26,7 +26,7 @@ class HabitStatusesAPI {
     try {
       const response = await axios.get(API, {
         headers: headers,
-        params: { startDate: startDate, endDate: endDate },
+        params: { startDate: startDate, endDate: endDate, isComplete: isComplete},
       });
       return response?.data;
     } catch (e) {
@@ -46,6 +46,7 @@ class HabitStatusesAPI {
   }
 
   static async updateHabitStatus(token, habitStatusID, habitStatus) {
+  
     const headers = {
       Authorization: `Bearer ${token}`,
     };
