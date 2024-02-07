@@ -369,6 +369,19 @@ functions:
           method: delete
           cors: true
 
+##HabitStatusList
+  habitStatusList:
+    handler: tracker-habit/habitStatusList/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/habitStatusList
+          method: get
+          cors: true
+
 
 ##### W E L L N E S S #####
 ##SleepReports##

@@ -11,9 +11,9 @@ import {
 import CreateHabitModal from "./CreateHabitModal";
 import AddHabits from "./AddHabits";
 import UpdateHabitStatusModal from "./UpdateHabitStatusModal";
-import moment from 'moment';
+import moment from "moment";
 
-import { getAccessToken } from '../../user/keychain'
+import { getAccessToken } from "../../user/keychain";
 
 import HabitsAPI from "../../api/habits/habitsAPI";
 import UserAPI from "../../api/user/userAPI";
@@ -22,6 +22,7 @@ import TasksAPI from "../../api/tasks/tasksAPI";
 import ToDosAPI from "../../api/tasks/todosAPI";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
+import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
 
 export default function Main() {
   const [day, setDay] = useState(new Date());
@@ -53,211 +54,195 @@ export default function Main() {
   ];
 
   const updateDate = (dateChange) => {
-    var dayValue = (60 * 60 * 24 * 1000) * dateChange; 
-    var newDate = new Date(new Date(day).getTime() + dayValue)
+    var dayValue = 60 * 60 * 24 * 1000 * dateChange;
+    var newDate = new Date(new Date(day).getTime() + dayValue);
     setDay(newDate);
     refreshHabits(newDate);
-  }
+  };
 
   const createHabit = async (habit) => {
-    setIsHabitsLoading(true)
-    try{
-      token = await getAccessToken()
-      await HabitsAPI.createHabit(token, habit)
-      await getHabits(token);
-      await getHabitsStatuses(token);
-      createStatusList(day)
-    }
-    catch(e){
+    setIsHabitsLoading(true);
+    try {
+      token = await getAccessToken();
+      await HabitsAPI.createHabit(token, habit);
+
+      await createStatusList(day);
+    } catch (e) {
       setIsHabitsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
-  const refreshHabits = async(date = false) => {
-    setIsHabitsLoading(true)
-    if(!date){
-      date = day
+  const refreshHabits = async (date = false) => {
+    setIsHabitsLoading(true);
+    if (!date) {
+      date = day;
     }
-    try{
-      token = await getAccessToken()
-      await getHabits(token);
-      await getHabitsStatuses(token, date);
-      createStatusList(date)
-    }
-    catch(e){
+    try {
+      token = await getAccessToken();
+
+      createStatusList(date);
+    } catch (e) {
       setIsHabitsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
-  const getHabits = async(token) => {
-    try{
-      userHabits = await HabitsAPI.getHabits(token)
-    }
-    catch(e){
+  const getHabits = async (token) => {
+    try {
+      userHabits = await HabitsAPI.getHabits(token);
+    } catch (e) {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
-  const getHabitsStatuses = async(token, date=false) => {
-    if(!date){
-      date = day
+  const getHabitsStatuses = async (token, date = false) => {
+    if (!date) {
+      date = day;
     }
-    try{
-      userHabitsStatuses =  await HabitStatusesAPI.getHabitStatusesForToday(token, moment(date).format('YYYYMMDD'))
-    }
-    catch(e){
+    try {
+      userHabitsStatuses = await HabitStatusesAPI.getHabitStatusesForToday(
+        token,
+        moment(date).format("YYYYMMDD")
+      );
+    } catch (e) {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
   const updateHabitStatusCount = async (habit, count) => {
     try {
-      var habitStatus
-      token = await getAccessToken()
-      if(habit.count === undefined) {
+      var habitStatus;
+      token = await getAccessToken();
+      if (habit.count === undefined) {
         habitStatus = {
-          dateStamp:moment(day).format('YYYYMMDD'),
+          dateStamp: moment(day).format("YYYYMMDD"),
           name: habit.name,
           isPositive: habit.isPositive,
           threshold: habit.threshold,
           pngURL: habit.pngURL,
-        }
-        habitStatus.count = count
-        habitStatus.habitID = habit.SK
-        await HabitStatusesAPI.createHabitStatus(token, habitStatus)
-
-      }
-      else {
+        };
+        habitStatus.count = count;
+        habitStatus.habitID = habit.SK;
+        await HabitStatusesAPI.createHabitStatus(token, habitStatus);
+      } else {
         habitStatus = {
           SK: habit.SK,
           count: count,
-          isPositive: habit.isPositive
-        }
+          isPositive: habit.isPositive,
+        };
 
-        await HabitStatusesAPI.updateHabitStatus(token, habit.SK, {count: count})
-
+        await HabitStatusesAPI.updateHabitStatus(token, habit.SK, {
+          count: count,
+        });
       }
 
-      return habitStatus
-    }
-    catch(e) {
+      return habitStatus;
+    } catch (e) {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
-  const createStatusList = (showingDate = false) => {
-      if(!showingDate){
-        showingDate = new Date()
-      }
-      var tempStatusList = [...userHabits];
-      var habitStatusesClone = [...userHabitsStatuses];
+  const createStatusList = async (showingDate = false) => {
+    if (!showingDate) {
+      showingDate = new Date();
+    }
+    const token = await getAccessToken();
+    const statusList = await HabitStatusListAPI.getHabitStatusList(
+      token,
+      showingDate
+    );
+    setStatusList(statusList);
+    setIsHabitsLoading(false);
+  };
 
-      for (habitEntry of tempStatusList){
-        const statusSK = `${moment(showingDate).format('YYYYMMDD')}-${habitEntry.SK}`
-        habitStatus = habitStatusesClone.find(status => status.SK === statusSK);
-
-        if(habitStatus !== undefined) {
-          habitEntry.count = habitStatus.count
-          habitEntry.SK = statusSK
-          var removeIndex = habitStatusesClone.map(status => status.SK).indexOf(statusSK);
-          ~removeIndex && habitStatusesClone.splice(removeIndex, 1);
-        }
-      }
-      tempStatusList.push.apply(tempStatusList, habitStatusesClone);
-      setStatusList(tempStatusList);
-      setIsHabitsLoading(false);
-  }
-
-  const getTasks = async(token) => {
+  const getTasks = async (token) => {
     setIsTasksLoading(true);
-    try{
-      userTaks =  await TasksAPI.getTasks(token)
+    try {
+      userTaks = await TasksAPI.getTasks(token);
       setTasks(userTaks);
-    }
-    catch(e){
+    } catch (e) {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
-  const getToDos = async(token) => {
+  const getToDos = async (token) => {
     setIsTasksLoading(true);
-    try{
-      userTaks =  await ToDosAPI.getToDosForToday(token, moment(day).format('YYYYMMDD'), false)
+    try {
+      userTaks = await ToDosAPI.getToDosForToday(
+        token,
+        moment(day).format("YYYYMMDD"),
+        false
+      );
       setTasks(userTaks);
-    }
-    catch(e){
+    } catch (e) {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
-  const onHabitStatusUpdate = async(habitStatus, count) => {
+  const onHabitStatusUpdate = async (habitStatus, count) => {
     setIsHabitsLoading(true);
-    try{
-      token = await getAccessToken()
-      await updateHabitStatusCount(habitStatus, count)
-      await getHabits(token);
-      await getHabitsStatuses(token);
-      createStatusList(day)
-    }
-    catch(e){
-      console.log(e)
+    try {
+      token = await getAccessToken();
+
+      await updateHabitStatusCount(habitStatus, count);
+      await createStatusList(day);
+      //
+    } catch (e) {
+      console.log(e);
       setIsHabitsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
   //after implementation add task loade and habits loaded so that use effect doesn't get both
 
   useEffect(() => {
-    const getDataOnLoad = async() =>{
-      token = await getAccessToken()
-      if(!isPageLoaded){
-        setIsPageLoaded(true)
+    const getDataOnLoad = async () => {
+      token = await getAccessToken();
+      if (!isPageLoaded) {
+        setIsPageLoaded(true);
         setIsHabitsLoading(true);
         setIsTasksLoading(true);
 
-        await getHabits(token);
-        await getHabitsStatuses(token);
+        const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
+          .trackingPreferences;
+        setTrackingPreferences(trackingPreferencesLoaded);
+
+        await createStatusList(day);
+
         await getToDos(token);
         await getTasks(token);
 
-        const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data.trackingPreferences
-        setTrackingPreferences(trackingPreferencesLoaded)
-
-
-        createStatusList(day);
         setIsHabitsLoading(false);
         setIsTasksLoading(false);
-      }    
-    }
-    getDataOnLoad()
-
+      }
+    };
+    getDataOnLoad();
   }, []);
 
   return (
@@ -266,9 +251,7 @@ export default function Main() {
       contentContainerStyle={styles.containerMain}
       scrollEnabled={false}
     >
-      <Spinner
-        visible={isHabitsLoading}>
-      </Spinner>
+      <Spinner visible={isHabitsLoading}></Spinner>
       <View style={styles.imageConMain}>
         <Image
           style={styles.imageMain}
@@ -276,21 +259,29 @@ export default function Main() {
         />
       </View>
       <View style={styles.dateLineMain}>
-        <TouchableOpacity style={styles.buttonMain} onPress={() => updateDate(-1)}>
+        <TouchableOpacity
+          style={styles.buttonMain}
+          onPress={() => updateDate(-1)}
+        >
           <Image
             style={[styles.preButtonMain, styles.nextButtonMain]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
-        <> 
-          {
-            moment(day).format('YYYYMMDD') == moment(today).format('YYYYMMDD') ?
+        <>
+          {moment(day).format("YYYYMMDD") ==
+          moment(today).format("YYYYMMDD") ? (
             <Text style={styles.dateNameMain}>Today</Text>
-            :
-            <Text style={styles.dateNameMain}>{day.toDateString().slice(4)}</Text>
-          }
+          ) : (
+            <Text style={styles.dateNameMain}>
+              {day.toDateString().slice(4)}
+            </Text>
+          )}
         </>
-        <TouchableOpacity style={styles.buttonMain} onPress={() => updateDate(1)}>
+        <TouchableOpacity
+          style={styles.buttonMain}
+          onPress={() => updateDate(1)}
+        >
           <Image
             style={styles.preButtonMain}
             source={require("../../assets/images/left.png")}
@@ -310,294 +301,355 @@ export default function Main() {
               source={require("../../assets/images/plus-2.png")}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => refreshHabits()}
-          >
+          <TouchableOpacity onPress={() => refreshHabits()}>
             <Image
               style={styles.refresh}
               source={require("../../assets/images/reload.png")}
             />
           </TouchableOpacity>
         </View>
-
       </View>
 
-      <View style={{width:"100%"}}>
-            {trackingPreferences.toDosSelected? 
-              
-      <ScrollView horizontal={true} contentContainerStyle={[styles.habitScrollContainter]} showsHorizontalScrollIndicator={false}>
-      {
-        statusList.length>0? <>
-        {
-          statusList.map((val, key) => {
-          return ( 
-            (val.isPositive ? 
-                ((val.count === undefined || val.count < val.threshold) ? 
-                  <TouchableOpacity style={[styles.habitButton, {backgroundColor: "rgba(215, 246, 255, 0.65)"}]} key={key.toString()} onPress={() => {
+      <View style={{ width: "100%" }}>
+        {trackingPreferences.toDosSelected ? (
+          <ScrollView
+            horizontal={true}
+            contentContainerStyle={[styles.habitScrollContainter]}
+            showsHorizontalScrollIndicator={false}
+          >
+            {statusList.length > 0 ? (
+              <>
+                {statusList.map((val, key) => {
+                  return val.isPositive ? (
+                    val.count === undefined || val.count < val.threshold ? (
+                      <TouchableOpacity
+                        style={[
+                          styles.habitButton,
+                          { backgroundColor: "rgba(215, 246, 255, 0.65)" },
+                        ]}
+                        key={key.toString()}
+                        onPress={() => {
+                          var count = 1;
+                          var SK = `${moment(day).format("YYYYMMDD")}-${
+                            val.SK
+                          }`;
+                          if (val.count !== undefined) {
+                            count = val.count + 1;
+                            SK = val.SK;
+                          }
 
-                  var count = 1
-                  var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                  if(val.count !== undefined){
-                    count = val.count + 1
-                    SK = val.SK
-                  }
+                          updateHabitStatusCount(val, count);
 
-                  updateHabitStatusCount(val, count)
-
-                  updateHabitsStatusRef.current.open(true, {
-                    name:val.name,
-                    SK:SK,
-                    count:count,
-                    isPositive:val.isPositive,
-                    threshold: val.threshold
-                  });
-                  }}>
-                  <Image
-                  style={styles.habitImage}
-                  source={{uri:val.pngURL}}
-                  />
-                  </TouchableOpacity>
-                :
-                  <TouchableOpacity style={[styles.habitButton, {backgroundColor: "rgb(255, 255, 255)", borderColor: "#CCCCCC", borderWidth:1}]} key={key.toString()} onPress={() => {
-
-                    var count = 1
-                    var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                    if(val.count !== undefined){
-                      count = val.count + 1
-                      SK = val.SK
-                    }
-
-                    updateHabitStatusCount(val, count)
-
-                    updateHabitsStatusRef.current.open(true, {
-                      name:val.name,
-                      SK:SK,
-                      count:count,
-                      isPositive:val.isPositive,
-                      threshold: val.threshold
-                    });
-                    }}>
-
-                    <ImageBackground
-                    style={styles.habitImage}
-                    source={{uri:val.pngURL}}
-                    resizeMode="cover"
-                    >
-                      <Image style={styles.habitImage} source={require("../../assets/images/check-mark.png")} />
-                    </ImageBackground>
-                      
-                    </TouchableOpacity>
-                )
-                
-                :
-                ((val.count === undefined || val.count < val.threshold)? 
-                  <TouchableOpacity style={[styles.habitButton, {backgroundColor: "rgba(255, 207, 245, 0.65)"}]} key={key.toString()} onPress={() => {
-
-                  var count = 1
-                  var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                  if(val.count !== undefined){
-                    count = val.count + 1
-                    SK = val.SK
-                  }
-
-                  updateHabitStatusCount(val, count)
-
-                  updateHabitsStatusRef.current.open(true, {
-                    name:val.name,
-                    SK:SK,
-                    count:count,
-                    isPositive:val.isPositive,
-                    threshold: val.threshold
-                  });
-                  }}>
-                  <Image
-                  style={styles.habitImage}
-                  source={{uri:val.pngURL}}
-                  />
-                  </TouchableOpacity>
-                :
-                  <TouchableOpacity style={[styles.habitButton, {backgroundColor: "rgb(255, 255, 255)", borderColor: "#CCCCCC", borderWidth:1}]} key={key.toString()} onPress={() => {
-
-                    var count = 1
-                    var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                    if(val.count !== undefined){
-                      count = val.count + 1
-                      SK = val.SK
-                    }
-
-                    updateHabitStatusCount(val, count)
-
-                    updateHabitsStatusRef.current.open(true, {
-                      name:val.name,
-                      SK:SK,
-                      count:count,
-                      isPositive:val.isPositive,
-                      threshold: val.threshold
-                    });
-                    }}>
-                    
-                    <ImageBackground
-                      style={styles.habitImage}
-                      source={{uri:val.pngURL}}
-                      resizeMode="cover"
-                    >
-                      <Image style={styles.habitImage} source={require("../../assets/images/x-mark.png")} />
-                    </ImageBackground>
-                      
-                    </TouchableOpacity>
-                )
-
-              )
-          )
-          })}</> 
-          : <>
-            <Text style={styles.emptyHabits}>No habits.</Text>
-          </>
-      }
-
-
-      </ScrollView>
-      : 
-      
-      <ScrollView horizontal={true} contentContainerStyle={[styles.habitScrollContainterMainNoToDo]} showsHorizontalScrollIndicator={false}>
-        {
-          statusList.length>0? <>
-          {
-            statusList.map((val, key) => {
-            return ( 
-              (val.isPositive ? 
-                  ((val.count === undefined || val.count < val.threshold) ? 
-                    <TouchableOpacity style={[styles.habitButtonMainNoToDo, {backgroundColor: "rgba(215, 246, 255, 0.65)"}]} key={key.toString()} onPress={() => {
-
-                    var count = 1
-                    var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                    if(val.count !== undefined){
-                      count = val.count + 1
-                      SK = val.SK
-                    }
-
-                    updateHabitStatusCount(val, count)
-
-                    updateHabitsStatusRef.current.open(true, {
-                      name:val.name,
-                      SK:SK,
-                      count:count,
-                      isPositive:val.isPositive,
-                      threshold: val.threshold
-                    });
-                    }}>
-                    <Image
-                    style={styles.habitImageMainNoToDo}
-                    source={{uri:val.pngURL}}
-                    />
-                    </TouchableOpacity>
-                  :
-                    <TouchableOpacity style={[styles.habitButtonMainNoToDo, {backgroundColor: "rgb(255, 255, 255)", borderColor: "#CCCCCC", borderWidth:1}]} key={key.toString()} onPress={() => {
-
-                      var count = 1
-                      var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                      if(val.count !== undefined){
-                        count = val.count + 1
-                        SK = val.SK
-                      }
-
-                      updateHabitStatusCount(val, count)
-
-                      updateHabitsStatusRef.current.open(true, {
-                        name:val.name,
-                        SK:SK,
-                        count:count,
-                        isPositive:val.isPositive,
-                        threshold: val.threshold
-                      });
-                      }}>
-  
-                      <ImageBackground
-                      style={styles.habitImageMainNoToDo}
-                      source={{uri:val.pngURL}}
-                      resizeMode="cover"
+                          updateHabitsStatusRef.current.open(true, {
+                            name: val.name,
+                            SK: SK,
+                            count: count,
+                            isPositive: val.isPositive,
+                            threshold: val.threshold,
+                          });
+                        }}
                       >
-                        <Image style={styles.habitImageMainNoToDo} source={require("../../assets/images/check-mark.png")} />
-                      </ImageBackground>
-                        
+                        <Image
+                          style={styles.habitImage}
+                          source={{ uri: val.pngURL }}
+                        />
                       </TouchableOpacity>
-                  )
-                  
-                  :
-                  ((val.count === undefined || val.count < val.threshold)? 
-                    <TouchableOpacity style={[styles.habitButtonMainNoToDo, {backgroundColor: "rgba(255, 207, 245, 0.65)"}]} key={key.toString()} onPress={() => {
+                    ) : (
+                      <TouchableOpacity
+                        style={[
+                          styles.habitButton,
+                          {
+                            backgroundColor: "rgb(255, 255, 255)",
+                            borderColor: "#CCCCCC",
+                            borderWidth: 1,
+                          },
+                        ]}
+                        key={key.toString()}
+                        onPress={() => {
+                          var count = 1;
+                          var SK = `${moment(day).format("YYYYMMDD")}-${
+                            val.SK
+                          }`;
+                          if (val.count !== undefined) {
+                            count = val.count + 1;
+                            SK = val.SK;
+                          }
 
-                    var count = 1
-                    var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                    if(val.count !== undefined){
-                      count = val.count + 1
-                      SK = val.SK
-                    }
+                          updateHabitStatusCount(val, count);
 
-                    updateHabitStatusCount(val, count)
+                          updateHabitsStatusRef.current.open(true, {
+                            name: val.name,
+                            SK: SK,
+                            count: count,
+                            isPositive: val.isPositive,
+                            threshold: val.threshold,
+                          });
+                        }}
+                      >
+                        <ImageBackground
+                          style={styles.habitImage}
+                          source={{ uri: val.pngURL }}
+                          resizeMode="cover"
+                        >
+                          <Image
+                            style={styles.habitImage}
+                            source={require("../../assets/images/check-mark.png")}
+                          />
+                        </ImageBackground>
+                      </TouchableOpacity>
+                    )
+                  ) : val.count === undefined || val.count < val.threshold ? (
+                    <TouchableOpacity
+                      style={[
+                        styles.habitButton,
+                        { backgroundColor: "rgba(255, 207, 245, 0.65)" },
+                      ]}
+                      key={key.toString()}
+                      onPress={() => {
+                        var count = 1;
+                        var SK = `${moment(day).format("YYYYMMDD")}-${val.SK}`;
+                        if (val.count !== undefined) {
+                          count = val.count + 1;
+                          SK = val.SK;
+                        }
 
-                    updateHabitsStatusRef.current.open(true, {
-                      name:val.name,
-                      SK:SK,
-                      count:count,
-                      isPositive:val.isPositive,
-                      threshold: val.threshold
-                    });
-                    }}>
-                    <Image
-                    style={styles.habitImageMainNoToDo}
-                    source={{uri:val.pngURL}}
-                    />
+                        updateHabitStatusCount(val, count);
+
+                        updateHabitsStatusRef.current.open(true, {
+                          name: val.name,
+                          SK: SK,
+                          count: count,
+                          isPositive: val.isPositive,
+                          threshold: val.threshold,
+                        });
+                      }}
+                    >
+                      <Image
+                        style={styles.habitImage}
+                        source={{ uri: val.pngURL }}
+                      />
                     </TouchableOpacity>
-                  :
-                    <TouchableOpacity style={[styles.habitButtonMainNoToDo, {backgroundColor: "rgb(255, 255, 255)", borderColor: "#CCCCCC", borderWidth:1}]} key={key.toString()} onPress={() => {
+                  ) : (
+                    <TouchableOpacity
+                      style={[
+                        styles.habitButton,
+                        {
+                          backgroundColor: "rgb(255, 255, 255)",
+                          borderColor: "#CCCCCC",
+                          borderWidth: 1,
+                        },
+                      ]}
+                      key={key.toString()}
+                      onPress={() => {
+                        var count = 1;
+                        var SK = `${moment(day).format("YYYYMMDD")}-${val.SK}`;
+                        if (val.count !== undefined) {
+                          count = val.count + 1;
+                          SK = val.SK;
+                        }
 
-                      var count = 1
-                      var SK = `${moment(day).format('YYYYMMDD')}-${val.SK}`
-                      if(val.count !== undefined){
-                        count = val.count + 1
-                        SK = val.SK
-                      }
+                        updateHabitStatusCount(val, count);
 
-                      updateHabitStatusCount(val, count)
-
-                      updateHabitsStatusRef.current.open(true, {
-                        name:val.name,
-                        SK:SK,
-                        count:count,
-                        isPositive:val.isPositive,
-                        threshold: val.threshold
-                      });
-                      }}>
-                      
+                        updateHabitsStatusRef.current.open(true, {
+                          name: val.name,
+                          SK: SK,
+                          count: count,
+                          isPositive: val.isPositive,
+                          threshold: val.threshold,
+                        });
+                      }}
+                    >
                       <ImageBackground
-                        style={styles.habitImageMainNoToDo}
-                        source={{uri:val.pngURL}}
+                        style={styles.habitImage}
+                        source={{ uri: val.pngURL }}
                         resizeMode="cover"
                       >
-                        <Image style={styles.habitImageMainNoToDo} source={require("../../assets/images/x-mark.png")} />
+                        <Image
+                          style={styles.habitImage}
+                          source={require("../../assets/images/x-mark.png")}
+                        />
                       </ImageBackground>
-                        
-                      </TouchableOpacity>
-                  )
-    
-                )
-            )
-            })}</> 
-            : <>
-              <Text style={styles.emptyHabits}>No habits.</Text>
-            </>
-        }
-        
-        
-      </ScrollView>
+                    </TouchableOpacity>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <Text style={styles.emptyHabits}>No habits.</Text>
+              </>
+            )}
+          </ScrollView>
+        ) : (
+          <ScrollView
+            horizontal={true}
+            contentContainerStyle={[styles.habitScrollContainterMainNoToDo]}
+            showsHorizontalScrollIndicator={false}
+          >
+            {statusList.length > 0 ? (
+              <>
+                {statusList.map((val, key) => {
+                  return val.isPositive ? (
+                    val.count === undefined || val.count < val.threshold ? (
+                      <TouchableOpacity
+                        style={[
+                          styles.habitButtonMainNoToDo,
+                          { backgroundColor: "rgba(215, 246, 255, 0.65)" },
+                        ]}
+                        key={key.toString()}
+                        onPress={() => {
+                          var count = 1;
+                          var SK = `${moment(day).format("YYYYMMDD")}-${
+                            val.SK
+                          }`;
+                          if (val.count !== undefined) {
+                            count = val.count + 1;
+                            SK = val.SK;
+                          }
 
-      
-      
-      }
-      
+                          updateHabitStatusCount(val, count);
+
+                          updateHabitsStatusRef.current.open(true, {
+                            name: val.name,
+                            SK: SK,
+                            count: count,
+                            isPositive: val.isPositive,
+                            threshold: val.threshold,
+                          });
+                        }}
+                      >
+                        <Image
+                          style={styles.habitImageMainNoToDo}
+                          source={{ uri: val.pngURL }}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={[
+                          styles.habitButtonMainNoToDo,
+                          {
+                            backgroundColor: "rgb(255, 255, 255)",
+                            borderColor: "#CCCCCC",
+                            borderWidth: 1,
+                          },
+                        ]}
+                        key={key.toString()}
+                        onPress={() => {
+                          var count = 1;
+                          var SK = `${moment(day).format("YYYYMMDD")}-${
+                            val.SK
+                          }`;
+                          if (val.count !== undefined) {
+                            count = val.count + 1;
+                            SK = val.SK;
+                          }
+
+                          updateHabitStatusCount(val, count);
+
+                          updateHabitsStatusRef.current.open(true, {
+                            name: val.name,
+                            SK: SK,
+                            count: count,
+                            isPositive: val.isPositive,
+                            threshold: val.threshold,
+                          });
+                        }}
+                      >
+                        <ImageBackground
+                          style={styles.habitImageMainNoToDo}
+                          source={{ uri: val.pngURL }}
+                          resizeMode="cover"
+                        >
+                          <Image
+                            style={styles.habitImageMainNoToDo}
+                            source={require("../../assets/images/check-mark.png")}
+                          />
+                        </ImageBackground>
+                      </TouchableOpacity>
+                    )
+                  ) : val.count === undefined || val.count < val.threshold ? (
+                    <TouchableOpacity
+                      style={[
+                        styles.habitButtonMainNoToDo,
+                        { backgroundColor: "rgba(255, 207, 245, 0.65)" },
+                      ]}
+                      key={key.toString()}
+                      onPress={() => {
+                        var count = 1;
+                        var SK = `${moment(day).format("YYYYMMDD")}-${val.SK}`;
+                        if (val.count !== undefined) {
+                          count = val.count + 1;
+                          SK = val.SK;
+                        }
+
+                        updateHabitStatusCount(val, count);
+
+                        updateHabitsStatusRef.current.open(true, {
+                          name: val.name,
+                          SK: SK,
+                          count: count,
+                          isPositive: val.isPositive,
+                          threshold: val.threshold,
+                        });
+                      }}
+                    >
+                      <Image
+                        style={styles.habitImageMainNoToDo}
+                        source={{ uri: val.pngURL }}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={[
+                        styles.habitButtonMainNoToDo,
+                        {
+                          backgroundColor: "rgb(255, 255, 255)",
+                          borderColor: "#CCCCCC",
+                          borderWidth: 1,
+                        },
+                      ]}
+                      key={key.toString()}
+                      onPress={() => {
+                        var count = 1;
+                        var SK = `${moment(day).format("YYYYMMDD")}-${val.SK}`;
+                        if (val.count !== undefined) {
+                          count = val.count + 1;
+                          SK = val.SK;
+                        }
+
+                        updateHabitStatusCount(val, count);
+
+                        updateHabitsStatusRef.current.open(true, {
+                          name: val.name,
+                          SK: SK,
+                          count: count,
+                          isPositive: val.isPositive,
+                          threshold: val.threshold,
+                        });
+                      }}
+                    >
+                      <ImageBackground
+                        style={styles.habitImageMainNoToDo}
+                        source={{ uri: val.pngURL }}
+                        resizeMode="cover"
+                      >
+                        <Image
+                          style={styles.habitImageMainNoToDo}
+                          source={require("../../assets/images/x-mark.png")}
+                        />
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <Text style={styles.emptyHabits}>No habits.</Text>
+              </>
+            )}
+          </ScrollView>
+        )}
       </View>
-      
+
       {/* <View style={[styles.lineMain, { marginBottom: 10 }]}>
         <Text style={styles.titleMain}>To-dos</Text>
         <View style={styles.buttonItems}>
@@ -635,8 +687,15 @@ export default function Main() {
           item={item}
         />
       ))} */}
-      <UpdateHabitStatusModal getRef={(ref) => (updateHabitsStatusRef.current = ref)} onHabitStatusUpdate={onHabitStatusUpdate} refreshHabits={refreshHabits}/>
-      <CreateHabitModal getRef={(ref) => (createHabitRef.current = ref)} createHabit={createHabit}/>
+      <UpdateHabitStatusModal
+        getRef={(ref) => (updateHabitsStatusRef.current = ref)}
+        onHabitStatusUpdate={onHabitStatusUpdate}
+        refreshHabits={refreshHabits}
+      />
+      <CreateHabitModal
+        getRef={(ref) => (createHabitRef.current = ref)}
+        createHabit={createHabit}
+      />
       <AddHabits getRef={(ref) => (modalRef1.current = ref)} />
     </ScrollView>
   );
@@ -720,8 +779,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderTopColor: "rgba(0, 0, 0, 0)",
     borderBottomColor: "rgba(0, 0, 0, 0)",
-    borderRightColor:"#ccc",
-    borderLeftColor:"#ccc",
+    borderRightColor: "#ccc",
+    borderLeftColor: "#ccc",
   },
   dateNameMain: {
     fontSize: 30,
@@ -732,14 +791,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#25436B",
     fontFamily: "Sego",
-    paddingLeft:15
+    paddingLeft: 15,
   },
   plusMain: {
     width: 40,
     height: 40,
   },
   refresh: {
-    width:30,
+    width: 30,
     height: 30,
   },
   lineMain: {
@@ -754,19 +813,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingBottom:2,
-    paddingTop:2,
+    paddingBottom: 2,
+    paddingTop: 2,
     marginTop: 10,
-    height: 300
+    height: 300,
   },
   habitScrollContainterMainNoToDo: {
     flexGrow: 1,
     alignItems: "center",
-    paddingBottom:2,
+    paddingBottom: 2,
     paddingHorizontal: 20,
-    paddingTop:2,
+    paddingTop: 2,
     marginTop: 10,
-    height: 160
+    height: 160,
   },
   titleMain: {
     fontSize: 36,
@@ -782,7 +841,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 100,
-    marginHorizontal:5,
+    marginHorizontal: 5,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
@@ -797,7 +856,7 @@ const styles = StyleSheet.create({
     width: 130,
     height: 130,
     borderRadius: 100,
-    marginHorizontal:10,
+    marginHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
@@ -854,7 +913,7 @@ const styles = StyleSheet.create({
   errorToast: {
     backgroundColor: "#FFD7D7",
     textColor: "#25436B",
-  }
+  },
 });
 
 ///////////////////////MAINNNN
