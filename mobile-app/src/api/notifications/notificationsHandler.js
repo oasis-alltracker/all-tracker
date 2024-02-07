@@ -53,6 +53,7 @@ class NotificationsHandler {
       const oldPushToken = await SecureStore.getItemAsync("pushToken");
 
       if (pushToken && pushToken != oldPushToken) {
+        await SecureStore.setItemAsync("pushToken", pushToken);
         await this.turnOnAllNotifications(token);
       }
       return pushToken;

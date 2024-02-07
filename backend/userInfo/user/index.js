@@ -7,6 +7,8 @@ const dbService = new DbUtils(DB, tableName);
 
 const GetUser = require('./getUser');
 const getUser = new GetUser(dbService);
+const DeleteUser = require('./deleteUser');
+const deleteUser = new DeleteUser(dbService);
 const UpdateUser = require('./updateUser');
 const updateUser = new UpdateUser(dbService);
 const UpdateTaskPreference = require('./updateTaskPreference');
@@ -34,7 +36,9 @@ module.exports.handler = async (event, context, callback) => {
   if(event.httpMethod == "GET") {
     response = await getUser.getUser(user);
   }
-
+  else if(event.httpMethod == "DELETE") {
+    response = await deleteUser.deleteUser(user);
+  }
   else if(event.httpMethod == "PUT") {
     const body = JSON.parse(event.body)
     if(body.taskPreference){

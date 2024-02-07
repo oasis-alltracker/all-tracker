@@ -3,48 +3,67 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MenuIcon from "../assets/icons/menu";
 import navigationService from "../navigators/navigationService";
-import Toast from "react-native-root-toast";
 
 const Drawer = ({ navigation }) => {
-  const comingSoon = () => {
-    Toast.show("Coming soon!", {
-      ...styles.errorToast,
-      duration: Toast.durations.SHORT,
-    });
-  }
 
-  const buttons = [
-    {
-      image: require("../assets/images/home.png"),
-      onPress: () => {
-        navigation.navigate("mainscreen");
-      },
-    },
-    {
-      image: require("../assets/images/mind-white512.png"),
-      onPress: () => {
-        navigation.navigate("todos-habits");
-      },
-    },
-    {
-      image: require("../assets/images/body-white512.png"),
-      onPress: () => {
-        comingSoon();
-      },
-    },
-    {
-      image: require("../assets/images/soul-white512.png"),
-      onPress: () => {
-        comingSoon();
-      },
-    },
-    {
-      image: require("../assets/images/settings512.png"),
-      onPress: () => {
-        navigationService.navigate("settings");
-      },
-    },
-  ];
+  const [isLoading, setIsLoading] = useState(true);
+  const [buttons, setButtons] = useState([])
+
+  useEffect(() => {
+    const getPreferencesOnLoad = async() =>{
+      if(isLoading){
+        
+        token = await getAccessToken()
+        user = await UserAPI.getUser(token)
+
+        buttonPreference = [ {
+          image: require("../assets/images/home.png"),
+          onPress: () => {
+            navigation.navigate("mainscreen");
+          },
+        }]
+
+        if(user.data.trackingPreferences.habitsSelected || user.data.trackingPreferences.toDosSelected){
+          buttonPreference.push(          
+            {
+              image: require("../assets/images/mind-white512.png"),
+              onPress: () => {
+                navigation.navigate("todos-habits");
+              },
+            })
+        }
+        if(user.data.trackingPreferences.dietSelected || user.data.trackingPreferences.fitnessSelected){
+          buttonPreference.push(          
+            {
+              image: require("../assets/images/body-white512.png"),
+              onPress: () => {
+                comingSoon();
+              },
+            })
+        }
+        if(user.data.trackingPreferences.moodSelected || user.data.trackingPreferences.sleepSelected){
+          buttonPreference.push(          
+            {
+              image: require("../assets/images/soul-white512.png"),
+              onPress: () => {
+                comingSoon();
+              },
+            })
+        }
+        buttonPreference.push(          
+          {
+            image: require("../assets/images/settings512.png"),
+            onPress: () => {
+              navigationService.navigate("settings");
+            },
+          })
+
+        setButtons(buttonPreference)
+        setIsLoading(false)
+      }    
+    }
+    getPreferencesOnLoad()
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

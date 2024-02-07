@@ -21,6 +21,14 @@ class UserAPI {
     return { status, data };
   }
 
+  static async deleteUser(token) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    await axios.delete(API, { headers: headers });
+  }
+
   static async updateUser(isSetupComplete, trackingPreferences, token) {
     const headers = {
       Authorization: `Bearer ${token}`,

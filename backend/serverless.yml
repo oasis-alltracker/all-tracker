@@ -231,6 +231,10 @@ functions:
           path: v1/user
           method: put
           cors: true
+      - http:
+          path: v1/user
+          method: delete
+          cors: true
 
 
 ##### N O T I F I C A T I O N S #####

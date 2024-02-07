@@ -12,8 +12,9 @@ import { Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { logout } from "../../user/keychain";
 import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
 
-const buttons = [
+const dietSettings =
   {
     img: require("../../assets/images/person-profile.png"),
     title: "Personal",
@@ -21,30 +22,37 @@ const buttons = [
       {
         title: "Personal details",
         route: "personal",
-        isPersonalDetails: true
       },
       {
         title: "Goals",
         route: "goals",
-        isGoals: true
+      },
+      {
+        title: "Units",
+        route: "units",
       },
     ],
-  },
+  }
+
+const generalSettings =
   {
-    img: require("../../assets/images/adjustment.png"),
-    title: "General",
+    img: require("../../assets/images/tracking.png"),
+    title: "Tracking",
     childs: [
       {
         title: "Notifications",
         route: "notifications",
       },
       {
-        title: "Units",
-        route: "units",
+        title: "Tracking preferences",
+        route: "selectedTrackers",
         isUnits: true,
       },
     ],
-  },
+  }
+
+
+const helpSettings =
   {
     img: require("../../assets/images/help.png"),
     title: "Help",
@@ -56,27 +64,48 @@ const buttons = [
       },
       
     ],
-  },
+  }
+
+const accountSettings =
   {
     img: require("../../assets/images/user-key.png"),
     title: "Account",
     childs: [
       {
         title: "Logout",
-        route: "",
-        isLogout: true,
+        isLogout: true
+      },
+      {
+        title: "Delete account",
+        isDeleteAccount: true
       },
     ],
-  },
-];
+  }
 
 const SettingsHome = () => {
-  const comingSoon = () => {
-    Toast.show("Coming soon!", {
-      ...styles.errorToast,
-      duration: Toast.durations.SHORT,
-    });
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const [trackingPreferences, setTrackingPreferences] = useState([]);
+
+  const deleteAccountHandler = () => {
+    Alert.alert(
+      "Delete account",
+      "Are you sure you want to delete your account and all of its associated date?",
+      [
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes",
+          isPreferred: true,
+          onPress: () => {
+            logout();
+            navigationService.reset("landing", 0);
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
 
   const logoutHandler = () => {
     Alert.alert(
@@ -98,39 +127,119 @@ const SettingsHome = () => {
       }
     );
   };
+
+
+  useEffect(() => {
+    const getDataOnLoad = async() =>{
+      token = await getAccessToken()
+      if(!isPageLoaded){
+        setIsPageLoaded(true)
+
+        const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data.trackingPreferences
+        setTrackingPreferences(trackingPreferencesLoaded)
+        setIsLoading(false)
+      }    
+    }
+    getDataOnLoad()
+
+  }, []);
+
+
   return (
     <View style={styles.cotainer}>
       <Header />
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
       >
-        {buttons.map((item, index) => (
-          <View style={styles.item} key={index}>
+        <View style={styles.item}>
             <View style={styles.itemHead}>
               <Image source={item.img} style={styles.itemImg} />
               <Text style={styles.itemTitle}>{item.title}</Text>
             </View>
-            {item.childs.map((item, index) => (
+            {generalSettings.map((item, index) => (
               <TouchableOpacity
                 onPress={(e) => {
-                  if (item.Units) {
-                    comingSoon();
-                  }
-                  else if (item.isUnits) {
-                    comingSoon();
-                  }
-                  else if (item.isPersonalDetails) {
-                    comingSoon();
-                  }
-                  else if (item.isGoals) {
-                    comingSoon();
-                  }
-                  else if (item.isLogout) {
+                    navigationService.navigate(item.route);
+                }}
+                style={styles.child}
+                key={index}
+              >
+                <Text style={styles.childTitle}>{item.title}</Text>
+                <Image
+                  style={styles.arrowRight}
+                  resizeMode="stretch"
+                  source={require("../../assets/images/left.png")}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          { trackingPreferences.dietSelected && 
+            <View style={styles.item}>
+              <View style={styles.itemHead}>
+                <Image source={item.img} style={styles.itemImg} />
+                <Text style={styles.itemTitle}>{item.title}</Text>
+              </View>
+              {dietSettings.map((item, index) => (
+                <TouchableOpacity
+                  onPress={(e) => {
+                      navigationService.navigate(item.route);
+                  }}
+                  style={styles.child}
+                  key={index}
+                >
+                  <Text style={styles.childTitle}>{item.title}</Text>
+                  <Image
+                    style={styles.arrowRight}
+                    resizeMode="stretch"
+                    source={require("../../assets/images/left.png")}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+          }
+
+          <View style={styles.item}>
+            <View style={styles.itemHead}>
+              <Image source={item.img} style={styles.itemImg} />
+              <Text style={styles.itemTitle}>{item.title}</Text>
+            </View>
+            {helpSettings.map((item, index) => (
+              <TouchableOpacity
+                onPress={(e) => {
+                    navigationService.navigate(item.route);
+                }}
+                style={styles.child}
+                key={index}
+              >
+                <Text style={styles.childTitle}>{item.title}</Text>
+                <Image
+                  style={styles.arrowRight}
+                  resizeMode="stretch"
+                  source={require("../../assets/images/left.png")}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View style={styles.item}>
+            <View style={styles.itemHead}>
+              <Image source={item.img} style={styles.itemImg} />
+              <Text style={styles.itemTitle}>{item.title}</Text>
+            </View>
+            {accountSettings.map((item, index) => (
+              <TouchableOpacity
+                onPress={(e) => {
+
+                  if (item.isLogout) {
                     logoutHandler();
                   }
-                  else {
-                    navigationService.navigate(item.route);
+                  else if(item.isDeleteAccount){
+                    deleteAccountHandler();
                   }
                 }}
                 style={styles.child}
@@ -145,7 +254,8 @@ const SettingsHome = () => {
               </TouchableOpacity>
             ))}
           </View>
-        ))}
+
+
       </ScrollView>
     </View>
   );

@@ -57,6 +57,28 @@ class DbUtils {
     });
   }
 
+  batchDeleteItems(key) {
+    const params = {
+      [this.tableName]: [
+        {
+          DeleteRequest: {
+            Key: { PK: key }
+          }
+        }
+      ]
+    }
+
+    return new Promise((resolve, reject) => {
+      this.DB.put(params, function (err, data) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
+
   getItem(key) {
     const params = {
       Key: key,
