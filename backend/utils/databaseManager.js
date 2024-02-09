@@ -20,25 +20,39 @@ class DbUtils {
     });
   }
 
-  deleteItems(key) {
-    var params = {
-      RequestItems: {},
-    };
-    params[RequestItems][`${this.tableName}`] = {
-      DeleteRequest: {
-        Key: { HashKey: key },
-      },
-    };
+  deleteItems(pk, items) {
+    if(items.length>0) {
 
-    return new Promise((resolve, reject) => {
-      this.DB.batchWrite(params, function (err, data) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
+      const params = {
+        RequestItems: {
+          [this.tableName]: []
         }
+      };
+  
+      for(var item of items){
+        const key = {
+          'PK':  pk,
+          'SK':  item.SK
+        }
+        
+        params.RequestItems[this.tableName].push({
+          DeleteRequest: {
+            Key: key
+          }
+        });
+      }
+  
+      return new Promise((resolve, reject) => {
+        this.DB.batchWrite(params, function (err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
       });
-    });
+
+    }
   }
 
   putItem(itemObject) {
@@ -46,28 +60,6 @@ class DbUtils {
       Item: itemObject,
       TableName: this.tableName,
     };
-    return new Promise((resolve, reject) => {
-      this.DB.put(params, function (err, data) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
-  }
-
-  batchDeleteItems(key) {
-    const params = {
-      [this.tableName]: [
-        {
-          DeleteRequest: {
-            Key: { PK: key }
-          }
-        }
-      ]
-    }
-
     return new Promise((resolve, reject) => {
       this.DB.put(params, function (err, data) {
         if (err) {

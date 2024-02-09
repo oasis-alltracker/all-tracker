@@ -67,5 +67,20 @@ class GetFoodEntries {
         const response = await this.DB.queryItem(expression, names, values);
         return response?.Items;
     }
+
+    async getAllFoodEntries(user) {
+        const expression =  '#pk = :pk';
+        const names = {
+            '#pk': 'PK',
+        };
+            const values = {
+            ':pk': `${user}-foodEntry`,
+        };
+    
+        const response = await this.DB.queryItem(expression, names, values);
+        return response?.Items;
+    }
+
+    
 }
 module.exports = GetFoodEntries;

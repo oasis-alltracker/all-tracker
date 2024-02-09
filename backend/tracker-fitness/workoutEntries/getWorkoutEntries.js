@@ -68,5 +68,19 @@ class GetWorkoutEntries {
         const response = await this.DB.queryItem(expression, names, values);
         return response?.Items;
     }
+
+    async getAllWorkoutEntries(user) {
+        const expression =  '#pk = :pk';
+        const names = {
+            '#pk': 'PK',
+            '#sk': 'SK',
+        };
+            const values = {
+            ':pk': `${user}-workoutEntry`,
+        };
+    
+        const response = await this.DB.queryItem(expression, names, values);
+        return response?.Items;
+    }
 }
 module.exports = GetWorkoutEntries;

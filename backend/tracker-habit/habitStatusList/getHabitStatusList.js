@@ -3,19 +3,17 @@ class GetHabitStatusList {
     this.DB = db;
   }
 
-  async getHabitStatusList(user, body) {
+  async getHabitStatusList(user, dateStamp) {
     try {
       const habits = await this.getHabits(user.email);
       const habitStatuses = await this.getHabitStatusListForDay(
         user.email,
-        body.dateStamp
+        dateStamp
       );
 
-      for (habitEntry of habits) {
-        const statusSK = `${moment(showingDate).format("YYYYMMDD")}-${
-          habitEntry.SK
-        }`;
-        habitStatus = habitStatuses.find((status) => status.SK === statusSK);
+      for (var habitEntry of habits) {
+        const statusSK = `${dateStamp}-${habitEntry.SK}`;
+        var habitStatus = habitStatuses.find((status) => status.SK === statusSK);
 
         if (habitStatus !== undefined) {
           habitEntry.count = habitStatus.count;

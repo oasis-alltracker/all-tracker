@@ -29,7 +29,7 @@ module.exports.handler = async (event, context, callback) => {
   if (event.httpMethod == "GET") {
     response = await getHabitStatusList.getHabitStatusList(
       user,
-      JSON.parse(event.body)
+      event.queryStringParameters.dateStamp
     );
   }
   callback(null, response);

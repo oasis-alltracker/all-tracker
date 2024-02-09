@@ -5,7 +5,6 @@ class CreateHabitStatus {
 
     async createHabitStatus(user, body) {      
         try {
-            console.log(body);
             const response = await this.createStatus(user.email, body);
 
             return {

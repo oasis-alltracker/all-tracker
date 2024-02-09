@@ -6,7 +6,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlc
 ###
 
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hc2lzQG9hc2lzLWFsbHRyYWNrZXIuY29tIiwiaWF0IjoxNzA2NDc0NzcxLCJleHAiOjE3MDY2NDc1NzF9.CGxAeDgYEY5mm3Pxityblq4mqyWwMplxGJRksiy-xh0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI3MjM3MiwiZXhwIjoxNzA3NDQ1MTcyfQ.7K_bGqtjhb2mprBFmOW0zSZik_8hwB9eJUNucanlXKQ
+
 
 {
     "isSetupComplete": false,
@@ -14,12 +15,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hc2lzQ
 }
 ###
 
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hc2lzQG9hc2lzLWFsbHRyYWNrZXIuY29tIiwiaWF0IjoxNzA2NDc0NzcxLCJleHAiOjE3MDY2NDc1NzF9.CGxAeDgYEY5mm3Pxityblq4mqyWwMplxGJRksiy-xh0
-
-{
-    "taskPreference": false
-}
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI3MjM3MiwiZXhwIjoxNzA3NDQ1MTcyfQ.7K_bGqtjhb2mprBFmOW0zSZik_8hwB9eJUNucanlXKQ
 ###
 
 
@@ -238,6 +235,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxM
 DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses/20230209-497bef50-a773-11ed-8679-d7059b0ed0d6
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNjM1MDg3MTk0fQ.WNOTEnm0HehS0gfx9NT7QQxOUACiNacyY8fAhvdDtUA
 ###
+
+
+
+//-------H A B I T   S T A S U S   LIST------
+//-------------------------------------------
+//Get habit statuses for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatusList?dateStamp=20240206
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcwNzI3MjM3MiwiZXhwIjoxNzA3NDQ1MTcyfQ.7K_bGqtjhb2mprBFmOW0zSZik_8hwB9eJUNucanlXKQ
+###
+
 
 
 //---------S L E E P   R E P O R T S---------
