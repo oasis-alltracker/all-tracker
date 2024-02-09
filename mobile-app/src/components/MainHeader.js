@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
-import HeaderIcon from "../assets/icons/arrowLeft";
 import NavigationService from "../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
 

@@ -120,7 +120,7 @@ const HabitsCreation = (props) => {
       >
         <Image
           style={styles.plus}
-          source={require("../../../assets/images/plus-2.png")}
+          source={require("../../../assets/images/plus512.png")}
         />
       </TouchableOpacity>
     </View>

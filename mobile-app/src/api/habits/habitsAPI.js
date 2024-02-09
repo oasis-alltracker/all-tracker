@@ -17,9 +17,7 @@ class HabitsAPI {
   }
 
   static async createHabit(token, habit) {
-    console.log(habit);
-    console.log(token);
-    console.log(API);
+
     const headers = {
       Authorization: `Bearer ${token}`,
     };

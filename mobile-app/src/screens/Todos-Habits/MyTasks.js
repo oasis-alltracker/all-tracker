@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useRef } from "react";
-import Modal from "./AddTasks";
+import AddTasks from "./modals/AddTasks";
 import { RenderTodos } from "./Main";
 
 const items = [
@@ -54,7 +54,7 @@ export default function MyTasks() {
         >
           <Image
             style={styles.plus}
-            source={require("../../assets/images/plus-2.png")}
+            source={require("../../assets/images/plus512.png")}
           />
         </TouchableOpacity>
       </View>

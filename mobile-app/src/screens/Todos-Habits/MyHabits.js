@@ -1,12 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
-import { Button } from "../../components";
-import navigationService from "../../navigators/navigationService";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import CreateHabitModal from "./CreateHabitModal";
-import UpdateHabitModal from "./UpdateHabitModal"
+import CreateHabitModal from "./modals/CreateHabitModal";
+import UpdateHabitModal from "./modals/UpdateHabitModal"
 import HabitsAPI from "../../api/habits/habitsAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
@@ -20,7 +17,8 @@ export default function MyHabits() {
 
   const [isLoading, setIsLoading] = useState(false);
   
-  const modalRef = useRef(null);
+  const createHabitRef = useRef(null);
+  const updateHabitRef = useRef(null);
 
   const createHabit = async (habit) => {
     setIsLoading(true);
@@ -126,7 +124,7 @@ export default function MyHabits() {
               <TouchableOpacity
                 key={key.toString()}
                 onPress={() => {
-                  modalRef.current.open(true, {
+                  updateHabitRef.current.open(true, {
                     isPositive: val.isPositive,
                     habitName: val.name,
                     pngURL: val.pngURL,
@@ -149,8 +147,8 @@ export default function MyHabits() {
               </TouchableOpacity>
             );
           })}
-          <CreateHabitModal getRef={(ref) => (modalRef.secondary = ref)} createHabit={createHabit}/>
-          <UpdateHabitModal getRef={(ref) => (modalRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
+          <CreateHabitModal getRef={(ref) => (createHabitRef.current = ref)} createHabit={createHabit}/>
+          <UpdateHabitModal getRef={(ref) => (updateHabitRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
         </ScrollView>
       </View>
     </>
@@ -160,7 +158,7 @@ export default function MyHabits() {
       <>
         <TouchableOpacity
           onPress={() => {
-            modalRef.current.open();
+            createHabitRef.current.open();
           }}
           style={styles.addButton}
         >
@@ -174,7 +172,7 @@ export default function MyHabits() {
             />
           </View>
         </TouchableOpacity>
-        <CreateHabitModal getRef={(ref) => (modalRef.current = ref)} createHabit={createHabit}/>
+        <CreateHabitModal getRef={(ref) => (createHabitRef.current = ref)} createHabit={createHabit}/>
       </>
     );
 
@@ -198,12 +196,12 @@ export default function MyHabits() {
         <View style={styles.buttonItems}>
           <TouchableOpacity
             onPress={() => {
-              modalRef.secondary.open();
+              createHabitRef.current.open();
             }}
           >
             <Image
               style={styles.plus}
-              source={require("../../assets/images/plus-2.png")}
+              source={require("../../assets/images/plus512.png")}
             />
           </TouchableOpacity>
           <TouchableOpacity

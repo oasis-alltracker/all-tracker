@@ -52,11 +52,6 @@ class LoginAPI {
       data = error.response.data;
     }
 
-    console.log(body);
-    console.log(email);
-    console.log(url);
-    console.log(status)
-    console.log(data)
     return { status, data };
   }
 

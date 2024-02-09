@@ -1,10 +1,12 @@
+import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Image, StyleSheet, View } from "react-native";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MenuIcon from "../assets/icons/menu";
 import navigationService from "../navigators/navigationService";
+import { getAccessToken } from "../user/keychain";
+import UserAPI from "../api/user/userAPI";
 
-const Drawer = ({ navigation }) => {
+const DrawerScreen = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [buttons, setButtons] = useState([])
@@ -134,4 +136,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Drawer;
+export default DrawerScreen;

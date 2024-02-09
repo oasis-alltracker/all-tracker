@@ -61,25 +61,31 @@ const Notifications = () => {
     hour = timeArray[0]
     minute = timeArray[1]
 
-    if(isHabitsEnabled){
-      await NotificationsHandler.turnOffNotification(token, "habit", habitExpoIDs);
-      setIsHabitsEnabled(previousState => !previousState);
-    }
-    else{
-      var systemNotificationsStatus = true;
-      systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
-      if(systemNotificationsStatus){
-        notificationCreated = await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}] )
-        if(notificationCreated){
-          setIsHabitsEnabled(previousState => !previousState);
+    if(isNotificationsEnabled){
+
+      if(isHabitsEnabled){
+        await NotificationsHandler.turnOffNotification(token, "habit", habitExpoIDs);
+        setIsHabitsEnabled(previousState => !previousState);
+      }
+
+      else{
+        var systemNotificationsStatus = true;
+        systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
+        if(systemNotificationsStatus){
+          const expoIDs = await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}], isNotificationsEnabled, habitExpoIDs)
+          if(expoIDs){
+            setIsHabitsEnabled(previousState => !previousState);
+            setHabitExpoIDs(expoIDs)
+          }
+        }
+        else{
+          Toast.show("To get reminders, you need to turn on notifications in your phone's settings.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          });
         }
       }
-      else{
-        Toast.show("To get reminders, you need to turn on notifications in your phone's settings.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        });
-      }
+
     }
 
     
@@ -93,6 +99,7 @@ const Notifications = () => {
     if(isNotificationsEnabled){
       await NotificationsHandler.turnOffAllNotifications(token);
       setIsNotificationsEnabled(previousState => !previousState);
+      setIsHabitsEnabled(previousState => !previousState);
     }
     else{
       var systemNotificationsStatus = true;
@@ -108,7 +115,6 @@ const Notifications = () => {
         });
       }
     }
-
     
     setIsLoading(false);
   }
@@ -124,6 +130,7 @@ const Notifications = () => {
 
   const onChange = async (event, selectedDate) => {
     setIsLoading(true);
+    setIsHabitsEnabled(false);
     if (Platform.OS === 'android') {
       setShow(false);
     }
@@ -134,10 +141,14 @@ const Notifications = () => {
     minute = timeArray[1]
 
     if(isHabitsEnabled){
+      console.log("attempting to get push")
       var systemNotificationsStatus = true;
       systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
       if(systemNotificationsStatus){
-        await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}] );
+        const expoIDs = await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}], isNotificationsEnabled, habitExpoIDs )
+        if(expoIDs){
+          setHabitExpoIDs(expoIDs)
+        }
       }
       else{
         Toast.show("To get reminders, you need to turn on notifications in your phone's settings.", {
@@ -165,25 +176,23 @@ const Notifications = () => {
     const onLoad = async() =>{
       if(isLoading){
         
-        token = await getAccessToken()
-        user = await UserAPI.getUser(token)
+        var token = await getAccessToken()
+        var user = await UserAPI.getUser(token)
 
         setTrackingPreferences(user.data.trackingPreferences)
 
-        allNotifications = await NotificationsHandler.getNotificationsForGroup(token, "notifications")
-        habitNotifications = await NotificationsHandler.getNotificationsForGroup(token, "habit")
-
-
+        var allNotifications = await NotificationsHandler.getNotificationsForGroup(token, "notifications")
+        var habitNotifications = await NotificationsHandler.getNotificationsForGroup(token, "habit")
         
         setIsNotificationsEnabled(allNotifications[0]?.preference === "on" )
         setIsHabitsEnabled(habitNotifications[0]?.preference === "on" )
-        setHabitExpoIDs(habitNotifications[0]?.expoIDs )
+        setHabitExpoIDs(habitNotifications[0]?.expoIDs)
 
-        var hour = habitNotifications[0]?.trigger[0]?.hour
+        var hour = habitNotifications[0]?.triggers[0]?.hour
         if( hour == 0 || hour === undefined){
           hour = "00"
         }
-        var minute = habitNotifications[0]?.trigger[0]?.minute
+        var minute = habitNotifications[0]?.triggers[0]?.minute
         if( minute == 0 || minute === undefined){
           minute = "00"
         }
@@ -192,6 +201,8 @@ const Notifications = () => {
         setHabitTime(new Date(newTime));
 
         setIsLoading(false)
+
+
       }    
     }
     onLoad()

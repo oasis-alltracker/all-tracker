@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import { jwtDecode } from "jwt-decode";
 import LoginAPI from "../api/auth/loginAPI";
 import "core-js/stable/atob";
+import navigationService from "../navigators/navigationService";
 
 const isTokenValid = (token) => {
   try {
@@ -43,10 +44,14 @@ export async function getAccessToken() {
       const newAccessToken = await LoginAPI.refreshToken(refreshToken);
       await saveToken("accessToken", newAccessToken.accessToken);
     } catch (e) {
-      //reload app
+      await SecureStore.deleteItemAsync("refreshToken");
+      await SecureStore.deleteItemAsync("accessToken");
+      navigationService.reset("landing", 0);
     }
   } else {
-    //reload app
+    await SecureStore.deleteItemAsync("refreshToken");
+    await SecureStore.deleteItemAsync("accessToken");
+    navigationService.reset("landing", 0);
   }
 }
 

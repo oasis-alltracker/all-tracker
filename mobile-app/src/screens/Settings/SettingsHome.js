@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,12 +8,12 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React from "react";
 import { Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { logout } from "../../user/keychain";
-import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
+import { getAccessToken } from "../../user/keychain";
+import UserAPI from "../../api/user/userAPI";
 
 const dietSettings =
   {
@@ -44,8 +45,8 @@ const generalSettings =
         route: "notifications",
       },
       {
-        title: "Tracking preferences",
-        route: "selectedTrackers",
+        title: "Tracking Preferences",
+        route: "setup",
         isUnits: true,
       },
     ],
@@ -76,7 +77,7 @@ const accountSettings =
         isLogout: true
       },
       {
-        title: "Delete account",
+        title: "Delete Account",
         isDeleteAccount: true
       },
     ],
@@ -86,18 +87,32 @@ const SettingsHome = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [trackingPreferences, setTrackingPreferences] = useState([]);
 
+  const deleteAccount = async () => {
+    setIsLoading(true)
+    try{
+      const token = await getAccessToken();
+      await UserAPI.deleteUser(token);
+      logout();
+      setIsLoading(false)
+      navigationService.reset("landing", 0);
+    }
+    catch(e){
+      console.log(e)
+      setIsLoading(false)
+    }  
+  }
+
   const deleteAccountHandler = () => {
     Alert.alert(
-      "Delete account",
-      "Are you sure you want to delete your account and all of its associated date?",
+      "Delete Account",
+      "Are you sure you want to delete your account and all of its associated data?",
       [
         { text: "No", style: "cancel" },
         {
           text: "Yes",
           isPreferred: true,
           onPress: () => {
-            logout();
-            navigationService.reset("landing", 0);
+            deleteAccount();
           },
         },
       ],
@@ -132,12 +147,10 @@ const SettingsHome = () => {
   useEffect(() => {
     const getDataOnLoad = async() =>{
       token = await getAccessToken()
-      if(!isPageLoaded){
-        setIsPageLoaded(true)
-
+      if(isLoading){
         const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data.trackingPreferences
-        setTrackingPreferences(trackingPreferencesLoaded)
         setIsLoading(false)
+        setTrackingPreferences(trackingPreferencesLoaded)
       }    
     }
     getDataOnLoad()
@@ -157,10 +170,10 @@ const SettingsHome = () => {
       >
         <View style={styles.item}>
             <View style={styles.itemHead}>
-              <Image source={item.img} style={styles.itemImg} />
-              <Text style={styles.itemTitle}>{item.title}</Text>
+              <Image source={generalSettings.img} style={styles.itemImg} />
+              <Text style={styles.itemTitle}>{generalSettings.title}</Text>
             </View>
-            {generalSettings.map((item, index) => (
+            {generalSettings.childs.map((item, index) => (
               <TouchableOpacity
                 onPress={(e) => {
                     navigationService.navigate(item.route);
@@ -181,10 +194,10 @@ const SettingsHome = () => {
           { trackingPreferences.dietSelected && 
             <View style={styles.item}>
               <View style={styles.itemHead}>
-                <Image source={item.img} style={styles.itemImg} />
-                <Text style={styles.itemTitle}>{item.title}</Text>
+                <Image source={dietSettings.img} style={styles.itemImg} />
+                <Text style={styles.itemTitle}>{dietSettings.title}</Text>
               </View>
-              {dietSettings.map((item, index) => (
+              {dietSettings.childs.map((item, index) => (
                 <TouchableOpacity
                   onPress={(e) => {
                       navigationService.navigate(item.route);
@@ -205,10 +218,10 @@ const SettingsHome = () => {
 
           <View style={styles.item}>
             <View style={styles.itemHead}>
-              <Image source={item.img} style={styles.itemImg} />
-              <Text style={styles.itemTitle}>{item.title}</Text>
+              <Image source={helpSettings.img} style={styles.itemImg} />
+              <Text style={styles.itemTitle}>{helpSettings.title}</Text>
             </View>
-            {helpSettings.map((item, index) => (
+            {helpSettings.childs.map((item, index) => (
               <TouchableOpacity
                 onPress={(e) => {
                     navigationService.navigate(item.route);
@@ -228,10 +241,10 @@ const SettingsHome = () => {
 
           <View style={styles.item}>
             <View style={styles.itemHead}>
-              <Image source={item.img} style={styles.itemImg} />
-              <Text style={styles.itemTitle}>{item.title}</Text>
+              <Image source={accountSettings.img} style={styles.itemImg} />
+              <Text style={styles.itemTitle}>{accountSettings.title}</Text>
             </View>
-            {accountSettings.map((item, index) => (
+            {accountSettings.childs.map((item, index) => (
               <TouchableOpacity
                 onPress={(e) => {
 
@@ -275,7 +288,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     padding: 15,
     marginHorizontal: 20,
-    marginBottom: 10,
+    marginTop: 30,
   },
   itemHead: {
     flexDirection: "row",
@@ -306,6 +319,7 @@ const styles = StyleSheet.create({
   arrowRight: {
     width: 10,
     height: 20,
+    marginTop:6
   },
 });
 

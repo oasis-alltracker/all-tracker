@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image, TouchableOpacity } from "react-native";
-import { Button } from "../../components";
+import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 
@@ -139,7 +139,7 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
           <TouchableOpacity onPress={() => onMinusPressed()} style={styles.countButton}>
             <Image
               style={styles.plusMain}
-              source={require("../../assets/images/remove.png")}
+              source={require("../../../assets/images/remove.png")}
             />
           </TouchableOpacity>
 
@@ -150,7 +150,7 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
           <TouchableOpacity onPress={() => onPlusPressed()} style={styles.countButton}>
             <Image
               style={styles.plusMain}
-              source={require("../../assets/images/plus-2.png")}
+              source={require("../../../assets/images/plus512.png")}
             />
           </TouchableOpacity>
         </View>

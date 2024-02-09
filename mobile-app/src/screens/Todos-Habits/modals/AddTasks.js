@@ -8,9 +8,9 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
-import { Button, Calendar } from "../../components";
+import { Button, Calendar } from "../../../components";
 
-export default function Modal({ getRef }) {
+export default function AddTasks({ getRef }) {
   const [visible, setVisible] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
 
@@ -58,7 +58,7 @@ export default function Modal({ getRef }) {
             {isCheck ? (
               <Image
                 style={styles.checkImage}
-                source={require("../../assets/images/check.png")}
+                source={require("../../../assets/images/check.png")}
               />
             ) : null}
           </TouchableOpacity>
@@ -76,14 +76,14 @@ export default function Modal({ getRef }) {
           >
             <Image
               style={styles.searchImage}
-              source={require("../../assets/images/date-picker.png")}
+              source={require("../../../assets/images/date-picker.png")}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <Image
             style={styles.editData}
-            source={require("../../assets/images/edit.png")}
+            source={require("../../../assets/images/edit.png")}
           />
           <TextInput
             multiline

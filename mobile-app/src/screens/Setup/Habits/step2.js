@@ -28,9 +28,10 @@ const HabitsNotifications = (props) => {
   const onNext = async () => {
     setIsLoading(true);
     var systemNotificationsStatus = true;
+    const token = await getAccessToken();
 
-    if(isNotificationsEnabled){
-      const token = await getAccessToken();
+    if(isNotificationsEnabled) {
+      
       timeArray = formatDateObjectBackend(time).split(":")
       hour = timeArray[0]
       minute = timeArray[1]
@@ -38,8 +39,24 @@ const HabitsNotifications = (props) => {
       systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
 
       if(systemNotificationsStatus){
-        await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}] );
+        await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}], true );
+        await NotificationsHandler.updateNotification(token,
+          "notifications",
+          "undefined",
+          "undefined",
+          "undefined",
+          "undefined",
+          "on")
       }
+    }
+    else {
+      await NotificationsHandler.updateNotification(token,
+        "notifications",
+        "undefined",
+        "undefined",
+        "undefined",
+        "undefined",
+        "off")
     }
 
     if(systemNotificationsStatus){
@@ -52,7 +69,8 @@ const HabitsNotifications = (props) => {
         const {status, data} = await UserAPI.updateUser(true , selectedTrackers, accessToken);
   
         //TO-DO check if user is subscribed
-        navigationService.navigate("explainsubscription");
+        setIsLoading(false);
+        navigationService.navigate("main");
       }
     }
     else {
@@ -196,7 +214,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: "rgba(255, 216, 247, 0.62)",
     borderWidth: 2,
-    borderColor: "#CCBF98",
+    borderColor: "rgba(204, 173, 198, 0.7)",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -236,7 +254,7 @@ const styles = StyleSheet.create({
   bigButtons: {
     width: "100%",
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: "rgba(172, 197, 204, 0.75)",
     height: 200,
     borderRadius: 40,
     marginTop: 10,

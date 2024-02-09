@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Dimensions, ScrollView, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
-import { Button } from "../../components";
+import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 
-import HabitsDB from "../../api/DB/habitsDB";
+import HabitsDB from "../../../api/DB/habitsDB";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 

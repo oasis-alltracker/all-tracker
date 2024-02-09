@@ -58,7 +58,7 @@ export default function Fitness() {
         <TouchableOpacity style={styles.workout}>
           <Image
             style={styles.plus}
-            source={require("../../assets/images/plus-2.png")}
+            source={require("../../assets/images/plus512.png")}
           />
         </TouchableOpacity>
         {workouts.map((item, index) => (

@@ -15,7 +15,6 @@ import navigationService from "../navigators/navigationService";
 import TodosHabits from "./Todos-Habits";
 import MoodSleep from "./Mood-Sleep";
 import FitnessDiet from "./Fitness-Diet";
-import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import UserAPI from "../api/user/userAPI";
 import { getAccessToken } from "../user/keychain";
@@ -28,17 +27,11 @@ const Main = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [buttons, setButtons] = useState([])
 
-  const comingSoon = () => {
-    Toast.show("Coming soon!", {
-      ...styles.errorToast,
-      duration: Toast.durations.SHORT,
-    });
-  }
 
   useEffect(() => {
     const getPreferencesOnLoad = async() =>{
       if(isLoading){
-        
+        setIsLoading(false)
         token = await getAccessToken()
         user = await UserAPI.getUser(token)
 
@@ -78,7 +71,6 @@ const Main = ({ navigation }) => {
             })
         }
         setButtons(buttonPreference)
-        setIsLoading(false)
       }    
     }
     getPreferencesOnLoad()
@@ -87,9 +79,6 @@ const Main = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
       <MainHeader
         leftComponent={
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -97,6 +86,9 @@ const Main = ({ navigation }) => {
           </TouchableOpacity>
         }
       />
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <>
         <View style={{paddingTop:15, justifyContent:"center", height: height*0.6}}>
         {buttons.map((item, index) => (
@@ -150,10 +142,6 @@ function MainDrawer() {
         drawerStyle: { width: 210 },
       }}
     >
-      <Drawer.Screen name="mainscreen" component={Main} />
-      <Drawer.Screen name="todos-habits" component={TodosHabits} />
-      <Drawer.Screen name="mood-sleep" component={MoodSleep} />
-      <Drawer.Screen name="fitness-diet" component={FitnessDiet} />
     </Drawer.Navigator>
   );
 }

@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import CreateHabitModal from "./CreateHabitModal";
-import AddHabits from "./AddHabits";
-import UpdateHabitStatusModal from "./UpdateHabitStatusModal";
+import CreateHabitModal from "./modals/CreateHabitModal";
+import AddTasks from "./modals/AddTasks";
+import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 
 import { getAccessToken } from "../../user/keychain";
@@ -28,8 +28,6 @@ export default function Main() {
   const [day, setDay] = useState(new Date());
   const today = new Date();
 
-  var userHabits;
-  var userHabitsStatuses;
   const [statusList, setStatusList] = useState([]);
 
   const [tasks, setTasks] = useState([]);
@@ -94,34 +92,6 @@ export default function Main() {
     }
   };
 
-  const getHabits = async (token) => {
-    try {
-      userHabits = await HabitsAPI.getHabits(token);
-    } catch (e) {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  const getHabitsStatuses = async (token, date = false) => {
-    if (!date) {
-      date = day;
-    }
-    try {
-      userHabitsStatuses = await HabitStatusesAPI.getHabitStatusesForToday(
-        token,
-        moment(date).format("YYYYMMDD")
-      );
-    } catch (e) {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
   const updateHabitStatusCount = async (habit, count) => {
     try {
       var habitStatus;
@@ -136,6 +106,7 @@ export default function Main() {
         };
         habitStatus.count = count;
         habitStatus.habitID = habit.SK;
+
         await HabitStatusesAPI.createHabitStatus(token, habitStatus);
       } else {
         habitStatus = {
@@ -147,6 +118,7 @@ export default function Main() {
         await HabitStatusesAPI.updateHabitStatus(token, habit.SK, {
           count: count,
         });
+
       }
 
       return habitStatus;
@@ -165,10 +137,12 @@ export default function Main() {
     const token = await getAccessToken();
     const statusList = await HabitStatusListAPI.getHabitStatusList(
       token,
-      showingDate
+      moment(showingDate).format("YYYYMMDD")
     );
+
     setStatusList(statusList);
     setIsHabitsLoading(false);
+    return
   };
 
   const getTasks = async (token) => {
@@ -298,7 +272,7 @@ export default function Main() {
           >
             <Image
               style={styles.plusMain}
-              source={require("../../assets/images/plus-2.png")}
+              source={require("../../assets/images/plus512.png")}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => refreshHabits()}>
@@ -459,23 +433,35 @@ export default function Main() {
                         });
                       }}
                     >
-                      <ImageBackground
-                        style={styles.habitImage}
-                        source={{ uri: val.pngURL }}
-                        resizeMode="cover"
-                      >
                         <Image
                           style={styles.habitImage}
                           source={require("../../assets/images/x-mark.png")}
                         />
-                      </ImageBackground>
                     </TouchableOpacity>
                   );
                 })}
               </>
             ) : (
               <>
-                <Text style={styles.emptyHabits}>No habits.</Text>
+                  <TouchableOpacity
+                      style={[
+                        styles.habitButton,
+                        {
+                          backgroundColor: "rgb(255, 255, 255)",
+                          borderColor: "#CCCCCC",
+                          borderWidth: 1,
+                        },
+                      ]}
+                      onPress={() => {
+                        createHabitRef.current.open();
+                      }}
+                    >
+                      <Image
+                        style={styles.habitImage}
+                        source={require("../../assets/images/plus512.png")}
+                      />
+
+                  </TouchableOpacity>
               </>
             )}
           </ScrollView>
@@ -643,7 +629,25 @@ export default function Main() {
               </>
             ) : (
               <>
-                <Text style={styles.emptyHabits}>No habits.</Text>
+                  <TouchableOpacity
+                      style={[
+                        styles.habitButtonMainNoToDo,
+                        {
+                          backgroundColor: "rgb(255, 255, 255)",
+                          borderColor: "rgba(172, 197, 204, 0.75)",
+                          borderWidth: 1,
+                        },
+                      ]}
+                      onPress={() => {
+                        createHabitRef.current.open();
+                      }}
+                    >
+                      <Image
+                        style={styles.habitImageMainNoToDo}
+                        source={require("../../assets/images/plus512.png")}
+                      />
+
+                  </TouchableOpacity>
               </>
             )}
           </ScrollView>
@@ -660,7 +664,7 @@ export default function Main() {
           >
             <Image
               style={styles.plusMain}
-              source={require("../../assets/images/plus-2.png")}
+              source={require("../../assets/images/plus512.png")}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -696,7 +700,7 @@ export default function Main() {
         getRef={(ref) => (createHabitRef.current = ref)}
         createHabit={createHabit}
       />
-      <AddHabits getRef={(ref) => (modalRef1.current = ref)} />
+      <AddTasks getRef={(ref) => (modalRef1.current = ref)} />
     </ScrollView>
   );
 }

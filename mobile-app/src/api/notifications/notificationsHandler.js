@@ -23,13 +23,15 @@ class NotificationsHandler {
     );
     notifications = await this.getAllNotifications(token);
     for (var notification of notifications) {
-      if(notification.SK !== "notifications"){
+      if(notification.SK !== "notifications" && notification.preference === "on"){
         await this.turnOnNotification(
           token,
-          notification.sk,
+          notification.SK,
           notification.title,
           notification.body,
-          [notification.trigger]
+          notification.triggers,
+          true,
+          notification.expoIDs
         );
       }
     }
@@ -45,6 +47,13 @@ class NotificationsHandler {
       "undefined",
       "off"
     );
+
+    const notifications = await this.getAllNotifications(token);
+    for (var notification of notifications) {
+      if(notification.SK !== "notifications" && notification.preference === "on") {
+        await this.turnOffNotification(token, notification.SK, notification.expoIDs);
+      }
+    }
   }
   static async checkNotificationsStatus(token) {
     const pushToken = await this.registerForPushNotificationsAsync();
@@ -69,11 +78,13 @@ class NotificationsHandler {
     notificationID,
     title,
     body,
-    triggers
+    triggers,
+    notifications,
+    prevExpoIDs = false
   ) {
-    try{
-      var expoIDs = [];
-      for (var trigger of triggers) {
+    var expoIDs = [];
+    if(notifications){
+      for (var trigger of triggers) { 
         try{
           const expoID = await this.schedulePushNotification(title, body, trigger);
           expoIDs.push(expoID);
@@ -82,6 +93,15 @@ class NotificationsHandler {
           return false
         }
       }
+    }
+
+    if(prevExpoIDs) {
+      for (var prevExpoID of prevExpoIDs) {
+        await this.cancelPushNotification(prevExpoID);
+      }
+    }
+
+    try{
       await this.updateNotification(
         token,
         notificationID,
@@ -91,34 +111,40 @@ class NotificationsHandler {
         triggers,
         "on"
       );
-      return true;
+      return expoIDs;
 
     }
     catch(e){
       console.log(e)
       return false
     }
+
   }
   static async turnOffNotification(token, notificationID, expoIDs) {
+
+    var notifications = await this.getNotificationsForGroup(token, notificationID)
+
+    for(notification of notifications){
+      await this.updateNotification(token, notificationID, notification.expoIDs, notification.title, notification.body, notification.triggers, "off");
+    }
     
-    await this.deleteNotification(token, notificationID);
     for (var expoID of expoIDs) {
       await this.cancelPushNotification(expoID);
     }
   }
 
-  static async turnOnGroupNotifications(token, group) {
+  static async turnOnGroupNotifications(token, group, isAllNotificationsOn) {
     notifications = await this.getNotificationsForGroup(token, group);
     for (notification of notificaions) {
-      for (expoID of notification.expoIDs) {
         await turnOnNotification(
           token,
-          notification.sk,
+          notification.SK,
           notification.title,
           notification.body,
-          notification.triggers
+          notification.triggers,
+          isAllNotificationsOn,
+          [expoID]
         );
-      }
     }
 
   }
@@ -139,7 +165,7 @@ class NotificationsHandler {
     expoIDs,
     title,
     body,
-    trigger,
+    triggers,
     preference
   ) {
     const headers = {
@@ -151,7 +177,7 @@ class NotificationsHandler {
       expoIDs: expoIDs,
       title: title,
       body: body,
-      trigger: trigger,
+      triggers: triggers,
       preference: preference,
     };
 
@@ -162,16 +188,14 @@ class NotificationsHandler {
     }
   }
 
+
+
   static async deleteNotification(notificationID, token) {
 
     const headers = {
       Authorization: `Bearer ${token}`,
     };
     const url = API + notificationID;
-
-    console.log(headers);
-    console.log(url);
-
 
     try {
       await axios.delete(url, { headers: headers });
