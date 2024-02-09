@@ -142,6 +142,10 @@ function MainDrawer() {
         drawerStyle: { width: 210 },
       }}
     >
+<Drawer.Screen name="mainscreen" component={Main} />
+      <Drawer.Screen name="todos-habits" component={TodosHabits} />
+      <Drawer.Screen name="mood-sleep" component={MoodSleep} />
+      <Drawer.Screen name="fitness-diet" component={FitnessDiet} />
     </Drawer.Navigator>
   );
 }
