@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
 import { useState } from "react";
-import { ContinueButton, Header } from "../../components";
+import { Button, Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import LoginAPI from "../../api/auth/loginAPI";
 import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
@@ -11,8 +12,10 @@ const SCREEN_WIDTH = width < height ? width : height;
 const EnterPassword = (props) => {
   const [tempPassword, setTempPassword] = useState("");
   const { email } = props.route.params;
+  const [isLoading, setIsLoading] = useState(false);
 
   const onPressContinue = async () => {
+    setIsLoading(true)
     if (tempPassword.length > 0) {
 
       const { status, data } = await LoginAPI.verifyTempPassword(email, tempPassword);
@@ -21,12 +24,14 @@ const EnterPassword = (props) => {
       if (status == 200) {
         if (data?.requestNewTempPassword == false) {
           if(data.passwordMatch){
+            setIsLoading(false)
             await navigationService.navigate("createPassword", {
               email, tempPassword
             });
             setTempPassword("")
           }
           else {
+            setIsLoading(false)
             Toast.show("Incorrect password. Please try again.", {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
@@ -34,11 +39,13 @@ const EnterPassword = (props) => {
           }
         }
         else {
+          setIsLoading(false)
           await navigationService.navigate("auth")
           setTempPassword("")
         }
       }
       else{
+        setIsLoading(false)
         Toast.show("Something went wrong. Please try again", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
@@ -46,6 +53,7 @@ const EnterPassword = (props) => {
       }
     }
     else {
+      setIsLoading(false)
       Toast.show("Please enter a password.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -56,6 +64,9 @@ const EnterPassword = (props) => {
   return (
     <View style={styles.container}>
       <Header />
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>Check your inbox for password</Text>
@@ -70,7 +81,12 @@ const EnterPassword = (props) => {
               autoCapitalize="none"
             />
           </View>
-          <ContinueButton onPress={() => onPressContinue()} />
+          <Button
+            onPress={() => onPressContinue()}
+            style={styles.nextButton}
+          >
+            Continue
+          </Button>
         </View>
       </View>
     </View>
@@ -88,6 +104,9 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
     marginVertical: 20,
     textAlign: "center",
+  },
+  nextButton: {
+    width: SCREEN_WIDTH - 50,
   },
   input: {
     color: "#25436B",

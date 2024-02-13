@@ -1,6 +1,6 @@
-import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from "react-native";
 import React, { useRef, useState } from "react";
-import { ContinueButton, Header } from "../../components";
+import { Button, Header } from "../../components";
 import ScribbledText from "../../components/ScribbledText";
 
 import Toast from "react-native-root-toast";
@@ -9,7 +9,12 @@ import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
 
+import Spinner from "react-native-loading-spinner-overlay";
+
 const keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+const { width, height } = Dimensions.get("window");
+const SCREEN_WIDTH = width < height ? width : height;
 
 
 const EnterCode = (props) => {
@@ -21,8 +26,10 @@ const EnterCode = (props) => {
 
   const [showResend, setShowResend] = useState(true)
   const [showBottomText, setShowBottomText] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   
   const onPressContinue = async () => {
+    setIsLoading(true)
     otpValue = ""
     for (digit of code){
       otpValue += digit
@@ -33,6 +40,7 @@ const EnterCode = (props) => {
         if(data?.loginFailed == "locked") {
           setCode(["", "", "", ""]);
           setShowBottomText(false)
+          setIsLoading(false)
           Alert.alert(
             "Account Locked",
             "Your account has been locked for security reasons. To unlock it, you must reset your password",
@@ -60,10 +68,12 @@ const EnterCode = (props) => {
           );
         }
         else if(data?.loginFailed == "incorrectOTP"){
+          setIsLoading(false)
           setShowBottomText(true)
           Toast.show('Invalid Code', {...styles.errorToast, duration: Toast.durations.LONG});
         }
         else if(data?.loginFailed == "expired"){
+          setIsLoading(false)
           setShowBottomText(true)
           Toast.show('Code has expired', {...styles.errorToast, duration: Toast.durations.LONG});
         }
@@ -73,6 +83,7 @@ const EnterCode = (props) => {
           const accessToken = await getAccessToken()
           const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
 
+          setIsLoading(false)
           if (userData["isSetupComplete"]) {
             await navigationService.navigate("main");
             setCode("")
@@ -82,6 +93,7 @@ const EnterCode = (props) => {
           }
         }
         else {
+          setIsLoading(false)
           setShowBottomText(true)
           Toast.show("Something went wrong. Please try again later!", {
             ...styles.errorToast,
@@ -91,6 +103,7 @@ const EnterCode = (props) => {
         }
       }
         else {
+          setIsLoading(false)
           setShowBottomText(true)
           Toast.show("Something went wrong. Please try again later!", {
             ...styles.errorToast,
@@ -101,6 +114,7 @@ const EnterCode = (props) => {
       }
     }
     else{
+      setIsLoading(false)
       Toast.show('Invalid Code', {...styles.errorToast, duration: Toast.durations.LONG});
     }
 
@@ -142,6 +156,9 @@ const EnterCode = (props) => {
   return (
     <View style={styles.container}>
       <Header />
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>
@@ -190,7 +207,12 @@ const EnterCode = (props) => {
               />
             ))}
           </View>
-          <ContinueButton onPress={() => onPressContinue()} />
+          <Button
+            onPress={() => onPressContinue()}
+            style={styles.nextButton}
+          >
+            Continue
+          </Button>
           {showBottomText && (showResend ? <ResendMessage/> : <LoadingMessage/>)}
         </View>
       </View>
@@ -275,6 +297,10 @@ const styles = StyleSheet.create({
   waitingText: {
     fontSize: 12,
     color: "#25436B",
+  },
+  nextButton: {
+    marginTop: 15,
+    width: SCREEN_WIDTH - 50,
   }
 });
 

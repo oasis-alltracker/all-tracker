@@ -14,7 +14,7 @@ const DrawerScreen = ({ navigation }) => {
   useEffect(() => {
     const getPreferencesOnLoad = async() =>{
       if(isLoading){
-        
+        setIsLoading(false)
         token = await getAccessToken()
         user = await UserAPI.getUser(token)
 
@@ -61,7 +61,6 @@ const DrawerScreen = ({ navigation }) => {
           })
 
         setButtons(buttonPreference)
-        setIsLoading(false)
       }    
     }
     getPreferencesOnLoad()

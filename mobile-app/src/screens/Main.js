@@ -5,17 +5,15 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  ScrollView,
 } from "react-native";
 import MenuIcon from "../assets/icons/menu";
 import { Button, MainHeader } from "../components";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import DrawerScreen from "./Drawer";
+import DrawerScreen from "./DrawerScreen";
 import navigationService from "../navigators/navigationService";
 import TodosHabits from "./Todos-Habits";
 import MoodSleep from "./Mood-Sleep";
 import FitnessDiet from "./Fitness-Diet";
-import Spinner from "react-native-loading-spinner-overlay";
 import UserAPI from "../api/user/userAPI";
 import { getAccessToken } from "../user/keychain";
 
@@ -86,9 +84,6 @@ const Main = ({ navigation }) => {
           </TouchableOpacity>
         }
       />
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
       <>
         <View style={{paddingTop:15, justifyContent:"center", height: height*0.6}}>
         {buttons.map((item, index) => (

@@ -11,7 +11,7 @@ import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import { isEmailValid } from "../../utils/commonUtils";
 import { View, Text, TextInput, StyleSheet, Image, Dimensions } from "react-native";
-import { Header, ContinueButton } from "../../components";
+import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { logout } from "../../user/keychain";
 
@@ -108,12 +108,14 @@ const EnterEmail = () => {
 
   //--------------------- EMAIL LOGIN
   const onPressContinue = async () => {
+    setIsLoading(true);
     if (isEmailValid(email)) {
       const { status, data } = await LoginAPI.doesUserExist(email);
 
       if (status == 200)
         if (data) {
           if (data.isAccountLocked) {
+            setIsLoading(false);
             Alert.alert(
               "Oasis Account Locked",
               "Your account has been locked for security reasons. To unlock it, you must reset your password",
@@ -144,18 +146,24 @@ const EnterEmail = () => {
             );
           }
           else if (data?.exists) {
+            setIsLoading(false);
+            
             await navigationService.navigate("enterPassword", {
               email,
             });
             setEmail("");
+            
           } else {
+            setIsLoading(false);
+            
             await navigationService.navigate("createPassword", {
               email,
             });
-                  setEmail("");
+            setEmail("");
 
           }
         } else {
+          setIsLoading(false);
           Toast.show("Something went wrong. Please try again.", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
@@ -163,6 +171,7 @@ const EnterEmail = () => {
           });
         }
     } else {
+      setIsLoading(false);
       Toast.show("Please enter a valid email address.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -194,7 +203,12 @@ const EnterEmail = () => {
             />
           </View>
 
-          <ContinueButton onPress={() => onPressContinue()} />
+          <Button
+            onPress={() => onPressContinue()}
+            style={styles.nextButton}
+          >
+            Continue
+          </Button>
         <View style={styles.signContainer}>
           <Text style={styles.txt}>--or--</Text>
           <View
@@ -277,7 +291,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   signContainer: {
-    marginTop: 150,
+    marginTop: 120,
     justifyContent: "center",
     alignSelf: "center",
   },
@@ -291,6 +305,9 @@ const styles = StyleSheet.create({
   rowContainer: {
     alignItems: "center",
     marginTop: 20
+  },
+  nextButton: {
+    width: SCREEN_WIDTH - 50,
   },
   iconContainer: {
     backgroundColor: "white",

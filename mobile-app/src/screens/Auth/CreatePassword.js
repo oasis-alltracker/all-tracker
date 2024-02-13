@@ -2,10 +2,11 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
 import React from "react";
-import { ContinueButton, Header } from "../../components";
+import { Button, Header } from "../../components";
 import Toast from "react-native-root-toast";
 import navigationService from "../../navigators/navigationService";
 import LoginAPI from "../../api/auth/loginAPI";
+import Spinner from "react-native-loading-spinner-overlay";
 
 
 const { width, height } = Dimensions.get("window");
@@ -15,9 +16,12 @@ const CreatePassword = (props) => {
   const [password, setPassword] = useState("");
   const [passwordCopy, setPasswordCopy] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { email, tempPassword} = props.route.params;
 
   const onPressContinue = async () => {
+    setIsLoading(true)
     if (password.length > 0) {
       if (password === passwordCopy) {
         
@@ -29,12 +33,14 @@ const CreatePassword = (props) => {
 
             if (status == 200 && data) {
               if(data.isCorrectPassword){
+                setIsLoading(false)
                 navigationService.navigate("enterCode", {email, password})
                 setPassword("")
                 setPasswordCopy("")
               }
             }
             else {
+              setIsLoading(false)
               Toast.show("Something went wrong. Please try again.", {
                 ...styles.errorToast,
                 duration: Toast.durations.LONG,
@@ -42,6 +48,7 @@ const CreatePassword = (props) => {
             }
 
           } else {
+            setIsLoading(false)
             Toast.show("Something went wrong. Please try again.", {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
@@ -53,11 +60,13 @@ const CreatePassword = (props) => {
 
           if (status == 200) {
             if(data.isCorrectPassword){
+              setIsLoading(false)
               navigationService.navigate("enterCode", {email, password})
               setPassword("")
               setPasswordCopy("")
             }
             else{
+              setIsLoading(false)
               Toast.show("You have already created a password. Please return to main login page.", {
                 ...styles.errorToast,
                 duration: Toast.durations.LONG,
@@ -66,6 +75,7 @@ const CreatePassword = (props) => {
             }
   
           } else {
+            setIsLoading(false)
             Toast.show("Something went wrong. Please try again.", {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
@@ -75,6 +85,7 @@ const CreatePassword = (props) => {
         }
       }
       else {
+        setIsLoading(false)
         Toast.show("Passwords do no match.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
@@ -83,6 +94,7 @@ const CreatePassword = (props) => {
       }
     }
     else {
+      setIsLoading(false)
       Toast.show("Please enter a password.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -94,6 +106,9 @@ const CreatePassword = (props) => {
   return (
     <View style={styles.container}>
       <Header />
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>Create a password</Text>
@@ -119,7 +134,12 @@ const CreatePassword = (props) => {
               value={passwordCopy}
             />
             </View>
-          <ContinueButton onPress={() => onPressContinue()} />
+          <Button
+            onPress={() => onPressContinue()}
+            style={styles.nextButton}
+          >
+            Continue
+          </Button>
         </View>
       </View>
     </View>
@@ -185,6 +205,9 @@ const styles = StyleSheet.create({
   icon: {
     width: "100%",
     height: "100%",
+  },
+  nextButton: {
+    width: SCREEN_WIDTH - 50,
   },
   errorToast: {
     backgroundColor: "#FFD7D7",
