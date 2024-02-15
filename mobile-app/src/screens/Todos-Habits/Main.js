@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   Image,
   ImageBackground,
@@ -9,215 +9,13 @@ import {
   View,
 } from "react-native";
 import CreateHabitModal from "./modals/CreateHabitModal";
-import AddTasks from "./modals/AddTasks";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 
-import { getAccessToken } from "../../user/keychain";
-
-import HabitsAPI from "../../api/habits/habitsAPI";
-import UserAPI from "../../api/user/userAPI";
-import HabitStatusesAPI from "../../api/habits/habitStatusesAPI";
-import TasksAPI from "../../api/tasks/tasksAPI";
-import ToDosAPI from "../../api/tasks/todosAPI";
-import Toast from "react-native-root-toast";
-import Spinner from "react-native-loading-spinner-overlay";
-import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
-
-export default function Main() {
-  const [day, setDay] = useState(new Date());
-  const today = new Date();
-
-  const [statusList, setStatusList] = useState([]);
-
-  const [tasks, setTasks] = useState([]);
-  const [toDos, setToDoStatuses] = useState(false);
-
-  const [trackingPreferences, setTrackingPreferences] = useState([]);
-
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
-
-  const [isHabitsLoading, setIsHabitsLoading] = useState(false);
-  const [isTasksLoading, setIsTasksLoading] = useState(false);
-
+export default function Main({day, statusList, trackingPreferences, updateDate, createHabit, refreshHabits, updateHabitStatusCount, onHabitStatusUpdate}) {
   const createHabitRef = useRef(null);
   const updateHabitsStatusRef = useRef(null);
-  const modalRef = useRef(null);
-  const modalRef1 = useRef(null);
-  const todos = [
-    {
-      name: "Clean laundry",
-      status: "Overdue",
-    },
-  ];
-
-  const updateDate = (dateChange) => {
-    var dayValue = 60 * 60 * 24 * 1000 * dateChange;
-    var newDate = new Date(new Date(day).getTime() + dayValue);
-    setDay(newDate);
-    refreshHabits(newDate);
-  };
-
-  const createHabit = async (habit) => {
-    setIsHabitsLoading(true);
-    try {
-      token = await getAccessToken();
-      await HabitsAPI.createHabit(token, habit);
-
-      await createStatusList(day);
-    } catch (e) {
-      setIsHabitsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  const refreshHabits = async (date = false) => {
-    setIsHabitsLoading(true);
-    if (!date) {
-      date = day;
-    }
-    try {
-      token = await getAccessToken();
-
-      createStatusList(date);
-    } catch (e) {
-      setIsHabitsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  const updateHabitStatusCount = async (habit, count) => {
-    try {
-      var habitStatus;
-      token = await getAccessToken();
-      if (habit.count === undefined) {
-        habitStatus = {
-          dateStamp: moment(day).format("YYYYMMDD"),
-          name: habit.name,
-          isPositive: habit.isPositive,
-          threshold: habit.threshold,
-          pngURL: habit.pngURL,
-        };
-        habitStatus.count = count;
-        habitStatus.habitID = habit.SK;
-
-        await HabitStatusesAPI.createHabitStatus(token, habitStatus);
-      } else {
-        habitStatus = {
-          SK: habit.SK,
-          count: count,
-          isPositive: habit.isPositive,
-        };
-
-        await HabitStatusesAPI.updateHabitStatus(token, habit.SK, {
-          count: count,
-        });
-
-      }
-
-      return habitStatus;
-    } catch (e) {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  const createStatusList = async (showingDate = false) => {
-    if (!showingDate) {
-      showingDate = new Date();
-    }
-    const token = await getAccessToken();
-    const statusList = await HabitStatusListAPI.getHabitStatusList(
-      token,
-      moment(showingDate).format("YYYYMMDD")
-    );
-
-    setStatusList(statusList);
-    setIsHabitsLoading(false);
-    return
-  };
-
-  const getTasks = async (token) => {
-    setIsTasksLoading(true);
-    try {
-      userTaks = await TasksAPI.getTasks(token);
-      setTasks(userTaks);
-    } catch (e) {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  const getToDos = async (token) => {
-    setIsTasksLoading(true);
-    try {
-      userTaks = await ToDosAPI.getToDosForToday(
-        token,
-        moment(day).format("YYYYMMDD"),
-        false
-      );
-      setTasks(userTaks);
-    } catch (e) {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  const onHabitStatusUpdate = async (habitStatus, count) => {
-    setIsHabitsLoading(true);
-    try {
-      token = await getAccessToken();
-
-      await updateHabitStatusCount(habitStatus, count);
-      await createStatusList(day);
-      //
-    } catch (e) {
-      console.log(e);
-      setIsHabitsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  //after implementation add task loade and habits loaded so that use effect doesn't get both
-
-  useEffect(() => {
-    const getDataOnLoad = async () => {
-      token = await getAccessToken();
-      if (!isPageLoaded) {
-        setIsPageLoaded(true);
-        setIsHabitsLoading(true);
-        setIsTasksLoading(true);
-
-        const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
-          .trackingPreferences;
-        setTrackingPreferences(trackingPreferencesLoaded);
-
-        await createStatusList(day);
-
-        await getToDos(token);
-        await getTasks(token);
-
-        setIsHabitsLoading(false);
-        setIsTasksLoading(false);
-      }
-    };
-    getDataOnLoad();
-  }, []);
+  const today = new Date();
 
   return (
     <ScrollView
@@ -225,7 +23,6 @@ export default function Main() {
       contentContainerStyle={styles.containerMain}
       scrollEnabled={false}
     >
-      <Spinner visible={isHabitsLoading}></Spinner>
       <View style={styles.imageConMain}>
         <Image
           style={styles.imageMain}
@@ -273,12 +70,6 @@ export default function Main() {
             <Image
               style={styles.plusMain}
               source={require("../../assets/images/plus512.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => refreshHabits()}>
-            <Image
-              style={styles.refresh}
-              source={require("../../assets/images/reload.png")}
             />
           </TouchableOpacity>
         </View>
@@ -700,7 +491,6 @@ export default function Main() {
         getRef={(ref) => (createHabitRef.current = ref)}
         createHabit={createHabit}
       />
-      <AddTasks getRef={(ref) => (modalRef1.current = ref)} />
     </ScrollView>
   );
 }
@@ -908,11 +698,9 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
   },
   buttonItems: {
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingLeft: 15,
-    width: 100,
+    marginRight:5
   },
   errorToast: {
     backgroundColor: "#FFD7D7",

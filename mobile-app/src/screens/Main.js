@@ -9,13 +9,16 @@ import {
 import MenuIcon from "../assets/icons/menu";
 import { Button, MainHeader } from "../components";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import DrawerScreen from "./DrawerScreen";
 import navigationService from "../navigators/navigationService";
 import TodosHabits from "./Todos-Habits";
 import MoodSleep from "./Mood-Sleep";
 import FitnessDiet from "./Fitness-Diet";
+
 import UserAPI from "../api/user/userAPI";
 import { getAccessToken } from "../user/keychain";
+
+import DrawerScreen from "./DrawerScreen";
+
 
 const Drawer = createDrawerNavigator();
 
@@ -130,6 +133,7 @@ const styles = StyleSheet.create({
 function MainDrawer() {
   return (
     <Drawer.Navigator
+      initialRouteName="mainscreen"
       drawerContent={DrawerScreen}
       screenOptions={{
         headerShown: false,

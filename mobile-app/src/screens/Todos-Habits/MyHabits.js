@@ -1,116 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef} from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CreateHabitModal from "./modals/CreateHabitModal";
 import UpdateHabitModal from "./modals/UpdateHabitModal"
-import HabitsAPI from "../../api/habits/habitsAPI";
-import Spinner from "react-native-loading-spinner-overlay";
-import Toast from "react-native-root-toast";
-import { getAccessToken } from '../../user/keychain'
 
 const { width, height } = Dimensions.get("window");
 
-export default function MyHabits() {
-  const [habits, setHabits] = useState([]);
-  const [habitsIsLoaded, setHabitsIsLoaded] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
-  
+export default function MyHabits({habits, createHabit, deleteHabit, updateHabit}) {
   const createHabitRef = useRef(null);
   const updateHabitRef = useRef(null);
-
-  const createHabit = async (habit) => {
-    setIsLoading(true);
-    try{
-      token = await getAccessToken()
-      await HabitsAPI.createHabit(token, habit)
-      await getHabits();
-    }
-    catch(e){
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  }
-
-  const refreshHabits = async(token) => {
-    setIsLoading(true)
-    try{
-      await getHabits();
-    }
-    catch(e){
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  }
-
-  const deleteHabit = async(habitID) => {
-    setIsLoading(true);
-    try{
-      token = await getAccessToken()
-      await HabitsAPI.deleteHabit(token, habitID)
-      await getHabits();
-    }
-    catch(e){
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-
-
-  }
-  const updateHabit = async(habitID, habit) => {
-    try{
-      setIsLoading(true);
-      token = await getAccessToken()
-      await HabitsAPI.updateHabit(token, habitID, habit)
-      await getHabits();
-    }
-    catch(e){
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-
-  }
-
-  const getHabits = async() => {
-    setIsLoading(true);
-    try{
-      token = await getAccessToken()
-      userHabits =  await HabitsAPI.getHabits(token)
-      setHabits(userHabits);
-    }
-    catch(e){
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-    
-    setIsLoading(false);
-  }
-
-  useEffect(() => {
-    const getHabitsOnLoad = async() =>{
-      if(!habitsIsLoaded){
-        setHabitsIsLoaded(true)
-        await getHabits();
-      }    
-    }
-    getHabitsOnLoad()
-  }, []);
 
   const Habits = () => (  
     <>
@@ -182,9 +81,6 @@ export default function MyHabits() {
     contentContainerStyle={styles.container}
     scrollEnabled={false}
   >
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
       <View style={styles.headerImageCon}>
         <Image
           style={styles.headerImage}
@@ -202,14 +98,6 @@ export default function MyHabits() {
             <Image
               style={styles.plus}
               source={require("../../assets/images/plus512.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => refreshHabits()}
-          >
-            <Image
-              style={styles.refresh}
-              source={require("../../assets/images/reload.png")}
             />
           </TouchableOpacity>
         </View>
@@ -371,11 +259,9 @@ const styles = StyleSheet.create({
     textColor: "#25436B",
   },
   buttonItems: {
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingLeft: 15,
-    width: 100,
+    marginRight:10
   },
   refresh: {
     width:30,
