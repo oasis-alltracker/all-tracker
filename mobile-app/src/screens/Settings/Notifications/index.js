@@ -141,7 +141,6 @@ const Notifications = () => {
     minute = timeArray[1]
 
     if(isHabitsEnabled){
-      console.log("attempting to get push")
       var systemNotificationsStatus = true;
       systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
       if(systemNotificationsStatus){

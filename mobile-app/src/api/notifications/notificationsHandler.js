@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
