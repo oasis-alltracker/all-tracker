@@ -4,16 +4,20 @@ import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CreateHabitModal from "./modals/CreateHabitModal";
 import UpdateHabitModal from "./modals/UpdateHabitModal"
+import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
 
-export default function MyHabits({habits, createHabit, deleteHabit, updateHabit}) {
+export default function MyHabits({isLoading, habits, createHabit, deleteHabit, updateHabit}) {
   const createHabitRef = useRef(null);
   const updateHabitRef = useRef(null);
 
   const Habits = () => (  
     <>
       <View style={{ height: 365 }}>
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}>          

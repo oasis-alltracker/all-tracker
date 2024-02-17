@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "react-native-gesture-handler"
 import {
   View,
   TouchableOpacity,
@@ -8,8 +7,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView } from "react-native-tab-view";
-import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
 
 import Main from "./Main";
 import MyTasks from "./MyTasks";
@@ -26,13 +25,16 @@ import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
 import moment from "moment";
 
 
-const Habits = ({ navigation }) => {
+const TodosHabits = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(true);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
-  const [routes, setRoutes] = useState([]);
+  const [routes, setRoutes] = useState([{ key: "first", title: "First" }])
+
+  const [dots, setDots] = useState([]);
+
 
   const [day, setDay] = useState(new Date());
   const [statusList, setStatusList] = useState([]);
@@ -169,9 +171,8 @@ const Habits = ({ navigation }) => {
         duration: Toast.durations.LONG,
       });
     }
-
-
   }
+
   const updateHabit = async(habitID, habit) => {
     try{
       setIsLoading(true);
@@ -187,7 +188,6 @@ const Habits = ({ navigation }) => {
         duration: Toast.durations.LONG,
       });
     }
-
   }
 
   const getHabits = async() => {
@@ -209,6 +209,7 @@ const Habits = ({ navigation }) => {
   }
 
   useEffect(() => {
+
     const getPreferencesOnLoad = async() =>{
         
       token = await getAccessToken()
@@ -216,7 +217,7 @@ const Habits = ({ navigation }) => {
       .trackingPreferences;
       setTrackingPreferences(trackingPreferencesLoaded);
 
-      routesPreference = [{ key: "first", title: "First" }]
+      var routesPreference = routes
 
       if(trackingPreferencesLoaded.habitsSelected){
         routesPreference.push(          
@@ -229,11 +230,12 @@ const Habits = ({ navigation }) => {
 
       setRoutes(routesPreference)
 
-      var numDots = [0];
+      var numDots = [];
       for(var i=0; i<routesPreference.length; i++){
-        numDots.push(i+1)
+        numDots.push(i)
       }
-      console.log("data is done loading")
+      setDots(numDots)
+
       setIsLoading(false)
    
     }
@@ -245,7 +247,6 @@ const Habits = ({ navigation }) => {
       await getHabits();
 
       setIsLoading(false);
-      console.log("preferences is done loading")
     };
 
     if (!isPageLoaded) {
@@ -255,12 +256,12 @@ const Habits = ({ navigation }) => {
     }
   }, []);
 
-  const renderScene = ({ route }) => {
+const renderScene = ({ route }) => {
     switch (route.key) {
       case 'first':
-        return <Main day={day} statusList={statusList} trackingPreferences={trackingPreferences} updateDate={updateDate} createHabit={createHabit} refreshHabits={refreshHabits} updateHabitStatusCount={updateHabitStatusCount} onHabitStatusUpdate={onHabitStatusUpdate} />;
+        return <Main isLoading={isLoading} day={day} statusList={statusList} trackingPreferences={trackingPreferences} updateDate={updateDate} createHabit={createHabit} refreshHabits={refreshHabits} updateHabitStatusCount={updateHabitStatusCount} onHabitStatusUpdate={onHabitStatusUpdate}/>;
       case 'second':
-        return <MyHabits habits={habits} createHabit={createHabit} deleteHabit={deleteHabit} updateHabit={updateHabit}/>;
+        return <MyHabits isLoading={isLoading} habits={habits} createHabit={createHabit} deleteHabit={deleteHabit} updateHabit={updateHabit}/>;
       case 'third':
         return <MyTasks/>
       default:
@@ -269,10 +270,10 @@ const Habits = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
       <Spinner
         visible={isLoading}>
       </Spinner>
-      <View style={styles.container}>
         <TouchableOpacity
           style={styles.headerButton}
           onPress={() => navigation.openDrawer()}
@@ -285,9 +286,10 @@ const Habits = ({ navigation }) => {
           onIndexChange={setIndex}
           initialLayout={{ width }}
           renderTabBar={() => null}
+          lazy
         />
         <View style={styles.pagination}>
-          {[0, 1].map((val, key) => {
+          {dots.map((val, key) => {
             return (
               <View
                 key={key.toString()}
@@ -351,4 +353,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Habits;
+export default TodosHabits;

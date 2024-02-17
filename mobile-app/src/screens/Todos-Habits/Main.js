@@ -9,10 +9,11 @@ import {
   View,
 } from "react-native";
 import CreateHabitModal from "./modals/CreateHabitModal";
+import Spinner from "react-native-loading-spinner-overlay";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 
-export default function Main({day, statusList, trackingPreferences, updateDate, createHabit, refreshHabits, updateHabitStatusCount, onHabitStatusUpdate}) {
+export default function Main({day, statusList, trackingPreferences, isLoading, updateDate, createHabit, refreshHabits, updateHabitStatusCount, onHabitStatusUpdate}) {
   const createHabitRef = useRef(null);
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
@@ -23,6 +24,9 @@ export default function Main({day, statusList, trackingPreferences, updateDate, 
       contentContainerStyle={styles.containerMain}
       scrollEnabled={false}
     >
+      <Spinner
+        visible={isLoading}>
+      </Spinner>
       <View style={styles.imageConMain}>
         <Image
           style={styles.imageMain}
