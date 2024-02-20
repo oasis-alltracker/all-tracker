@@ -24,22 +24,14 @@ const data = [
   { value: 70 },
 ];
 
-const data2 = [
-  {
-    src: require("../../assets/images/to-dos.png"),
-    title: "habits",
-  },
-  {
-    src: require("../../assets/images/habits.png"),
-    title: "to-dos",
-  },
-];
+export default function Statistics(trackingPreferences) {
 
-export default function Statistics() {
+  console.log(trackingPreferences)
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
+      scrollEnabled={false}
     >
       <View style={styles.imageCon}>
         <Image
@@ -47,59 +39,103 @@ export default function Statistics() {
           source={require("../../assets/images/stats.png")}
         />
       </View>
-      <View style={styles.dateLine}>
-        <TouchableOpacity style={styles.button}>
+  
+
+      <View style={styles.dateLineMain}>
+        <TouchableOpacity
+          style={styles.buttonMain}
+        >
           <Image
-            style={[styles.preButton, styles.nextButton]}
+            style={[styles.preButtonMain, styles.nextButtonMain]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
-        <Text style={styles.dateName}>This week</Text>
-        <TouchableOpacity style={styles.button}>
+            <Text style={styles.dateNameMain}>This Week</Text>
+        <TouchableOpacity
+          style={styles.buttonMain}
+        >
           <Image
-            style={[styles.preButton]}
+            style={styles.preButtonMain}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
       </View>
-      {data2.map((val, key) => {
-        return (
-          <View key={key.toString()} style={styles.chartBox}>
-            <View style={styles.chartCircle}>
-              <Image style={styles.imageCircle} source={val.src} />
-              <Text style={styles.text}>{val.title}</Text>
-            </View>
-            <View style={styles.chartContainer}>
-              <LineChart
-                thickness={2}
-                color="rgba(255, 207, 245, 1)"
-                maxValue={500}
-                animateOnDataChange
-                areaChart
-                hideRules
-                yAxisTextNumberOfLines={1}
-                yAxisLabelWidth={0}
-                hideYAxisText
-                hideDataPoints
-                data={data}
-                startFillColor1={"rgba(255, 207, 245, 1)"}
-                endFillColor1={"rgba(255, 207, 245, 1)"}
-                startOpacity={0.8}
-                endOpacity={0.1}
-                backgroundColor="transparent"
-                xAxisLength={0}
-                initialSpacing={0}
-                yAxisColor="#B3B3B3"
-                xAxisColor="#B3B3B3"
-                height={130}
-                width={150}
-                curved
-              />
-              <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
-            </View>
-          </View>
-        );
-      })}
+
+
+      {trackingPreferences.trackingPreferences.toDosSelected && (
+      <View style={styles.chartBox}>
+        <View style={styles.chartCircle}>
+          <Image style={styles.imageCircle} source={require("../../assets/images/to-dos.png")} />
+          <Text style={styles.text}>to-dos</Text>
+        </View>
+        <View style={styles.chartContainer}>
+          <LineChart
+            thickness={2}
+            color="rgba(255, 207, 245, 1)"
+            maxValue={500}
+            animateOnDataChange
+            areaChart
+            hideRules
+            yAxisTextNumberOfLines={1}
+            yAxisLabelWidth={0}
+            hideYAxisText
+            hideDataPoints
+            data={data}
+            startFillColor1={"rgba(255, 207, 245, 1)"}
+            endFillColor1={"rgba(255, 207, 245, 1)"}
+            startOpacity={0.8}
+            endOpacity={0.1}
+            backgroundColor="transparent"
+            xAxisLength={0}
+            initialSpacing={0}
+            yAxisColor="#B3B3B3"
+            xAxisColor="#B3B3B3"
+            height={130}
+            width={180}
+            curved
+          />
+          <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
+        </View>
+      </View>
+      )}
+
+      {trackingPreferences.trackingPreferences.habitsSelected && 
+      <View style={styles.chartBox}>
+        <View style={styles.chartCircle}>
+          <Image style={styles.imageCircle} source={require("../../assets/images/habits.png")} />
+          <Text style={styles.text}>habits</Text>
+        </View>
+        <View style={styles.chartContainer}>
+          <LineChart
+            thickness={2}
+            color="rgba(255, 207, 245, 1)"
+            maxValue={500}
+            animateOnDataChange
+            areaChart
+            hideRules
+            yAxisTextNumberOfLines={1}
+            yAxisLabelWidth={0}
+            hideYAxisText
+            hideDataPoints
+            data={data}
+            startFillColor1={"rgba(255, 207, 245, 1)"}
+            endFillColor1={"rgba(255, 207, 245, 1)"}
+            startOpacity={0.8}
+            endOpacity={0.1}
+            backgroundColor="transparent"
+            xAxisLength={0}
+            initialSpacing={0}
+            yAxisColor="#B3B3B3"
+            xAxisColor="#B3B3B3"
+            height={130}
+            width={180}
+            curved
+          />
+          <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
+        </View>
+      </View>
+      }
+    
     </ScrollView>
   );
 }
@@ -169,27 +205,29 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 50,
+    marginTop: 20,
+    paddingRight:35
   },
   chartCircle: {
-    width: 65,
-    height: 65,
+    width: 75,
+    height: 75,
     borderRadius: 45,
     backgroundColor: "rgba(255, 207, 245, 0.65)",
     borderColor: "rgba(255, 207, 245, 0.70)",
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginRight: 30,
+    marginTop: 35,
+    marginRight: 40,
   },
   imageCircle: {
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
   },
   text: {
     fontSize: 13,
     fontFamily: "Sego",
+    color: "#25436B",
   },
   xLabel: {
     fontSize: 12,
@@ -197,5 +235,41 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: "center",
+  },
+  dateLineMain: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: "#ACC5CC",
+    borderRadius: 2,
+  },
+  buttonMain: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    backgroundColor: "#D7F6FF",
+    borderWidth: 1,
+    borderTopColor: "rgba(0, 0, 0, 0)",
+    borderBottomColor: "rgba(0, 0, 0, 0)",
+    borderRightColor: "#ccc",
+    borderLeftColor: "#ccc",
+  },
+  dateNameMain: {
+    fontSize: 26,
+    color: "#25436B",
+    fontFamily: "Sego-Bold",
+  },
+  preButtonMain: {
+    width: 30,
+    height: 30,
+  },
+  nextButtonMain: {
+    transform: [
+      {
+        rotate: "180deg",
+      },
+    ],
   },
 });

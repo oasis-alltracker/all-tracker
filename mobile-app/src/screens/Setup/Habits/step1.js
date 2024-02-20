@@ -127,7 +127,8 @@ const HabitsCreation = (props) => {
     <View style={{ height: 365 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}>
+        contentContainerStyle={styles.scrollContainer}
+        removeClippedSubviews={false}>
 
         {habits.map((val, key) => {
           return (
@@ -157,9 +158,9 @@ const HabitsCreation = (props) => {
             </TouchableOpacity>
           );
         })}
-        <CreateHabitModal getRef={(ref) => (modalRef.secondary = ref)} createHabit={createHabit}/>
-        <UpdateHabitModal getRef={(ref) => (modalRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
       </ScrollView>
+      <CreateHabitModal getRef={(ref) => (modalRef.secondary = ref)} createHabit={createHabit}/>
+      <UpdateHabitModal getRef={(ref) => (modalRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
     </View>
   </>
   );

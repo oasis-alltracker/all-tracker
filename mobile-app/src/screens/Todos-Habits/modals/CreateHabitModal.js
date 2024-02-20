@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Dimensions, ScrollView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Dimensions, ScrollView, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, } from "react-native";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
@@ -81,7 +81,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     onBackButtonPress={() => setVisible(false)}
     onBackdropPress={() => backDropPressed()}
     backdropColor="rgba(215, 246, 255, 0.27)"
-    
     style={styles.scrollModal}>
     <SafeAreaView style={styles.safeAreaContainer}>
       <Spinner
@@ -731,19 +730,25 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       onBackButtonPress={() => backDropPressed()}
       onBackdropPress={() => backDropPressed()}
       backdropColor="rgba(215, 246, 255, 0.27)"
-      style={styles.modal}
-    >
+      style={styles.modal}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      
 
       <View style={styles.container}>
         <View style={styles.row}>
+
         <TextInput
             placeholderTextColor={"#25436B"}
             placeholder="Name"
             style={styles.title}
             onChangeText={setHabitName}
             value={habitName}
+            blurOnSubmit={false}
+            
           />
+          
           <TouchableOpacity
             onPress={() => searchHabit()}>
           <Image
@@ -795,7 +800,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
               keyboardType="number-pad"
               value={threshold}
               onSubmitEditing={Keyboard.dismiss}
-              maxLength={2} />
+              maxLength={2} 
+              blurOnSubmit={false}/>
         
         </View>
 
@@ -814,6 +820,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         </View>
       </View>
       </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </RNModal>)
   };
 
@@ -836,6 +843,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
+    height: 480,
     paddingVertical: 20,
     backgroundColor: "#fff",
     borderRadius: 30,

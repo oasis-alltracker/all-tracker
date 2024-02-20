@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   TouchableOpacity,
@@ -23,12 +23,14 @@ import HabitStatusesAPI from "../../api/habits/habitStatusesAPI";
 import UserAPI from "../../api/user/userAPI";
 import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
 import moment from "moment";
+import CreateHabitModal from "./modals/CreateHabitModal";
+import UpdateHabitModal from "./modals/UpdateHabitModal"
 
 
-const TodosHabits = ({ navigation }) => {
+const TodosHabits = ({ navigation }) => {  
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }])
@@ -41,8 +43,8 @@ const TodosHabits = ({ navigation }) => {
   const [habits, setHabits] = useState([]);
   const [trackingPreferences, setTrackingPreferences] = useState([]);
 
- 
-
+  const createHabitRef = useRef(null);
+  const updateHabitRef = useRef(null);
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
@@ -56,8 +58,9 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await HabitsAPI.createHabit(token, habit);
 
-      await createStatusList(day);
       await getHabits()
+      await createStatusList(day);
+      
     } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
@@ -191,7 +194,6 @@ const TodosHabits = ({ navigation }) => {
   }
 
   const getHabits = async() => {
-    setIsLoading(true);
     try{
       token = await getAccessToken()
       userHabits =  await HabitsAPI.getHabits(token)
@@ -204,8 +206,6 @@ const TodosHabits = ({ navigation }) => {
         duration: Toast.durations.LONG,
       });
     }
-    
-    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -213,8 +213,7 @@ const TodosHabits = ({ navigation }) => {
     const getPreferencesOnLoad = async() =>{
         
       token = await getAccessToken()
-      const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
-      .trackingPreferences;
+      const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data.trackingPreferences;
       setTrackingPreferences(trackingPreferencesLoaded);
 
       var routesPreference = routes
@@ -227,17 +226,19 @@ const TodosHabits = ({ navigation }) => {
         routesPreference.push(          
           { key: "third", title: "Third" },)
       }
+      // routesPreference.push(          
+      //   { key: "fourth", title: "Fourth" })
 
       setRoutes(routesPreference)
 
-      var numDots = [];
-      for(var i=0; i<routesPreference.length; i++){
-        numDots.push(i)
-      }
+      var numDots = [0,1]
       setDots(numDots)
 
-      setIsLoading(false)
-   
+      // var numDots = [0,1];
+      // for(var i=2; i<routesPreference.length; i++){
+      //   numDots.push(i)
+      // }
+      // setDots(numDots)
     }
 
     const getDataOnLoad = async () => {
@@ -245,31 +246,34 @@ const TodosHabits = ({ navigation }) => {
 
       await createStatusList(day);
       await getHabits();
-
-      setIsLoading(false);
     };
+
+
 
     if (!isPageLoaded) {
       setIsPageLoaded(true)
       getPreferencesOnLoad()
-      getDataOnLoad();
+      getDataOnLoad()
+
     }
   }, []);
 
 const renderScene = ({ route }) => {
     switch (route.key) {
       case 'first':
-        return <Main isLoading={isLoading} day={day} statusList={statusList} trackingPreferences={trackingPreferences} updateDate={updateDate} createHabit={createHabit} refreshHabits={refreshHabits} updateHabitStatusCount={updateHabitStatusCount} onHabitStatusUpdate={onHabitStatusUpdate}/>;
+        return <Main isLoading={isLoading} day={day} statusList={statusList} trackingPreferences={trackingPreferences} updateDate={updateDate} createHabitRef={createHabitRef} refreshHabits={refreshHabits} updateHabitStatusCount={updateHabitStatusCount} onHabitStatusUpdate={onHabitStatusUpdate}/>;
       case 'second':
-        return <MyHabits isLoading={isLoading} habits={habits} createHabit={createHabit} deleteHabit={deleteHabit} updateHabit={updateHabit}/>;
+        return <MyHabits isLoading={isLoading} habits={habits} createHabitRef={createHabitRef}  updateHabitRef={updateHabitRef}/>;
       case 'third':
         return <MyTasks/>
+      case 'fourth':
+        return <Statistics trackingPreferences={trackingPreferences}/>
       default:
         return null;
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} removeClippedSubviews={false}>
       <View style={styles.container}>
       <Spinner
         visible={isLoading}>
@@ -304,7 +308,9 @@ const renderScene = ({ route }) => {
             );
           })}
         </View>
-      </View>
+      </View> 
+    <CreateHabitModal getRef={(ref) => (createHabitRef.current = ref)} createHabit={createHabit}/>
+    <UpdateHabitModal getRef={(ref) => (updateHabitRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
     </SafeAreaView>
   );
 };

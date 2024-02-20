@@ -6,8 +6,6 @@ import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 
-import HabitsDB from "../../../api/DB/habitsDB";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get('window');

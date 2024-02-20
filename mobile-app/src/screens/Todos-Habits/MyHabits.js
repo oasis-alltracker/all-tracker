@@ -1,64 +1,53 @@
-import React, { useRef} from "react";
+import React, {useRef} from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import CreateHabitModal from "./modals/CreateHabitModal";
-import UpdateHabitModal from "./modals/UpdateHabitModal"
+
 import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
 
-export default function MyHabits({isLoading, habits, createHabit, deleteHabit, updateHabit}) {
-  const createHabitRef = useRef(null);
-  const updateHabitRef = useRef(null);
-
+export default function MyHabits({isLoading, habits, createHabitRef, updateHabitRef}) {
   const Habits = () => (  
-    <>
-      <View style={{ height: 365 }}>
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}>          
-  
-          {habits.map((val, key) => {
-            return (
-              <TouchableOpacity
-                key={key.toString()}
-                onPress={() => {
-                  updateHabitRef.current.open(true, {
-                    isPositive: val.isPositive,
-                    habitName: val.name,
-                    pngURL: val.pngURL,
-                    threshold: val.threshold,
-                    time: val.time,
-                    habitID: val.SK
-                  });
-                }}
-                style={[
-                  styles.item,
-                  key === habits.length - 1 && { borderBottomWidth: 2 },
-                ]}
+    <View style={{ height: 365 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContainer}>  
+
+        {habits.map((val, key) => {
+          return (
+            <TouchableOpacity
+              key={key.toString()}
+              onPress={() => {
+                updateHabitRef.current.open(true, {
+                  isPositive: val.isPositive,
+                  habitName: val.name,
+                  pngURL: val.pngURL,
+                  threshold: val.threshold,
+                  time: val.time,
+                  habitID: val.SK
+                });
+              }}
+              style={[
+                styles.item,
+                key === habits.length - 1 && { borderBottomWidth: 2 },
+              ]}
+            >
+              <Text style={styles.itemText}>{val.name}</Text>
+              <Text
+                style={[styles.itemText2, val.isPositive && { color: "#7FE5FF" }]}
               >
-                <Text style={styles.itemText}>{val.name}</Text>
-                <Text
-                  style={[styles.itemText2, val.isPositive && { color: "#7FE5FF" }]}
-                >
-                  {val.isPositive ? "Good" : "Bad"}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-          <CreateHabitModal getRef={(ref) => (createHabitRef.current = ref)} createHabit={createHabit}/>
-          <UpdateHabitModal getRef={(ref) => (updateHabitRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
-        </ScrollView>
+                {val.isPositive ? "Good" : "Bad"}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
       </View>
-    </>
+
     );
   
     const CreatHabits = () => (
-      <>
         <TouchableOpacity
           onPress={() => {
             createHabitRef.current.open();
@@ -75,44 +64,49 @@ export default function MyHabits({isLoading, habits, createHabit, deleteHabit, u
             />
           </View>
         </TouchableOpacity>
-        <CreateHabitModal getRef={(ref) => (createHabitRef.current = ref)} createHabit={createHabit}/>
-      </>
     );
 
   return (
-    <ScrollView
-    showsVerticalScrollIndicator={false}
-    contentContainerStyle={styles.container}
-    scrollEnabled={false}
-  >
-      <View style={styles.headerImageCon}>
-        <Image
-          style={styles.headerImage}
-          source={require("../../assets/images/habits512.png")}
-        />
-      </View>
-      <View style={[styles.line, { paddingTop:15, marginBottom: 15 }]}>
-        <Text style={styles.habitsTitle}>My habits</Text>
-        <View style={styles.buttonItems}>
-          <TouchableOpacity
-            onPress={() => {
-              createHabitRef.current.open();
-            }}
-          >
-            <Image
-              style={styles.plus}
-              source={require("../../assets/images/plus512.png")}
-            />
-          </TouchableOpacity>
-        </View>
+    <>
+      <Spinner
+          visible={isLoading}>
+      </Spinner>
+      <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+      scrollEnabled={false}
+      removeClippedSubviews={false}>  
 
-      </View>
-      <View style={styles.center}>
-        {
-        habits.length>0 ? <Habits/> : <CreatHabits/>
-        }
-      </View>
-    </ScrollView>
+        <View style={styles.headerImageCon}>
+          <Image
+            style={styles.headerImage}
+            source={require("../../assets/images/habits512.png")}
+          />
+        </View>
+        
+        <View style={[styles.line, { paddingTop:15, marginBottom: 15 }]}>
+          <Text style={styles.habitsTitle}>My habits</Text>
+          <View style={styles.buttonItems}>
+            <TouchableOpacity
+              onPress={() => {
+                createHabitRef.current.open();
+              }}
+            >
+              <Image
+                style={styles.plus}
+                source={require("../../assets/images/plus512.png")}
+              />
+            </TouchableOpacity>
+          </View>
+
+        </View>
+        <View style={styles.center}>
+          {
+          habits.length>0 ? <Habits/> : <CreatHabits/>
+          }
+        </View>
+      </ScrollView>
+    </>       
   );
 }
 
