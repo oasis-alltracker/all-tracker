@@ -2,4 +2,7 @@ node_modules
 .DS_store
 .serverless
 .vscode
+google-services.json
 oasis-all-tracker.json
+config.yml
+.env
