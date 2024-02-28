@@ -15,11 +15,9 @@ Oasis created the original iteration of an all-tracker which was released on Aug
 
 "Oasis: All-Tracker" (business) has deployed the backend code in this repositry and uploaded the front-end binaries of this code on both Apple and Google stores.
 
-Again, we would like to highlight that the entity "Oasis: All-Tracker" (which has released a binary of this application of the same name) and this code base, also know as "Oasis: All-Tracker" are not directly affiliated.
+Again, we would like to highlight that the entity "Oasis: All-Tracker" (which has released a binary of this application of the same name) and this code base, also know as "Oasis: All-Tracker" are not one in the same. "Oasis: All-Tracker" (business) would like to promote the idea, and so they plan to regularly release verions of this code base to the app store.
 
-"Oasis: All-Tracker" (business) would like to promote the idea, and so they plan to regularly release verions of this code base to the app store.
+Despite Oasis's(business) terms of agreement all are welcome to deploy versions of this application, given that the necessary image licenses are obtained.
+Oasis (business) has all the necessary licenses for images and logos, so for more information on obtaining permission to use the images please contatact them via email at oasis@oasis-alltracker.com
 
-Despite Oasis's terms of agreement all are welcome to deploy versions of this application for monetary compensation.
-
-We do ask that you change the name and logos, and hopefully make changes that would reach a different target audience or demographic.
 We claim no responsibilty for any liability that posting this application may incur.
