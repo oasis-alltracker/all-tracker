@@ -4,7 +4,7 @@ This open-source license agreement ("Agreement") applies to any recipient ("Reci
 ## Decleration
 The name of this repository is officially: **Oasis: All-Tracker**.
 
-The Software in this repository is not owned by any individual or entity and is not proprietary to any person, company, or organization. It is made available under the terms of this open-source license agreement for public use, modification, and distribution. This repository is monitored and maintained by *Aidan Andrew-Hodgert* and *Oasis: All-Tracker* (**business**).
+The Software in this repository is monitored and maintained by *Aidan Andrew-Hodgert* and *Oasis: All-Tracker* (**business**).
 
 The term *all-tracker* was invented by Aidan Andrew-Hodgert on January of 2022. An *all-tracker* is defined as a journal that allows a user to record metrics and insights of their day to day life, with the hopes of bettering one's self. Examples of such metrics include sleep, fitness, habits, diet, mood, and to-dos. In its inception Aidan's wish was that no one or entity could own the idea in the hopes that others could use the idea he created and the code in this repository to innovate and create better *all-trackers*.
 
@@ -24,6 +24,6 @@ Recipient is granted a worldwide, royalty-free, non-exclusive license to use, co
 - Recipient could also face legal risks for using other images in the app, even those not owned by Business Oasis. Recipient is solely responsible for obtaining proper licenses and permissions for any third-party images used in the Software.
 
 ## Copyright Notice
-The Software is owned by no one. The logo images included in the Software are owned by *Oasis: All-Tracker* (**business**) and all contain the word 'logo' in their name.
+The logo images included in the Software are owned by *Oasis: All-Tracker* (**business**) and all contain the word 'logo' in their name.
 
 
