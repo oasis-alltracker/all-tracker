@@ -1,4 +1,12 @@
-import { Alert, View, Text, StyleSheet, TextInput, TouchableOpacity, Dimensions } from "react-native";
+import {
+  Alert,
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import React, { useRef, useState } from "react";
 import { Button, Header } from "../../components";
 import ScribbledText from "../../components/ScribbledText";
@@ -16,31 +24,29 @@ const keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
 
-
 const EnterCode = (props) => {
   const [code, setCode] = useState(["", "", "", ""]);
   let codeRef = useRef([]);
 
   const { email, password } = props.route.params;
 
-
-  const [showResend, setShowResend] = useState(true)
-  const [showBottomText, setShowBottomText] = useState(false)
+  const [showResend, setShowResend] = useState(true);
+  const [showBottomText, setShowBottomText] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const onPressContinue = async () => {
-    setIsLoading(true)
-    otpValue = ""
-    for (digit of code){
-      otpValue += digit
+    setIsLoading(true);
+    otpValue = "";
+    for (digit of code) {
+      otpValue += digit;
     }
-    if(code.length>=4){
-      const {status, data} = await LoginAPI.loginOTP(email, otpValue)
-      if(status == 200){
-        if(data?.loginFailed == "locked") {
+    if (code.length >= 4) {
+      const { status, data } = await LoginAPI.loginOTP(email, otpValue);
+      if (status == 200) {
+        if (data?.loginFailed == "locked") {
           setCode(["", "", "", ""]);
-          setShowBottomText(false)
-          setIsLoading(false)
+          setShowBottomText(false);
+          setIsLoading(false);
           Alert.alert(
             "Account Locked",
             "Your account has been locked for security reasons. To unlock it, you must reset your password",
@@ -50,12 +56,11 @@ const EnterCode = (props) => {
                 text: "Unlock",
                 isPreferred: true,
                 onPress: async () => {
-                  try{
-                    await LoginAPI.requestNewPassword(email)
-                    await navigationService.navigate("tempPassword", {email});
-                    setCode("")
-                  }
-                  catch(e){
+                  try {
+                    await LoginAPI.requestNewPassword(email);
+                    await navigationService.navigate("tempPassword", { email });
+                    setCode("");
+                  } catch (e) {
                     logout();
                     navigationService.reset("landing", 0);
                   }
@@ -66,156 +71,159 @@ const EnterCode = (props) => {
               cancelable: true,
             }
           );
-        }
-        else if(data?.loginFailed == "incorrectOTP"){
-          setIsLoading(false)
-          setShowBottomText(true)
-          Toast.show('Invalid Code', {...styles.errorToast, duration: Toast.durations.LONG});
-        }
-        else if(data?.loginFailed == "expired"){
-          setIsLoading(false)
-          setShowBottomText(true)
-          Toast.show('Code has expired', {...styles.errorToast, duration: Toast.durations.LONG});
-        }
-        else if (data?.accessToken && data?.refreshToken) {
+        } else if (data?.loginFailed == "incorrectOTP") {
+          setIsLoading(false);
+          setShowBottomText(true);
+          Toast.show("Invalid Code", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          });
+        } else if (data?.loginFailed == "expired") {
+          setIsLoading(false);
+          setShowBottomText(true);
+          Toast.show("Code has expired", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          });
+        } else if (data?.accessToken && data?.refreshToken) {
           await saveToken("accessToken", data.accessToken);
           await saveToken("refreshToken", data.refreshToken);
-          const accessToken = await getAccessToken()
-          const {status: userStatus, data: userData} = await UserAPI.getUser(accessToken)
+          const accessToken = await getAccessToken();
+          const { status: userStatus, data: userData } = await UserAPI.getUser(
+            accessToken
+          );
 
-          setIsLoading(false)
+          setIsLoading(false);
           if (userData["isSetupComplete"]) {
             await navigationService.navigate("main");
-            setCode("")
+            setCode("");
           } else {
             await navigationService.navigate("setup");
-            setCode("")
+            setCode("");
           }
-        }
-        else {
-          setIsLoading(false)
-          setShowBottomText(true)
+        } else {
+          setIsLoading(false);
+          setShowBottomText(true);
           Toast.show("Something went wrong. Please try again later!", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.CENTER,
           });
         }
+      } else {
+        setIsLoading(false);
+        setShowBottomText(true);
+        Toast.show("Something went wrong. Please try again later!", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+        });
+        //please wait 30 seconds before clicking resend email
       }
-        else {
-          setIsLoading(false)
-          setShowBottomText(true)
-          Toast.show("Something went wrong. Please try again later!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.CENTER,
-          });
-          //please wait 30 seconds before clicking resend email
-      }
+    } else {
+      setIsLoading(false);
+      Toast.show("Invalid Code", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
     }
-    else{
-      setIsLoading(false)
-      Toast.show('Invalid Code', {...styles.errorToast, duration: Toast.durations.LONG});
-    }
-
-  }
+  };
 
   const resendOTP = async () => {
-    setShowResend(false)
-    
+    setShowResend(false);
+
     const { status, data } = await LoginAPI.requestOTP(email, password);
 
     setTimeout(() => {
-      setShowResend(true)
+      setShowResend(true);
     }, 30000);
+  };
+
+  function ResendMessage() {
+    return (
+      <View style={styles.errorContainer}>
+        <ScribbledText style={styles.errorText}>
+          Need a new code?{" "}
+        </ScribbledText>
+        <TouchableOpacity onPress={resendOTP}>
+          <ScribbledText style={styles.resendOTPText}>Resend OTP</ScribbledText>
+        </TouchableOpacity>
+      </View>
+    );
   }
 
-  function ResendMessage(){
-
-    return(
+  function LoadingMessage() {
+    return (
       <View style={styles.errorContainer}>
-          <ScribbledText style={styles.errorText}>Need a new code? </ScribbledText>
-          <TouchableOpacity
-              onPress={resendOTP}>
-              <ScribbledText style={styles.resendOTPText}>Resend OTP</ScribbledText>
-          </TouchableOpacity>
+        <ScribbledText style={styles.waitingText}>
+          OTP sent! Please wait 30 seconds to send a new code.{" "}
+        </ScribbledText>
       </View>
-    )
+    );
   }
-
-  function LoadingMessage(){
-
-    return(
-      <View style={styles.errorContainer}>
-          <ScribbledText style={styles.waitingText}>OTP sent! Please wait 30 seconds to send a new code. </ScribbledText>
-      </View>
-    )
-};
-
 
   return (
     <View style={styles.container}>
-      <Header />
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
-      <View style={styles.view}>
-        <View style={styles.center}>
-          <Text style={styles.title}>
-            Check your inbox for verification code
-          </Text>
-          <View style={styles.codeFields}>
-            {[1, 2, 3, 4].map((item) => (
-              <TextInput
-                ref={(ref) => (codeRef.current[item - 1] = ref)}
-                maxLength={1}
-                keyboardType="number-pad"
-                textContentType={"oneTimeCode"}
-                style={styles.input}
-                key={item}
-                onKeyPress={({ nativeEvent }) => {
-                  let Code = [...code];
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Header />
+        <Spinner visible={isLoading}></Spinner>
 
-                  if (Code[item - 1] && keys.includes(nativeEvent.key)) {
-                    if (codeRef.current[item - 1]) {
-                      Code[item - 1] = nativeEvent.key;
-                      setCode(Code);
-                      codeRef.current[item].focus();
+        <View style={styles.view}>
+          <View style={styles.center}>
+            <Text style={styles.title}>
+              Check your inbox for verification code
+            </Text>
+            <View style={styles.codeFields}>
+              {[1, 2, 3, 4].map((item) => (
+                <TextInput
+                  ref={(ref) => (codeRef.current[item - 1] = ref)}
+                  maxLength={1}
+                  keyboardType="number-pad"
+                  textContentType={"oneTimeCode"}
+                  style={styles.input}
+                  key={item}
+                  onKeyPress={({ nativeEvent }) => {
+                    let Code = [...code];
+
+                    if (Code[item - 1] && keys.includes(nativeEvent.key)) {
+                      if (codeRef.current[item - 1]) {
+                        Code[item - 1] = nativeEvent.key;
+                        setCode(Code);
+                        codeRef.current[item].focus();
+                      }
                     }
-                  }
-                  if (nativeEvent.key === "Backspace" && item - 1 !== 0) {
-                    if (!Code[item - 1]) {
-                      codeRef.current[item - 2].focus();
+                    if (nativeEvent.key === "Backspace" && item - 1 !== 0) {
+                      if (!Code[item - 1]) {
+                        codeRef.current[item - 2].focus();
+                      }
                     }
-                  }
-                }}
-                onChangeText={(text) => {
-                  let Code = [...code];
-                  if (text.length <= 1) {
-                    Code[item - 1] = text;
-                  }
-                  if (text) {
-                    if (codeRef.current[item]) {
-                      codeRef.current[item].focus();
+                  }}
+                  onChangeText={(text) => {
+                    let Code = [...code];
+                    if (text.length <= 1) {
+                      Code[item - 1] = text;
                     }
-                  }
-                  if (text && item - 1 === 3) {
-                    codeRef.current[3].blur();
-                  }
-                  setCode(Code);
-                }}
-              />
-            ))}
+                    if (text) {
+                      if (codeRef.current[item]) {
+                        codeRef.current[item].focus();
+                      }
+                    }
+                    if (text && item - 1 === 3) {
+                      codeRef.current[3].blur();
+                    }
+                    setCode(Code);
+                  }}
+                />
+              ))}
+            </View>
+            <Button onPress={() => onPressContinue()} style={styles.nextButton}>
+              Continue
+            </Button>
+            {showBottomText &&
+              (showResend ? <ResendMessage /> : <LoadingMessage />)}
           </View>
-          <Button
-            onPress={() => onPressContinue()}
-            style={styles.nextButton}
-          >
-            Continue
-          </Button>
-          {showBottomText && (showResend ? <ResendMessage/> : <LoadingMessage/>)}
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -281,9 +289,9 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     margin: 10,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center'
+    flexDirection: "row",
+    alignItems: "stretch",
+    justifyContent: "center",
   },
   errorToast: {
     backgroundColor: "#FFD7D7",
@@ -291,7 +299,7 @@ const styles = StyleSheet.create({
   },
   resendOTPText: {
     color: "#25436B",
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
     fontSize: 14,
   },
   waitingText: {
@@ -301,7 +309,7 @@ const styles = StyleSheet.create({
   nextButton: {
     marginTop: 15,
     width: SCREEN_WIDTH - 50,
-  }
+  },
 });
 
 export default EnterCode;

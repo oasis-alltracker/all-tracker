@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
 import React from "react";
@@ -7,7 +6,6 @@ import Toast from "react-native-root-toast";
 import navigationService from "../../navigators/navigationService";
 import LoginAPI from "../../api/auth/loginAPI";
 import Spinner from "react-native-loading-spinner-overlay";
-
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
@@ -18,64 +16,70 @@ const CreatePassword = (props) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { email, tempPassword} = props.route.params;
+  const { email, tempPassword } = props.route.params;
 
   const onPressContinue = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     if (password.length > 0) {
       if (password === passwordCopy) {
-        
-        if(tempPassword) {
-          var { status, data } = await LoginAPI.createNewPassword(email, tempPassword, password);
+        if (tempPassword) {
+          var { status, data } = await LoginAPI.createNewPassword(
+            email,
+            tempPassword,
+            password
+          );
           if (status == 200) {
-            
+            if (!data || data?.loginFailed) {
+              setIsLoading(false);
+              await navigationService.navigate("auth");
+              setPassword("");
+              setPasswordCopy("");
+            }
             var { status, data } = await LoginAPI.requestOTP(email, password);
 
             if (status == 200 && data) {
-              if(data.isCorrectPassword){
-                setIsLoading(false)
-                navigationService.navigate("enterCode", {email, password})
-                setPassword("")
-                setPasswordCopy("")
+              if (data.isCorrectPassword) {
+                setIsLoading(false);
+                navigationService.navigate("enterCode", { email, password });
+                setPassword("");
+                setPasswordCopy("");
               }
-            }
-            else {
-              setIsLoading(false)
+            } else {
+              setIsLoading(false);
               Toast.show("Something went wrong. Please try again.", {
                 ...styles.errorToast,
                 duration: Toast.durations.LONG,
               });
             }
-
           } else {
-            setIsLoading(false)
+            setIsLoading(false);
             Toast.show("Something went wrong. Please try again.", {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
             });
           }
-        }
-        else { 
+        } else {
           const { status, data } = await LoginAPI.requestOTP(email, password);
 
           if (status == 200) {
-            if(data.isCorrectPassword){
-              setIsLoading(false)
-              navigationService.navigate("enterCode", {email, password})
-              setPassword("")
-              setPasswordCopy("")
+            if (data.isCorrectPassword) {
+              setIsLoading(false);
+              navigationService.navigate("enterCode", { email, password });
+              setPassword("");
+              setPasswordCopy("");
+            } else {
+              setIsLoading(false);
+              Toast.show(
+                "You have already created a password. Please return to main login page.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.CENTER,
+                }
+              );
             }
-            else{
-              setIsLoading(false)
-              Toast.show("You have already created a password. Please return to main login page.", {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.CENTER,
-              });
-            }
-  
           } else {
-            setIsLoading(false)
+            setIsLoading(false);
             Toast.show("Something went wrong. Please try again.", {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
@@ -83,37 +87,35 @@ const CreatePassword = (props) => {
             });
           }
         }
-      }
-      else {
-        setIsLoading(false)
+      } else {
+        setIsLoading(false);
         Toast.show("Passwords do no match.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
           position: Toast.positions.CENTER,
         });
       }
-    }
-    else {
-      setIsLoading(false)
+    } else {
+      setIsLoading(false);
       Toast.show("Please enter a password.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
         position: Toast.positions.CENTER,
       });
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
-      <Header />
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
-      <View style={styles.view}>
-        <View style={styles.center}>
-          <Text style={styles.title}>Create a password</Text>
-          <View style={styles.passwordInputContainer}>
-            <TextInput
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Header />
+        <Spinner visible={isLoading}></Spinner>
+
+        <View style={styles.view}>
+          <View style={styles.center}>
+            <Text style={styles.title}>Create a password</Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
                 style={styles.passwordInput}
                 placeholder="Enter your password"
                 secureTextEntry={true}
@@ -122,26 +124,24 @@ const CreatePassword = (props) => {
                 autoCapitalize="none"
                 value={password}
               />
-          </View>
-          <View style={[styles.passwordInputContainer, {marginBottom: 40}]}>
-            <TextInput
-              style={styles.passwordInput}
-              placeholder="Re-enter your password"
-              secureTextEntry={true}
-              placeholderTextColor="#9c9eb9"
-              onChangeText={setPasswordCopy}
-              autoCapitalize="none"
-              value={passwordCopy}
-            />
             </View>
-          <Button
-            onPress={() => onPressContinue()}
-            style={styles.nextButton}
-          >
-            Continue
-          </Button>
+            <View style={[styles.passwordInputContainer, { marginBottom: 40 }]}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Re-enter your password"
+                secureTextEntry={true}
+                placeholderTextColor="#9c9eb9"
+                onChangeText={setPasswordCopy}
+                autoCapitalize="none"
+                value={passwordCopy}
+              />
+            </View>
+            <Button onPress={() => onPressContinue()} style={styles.nextButton}>
+              Continue
+            </Button>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };

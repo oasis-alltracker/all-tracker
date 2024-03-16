@@ -10,7 +10,14 @@ import { saveToken, getAccessToken } from "../../user/keychain";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import { isEmailValid } from "../../utils/commonUtils";
-import { View, Text, TextInput, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { logout } from "../../user/keychain";
@@ -125,18 +132,16 @@ const EnterEmail = () => {
                   text: "Unlock",
                   isPreferred: true,
                   onPress: async () => {
-                    try{
-                      await LoginAPI.requestNewPassword(email)
-                      await navigationService.navigate("tempPassword" , {
+                    try {
+                      await LoginAPI.requestNewPassword(email);
+                      await navigationService.navigate("tempPassword", {
                         email,
                       });
                       setEmail("");
-                    }
-                    catch(e){
+                    } catch (e) {
                       logout();
                       navigationService.reset("landing", 0);
                     }
-
                   },
                 },
               ],
@@ -144,23 +149,20 @@ const EnterEmail = () => {
                 cancelable: true,
               }
             );
-          }
-          else if (data?.exists) {
+          } else if (data?.exists) {
             setIsLoading(false);
-            
+
             await navigationService.navigate("enterPassword", {
               email,
             });
             setEmail("");
-            
           } else {
             setIsLoading(false);
-            
+
             await navigationService.navigate("createPassword", {
               email,
             });
             setEmail("");
-
           }
         } else {
           setIsLoading(false);
@@ -182,67 +184,64 @@ const EnterEmail = () => {
 
   return (
     <View style={styles.container}>
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
-      <Header />
-      <View style={styles.view}>
-        <View style={styles.center}>
-          <Text style={styles.title}>What is your email address?</Text>
-          <View style={styles.emailInputContainer}>
-            <TextInput
-              style={styles.emailInput}
-              placeholder="Enter your email address"
-              placeholderTextColor="#9c9eb9"
-              onChangeText={setEmail}
-              underlineColorAndroid="transparent"
-              spellCheck={false}
-              autoCorrect={false}
-              autoCapitalize="none"
-              value={email}
-            />
-          </View>
-
-          <Button
-            onPress={() => onPressContinue()}
-            style={styles.nextButton}
-          >
-            Continue
-          </Button>
-        <View style={styles.signContainer}>
-          <Text style={styles.txt}>--or--</Text>
-          <View
-            style={[
-              styles.rowContainer,
-              appleAuthAvailable && { flexDirection: "row", gap: 30 },
-            ]}
-          >
-            {appleAuthAvailable ? (
-              <TouchableHighlight
-                style={styles.iconContainer}
-                onPress={() => appleSignin()}
-                underlayColor="rgba(73,182,77,1,0.9)"
-              >
-                <Image
-                  style={styles.accountIcon}
-                  source={require("../../assets/images/apple-black.png")}
-                />
-              </TouchableHighlight>
-            ) : null}
-            <TouchableHighlight
-              style={styles.iconContainer}
-              onPress={() => googleSignIn()}
-              underlayColor="rgba(73,182,77,1,0.9)"
-            >
-              <Image
-                style={styles.accountIcon}
-                source={require("../../assets/images/google.png")}
+      <Spinner visible={isLoading}></Spinner>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Header />
+        <View style={styles.view}>
+          <View style={styles.center}>
+            <Text style={styles.title}>What is your email address?</Text>
+            <View style={styles.emailInputContainer}>
+              <TextInput
+                style={styles.emailInput}
+                placeholder="Enter your email address"
+                placeholderTextColor="#9c9eb9"
+                onChangeText={setEmail}
+                underlineColorAndroid="transparent"
+                spellCheck={false}
+                autoCorrect={false}
+                autoCapitalize="none"
+                value={email}
               />
-            </TouchableHighlight>
+            </View>
+
+            <Button onPress={() => onPressContinue()} style={styles.nextButton}>
+              Continue
+            </Button>
+            <View style={styles.signContainer}>
+              <Text style={styles.txt}>--or--</Text>
+              <View
+                style={[
+                  styles.rowContainer,
+                  appleAuthAvailable && { flexDirection: "row", gap: 30 },
+                ]}
+              >
+                {appleAuthAvailable ? (
+                  <TouchableHighlight
+                    style={styles.iconContainer}
+                    onPress={() => appleSignin()}
+                    underlayColor="rgba(73,182,77,1,0.9)"
+                  >
+                    <Image
+                      style={styles.accountIcon}
+                      source={require("../../assets/images/apple-black.png")}
+                    />
+                  </TouchableHighlight>
+                ) : null}
+                <TouchableHighlight
+                  style={styles.iconContainer}
+                  onPress={() => googleSignIn()}
+                  underlayColor="rgba(73,182,77,1,0.9)"
+                >
+                  <Image
+                    style={styles.accountIcon}
+                    source={require("../../assets/images/google.png")}
+                  />
+                </TouchableHighlight>
+              </View>
+            </View>
           </View>
         </View>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -304,7 +303,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     alignItems: "center",
-    marginTop: 20
+    marginTop: 20,
   },
   nextButton: {
     width: SCREEN_WIDTH - 50,

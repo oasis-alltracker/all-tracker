@@ -1,4 +1,12 @@
-import { Alert, View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { useState } from "react";
 import { Button, Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
@@ -14,7 +22,7 @@ const EnterPassword = (props) => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const  { email }  = props.route.params;
+  const { email } = props.route.params;
 
   const forgotPassword = async () => {
     Alert.alert(
@@ -26,18 +34,16 @@ const EnterPassword = (props) => {
           text: "Yes",
           isPreferred: true,
           onPress: async () => {
-            try{
-              await LoginAPI.requestNewPassword(email)
-              await navigationService.navigate("tempPassword" , {
-                email
+            try {
+              await LoginAPI.requestNewPassword(email);
+              await navigationService.navigate("tempPassword", {
+                email,
               });
-              setPassword("")
-            }
-            catch(e){
+              setPassword("");
+            } catch (e) {
               logout();
               navigationService.reset("landing", 0);
             }
-
           },
         },
       ],
@@ -45,21 +51,20 @@ const EnterPassword = (props) => {
         cancelable: true,
       }
     );
-  }
+  };
 
   const onPressContinue = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     if (password.length > 0) {
       const { status, data } = await LoginAPI.requestOTP(email, password);
 
       if (status == 200 && data) {
-        if(data.isCorrectPassword){
-          setIsLoading(false)
+        if (data.isCorrectPassword) {
+          setIsLoading(false);
           navigationService.navigate("enterCode", { email, password });
-          setPassword("")
-        }
-        else if(data.isAccountLocked) {
-          setIsLoading(false)
+          setPassword("");
+        } else if (data.isAccountLocked) {
+          setIsLoading(false);
           Alert.alert(
             "Account Locked",
             "Your account has been locked for security reasons. To unlock it, you must reset your password",
@@ -69,16 +74,14 @@ const EnterPassword = (props) => {
                 text: "Unlock",
                 isPreferred: true,
                 onPress: async () => {
-                  try{
-                    await LoginAPI.requestNewPassword(email)
-                    await navigationService.navigate("tempPassword", {email});
-                    setPassword("")
-                  }
-                  catch(e){
+                  try {
+                    await LoginAPI.requestNewPassword(email);
+                    await navigationService.navigate("tempPassword", { email });
+                    setPassword("");
+                  } catch (e) {
                     logout();
                     navigationService.reset("landing", 0);
                   }
-
                 },
               },
             ],
@@ -86,18 +89,16 @@ const EnterPassword = (props) => {
               cancelable: true,
             }
           );
-        }
-        else{
-          setIsLoading(false)
+        } else {
+          setIsLoading(false);
           Toast.show("Password is incorrect. Please try again.", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.CENTER,
           });
         }
-      }
-      else {
-        setIsLoading(false)
+      } else {
+        setIsLoading(false);
         Toast.show("Something went wrong. Please try again.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
@@ -105,7 +106,7 @@ const EnterPassword = (props) => {
         });
       }
     } else {
-      setIsLoading(false)
+      setIsLoading(false);
       Toast.show("Please enter a password.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -116,37 +117,35 @@ const EnterPassword = (props) => {
 
   return (
     <View style={styles.container}>
-      <Header />
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
-      <View style={styles.view}>
-        <View style={styles.center}>
-          <Text style={styles.title}>Enter your password</Text>
-          <View style={styles.passwordInputContainer}>
-            <TextInput
-              style={styles.passwordInput}
-              placeholder="Enter your password"
-              secureTextEntry={true}
-              placeholderTextColor="#9c9eb9"
-              onChangeText={setPassword}
-              value={password}
-              autoCapitalize="none"
-            />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Header />
+        <Spinner visible={isLoading}></Spinner>
+        <View style={styles.view}>
+          <View style={styles.center}>
+            <Text style={styles.title}>Enter your password</Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Enter your password"
+                secureTextEntry={true}
+                placeholderTextColor="#9c9eb9"
+                onChangeText={setPassword}
+                value={password}
+                autoCapitalize="none"
+              />
+            </View>
+            <Button onPress={() => onPressContinue()} style={styles.nextButton}>
+              Continue
+            </Button>
+            <TouchableOpacity
+              style={styles.linkBtn}
+              onPress={() => forgotPassword()}
+            >
+              <Text style={styles.linkText}>Lost you password?</Text>
+            </TouchableOpacity>
           </View>
-          <Button
-            onPress={() => onPressContinue()}
-            style={styles.nextButton}
-          >
-            Continue
-          </Button>
-          <TouchableOpacity style={styles.linkBtn } onPress={() => forgotPassword()}>
-            <Text style={styles.linkText}>
-             Lost you password?
-            </Text>
-          </TouchableOpacity>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -231,7 +230,7 @@ const styles = StyleSheet.create({
   linkBtn: {
     marginVertical: 10,
     marginTop: 300,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   linkText: {
     fontSize: 18,
@@ -239,7 +238,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     color: "#25436B",
   },
-  
 });
 
 export default EnterPassword;
