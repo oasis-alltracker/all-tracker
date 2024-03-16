@@ -12,196 +12,249 @@ import Spinner from "react-native-loading-spinner-overlay";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 
-export default function Main({day, statusList, trackingPreferences, isLoading, updateDate, createHabitRef, refreshHabits, updateHabitStatusCount, onHabitStatusUpdate}) {
+export default function Main({
+  day,
+  statusList,
+  trackingPreferences,
+  isLoading,
+  updateDate,
+  createHabitRef,
+  refreshHabits,
+  updateHabitStatusCount,
+  onHabitStatusUpdate,
+}) {
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
 
   return (
     <>
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.containerMain}
-      scrollEnabled={false}
-      removeClippedSubviews={false}
-    >
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.containerMain}
+        scrollEnabled={false}
+        removeClippedSubviews={false}
+      >
+        <Spinner visible={isLoading}></Spinner>
 
-      <View style={styles.imageConMain}>
-        <Image
-          style={styles.imageMain}
-          source={require("../../assets/images/mind-white.png")}
-        />
-      </View>
-
-      <View style={styles.dateLineMain}>
-        <TouchableOpacity
-          style={styles.buttonMain}
-          onPress={() => updateDate(-1)}
-        >
+        <View style={styles.imageConMain}>
           <Image
-            style={[styles.preButtonMain, styles.nextButtonMain]}
-            source={require("../../assets/images/left.png")}
+            style={styles.imageMain}
+            source={require("../../assets/images/mind-white.png")}
           />
-        </TouchableOpacity>
-        <>
-          {moment(day).format("YYYYMMDD") ==
-          moment(today).format("YYYYMMDD") ? (
-            <Text style={styles.dateNameMain}>Today</Text>
-          ) : (
-            <Text style={styles.dateNameMain}>
-              {day.toDateString().slice(4)}
-            </Text>
-          )}
-        </>
-        <TouchableOpacity
-          style={styles.buttonMain}
-          onPress={() => updateDate(1)}
-        >
-          <Image
-            style={styles.preButtonMain}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
-      </View>
-
-      
-      {trackingPreferences.habitsSelected && 
-      (<>
-        <View style={styles.lineMain}>
-          <Text style={styles.titleMain}>Habits</Text>
-          <View style={styles.buttonItems}>
-            <TouchableOpacity
-              onPress={() => {
-                createHabitRef.current.open();
-              }}
-            >
-              <Image
-                style={styles.plusMain}
-                source={require("../../assets/images/plus512.png")}
-              />
-            </TouchableOpacity>
-          </View>
         </View>
 
-        <View style={{ width: "100%" }}>
-          <ScrollView
-            horizontal={true}
-            contentContainerStyle={[styles.habitScrollContainterMain]}
-            showsHorizontalScrollIndicator={false}
+        <View style={styles.dateLineMain}>
+          <TouchableOpacity
+            style={styles.buttonMain}
+            onPress={() => updateDate(-1)}
           >
-            {statusList.length > 0 ? (
-              <>
-                {statusList.map((val, key) => {
-                  return val.isPositive ? (
-                    val.count === undefined || val.count < val.threshold ? (
-                      <TouchableOpacity
-                        style={[
-                          styles.habitButtonMainNoToDo,
-                          { backgroundColor: "rgba(215, 246, 255, 0.65)" },
-                        ]}
-                        key={key.toString()}
-                        onPress={() => {
-                          var count = 1;
-                          var SK = `${moment(day).format("YYYYMMDD")}-${
-                            val.SK
-                          }`;
-                          if (val.count !== undefined) {
-                            count = val.count + 1;
-                            SK = val.SK;
-                          }
+            <Image
+              style={[styles.preButtonMain, styles.nextButtonMain]}
+              source={require("../../assets/images/left.png")}
+            />
+          </TouchableOpacity>
+          <>
+            {moment(day).format("YYYYMMDD") ==
+            moment(today).format("YYYYMMDD") ? (
+              <Text style={styles.dateNameMain}>Today</Text>
+            ) : (
+              <Text style={styles.dateNameMain}>
+                {day.toDateString().slice(4, -4)}
+              </Text>
+            )}
+          </>
+          <TouchableOpacity
+            style={styles.buttonMain}
+            onPress={() => updateDate(1)}
+          >
+            <Image
+              style={styles.preButtonMain}
+              source={require("../../assets/images/left.png")}
+            />
+          </TouchableOpacity>
+        </View>
 
-                          updateHabitStatusCount(val, count);
+        {trackingPreferences.habitsSelected && (
+          <>
+            <View style={styles.lineMain}>
+              <Text style={styles.titleMain}>Habits</Text>
+              <View style={styles.buttonItems}>
+                <TouchableOpacity
+                  onPress={() => {
+                    createHabitRef.current.open();
+                  }}
+                >
+                  <Image
+                    style={styles.plusMain}
+                    source={require("../../assets/images/plus512.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
 
-                          updateHabitsStatusRef.current.open(true, {
-                            name: val.name,
-                            SK: SK,
-                            count: count,
-                            isPositive: val.isPositive,
-                            threshold: val.threshold,
-                          });
-                        }}
-                      >
-                        <Image
-                          style={styles.habitImageMain}
-                          source={{ uri: val.pngURL }}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        style={[
-                          styles.habitButtonMain,
-                          {
-                            backgroundColor: "rgb(255, 255, 255)",
-                            borderColor: "#CCCCCC",
-                            borderWidth: 1,
-                          },
-                        ]}
-                        key={key.toString()}
-                        onPress={() => {
-                          var count = 1;
-                          var SK = `${moment(day).format("YYYYMMDD")}-${val.SK}`;
-                          if (val.count !== undefined) {
-                            count = val.count + 1;
-                            SK = val.SK;
-                          }
+            <View style={{ width: "100%" }}>
+              <ScrollView
+                horizontal={true}
+                contentContainerStyle={[styles.habitScrollContainterMain]}
+                showsHorizontalScrollIndicator={false}
+              >
+                {statusList.length > 0 ? (
+                  <>
+                    {statusList.map((val, key) => {
+                      return val.isPositive ? (
+                        val.count === undefined || val.count < val.threshold ? (
+                          <TouchableOpacity
+                            style={[
+                              styles.habitButtonMainNoToDo,
+                              { backgroundColor: "rgba(215, 246, 255, 0.65)" },
+                            ]}
+                            key={key.toString()}
+                            onPress={() => {
+                              var count = 1;
+                              var SK = `${moment(day).format("YYYYMMDD")}-${
+                                val.SK
+                              }`;
+                              if (val.count !== undefined) {
+                                count = val.count + 1;
+                                SK = val.SK;
+                              }
 
-                          updateHabitStatusCount(val, count);
+                              updateHabitStatusCount(val, count);
 
-                          updateHabitsStatusRef.current.open(true, {
-                            name: val.name,
-                            SK: SK,
-                            count: count,
-                            isPositive: val.isPositive,
-                            threshold: val.threshold,
-                          });
-                        }}
-                      >
-                        <ImageBackground
-                          style={styles.habitImageMain}
-                          source={{ uri: val.pngURL }}
-                          resizeMode="cover"
+                              updateHabitsStatusRef.current.open(true, {
+                                name: val.name,
+                                SK: SK,
+                                count: count,
+                                isPositive: val.isPositive,
+                                threshold: val.threshold,
+                              });
+                            }}
+                          >
+                            <Image
+                              style={styles.habitImageMain}
+                              source={{ uri: val.pngURL }}
+                            />
+                          </TouchableOpacity>
+                        ) : (
+                          <TouchableOpacity
+                            style={[
+                              styles.habitButtonMain,
+                              {
+                                backgroundColor: "rgb(255, 255, 255)",
+                                borderColor: "#CCCCCC",
+                                borderWidth: 1,
+                              },
+                            ]}
+                            key={key.toString()}
+                            onPress={() => {
+                              var count = 1;
+                              var SK = `${moment(day).format("YYYYMMDD")}-${
+                                val.SK
+                              }`;
+                              if (val.count !== undefined) {
+                                count = val.count + 1;
+                                SK = val.SK;
+                              }
+
+                              updateHabitStatusCount(val, count);
+
+                              updateHabitsStatusRef.current.open(true, {
+                                name: val.name,
+                                SK: SK,
+                                count: count,
+                                isPositive: val.isPositive,
+                                threshold: val.threshold,
+                              });
+                            }}
+                          >
+                            <ImageBackground
+                              style={styles.habitImageMain}
+                              source={{ uri: val.pngURL }}
+                              resizeMode="cover"
+                            >
+                              <Image
+                                style={styles.habitImageMain}
+                                source={require("../../assets/images/check-mark.png")}
+                              />
+                            </ImageBackground>
+                          </TouchableOpacity>
+                        )
+                      ) : val.count === undefined ||
+                        val.count < val.threshold ? (
+                        <TouchableOpacity
+                          style={[
+                            styles.habitButtonMain,
+                            { backgroundColor: "rgba(255, 207, 245, 0.65)" },
+                          ]}
+                          key={key.toString()}
+                          onPress={() => {
+                            var count = 1;
+                            var SK = `${moment(day).format("YYYYMMDD")}-${
+                              val.SK
+                            }`;
+                            if (val.count !== undefined) {
+                              count = val.count + 1;
+                              SK = val.SK;
+                            }
+
+                            updateHabitStatusCount(val, count);
+
+                            updateHabitsStatusRef.current.open(true, {
+                              name: val.name,
+                              SK: SK,
+                              count: count,
+                              isPositive: val.isPositive,
+                              threshold: val.threshold,
+                            });
+                          }}
                         >
                           <Image
                             style={styles.habitImageMain}
-                            source={require("../../assets/images/check-mark.png")}
+                            source={{ uri: val.pngURL }}
                           />
-                        </ImageBackground>
-                      </TouchableOpacity>
-                    )
-                  ) : val.count === undefined || val.count < val.threshold ? (
-                    <TouchableOpacity
-                      style={[
-                        styles.habitButtonMain,
-                        { backgroundColor: "rgba(255, 207, 245, 0.65)" },
-                      ]}
-                      key={key.toString()}
-                      onPress={() => {
-                        var count = 1;
-                        var SK = `${moment(day).format("YYYYMMDD")}-${val.SK}`;
-                        if (val.count !== undefined) {
-                          count = val.count + 1;
-                          SK = val.SK;
-                        }
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          style={[
+                            styles.habitButtonMain,
+                            {
+                              backgroundColor: "rgb(255, 255, 255)",
+                              borderColor: "#CCCCCC",
+                              borderWidth: 1,
+                            },
+                          ]}
+                          key={key.toString()}
+                          onPress={() => {
+                            var count = 1;
+                            var SK = `${moment(day).format("YYYYMMDD")}-${
+                              val.SK
+                            }`;
+                            if (val.count !== undefined) {
+                              count = val.count + 1;
+                              SK = val.SK;
+                            }
 
-                        updateHabitStatusCount(val, count);
+                            updateHabitStatusCount(val, count);
 
-                        updateHabitsStatusRef.current.open(true, {
-                          name: val.name,
-                          SK: SK,
-                          count: count,
-                          isPositive: val.isPositive,
-                          threshold: val.threshold,
-                        });
-                      }}
-                    >
-                      <Image
-                        style={styles.habitImageMain}
-                        source={{ uri: val.pngURL }}
-                      />
-                    </TouchableOpacity>
-                  ) : (
+                            updateHabitsStatusRef.current.open(true, {
+                              name: val.name,
+                              SK: SK,
+                              count: count,
+                              isPositive: val.isPositive,
+                              threshold: val.threshold,
+                            });
+                          }}
+                        >
+                          <Image
+                            style={styles.habitImageMain}
+                            source={require("../../assets/images/x-mark.png")}
+                          />
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
                     <TouchableOpacity
                       style={[
                         styles.habitButtonMain,
@@ -211,101 +264,60 @@ export default function Main({day, statusList, trackingPreferences, isLoading, u
                           borderWidth: 1,
                         },
                       ]}
-                      key={key.toString()}
                       onPress={() => {
-                        var count = 1;
-                        var SK = `${moment(day).format("YYYYMMDD")}-${val.SK}`;
-                        if (val.count !== undefined) {
-                          count = val.count + 1;
-                          SK = val.SK;
-                        }
-
-                        updateHabitStatusCount(val, count);
-
-                        updateHabitsStatusRef.current.open(true, {
-                          name: val.name,
-                          SK: SK,
-                          count: count,
-                          isPositive: val.isPositive,
-                          threshold: val.threshold,
-                        });
+                        createHabitRef.current.open();
                       }}
                     >
-                        <Image
-                          style={styles.habitImageMain}
-                          source={require("../../assets/images/x-mark.png")}
-                        />
+                      <Image
+                        style={styles.habitImageMain}
+                        source={require("../../assets/images/plus512.png")}
+                      />
                     </TouchableOpacity>
-                  );
-                })}
-              </>
-              ) : (
-                <>
-                    <TouchableOpacity
-                        style={[
-                          styles.habitButtonMain,
-                          {
-                            backgroundColor: "rgb(255, 255, 255)",
-                            borderColor: "#CCCCCC",
-                            borderWidth: 1,
-                          },
-                        ]}
-                        onPress={() => {
-                          createHabitRef.current.open();
-                        }}
-                      >
-                        <Image
-                          style={styles.habitImageMain}
-                          source={require("../../assets/images/plus512.png")}
-                        />
+                  </>
+                )}
+              </ScrollView>
+            </View>
+          </>
+        )}
 
-                    </TouchableOpacity>
-                </>
-              )}
-            </ScrollView>
-        </View>
-      </>)}      
-      
-
-      {trackingPreferences.toDosSelected && (<>
-        <View style={[styles.lineMain, { marginBottom: 10 }]}>
-          <Text style={styles.titleMain}>To-dos</Text>
-          <View style={styles.buttonItems}>
-            <TouchableOpacity
-              onPress={() => {
-                modalRef1.current.open();
-              }}
-            >
-              <Image
-                style={styles.plusMain}
-                source={require("../../assets/images/plus512.png")}
+        {trackingPreferences.toDosSelected && (
+          <>
+            <View style={[styles.lineMain, { marginBottom: 10 }]}>
+              <Text style={styles.titleMain}>To-dos</Text>
+              <View style={styles.buttonItems}>
+                <TouchableOpacity
+                  onPress={() => {
+                    modalRef1.current.open();
+                  }}
+                >
+                  <Image
+                    style={styles.plusMain}
+                    source={require("../../assets/images/plus512.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {[0, 1, 2, 4].map((item, index) => (
+              <RenderTodos
+                onPress={() => {
+                  modalRef.current.open(true, {
+                    title: "Meditate",
+                    status: "Bad",
+                    count: "3",
+                  });
+                }}
+                key={index}
+                item={item}
               />
-            </TouchableOpacity>
-          </View>
-        </View>
-        {[0,1,2,4].map((item, index) => (
-          <RenderTodos
-            onPress={() => {
-              modalRef.current.open(true, {
-                title: "Meditate",
-                status: "Bad",
-                count: "3",
-              });
-            }}
-            key={index}
-            item={item}
-          />
-        ))}
-      </>)} 
-
-    </ScrollView>
-    <UpdateHabitStatusModal
-      getRef={(ref) => (updateHabitsStatusRef.current = ref)}
-      onHabitStatusUpdate={onHabitStatusUpdate}
-      refreshHabits={refreshHabits}
-    />     
-
-
+            ))}
+          </>
+        )}
+      </ScrollView>
+      <UpdateHabitStatusModal
+        getRef={(ref) => (updateHabitsStatusRef.current = ref)}
+        onHabitStatusUpdate={onHabitStatusUpdate}
+        refreshHabits={refreshHabits}
+      />
     </>
   );
 }
@@ -392,7 +404,7 @@ const styles = StyleSheet.create({
     borderLeftColor: "#ccc",
   },
   dateNameMain: {
-    fontSize: 30,
+    fontSize: 36,
     color: "#25436B",
     fontFamily: "Sego-Bold",
   },
@@ -515,7 +527,7 @@ const styles = StyleSheet.create({
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
-    marginRight:5
+    marginRight: 5,
   },
   errorToast: {
     backgroundColor: "#FFD7D7",

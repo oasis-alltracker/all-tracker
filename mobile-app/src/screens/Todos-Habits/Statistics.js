@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -6,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
 import { LineChart } from "react-native-gifted-charts";
+import moment from "moment";
 
 const data = [
   { value: 500 },
@@ -25,8 +26,26 @@ const data = [
 ];
 
 export default function Statistics(trackingPreferences) {
+  var thisMonday = new Date();
+  thisMonday.setDate(thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7));
 
-  console.log(trackingPreferences)
+  const [selectedMonday, setSelectedMonday] = useState(new Date());
+
+  const updateWeek = (dateChange) => {
+    console.log(selectedMonday);
+    var newDate = new Date(
+      selectedMonday.setDate(selectedMonday.getDate() + dateChange)
+    );
+    setSelectedMonday(newDate);
+  };
+
+  useEffect(() => {
+    var newDate = new Date(
+      thisMonday.setDate(thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7))
+    );
+    setSelectedMonday(newDate);
+  }, []);
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -39,20 +58,30 @@ export default function Statistics(trackingPreferences) {
           source={require("../../assets/images/stats.png")}
         />
       </View>
-  
 
       <View style={styles.dateLineMain}>
         <TouchableOpacity
           style={styles.buttonMain}
+          onPress={() => updateWeek(-7)}
         >
           <Image
             style={[styles.preButtonMain, styles.nextButtonMain]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
-            <Text style={styles.dateNameMain}>This Week</Text>
+        <>
+          {moment(thisMonday).format("YYYYMMDD") ==
+          moment(selectedMonday).format("YYYYMMDD") ? (
+            <Text style={styles.dateNameMain}>This week</Text>
+          ) : (
+            <Text style={styles.dateNameMain}>
+              Week of {selectedMonday.toDateString().slice(4, -4)}
+            </Text>
+          )}
+        </>
         <TouchableOpacity
           style={styles.buttonMain}
+          onPress={() => updateWeek(7)}
         >
           <Image
             style={styles.preButtonMain}
@@ -61,81 +90,85 @@ export default function Statistics(trackingPreferences) {
         </TouchableOpacity>
       </View>
 
-
       {trackingPreferences.trackingPreferences.toDosSelected && (
-      <View style={styles.chartBox}>
-        <View style={styles.chartCircle}>
-          <Image style={styles.imageCircle} source={require("../../assets/images/to-dos.png")} />
-          <Text style={styles.text}>to-dos</Text>
+        <View style={styles.chartBox}>
+          <View style={styles.chartCircle}>
+            <Image
+              style={styles.imageCircle}
+              source={require("../../assets/images/to-dos.png")}
+            />
+            <Text style={styles.text}>to-dos</Text>
+          </View>
+          <View style={styles.chartContainer}>
+            <LineChart
+              thickness={2}
+              color="rgba(255, 207, 245, 1)"
+              maxValue={500}
+              animateOnDataChange
+              areaChart
+              hideRules
+              yAxisTextNumberOfLines={1}
+              yAxisLabelWidth={0}
+              hideYAxisText
+              hideDataPoints
+              data={data}
+              startFillColor1={"rgba(255, 207, 245, 1)"}
+              endFillColor1={"rgba(255, 207, 245, 1)"}
+              startOpacity={0.8}
+              endOpacity={0.1}
+              backgroundColor="transparent"
+              xAxisLength={0}
+              initialSpacing={0}
+              yAxisColor="#B3B3B3"
+              xAxisColor="#B3B3B3"
+              height={130}
+              width={180}
+              curved
+            />
+            <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
+          </View>
         </View>
-        <View style={styles.chartContainer}>
-          <LineChart
-            thickness={2}
-            color="rgba(255, 207, 245, 1)"
-            maxValue={500}
-            animateOnDataChange
-            areaChart
-            hideRules
-            yAxisTextNumberOfLines={1}
-            yAxisLabelWidth={0}
-            hideYAxisText
-            hideDataPoints
-            data={data}
-            startFillColor1={"rgba(255, 207, 245, 1)"}
-            endFillColor1={"rgba(255, 207, 245, 1)"}
-            startOpacity={0.8}
-            endOpacity={0.1}
-            backgroundColor="transparent"
-            xAxisLength={0}
-            initialSpacing={0}
-            yAxisColor="#B3B3B3"
-            xAxisColor="#B3B3B3"
-            height={130}
-            width={180}
-            curved
-          />
-          <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
-        </View>
-      </View>
       )}
 
-      {trackingPreferences.trackingPreferences.habitsSelected && 
-      <View style={styles.chartBox}>
-        <View style={styles.chartCircle}>
-          <Image style={styles.imageCircle} source={require("../../assets/images/habits.png")} />
-          <Text style={styles.text}>habits</Text>
+      {trackingPreferences.trackingPreferences.habitsSelected && (
+        <View style={styles.chartBox}>
+          <View style={styles.chartCircle}>
+            <Image
+              style={styles.imageCircle}
+              source={require("../../assets/images/habits.png")}
+            />
+            <Text style={styles.text}>habits</Text>
+          </View>
+          <View style={styles.chartContainer}>
+            <LineChart
+              thickness={2}
+              color="rgba(255, 207, 245, 1)"
+              maxValue={500}
+              animateOnDataChange
+              areaChart
+              hideRules
+              yAxisTextNumberOfLines={1}
+              yAxisLabelWidth={0}
+              hideYAxisText
+              hideDataPoints
+              data={data}
+              startFillColor1={"rgba(255, 207, 245, 1)"}
+              endFillColor1={"rgba(255, 207, 245, 1)"}
+              startOpacity={0.8}
+              endOpacity={0.1}
+              backgroundColor="transparent"
+              xAxisLength={0}
+              initialSpacing={0}
+              yAxisColor="#B3B3B3"
+              xAxisColor="#B3B3B3"
+              height={130}
+              width={180}
+              curved
+            />
+            <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
+          </View>
         </View>
-        <View style={styles.chartContainer}>
-          <LineChart
-            thickness={2}
-            color="rgba(255, 207, 245, 1)"
-            maxValue={500}
-            animateOnDataChange
-            areaChart
-            hideRules
-            yAxisTextNumberOfLines={1}
-            yAxisLabelWidth={0}
-            hideYAxisText
-            hideDataPoints
-            data={data}
-            startFillColor1={"rgba(255, 207, 245, 1)"}
-            endFillColor1={"rgba(255, 207, 245, 1)"}
-            startOpacity={0.8}
-            endOpacity={0.1}
-            backgroundColor="transparent"
-            xAxisLength={0}
-            initialSpacing={0}
-            yAxisColor="#B3B3B3"
-            xAxisColor="#B3B3B3"
-            height={130}
-            width={180}
-            curved
-          />
-          <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
-        </View>
-      </View>
-      }
-    
+      )}
     </ScrollView>
   );
 }
@@ -206,7 +239,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 20,
-    paddingRight:35
+    paddingRight: 35,
   },
   chartCircle: {
     width: 75,
