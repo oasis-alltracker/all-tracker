@@ -1,6 +1,13 @@
-import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Dimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Button, Header } from "../../components";
 import Toast from "react-native-root-toast";
 import navigationService from "../../navigators/navigationService";
@@ -107,10 +114,9 @@ const CreatePassword = (props) => {
 
   return (
     <View style={styles.container}>
+      <Header />
+      <Spinner visible={isLoading}></Spinner>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Header />
-        <Spinner visible={isLoading}></Spinner>
-
         <View style={styles.view}>
           <View style={styles.center}>
             <Text style={styles.title}>Create a password</Text>

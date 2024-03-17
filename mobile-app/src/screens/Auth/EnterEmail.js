@@ -1,6 +1,6 @@
-import { TouchableHighlight } from "react-native-gesture-handler";
+import React, { useEffect, useState } from "react";
 
-import { useEffect, useState } from "react";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 import * as AppleAuthentication from "expo-apple-authentication";
 
@@ -17,6 +17,8 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
@@ -185,8 +187,8 @@ const EnterEmail = () => {
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
+      <Header />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Header />
         <View style={styles.view}>
           <View style={styles.center}>
             <Text style={styles.title}>What is your email address?</Text>

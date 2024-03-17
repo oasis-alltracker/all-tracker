@@ -1,5 +1,13 @@
-import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { Button, Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import LoginAPI from "../../api/auth/loginAPI";
@@ -61,9 +69,9 @@ const EnterPassword = (props) => {
 
   return (
     <View style={styles.container}>
+      <Header />
+      <Spinner visible={isLoading}></Spinner>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Header />
-        <Spinner visible={isLoading}></Spinner>
         <View style={styles.view}>
           <View style={styles.center}>
             <Text style={styles.title}>Check your inbox for password</Text>

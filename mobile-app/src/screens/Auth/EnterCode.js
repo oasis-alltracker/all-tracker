@@ -1,3 +1,4 @@
+import React, { useRef, useState } from "react";
 import {
   Alert,
   View,
@@ -6,8 +7,9 @@ import {
   TextInput,
   TouchableOpacity,
   Dimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
-import React, { useRef, useState } from "react";
 import { Button, Header } from "../../components";
 import ScribbledText from "../../components/ScribbledText";
 
@@ -164,10 +166,9 @@ const EnterCode = (props) => {
 
   return (
     <View style={styles.container}>
+      <Header />
+      <Spinner visible={isLoading}></Spinner>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <Header />
-        <Spinner visible={isLoading}></Spinner>
-
         <View style={styles.view}>
           <View style={styles.center}>
             <Text style={styles.title}>
