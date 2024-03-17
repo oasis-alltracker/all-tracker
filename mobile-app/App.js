@@ -11,7 +11,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { getAccessToken, isLoggedIn, logout } from "./src/user/keychain";
 import UserAPI from "./src/api/user/userAPI";
-import * as Notifications from 'expo-notifications';
+import * as Notifications from "expo-notifications";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,17 +26,20 @@ export default function App() {
   const responseListener = useRef();
 
   useEffect(() => {
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
     return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
@@ -45,25 +48,22 @@ export default function App() {
     const checkIsLoggedIn = async () => {
       if (await isLoggedIn()) {
         const accessToken = await getAccessToken();
-        try{
+        try {
           const { status: status, data: userData } = await UserAPI.getUser(
             accessToken
           );
-          if(userData){
+          if (userData) {
             if (userData["isSetupComplete"]) {
               setInitialRoute("main");
             } else {
-              setInitialRoute("setup");
+              setInitialRoute("landing");
             }
-          }
-          else{
+          } else {
             logout();
           }
-        }
-        catch(e){
+        } catch (e) {
           logout();
         }
-
       }
       setLoading(false);
     };
