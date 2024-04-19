@@ -11,6 +11,7 @@ import {
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
+import { sharedStyles } from "../styles";
 
 export default function Main({
   day,
@@ -30,45 +31,45 @@ export default function Main({
     <>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.containerMain}
+        contentContainerStyle={sharedStyles.container}
         scrollEnabled={false}
         removeClippedSubviews={false}
       >
         <Spinner visible={isLoading}></Spinner>
 
-        <View style={styles.imageConMain}>
+        <View style={sharedStyles.headerImageContainer}>
           <Image
-            style={styles.imageMain}
+            style={sharedStyles.headerImage}
             source={require("../../assets/images/mind-white.png")}
           />
         </View>
 
-        <View style={styles.dateLineMain}>
+        <View style={sharedStyles.datePickerView}>
           <TouchableOpacity
-            style={styles.buttonMain}
+            style={sharedStyles.changeDateButton}
             onPress={() => updateDate(-1)}
           >
             <Image
-              style={[styles.preButtonMain, styles.nextButtonMain]}
+              style={[sharedStyles.decreaseDateImage]}
               source={require("../../assets/images/left.png")}
             />
           </TouchableOpacity>
           <>
             {moment(day).format("YYYYMMDD") ==
             moment(today).format("YYYYMMDD") ? (
-              <Text style={styles.dateNameMain}>Today</Text>
+              <Text style={sharedStyles.dateText}>Today</Text>
             ) : (
-              <Text style={styles.dateNameMain}>
+              <Text style={sharedStyles.dateText}>
                 {day.toDateString().slice(4, -4)}
               </Text>
             )}
           </>
           <TouchableOpacity
-            style={styles.buttonMain}
+            style={sharedStyles.changeDateButton}
             onPress={() => updateDate(1)}
           >
             <Image
-              style={styles.preButtonMain}
+              style={sharedStyles.increaseDateImage}
               source={require("../../assets/images/left.png")}
             />
           </TouchableOpacity>
@@ -76,8 +77,8 @@ export default function Main({
 
         {trackingPreferences.habitsSelected && (
           <>
-            <View style={styles.lineMain}>
-              <Text style={styles.titleMain}>Habits</Text>
+            <View style={sharedStyles.trackerDashView}>
+              <Text style={sharedStyles.trackerTitle}>Habits</Text>
               <View style={styles.buttonItems}>
                 <TouchableOpacity
                   onPress={() => {
@@ -282,8 +283,8 @@ export default function Main({
 
         {trackingPreferences.toDosSelected && (
           <>
-            <View style={[styles.lineMain, { marginBottom: 10 }]}>
-              <Text style={styles.titleMain}>To-dos</Text>
+            <View style={[styles.trackerDashView, { marginBottom: 10 }]}>
+              <Text style={styles.trackerTitle}>To-dos</Text>
               <View style={styles.buttonItems}>
                 <TouchableOpacity
                   onPress={() => {
@@ -345,69 +346,6 @@ export const RenderTodos = ({ onPress = () => {} }) => {
 };
 
 const styles = StyleSheet.create({
-  containerMain: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingTop: 30,
-    paddingBottom: 80,
-  },
-  imageConMain: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imageMain: {
-    width: 100,
-    height: 100,
-    tintColor: "#25436B",
-  },
-  imageTextMain: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  preButtonMain: {
-    width: 30,
-    height: 30,
-  },
-  nextButtonMain: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLineMain: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: "#ACC5CC",
-    borderRadius: 2,
-  },
-  buttonMain: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
-    borderWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0)",
-    borderBottomColor: "rgba(0, 0, 0, 0)",
-    borderRightColor: "#ccc",
-    borderLeftColor: "#ccc",
-  },
-  dateNameMain: {
-    fontSize: 36,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-  },
   emptyHabits: {
     fontSize: 20,
     color: "#25436B",
@@ -421,14 +359,6 @@ const styles = StyleSheet.create({
   refresh: {
     width: 30,
     height: 30,
-  },
-  lineMain: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 20,
-    marginTop: 20,
   },
   habitScrollContainterMain: {
     flexGrow: 1,
@@ -447,11 +377,6 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     marginTop: 10,
     height: 160,
-  },
-  titleMain: {
-    fontSize: 36,
-    color: "#25436B",
-    fontFamily: "Sego",
   },
   habitImageMain: {
     width: 80,
@@ -534,5 +459,3 @@ const styles = StyleSheet.create({
     textColor: "#25436B",
   },
 });
-
-///////////////////////MAINNNN
