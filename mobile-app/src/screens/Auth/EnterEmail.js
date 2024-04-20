@@ -111,7 +111,7 @@ const EnterEmail = () => {
     if (userData.isSetupComplete) {
       await navigationService.navigate("main");
     } else {
-      await navigationService.navigate("setup");
+      await navigationService.navigate("contract");
     }
   };
 

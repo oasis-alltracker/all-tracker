@@ -100,7 +100,7 @@ const EnterCode = (props) => {
             await navigationService.navigate("main");
             setCode("");
           } else {
-            await navigationService.navigate("setup");
+            await navigationService.navigate("contract");
             setCode("");
           }
         } else {

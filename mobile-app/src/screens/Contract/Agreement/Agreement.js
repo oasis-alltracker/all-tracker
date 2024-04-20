@@ -8,36 +8,43 @@ import CheckBox from "../../../assets/icons/checkbox";
 const Agreement = () => {
   const [checked, setChecked] = useState(false);
 
-
   const onPressContinue = async () => {
-    if(checked){
+    if (checked) {
       setChecked(false);
-      navigationService.navigate("selectTrackers")
-    }
-    else{
+      navigationService.navigate("setup");
+    } else {
       Toast.show("You must sign the agreement to continue.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>Welcome to Oasis!</Text>
-          <TouchableOpacity onPress={() => navigationService.navigate("termsOfService")} style={styles.linkBtn}>
+          <TouchableOpacity
+            onPress={() => navigationService.navigate("termsOfService")}
+            style={styles.linkBtn}
+          >
             <Text style={styles.linkText}>
               Read our <Text style={styles.boldText}>Terms of Service</Text>
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigationService.navigate("privacyPolicy")} style={styles.linkBtn}>
+          <TouchableOpacity
+            onPress={() => navigationService.navigate("privacyPolicy")}
+            style={styles.linkBtn}
+          >
             <Text style={styles.linkText}>
               Read the <Text style={styles.boldText}>Privacy Policy</Text>
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigationService.navigate("userAgreement")} style={styles.linkBtn}>
+          <TouchableOpacity
+            onPress={() => navigationService.navigate("userAgreement")}
+            style={styles.linkBtn}
+          >
             <Text style={styles.linkText}>
               Read the <Text style={styles.boldText}>User Agreement</Text>
             </Text>
@@ -54,12 +61,9 @@ const Agreement = () => {
             </Text>
           </View>
         </View>
-        <Button
-        onPress={() => onPressContinue()}
-        style={styles.nextButton}
-      >
-        Continue
-      </Button>
+        <Button onPress={() => onPressContinue()} style={styles.nextButton}>
+          Continue
+        </Button>
       </View>
     </View>
   );
@@ -107,7 +111,7 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-    marginTop: 150
+    marginTop: 150,
   },
   view: {
     flex: 1,
