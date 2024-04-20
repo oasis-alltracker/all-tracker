@@ -117,6 +117,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
     >
       <SafeAreaView style={styles.safeAreaContainer}>
         <Spinner visible={isLoading}></Spinner>
+        <Header showCenter={false} />
         <ScrollView style={styles.tcContainer}>
           <View style={styles.scrollViewView}>
             <View style={styles.row}>
