@@ -862,7 +862,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
           <View style={styles.container}>
             <View style={styles.row}>
               <TextInput
-                placeholderTextColor={"#25436B"}
+                placeholderTextColor={"#7B97BC"}
                 placeholder="Name"
                 style={styles.title}
                 onChangeText={setHabitName}
