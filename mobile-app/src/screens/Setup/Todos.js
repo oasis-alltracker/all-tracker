@@ -7,10 +7,12 @@ import navigationService from "../../navigators/navigationService";
 import UserAPI from "../../api/user/userAPI";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../user/keychain";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Todos = (props) => {
   const { selectedTrackers } = props.route.params;
   const [active, setActive] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const data = [
     {
@@ -34,6 +36,8 @@ const Todos = (props) => {
         duration: Toast.durations.LONG,
       });
     } else {
+      setIsLoading(true);
+
       var minuteOffset = -1;
       if (active == 1) {
         minuteOffset = 1;
@@ -67,10 +71,11 @@ const Todos = (props) => {
 
           //TO-DO check if user is subscribed
           setIsLoading(false);
-          navigationService.navigate("main");
+          await navigationService.reset("main", 0);
         }
       } catch (e) {
         console.log(e);
+        setIsLoading(false);
         Toast.show("Something went wrong. Please try again.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
@@ -81,6 +86,8 @@ const Todos = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
+
       <View style={styles.center}>
         <View style={styles.imageCon}>
           <Image

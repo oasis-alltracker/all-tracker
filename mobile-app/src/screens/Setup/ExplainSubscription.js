@@ -11,7 +11,7 @@ const ExplainSubscription = () => {
   const subscribe = async () => {
     setIsLoading(true);
     setIsLoading(false);
-    navigationService.navigate("main");
+    await navigationService.reset("main", 0);
   };
 
   return (

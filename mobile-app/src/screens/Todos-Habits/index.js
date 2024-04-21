@@ -25,6 +25,8 @@ import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
 import moment from "moment";
 import CreateHabitModal from "./modals/CreateHabitModal";
 import UpdateHabitModal from "./modals/UpdateHabitModal";
+import CreateTaskModal from "./modals/CreateTaskModal";
+import UpdateTaskModal from "./modals/UpdateTaskModal";
 
 const TodosHabits = ({ navigation }) => {
   const [index, setIndex] = useState(0);

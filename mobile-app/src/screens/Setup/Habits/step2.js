@@ -16,6 +16,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
+import Toast from "react-native-root-toast";
 
 const HabitsNotifications = (props) => {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
@@ -91,7 +92,7 @@ const HabitsNotifications = (props) => {
 
         //TO-DO check if user is subscribed
         setIsLoading(false);
-        navigationService.navigate("main");
+        await navigationService.reset("main", 0);
       }
     } else {
       Toast.show(

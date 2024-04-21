@@ -19,64 +19,67 @@ import { getAccessToken } from "../user/keychain";
 
 import DrawerScreen from "./DrawerScreen";
 
-
 const Drawer = createDrawerNavigator();
 
 const { width, height } = Dimensions.get("window");
 
 const Main = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [buttons, setButtons] = useState([])
-
+  const [buttons, setButtons] = useState([]);
 
   useEffect(() => {
-    const getPreferencesOnLoad = async() =>{
-      if(isLoading){
-        setIsLoading(false)
-        token = await getAccessToken()
-        user = await UserAPI.getUser(token)
+    const getPreferencesOnLoad = async () => {
+      if (isLoading) {
+        setIsLoading(false);
+        token = await getAccessToken();
+        user = await UserAPI.getUser(token);
 
-        buttonPreference = []
+        buttonPreference = [];
 
-        if(user.data.trackingPreferences.habitsSelected || user.data.trackingPreferences.toDosSelected){
-          buttonPreference.push(          
-            {
-              image: require("../assets/images/mind-white512.png"),
-              color: "rgba(255, 207, 245, 0.65)",
-              border: "rgba(255, 207, 245, 0.70)",
-              onPress: () => {
-                navigationService.navigate("todos-habits");
-              },
-            })
+        if (
+          user.data.trackingPreferences.habitsSelected ||
+          user.data.trackingPreferences.toDosSelected
+        ) {
+          buttonPreference.push({
+            image: require("../assets/images/mind-white512.png"),
+            color: "rgba(255, 207, 245, 0.65)",
+            border: "rgba(255, 207, 245, 0.70)",
+            onPress: () => {
+              navigationService.reset("todos-habits", 0);
+            },
+          });
         }
-        if(user.data.trackingPreferences.dietSelected || user.data.trackingPreferences.fitnessSelected){
-          buttonPreference.push(          
-            {
-              image: require("../assets/images/body-white.png"),
-              color: "rgba(213, 203, 255, 0.65)",
-              border: "rgba(213, 203, 255, 0.70)",
-              onPress: () => {
-                navigationService.navigate("fitness-diet");
-              },
-            })
+        if (
+          user.data.trackingPreferences.dietSelected ||
+          user.data.trackingPreferences.fitnessSelected
+        ) {
+          buttonPreference.push({
+            image: require("../assets/images/body-white.png"),
+            color: "rgba(213, 203, 255, 0.65)",
+            border: "rgba(213, 203, 255, 0.70)",
+            onPress: () => {
+              navigationService.reset("fitness-diet", 0);
+            },
+          });
         }
-        if(user.data.trackingPreferences.moodSelected || user.data.trackingPreferences.sleepSelected){
-          buttonPreference.push(          
-            {
-              image: require("../assets/images/soul-white.png"),
-              color: "rgba(255, 233, 167, 0.75)",
-              border: "rgba(255, 233, 167, 0.80)",
-              onPress: () => {
-                navigationService.navigate("mood-sleep");
-              },
-            })
+        if (
+          user.data.trackingPreferences.moodSelected ||
+          user.data.trackingPreferences.sleepSelected
+        ) {
+          buttonPreference.push({
+            image: require("../assets/images/soul-white.png"),
+            color: "rgba(255, 233, 167, 0.75)",
+            border: "rgba(255, 233, 167, 0.80)",
+            onPress: () => {
+              navigationService.reset("mood-sleep", 0);
+            },
+          });
         }
-        setButtons(buttonPreference)
-      }    
-    }
-    getPreferencesOnLoad()
+        setButtons(buttonPreference);
+      }
+    };
+    getPreferencesOnLoad();
   }, []);
-
 
   return (
     <View style={styles.container}>
@@ -88,23 +91,29 @@ const Main = ({ navigation }) => {
         }
       />
       <>
-        <View style={{paddingTop:15, justifyContent:"center", height: height*0.6}}>
-        {buttons.map((item, index) => (
-          <Button
-            onPress={item.onPress}
-            style={[
-              styles.button,
-              { backgroundColor: item.color, borderColor: item.border },
-            ]}
-            key={index}
-          >
-            <Image
-              resizeMode="contain"
-              style={styles.image}
-              source={item.image}
-            />
-          </Button>
-        ))}
+        <View
+          style={{
+            paddingTop: 15,
+            justifyContent: "center",
+            height: height * 0.6,
+          }}
+        >
+          {buttons.map((item, index) => (
+            <Button
+              onPress={item.onPress}
+              style={[
+                styles.button,
+                { backgroundColor: item.color, borderColor: item.border },
+              ]}
+              key={index}
+            >
+              <Image
+                resizeMode="contain"
+                style={styles.image}
+                source={item.image}
+              />
+            </Button>
+          ))}
         </View>
       </>
     </View>
@@ -132,7 +141,7 @@ const styles = StyleSheet.create({
 
 function MainDrawer() {
   return (
-      <Drawer.Navigator
+    <Drawer.Navigator
       initialRouteName="mainscreen"
       drawerContent={DrawerScreen}
       screenOptions={{
@@ -146,7 +155,6 @@ function MainDrawer() {
       <Drawer.Screen name="mood-sleep" component={MoodSleep} />
       <Drawer.Screen name="fitness-diet" component={FitnessDiet} />
     </Drawer.Navigator>
-
   );
 }
 

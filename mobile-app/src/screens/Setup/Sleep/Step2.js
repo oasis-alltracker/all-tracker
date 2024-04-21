@@ -13,9 +13,13 @@ import navigationService from "../../../navigators/navigationService";
 import Switch from "../../../assets/icons/switch";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
+import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const SleepStep2 = (props) => {
   const { selectedTrackers } = props.route.params;
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isNotif, setIsNotif] = useState(false);
   const [days] = useState([
@@ -31,6 +35,7 @@ const SleepStep2 = (props) => {
   const [active, setActive] = useState(0);
 
   const onNext = async () => {
+    setIsLoading(true);
     try {
       const accessToken = await getAccessToken();
       const { status, data } = await UserAPI.updateUser(
@@ -38,10 +43,11 @@ const SleepStep2 = (props) => {
         selectedTrackers,
         accessToken
       );
-
+      setIsLoading(false);
       //TO-DO check if user is subscribed
-      navigationService.navigate("main");
+      await navigationService.reset("main", 0);
     } catch (e) {
+      setIsLoading(false);
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -52,6 +58,7 @@ const SleepStep2 = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}

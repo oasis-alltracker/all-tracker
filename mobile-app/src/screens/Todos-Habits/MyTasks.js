@@ -7,7 +7,6 @@ import {
   View,
 } from "react-native";
 import React, { useRef } from "react";
-import AddTasks from "./modals/AddTasks";
 import { RenderTodos } from "./Main";
 
 const items = [

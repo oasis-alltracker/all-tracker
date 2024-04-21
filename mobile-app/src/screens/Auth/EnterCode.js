@@ -97,10 +97,10 @@ const EnterCode = (props) => {
 
           setIsLoading(false);
           if (userData["isSetupComplete"]) {
-            await navigationService.navigate("main");
+            await navigationService.reset("main", 0);
             setCode("");
           } else {
-            await navigationService.navigate("contract");
+            await navigationService.reset("contract", 0);
             setCode("");
           }
         } else {

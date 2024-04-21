@@ -10,7 +10,7 @@ import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button, Calendar } from "../../../components";
 
-export default function AddTasks({ getRef }) {
+export default function UpdateTaskModal({ getRef }) {
   const [visible, setVisible] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
 

@@ -11,6 +11,10 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Switch from "../../../assets/icons/switch";
+import Toast from "react-native-root-toast";
+import { getAccessToken } from "../../../user/keychain";
+import UserAPI from "../../../api/user/userAPI";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const DietStep10 = (props) => {
   const { selectedTrackers } = props.route.params;
@@ -19,7 +23,10 @@ const DietStep10 = (props) => {
   const [switch2, setSwitch2] = useState(false);
   const [switch3, setSwitch3] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onNext = async () => {
+    setIsLoading(true);
     try {
       if (selectedTrackers.fitnessSelected) {
         navigationService.navigate("fitness", { selectedTrackers });
@@ -37,10 +44,11 @@ const DietStep10 = (props) => {
 
         //TO-DO check if user is subscribed
         setIsLoading(false);
-        navigationService.navigate("main");
+        await navigationService.reset("main", 0);
       }
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -50,6 +58,8 @@ const DietStep10 = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}

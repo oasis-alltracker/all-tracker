@@ -11,6 +11,10 @@ import { Image } from "react-native";
 import { Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import Switch from "../../assets/icons/switch";
+import Toast from "react-native-root-toast";
+import { getAccessToken } from "../../user/keychain";
+import UserAPI from "../../api/user/userAPI";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Mood = (props) => {
   const [isNotif, setIsNotif] = useState(false);
@@ -26,8 +30,10 @@ const Mood = (props) => {
   ]);
   const [active, setActive] = useState(0);
   const { selectedTrackers } = props.route.params;
+  const [isLoading, setIsLoading] = useState(false);
 
   const onNext = async () => {
+    setIsLoading(true);
     try {
       if (selectedTrackers.sleepSelected) {
         navigationService.navigate("sleep", { selectedTrackers });
@@ -41,10 +47,11 @@ const Mood = (props) => {
 
         //TO-DO check if user is subscribed
         setIsLoading(false);
-        navigationService.navigate("main");
+        navigationService.reset("main", 0);
       }
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -54,6 +61,8 @@ const Mood = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}

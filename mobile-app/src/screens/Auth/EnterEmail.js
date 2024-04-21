@@ -109,7 +109,7 @@ const EnterEmail = () => {
 
     setIsLoading(false);
     if (userData.isSetupComplete) {
-      await navigationService.navigate("main");
+      await navigationService.reset("main", 0);
     } else {
       await navigationService.navigate("contract");
     }
