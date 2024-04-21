@@ -16,7 +16,6 @@ import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import Spinner from "react-native-loading-spinner-overlay";
 
 import HabitsDB from "../../../api/DB/habitsDB";
@@ -101,10 +100,22 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       style={styles.scrollModal}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        <Header showCenter={false} />
         <Spinner visible={isLoading}></Spinner>
         <ScrollView style={styles.habitSearchContainer}>
           <View style={styles.scrollViewView}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => {
+                setHabitSearch(false);
+                setImageSearch(false);
+              }}
+            >
+              <Image
+                style={styles.backImage}
+                resizeMode="cover"
+                source={require("../../../assets/images/back-arrow.png")}
+              />
+            </TouchableOpacity>
             <View style={styles.habitSearchRow}>
               <View style={styles.habitItem}>
                 <TouchableOpacity
@@ -432,9 +443,21 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       style={styles.scrollModal}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        <Header showCenter={false} />
         <ScrollView style={styles.tcContainer}>
           <View style={styles.scrollViewView}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => {
+                setHabitSearch(false);
+                setImageSearch(false);
+              }}
+            >
+              <Image
+                style={styles.backImage}
+                resizeMode="cover"
+                source={require("../../../assets/images/back-arrow.png")}
+              />
+            </TouchableOpacity>
             <View style={styles.row}>
               <TouchableOpacity
                 style={styles.imageSelector}
@@ -1415,7 +1438,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   scrollViewView: {
-    paddingTop: 60,
+    paddingTop: 30,
     paddingBottom: 60,
   },
   timeValueButton: {
@@ -1515,5 +1538,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     marginTop: 5,
+  },
+  backButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
+    marginLeft: 10,
+    marginTop: 40,
+    marginBottom: 20,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+  },
+  backImage: {
+    width: "100%",
+    height: "100%",
   },
 });

@@ -1,3 +1,4 @@
+import { StyleSheet } from "react-native";
 export const sharedStyles = StyleSheet.create({
   container: {
     alignItems: "center",
@@ -9,8 +10,6 @@ export const sharedStyles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -60,9 +59,9 @@ export const sharedStyles = StyleSheet.create({
     ],
   },
   dateText: {
-    fontSize: 36,
+    fontSize: 33,
     color: "#25436B",
-    fontFamily: "Sego-Bold",
+    fontFamily: "Sego",
   },
   trackerDashView: {
     flexDirection: "row",
@@ -74,8 +73,8 @@ export const sharedStyles = StyleSheet.create({
   },
 
   trackerTitle: {
-    fontSize: 36,
+    fontSize: 26,
     color: "#25436B",
-    fontFamily: "Sego",
+    fontFamily: "Sego-Bold",
   },
 });

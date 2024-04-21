@@ -7,116 +7,95 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import moment from "moment";
+import { sharedStyles } from "../styles";
 
-export default function Main() {
+export default function Main({ day, trackingPreferences, updateDate }) {
+  const today = new Date();
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={sharedStyles.container}
     >
-      <View style={styles.imageCon}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          {
+            backgroundColor: "#FFEFBD",
+            borderColor: "#CCBF98",
+          },
+        ]}
+      >
         <Image
-          style={styles.image}
+          style={sharedStyles.headerImage}
           source={require("../../assets/images/soul-white.png")}
         />
       </View>
-      <View style={styles.dateLine}>
-        <TouchableOpacity style={styles.button}>
+      <View style={sharedStyles.datePickerView}>
+        <TouchableOpacity
+          style={sharedStyles.changeDateButton}
+          onPress={() => updateDate(-1)}
+        >
           <Image
-            style={styles.preButton}
+            style={[sharedStyles.decreaseDateImage]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
-        <Text style={styles.dateName}>Today</Text>
-        <TouchableOpacity style={styles.button}>
+        <>
+          {moment(day).format("YYYYMMDD") ==
+          moment(today).format("YYYYMMDD") ? (
+            <Text style={sharedStyles.dateText}>Today</Text>
+          ) : (
+            <Text style={sharedStyles.dateText}>
+              {day.toDateString().slice(4, -4)}
+            </Text>
+          )}
+        </>
+        <TouchableOpacity
+          style={sharedStyles.changeDateButton}
+          onPress={() => updateDate(1)}
+        >
           <Image
-            style={[styles.preButton, styles.nextButton]}
+            style={sharedStyles.increaseDateImage}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
       </View>
-      <Text style={styles.title}>Mood</Text>
-      <Text style={styles.desc}>How are you feeling?</Text>
-      <TouchableOpacity style={styles.addBtn}>
-        <Image
-          style={styles.plus}
-          source={require("../../assets/images/plus512.png")}
-        />
-      </TouchableOpacity>
-      <Text style={styles.title}>Sleep</Text>
-      <Text style={styles.desc}>How was your sleep?</Text>
-      <TouchableOpacity style={styles.addBtn}>
-        <Image
-          style={styles.plus}
-          source={require("../../assets/images/plus512.png")}
-        />
-      </TouchableOpacity>
+
+      {trackingPreferences.moodSelected && (
+        <>
+          <View style={[sharedStyles.trackerDashView]}>
+            <Text style={sharedStyles.trackerTitle}>Mood</Text>
+          </View>
+          <Text style={styles.questionText}>How are you feeling?</Text>
+          <TouchableOpacity style={styles.addBtn}>
+            <Image
+              style={styles.plus}
+              source={require("../../assets/images/plus512.png")}
+            />
+          </TouchableOpacity>
+        </>
+      )}
+      {trackingPreferences.sleepSelected && (
+        <>
+          <View style={[sharedStyles.trackerDashView]}>
+            <Text style={sharedStyles.trackerTitle}>Sleep</Text>
+          </View>
+          <Text style={styles.questionText}>How was your sleep?</Text>
+          <TouchableOpacity style={styles.addBtn}>
+            <Image
+              style={styles.plus}
+              source={require("../../assets/images/plus512.png")}
+            />
+          </TouchableOpacity>
+        </>
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    overflow: "visible",
-    paddingTop: 30,
-    paddingBottom: 80,
-  },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "#FFEFBD",
-    borderColor: "#CCBF98",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    tintColor: "#25436B",
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: "#ACC5CC",
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
-    borderWidth: 1,
-    borderColor: "#CCCCCC",
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
-  },
   plus: {
     width: 40,
     height: 40,
@@ -128,17 +107,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 20,
   },
-  desc: {
-    fontSize: 24,
+  questionText: {
+    fontSize: 26,
     color: "#25436B",
     fontFamily: "Sego",
-    marginLeft: 20,
   },
   addBtn: {
     borderWidth: 2,
     borderColor: "#CCCCCC",
-    borderRadius: 20,
+    borderRadius: 30,
     height: 80,
+    width: 350,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,

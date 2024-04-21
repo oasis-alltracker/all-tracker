@@ -4,14 +4,14 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Platform
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image, Switch } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import DateTimePicker from '@react-native-community/datetimepicker'
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { getAccessToken } from "../../../user/keychain";
@@ -22,7 +22,7 @@ const HabitsNotifications = (props) => {
 
   const { selectedTrackers } = props.route.params;
 
-  const [time, setTime] = useState(new Date('1995-12-17T12:00:00'))
+  const [time, setTime] = useState(new Date("1995-12-17T12:00:00"));
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,64 +31,86 @@ const HabitsNotifications = (props) => {
     var systemNotificationsStatus = true;
     const token = await getAccessToken();
 
-    if(isNotificationsEnabled) {
-      
-      timeArray = formatDateObjectBackend(time).split(":")
-      hour = timeArray[0]
-      minute = timeArray[1]
+    if (isNotificationsEnabled) {
+      timeArray = formatDateObjectBackend(time).split(":");
+      hour = timeArray[0];
+      minute = timeArray[1];
 
-      systemNotificationsStatus = await NotificationsHandler.checkNotificationsStatus(token);
+      systemNotificationsStatus =
+        await NotificationsHandler.checkNotificationsStatus(token);
 
-      if(systemNotificationsStatus){
-        await NotificationsHandler.turnOnNotification(token, "habit", "Habit Journal", "Don't forget to update your habit progress", [{hour: Number(hour), minute: Number(minute), repeats: true}], true );
-        await NotificationsHandler.updateNotification(token,
+      if (systemNotificationsStatus) {
+        await NotificationsHandler.turnOnNotification(
+          token,
+          "habit",
+          "Habit Journal",
+          "Don't forget to update your habit progress",
+          [{ hour: Number(hour), minute: Number(minute), repeats: true }],
+          true
+        );
+        await NotificationsHandler.updateNotification(
+          token,
           "notifications",
           "undefined",
           "undefined",
           "undefined",
           "undefined",
-          "on")
+          "on"
+        );
       }
-    }
-    else {
-      await NotificationsHandler.updateNotification(token,
+    } else {
+      await NotificationsHandler.updateNotification(
+        token,
         "notifications",
         "undefined",
         "undefined",
         "undefined",
         "undefined",
-        "off")
+        "off"
+      );
     }
 
-    if(systemNotificationsStatus){
-      if(selectedTrackers.toDosSelected) {
-        navigationService.navigate("todos", {selectedTrackers});
-      }
-      else {
-        
+    if (systemNotificationsStatus) {
+      if (selectedTrackers.toDosSelected) {
+        navigationService.navigate("todos", { selectedTrackers });
+      } else if (selectedTrackers.dietSelected) {
+        navigationService.navigate("dietStep1", { selectedTrackers });
+      } else if (selectedTrackers.fitnessSelected) {
+        navigationService.navigate("fitness", { selectedTrackers });
+      } else if (selectedTrackers.moodSelected) {
+        navigationService.navigate("mood", { selectedTrackers });
+      } else if (selectedTrackers.sleepSelected) {
+        navigationService.navigate("sleep", { selectedTrackers });
+      } else {
         const accessToken = await getAccessToken();
-        const {status, data} = await UserAPI.updateUser(true , selectedTrackers, accessToken);
-  
+        const { status, data } = await UserAPI.updateUser(
+          true,
+          selectedTrackers,
+          accessToken
+        );
+
         //TO-DO check if user is subscribed
         setIsLoading(false);
         navigationService.navigate("main");
       }
-    }
-    else {
-      Toast.show("To get reminders, you need to turn on notifications in your phone's settings.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+    } else {
+      Toast.show(
+        "To get reminders, you need to turn on notifications in your phone's settings.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
     }
 
     setIsLoading(false);
-  }
+  };
   const toggleSwitch = () => {
-    setIsNotificationsEnabled(previousState => !previousState);
-  }
+    setIsNotificationsEnabled((previousState) => !previousState);
+  };
 
   const onChange = (event, selectedDate) => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       setShow(false);
     }
 
@@ -97,21 +119,21 @@ const HabitsNotifications = (props) => {
 
   const formatDateObject = (dateObject) => {
     const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
     };
-    return dateObject.toLocaleString('en-US', options)
-  }
+    return dateObject.toLocaleString("en-US", options);
+  };
 
   const formatDateObjectBackend = (dateObject) => {
     const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: false
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
     };
-    return dateObject.toLocaleString('en-US', options)
-  }
+    return dateObject.toLocaleString("en-US", options);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -119,9 +141,7 @@ const HabitsNotifications = (props) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}
       >
-        <Spinner
-          visible={isLoading}>
-        </Spinner>
+        <Spinner visible={isLoading}></Spinner>
         <View style={styles.imageCon}>
           <Image
             style={styles.image}
@@ -135,53 +155,55 @@ const HabitsNotifications = (props) => {
         >
           <View style={styles.row}>
             <Text style={[styles.text]}>Notifications:</Text>
-            <View >
-              <Switch width={55}
+            <View>
+              <Switch
+                width={55}
                 height={32}
                 onValueChange={toggleSwitch}
                 value={isNotificationsEnabled}
-                trackColor={{true: '#d7f6ff',false: '#ffd8f7', }}
-                thumbColor={isNotificationsEnabled ? '#d7f6ff' : '#ffd8f7'}/>
-            </View> 
+                trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+                thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#ffd8f7"}
+              />
+            </View>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-          Get a daily reminder to update your habit progress.
+            Get a daily reminder to update your habit progress.
           </Text>
 
           <View style={styles.timeRow}>
-            {Platform.OS === 'ios' ? 
+            {Platform.OS === "ios" ? (
               <DateTimePicker
                 testID="dateTimePicker"
                 value={time}
-                mode={'time'}
+                mode={"time"}
                 is24Hour={true}
                 onChange={onChange}
               />
-              :
+            ) : (
               <TouchableOpacity
                 style={styles.timeButton}
                 testID="setMinMax"
                 value="time"
                 onPress={() => {
-                setShow(true);
+                  setShow(true);
                 }}
-                title="toggleMinMaxDate">
-                  <Text style={styles.timeText}>{formatDateObject(time)}</Text>
+                title="toggleMinMaxDate"
+              >
+                <Text style={styles.timeText}>{formatDateObject(time)}</Text>
               </TouchableOpacity>
-            }
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {show && (                 
+            )}
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              {show && (
                 <DateTimePicker
                   testID="dateTimePicker"
                   value={time}
-                  mode={'time'}
+                  mode={"time"}
                   is24Hour={true}
                   onChange={onChange}
-                />)
-              }
+                />
+              )}
+            </View>
           </View>
-
-        </View>
         </Button>
       </ScrollView>
       <View style={styles.buttons}>
@@ -191,10 +213,7 @@ const HabitsNotifications = (props) => {
         >
           Back
         </Button>
-        <Button
-          onPress={() => onNext()}
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -284,7 +303,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    paddingTop:25
+    paddingTop: 25,
   },
   flex: {
     flex: 1,
@@ -343,7 +362,7 @@ const styles = StyleSheet.create({
     height: 30,
     resizeMode: "contain",
   },
-  timeButton:{
+  timeButton: {
     borderWidth: 1.5,
     borderColor: "rgba(172, 197, 204, 0.75)",
     height: 40,
@@ -356,12 +375,12 @@ const styles = StyleSheet.create({
     color: "#25436B",
     textAlign: "center",
     alignItems: "center",
-    marginTop:5
+    marginTop: 5,
   },
   errorToast: {
     backgroundColor: "#FFD7D7",
     textColor: "#25436B",
-  }
+  },
 });
 
 export default HabitsNotifications;

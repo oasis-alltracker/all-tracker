@@ -27,48 +27,57 @@ const Todos = (props) => {
     },
   ];
 
-  const onNext = async() =>{
-
-    if(active == 0){
+  const onNext = async () => {
+    if (active == 0) {
       Toast.show("Please make a selection.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
-    }
-    else{
+    } else {
       var minuteOffset = -1;
-      if(active == 1){
-        minuteOffset = 1
+      if (active == 1) {
+        minuteOffset = 1;
       }
-      if(active == 2){
-        minuteOffset = 10
+      if (active == 2) {
+        minuteOffset = 10;
       }
-      if(active == 3){
-        minuteOffset = 60
+      if (active == 3) {
+        minuteOffset = 60;
       }
 
-      try{
+      try {
         const accessToken = await getAccessToken();
-        await UserAPI.updateTaskPreference(minuteOffset, accessToken)
+        await UserAPI.updateTaskPreference(minuteOffset, accessToken);
 
-        //check if more trackers
-        await UserAPI.updateUser(true , selectedTrackers, accessToken);
-        //TO-DO check if user is subscribed
-        navigationService.navigate("main");
-      }
-      catch(e){
+        if (selectedTrackers.dietSelected) {
+          navigationService.navigate("dietStep1", { selectedTrackers });
+        } else if (selectedTrackers.fitnessSelected) {
+          navigationService.navigate("fitness", { selectedTrackers });
+        } else if (selectedTrackers.moodSelected) {
+          navigationService.navigate("mood", { selectedTrackers });
+        } else if (selectedTrackers.sleepSelected) {
+          navigationService.navigate("sleep", { selectedTrackers });
+        } else {
+          const accessToken = await getAccessToken();
+          const { status, data } = await UserAPI.updateUser(
+            true,
+            selectedTrackers,
+            accessToken
+          );
+
+          //TO-DO check if user is subscribed
+          setIsLoading(false);
+          navigationService.navigate("main");
+        }
+      } catch (e) {
+        console.log(e);
         Toast.show("Something went wrong. Please try again.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
         });
       }
-
-
     }
-
-
-
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -107,10 +116,7 @@ const Todos = (props) => {
         >
           Back
         </Button>
-        <Button
-          onPress={() => onNext()}
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>

@@ -1,6 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import ComingSoon from "./ComingSoon";
+
 import Contact from "./Contact";
 import Goals from "./Goals";
 import Tracks from "./Tracks";
@@ -19,7 +19,6 @@ const options = {
 function SettingsNavigator() {
   return (
     <Stack.Navigator screenOptions={options} initialRouteName={"settingsHome"}>
-      <Stack.Screen name="comingSoon" component={ComingSoon} />
       <Stack.Screen name="contact" component={Contact} />
       <Stack.Screen name="goals" component={Goals} />
       <Stack.Screen name="tracks" component={Tracks} />

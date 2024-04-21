@@ -37,7 +37,15 @@ export default function Main({
       >
         <Spinner visible={isLoading}></Spinner>
 
-        <View style={sharedStyles.headerImageContainer}>
+        <View
+          style={[
+            sharedStyles.headerImageContainer,
+            {
+              backgroundColor: "rgba(255, 207, 245, 0.65)",
+              borderColor: "rgba(255, 207, 245, 0.70)",
+            },
+          ]}
+        >
           <Image
             style={sharedStyles.headerImage}
             source={require("../../assets/images/mind-white.png")}
@@ -246,10 +254,16 @@ export default function Main({
                             });
                           }}
                         >
-                          <Image
+                          <ImageBackground
                             style={styles.habitImageMain}
-                            source={require("../../assets/images/x-mark.png")}
-                          />
+                            source={{ uri: val.pngURL }}
+                            resizeMode="cover"
+                          >
+                            <Image
+                              style={styles.habitImageMain}
+                              source={require("../../assets/images/x-mark.png")}
+                            />
+                          </ImageBackground>
                         </TouchableOpacity>
                       );
                     })}
@@ -283,8 +297,8 @@ export default function Main({
 
         {trackingPreferences.toDosSelected && (
           <>
-            <View style={[styles.trackerDashView, { marginBottom: 10 }]}>
-              <Text style={styles.trackerTitle}>To-dos</Text>
+            <View style={[sharedStyles.trackerDashView]}>
+              <Text style={sharedStyles.trackerTitle}>To-dos</Text>
               <View style={styles.buttonItems}>
                 <TouchableOpacity
                   onPress={() => {

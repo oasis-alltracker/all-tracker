@@ -6,11 +6,11 @@ import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CreateHabitModal from "./CreateHabitModal";
-import UpdateHabitModal from "./UpdateHabitModal"
+import UpdateHabitModal from "./UpdateHabitModal";
 import HabitsAPI from "../../../api/habits/habitsAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
-import { getAccessToken } from '../../../user/keychain'
+import { getAccessToken } from "../../../user/keychain";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,156 +20,154 @@ const HabitsCreation = (props) => {
   const [habitsIsLoaded, setHabitsIsLoaded] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const modalRef = useRef(null);
 
-
   const onNext = async () => {
-    navigationService.navigate("habitsNotifications", {selectedTrackers});
-    if(selectedTrackers.toDosSelected) {
-      navigationService.navigate("todos", {selectedTrackers});
-    }
-  }
+    navigationService.navigate("habitsNotifications", { selectedTrackers });
+  };
 
   const createHabit = async (habit) => {
     setIsLoading(true);
-    try{
-      token = await getAccessToken()
-      await HabitsAPI.createHabit(token, habit)
+    try {
+      token = await getAccessToken();
+      await HabitsAPI.createHabit(token, habit);
       await getHabits();
-    }
-    catch(e){
+    } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-  }
-  const deleteHabit = async(habitID) => {
+  };
+  const deleteHabit = async (habitID) => {
     setIsLoading(true);
-    try{
-      token = await getAccessToken()
-      await HabitsAPI.deleteHabit(token, habitID)
+    try {
+      token = await getAccessToken();
+      await HabitsAPI.deleteHabit(token, habitID);
       await getHabits();
-    }
-    catch(e){
+    } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-
-
-  }
-  const updateHabit = async(habitID, habit) => {
-    try{
+  };
+  const updateHabit = async (habitID, habit) => {
+    try {
       setIsLoading(true);
-      token = await getAccessToken()
-      await HabitsAPI.updateHabit(token, habitID, habit)
+      token = await getAccessToken();
+      await HabitsAPI.updateHabit(token, habitID, habit);
       await getHabits();
-    }
-    catch(e){
+    } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
+  };
 
-  }
-
-  const getHabits = async() => {
+  const getHabits = async () => {
     setIsLoading(true);
-    try{
-      token = await getAccessToken()
-      userHabits =  await HabitsAPI.getHabits(token)
+    try {
+      token = await getAccessToken();
+      userHabits = await HabitsAPI.getHabits(token);
       setHabits(userHabits);
-    }
-    catch(e){
+    } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
     }
-    
-    setIsLoading(false);
-  }
 
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    const getHabitsOnLoad = async() =>{
-      if(!habitsIsLoaded){
-        setHabitsIsLoaded(true)
+    const getHabitsOnLoad = async () => {
+      if (!habitsIsLoaded) {
+        setHabitsIsLoaded(true);
         await getHabits();
-      }    
-    }
-    getHabitsOnLoad()
+      }
+    };
+    getHabitsOnLoad();
   }, []);
 
-  const MyHabits = () => (  
-  <>
-    <View style={[styles.line, { paddingTop:15, marginBottom: 15 }]}>
-      <Text style={styles.habitsTitle}>My habits</Text>
-      <TouchableOpacity
-        onPress={() => {
-          modalRef.secondary.open();
-        }}
-      >
-        <Image
-          style={styles.plus}
-          source={require("../../../assets/images/plus512.png")}
-        />
-      </TouchableOpacity>
-    </View>
-    <View style={{ height: 365 }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
-        removeClippedSubviews={false}>
-
-        {habits.map((val, key) => {
-          return (
-            <TouchableOpacity
-              key={key.toString()}
-              onPress={() => {
-                modalRef.current.open(true, {
-                  isPositive: val.isPositive,
-                  habitName: val.name,
-                  pngURL: val.pngURL,
-                  threshold: val.threshold,
-                  time: val.time,
-                  habitID: val.SK
-                });
-              }}
-              style={[
-                styles.item,
-                key === habits.length - 1 && { borderBottomWidth: 2 },
-              ]}
-            >
-              <Text style={styles.itemText}>{val.name}</Text>
-              <Text
-                style={[styles.itemText2, val.isPositive && { color: "#7FE5FF" }]}
+  const MyHabits = () => (
+    <>
+      <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
+        <Text style={styles.habitsTitle}>My habits</Text>
+        <TouchableOpacity
+          onPress={() => {
+            modalRef.secondary.open();
+          }}
+        >
+          <Image
+            style={styles.plus}
+            source={require("../../../assets/images/plus512.png")}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={{ height: 365 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContainer}
+          removeClippedSubviews={false}
+        >
+          {habits.map((val, key) => {
+            return (
+              <TouchableOpacity
+                key={key.toString()}
+                onPress={() => {
+                  modalRef.current.open(true, {
+                    isPositive: val.isPositive,
+                    habitName: val.name,
+                    pngURL: val.pngURL,
+                    threshold: val.threshold,
+                    time: val.time,
+                    habitID: val.SK,
+                  });
+                }}
+                style={[
+                  styles.item,
+                  key === habits.length - 1 && { borderBottomWidth: 2 },
+                ]}
               >
-                {val.isPositive ? "Good" : "Bad"}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-      <CreateHabitModal getRef={(ref) => (modalRef.secondary = ref)} createHabit={createHabit}/>
-      <UpdateHabitModal getRef={(ref) => (modalRef.current = ref)} updateHabit={updateHabit} deleteHabit={deleteHabit}/>
-    </View>
-  </>
+                <Text style={styles.itemText}>{val.name}</Text>
+                <Text
+                  style={[
+                    styles.itemText2,
+                    val.isPositive && { color: "#7FE5FF" },
+                  ]}
+                >
+                  {val.isPositive ? "Good" : "Bad"}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+        <CreateHabitModal
+          getRef={(ref) => (modalRef.secondary = ref)}
+          createHabit={createHabit}
+        />
+        <UpdateHabitModal
+          getRef={(ref) => (modalRef.current = ref)}
+          updateHabit={updateHabit}
+          deleteHabit={deleteHabit}
+        />
+      </View>
+    </>
   );
 
   const CreatHabits = () => (
     <>
       <Text style={styles.title}>
-          Get started by creating habits you'd like to adopt
-        </Text>
+        Get started by creating habits you'd like to adopt
+      </Text>
       <TouchableOpacity
         onPress={() => {
           modalRef.current.open();
@@ -186,15 +184,16 @@ const HabitsCreation = (props) => {
           />
         </View>
       </TouchableOpacity>
-      <CreateHabitModal getRef={(ref) => (modalRef.current = ref)} createHabit={createHabit}/>
+      <CreateHabitModal
+        getRef={(ref) => (modalRef.current = ref)}
+        createHabit={createHabit}
+      />
     </>
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.center}>
         <View style={styles.imageCon}>
           <Image
@@ -203,9 +202,7 @@ const HabitsCreation = (props) => {
           />
           <Text style={styles.imageText}>habits</Text>
         </View>
-        {
-        habits.length>0 ? <MyHabits/> : <CreatHabits/>
-        }
+        {habits.length > 0 ? <MyHabits /> : <CreatHabits />}
       </View>
 
       <View style={styles.buttons}>
@@ -215,10 +212,7 @@ const HabitsCreation = (props) => {
         >
           Back
         </Button>
-        <Button
-          onPress={() => onNext()}
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -267,7 +261,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    paddingTop: 20
+    paddingTop: 20,
   },
   button: {
     width: "47%",
@@ -306,7 +300,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
-    width: width-30,
+    width: width - 30,
   },
   line: {
     flexDirection: "row",
@@ -357,5 +351,5 @@ const styles = StyleSheet.create({
   errorToast: {
     backgroundColor: "#FFD7D7",
     textColor: "#25436B",
-  }
+  },
 });

@@ -12,7 +12,9 @@ import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Switch from "../../../assets/icons/switch";
 
-const Step1 = () => {
+const SleepStep1 = (props) => {
+  const { selectedTrackers } = props.route.params;
+
   const [isNotif, setIsNotif] = useState(false);
   const [days] = useState([
     "Every Day",
@@ -103,7 +105,9 @@ const Step1 = () => {
           Back
         </Button>
         <Button
-          onPress={() => navigationService.navigate("step2")}
+          onPress={() =>
+            navigationService.navigate("sleepStep2", { selectedTrackers })
+          }
           style={styles.button}
         >
           Next
@@ -249,4 +253,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Step1;
+export default SleepStep1;

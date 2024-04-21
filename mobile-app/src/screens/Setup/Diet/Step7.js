@@ -5,7 +5,8 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 
-const Step7 = () => {
+const DietStep7 = (props) => {
+  const { selectedTrackers } = props.route.params;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -33,7 +34,9 @@ const Step7 = () => {
           Back
         </Button>
         <Button
-          onPress={() => navigationService.navigate("step8")}
+          onPress={() =>
+            navigationService.navigate("dietStep8", { selectedTrackers })
+          }
           style={styles.button}
         >
           Next
@@ -102,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Step7;
+export default DietStep7;

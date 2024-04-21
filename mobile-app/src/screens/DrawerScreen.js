@@ -7,63 +7,69 @@ import { getAccessToken } from "../user/keychain";
 import UserAPI from "../api/user/userAPI";
 
 const DrawerScreen = ({ navigation }) => {
-
   const [isLoading, setIsLoading] = useState(true);
-  const [buttons, setButtons] = useState([])
+  const [buttons, setButtons] = useState([]);
 
   useEffect(() => {
-    const getPreferencesOnLoad = async() =>{
-      if(isLoading){
-        setIsLoading(false)
-        token = await getAccessToken()
-        user = await UserAPI.getUser(token)
+    const getPreferencesOnLoad = async () => {
+      if (isLoading) {
+        setIsLoading(false);
+        token = await getAccessToken();
+        user = await UserAPI.getUser(token);
 
-        buttonPreference = [ {
-          image: require("../assets/images/home.png"),
-          onPress: () => {
-            navigation.navigate("mainscreen");
-          },
-        }]
-
-        if(user.data.trackingPreferences.habitsSelected || user.data.trackingPreferences.toDosSelected){
-          buttonPreference.push(          
-            {
-              image: require("../assets/images/mind-white512.png"),
-              onPress: () => {
-                navigation.navigate("todos-habits");
-              },
-            })
-        }
-        if(user.data.trackingPreferences.dietSelected || user.data.trackingPreferences.fitnessSelected){
-          buttonPreference.push(          
-            {
-              image: require("../assets/images/body-white512.png"),
-              onPress: () => {
-                comingSoon();
-              },
-            })
-        }
-        if(user.data.trackingPreferences.moodSelected || user.data.trackingPreferences.sleepSelected){
-          buttonPreference.push(          
-            {
-              image: require("../assets/images/soul-white512.png"),
-              onPress: () => {
-                comingSoon();
-              },
-            })
-        }
-        buttonPreference.push(          
+        buttonPreference = [
           {
-            image: require("../assets/images/settings512.png"),
+            image: require("../assets/images/home.png"),
             onPress: () => {
-              navigationService.navigate("settings");
+              navigation.navigate("mainscreen");
             },
-          })
+          },
+        ];
 
-        setButtons(buttonPreference)
-      }    
-    }
-    getPreferencesOnLoad()
+        if (
+          user.data.trackingPreferences.habitsSelected ||
+          user.data.trackingPreferences.toDosSelected
+        ) {
+          buttonPreference.push({
+            image: require("../assets/images/mind-white512.png"),
+            onPress: () => {
+              navigation.navigate("todos-habits");
+            },
+          });
+        }
+        if (
+          user.data.trackingPreferences.dietSelected ||
+          user.data.trackingPreferences.fitnessSelected
+        ) {
+          buttonPreference.push({
+            image: require("../assets/images/body-white512.png"),
+            onPress: () => {
+              navigation.navigate("fitness-diet");
+            },
+          });
+        }
+        if (
+          user.data.trackingPreferences.moodSelected ||
+          user.data.trackingPreferences.sleepSelected
+        ) {
+          buttonPreference.push({
+            image: require("../assets/images/soul-white512.png"),
+            onPress: () => {
+              navigation.navigate("mood-sleep");
+            },
+          });
+        }
+        buttonPreference.push({
+          image: require("../assets/images/settings512.png"),
+          onPress: () => {
+            navigationService.navigate("settings");
+          },
+        });
+
+        setButtons(buttonPreference);
+      }
+    };
+    getPreferencesOnLoad();
   }, []);
 
   return (
@@ -87,15 +93,13 @@ const DrawerScreen = ({ navigation }) => {
           />
         </TouchableOpacity>
       ))}
-        <View
-          style={styles.logoContainer}
-        >
-          <Image
-            resizeMode="contain"
-            style={styles.logoImage}
-            source={require("../assets/images/logo.png")}
-          />
-        </View>
+      <View style={styles.logoContainer}>
+        <Image
+          resizeMode="contain"
+          style={styles.logoImage}
+          source={require("../assets/images/logo.png")}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -131,7 +135,7 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 120,
     height: 120,
-    opacity:0.5
+    opacity: 0.5,
   },
 });
 

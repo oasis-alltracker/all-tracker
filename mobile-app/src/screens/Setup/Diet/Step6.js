@@ -5,7 +5,8 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 
-const Step6 = () => {
+const DietStep6 = (props) => {
+  const { selectedTrackers } = props.route.params;
   const [isSm, setIsSm] = useState(true);
   return (
     <SafeAreaView style={styles.container}>
@@ -44,7 +45,9 @@ const Step6 = () => {
           Back
         </Button>
         <Button
-          onPress={() => navigationService.navigate("step7")}
+          onPress={() =>
+            navigationService.navigate("dietStep7", { selectedTrackers })
+          }
           style={styles.button}
         >
           Next
@@ -135,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Step6;
+export default DietStep6;

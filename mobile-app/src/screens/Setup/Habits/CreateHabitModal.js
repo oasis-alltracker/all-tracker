@@ -14,6 +14,7 @@ import RNModal from "react-native-modal";
 import { Image, Platform } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
+import { Header } from "../../../components";
 
 import HabitsDB from "../../../api/DB/habitsDB";
 
@@ -96,7 +97,16 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       style={styles.scrollModal}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        <Header showCenter={false} />
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => setVisible(false)}
+        >
+          <Image
+            style={styles.backImage}
+            resizeMode="cover"
+            source={require("../../../assets/images/back-arrow.png")}
+          />
+        </TouchableOpacity>
         <ScrollView style={styles.habitSearchContainer}>
           <View style={styles.scrollViewView}>
             <View style={styles.habitSearchRow}>
@@ -1517,5 +1527,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     marginTop: 5,
+  },
+  backButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
+    marginRight: 12,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+  },
+  backImage: {
+    width: "100%",
+    height: "100%",
   },
 });

@@ -43,6 +43,7 @@ const TodosHabits = ({ navigation }) => {
 
   const createHabitRef = useRef(null);
   const updateHabitRef = useRef(null);
+
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
@@ -358,7 +359,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     position: "absolute",
-    bottom: 30,
+    bottom: 0,
     alignItems: "center",
     left: 0,
     justifyContent: "center",

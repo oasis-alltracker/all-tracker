@@ -5,7 +5,34 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 
-const Step2 = () => {
+const FitnessStep2 = (props) => {
+  const { selectedTrackers } = props.route.params;
+  const onNext = async () => {
+    try {
+      if (selectedTrackers.moodSelected) {
+        navigationService.navigate("mood", { selectedTrackers });
+      } else if (selectedTrackers.sleepSelected) {
+        navigationService.navigate("sleep", { selectedTrackers });
+      } else {
+        const accessToken = await getAccessToken();
+        const { status, data } = await UserAPI.updateUser(
+          true,
+          selectedTrackers,
+          accessToken
+        );
+
+        //TO-DO check if user is subscribed
+        setIsLoading(false);
+        navigationService.navigate("main");
+      }
+    } catch (e) {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -32,10 +59,7 @@ const Step2 = () => {
         >
           Back
         </Button>
-        <Button
-          onPress={() => navigationService.navigate("sleep")}
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -102,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Step2;
+export default FitnessStep2;

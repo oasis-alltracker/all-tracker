@@ -12,7 +12,7 @@ import { Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import Switch from "../../assets/icons/switch";
 
-const Mood = () => {
+const Mood = (props) => {
   const [isNotif, setIsNotif] = useState(false);
   const [days] = useState([
     "Every Day",
@@ -25,6 +25,32 @@ const Mood = () => {
     "Sat",
   ]);
   const [active, setActive] = useState(0);
+  const { selectedTrackers } = props.route.params;
+
+  const onNext = async () => {
+    try {
+      if (selectedTrackers.sleepSelected) {
+        navigationService.navigate("sleep", { selectedTrackers });
+      } else {
+        const accessToken = await getAccessToken();
+        const { status, data } = await UserAPI.updateUser(
+          true,
+          selectedTrackers,
+          accessToken
+        );
+
+        //TO-DO check if user is subscribed
+        setIsLoading(false);
+        navigationService.navigate("main");
+      }
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -104,10 +130,7 @@ const Mood = () => {
         >
           Back
         </Button>
-        <Button
-          onPress={() => navigationService.navigate("main")}
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>

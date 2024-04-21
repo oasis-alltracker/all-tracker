@@ -12,11 +12,41 @@ import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Switch from "../../../assets/icons/switch";
 
-const Step10 = () => {
+const DietStep10 = (props) => {
+  const { selectedTrackers } = props.route.params;
   const [isNotif, setIsNotif] = useState(false);
   const [switch1, setSwitch1] = useState(false);
   const [switch2, setSwitch2] = useState(false);
   const [switch3, setSwitch3] = useState(false);
+
+  const onNext = async () => {
+    try {
+      if (selectedTrackers.fitnessSelected) {
+        navigationService.navigate("fitness", { selectedTrackers });
+      } else if (selectedTrackers.moodSelected) {
+        navigationService.navigate("mood", { selectedTrackers });
+      } else if (selectedTrackers.sleepSelected) {
+        navigationService.navigate("sleep", { selectedTrackers });
+      } else {
+        const accessToken = await getAccessToken();
+        const { status, data } = await UserAPI.updateUser(
+          true,
+          selectedTrackers,
+          accessToken
+        );
+
+        //TO-DO check if user is subscribed
+        setIsLoading(false);
+        navigationService.navigate("main");
+      }
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -93,10 +123,7 @@ const Step10 = () => {
         >
           Back
         </Button>
-        <Button
-          onPress={() => navigationService.navigate("fitness")}
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -207,4 +234,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Step10;
+export default DietStep10;

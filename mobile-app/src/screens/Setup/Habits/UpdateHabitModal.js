@@ -15,6 +15,7 @@ import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
+import { Header } from "../../../components";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 

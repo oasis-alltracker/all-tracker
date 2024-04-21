@@ -11,8 +11,12 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Switch from "../../../assets/icons/switch";
+import { getAccessToken } from "../../../user/keychain";
+import UserAPI from "../../../api/user/userAPI";
 
-const Step2 = () => {
+const SleepStep2 = (props) => {
+  const { selectedTrackers } = props.route.params;
+
   const [isNotif, setIsNotif] = useState(false);
   const [days] = useState([
     "Every Day",
@@ -25,6 +29,26 @@ const Step2 = () => {
     "Sat",
   ]);
   const [active, setActive] = useState(0);
+
+  const onNext = async () => {
+    try {
+      const accessToken = await getAccessToken();
+      const { status, data } = await UserAPI.updateUser(
+        true,
+        selectedTrackers,
+        accessToken
+      );
+
+      //TO-DO check if user is subscribed
+      navigationService.navigate("main");
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,10 +126,7 @@ const Step2 = () => {
         >
           Back
         </Button>
-        <Button
-          onPress={() => navigationService.navigate("mood")}
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -249,4 +270,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Step2;
+export default SleepStep2;

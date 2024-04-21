@@ -9,20 +9,18 @@ const ExplainSubscription = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const subscribe = async () => {
-    setIsLoading(true)
-    setIsLoading(false)
+    setIsLoading(true);
+    setIsLoading(false);
     navigationService.navigate("main");
-  }
-
+  };
 
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
+      <Spinner visible={isLoading}></Spinner>
       <Header showCenter={false} />
-      <Text style={styles.title}>1 month <Text style={styles.bold}>free</Text>
-        </Text>
+      <Text style={styles.title}>
+        1 month <Text style={styles.bold}>free</Text>
+      </Text>
       <Text style={styles.title}>then $2.99/month</Text>
       <View style={styles.middleContainer}>
         <Image
@@ -40,10 +38,7 @@ const ExplainSubscription = () => {
           <Text style={[styles.bold, { color: "#B981E7" }]}>Oasis</Text>
         </Text>
       </View>
-      <Button
-        onPress={() => subscribe()}
-        style={styles.nextButton}
-      >
+      <Button onPress={() => subscribe()} style={styles.nextButton}>
         Continue
       </Button>
     </SafeAreaView>

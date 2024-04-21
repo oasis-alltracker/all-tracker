@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TouchableHighlight,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
@@ -61,6 +54,26 @@ const SelectTrackers = () => {
         } else if (toDosSelected) {
           await navigationService.navigate(
             "todos",
+            (selectedTrackers = { selectedTrackers })
+          );
+        } else if (dietSelected) {
+          await navigationService.navigate(
+            "dietStep1",
+            (selectedTrackers = { selectedTrackers })
+          );
+        } else if (fitnessSelected) {
+          await navigationService.navigate(
+            "fitness",
+            (selectedTrackers = { selectedTrackers })
+          );
+        } else if (moodSelected) {
+          await navigationService.navigate(
+            "mood",
+            (selectedTrackers = { selectedTrackers })
+          );
+        } else if (sleepSelected) {
+          await navigationService.navigate(
+            "sleep",
             (selectedTrackers = { selectedTrackers })
           );
         }
@@ -169,25 +182,6 @@ const SelectTrackers = () => {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
               },
-              !sleepSelected && { opacity: 0.7 },
-              sleepSelected && { borderWidth: 2 },
-              sleepSelected && { borderColor: "#25436B" },
-            ]}
-            onPress={() => setSleepSelected(!sleepSelected)}
-          >
-            <Image
-              style={styles.image}
-              source={require("../../assets/images/sleep512.png")}
-            />
-            <Text style={styles.title}>sleep</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              {
-                backgroundColor: "rgba(255, 239, 189, 1)",
-                borderColor: "rgba(204, 191, 152, 1)",
-              },
               !moodSelected && { opacity: 0.7 },
               moodSelected && { borderWidth: 2 },
               moodSelected && { borderColor: "#25436B" },
@@ -199,6 +193,25 @@ const SelectTrackers = () => {
               source={require("../../assets/images/mood512.png")}
             />
             <Text style={styles.title}>mood</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {
+                backgroundColor: "rgba(255, 239, 189, 1)",
+                borderColor: "rgba(204, 191, 152, 1)",
+              },
+              !sleepSelected && { opacity: 0.7 },
+              sleepSelected && { borderWidth: 2 },
+              sleepSelected && { borderColor: "#25436B" },
+            ]}
+            onPress={() => setSleepSelected(!sleepSelected)}
+          >
+            <Image
+              style={styles.image}
+              source={require("../../assets/images/sleep512.png")}
+            />
+            <Text style={styles.title}>sleep</Text>
           </TouchableOpacity>
         </View>
       </View>

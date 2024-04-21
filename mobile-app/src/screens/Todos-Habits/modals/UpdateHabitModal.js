@@ -16,6 +16,7 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
+import { Header } from "../../../components";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
