@@ -27,13 +27,13 @@ class UpdateToDo {
     }
   }
 
-  async updateStatus(email, toDoID, toDo) {
+  async updateStatus(email, toDo) {
     const deleteKey = { PK: `${email}-toDo`, SK: `${toDo.prevSK}` };
     await this.DB.deleteItem(deleteKey);
 
     const data = {
       PK: `${email}-toDo`,
-      SK: `${toDo.isComplete}-${toDo.dateStamp}-${toDo.taskID}`,
+      SK: `${toDo.isComplete}-${toDo.dateStamp}-${toDo.toDoID}`,
       description: toDo.description,
       name: toDo.name,
       toDoID: toDo.toDoID,

@@ -31,7 +31,7 @@ class CreateToDo {
   async create(email, toDo) {
     const data = {
       PK: `${email}-toDo`,
-      SK: `${false}-${toDo.dateStamp}-${toDo.taskID}`,
+      SK: `${false}-${toDo.dateStamp}-${toDo.toDoID}`,
       description: toDo.description,
       name: toDo.name,
       toDoID: toDo.toDoID,
