@@ -93,7 +93,7 @@ const Main = ({ navigation }) => {
       <>
         <View
           style={{
-            paddingTop: 15,
+            paddingTop: 100,
             justifyContent: "center",
             height: height * 0.6,
           }}

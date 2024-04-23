@@ -46,6 +46,8 @@ const TodosHabits = ({ navigation }) => {
 
   const createHabitRef = useRef(null);
   const updateHabitRef = useRef(null);
+  const createTaskRef = useRef(null);
+  const updateTaskRef = useRef(null);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -255,6 +257,8 @@ const TodosHabits = ({ navigation }) => {
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
             createHabitRef={createHabitRef}
+            createTaskRef={createTaskRef}
+            updateTaskRef={updateTaskRef}
             refreshHabits={refreshHabits}
             updateHabitStatusCount={updateHabitStatusCount}
             onHabitStatusUpdate={onHabitStatusUpdate}
@@ -270,7 +274,13 @@ const TodosHabits = ({ navigation }) => {
           />
         );
       case "third":
-        return <MyTasks />;
+        return (
+          <MyTasks
+            isLoading={isLoading}
+            createTaskRef={createTaskRef}
+            updateTaskRef={updateTaskRef}
+          />
+        );
       case "fourth":
         return <Statistics trackingPreferences={trackingPreferences} />;
       default:
@@ -321,6 +331,8 @@ const TodosHabits = ({ navigation }) => {
         updateHabit={updateHabit}
         deleteHabit={deleteHabit}
       />
+      <CreateTaskModal getRef={(ref) => (createTaskRef.current = ref)} />
+      <UpdateTaskModal getRef={(ref) => (updateTaskRef.current = ref)} />
     </SafeAreaView>
   );
 };

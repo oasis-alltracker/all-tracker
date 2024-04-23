@@ -20,6 +20,8 @@ export default function Main({
   isLoading,
   updateDate,
   createHabitRef,
+  createTaskRef,
+  updateTaskRef,
   refreshHabits,
   updateHabitStatusCount,
   onHabitStatusUpdate,
@@ -302,7 +304,7 @@ export default function Main({
               <View style={styles.buttonItems}>
                 <TouchableOpacity
                   onPress={() => {
-                    modalRef1.current.open();
+                    createTaskRef.current.open();
                   }}
                 >
                   <Image
@@ -315,7 +317,7 @@ export default function Main({
             {[0, 1, 2, 4].map((item, index) => (
               <RenderTodos
                 onPress={() => {
-                  modalRef.current.open(true, {
+                  updateTaskRef.current.open(true, {
                     title: "Meditate",
                     status: "Bad",
                     count: "3",

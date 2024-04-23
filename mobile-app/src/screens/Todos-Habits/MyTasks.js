@@ -30,9 +30,7 @@ const items = [
   },
 ];
 
-export default function MyTasks() {
-  const modalRef = useRef(null);
-
+export default function MyTasks({ isLoading, createTaskRef, updateTaskRef }) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -45,10 +43,10 @@ export default function MyTasks() {
         />
       </View>
       <View style={[styles.line, { marginBottom: 15 }]}>
-        <Text style={styles.title}>my tasks</Text>
+        <Text style={styles.title}>My tasks</Text>
         <TouchableOpacity
           onPress={() => {
-            modalRef.current.open();
+            createTaskRef.current.open();
           }}
         >
           <Image
@@ -61,7 +59,7 @@ export default function MyTasks() {
         return (
           <RenderTodos
             onPress={() => {
-              modalRef.current.open(true, {
+              updateTaskRef.current.open(true, {
                 title: "Meditate",
                 status: "Bad",
                 count: "3",
@@ -85,7 +83,7 @@ export default function MyTasks() {
         return (
           <RenderTodos
             onPress={() => {
-              modalRef.current.open(true, {
+              updateTaskRef.current.open(true, {
                 title: "Meditate",
                 status: "Bad",
                 count: "3",
@@ -96,7 +94,6 @@ export default function MyTasks() {
           />
         );
       })}
-      <Modal getRef={(ref) => (modalRef.current = ref)} />
     </ScrollView>
   );
 }
