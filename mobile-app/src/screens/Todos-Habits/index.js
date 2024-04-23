@@ -27,6 +27,7 @@ import CreateHabitModal from "./modals/CreateHabitModal";
 import UpdateHabitModal from "./modals/UpdateHabitModal";
 import CreateTaskModal from "./modals/CreateTaskModal";
 import UpdateTaskModal from "./modals/UpdateTaskModal";
+import { sharedStyles } from "../styles";
 
 const TodosHabits = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -294,13 +295,13 @@ const TodosHabits = ({ navigation }) => {
           renderTabBar={() => null}
           lazy
         />
-        <View style={styles.pagination}>
+        <View style={sharedStyles.pagination}>
           {dots.map((val, key) => {
             return (
               <View
                 key={key.toString()}
                 style={[
-                  styles.dot,
+                  sharedStyles.dot,
                   key === index && {
                     backgroundColor: "#25436B",
                     borderColor: "#1E3556",
@@ -347,24 +348,6 @@ const styles = StyleSheet.create({
     top: 25,
     left: 20,
     zIndex: 1,
-  },
-  dot: {
-    width: 13,
-    height: 13,
-    borderRadius: 10,
-    backgroundColor: "transparent",
-    marginHorizontal: 5,
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.3)",
-  },
-  pagination: {
-    flexDirection: "row",
-    width: "100%",
-    position: "absolute",
-    bottom: 0,
-    alignItems: "center",
-    left: 0,
-    justifyContent: "center",
   },
 });
 

@@ -7,80 +7,101 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
+import { sharedStyles } from "../styles";
+import moment from "moment";
 
-export default function Main() {
+export default function Main({ day, trackingPreferences, updateDate }) {
+  const today = new Date();
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={sharedStyles.container}
     >
-      <View style={styles.imageCon}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          {
+            backgroundColor: "rgba(202, 189, 255, 65)",
+            borderColor: "rgba(162, 151, 204, 0.7)",
+          },
+        ]}
+      >
         <Image
-          style={styles.image}
+          style={sharedStyles.headerImage}
           source={require("../../assets/images/body-white.png")}
         />
       </View>
-      <View style={styles.dateLine}>
-        <TouchableOpacity style={styles.button}>
+
+      <View style={sharedStyles.datePickerView}>
+        <TouchableOpacity
+          style={sharedStyles.changeDateButton}
+          onPress={() => updateDate(-1)}
+        >
           <Image
-            style={styles.preButton}
+            style={[sharedStyles.decreaseDateImage]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
-        <Text style={styles.dateName}>Today</Text>
-        <TouchableOpacity style={styles.button}>
+        <>
+          {moment(day).format("YYYYMMDD") ==
+          moment(today).format("YYYYMMDD") ? (
+            <Text style={sharedStyles.dateText}>Today</Text>
+          ) : (
+            <Text style={sharedStyles.dateText}>
+              {day.toDateString().slice(4, -4)}
+            </Text>
+          )}
+        </>
+        <TouchableOpacity
+          style={sharedStyles.changeDateButton}
+          onPress={() => updateDate(1)}
+        >
           <Image
-            style={[styles.preButton, styles.nextButton]}
+            style={sharedStyles.increaseDateImage}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
       </View>
-      <Text style={styles.title}>Diet</Text>
-      <TouchableOpacity style={styles.addBtn}>
-        <Image
-          style={styles.plus}
-          source={require("../../assets/images/add-food.png")}
-        />
-      </TouchableOpacity>
-      <Text style={styles.desc}>
-        <Text style={styles.boldText}>2200</Text> / 3354 kcal
-      </Text>
-      <View style={styles.progress}>
-        <View style={styles.filler} />
-      </View>
-      <Text style={styles.title}>Fitness</Text>
-      <TouchableOpacity style={styles.addBtn}>
-        <Image
-          style={styles.plus}
-          source={require("../../assets/images/add-excercise.png")}
-        />
-      </TouchableOpacity>
+
+      {trackingPreferences.dietSelected && (
+        <>
+          <View style={[sharedStyles.trackerDashView]}>
+            <Text style={sharedStyles.trackerTitle}>Diet</Text>
+          </View>
+          <TouchableOpacity style={styles.addBtn}>
+            <Image
+              style={styles.plus}
+              source={require("../../assets/images/add-food.png")}
+            />
+          </TouchableOpacity>
+          <View style={styles.progress}>
+            <View style={styles.filler} />
+          </View>
+          <Text style={styles.desc}>
+            <Text style={styles.boldText}>2200</Text> / 3354 kcal
+          </Text>
+        </>
+      )}
+
+      {trackingPreferences.fitnessSelected && (
+        <>
+          <View style={[sharedStyles.trackerDashView]}>
+            <Text style={sharedStyles.trackerTitle}>Fitness</Text>
+          </View>
+
+          <TouchableOpacity style={styles.addBtn}>
+            <Image
+              style={styles.plus}
+              source={require("../../assets/images/add-excercise.png")}
+            />
+          </TouchableOpacity>
+        </>
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    overflow: "visible",
-    paddingTop: 30,
-    paddingBottom: 80,
-  },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(202, 189, 255, 65)",
-    borderColor: "rgba(162, 151, 204, 0.7)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    tintColor: "#25436B",
-  },
   imageText: {
     fontSize: 22,
     color: "#25436B",
@@ -133,14 +154,13 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   desc: {
-    fontSize: 24,
+    fontSize: 22,
     color: "#25436B",
     fontFamily: "Sego",
-    marginLeft: 30,
   },
   boldText: {
     fontFamily: "Sego-Bold",
-    fontSize: 30,
+    fontSize: 26,
   },
   addBtn: {
     borderWidth: 2,
@@ -152,14 +172,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
     marginBottom: 10,
+    width: 350,
   },
   progress: {
     height: 20,
+    width: 350,
     borderWidth: 2,
     borderColor: "#ACC5CC",
     backgroundColor: "#E4CCFF",
     marginHorizontal: 30,
     borderRadius: 5,
+    marginBottom: 10,
   },
   filler: {
     backgroundColor: "#D7F6FF",

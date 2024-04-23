@@ -73,8 +73,26 @@ export const sharedStyles = StyleSheet.create({
   },
 
   trackerTitle: {
-    fontSize: 26,
+    fontSize: 28,
     color: "#25436B",
     fontFamily: "Sego-Bold",
+  },
+  dot: {
+    width: 16,
+    height: 16,
+    borderRadius: 10,
+    backgroundColor: "transparent",
+    marginHorizontal: 5,
+    borderWidth: 2,
+    borderColor: "rgba(0,0,0,0.3)",
+  },
+  pagination: {
+    flexDirection: "row",
+    width: "100%",
+    position: "absolute",
+    bottom: 8,
+    alignItems: "center",
+    left: 0,
+    justifyContent: "center",
   },
 });
