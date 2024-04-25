@@ -22,7 +22,7 @@ module.exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
   const user = authenticateToken(event.headers);
   const taskID = event.pathParameters?.taskID;
-  const day = event.pathParameters?.day;
+  const dateStamp = event.queryStringParameters?.dateStamp;
   var response;
 
   if (!user?.email) {
@@ -37,10 +37,10 @@ module.exports.handler = async (event, context, callback) => {
   }
 
   if (event.httpMethod == "GET") {
-    if (day) {
-      response = await getTasks.getTasks(user);
+    if (dateStamp) {
+      response = await getTasksForDay.getTasksForDay(user, dateStamp);
     } else {
-      response = await getTasksForDay.getTasksForDay(user, day);
+      response = await getTasks.getTasks(user);
     }
   } else if (event.httpMethod == "GET") {
     response = await getTasks.getTasks(user);

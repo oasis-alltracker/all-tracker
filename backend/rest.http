@@ -1,625 +1,6 @@
-//-----------U S E R   I N F O-----------
 //-------------------------------------------
-//Get user info.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
-Authorization: Bearer token
-###
-
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
-Authorization: Bearer token
-
-
-{
-    "isSetupComplete": false,
-    "trackingPreferences": {"dietSelected": true, "fitnessSelected": true, "habits": false, "moodSelected": false, "sleepSelected": false, "toDosSelected": false}
-}
-###
-
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
-Authorization: Bearer token
-###
-
-
-
-//-----------H E A L T H   I N F O-----------
+//----------USER ACCOUNT MANAGEMENT----------
 //-------------------------------------------
-//Get health info.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/healthInfo
-Authorization: Bearer token
-###
-
-
-//Update health info.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/healthInfo
-Authorization: Bearer token
-
-{
-    "weight": 200,
-    "height": 180,
-    "weightGoal": 220,
-    "calorieGoal": 4000,
-    "proteinGoal": 200,    
-    "fatGoal": 30
-}
-###
-
-
-
-//----------F O O D   E N T R I E S----------
-//-------------------------------------------
-//Get food entries for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries?dateStamp=20230208
-Authorization: Bearer token
-###
-
-
-//Get food entries for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries?startDate=20230208&endDate=20230209
-Authorization: Bearer token
-###
-
-
-//Create food entry.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries
-Authorization: Bearer token
-
-{
-    "name": "Eggs",
-    "meal": "breakfast",
-    "calorieCount": 30,
-    "fatCount": 34,
-    "foodItemID": "ehdfh",
-    "proteinCount": 34,
-    "quantity": 10,
-    "measurement": "grams",
-    "dateStamp": "20230208"
-}
-###
-
-
-//Update food entry.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
-Authorization: Bearer token
-
-{
-    "name": "Eggs",
-    "meal": "breakfast",
-    "calorieCount": 50,
-    "fatCount": 34,
-    "foodItemID": "ehdfh",
-    "proteinCount": 39,
-    "quantity": 1,
-    "measurement": "egg"
-}
-###
-
-
-//Delete food entry.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-62bf2b90-a763-11ed-b963-07de06ca3659
-Authorization: Bearer token
-###
-
-
-
-//------------F O O D   I T E M S------------
-//-------------------------------------------
-//Get all food items.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems
-Authorization: Bearer token
-
-###
-
-
-//Get single food item.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems/98350530-484c-11ee-9014-3f46ed0b0026
-Authorization: Bearer token
-###
-
-
-//Create food item.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems
-Authorization: Bearer token
-
-{
-    "name": "oeuf",
-    "caloriesPerMeasure": 67,
-    "fatsPerMeasure": 67,
-    "proteinsPerMeasure": 76,
-    "servingOption": "2 eggs",
-    "foodIDs": []
-}
-###
-
-
-//Update food item.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems/f8494d90-a771-11ed-8a9d-a788f93ef81c
-Authorization: Bearer token
-
-{
-    "name": "oeuf",
-    "caloriesPerMeasure": 34,
-    "fatsPerMeasure": 34,
-    "proteinsPerMeasure": 39,
-    "servingOption": "1 eggs",
-    "foodIDs": []
-}
-###
-
-
-//Delete food item.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems/f8494d90-a771-11ed-8a9d-a788f93ef81c
-Authorization: Bearer token
-###
-
-
-//----------------H A B I T S----------------
-//-------------------------------------------
-//Get all habits.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
-Authorization: Bearer token
-###
-
-
-//Create habit.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
-Authorization: Bearer token
-
-{
-    "name": "Wash Shoes",
-    "isPositive": true,
-    "threshold": 1,
-    "pngURL": "url",
-    "time": "13:00"
-}
-###
-
-
-//Update habit.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
-Authorization: Bearer token
-
-{
-    "name": "Wash Shoes",
-    "isPositive": true,
-    "threshold": 2,
-    "pngURL": "url",
-    "time": "15:00"
-}
-###
-
-
-//Delete habit.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
-Authorization: Bearer token
-###
-
-
-
-//--------H A B I T   S T A S U S E S--------
-//-------------------------------------------
-//Get habit statuses for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses?dateStamp=20230209
-Authorization: Bearer token
-###
-
-
-//Get habit statuses for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses?startDate=20230208&endDate=20230210
-Authorization: Bearer token
-###
-
-
-//Create habit status.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses
-Authorization: Bearer token
-
-{
-    "habitID": "5a5b6cd0-e3de-11ee-afb8-27c06ba1ee43", 
-    "name": "Walk", 
-    "count":1
-}
-###
-
-
-//Update habit status.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses/20230208-497bef50-a773-11ed-8679-d7059b0ed0d6
-Authorization: Bearer token
-
-{
-    "count": 2,
-}
-###
-
-
-//Delete habit status
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses/20230209-497bef50-a773-11ed-8679-d7059b0ed0d6
-Authorization: Bearer token
-###
-
-
-
-//-------H A B I T   S T A S U S   LIST------
-//-------------------------------------------
-//Get habit statuses for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatusList?dateStamp=20240205
-Authorization: Bearer token
-###
-
-//------------H A B I T   S T A T S----------
-//-------------------------------------------
-//Get habit stats for a week.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStats?monday=20240205&tuesday=20240206&wednesday=20240207&thursday=20240208&friday=20240209&saturday=20240210&sunday=20240311
-Authorization: Bearer token
-###
-
-//---------S L E E P   R E P O R T S---------
-//-------------------------------------------
-//Get sleep report for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports?dateStamp=20230208
-Authorization: Bearer token
-###
-
-
-//Get sleep report for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports?startDate=20230208&endDate=20230210
-Authorization: Bearer token
-###
-
-
-//Create sleep report.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports
-Authorization: Bearer token
-
-{
-    "rating": 7,
-    "wasComfyEnvironment": true,
-    "didWindDown": true,
-    "didManageIntake": true,
-    "didRelaxation": true,
-    "dateStamp": "20230209"
-}
-###
-
-
-//Update sleep report.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports/20230209-cc3fba90-a7f8-11ed-bee5-edd4f1743780
-Authorization: Bearer token
-
-{
-    "rating": 8,
-    "wasComfyEnvironment": false,
-    "didWindDown": true,
-    "didManageIntake": true,
-    "didRelaxation": true
-}
-###
-
-
-//Delete sleep report.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports/20230209-e4452c60-a7f8-11ed-bee5-edd4f1743780
-Authorization: Bearer token
-###
-
-
-//------W E L L N E S S   R E P O R T S------
-//-------------------------------------------
-//Get wellness report for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports?dateStamp=20230209
-Authorization: Bearer token
-###
-
-
-//Get wellness report for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports?startDate=20230208&endDate=20230210
-Authorization: Bearer token
-###
-
-
-//Create wellness report.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports
-Authorization: Bearer token
-
-{
-    "feeling": "elated",
-    "mood": "slightly above neutral",
-    "time": 1234,
-    "location": "Thom Baragen Corydon",
-    "company": "Alone",
-    "activity": "Coding",
-    "dateStamp": "20230208"
-}
-###
-
-
-//Update wellness report.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports/20230208-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
-Authorization: Bearer token
-
-{
-    "feeling": "elated",
-    "mood": "slightly above neutral",
-    "location": "Thom Baragen Corydon",
-    "company": "with myself",
-    "activity": "Coding"
-}
-###
-
-
-//Delete wellness report.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports/20230208-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
-Authorization: Bearer token
-###
-
-
-//-----------------T A S K S-----------------
-//-------------------------------------------
-//Get all recurring tasks.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks
-Authorization: Bearer token
-###
-
-
-//Create recurring task.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks
-Authorization: Bearer token
-
-{
-    "name": "Finish this app",
-    "schedule": "MWF",
-    "description": "Description",
-    "notifications": false,
-    "completionList": ["1", "2", "3"],
-    "nextDueDate": "20230208"
-}
-###
-
-
-//Update recurring task.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/bf072450-c05a-11ee-8f01-23a18fd0766d
-Authorization: Bearer token
-
-{
-    "name": "Finish this app",
-    "schedule": "MWF",
-    "description": "Description",
-    "notifications": false,
-    "completionList": ["1", "2", "3"],
-    "nextDueDate": "20230209"
-}
-###
-
-
-//Delete recurring task.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/8813e390-a7fe-11ed-a168-b10e30576ca1
-Authorization: Bearer token
-###
-
-//----------------T O - D O S----------------
-//-------------------------------------------
-//Get to-dos for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?dateStamp=20230209&isComplete=true
-Authorization: Bearer token
-###
-
-
-//Get to-dos for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?startDate=20230208&endDate=20230210&isComplete=false
-Authorization: Bearer token
-###
-
-
-//Create to-do.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos
-Authorization: Bearer token
-
-{
-    "name": "Finish this app",
-    "notifications": true,
-    "isRecurring": false,
-    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
-    "dateStamp": "20230209"
-}
-###
-
-
-//Update to-do.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/20230208-17fa0100-a800-11ed-a98f-79871c76ade1
-Authorization: Bearer token
-
-{
-    "name": "Finish",
-    "notifications": true,
-    "isRecurring": false,
-    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
-    "dateStamp": "20230209",
-    "prevSK": "false-20230209-17fa0100-a800-11ed-a98f-79871c76ade1",
-    "isComplete": true
-}
-###
-
-
-//Delete to-do.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/20230209-17fa0100-a800-11ed-a98f-79871c76ade1
-Authorization: Bearer token
-###
-
-
-
-//----------W O R K O U T   P L A N S----------
-//-------------------------------------------
-//Get workout plans.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans
-Authorization: Bearer token
-###
-
-
-//Create workout plan.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans
-Authorization: Bearer token
-
-{
-    "name": "Upper",
-    "exerciseIDs": []
-}
-###
-
-
-//Update workout plan.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
-Authorization: Bearer token
-
-{
-    "name": "Upper",
-    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
-}
-###
-
-
-//Delete workout plan.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
-Authorization: Bearer token
-###
-
-//----------E X E R C I S E S----------
-//-------------------------------------------
-//Get exercises for a given workout plan.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises?workoutPlanID=b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
-Authorization: Bearer token
-###
-
-
-//Create exercise.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises
-Authorization: Bearer token
-
-{
-    "name": "pull ups",
-    "type": "strength",
-    "muscle": "back",
-    "equipment": "bar",
-    "difficulty": "medium",
-    "instructions": "Grab par and pull yourself up",
-    "sets": 3,
-    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab"
-}
-###
-
-
-//Update exercise.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/72-ee5b41b0-abe2-11ed-82c5-61c662303908
-Authorization: Bearer token
-
-{
-    "name": "pull ups",
-    "type": "back",
-    "muscle": "shoulder",
-    "equipment": "bar",
-    "difficulty": "medium",
-    "instructions": "Grab par and pull yourself up",
-    "sets": 4
-}
-###
-
-
-//Delete exercise.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/72-7b0b54b0-abd4-11ed-990e-03ef98465e29
-Authorization: Bearer token
-###
-
-
-//----------W O R K O U T   E N T R I E S----------
-//-------------------------------------------
-//Get workout entries for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries?dateStamp=20230208
-Authorization: Bearer token
-###
-
-
-//Get workout entries for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries?startDate=20230208&endDate=20230210
-Authorization: Bearer token
-###
-
-
-//Create workout entry.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries
-Authorization: Bearer token
-
-{
-    "time": "12:00",
-    "dateStamp": "20230208",
-    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab",
-    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
-}
-###
-
-
-//Update workout entry.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries/20230209-65fb8d40-aa55-11ed-bfee-c93f00eb950c
-Authorization: Bearer token
-
-{
-    "exerciseEntryIDs": ["1"]
-}
-###
-
-
-//Delete workout entry.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries/20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
-Authorization: Bearer token
-###
-
-
-//----------E X E R C I S E   E N T R I E S----------
-//-------------------------------------------
-//Get exercise entries for a given workout.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries?workoutEntryID=20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
-Authorization: Bearer token
-###
-
-
-//Create exercise entry.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries
-Authorization: Bearer token
-
-{
-    "name": "Pull-ups",
-    "exerciseID": "c81c88b0-ac14-11ed-83ff-bbb6a057b089",
-    "workoutEntryID": "20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c",
-    "sets": [ {
-        "weight": 30,
-        "reps": 34,
-        "time": "ehdfh"
-    }]
-
-}
-###
-
-
-//Update exercise entry.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
-Authorization: Bearer token
-
-{
-    "sets": [ {
-        "weight": 33,
-        "reps": 34,
-        "time": "ehdfh"
-    }]
-}
-###
-
-
-//Delete exercise entry.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/23-1
-Authorization: Bearer token
-###
-
-
-GET https://www.googleapis.com/userinfo/v2/me
-Authorization: Bearer token
-###
-
 
 //----------A U T H E N T I C A T I O N----------
 //-------------------------------------------
@@ -631,20 +12,18 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 }
 ###
 
-
 //Refresh token.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/refreshToken
 Authorization: Bearer token
 
 ###
 
-
 //Request OTP.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/requestOTP
 
 {
    "email": "hodgerta@gmail.com",
-   "password": "12345"
+   "password": "1234"
 }
 ###
 
@@ -653,7 +32,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "6961"
+   "otp": "3242"
 }
 ###
 
@@ -674,8 +53,6 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 }
 ###
 
-
-
 //Create new password.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/createNewPassword
 
@@ -686,7 +63,6 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 }
 ###
 
-
 //Login with google.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginGoogle
 
@@ -694,7 +70,6 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
     "token": "token"
 }
 ###
-
 
 //Login with apple.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginApple
@@ -705,7 +80,52 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 ###
 
 
-//----------------N O T I F I C A T I O N S----------------
+
+//-----------U S E R   I N F O-----------
+//-------------------------------------------
+//Get user info.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
+Authorization: Bearer token
+###
+
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
+Authorization: Bearer token
+
+{
+    "isSetupComplete": false,
+    "trackingPreferences": {"dietSelected": true, "fitnessSelected": true, "habits": false, "moodSelected": false, "sleepSelected": false, "toDosSelected": false}
+}
+###
+
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
+Authorization: Bearer token
+###
+
+
+//-----------H E A L T H   I N F O-----------
+//-------------------------------------------
+//Get health info.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/healthInfo
+Authorization: Bearer token
+###
+
+//Update health info.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/healthInfo
+Authorization: Bearer token
+
+{
+    "weight": 200,
+    "height": 180,
+    "weightGoal": 220,
+    "calorieGoal": 4000,
+    "proteinGoal": 200,    
+    "fatGoal": 30
+}
+###
+
+
+
+//--------N O T I F I C A T I O N S----------
 //-------------------------------------------
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/notifications
 Authorization: Bearer token
@@ -733,6 +153,579 @@ Authorization: Bearer token
 DELETE https://pc42o3mjj7.execute-api.ca-central-1.amazonaws.com/production/v1/notifications/habit
 Authorization: Bearer token
 ###
+
+
+
+//-------------------------------------------
+//--------------------mind-------------------
+//-------------------------------------------
+
+//----------------H A B I T S----------------
+//-------------------------------------------
+//Get all habits.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+Authorization: Bearer token
+###
+
+//Create habit.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+Authorization: Bearer token
+
+{
+    "name": "Wash Shoes",
+    "isPositive": true,
+    "threshold": 1,
+    "pngURL": "url",
+    "time": "13:00"
+}
+###
+
+//Update habit.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer token
+
+{
+    "name": "Wash Shoes",
+    "isPositive": true,
+    "threshold": 2,
+    "pngURL": "url",
+    "time": "15:00"
+}
+###
+
+//Delete habit.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer token
+###
+
+
+//--------H A B I T   S T A S U S E S--------
+//-------------------------------------------
+//Get habit statuses for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses?dateStamp=20230209
+Authorization: Bearer token
+###
+
+//Get habit statuses for multiple days.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses?startDate=20230208&endDate=20230210
+Authorization: Bearer token
+###
+
+//Create habit status.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses
+Authorization: Bearer token
+
+{
+    "habitID": "5a5b6cd0-e3de-11ee-afb8-27c06ba1ee43", 
+    "name": "Walk", 
+    "count":1
+}
+###
+
+//Update habit status.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses/20230208-497bef50-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer token
+
+{
+    "count": 2,
+}
+###
+
+//Delete habit status
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatuses/20230209-497bef50-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer token
+###
+
+
+
+//-------H A B I T   S T A S U S   LIST------
+//-------------------------------------------
+//Get habit statuses for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStatusList?dateStamp=20240205
+Authorization: Bearer token
+###
+
+
+
+//------------H A B I T   S T A T S----------
+//-------------------------------------------
+//Get habit stats for a week.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStats?monday=20240205&tuesday=20240206&wednesday=20240207&thursday=20240208&friday=20240209&saturday=20240210&sunday=20240311
+Authorization: Bearer token
+###
+
+
+
+//-----------------T A S K S-----------------
+//-------------------------------------------
+//Get all recurring tasks.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+###
+
+//Get due and overdue tasks.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks?dateStamp=20240423
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+###
+
+//Create recurring task.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+
+{
+    "name": "Finish this app",
+    "schedule": {    
+        "trigger": {
+            "hour": "12",
+            "minute": "30"
+        },
+        "schedule": [1,3,5]
+    },
+    "description": "Description",
+    "completionList": ["20240422", "20240423"],
+    "nextDueDate": "20240423"
+}
+###
+
+//Update recurring task.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/c250a560-02c6-11ef-8ef1-917ea3c00fcc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+
+{
+    "name": "Finish this app",
+    "schedule": {    
+        "trigger": {
+            "hour": "12",
+            "minute": "30"
+        },
+        "schedule": [1,3,5]
+    },
+    "description": "Description",
+    "completionList": ["20240421"],
+    "nextDueDate": "20240422"
+}
+###
+
+//Delete recurring task.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/c250a560-02c6-11ef-8ef1-917ea3c00fcc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+###
+
+
+
+//----------------T O - D O S----------------
+//-------------------------------------------
+//Get to-dos for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?dateStamp=20230209&isComplete=true
+Authorization: Bearer token
+###
+
+//Get to-dos for multiple days.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?startDate=20230208&endDate=20230210&isComplete=false
+Authorization: Bearer token
+###
+
+//Create to-do.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos
+Authorization: Bearer token
+
+{
+    "name": "Finish this app",
+    "notifications": true,
+    "isRecurring": false,
+    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
+    "dateStamp": "20230209"
+}
+###
+
+//Update to-do.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/20230208-17fa0100-a800-11ed-a98f-79871c76ade1
+Authorization: Bearer token
+
+{
+    "name": "Finish",
+    "notifications": true,
+    "isRecurring": false,
+    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
+    "dateStamp": "20230209",
+    "prevSK": "false-20230209-17fa0100-a800-11ed-a98f-79871c76ade1",
+    "isComplete": true
+}
+###
+
+//Delete to-do.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/20230209-17fa0100-a800-11ed-a98f-79871c76ade1
+Authorization: Bearer token
+###
+
+
+
+//-------------------------------------------
+//--------------------body-------------------
+//-------------------------------------------
+
+//------------F O O D   I T E M S------------
+//-------------------------------------------
+//Get all food items.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems
+Authorization: Bearer token
+
+###
+
+//Get single food item.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems/98350530-484c-11ee-9014-3f46ed0b0026
+Authorization: Bearer token
+###
+
+//Create food item.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems
+Authorization: Bearer token
+
+{
+    "name": "oeuf",
+    "caloriesPerMeasure": 67,
+    "fatsPerMeasure": 67,
+    "proteinsPerMeasure": 76,
+    "servingOption": "2 eggs",
+    "foodIDs": []
+}
+###
+
+//Update food item.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems/f8494d90-a771-11ed-8a9d-a788f93ef81c
+Authorization: Bearer token
+
+{
+    "name": "oeuf",
+    "caloriesPerMeasure": 34,
+    "fatsPerMeasure": 34,
+    "proteinsPerMeasure": 39,
+    "servingOption": "1 eggs",
+    "foodIDs": []
+}
+###
+
+//Delete food item.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItems/f8494d90-a771-11ed-8a9d-a788f93ef81c
+Authorization: Bearer token
+###
+
+
+
+//----------F O O D   E N T R I E S----------
+//-------------------------------------------
+//Get food entries for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries?dateStamp=20230208
+Authorization: Bearer token
+###
+
+//Get food entries for multiple days.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries?startDate=20230208&endDate=20230209
+Authorization: Bearer token
+###
+
+//Create food entry.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries
+Authorization: Bearer token
+
+{
+    "name": "Eggs",
+    "meal": "breakfast",
+    "calorieCount": 30,
+    "fatCount": 34,
+    "foodItemID": "ehdfh",
+    "proteinCount": 34,
+    "quantity": 10,
+    "measurement": "grams",
+    "dateStamp": "20230208"
+}
+###
+
+//Update food entry.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
+Authorization: Bearer token
+
+{
+    "name": "Eggs",
+    "meal": "breakfast",
+    "calorieCount": 50,
+    "fatCount": 34,
+    "foodItemID": "ehdfh",
+    "proteinCount": 39,
+    "quantity": 1,
+    "measurement": "egg"
+}
+###
+
+//Delete food entry.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-62bf2b90-a763-11ed-b963-07de06ca3659
+Authorization: Bearer token
+###
+
+
+
+//----------W O R K O U T   P L A N S----------
+//-------------------------------------------
+//Get workout plans.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans
+Authorization: Bearer token
+###
+
+//Create workout plan.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans
+Authorization: Bearer token
+
+{
+    "name": "Upper",
+    "exerciseIDs": []
+}
+###
+
+//Update workout plan.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
+Authorization: Bearer token
+
+{
+    "name": "Upper",
+    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
+}
+###
+
+//Delete workout plan.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
+Authorization: Bearer token
+###
+
+
+
+//----------E X E R C I S E S----------
+//-------------------------------------------
+//Get exercises for a given workout plan.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises?workoutPlanID=b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
+Authorization: Bearer token
+###
+
+//Create exercise.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises
+Authorization: Bearer token
+
+{
+    "name": "pull ups",
+    "type": "strength",
+    "muscle": "back",
+    "equipment": "bar",
+    "difficulty": "medium",
+    "instructions": "Grab par and pull yourself up",
+    "sets": 3,
+    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab"
+}
+###
+
+//Update exercise.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/72-ee5b41b0-abe2-11ed-82c5-61c662303908
+Authorization: Bearer token
+
+{
+    "name": "pull ups",
+    "type": "back",
+    "muscle": "shoulder",
+    "equipment": "bar",
+    "difficulty": "medium",
+    "instructions": "Grab par and pull yourself up",
+    "sets": 4
+}
+###
+
+//Delete exercise.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/72-7b0b54b0-abd4-11ed-990e-03ef98465e29
+Authorization: Bearer token
+###
+
+
+
+//----------W O R K O U T   E N T R I E S----------
+//-------------------------------------------
+//Get workout entries for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries?dateStamp=20230208
+Authorization: Bearer token
+###
+
+//Get workout entries for multiple days.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries?startDate=20230208&endDate=20230210
+Authorization: Bearer token
+###
+
+//Create workout entry.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries
+Authorization: Bearer token
+
+{
+    "time": "12:00",
+    "dateStamp": "20230208",
+    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab",
+    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
+}
+###
+
+//Update workout entry.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries/20230209-65fb8d40-aa55-11ed-bfee-c93f00eb950c
+Authorization: Bearer token
+
+{
+    "exerciseEntryIDs": ["1"]
+}
+###
+
+//Delete workout entry.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries/20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
+Authorization: Bearer token
+###
+
+
+
+//----------E X E R C I S E   E N T R I E S----------
+//-------------------------------------------
+//Get exercise entries for a given workout.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries?workoutEntryID=20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
+Authorization: Bearer token
+###
+
+//Create exercise entry.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries
+Authorization: Bearer token
+
+{
+    "name": "Pull-ups",
+    "exerciseID": "c81c88b0-ac14-11ed-83ff-bbb6a057b089",
+    "workoutEntryID": "20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c",
+    "sets": [ {
+        "weight": 30,
+        "reps": 34,
+        "time": "ehdfh"
+    }]
+
+}
+###
+
+//Update exercise entry.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
+Authorization: Bearer token
+
+{
+    "sets": [ {
+        "weight": 33,
+        "reps": 34,
+        "time": "ehdfh"
+    }]
+}
+###
+
+//Delete exercise entry.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/23-1
+Authorization: Bearer token
+###
+
+GET https://www.googleapis.com/userinfo/v2/me
+Authorization: Bearer token
+###
+
+
+
+//-------------------------------------------
+//--------------------soul-------------------
+//-------------------------------------------
+
+//------W E L L N E S S   R E P O R T S------
+//-------------------------------------------
+//Get wellness report for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports?dateStamp=20230209
+Authorization: Bearer token
+###
+
+//Get wellness report for multiple days.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports?startDate=20230208&endDate=20230210
+Authorization: Bearer token
+###
+
+//Create wellness report.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports
+Authorization: Bearer token
+
+{
+    "feeling": "elated",
+    "mood": "slightly above neutral",
+    "time": 1234,
+    "location": "Thom Baragen Corydon",
+    "company": "Alone",
+    "activity": "Coding",
+    "dateStamp": "20230208"
+}
+###
+
+//Update wellness report.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports/20230208-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer token
+
+{
+    "feeling": "elated",
+    "mood": "slightly above neutral",
+    "location": "Thom Baragen Corydon",
+    "company": "with myself",
+    "activity": "Coding"
+}
+###
+
+//Delete wellness report.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellnessReports/20230208-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer token
+###
+
+
+
+//---------S L E E P   R E P O R T S---------
+//-------------------------------------------
+//Get sleep report for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports?dateStamp=20230208
+Authorization: Bearer token
+###
+
+//Get sleep report for multiple days.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports?startDate=20230208&endDate=20230210
+Authorization: Bearer token
+###
+
+//Create sleep report.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports
+Authorization: Bearer token
+
+{
+    "rating": 7,
+    "wasComfyEnvironment": true,
+    "didWindDown": true,
+    "didManageIntake": true,
+    "didRelaxation": true,
+    "dateStamp": "20230209"
+}
+###
+
+//Update sleep report.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports/20230209-cc3fba90-a7f8-11ed-bee5-edd4f1743780
+Authorization: Bearer token
+
+{
+    "rating": 8,
+    "wasComfyEnvironment": false,
+    "didWindDown": true,
+    "didManageIntake": true,
+    "didRelaxation": true
+}
+###
+
+//Delete sleep report.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports/20230209-e4452c60-a7f8-11ed-bee5-edd4f1743780
+Authorization: Bearer token
+###
+
 
 
 //----------------N O T I O N----------------
