@@ -32,7 +32,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "3242"
+   "otp": "8692"
 }
 ###
 
@@ -260,17 +260,17 @@ Authorization: Bearer token
 //-------------------------------------------
 //Get all recurring tasks.
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+Authorization: Bearer token
 ###
 
 //Get due and overdue tasks.
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks?dateStamp=20240423
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+Authorization: Bearer token
 ###
 
 //Create recurring task.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+Authorization: Bearer token
 
 {
     "name": "Finish this app",
@@ -289,7 +289,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlc
 
 //Update recurring task.
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/c250a560-02c6-11ef-8ef1-917ea3c00fcc
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+Authorization: Bearer token
 
 {
     "name": "Finish this app",
@@ -308,20 +308,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlc
 
 //Delete recurring task.
 DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/c250a560-02c6-11ef-8ef1-917ea3c00fcc
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNDAyMTQ4NCwiZXhwIjoxNzE0MTk0Mjg0fQ.f6xOZ0x9Ov-128F-y2TEmxengH6glJ_2M_xcb5rlQJw
+Authorization: Bearer token
 ###
 
 
 
 //----------------T O - D O S----------------
 //-------------------------------------------
-//Get to-dos for one day.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?dateStamp=20230209&isComplete=true
+//Get due toDos for a day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?dateStamp=20230210
 Authorization: Bearer token
 ###
 
-//Get to-dos for multiple days.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?startDate=20230208&endDate=20230210&isComplete=false
+//Get all complete or incomplete to-dos.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?isComplete=true
 Authorization: Bearer token
 ###
 
@@ -331,30 +331,26 @@ Authorization: Bearer token
 
 {
     "name": "Finish this app",
-    "notifications": true,
-    "isRecurring": false,
-    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
-    "dateStamp": "20230209"
+    "dateStamp": "20230209",
+    "description": "Just do it."
 }
 ###
 
 //Update to-do.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/20230208-17fa0100-a800-11ed-a98f-79871c76ade1
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/false-20230209-676dbef0-0684-11ef-994a-f14c127182d3
 Authorization: Bearer token
 
 {
-    "name": "Finish",
-    "notifications": true,
-    "isRecurring": false,
-    "taskID": "17fa0100-a800-11ed-a98f-79871c76ade1",
+    "name": "Finish this app",
     "dateStamp": "20230209",
-    "prevSK": "false-20230209-17fa0100-a800-11ed-a98f-79871c76ade1",
-    "isComplete": true
+    "description": "Just do it.",
+    "isComplete": true,
+    "toDoID": "676dbef0-0684-11ef-994a-f14c127182d3"
 }
 ###
 
 //Delete to-do.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/20230209-17fa0100-a800-11ed-a98f-79871c76ade1
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/false-20230210-95497fd0-067f-11ef-b01c-970662b4fcd8
 Authorization: Bearer token
 ###
 

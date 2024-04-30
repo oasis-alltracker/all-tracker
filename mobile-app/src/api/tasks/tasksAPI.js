@@ -16,6 +16,22 @@ class TasksAPI {
     }
   }
 
+  static async getDueAndOverdueTaks(token, dateStamp) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      const response = await axios.get(API, {
+        headers: headers,
+        params: { dateStamp: dateStamp },
+      });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   static async createTask(token, task) {
     const headers = {
       Authorization: `Bearer ${token}`,

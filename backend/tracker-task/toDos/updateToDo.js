@@ -27,8 +27,8 @@ class UpdateToDo {
     }
   }
 
-  async updateStatus(email, toDo) {
-    const deleteKey = { PK: `${email}-toDo`, SK: `${toDo.prevSK}` };
+  async updateStatus(email, toDoID, toDo) {
+    const deleteKey = { PK: `${email}-toDo`, SK: `${toDoID}` };
     await this.DB.deleteItem(deleteKey);
 
     const data = {
@@ -37,6 +37,7 @@ class UpdateToDo {
       description: toDo.description,
       name: toDo.name,
       toDoID: toDo.toDoID,
+      dateStamp: toDo.dateStamp,
     };
 
     await this.DB.putItem(data);

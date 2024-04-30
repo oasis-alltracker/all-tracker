@@ -1,3 +1,5 @@
+const { v1: uuidv1 } = require("uuid");
+
 class CreateToDo {
   constructor(db) {
     this.DB = db;
@@ -29,12 +31,14 @@ class CreateToDo {
   }
 
   async create(email, toDo) {
+    const toDoID = uuidv1();
     const data = {
       PK: `${email}-toDo`,
-      SK: `${false}-${toDo.dateStamp}-${toDo.toDoID}`,
+      SK: `${false}-${toDo.dateStamp}-${toDoID}`,
       description: toDo.description,
       name: toDo.name,
-      toDoID: toDo.toDoID,
+      toDoID: toDoID,
+      dateStamp: toDo.dateStamp,
     };
 
     await this.DB.putItem(data);

@@ -18,7 +18,7 @@ class ToDosAPI {
       console.log(e);
     }
   }
-  static async getToDosForMutlipleDays(token, startDate, endDate) {
+  static async getToDos(token, isComplete) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -26,7 +26,7 @@ class ToDosAPI {
     try {
       const response = await axios.get(API, {
         headers: headers,
-        params: { startDate: startDate, endDate: endDate },
+        params: { isComplete: isComplete },
       });
       return response?.data;
     } catch (e) {
