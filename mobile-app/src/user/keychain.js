@@ -61,7 +61,6 @@ export async function isLoggedIn() {
     if (!refreshToken || !isTokenValid(refreshToken)) {
       return false;
     }
-
     const accessToken = await SecureStore.getItemAsync("accessToken");
     if (!accessToken || !isTokenValid(accessToken)) {
       try {

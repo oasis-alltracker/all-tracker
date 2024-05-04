@@ -10,7 +10,7 @@ import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button, Calendar } from "../../../components";
 
-export default function CreateTaskModal({ getRef }) {
+export default function UpdateTaskModal({ getRef }) {
   const [visible, setVisible] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
 
@@ -50,9 +50,20 @@ export default function CreateTaskModal({ getRef }) {
       style={styles.modal}
     >
       <View style={styles.container}>
-        <View style={styles.nameRow}>
+        <View style={styles.row}>
+          <TouchableOpacity
+            onPress={() => setIsCheck((pr) => !pr)}
+            style={styles.check}
+          >
+            {isCheck ? (
+              <Image
+                style={styles.checkImage}
+                source={require("../../../assets/images/check.png")}
+              />
+            ) : null}
+          </TouchableOpacity>
           <TextInput
-            placeholderTextColor={"#7B97BC"}
+            placeholderTextColor={"#25436B"}
             placeholder="Name"
             style={styles.inputTitle}
             onChange={setTitle}
@@ -69,21 +80,21 @@ export default function CreateTaskModal({ getRef }) {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.descriptionRow}>
+        <View style={styles.row}>
           <Image
             style={styles.editData}
             source={require("../../../assets/images/edit.png")}
           />
           <TextInput
             multiline
-            placeholderTextColor={"#7B97BC"}
-            placeholder="Description"
+            placeholderTextColor="#25436B"
+            placeholder="description"
             style={styles.input}
             onChangeText={setDesc}
             value={desc}
           />
         </View>
-        <View style={styles.buttonsRow}>
+        <View style={styles.row}>
           <Button
             onPress={() => setVisible(false)}
             style={[styles.button, styles.back]}
@@ -108,7 +119,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    paddingVertical: 15,
+    paddingVertical: 20,
     backgroundColor: "#fff",
     borderRadius: 30,
     paddingHorizontal: 20,
@@ -123,30 +134,19 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  nameRow: {
+  row: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
-  },
-  descriptionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 70,
-  },
-  buttonsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 5,
+    marginTop: 15,
   },
   inputTitle: {
     color: "#25436B",
-    fontSize: 30,
+    fontSize: 35,
     fontFamily: "Sego-Bold",
     flex: 1,
-    marginLeft: 5,
+    marginLeft: 20,
+    // backgroundColor: "green",
     lineHeight: 35,
     marginTop: 15,
     paddingVertical: 10,
@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
   input: {
     width: 100,
     paddingHorizontal: 20,
-    color: "#25436B",
     flex: 1,
     fontFamily: "Sego",
     fontSize: 18,

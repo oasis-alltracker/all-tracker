@@ -19,6 +19,8 @@ import MenuIcon from "../../assets/icons/menu";
 
 import { getAccessToken } from "../../user/keychain";
 import HabitsAPI from "../../api/habits/habitsAPI";
+import ToDosAPI from "../../api/tasks/toDosAPI";
+import TasksApi from "../../api/tasks/tasksAPI";
 import HabitStatusesAPI from "../../api/habits/habitStatusesAPI";
 import UserAPI from "../../api/user/userAPI";
 import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
@@ -28,6 +30,7 @@ import UpdateHabitModal from "./modals/UpdateHabitModal";
 import CreateTaskModal from "./modals/CreateTaskModal";
 import UpdateTaskModal from "./modals/UpdateTaskModal";
 import { sharedStyles } from "../styles";
+import TasksAPI from "../../api/tasks/tasksAPI";
 
 const TodosHabits = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -36,18 +39,25 @@ const TodosHabits = ({ navigation }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }]);
-
   const [dots, setDots] = useState([]);
 
   const [day, setDay] = useState(new Date());
   const [statusList, setStatusList] = useState([]);
+
+  const [tasks, setTasks] = useState([]);
+  const [toDos, setToDos] = useState([]);
+  const [doneToDos, setDoneToDos] = useState([]);
+
   const [habits, setHabits] = useState([]);
+
   const [trackingPreferences, setTrackingPreferences] = useState([]);
 
   const createHabitRef = useRef(null);
   const updateHabitRef = useRef(null);
+
   const createTaskRef = useRef(null);
   const updateTaskRef = useRef(null);
+  const updateToDoRef = useRef(null);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -56,6 +66,7 @@ const TodosHabits = ({ navigation }) => {
     refreshHabits(newDate);
   };
 
+  //Habit methods
   const createHabit = async (habit) => {
     setIsLoading(true);
     try {
@@ -206,6 +217,235 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
+  //tuhdo methods
+  const createToDo = async (toDo) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await ToDosAPI.createToDo(token, toDo);
+      await ToDosAPI.getToDos(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const getToDos = async (token) => {
+    try {
+      userToDos = await ToDosAPI.getToDos(token, false);
+      userDoneToDos = await ToDosAPI.getToDos(token, true);
+      setToDos(userToDos);
+      setDoneToDos(userDoneToDos);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateToDoDescription = async (toDoID, toDo) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await ToDosAPI.updateToDo(token, toDoID, toDo);
+      await ToDosAPI.getToDos(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateToDoStatus = async (toDo) => {
+    try {
+      if (!toDo.isLocked) {
+        var toDoID = toDo.SK;
+        toDo.isLocked = true;
+
+        if (!toDo.selected) {
+          toDo.selected = true;
+          updatedToDo = {
+            name: toDo.name,
+            dateStamp: toDo.dateStamp,
+            description: toDo.description,
+            isComplete: true,
+            toDoID: toDoID.toDoID,
+          };
+          toDo.SK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
+          await ToDosAPI.updateToDo(token, toDoID, updatedToDo);
+        } else {
+          toDo.selected = false;
+
+          updatedToDo = {
+            name: toDo.name,
+            dateStamp: toDo.dateStamp,
+            description: toDo.description,
+            isComplete: false,
+            toDoID: toDoID.toDoID,
+          };
+          toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+          await ToDosAPI.updateToDo(token, toDoID, updatedToDo);
+        }
+        toDo.isLocked = false;
+      }
+    } catch (e) {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const deleteToDo = async (toDoID) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await ToDosAPI.deleteToDo(token, toDoID);
+      await ToDosAPI.getToDos(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  //task methods
+  const getTasks = async (token) => {
+    try {
+      userTasks = await TasksAPI.getTasks(token);
+      setTasks(userTasks);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const createTask = async (toDo) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await TasksAPI.createTask(token, toDo);
+      await TasksAPI.getTasks(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateTaskDescription = async (taskID, task) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await TasksAPI.updateTask(token, taskID, task);
+      await TasksAPI.getTasks(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateTaskStatus = async (task) => {
+    try {
+      if (!task.isLocked) {
+        task.isLocked = true;
+
+        if (!task.selected) {
+          task.selected = true;
+          task.completionList.push(task.nextDueDate);
+          var year = task.nextDueDate.split(0, 4);
+          var month = task.nextDueDate.split(4, 6);
+          var day = task.nextDueDate.split(6, 8);
+          var lastCompletionDate = new Date(
+            Number(year),
+            Number(month),
+            Number(day)
+          );
+          var dayOfWeek = lastCompletionDate.getDay();
+          var nextDayOfWeek = 0;
+          for (day of task.schedule.days) {
+            if (day > dayOfWeek) {
+              nextDayOfWeek = day;
+              break;
+            }
+          }
+          if (nextDayOfWeek == 0) {
+            nextDayOfWeek = task.schedule.days[0];
+          }
+
+          var dateChange = 0;
+
+          //use brain cells please
+          if (nextDayOfWeek > dayOfWeek) {
+            dateChange = nextDayOfWeek - dayOfWeek;
+          } else if (nextDayOfWeek == dayOfWeek) {
+            dateChange = 7;
+          } else {
+            dateChange = 7 - dayOfWeek + nextDayOfWeek;
+          }
+
+          lastCompletionDate.setDate(lastCompletionDate.getDate() + dateChange);
+
+          nextDueDateYear = lastCompletionDate.getFullYear();
+          nextDueDateMonth = lastCompletionDate.getMonth();
+          nextDueDateDay = lastCompletionDate.getDay();
+
+          task.nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
+
+          await TasksAPI.updateTask(token, task.SK, task);
+        } else {
+          task.selected = false;
+          task.nextDueDate = task.completionList.pop();
+          await TasksAPI.updateTask(token, task.SK, task);
+        }
+        task.isLocked = false;
+      }
+    } catch (e) {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const deleteTask = async (taskID) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await TasksAPI.deleteTask(token, taskID);
+      await TasksAPI.getTasks(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
       token = await getAccessToken();
@@ -217,9 +457,13 @@ const TodosHabits = ({ navigation }) => {
 
       if (trackingPreferencesLoaded.habitsSelected) {
         routesPreference.push({ key: "second", title: "Second" });
+        await createStatusList(day);
+        await getHabits();
       }
       if (trackingPreferencesLoaded.toDosSelected) {
         routesPreference.push({ key: "third", title: "Third" });
+        await getToDos(token);
+        await getTasks(token);
       }
       routesPreference.push({ key: "fourth", title: "Fourth" });
 
@@ -232,17 +476,9 @@ const TodosHabits = ({ navigation }) => {
       setDots(numDots);
     };
 
-    const getDataOnLoad = async () => {
-      token = await getAccessToken();
-
-      await createStatusList(day);
-      await getHabits();
-    };
-
     if (!isPageLoaded) {
       setIsPageLoaded(true);
       getPreferencesOnLoad();
-      getDataOnLoad();
     }
   }, []);
 
@@ -254,14 +490,19 @@ const TodosHabits = ({ navigation }) => {
             isLoading={isLoading}
             day={day}
             statusList={statusList}
+            toDos={toDos}
+            tasks={tasks}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
             createHabitRef={createHabitRef}
             createTaskRef={createTaskRef}
             updateTaskRef={updateTaskRef}
+            updateToDoRef={updateToDoRef}
             refreshHabits={refreshHabits}
             updateHabitStatusCount={updateHabitStatusCount}
             onHabitStatusUpdate={onHabitStatusUpdate}
+            updateToDoStatus={updateToDoStatus}
+            updateTaskStatus={updateTaskStatus}
           />
         );
       case "second":
@@ -279,6 +520,12 @@ const TodosHabits = ({ navigation }) => {
             isLoading={isLoading}
             createTaskRef={createTaskRef}
             updateTaskRef={updateTaskRef}
+            toDos={toDos}
+            tasks={tasks}
+            doneToDos={doneToDos}
+            updateToDoStatus={updateToDoStatus}
+            updateTaskStatus={updateTaskStatus}
+            updateToDoRef={updateToDoRef}
           />
         );
       case "fourth":
@@ -331,8 +578,21 @@ const TodosHabits = ({ navigation }) => {
         updateHabit={updateHabit}
         deleteHabit={deleteHabit}
       />
-      <CreateTaskModal getRef={(ref) => (createTaskRef.current = ref)} />
-      <UpdateTaskModal getRef={(ref) => (updateTaskRef.current = ref)} />
+      <CreateTaskModal
+        getRef={(ref) => (createTaskRef.current = ref)}
+        createTask={createTask}
+        createToDo={createToDo}
+      />
+      <UpdateTaskModal
+        getRef={(ref) => (updateTaskRef.current = ref)}
+        updateTaskDescription={updateTaskDescription}
+        deleteTask={deleteTask}
+      />
+      <UpdateToDoModal
+        getRef={(ref) => (updateToDoRef.current = ref)}
+        updateToDoDescription={updateToDoDescription}
+        deleteToDo={deleteToDo}
+      />
     </SafeAreaView>
   );
 };

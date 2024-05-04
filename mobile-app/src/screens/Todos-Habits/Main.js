@@ -16,15 +16,20 @@ import { sharedStyles } from "../styles";
 export default function Main({
   day,
   statusList,
+  toDos,
+  tasks,
   trackingPreferences,
   isLoading,
   updateDate,
   createHabitRef,
   createTaskRef,
   updateTaskRef,
+  updateToDoRef,
   refreshHabits,
   updateHabitStatusCount,
   onHabitStatusUpdate,
+  updateTaskStatus,
+  updateToDoStatus,
 }) {
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();

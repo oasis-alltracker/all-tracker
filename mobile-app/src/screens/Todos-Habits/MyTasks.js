@@ -30,7 +30,17 @@ const items = [
   },
 ];
 
-export default function MyTasks({ isLoading, createTaskRef, updateTaskRef }) {
+export default function MyTasks({
+  isLoading,
+  createTaskRef,
+  updateTaskRef,
+  updateToDoRef,
+  toDos,
+  tasks,
+  doneToDos,
+  updateTaskStatus,
+  updateToDoStatus,
+}) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
