@@ -20,15 +20,13 @@ import MenuIcon from "../../assets/icons/menu";
 import { getAccessToken } from "../../user/keychain";
 import HabitsAPI from "../../api/habits/habitsAPI";
 import ToDosAPI from "../../api/tasks/toDosAPI";
-import TasksApi from "../../api/tasks/tasksAPI";
 import HabitStatusesAPI from "../../api/habits/habitStatusesAPI";
 import UserAPI from "../../api/user/userAPI";
 import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
 import moment from "moment";
 import CreateHabitModal from "./modals/CreateHabitModal";
 import UpdateHabitModal from "./modals/UpdateHabitModal";
-import CreateTaskModal from "./modals/CreateTaskModal";
-import UpdateTaskModal from "./modals/UpdateTaskModal";
+import TaskModal from "./modals/TaskModal";
 import { sharedStyles } from "../styles";
 import TasksAPI from "../../api/tasks/tasksAPI";
 
@@ -55,9 +53,7 @@ const TodosHabits = ({ navigation }) => {
   const createHabitRef = useRef(null);
   const updateHabitRef = useRef(null);
 
-  const createTaskRef = useRef(null);
-  const updateTaskRef = useRef(null);
-  const updateToDoRef = useRef(null);
+  const taskRef = useRef(null);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -249,7 +245,7 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateToDoDescription = async (toDoID, toDo) => {
+  const updateToDo = async (toDoID, toDo) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
@@ -351,7 +347,7 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateTaskDescription = async (taskID, task) => {
+  const updateTask = async (taskID, task) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
@@ -375,18 +371,18 @@ const TodosHabits = ({ navigation }) => {
         if (!task.selected) {
           task.selected = true;
           task.completionList.push(task.nextDueDate);
-          var year = task.nextDueDate.split(0, 4);
-          var month = task.nextDueDate.split(4, 6);
-          var day = task.nextDueDate.split(6, 8);
+          var year = task.nextDueDate.substring(0, 4);
+          var month = task.nextDueDate.substring(4, 6);
+          var day = task.nextDueDate.substring(6, 8);
           var lastCompletionDate = new Date(
             Number(year),
-            Number(month),
+            Number(month) - 1,
             Number(day)
           );
           var dayOfWeek = lastCompletionDate.getDay();
           var nextDayOfWeek = 0;
-          for (day of task.schedule.days) {
-            if (day > dayOfWeek) {
+          for (var recurringDay of task.schedule.days) {
+            if (recurringDay > dayOfWeek) {
               nextDayOfWeek = day;
               break;
             }
@@ -396,7 +392,6 @@ const TodosHabits = ({ navigation }) => {
           }
 
           var dateChange = 0;
-
           //use brain cells please
           if (nextDayOfWeek > dayOfWeek) {
             dateChange = nextDayOfWeek - dayOfWeek;
@@ -495,9 +490,7 @@ const TodosHabits = ({ navigation }) => {
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
             createHabitRef={createHabitRef}
-            createTaskRef={createTaskRef}
-            updateTaskRef={updateTaskRef}
-            updateToDoRef={updateToDoRef}
+            taskRef={taskRef}
             refreshHabits={refreshHabits}
             updateHabitStatusCount={updateHabitStatusCount}
             onHabitStatusUpdate={onHabitStatusUpdate}
@@ -518,14 +511,12 @@ const TodosHabits = ({ navigation }) => {
         return (
           <MyTasks
             isLoading={isLoading}
-            createTaskRef={createTaskRef}
-            updateTaskRef={updateTaskRef}
+            taskRef={taskRef}
             toDos={toDos}
             tasks={tasks}
             doneToDos={doneToDos}
             updateToDoStatus={updateToDoStatus}
             updateTaskStatus={updateTaskStatus}
-            updateToDoRef={updateToDoRef}
           />
         );
       case "fourth":
@@ -578,19 +569,13 @@ const TodosHabits = ({ navigation }) => {
         updateHabit={updateHabit}
         deleteHabit={deleteHabit}
       />
-      <CreateTaskModal
-        getRef={(ref) => (createTaskRef.current = ref)}
+      <TaskModal
+        getRef={(ref) => (taskRef.current = ref)}
         createTask={createTask}
         createToDo={createToDo}
-      />
-      <UpdateTaskModal
-        getRef={(ref) => (updateTaskRef.current = ref)}
-        updateTaskDescription={updateTaskDescription}
+        updateTask={updateTask}
         deleteTask={deleteTask}
-      />
-      <UpdateToDoModal
-        getRef={(ref) => (updateToDoRef.current = ref)}
-        updateToDoDescription={updateToDoDescription}
+        updateToDo={updateToDo}
         deleteToDo={deleteToDo}
       />
     </SafeAreaView>
