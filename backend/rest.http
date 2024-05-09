@@ -32,7 +32,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "8692"
+   "otp": "7365"
 }
 ###
 
@@ -279,11 +279,10 @@ Authorization: Bearer token
             "hour": "12",
             "minute": "30"
         },
-        "schedule": [1,3,5]
+        "days": [6]
     },
     "description": "Description",
-    "completionList": ["20240422", "20240423"],
-    "nextDueDate": "20240423"
+    "dateStamp": "20240507"
 }
 ###
 
@@ -307,7 +306,7 @@ Authorization: Bearer token
 ###
 
 //Delete recurring task.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/c250a560-02c6-11ef-8ef1-917ea3c00fcc
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/tasks/ff8cae70-0e5a-11ef-ba58-79d88e245e92
 Authorization: Bearer token
 ###
 

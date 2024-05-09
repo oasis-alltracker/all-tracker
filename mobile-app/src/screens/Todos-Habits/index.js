@@ -383,7 +383,7 @@ const TodosHabits = ({ navigation }) => {
           var nextDayOfWeek = 0;
           for (var recurringDay of task.schedule.days) {
             if (recurringDay > dayOfWeek) {
-              nextDayOfWeek = day;
+              nextDayOfWeek = recurringDay;
               break;
             }
           }
@@ -403,9 +403,16 @@ const TodosHabits = ({ navigation }) => {
 
           lastCompletionDate.setDate(lastCompletionDate.getDate() + dateChange);
 
-          nextDueDateYear = lastCompletionDate.getFullYear();
-          nextDueDateMonth = lastCompletionDate.getMonth();
-          nextDueDateDay = lastCompletionDate.getDay();
+          var nextDueDateYear = lastCompletionDate.getFullYear().toString();
+          var nextDueDateMonth = (lastCompletionDate.getMonth() + 1).toString();
+          var nextDueDateDay = lastCompletionDate.getDate().toString();
+
+          if (nextDueDateMonth.length == 1) {
+            nextDueDateMonth = "0" + nextDueDateMonth;
+          }
+          if (nextDueDateDay.length == 1) {
+            nextDueDateDay = "0" + nextDueDateDay;
+          }
 
           task.nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
 

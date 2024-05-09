@@ -1,26 +1,20 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
-import { Dimensions, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  Dimensions,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Switch,
+  Platform,
+} from "react-native";
 import Modal from "react-native-modal";
 import { LocaleConfig, Calendar } from "react-native-calendars";
-import time from "../helpers/time";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { StyleSheet } from "react-native";
+import NotificationsHandler from "../api/notifications/notificationsHandler";
 
 const { width, height } = Dimensions.get("window");
-
-const startObj = {
-  startingDay: true,
-  color: "#18A0FB",
-  textColor: "white",
-  fontFamily: "Sego-Bold",
-};
-
-const endObj = {
-  endingDay: true,
-  color: "#18A0FB",
-  textColor: "white",
-  fontFamily: "Sego-Bold",
-};
-
 const oneDay = {
   startingDay: true,
   endingDay: true,
@@ -28,85 +22,65 @@ const oneDay = {
   selectedTextColor: "white",
   selected: true,
 };
+const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
-const getAllDatesBetween = (fromDate, toDate) => {
-  const datesForCalendar = {};
-  for (let i = fromDate + 86.4; i <= toDate - 86.4; i += 86.4) {
-    datesForCalendar[time.to(i * 1000000, "YYYY-MM-DD")] = {
-      color: "rgba(215, 246, 255, 0.5)",
-      textColor: "#1B2124",
-      fontFamily: "Sego-Bold",
-    };
-  }
-
-  return datesForCalendar;
-};
-
-// onConfirm(start.timestamp, end.timestamp);
-
-const DatePicker = ({ getRef, onConfirm }) => {
+const DatePicker = ({ getRef, saveDateHandler }) => {
   const [visible, setVisible] = useState(false);
-  const [isDate, setIsDate] = useState(true);
+  const [show, setShow] = useState(false);
 
-  const [start, setStart] = useState(null);
-  const [end, setEnd] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
 
-  const [markedDays, setMarkedDays] = useState({});
+  const [markedDay, setMarkedDay] = useState(null);
+  const [dateStamp, setDateStamp] = useState(null);
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [activeIndexes, setActiveIndexes] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [reminderTime, setReminderTime] = useState(
+    new Date("1995-12-17T12:00:00")
+  );
+
+  const [isReminderEnabled, setIsReminderEnabled] = useState(false);
 
   const dayPress = (day) => {
-    if (!isDate) {
-      if (start) {
-        if (start.timestamp === day.timestamp) {
-          setStart(null);
-          setEnd(null);
-          setMarkedDays({});
-        } else {
-          if (day.timestamp === end?.timestamp) {
-            setEnd(null);
-            setMarkedDays({
-              [start.dateString]: startObj,
-            });
-          } else {
-            if (day.timestamp > start.timestamp) {
-              setEnd(day);
-              setMarkedDays({
-                [day.dateString]: endObj,
-                [start.dateString]: startObj,
-                ...getAllDatesBetween(
-                  start.timestamp / 1000000,
-                  day.timestamp / 1000000
-                ),
-              });
-            } else {
-              setEnd(start);
-              setStart(day);
-              setMarkedDays({
-                [day.dateString]: startObj,
-                [start.dateString]: endObj,
-                ...getAllDatesBetween(
-                  day.timestamp / 1000000,
-                  start.timestamp / 1000000
-                ),
-              });
-            }
-          }
-        }
-      } else {
-        setStart(day);
-        setMarkedDays({
-          [day.dateString]: startObj,
-        });
-      }
+    setDateStamp(day.dateString.replace("-", "").replace("-", ""));
+    setMarkedDay({ [day.dateString]: oneDay });
+  };
+
+  const notificationsToggled = async () => {
+    if (isReminderEnabled) {
+      setIsReminderEnabled((previousState) => !previousState);
     } else {
-      setStart(day);
-      setMarkedDays({
-        [day.dateString]: oneDay,
-      });
+      var systemNotificationsStatus =
+        await NotificationsHandler.checkNotificationsStatus(token);
+      if (systemNotificationsStatus) {
+        setIsReminderEnabled((previousState) => !previousState);
+      } else {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
+    }
+  };
+
+  const onChange = async () => {
+    if (Platform.OS === "android") {
+      setShow(false);
     }
   };
 
   const setLanguageToCalendar = useCallback(() => {
-    const shortNames = ["M", "T", "W", "T", "F", "S", "S"];
+    const shortNames = ["S", "M", "T", "W", "T", "F", "S"];
 
     LocaleConfig.locales["key"] = {
       monthNames: [
@@ -137,90 +111,128 @@ const DatePicker = ({ getRef, onConfirm }) => {
         "Nov",
         "Dec",
       ],
-      dayNames: ["M", "T", "W", "T", "F", "S", "S"],
+      dayNames: ["S", "M", "T", "W", "T", "F", "S"],
       dayNamesShort: shortNames,
     };
 
     LocaleConfig.defaultLocale = "key";
   }, []);
 
+  const formatDateObject = (dateObject) => {
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    return dateObject.toLocaleString("en-US", options);
+  };
+
+  const onSave = async () => {
+    setVisible(false);
+    var schedule = [];
+    for (i = 0; i < activeIndexes.length; i++) {
+      if (activeIndexes[i]) {
+        schedule.push(i);
+      }
+    }
+    saveDateHandler(isRecurring, reminderTime, dateStamp, schedule);
+  };
+
   useEffect(() => {
     let ref = {
-      open: () => setVisible(true),
+      open: (isEdit = false) => {
+        setVisible(true);
+        if (isEdit) {
+          setIsEdit(true);
+          setDateStamp(props.dateStamp);
+          //calculate markedDay
+          setMarkedDay(null);
+
+          setIsRecurring(props.isRecurring);
+          //calculate active indexes
+          setActiveIndexes(null);
+          //calculate reminder time
+          setReminderTime(null);
+        } else {
+          setMarkedDay(null);
+          setDateStamp(null);
+          setIsRecurring(false);
+          setActiveIndexes([false, false, false, false, false, false, false]);
+          setReminderTime(new Date("1995-12-17T12:00:00"));
+          setIsEdit(false);
+        }
+      },
       close: () => setVisible(false),
     };
     setLanguageToCalendar();
     getRef(ref);
   }, []);
 
-  const renderCalendar = useMemo(
-    () => (
-      <Calendar
-        markingType={isDate ? "custom" : "period"}
-        markedDates={markedDays}
-        marking={{
-          customTextStyle: {
+  const renderCalendar = useMemo(() => (
+    <Calendar
+      markingType={"custom"}
+      markedDates={markedDay}
+      marking={{
+        customTextStyle: {
+          fontFamily: "Sego-Bold",
+        },
+        customStyles: {
+          text: {
             fontFamily: "Sego-Bold",
           },
-          customStyles: {
-            text: {
-              fontFamily: "Sego-Bold",
-            },
+        },
+      }}
+      hideExtraDays={false}
+      disableMonthChange={false}
+      calendarStyle={{
+        width: width - 45.5,
+        height: 120,
+      }}
+      theme={{
+        calendarBackground: "transparent",
+        weekVerticalMargin: 0,
+        selectedDayTextColor: "#303C5E",
+        selectedDayBackgroundColor: "#18A0FB",
+        textMonthFontFamily: "Sego-Bold",
+        textDayHeaderFontFamily: "Sego-Bold",
+        todayTextColor: "#303C5E",
+        monthTextColor: "#303C5E",
+        textDayFontFamily: "Sego-Bold",
+        dayTextColor: "#303C5E",
+        textDayStyle: {
+          fontFamily: "Sego-Bold",
+        },
+        arrowColor: "#303C5E",
+        "stylesheet.calendar.main": {
+          calendar: {
+            paddingLeft: 0,
+            paddingRight: 0,
+            backgroundColor: "transparent",
+            borderRadius: 5,
           },
-        }}
-        hideExtraDays={false}
-        disableMonthChange={false}
-        calendarStyle={{
-          width: width - 45.5,
-          height: 120,
-        }}
-        theme={{
-          calendarBackground: "transparent",
-          weekVerticalMargin: 0,
-          selectedDayTextColor: "#303C5E",
-          selectedDayBackgroundColor: "#18A0FB",
-          textMonthFontFamily: "Sego-Bold",
-          textDayHeaderFontFamily: "Sego-Bold",
-          todayTextColor: "#303C5E",
-          monthTextColor: "#303C5E",
-          textDayFontFamily: "Sego-Bold",
-          dayTextColor: "#303C5E",
-          textDayStyle: {
-            fontFamily: "Sego-Bold",
+          dayContainer: {
+            marginVertical: 4,
           },
-          arrowColor: "#303C5E",
-          "stylesheet.calendar.main": {
-            calendar: {
-              paddingLeft: 0,
-              paddingRight: 0,
-              backgroundColor: "transparent",
-              borderRadius: 5,
-            },
-            dayContainer: {
-              marginVertical: 4,
-            },
-            placeholderText: {
-              color: "transparent",
-            },
+          placeholderText: {
+            color: "transparent",
           },
-        }}
-        style={{
-          borderRadius: 5,
-          paddingHorizontal: 15,
-          paddingBottom: 0,
-          // height: 0,
-        }}
-        scrollEnabled={false}
-        hideArrows={false}
-        calendarWidth={width - 45}
-        calendarHeight={290}
-        horizontal={true}
-        onDayPress={dayPress}
-        pagingEnabled={true}
-      />
-    ),
-    [markedDays, isDate]
-  );
+        },
+      }}
+      style={{
+        borderRadius: 5,
+        paddingHorizontal: 15,
+        paddingBottom: 0,
+        // height: 0,
+      }}
+      scrollEnabled={false}
+      hideArrows={false}
+      calendarWidth={width - 45}
+      calendarHeight={290}
+      horizontal={true}
+      onDayPress={dayPress}
+      pagingEnabled={true}
+    />
+  ));
 
   return (
     <Modal
@@ -228,70 +240,131 @@ const DatePicker = ({ getRef, onConfirm }) => {
       statusBarTranslucent
       style={styles.modal}
       onModalHide={() => {
-        setStart(null);
-        setEnd(null);
-        setMarkedDays({});
+        setDateStamp(null);
       }}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
       isVisible={visible}
     >
       <View style={styles.container}>
-        <View style={styles.topLine}>
-          <TouchableOpacity
-            onPress={() => {
-              setStart(null);
-              setEnd(null);
-              setMarkedDays({});
-            }}
-            style={styles.btn}
-          >
-            <Text style={[styles.text, { color: "red" }]}>Clear</Text>
-          </TouchableOpacity>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+        {!isEdit ? (
+          <View style={styles.topLine}>
             <TouchableOpacity
               onPress={() => {
-                setIsDate(true);
-                setStart(null);
-                setEnd(null);
-                setMarkedDays({});
+                setDateStamp(null);
+                setIsRecurring(false);
               }}
-              style={[styles.btn, isDate && styles.btnActive]}
+              style={[styles.btn, !isRecurring && styles.btnActive]}
             >
-              <Text style={styles.text}>Date</Text>
+              <Text style={styles.headerText}>To-do</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                setIsDate(false);
-                setStart(null);
-                setEnd(null);
-                setMarkedDays({});
+                setDateStamp(null);
+                setIsRecurring(true);
               }}
-              style={[styles.btn, !isDate && styles.btnActive]}
+              style={[styles.btn, isRecurring && styles.btnActive]}
             >
-              <Text style={styles.text}>Duration</Text>
+              <Text style={styles.headerText}>Recurring</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        {renderCalendar}
-        {[1, 2, 3].map((val, key) => {
-          return (
-            <TouchableOpacity key={key.toString()} style={styles.bottomItem}>
-              <Image
-                source={require("../assets/images/reminder.png")}
-                style={styles.iconImage}
-              />
-              <Text style={styles.bottomItemText}>Time</Text>
-              <View style={styles.leftLine}>
-                <Text style={styles.bottomItemValue}>None</Text>
-                <Image
-                  style={styles.arrow}
-                  source={require("../assets/images/back-arrow.png")}
-                />
-              </View>
+        ) : (
+          <></>
+        )}
+
+        {!isRecurring ? (
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                setDateStamp(null);
+                setMarkedDay(null);
+              }}
+              style={styles.btn}
+            >
+              <Text style={styles.clearText}>Clear</Text>
             </TouchableOpacity>
-          );
-        })}
+            {renderCalendar}
+          </>
+        ) : (
+          <>
+            <View style={styles.daysContainer}>
+              {daysOfWeek.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      var newIndexes = [...activeIndexes];
+                      if (activeIndexes[index]) {
+                        newIndexes[index] = false;
+                      } else {
+                        newIndexes[index] = true;
+                      }
+                      setActiveIndexes(newIndexes);
+                    }}
+                    key={index.toString()}
+                    style={[
+                      styles.dayContainer,
+                      activeIndexes[index] && { backgroundColor: "#D7F6FF" },
+                    ]}
+                  >
+                    <Text style={styles.dayText}>{item}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </>
+        )}
+
+        <View style={[styles.reminderContainer]}>
+          <Switch
+            width={55}
+            height={32}
+            onValueChange={notificationsToggled}
+            value={isReminderEnabled}
+            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+            thumbColor={isReminderEnabled ? "#d7f6ff" : "#ffd8f7"}
+          />
+          <Text style={styles.reminderTitle}>Reminder</Text>
+          <View style={styles.timeSelectContainer}>
+            <>
+              {Platform.OS === "ios" ? (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={reminderTime}
+                  mode={"time"}
+                  is24Hour={true}
+                  onChange={onChange}
+                />
+              ) : (
+                <TouchableOpacity
+                  testID="setMinMax"
+                  value="time"
+                  onPress={() => {
+                    setShow(true);
+                  }}
+                  title="toggleMinMaxDate"
+                >
+                  <Text style={styles.timeText}>
+                    {formatDateObject(reminderTime)}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={reminderTime}
+                    mode={"time"}
+                    is24Hour={true}
+                    onChange={onChange}
+                  />
+                )}
+              </>
+            </View>
+          </View>
+        </View>
+
         <View style={styles.line}>
           <TouchableOpacity
             onPress={() => setVisible(false)}
@@ -299,10 +372,7 @@ const DatePicker = ({ getRef, onConfirm }) => {
           >
             <Text style={styles.text2}>Cancel</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setVisible(false)}
-            style={styles.button}
-          >
+          <TouchableOpacity onPress={() => onSave()} style={styles.button}>
             <Text style={styles.text2}>Done</Text>
           </TouchableOpacity>
         </View>
@@ -362,6 +432,9 @@ const styles = StyleSheet.create({
   topLine: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+    marginTop: 20,
   },
   btn2: {
     marginBottom: 15,
@@ -372,12 +445,14 @@ const styles = StyleSheet.create({
     width: "30%",
     alignItems: "center",
   },
+  headerText: {
+    color: "#303C5E",
+    fontSize: 22,
+    fontFamily: "Sego-Bold",
+  },
   clearText: {
     color: "red",
-  },
-  text: {
-    color: "#303C5E",
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "Sego-Bold",
   },
   text2: {
@@ -395,7 +470,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     width: "100%",
-    paddingVertical: 10,
+    paddingVertical: 24,
   },
   arrow: {
     width: 12,
@@ -423,5 +498,72 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Sego",
     color: "rgba(0,0,0,0.5)",
+  },
+  reminderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: "#ccc",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    marginBottom: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  timeSelectContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginBottom: 10,
+    borderRadius: 15,
+    paddingHorizontal: 6,
+    paddingVertical: 10,
+    marginBottom: 0,
+    backgroundColor: "#D7F6FF",
+  },
+  reminderTitle: {
+    fontSize: 18,
+    color: "#25436B",
+    fontFamily: "Sego",
+    marginLeft: 15,
+    flex: 1,
+  },
+  timeText: {
+    fontSize: 17,
+    color: "#25436B",
+    fontFamily: "Sego",
+  },
+  daysContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    width: "100%",
+  },
+  dayContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 20,
+    paddingHorizontal: 5,
+    paddingVertical: 20,
+    marginBottom: 10,
+    borderRadius: 15,
+    paddingHorizontal: 6,
+    paddingVertical: 10,
+    marginBottom: 0,
+  },
+  dayText: {
+    color: "#25436B",
+    fontSize: 16,
+    padding: 6,
+    fontFamily: "Sego",
   },
 });
