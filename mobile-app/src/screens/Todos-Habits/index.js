@@ -214,12 +214,12 @@ const TodosHabits = ({ navigation }) => {
   };
 
   //tuhdo methods
-  const createToDo = async (toDo) => {
+  const createToDo = async (toDo, time) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
       await ToDosAPI.createToDo(token, toDo);
-      await ToDosAPI.getToDos(token);
+      getToDos(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -245,12 +245,12 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateToDo = async (toDoID, toDo) => {
+  const updateToDo = async (toDoID, toDo, time) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
       await ToDosAPI.updateToDo(token, toDoID, toDo);
-      await ToDosAPI.getToDos(token);
+      getToDos(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -306,7 +306,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await ToDosAPI.deleteToDo(token, toDoID);
-      await ToDosAPI.getToDos(token);
+      getToDos(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -331,12 +331,12 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const createTask = async (toDo) => {
+  const createTask = async (toDo, time) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
       await TasksAPI.createTask(token, toDo);
-      await TasksAPI.getTasks(token);
+      getTasks(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -347,12 +347,12 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateTask = async (taskID, task) => {
+  const updateTask = async (taskID, task, time) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
       await TasksAPI.updateTask(token, taskID, task);
-      await TasksAPI.getTasks(token);
+      getTasks(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -437,7 +437,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await TasksAPI.deleteTask(token, taskID);
-      await TasksAPI.getTasks(token);
+      getTasks(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);

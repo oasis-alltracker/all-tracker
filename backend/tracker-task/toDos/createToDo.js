@@ -39,6 +39,7 @@ class CreateToDo {
       name: toDo.name,
       toDoID: toDoID,
       dateStamp: toDo.dateStamp,
+      isComplete: false,
     };
 
     await this.DB.putItem(data);

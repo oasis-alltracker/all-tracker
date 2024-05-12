@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image,
   Switch,
   Platform,
 } from "react-native";
@@ -13,6 +12,9 @@ import { LocaleConfig, Calendar } from "react-native-calendars";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { StyleSheet } from "react-native";
 import NotificationsHandler from "../api/notifications/notificationsHandler";
+import Spinner from "react-native-loading-spinner-overlay";
+import Toast from "react-native-root-toast";
+import { getAccessToken } from "../user/keychain";
 
 const { width, height } = Dimensions.get("window");
 const oneDay = {
@@ -28,6 +30,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
   const [markedDay, setMarkedDay] = useState(null);
@@ -45,8 +48,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   const [reminderTime, setReminderTime] = useState(
     new Date("1995-12-17T12:00:00")
   );
-
   const [isReminderEnabled, setIsReminderEnabled] = useState(false);
+
+  var timeArray = [12, 0];
 
   const dayPress = (day) => {
     setDateStamp(day.dateString.replace("-", "").replace("-", ""));
@@ -57,13 +61,23 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     if (isReminderEnabled) {
       setIsReminderEnabled((previousState) => !previousState);
     } else {
-      var systemNotificationsStatus =
-        await NotificationsHandler.checkNotificationsStatus(token);
-      if (systemNotificationsStatus) {
-        setIsReminderEnabled((previousState) => !previousState);
+      if (dateStamp || !activeIndexes.every((index) => index === false)) {
+        var systemNotificationsStatus =
+          await NotificationsHandler.checkNotificationsStatus(token);
+        if (systemNotificationsStatus) {
+          setIsReminderEnabled((previousState) => !previousState);
+        } else {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+            }
+          );
+        }
       } else {
         Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
+          "To get reminders, you need to make a date selection first",
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
@@ -73,10 +87,24 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     }
   };
 
-  const onChange = async () => {
+  const onChange = async (event, selectedDate) => {
     if (Platform.OS === "android") {
       setShow(false);
     }
+    if (event.type != "dismissed") {
+      timeArray = formatDateObjectBackend(selectedDate).split(":");
+    }
+    timeArray[0] = Number(timeArray[0]);
+    timeArray[1] = Number(timeArray[1]);
+  };
+
+  const formatDateObjectBackend = (dateObject) => {
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+    };
+    return dateObject.toLocaleString("en-US", options);
   };
 
   const setLanguageToCalendar = useCallback(() => {
@@ -129,36 +157,95 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
 
   const onSave = async () => {
     setVisible(false);
-    var schedule = [];
+    var schedule = {
+      days: [],
+      trigger: {
+        hour: timeArray[0],
+        minute: timeArray[1],
+      },
+    };
     for (i = 0; i < activeIndexes.length; i++) {
       if (activeIndexes[i]) {
-        schedule.push(i);
+        schedule.days.push(i);
       }
     }
-    saveDateHandler(isRecurring, reminderTime, dateStamp, schedule);
+    var isItRecurring = isRecurring;
+    if (isItRecurring) {
+      if (schedule.days.length == 0) {
+        if (isEdit) {
+          Toast.show("You must select at least one day.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          });
+          return;
+        } else {
+          setIsRecurring(false);
+          isItRecurring = false;
+        }
+      }
+    }
+
+    var dueDate = "noDueDate";
+    if (dateStamp != null) {
+      dueDate = dateStamp;
+    }
+
+    saveDateHandler(
+      isItRecurring,
+      isReminderEnabled,
+      timeArray,
+      dueDate,
+      schedule
+    );
   };
 
   useEffect(() => {
     let ref = {
-      open: (isEdit = false) => {
+      open: (isEdit = false, props) => {
         setVisible(true);
+
+        setIsRecurring(props.isRecurring);
+        setDateStamp(props.dateStamp);
+        if (
+          !props.isRecurring &&
+          props.dateStamp &&
+          props.dateStamp != "noDueDate"
+        ) {
+          setMarkedDay({
+            [`${props.dateStamp.substring(0, 4)}-${props.dateStamp.substring(
+              4,
+              6
+            )}-${props.dateStamp.substring(6, 8)}`]: oneDay,
+          });
+        }
+        var indexes = [false, false, false, false, false, false, false];
+        if (props.schedule?.days) {
+          for (var scheduledDay of props.schedule.days) {
+            indexes[scheduledDay] = true;
+          }
+        }
+        setActiveIndexes(indexes);
+
+        timeArray = props.time;
+
+        var hour = timeArray[0].toString();
+        if (hour.length == 1) {
+          hour = "0" + hour;
+        }
+        var minute = timeArray[1].toString();
+        if (minute.length == 1) {
+          minute = "0" + minute;
+        }
+
+        reminderTimeFromNotification = new Date(
+          `1995-12-17T${hour}:${minute}:00`
+        );
+        setReminderTime(reminderTimeFromNotification);
+        setIsReminderEnabled(props.notifications);
+
         if (isEdit) {
           setIsEdit(true);
-          setDateStamp(props.dateStamp);
-          //calculate markedDay
-          setMarkedDay(null);
-
-          setIsRecurring(props.isRecurring);
-          //calculate active indexes
-          setActiveIndexes(null);
-          //calculate reminder time
-          setReminderTime(null);
         } else {
-          setMarkedDay(null);
-          setDateStamp(null);
-          setIsRecurring(false);
-          setActiveIndexes([false, false, false, false, false, false, false]);
-          setReminderTime(new Date("1995-12-17T12:00:00"));
           setIsEdit(false);
         }
       },
@@ -246,13 +333,23 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
       onBackdropPress={() => setVisible(false)}
       isVisible={visible}
     >
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
         {!isEdit ? (
           <View style={styles.topLine}>
             <TouchableOpacity
               onPress={() => {
-                setDateStamp(null);
                 setIsRecurring(false);
+                setActiveIndexes([
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                ]);
+                setIsReminderEnabled(false);
               }}
               style={[styles.btn, !isRecurring && styles.btnActive]}
             >
@@ -261,7 +358,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
             <TouchableOpacity
               onPress={() => {
                 setDateStamp(null);
+                setMarkedDay(null);
                 setIsRecurring(true);
+                setIsReminderEnabled(false);
               }}
               style={[styles.btn, isRecurring && styles.btnActive]}
             >
@@ -278,6 +377,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
               onPress={() => {
                 setDateStamp(null);
                 setMarkedDay(null);
+                setIsReminderEnabled(false);
               }}
               style={styles.btn}
             >
@@ -297,6 +397,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                         newIndexes[index] = false;
                       } else {
                         newIndexes[index] = true;
+                      }
+                      if (newIndexes.every((index) => index === false)) {
+                        setIsReminderEnabled(false);
                       }
                       setActiveIndexes(newIndexes);
                     }}
@@ -536,6 +639,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: "#25436B",
     fontFamily: "Sego",
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
   daysContainer: {
     flexDirection: "row",

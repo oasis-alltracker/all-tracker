@@ -31,6 +31,7 @@ export default function Main({
 }) {
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
+  const tasksAndToDos = toDos.concat(tasks);
 
   return (
     <>
@@ -317,13 +318,25 @@ export default function Main({
                 </TouchableOpacity>
               </View>
             </View>
-            {[0, 1, 2, 4].map((item, index) => (
+            {tasksAndToDos.map((item, index) => (
               <RenderTodos
                 onPress={() => {
+                  console.log(item);
+                  var isRecurring = false;
+                  if (item.PK.includes("task")) {
+                    isRecurring = true;
+                  }
                   taskRef.current.open(true, {
-                    title: "Meditate",
-                    status: "Bad",
-                    count: "3",
+                    title: item.name,
+                    description: item.description,
+                    isRecurring: isRecurring,
+                    dateStamp: item.dateStamp,
+                    itemSK: item.SK,
+                    toDoID: item.toDoID,
+                    schedule: item.schedule,
+                    isComplete: item.isComplete,
+                    nextDueDate: item.nextDueDate,
+                    completionList: item.completionList,
                   });
                 }}
                 key={index}
@@ -342,7 +355,7 @@ export default function Main({
   );
 }
 
-export const RenderTodos = ({ onPress = () => {} }) => {
+export const RenderTodos = ({ onPress = () => {}, item }) => {
   const [isCheck, setIsCheck] = useState(false);
 
   return (
@@ -358,8 +371,8 @@ export const RenderTodos = ({ onPress = () => {} }) => {
           />
         )}
       </TouchableOpacity>
-      <Text style={styles.itemTextMain}>Clean laundry</Text>
-      <Text style={styles.itemText2Main}>Overdue</Text>
+      <Text style={styles.itemTextMain}>{item.name}</Text>
+      <Text style={styles.itemText2Main}>logic</Text>
     </TouchableOpacity>
   );
 };

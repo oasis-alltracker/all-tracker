@@ -38,6 +38,7 @@ class UpdateToDo {
       name: toDo.name,
       toDoID: toDo.toDoID,
       dateStamp: toDo.dateStamp,
+      isComplete: toDo.isComplete,
     };
 
     await this.DB.putItem(data);
