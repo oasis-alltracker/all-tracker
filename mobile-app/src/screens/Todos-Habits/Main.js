@@ -321,7 +321,6 @@ export default function Main({
             {tasksAndToDos.map((item, index) => (
               <RenderTodos
                 onPress={() => {
-                  console.log(item);
                   var isRecurring = false;
                   if (item.PK.includes("task")) {
                     isRecurring = true;
@@ -341,6 +340,8 @@ export default function Main({
                 }}
                 key={index}
                 item={item}
+                updateTaskStatus={updateTaskStatus}
+                updateToDoStatus={updateToDoStatus}
               />
             ))}
           </>
@@ -355,13 +356,27 @@ export default function Main({
   );
 }
 
-export const RenderTodos = ({ onPress = () => {}, item }) => {
+export const RenderTodos = ({
+  onPress = () => {},
+  item,
+  updateTaskStatus,
+  updateToDoStatus,
+}) => {
   const [isCheck, setIsCheck] = useState(false);
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemMain}>
       <TouchableOpacity
-        onPress={() => setIsCheck((pr) => !pr)}
+        onPress={() => {
+          if (!item.isLocked) {
+            setIsCheck((pr) => !pr);
+            if (item.PK.includes("task")) {
+              updateTaskStatus(item);
+            } else {
+              updateToDoStatus(item);
+            }
+          }
+        }}
         style={styles.checkMain}
       >
         {isCheck && (
@@ -371,7 +386,12 @@ export const RenderTodos = ({ onPress = () => {}, item }) => {
           />
         )}
       </TouchableOpacity>
-      <Text style={styles.itemTextMain}>{item.name}</Text>
+      {isCheck ? (
+        <Text style={styles.itemTextMainStrikeThru}>{item.name}</Text>
+      ) : (
+        <Text style={styles.itemTextMain}>{item.name}</Text>
+      )}
+
       <Text style={styles.itemText2Main}>logic</Text>
     </TouchableOpacity>
   );
@@ -475,6 +495,14 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     marginLeft: 20,
     flex: 1,
+  },
+  itemTextMainStrikeThru: {
+    color: "#1E1E1E",
+    fontSize: 20,
+    fontFamily: "Sego",
+    marginLeft: 20,
+    flex: 1,
+    textDecorationLine: "line-through",
   },
   itemText2Main: {
     color: "#FFBEF1",

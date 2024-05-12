@@ -82,6 +82,8 @@ export default function TaskModal({
           cancelable: true,
         }
       );
+    } else {
+      setVisible(false);
     }
   };
 

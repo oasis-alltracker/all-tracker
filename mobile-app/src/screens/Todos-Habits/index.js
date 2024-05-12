@@ -44,6 +44,8 @@ const TodosHabits = ({ navigation }) => {
 
   const [tasks, setTasks] = useState([]);
   const [toDos, setToDos] = useState([]);
+  const [dueTasks, setDueTasks] = useState([]);
+  const [dueToDos, setDueToDos] = useState([]);
   const [doneToDos, setDoneToDos] = useState([]);
 
   const [habits, setHabits] = useState([]);
@@ -60,6 +62,7 @@ const TodosHabits = ({ navigation }) => {
     var newDate = new Date(new Date(day).getTime() + dayValue);
     setDay(newDate);
     refreshHabits(newDate);
+    refreshTasksAndToDos(newDate);
   };
 
   //Habit methods
@@ -213,6 +216,20 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
+  const refreshTasksAndToDos = async (newDate) => {
+    userDueToDos = await ToDosAPI.getToDosForToday(
+      token,
+      moment(newDate).format("YYYYMMDD")
+    );
+    setDueToDos(userDueToDos);
+
+    userDueTasks = await TasksAPI.getDueAndOverdueTaks(
+      token,
+      moment(newDate).format("YYYYMMDD")
+    );
+    setDueTasks(userDueTasks);
+  };
+
   //tuhdo methods
   const createToDo = async (toDo, time) => {
     try {
@@ -234,8 +251,13 @@ const TodosHabits = ({ navigation }) => {
     try {
       userToDos = await ToDosAPI.getToDos(token, false);
       userDoneToDos = await ToDosAPI.getToDos(token, true);
+      userDueToDos = await ToDosAPI.getToDosForToday(
+        token,
+        moment(day).format("YYYYMMDD")
+      );
       setToDos(userToDos);
       setDoneToDos(userDoneToDos);
+      setDueToDos(userDueToDos);
     } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
@@ -264,7 +286,7 @@ const TodosHabits = ({ navigation }) => {
   const updateToDoStatus = async (toDo) => {
     try {
       if (!toDo.isLocked) {
-        var toDoID = toDo.SK;
+        var toDoSK = toDo.SK;
         toDo.isLocked = true;
 
         if (!toDo.selected) {
@@ -274,10 +296,10 @@ const TodosHabits = ({ navigation }) => {
             dateStamp: toDo.dateStamp,
             description: toDo.description,
             isComplete: true,
-            toDoID: toDoID.toDoID,
+            toDoID: toDo.toDoID,
           };
           toDo.SK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
-          await ToDosAPI.updateToDo(token, toDoID, updatedToDo);
+          await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         } else {
           toDo.selected = false;
 
@@ -286,14 +308,16 @@ const TodosHabits = ({ navigation }) => {
             dateStamp: toDo.dateStamp,
             description: toDo.description,
             isComplete: false,
-            toDoID: toDoID.toDoID,
+            toDoID: toDo.toDoID,
           };
           toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
-          await ToDosAPI.updateToDo(token, toDoID, updatedToDo);
+          await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         }
         toDo.isLocked = false;
+        setToDos(toDos);
       }
     } catch (e) {
+      console.log(e);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -321,7 +345,12 @@ const TodosHabits = ({ navigation }) => {
   const getTasks = async (token) => {
     try {
       userTasks = await TasksAPI.getTasks(token);
+      userDueTasks = await TasksAPI.getDueAndOverdueTaks(
+        token,
+        moment(day).format("YYYYMMDD")
+      );
       setTasks(userTasks);
+      setDueTasks(userDueTasks);
     } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
@@ -492,8 +521,8 @@ const TodosHabits = ({ navigation }) => {
             isLoading={isLoading}
             day={day}
             statusList={statusList}
-            toDos={toDos}
-            tasks={tasks}
+            toDos={dueToDos}
+            tasks={dueTasks}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
             createHabitRef={createHabitRef}
@@ -612,6 +641,10 @@ const styles = StyleSheet.create({
     top: 25,
     left: 20,
     zIndex: 1,
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 
