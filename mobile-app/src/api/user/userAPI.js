@@ -13,8 +13,8 @@ class UserAPI {
       const response = await axios.get(API, { headers: headers });
       status = response?.status;
       data = response?.data[0];
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       status = error.response.status;
       data = error.response.data;
     }

@@ -38,7 +38,8 @@ class TasksAPI {
     };
 
     try {
-      await axios.post(API, task, { headers: headers });
+      response = await axios.post(API, task, { headers: headers });
+      return response?.data?.ID;
     } catch (e) {
       console.log(e);
     }

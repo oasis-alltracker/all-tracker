@@ -326,7 +326,7 @@ Authorization: Bearer token
 
 //Create to-do.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos
-Authorization: Bearer token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNTU1ODA2MCwiZXhwIjoxNzE1NzMwODYwfQ.-uxivo9chektipTK_SfiirCwRFwX_m9QtmghKcBOCtw
 
 {
     "name": "Finish this app",

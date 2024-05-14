@@ -43,7 +43,7 @@ class CreateToDo {
     };
 
     await this.DB.putItem(data);
-    return { ID: data.SK };
+    return { ID: toDoID };
   }
 }
 module.exports = CreateToDo;

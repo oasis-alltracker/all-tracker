@@ -29,6 +29,7 @@ import UpdateHabitModal from "./modals/UpdateHabitModal";
 import TaskModal from "./modals/TaskModal";
 import { sharedStyles } from "../styles";
 import TasksAPI from "../../api/tasks/tasksAPI";
+import NotificationsHandler from "../../api/notifications/notificationsHandler";
 
 const TodosHabits = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -216,37 +217,7 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const refreshTasksAndToDos = async (newDate) => {
-    userDueToDos = await ToDosAPI.getToDosForToday(
-      token,
-      moment(newDate).format("YYYYMMDD")
-    );
-    setDueToDos(userDueToDos);
-
-    userDueTasks = await TasksAPI.getDueAndOverdueTaks(
-      token,
-      moment(newDate).format("YYYYMMDD")
-    );
-    setDueTasks(userDueTasks);
-  };
-
   //tuhdo methods
-  const createToDo = async (toDo, time) => {
-    try {
-      setIsLoading(true);
-      token = await getAccessToken();
-      await ToDosAPI.createToDo(token, toDo);
-      getToDos(token);
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
   const getToDos = async (token) => {
     try {
       userToDos = await ToDosAPI.getToDos(token, false);
@@ -267,11 +238,70 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateToDo = async (toDoID, toDo, time) => {
+  const createToDo = async (toDo, isNotificationsOn, time) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
-      await ToDosAPI.updateToDo(token, toDoID, toDo);
+      toDoID = await ToDosAPI.createToDo(token, toDo);
+
+      if (isNotificationsOn) {
+        trigger = [
+          {
+            day: Number(toDo.dateStamp.substring(6, 8)),
+            month: Number(toDo.dateStamp.substring(4, 6)) - 1,
+            hour: time[0],
+            minute: time[1],
+          },
+        ];
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `task-${toDoID}`,
+          "Task Reminder",
+          toDo.name,
+          trigger,
+          true
+        );
+      }
+
+      getToDos(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateToDo = async (toDoSK, toDo, isNotificationsOn, time) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await ToDosAPI.updateToDo(token, toDoSK, toDo);
+      if (isNotificationsOn) {
+        prevNotification = await NotificationsHandler.getNotificationsForGroup(
+          token,
+          `task-${toDo.toDoID}`
+        );
+        trigger = [
+          {
+            day: Number(toDo.dateStamp.substring(6, 8)),
+            month: Number(toDo.dateStamp.substring(4, 6)),
+            hour: time[0],
+            minute: time[1],
+          },
+        ];
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `task-${toDo.toDoID}`,
+          "Task Reminder",
+          toDo.name,
+          trigger,
+          true,
+          prevNotification.expoIDs
+        );
+      }
       getToDos(token);
       setIsLoading(false);
     } catch (e) {
@@ -360,14 +390,34 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const createTask = async (toDo, time) => {
+  const createTask = async (task, isNotificationsOn, time) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
-      await TasksAPI.createTask(token, toDo);
+      taskID = await TasksAPI.createTask(token, task);
+      if (isNotificationsOn) {
+        triggers = [];
+        for (var day of task.schedule.days) {
+          triggers.push({
+            weekday: day + 1,
+            hour: time[0],
+            minute: time[1],
+          });
+        }
+
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `task-${taskID}`,
+          "Task Reminder",
+          task.name,
+          triggers,
+          true
+        );
+      }
       getTasks(token);
       setIsLoading(false);
     } catch (e) {
+      console.log(e);
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -376,14 +426,42 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateTask = async (taskID, task, time) => {
+  const updateTask = async (taskSK, task, isNotificationsOn, time) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
-      await TasksAPI.updateTask(token, taskID, task);
+      await TasksAPI.updateTask(token, taskSK, task);
+
+      if (isNotificationsOn) {
+        prevNotification = await NotificationsHandler.getNotificationsForGroup(
+          token,
+          `task-${taskSK}`
+        );
+
+        triggers = [];
+        for (var day of task.schedule.days) {
+          triggers.push({
+            weekday: day + 1,
+            hour: time[0],
+            minute: time[1],
+          });
+        }
+
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `task-${taskSK}`,
+          "Task Reminder",
+          task.name,
+          triggers,
+          true,
+          prevNotification.expoIDs
+        );
+      }
+
       getTasks(token);
       setIsLoading(false);
     } catch (e) {
+      console.log(e);
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -475,6 +553,20 @@ const TodosHabits = ({ navigation }) => {
         duration: Toast.durations.LONG,
       });
     }
+  };
+
+  const refreshTasksAndToDos = async (newDate) => {
+    userDueToDos = await ToDosAPI.getToDosForToday(
+      token,
+      moment(newDate).format("YYYYMMDD")
+    );
+    setDueToDos(userDueToDos);
+
+    userDueTasks = await TasksAPI.getDueAndOverdueTaks(
+      token,
+      moment(newDate).format("YYYYMMDD")
+    );
+    setDueTasks(userDueTasks);
   };
 
   useEffect(() => {

@@ -45,7 +45,7 @@ class CreateTask {
     var dayOfWeek = lastCompletionDate.getDay();
     var nextDayOfWeek = 0;
     for (var recurringDay of task.schedule.days) {
-      if (recurringDay > dayOfWeek) {
+      if (recurringDay >= dayOfWeek) {
         nextDayOfWeek = recurringDay;
         break;
       }
@@ -59,9 +59,7 @@ class CreateTask {
     //use brain cells please
     if (nextDayOfWeek > dayOfWeek) {
       dateChange = nextDayOfWeek - dayOfWeek;
-    } else if (nextDayOfWeek == dayOfWeek) {
-      dateChange = 7;
-    } else {
+    } else if (nextDayOfWeek != dayOfWeek) {
       dateChange = 7 - dayOfWeek + nextDayOfWeek;
     }
     lastCompletionDate.setDate(lastCompletionDate.getDate() + dateChange);
@@ -90,7 +88,7 @@ class CreateTask {
     };
 
     await this.DB.putItem(data);
-    return { ID: data.SK };
+    return { ID: taskID };
   }
 }
 module.exports = CreateTask;

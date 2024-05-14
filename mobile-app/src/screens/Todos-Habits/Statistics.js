@@ -32,7 +32,6 @@ export default function Statistics(trackingPreferences) {
   const [selectedMonday, setSelectedMonday] = useState(new Date());
 
   const updateWeek = (dateChange) => {
-    console.log(selectedMonday);
     var newDate = new Date(
       selectedMonday.setDate(selectedMonday.getDate() + dateChange)
     );

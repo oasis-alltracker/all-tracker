@@ -49,8 +49,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     new Date("1995-12-17T12:00:00")
   );
   const [isReminderEnabled, setIsReminderEnabled] = useState(false);
-
-  var timeArray = [12, 0];
+  const [timeArray, setTimeArray] = useState(null);
 
   const dayPress = (day) => {
     setDateStamp(day.dateString.replace("-", "").replace("-", ""));
@@ -88,14 +87,16 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   };
 
   const onChange = async (event, selectedDate) => {
+    setReminderTime(selectedDate);
     if (Platform.OS === "android") {
       setShow(false);
     }
-    if (event.type != "dismissed") {
-      timeArray = formatDateObjectBackend(selectedDate).split(":");
-    }
-    timeArray[0] = Number(timeArray[0]);
-    timeArray[1] = Number(timeArray[1]);
+
+    newTimeArray = formatDateObjectBackend(selectedDate).split(":");
+    newTimeArray[0] = Number(newTimeArray[0]);
+    newTimeArray[1] = Number(newTimeArray[1]);
+    setTimeArray(newTimeArray);
+    console.log(selectedDate);
   };
 
   const formatDateObjectBackend = (dateObject) => {
@@ -226,13 +227,13 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         }
         setActiveIndexes(indexes);
 
-        timeArray = props.time;
+        setTimeArray([props.time[0], props.time[1]]);
 
-        var hour = timeArray[0].toString();
+        var hour = props.time[0].toString();
         if (hour.length == 1) {
           hour = "0" + hour;
         }
-        var minute = timeArray[1].toString();
+        var minute = props.time[1].toString();
         if (minute.length == 1) {
           minute = "0" + minute;
         }

@@ -318,32 +318,42 @@ export default function Main({
                 </TouchableOpacity>
               </View>
             </View>
-            {tasksAndToDos.map((item, index) => (
-              <RenderTodos
-                onPress={() => {
-                  var isRecurring = false;
-                  if (item.PK.includes("task")) {
-                    isRecurring = true;
-                  }
-                  taskRef.current.open(true, {
-                    title: item.name,
-                    description: item.description,
-                    isRecurring: isRecurring,
-                    dateStamp: item.dateStamp,
-                    itemSK: item.SK,
-                    toDoID: item.toDoID,
-                    schedule: item.schedule,
-                    isComplete: item.isComplete,
-                    nextDueDate: item.nextDueDate,
-                    completionList: item.completionList,
-                  });
-                }}
-                key={index}
-                item={item}
-                updateTaskStatus={updateTaskStatus}
-                updateToDoStatus={updateToDoStatus}
-              />
-            ))}
+            {tasksAndToDos.length > 0 ? (
+              <>
+                {tasksAndToDos.map((item, index) => (
+                  <RenderTodos
+                    onPress={() => {
+                      var isRecurring = false;
+                      if (item.PK.includes("task")) {
+                        isRecurring = true;
+                      }
+                      taskRef.current.open(true, {
+                        title: item.name,
+                        description: item.description,
+                        isRecurring: isRecurring,
+                        dateStamp: item.dateStamp,
+                        itemSK: item.SK,
+                        toDoID: item.toDoID,
+                        schedule: item.schedule,
+                        isComplete: item.isComplete,
+                        nextDueDate: item.nextDueDate,
+                        completionList: item.completionList,
+                      });
+                    }}
+                    key={index}
+                    item={item}
+                    updateTaskStatus={updateTaskStatus}
+                    updateToDoStatus={updateToDoStatus}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                <Text style={styles.quoteText}>
+                  "Luck is the residue of hard work."
+                </Text>
+              </>
+            )}
           </>
         )}
       </ScrollView>
@@ -517,5 +527,11 @@ const styles = StyleSheet.create({
   errorToast: {
     backgroundColor: "#FFD7D7",
     textColor: "#25436B",
+  },
+  quoteText: {
+    fontFamily: "Sego",
+    color: "#25436B",
+    fontSize: 16,
+    marginTop: 20,
   },
 });

@@ -46,8 +46,8 @@ class LoginAPI {
       const response = await axios.post(url, body);
       status = response?.status;
       data = response?.data;
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
       status = error.response.status;
       data = error.response.data;
     }
@@ -159,7 +159,6 @@ class LoginAPI {
     }
     return { status, data };
   }
-
 
   static async refreshToken(token) {
     const headers = {

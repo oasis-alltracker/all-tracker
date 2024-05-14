@@ -109,7 +109,7 @@ export default function TaskModal({
               completionList: completionList,
               nextDueDate: nextDueDate,
             };
-            await updateTask(itemSK, task, time);
+            await updateTask(itemSK, task, isNotificationsOn, time);
           } else {
             toDo = {
               name: title,
@@ -118,7 +118,7 @@ export default function TaskModal({
               isComplete: isComplete,
               toDoID: itemID,
             };
-            await updateToDo(itemSK, toDo, time);
+            await updateToDo(itemSK, toDo, isNotificationsOn, time);
           }
         } else {
           if (isRecurring) {
@@ -141,14 +141,14 @@ export default function TaskModal({
               description: description,
               dateStamp: todaysDateStamp,
             };
-            await createTask(task, time);
+            await createTask(task, isNotificationsOn, time);
           } else {
             toDo = {
               name: title,
               description: description,
               dateStamp: dateStamp,
             };
-            await createToDo(toDo, time);
+            await createToDo(toDo, isNotificationsOn, time);
           }
         }
         setVisible(false);
@@ -171,15 +171,15 @@ export default function TaskModal({
       );
 
       if (notifications.length == 1) {
-        if ((notification[0].preference = "on")) {
+        if ((notifications[0].preference = "on")) {
           setIsNotificationsOn(true);
         } else {
           setIsNotificationsOn(false);
         }
 
         setTime([
-          notifcation[0].triggers[0].hour,
-          notifcation[0].triggers[0].minute,
+          notifications[0].triggers[0].hour,
+          notifications[0].triggers[0].minute,
         ]);
       } else {
         setTime([12, 0]);
