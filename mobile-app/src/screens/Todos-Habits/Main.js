@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Image,
   ImageBackground,
@@ -7,11 +7,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+
+const { width, height } = Dimensions.get("window");
 
 export default function Main({
   day,
@@ -31,7 +34,11 @@ export default function Main({
 }) {
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
-  const tasksAndToDos = toDos.concat(tasks);
+  const [tasksAndToDos, setTasksAndToDos] = useState([]);
+
+  useEffect(() => {
+    setTasksAndToDos(toDos.concat(tasks));
+  }, [toDos, tasks]);
 
   return (
     <>
@@ -120,7 +127,7 @@ export default function Main({
                         val.count === undefined || val.count < val.threshold ? (
                           <TouchableOpacity
                             style={[
-                              styles.habitButtonMainNoToDo,
+                              styles.habitButtonMain,
                               { backgroundColor: "rgba(215, 246, 255, 0.65)" },
                             ]}
                             key={key.toString()}
@@ -319,34 +326,40 @@ export default function Main({
               </View>
             </View>
             {tasksAndToDos.length > 0 ? (
-              <>
-                {tasksAndToDos.map((item, index) => (
-                  <RenderTodos
-                    onPress={() => {
-                      var isRecurring = false;
-                      if (item.PK.includes("task")) {
-                        isRecurring = true;
-                      }
-                      taskRef.current.open(true, {
-                        title: item.name,
-                        description: item.description,
-                        isRecurring: isRecurring,
-                        dateStamp: item.dateStamp,
-                        itemSK: item.SK,
-                        toDoID: item.toDoID,
-                        schedule: item.schedule,
-                        isComplete: item.isComplete,
-                        nextDueDate: item.nextDueDate,
-                        completionList: item.completionList,
-                      });
-                    }}
-                    key={index}
-                    item={item}
-                    updateTaskStatus={updateTaskStatus}
-                    updateToDoStatus={updateToDoStatus}
-                  />
-                ))}
-              </>
+              <View style={{ height: 150 }}>
+                <ScrollView
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={styles.toDoScrollContainer}
+                >
+                  {tasksAndToDos.map((item, index) => (
+                    <RenderTodos
+                      onPress={() => {
+                        var isRecurring = false;
+                        if (item.PK.includes("task")) {
+                          isRecurring = true;
+                        }
+                        taskRef.current.open(true, {
+                          title: item.name,
+                          description: item.description,
+                          isRecurring: isRecurring,
+                          dateStamp: item.dateStamp,
+                          itemSK: item.SK,
+                          toDoID: item.toDoID,
+                          schedule: item.schedule,
+                          isComplete: item.isComplete,
+                          nextDueDate: item.nextDueDate,
+                          completionList: item.completionList,
+                        });
+                      }}
+                      currentDay={day}
+                      key={index}
+                      item={item}
+                      updateTaskStatus={updateTaskStatus}
+                      updateToDoStatus={updateToDoStatus}
+                    />
+                  ))}
+                </ScrollView>
+              </View>
             ) : (
               <>
                 <Text style={styles.quoteText}>
@@ -368,11 +381,48 @@ export default function Main({
 
 export const RenderTodos = ({
   onPress = () => {},
+  currentDay,
   item,
   updateTaskStatus,
   updateToDoStatus,
 }) => {
   const [isCheck, setIsCheck] = useState(false);
+  const [itemDate, setItemDate] = useState("noDueDate");
+  const [prevID, setPrevID] = useState(null);
+
+  useEffect(() => {
+    if (!prevID) {
+      if (item.toDoID) {
+        setPrevID(item.toDoID);
+      } else {
+        setPrevID(item.SK);
+      }
+    } else {
+      if (item.toDoID && item.toDoID != prevID) {
+        setPrevID(item.toDoID);
+        setIsCheck(false);
+      } else if (!item.toDoID && item.SK != prevID) {
+        setPrevID(item.SK);
+        setIsCheck(false);
+      }
+    }
+
+    var itemDateStamp = "noDueDate";
+    if (!item.toDoID) {
+      itemDateStamp = item.nextDueDate;
+    } else if (item.dateStamp != "noDueDate") {
+      itemDateStamp = item.dateStamp;
+    }
+
+    if (itemDateStamp != "noDueDate") {
+      var year = itemDateStamp.substring(0, 4);
+      var month = itemDateStamp.substring(4, 6);
+      var day = itemDateStamp.substring(6, 8);
+
+      var newItemDate = new Date(Number(year), Number(month) - 1, Number(day));
+      setItemDate(newItemDate);
+    }
+  }, [item]);
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemMain}>
@@ -401,8 +451,38 @@ export const RenderTodos = ({
       ) : (
         <Text style={styles.itemTextMain}>{item.name}</Text>
       )}
-
-      <Text style={styles.itemText2Main}>logic</Text>
+      {itemDate != "noDueDate" && (
+        <>
+          {item.toDoID ? (
+            <>
+              {moment(itemDate).format("YYYYMMDD") ==
+              moment(currentDay).format("YYYYMMDD") ? (
+                <Text style={styles.dueTodayText}>Today</Text>
+              ) : (
+                <Text style={styles.itemText2Main}>
+                  {itemDate.toDateString().slice(4, -4)}
+                </Text>
+              )}
+            </>
+          ) : (
+            <View>
+              {moment(itemDate).format("YYYYMMDD") ==
+              moment(currentDay).format("YYYYMMDD") ? (
+                <Text style={styles.dueTodayText}>Today</Text>
+              ) : (
+                <Text style={styles.itemText2Main}>
+                  {itemDate.toDateString().slice(4, -4)}
+                </Text>
+              )}
+              <Image
+                style={styles.repeatImage}
+                resizeMode="contain"
+                source={require("../../assets/images/repeat.png")}
+              />
+            </View>
+          )}
+        </>
+      )}
     </TouchableOpacity>
   );
 };
@@ -426,28 +506,15 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingBottom: 2,
-    paddingTop: 2,
-    marginTop: 10,
-    height: 160,
-  },
-  habitScrollContainterMainNoToDo: {
-    flexGrow: 1,
-    alignItems: "center",
-    paddingBottom: 2,
-    paddingHorizontal: 20,
-    paddingTop: 2,
-    marginTop: 10,
-    height: 160,
+    height: 140,
   },
   habitImageMain: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
   },
-
   habitButtonMain: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     borderRadius: 100,
     marginHorizontal: 5,
     alignItems: "center",
@@ -455,21 +522,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "rgba(0,0,0,0)",
   },
-  habitImageMainNoToDo: {
-    width: 80,
-    height: 80,
-  },
 
-  habitButtonMainNoToDo: {
-    width: 130,
-    height: 130,
-    borderRadius: 100,
-    marginHorizontal: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "rgba(0,0,0,0)",
-  },
   contentContainerStyleMain: {
     paddingHorizontal: 20,
   },
@@ -519,6 +572,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Sego",
   },
+  dueTodayText: {
+    color: "#25436B",
+    fontSize: 13,
+    fontFamily: "Sego",
+  },
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -533,5 +591,15 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 16,
     marginTop: 20,
+  },
+  repeatImage: {
+    width: 25,
+    height: 25,
+  },
+  toDoScrollContainer: {
+    alignItems: "center",
+    overflow: "visible",
+    paddingBottom: 80,
+    width: width - 30,
   },
 });

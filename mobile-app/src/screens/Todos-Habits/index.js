@@ -263,7 +263,7 @@ const TodosHabits = ({ navigation }) => {
         );
       }
 
-      getToDos(token);
+      await getToDos(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -302,7 +302,7 @@ const TodosHabits = ({ navigation }) => {
           prevNotification.expoIDs
         );
       }
-      getToDos(token);
+      await getToDos(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -360,7 +360,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await ToDosAPI.deleteToDo(token, toDoID);
-      getToDos(token);
+      await getToDos(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -414,7 +414,7 @@ const TodosHabits = ({ navigation }) => {
           true
         );
       }
-      getTasks(token);
+      await getTasks(token);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -458,7 +458,7 @@ const TodosHabits = ({ navigation }) => {
         );
       }
 
-      getTasks(token);
+      await getTasks(token);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -544,7 +544,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await TasksAPI.deleteTask(token, taskID);
-      getTasks(token);
+      await getTasks(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
