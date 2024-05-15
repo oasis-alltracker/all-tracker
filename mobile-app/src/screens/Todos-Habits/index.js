@@ -317,6 +317,20 @@ const TodosHabits = ({ navigation }) => {
     try {
       var index = toDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
       var toDo = toDos[index];
+      var newToDos = [...toDos];
+      var newDoneToDos = [...doneToDos];
+      var doneToDoUpdated = false;
+
+      if (toDo == undefined) {
+        index = doneToDos.findIndex(
+          (item) => item.toDoID == updatedToDo.toDoID
+        );
+        toDo = doneToDos[index];
+        toDo.selected = true;
+        toDo.isComplete = false;
+        doneToDoUpdated = true;
+      }
+
       if (!toDo.isLocked) {
         var toDoSK = toDo.SK;
         toDo.isLocked = true;
@@ -346,8 +360,16 @@ const TodosHabits = ({ navigation }) => {
           await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         }
         toDo.isLocked = false;
+
         var newToDos = [...toDos];
+        var newDoneToDos = [...doneToDos];
+
+        if (doneToDoUpdated) {
+          newToDos.push(toDo);
+          newDoneToDos.splice(index, 1);
+        }
         setToDos(newToDos);
+        setDoneToDos(newDoneToDos);
       }
     } catch (e) {
       console.log(e);

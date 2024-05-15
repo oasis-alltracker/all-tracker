@@ -24,6 +24,10 @@ export default function MyTasks({
 }) {
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [completedToDos, setCompletedToDos] = useState([]);
+  const [showCompleted, setShowCompleted] = useState(false);
+
+  const [myTasksHeight, setMyTasksHeight] = useState(290);
+  const [completedRotation, setCompletedRotation] = useState("0deg");
 
   const today = new Date();
 
@@ -32,43 +36,137 @@ export default function MyTasks({
     setCompletedToDos([...doneToDos]);
   }, [toDos, tasks]);
 
+  const RenderTodos = ({
+    onPress = () => {},
+    currentDay,
+    item,
+    updateTaskStatus,
+    updateToDoStatus,
+  }) => {
+    const [isCheck, setIsCheck] = useState(false);
+    const [itemDate, setItemDate] = useState("noDueDate");
+    const [prevID, setPrevID] = useState(null);
+
+    useEffect(() => {
+      if (item.isComplete || item.selected) {
+        setIsCheck(true);
+      } else {
+        setIsCheck(false);
+      }
+
+      if (!prevID) {
+        if (item.toDoID) {
+          setPrevID(item.toDoID);
+        } else {
+          setPrevID(item.SK);
+        }
+      } else {
+        if (item.toDoID && item.toDoID != prevID) {
+          setPrevID(item.toDoID);
+          if (item.selected) {
+            setIsCheck(true);
+          } else {
+            setIsCheck(false);
+          }
+        } else if (!item.toDoID && item.SK != prevID) {
+          setPrevID(item.SK);
+          setIsCheck(false);
+        }
+      }
+
+      var itemDateStamp = "noDueDate";
+      if (!item.toDoID) {
+        itemDateStamp = item.nextDueDate;
+      } else if (item.dateStamp != "noDueDate") {
+        itemDateStamp = item.dateStamp;
+      }
+
+      if (itemDateStamp != "noDueDate") {
+        var year = itemDateStamp.substring(0, 4);
+        var month = itemDateStamp.substring(4, 6);
+        var day = itemDateStamp.substring(6, 8);
+
+        var newItemDate = new Date(
+          Number(year),
+          Number(month) - 1,
+          Number(day)
+        );
+        setItemDate(newItemDate);
+      } else {
+        setItemDate("noDueDate");
+      }
+    }, [item]);
+
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
+        <TouchableOpacity
+          onPress={() => {
+            if (!item.isLocked) {
+              setIsCheck((pr) => !pr);
+              if (item.PK.includes("task")) {
+                updateTaskStatus(item);
+              } else {
+                updateToDoStatus(item);
+              }
+            }
+          }}
+          style={styles.checkRender}
+        >
+          {isCheck && (
+            <Image
+              style={styles.checkImageRender}
+              source={require("../../assets/images/check.png")}
+            />
+          )}
+        </TouchableOpacity>
+        {isCheck ? (
+          <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
+        ) : (
+          <Text style={styles.itemRenderTextMain}>{item.name}</Text>
+        )}
+        {itemDate != "noDueDate" && (
+          <>
+            {item.toDoID ? (
+              <>
+                {moment(itemDate).format("YYYYMMDD") ==
+                moment(currentDay).format("YYYYMMDD") ? (
+                  <Text style={styles.dueTodayText}>Today</Text>
+                ) : (
+                  <Text style={styles.itemRenderText2Main}>
+                    {itemDate.toDateString().slice(4, -4)}
+                  </Text>
+                )}
+              </>
+            ) : (
+              <View>
+                {moment(itemDate).format("YYYYMMDD") ==
+                moment(currentDay).format("YYYYMMDD") ? (
+                  <Text style={styles.dueTodayText}>Today</Text>
+                ) : (
+                  <Text style={styles.itemRenderText2Main}>
+                    {itemDate.toDateString().slice(4, -4)}
+                  </Text>
+                )}
+                <Image
+                  style={styles.repeatImage}
+                  resizeMode="contain"
+                  source={require("../../assets/images/repeat.png")}
+                />
+              </View>
+            )}
+          </>
+        )}
+      </TouchableOpacity>
+    );
+  };
+
   const Tasks = () => (
-    <View style={{ height: 240 }}>
+    <View style={{ height: myTasksHeight }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
       >
         {tasksAndToDos.map((item, index) => {
-          return (
-            <RenderTodos
-              onPress={() => {
-                var isRecurring = false;
-                if (item.PK.includes("task")) {
-                  isRecurring = true;
-                }
-                taskRef.current.open(true, {
-                  title: item.name,
-                  description: item.description,
-                  isRecurring: isRecurring,
-                  dateStamp: item.dateStamp,
-                  itemSK: item.SK,
-                  toDoID: item.toDoID,
-                  schedule: item.schedule,
-                  isComplete: item.isComplete,
-                  nextDueDate: item.nextDueDate,
-                  completionList: item.completionList,
-                });
-              }}
-              currentDay={today}
-              key={index}
-              item={item}
-              updateTaskStatus={updateTaskStatus}
-              updateToDoStatus={updateToDoStatus}
-            />
-          );
-        })}
-
-        {completedToDos.map((item, index) => {
           return (
             <RenderTodos
               onPress={() => {
@@ -119,7 +217,7 @@ export default function MyTasks({
   );
 
   const DoneToDos = () => (
-    <View style={{ height: 80 }}>
+    <View style={{ height: 120 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
@@ -172,7 +270,6 @@ export default function MyTasks({
             source={require("../../assets/images/to-dos512.png")}
           />
         </View>
-
         <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
           <Text style={styles.tasksTitle}>My tasks</Text>
           <View style={styles.buttonItems}>
@@ -191,19 +288,39 @@ export default function MyTasks({
         <View style={styles.center}>
           {tasksAndToDos.length > 0 ? <Tasks /> : <CreatTasks />}
         </View>
-
         <View style={[styles.line, { paddingTop: 5, marginBottom: 15 }]}>
           <Text style={styles.completedTitle}>Completed</Text>
           <View style={styles.buttonItems}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (showCompleted) {
+                  setShowCompleted(false);
+                  setMyTasksHeight(290);
+                  setCompletedRotation("0deg");
+                } else {
+                  setShowCompleted(true);
+                  setMyTasksHeight(190);
+                  setCompletedRotation("90deg");
+                }
+              }}
+            >
               <Image
-                style={styles.nextButton}
+                style={[
+                  styles.nextButton,
+                  {
+                    transform: [
+                      {
+                        rotate: completedRotation,
+                      },
+                    ],
+                  },
+                ]}
                 source={require("../../assets/images/left.png")}
               />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.center}>{<DoneToDos />}</View>
+        {showCompleted && <View style={styles.center}>{<DoneToDos />}</View>}
       </ScrollView>
     </>
   );
@@ -337,7 +454,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 240,
+    height: 190,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -349,8 +466,66 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   plusImage: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
+  },
+  itemRenderMain: {
+    flexDirection: "row",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    borderBottomWidth: 0,
+    width: "100%",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  checkRender: {
     width: 30,
     height: 30,
-    resizeMode: "contain",
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: "#ccc",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkImageRender: {
+    width: 20,
+    height: 20,
+  },
+  itemRenderTextMain: {
+    color: "#1E1E1E",
+    fontSize: 20,
+    fontFamily: "Sego",
+    marginLeft: 20,
+    paddingVertical: 5,
+    flex: 1,
+  },
+  itemRenderTextMainStrikeThru: {
+    color: "#1E1E1E",
+    fontSize: 20,
+    fontFamily: "Sego",
+    marginLeft: 20,
+    flex: 1,
+    textDecorationLine: "line-through",
+  },
+  itemRenderText2Main: {
+    color: "#FFBEF1",
+    fontSize: 13,
+    fontFamily: "Sego",
+  },
+  dueTodayText: {
+    color: "#25436B",
+    fontSize: 13,
+    fontFamily: "Sego",
+    paddingRight: 16,
+  },
+  repeatImage: {
+    width: 30,
+    height: 30,
+    marginLeft: 8,
   },
 });
