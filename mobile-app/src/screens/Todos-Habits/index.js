@@ -313,8 +313,10 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateToDoStatus = async (toDo) => {
+  const updateToDoStatus = async (updatedToDo) => {
     try {
+      var index = toDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
+      var toDo = toDos[index];
       if (!toDo.isLocked) {
         var toDoSK = toDo.SK;
         toDo.isLocked = true;
@@ -344,7 +346,8 @@ const TodosHabits = ({ navigation }) => {
           await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         }
         toDo.isLocked = false;
-        setToDos(toDos);
+        var newToDos = [...toDos];
+        setToDos(newToDos);
       }
     } catch (e) {
       console.log(e);
@@ -470,8 +473,10 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateTaskStatus = async (task) => {
+  const updateTaskStatus = async (updatedTask) => {
     try {
+      var index = toDos.findIndex((item) => item.SK == updatedTask.SK);
+      var task = toDos[index];
       if (!task.isLocked) {
         task.isLocked = true;
 
@@ -530,6 +535,8 @@ const TodosHabits = ({ navigation }) => {
           await TasksAPI.updateTask(token, task.SK, task);
         }
         task.isLocked = false;
+        var newTasks = [...tasks];
+        setToDos(newTasks);
       }
     } catch (e) {
       Toast.show("Something went wrong. Please try again.", {

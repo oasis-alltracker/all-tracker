@@ -391,6 +391,11 @@ export const RenderTodos = ({
   const [prevID, setPrevID] = useState(null);
 
   useEffect(() => {
+    if (item.selected) {
+      setIsCheck(true);
+    } else {
+      setIsCheck(false);
+    }
     if (!prevID) {
       if (item.toDoID) {
         setPrevID(item.toDoID);
@@ -400,7 +405,11 @@ export const RenderTodos = ({
     } else {
       if (item.toDoID && item.toDoID != prevID) {
         setPrevID(item.toDoID);
-        setIsCheck(false);
+        if (item.selected) {
+          setIsCheck(true);
+        } else {
+          setIsCheck(false);
+        }
       } else if (!item.toDoID && item.SK != prevID) {
         setPrevID(item.SK);
         setIsCheck(false);
@@ -421,6 +430,8 @@ export const RenderTodos = ({
 
       var newItemDate = new Date(Number(year), Number(month) - 1, Number(day));
       setItemDate(newItemDate);
+    } else {
+      setItemDate("noDueDate");
     }
   }, [item]);
 
@@ -557,6 +568,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Sego",
     marginLeft: 20,
+    paddingVertical: 5,
     flex: 1,
   },
   itemTextMainStrikeThru: {
@@ -576,6 +588,7 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
+    paddingRight: 16,
   },
   buttonItems: {
     alignItems: "center",
@@ -593,13 +606,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   repeatImage: {
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
+    marginLeft: 8,
   },
   toDoScrollContainer: {
     alignItems: "center",
     overflow: "visible",
-    paddingBottom: 80,
+    paddingBottom: 20,
     width: width - 30,
   },
 });

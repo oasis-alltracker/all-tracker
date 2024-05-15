@@ -96,7 +96,6 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     newTimeArray[0] = Number(newTimeArray[0]);
     newTimeArray[1] = Number(newTimeArray[1]);
     setTimeArray(newTimeArray);
-    console.log(selectedDate);
   };
 
   const formatDateObjectBackend = (dateObject) => {
