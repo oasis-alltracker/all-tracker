@@ -34,7 +34,7 @@ export default function MyTasks({
   useEffect(() => {
     setTasksAndToDos(toDos.concat(tasks));
     setCompletedToDos([...doneToDos]);
-  }, [toDos, tasks]);
+  }, [toDos, tasks, doneToDos]);
 
   const RenderTodos = ({
     onPress = () => {},
@@ -509,6 +509,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Sego",
     marginLeft: 20,
+    paddingVertical: 5,
     flex: 1,
     textDecorationLine: "line-through",
   },

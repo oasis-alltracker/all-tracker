@@ -315,11 +315,11 @@ const TodosHabits = ({ navigation }) => {
 
   const updateToDoStatus = async (updatedToDo) => {
     try {
+      var doneToDoUpdated = false;
+      var dueToDoUpdated = false;
+
       var index = toDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
       var toDo = toDos[index];
-      var newToDos = [...toDos];
-      var newDoneToDos = [...doneToDos];
-      var doneToDoUpdated = false;
 
       if (toDo == undefined) {
         index = doneToDos.findIndex(
@@ -331,12 +331,23 @@ const TodosHabits = ({ navigation }) => {
         doneToDoUpdated = true;
       }
 
+      var dueIndex = dueToDos.findIndex(
+        (item) => item.toDoID == updatedToDo.toDoID
+      );
+      var dueToDo = dueToDos[dueIndex];
+      if (dueToDo != undefined) {
+        dueToDoUpdated = true;
+      }
+
       if (!toDo.isLocked) {
         var toDoSK = toDo.SK;
         toDo.isLocked = true;
 
         if (!toDo.selected) {
           toDo.selected = true;
+          if (dueToDoUpdated) {
+            dueToDo.selected = true;
+          }
           updatedToDo = {
             name: toDo.name,
             dateStamp: toDo.dateStamp,
@@ -348,6 +359,9 @@ const TodosHabits = ({ navigation }) => {
           await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         } else {
           toDo.selected = false;
+          if (dueToDoUpdated) {
+            dueToDo.selected = false;
+          }
 
           updatedToDo = {
             name: toDo.name,
@@ -363,13 +377,21 @@ const TodosHabits = ({ navigation }) => {
 
         var newToDos = [...toDos];
         var newDoneToDos = [...doneToDos];
+        var newDueToDos = [...dueToDos];
 
         if (doneToDoUpdated) {
           newToDos.push(toDo);
           newDoneToDos.splice(index, 1);
+          if (
+            toDo.dateStamp == moment(day).format("YYYYMMDD") ||
+            toDo.dateStamp == "noDueDate"
+          ) {
+            newDueToDos.push(toDo);
+          }
         }
         setToDos(newToDos);
         setDoneToDos(newDoneToDos);
+        setDueToDos(newDueToDos);
       }
     } catch (e) {
       console.log(e);
