@@ -4,7 +4,7 @@ import SelectTrackers from "./SelectTrackers";
 import ExplainSubscription from "./ExplainSubscription";
 import HabitsCreation from "./Habits/step1";
 import HabitsNotifications from "./Habits/step2";
-import Todos from "./Todos";
+import Todos from "./Tasks/Todos";
 import DietStep1 from "./Diet/Step1";
 import DietStep2 from "./Diet/Step2";
 import DietStep3 from "./Diet/Step3";

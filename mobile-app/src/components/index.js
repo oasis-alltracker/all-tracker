@@ -14,7 +14,8 @@ import Switch from "./Switch";
 import ContinueButton from "./ContinueButton/ContinueButton";
 import ExpiredMessage from "./OTPMessages/ExpiredMessage";
 import LoadingMessage from "./OTPMessages/LoadingMessage";
-import ResendMessage  from "./OTPMessages/ResendMessage";
+import ResendMessage from "./OTPMessages/ResendMessage";
+import RenderTodos from "./RenderTodos";
 
 export {
   Header,
@@ -33,5 +34,6 @@ export {
   ContinueButton,
   ExpiredMessage,
   LoadingMessage,
-  ResendMessage
+  ResendMessage,
+  RenderTodos,
 };

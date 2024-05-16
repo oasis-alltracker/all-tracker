@@ -383,7 +383,7 @@ const TodosHabits = ({ navigation }) => {
           newToDos.push(toDo);
           newDoneToDos.splice(index, 1);
           if (
-            toDo.dateStamp == moment(day).format("YYYYMMDD") ||
+            toDo.dateStamp <= moment(day).format("YYYYMMDD") ||
             toDo.dateStamp == "noDueDate"
           ) {
             newDueToDos.push(toDo);
