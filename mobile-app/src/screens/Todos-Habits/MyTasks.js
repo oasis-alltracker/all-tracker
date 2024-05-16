@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { RenderTodos } from "./Main";
+import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
@@ -132,9 +132,18 @@ export default function MyTasks({
                 moment(currentDay).format("YYYYMMDD") ? (
                   <Text style={styles.dueTodayText}>Today</Text>
                 ) : (
-                  <Text style={styles.itemRenderText2Main}>
-                    {itemDate.toDateString().slice(4, -4)}
-                  </Text>
+                  <>
+                    {moment(itemDate).format("YYYYMMDD") <
+                    moment(currentDay).format("YYYYMMDD") ? (
+                      <Text style={styles.itemRenderText2Main}>
+                        {itemDate.toDateString().slice(4, -4)}
+                      </Text>
+                    ) : (
+                      <Text style={styles.itemRenderText3Main}>
+                        {itemDate.toDateString().slice(4, -4)}
+                      </Text>
+                    )}
+                  </>
                 )}
               </>
             ) : (
@@ -143,9 +152,18 @@ export default function MyTasks({
                 moment(currentDay).format("YYYYMMDD") ? (
                   <Text style={styles.dueTodayText}>Today</Text>
                 ) : (
-                  <Text style={styles.itemRenderText2Main}>
-                    {itemDate.toDateString().slice(4, -4)}
-                  </Text>
+                  <>
+                    {moment(itemDate).format("YYYYMMDD") <
+                    moment(currentDay).format("YYYYMMDD") ? (
+                      <Text style={styles.itemRenderText2Main}>
+                        {itemDate.toDateString().slice(4, -4)}
+                      </Text>
+                    ) : (
+                      <Text style={styles.itemRenderText3Main}>
+                        {itemDate.toDateString().slice(4, -4)}
+                      </Text>
+                    )}
+                  </>
                 )}
                 <Image
                   style={styles.repeatImage}
@@ -515,6 +533,11 @@ const styles = StyleSheet.create({
   },
   itemRenderText2Main: {
     color: "#FFBEF1",
+    fontSize: 13,
+    fontFamily: "Sego",
+  },
+  itemRenderText3Main: {
+    color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
   },

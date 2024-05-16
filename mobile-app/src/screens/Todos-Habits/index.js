@@ -519,13 +519,25 @@ const TodosHabits = ({ navigation }) => {
 
   const updateTaskStatus = async (updatedTask) => {
     try {
-      var index = toDos.findIndex((item) => item.SK == updatedTask.SK);
-      var task = toDos[index];
+      var index = tasks.findIndex((item) => item.SK == updatedTask.SK);
+      var task = tasks[index];
+
+      var dueTaskUpdated = false;
+
+      var dueIndex = dueTasks.findIndex((item) => item.SK == updatedTask.SK);
+      var dueTask = dueTasks[dueIndex];
+      if (dueTask != undefined) {
+        dueTaskUpdated = true;
+      }
+
       if (!task.isLocked) {
         task.isLocked = true;
 
         if (!task.selected) {
           task.selected = true;
+          if (dueTaskUpdated) {
+            dueTask.selected = true;
+          }
           task.completionList.push(task.nextDueDate);
           var year = task.nextDueDate.substring(0, 4);
           var month = task.nextDueDate.substring(4, 6);
@@ -574,15 +586,21 @@ const TodosHabits = ({ navigation }) => {
 
           await TasksAPI.updateTask(token, task.SK, task);
         } else {
+          if (dueTaskUpdated) {
+            dueTask.selected = false;
+          }
           task.selected = false;
           task.nextDueDate = task.completionList.pop();
           await TasksAPI.updateTask(token, task.SK, task);
         }
         task.isLocked = false;
         var newTasks = [...tasks];
-        setToDos(newTasks);
+        var newDueTasks = [...dueTasks];
+        setTasks(newTasks);
+        setDueTasks(newDueTasks);
       }
     } catch (e) {
+      console.log(e);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
