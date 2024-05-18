@@ -49,7 +49,25 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     new Date("1995-12-17T12:00:00")
   );
   const [isReminderEnabled, setIsReminderEnabled] = useState(false);
+  const [systemNotificationsEnabled, setSystemNotificationsEnabled] =
+    useState(false);
+
   const [timeArray, setTimeArray] = useState(null);
+
+  useEffect(() => {
+    const getSystemNotificationPreference = async () => {
+      token = await getAccessToken();
+      allNotificationsIsOn =
+        await NotificationsHandler.getAllNotificationsState(token);
+      taskNotificationsIsOn =
+        await NotificationsHandler.getTaskPreferenceNotificationsState(token);
+      setSystemNotificationsEnabled(
+        allNotificationsIsOn == "on" && taskNotificationsIsOn == "on"
+      );
+    };
+
+    getSystemNotificationPreference();
+  }, []);
 
   const dayPress = (day) => {
     setDateStamp(day.dateString.replace("-", "").replace("-", ""));
@@ -60,14 +78,17 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     if (isReminderEnabled) {
       setIsReminderEnabled((previousState) => !previousState);
     } else {
-      if (dateStamp || !activeIndexes.every((index) => index === false)) {
+      if (
+        (dateStamp && dateStamp != "noDueDate") ||
+        !activeIndexes.every((index) => index === false)
+      ) {
         var systemNotificationsStatus =
           await NotificationsHandler.checkNotificationsStatus(token);
-        if (systemNotificationsStatus) {
+        if (systemNotificationsStatus && systemNotificationsEnabled) {
           setIsReminderEnabled((previousState) => !previousState);
         } else {
           Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
+            "To get reminders, you need to turn on notifications in your settings.",
             {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
@@ -332,6 +353,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
       isVisible={visible}
+      backdropColor="rgba(215, 246, 255, 0.27)"
     >
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>

@@ -118,9 +118,21 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
     >
       <SafeAreaView style={styles.safeAreaContainer}>
         <Spinner visible={isLoading}></Spinner>
-        <Header showCenter={false} />
         <ScrollView style={styles.tcContainer}>
           <View style={styles.scrollViewView}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => {
+                setHabitSearch(false);
+                setImageSearch(false);
+              }}
+            >
+              <Image
+                style={styles.backImage}
+                resizeMode="cover"
+                source={require("../../../assets/images/back-arrow.png")}
+              />
+            </TouchableOpacity>
             <View style={styles.row}>
               <TouchableOpacity
                 style={styles.imageSelector}
@@ -1099,7 +1111,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   scrollViewView: {
-    paddingTop: 60,
+    paddingTop: 30,
     paddingBottom: 60,
   },
   timeValueButton: {
@@ -1199,5 +1211,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     marginTop: 5,
+  },
+  backButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    height: 40,
+    marginLeft: 10,
+    marginTop: 40,
+    marginBottom: 20,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+  },
+  backImage: {
+    width: "100%",
+    height: "100%",
   },
 });

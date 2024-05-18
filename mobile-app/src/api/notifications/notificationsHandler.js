@@ -9,7 +9,18 @@ const API = BASE_URL + "notifications/";
 
 class NotificationsHandler {
   static async getAllNotificationsState(token) {
-    return await this.getNotificationsForGroup("notifications", token);
+    notificationsState = await this.getNotificationsForGroup(
+      token,
+      "notifications"
+    );
+    return notificationsState[0].preference;
+  }
+  static async getTaskPreferenceNotificationsState(token) {
+    notificationsState = await this.getNotificationsForGroup(
+      token,
+      "taskPreference"
+    );
+    return notificationsState[0].preference;
   }
   static async turnOnAllNotifications(token) {
     await this.cancelAllPushNotifications();
@@ -40,6 +51,31 @@ class NotificationsHandler {
       }
     }
   }
+  static async turnOnTaskNotifications(token) {
+    await this.updateNotification(
+      token,
+      "taskPreference",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "on"
+    );
+    notifications = await this.getNotificationsForGroup(token, "task");
+    for (var notification of notifications) {
+      if (notification.SK !== "taskPreference") {
+        await this.turnOnNotification(
+          token,
+          notification.SK,
+          notification.title,
+          notification.body,
+          notification.triggers,
+          true,
+          notification.expoIDs
+        );
+      }
+    }
+  }
   static async turnOffAllNotifications(token) {
     await this.cancelAllPushNotifications();
     await this.updateNotification(
@@ -56,6 +92,31 @@ class NotificationsHandler {
     for (var notification of notifications) {
       if (
         notification.SK !== "notifications" &&
+        notification.preference === "on"
+      ) {
+        await this.turnOffNotification(
+          token,
+          notification.SK,
+          notification.expoIDs
+        );
+      }
+    }
+  }
+
+  static async turnOffAllTaskNotifications(token) {
+    await this.updateNotification(
+      token,
+      "taskPreference",
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "off"
+    );
+    notifications = await this.getNotificationsForGroup(token, "task");
+    for (var notification of notifications) {
+      if (
+        notification.SK !== "taskPreference" &&
         notification.preference === "on"
       ) {
         await this.turnOffNotification(

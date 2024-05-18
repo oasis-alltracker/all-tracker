@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 import { Header } from "../../../components";
-import MentalItem from "./mentalItem";
 import EmotionalItem from "./emotionalItem";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -18,17 +17,6 @@ import { getAccessToken } from "../../../user/keychain";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import UserAPI from "../../../api/user/userAPI";
-
-const mentalData = [
-  {
-    title: "Habits",
-    items: ["Day before", "Hour before", "Custom"],
-  },
-  {
-    title: "To-dos",
-    items: ["Day before", "Hour before", "Custom"],
-  },
-];
 
 const physicalData = [
   {
@@ -60,6 +48,7 @@ const Notifications = () => {
   const [habitExpoIDs, setHabitExpoIDs] = useState([]);
   const [habitTime, setHabitTime] = useState(new Date("1995-12-17T12:00:00"));
   const [show, setShow] = useState(false);
+  const [isTasksEnabled, setIsTasksEnabled] = useState(false);
 
   const habitsToggled = async () => {
     setIsLoading(true);
@@ -109,14 +98,55 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
+  const tasksToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    if (isNotificationsEnabled) {
+      if (isTasksEnabled) {
+        setIsTasksEnabled((previousState) => !previousState);
+        try {
+          await NotificationsHandler.turnOffAllTaskNotifications(token);
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsTasksEnabled((previousState) => !previousState);
+            await NotificationsHandler.turnOnTaskNotifications(token);
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
+          }
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      }
+    }
+
+    setIsLoading(false);
+  };
+
   const allNotificationsToggled = async () => {
     setIsLoading(true);
     const token = await getAccessToken();
 
     if (isNotificationsEnabled) {
       await NotificationsHandler.turnOffAllNotifications(token);
-      setIsNotificationsEnabled((previousState) => !previousState);
-      setIsHabitsEnabled((previousState) => !previousState);
+      setIsNotificationsEnabled(false);
+      setIsHabitsEnabled(false);
+      setIsTasksEnabled(false);
     } else {
       var systemNotificationsStatus = true;
       systemNotificationsStatus =
@@ -215,10 +245,13 @@ const Notifications = () => {
           );
         var habitNotifications =
           await NotificationsHandler.getNotificationsForGroup(token, "habit");
+        var taskNotificationsIsOn =
+          await NotificationsHandler.getTaskPreferenceNotificationsState(token);
 
         setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
         setIsHabitsEnabled(habitNotifications[0]?.preference === "on");
         setHabitExpoIDs(habitNotifications[0]?.expoIDs);
+        setIsTasksEnabled(taskNotificationsIsOn == "on");
 
         var hour = habitNotifications[0]?.triggers[0]?.hour;
         if (hour == 0 || hour === undefined) {
@@ -323,7 +356,17 @@ const Notifications = () => {
               </View>
             )}
             {trackingPreferences.toDosSelected && (
-              <MentalItem item={mentalData[1]} />
+              <View style={[styles.habitContainer, styles.itemContainer4]}>
+                <Switch
+                  width={55}
+                  height={32}
+                  onValueChange={tasksToggled}
+                  value={isTasksEnabled}
+                  trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+                  thumbColor={isTasksEnabled ? "#d7f6ff" : "#ffd8f7"}
+                />
+                <Text style={styles.itemTitle}>To-dos</Text>
+              </View>
             )}
           </>
         )}

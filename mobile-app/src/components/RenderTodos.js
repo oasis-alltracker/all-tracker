@@ -15,10 +15,12 @@ const RenderTodos = ({
   item,
   updateTaskStatus,
   updateToDoStatus,
+  isMainPage,
 }) => {
   const [isCheck, setIsCheck] = useState(false);
   const [itemDate, setItemDate] = useState("noDueDate");
   const [prevID, setPrevID] = useState(null);
+  console.log("Rendering item.");
 
   useEffect(() => {
     if (item.isComplete || item.selected) {
@@ -64,19 +66,26 @@ const RenderTodos = ({
     } else {
       setItemDate("noDueDate");
     }
-  }, [item]);
+  }, []);
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
       <TouchableOpacity
-        onPress={() => {
-          if (!item.isLocked) {
-            setIsCheck((pr) => !pr);
-            if (item.PK.includes("task")) {
-              updateTaskStatus(item);
-            } else {
-              updateToDoStatus(item);
-            }
+        onPress={async () => {
+          setIsCheck((pr) => !pr);
+          console.log("before update: " + item.selected);
+          if (item.PK.includes("task")) {
+            await updateTaskStatus(item, isMainPage);
+          } else {
+            item.SK = await updateToDoStatus(item);
+          }
+          console.log("after update: " + item.selected);
+          if (item.isComplete || item.selected) {
+            item.isComplete = false;
+            item.selected = false;
+          } else {
+            item.isComplete = true;
+            item.selected = true;
           }
         }}
         style={styles.checkRender}
@@ -207,5 +216,16 @@ const styles = StyleSheet.create({
     color: "#FFBEF1",
     fontSize: 13,
     fontFamily: "Sego",
+  },
+  itemRenderText3Main: {
+    color: "#25436B",
+    fontSize: 13,
+    fontFamily: "Sego",
+  },
+  dueTodayText: {
+    color: "#25436B",
+    fontSize: 13,
+    fontFamily: "Sego",
+    paddingRight: 16,
   },
 });

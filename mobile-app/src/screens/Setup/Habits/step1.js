@@ -5,8 +5,8 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import CreateHabitModal from "./CreateHabitModal";
-import UpdateHabitModal from "./UpdateHabitModal";
+import CreateHabitModal from "../../Todos-Habits/modals/CreateHabitModal";
+import UpdateHabitModal from "../../Todos-Habits/modals/UpdateHabitModal";
 import HabitsAPI from "../../../api/habits/habitsAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
@@ -274,8 +274,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   plusImage: {
-    width: 30,
-    height: 30,
+    width: 20,
+    height: 20,
     resizeMode: "contain",
   },
   plusCon: {

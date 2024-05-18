@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { Header, Button } from "../../components";
-import navigationService from "../../navigators/navigationService";
+import { Header, Button } from "../../../components";
+import navigationService from "../../../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Spinner from "react-native-loading-spinner-overlay";
 
@@ -24,7 +24,7 @@ const ExplainSubscription = () => {
       <Text style={styles.title}>then $2.99/month</Text>
       <View style={styles.middleContainer}>
         <Image
-          source={require("../../assets/images/subscription-image.png")}
+          source={require("../../../assets/images/subscription-image.png")}
           style={styles.poster}
         />
         <Text style={styles.text}>

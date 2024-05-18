@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
-import { Header, Button } from "../../components";
-import navigationService from "../../navigators/navigationService";
+import { Header, Button } from "../../../components";
+import navigationService from "../../../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getAccessToken } from "../../user/keychain";
-import UserAPI from "../../api/user/userAPI";
+import { getAccessToken } from "../../../user/keychain";
+import UserAPI from "../../../api/user/userAPI";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 
@@ -114,7 +114,7 @@ const SelectTrackers = () => {
           >
             <Image
               style={styles.image}
-              source={require("../../assets/images/habits512.png")}
+              source={require("../../../assets/images/habits512.png")}
             />
             <Text style={styles.title}>habits</Text>
           </TouchableOpacity>
@@ -129,7 +129,7 @@ const SelectTrackers = () => {
           >
             <Image
               style={styles.image}
-              source={require("../../assets/images/to-dos512.png")}
+              source={require("../../../assets/images/to-dos512.png")}
             />
             <Text style={styles.title}>to-dos</Text>
           </TouchableOpacity>
@@ -150,7 +150,7 @@ const SelectTrackers = () => {
           >
             <Image
               style={styles.image}
-              source={require("../../assets/images/diet512.png")}
+              source={require("../../../assets/images/diet512.png")}
             />
             <Text style={styles.title}>diet</Text>
           </TouchableOpacity>
@@ -169,7 +169,7 @@ const SelectTrackers = () => {
           >
             <Image
               style={styles.image}
-              source={require("../../assets/images/fitness512.png")}
+              source={require("../../../assets/images/fitness512.png")}
             />
             <Text style={styles.title}>fitness</Text>
           </TouchableOpacity>
@@ -190,7 +190,7 @@ const SelectTrackers = () => {
           >
             <Image
               style={styles.image}
-              source={require("../../assets/images/mood512.png")}
+              source={require("../../../assets/images/mood512.png")}
             />
             <Text style={styles.title}>mood</Text>
           </TouchableOpacity>
@@ -209,7 +209,7 @@ const SelectTrackers = () => {
           >
             <Image
               style={styles.image}
-              source={require("../../assets/images/sleep512.png")}
+              source={require("../../../assets/images/sleep512.png")}
             />
             <Text style={styles.title}>sleep</Text>
           </TouchableOpacity>

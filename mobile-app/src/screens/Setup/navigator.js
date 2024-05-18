@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import SelectTrackers from "./SelectTrackers";
-import ExplainSubscription from "./ExplainSubscription";
+import SelectTrackers from "./SelectTrackers/SelectTrackers";
+import ExplainSubscription from "./Subscriptions/ExplainSubscription";
 import HabitsCreation from "./Habits/step1";
 import HabitsNotifications from "./Habits/step2";
 import Todos from "./Tasks/Todos";
@@ -19,7 +19,7 @@ import FitnessStep1 from "./Fitness/Step1";
 import FitnessStep2 from "./Fitness/Step2";
 import SleepStep1 from "./Sleep/Step1";
 import SleepStep2 from "./Sleep/Step2";
-import Mood from "./Mood";
+import Mood from "./Mood/Mood";
 
 const Stack = createStackNavigator();
 

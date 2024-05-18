@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image, Switch } from "react-native";
 import { Button } from "../../../components";
@@ -20,6 +20,9 @@ import Toast from "react-native-root-toast";
 
 const HabitsNotifications = (props) => {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
+  const [systemNotificationsEnabled, setSystemNotificationsEnabled] =
+    useState(false);
+  const [habitExpoIDs, setHabitExpoIDs] = useState(false);
 
   const { selectedTrackers } = props.route.params;
 
@@ -47,22 +50,14 @@ const HabitsNotifications = (props) => {
           "Habit Journal",
           "Don't forget to update your habit progress",
           [{ hour: Number(hour), minute: Number(minute), repeats: true }],
-          true
-        );
-        await NotificationsHandler.updateNotification(
-          token,
-          "notifications",
-          "undefined",
-          "undefined",
-          "undefined",
-          "undefined",
-          "on"
+          true,
+          habitExpoIDs
         );
       }
     } else {
       await NotificationsHandler.updateNotification(
         token,
-        "notifications",
+        "habit",
         "undefined",
         "undefined",
         "undefined",
@@ -107,7 +102,22 @@ const HabitsNotifications = (props) => {
     setIsLoading(false);
   };
   const toggleSwitch = () => {
-    setIsNotificationsEnabled((previousState) => !previousState);
+    if (!isNotificationsEnabled) {
+      if (systemNotificationsEnabled) {
+        setIsNotificationsEnabled(true);
+      } else {
+        setIsNotificationsEnabled(false);
+        Toast.show(
+          'To get reminders, you need to turn on "all notifications" in settings.',
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
+    } else {
+      setIsNotificationsEnabled(false);
+    }
   };
 
   const onChange = (event, selectedDate) => {
@@ -135,6 +145,42 @@ const HabitsNotifications = (props) => {
     };
     return dateObject.toLocaleString("en-US", options);
   };
+
+  useEffect(() => {
+    const getSystemNotificationPreference = async () => {
+      token = await getAccessToken();
+      allNotificationsIsOn =
+        await NotificationsHandler.getAllNotificationsState(token);
+      setSystemNotificationsEnabled(allNotificationsIsOn == "on");
+
+      var allNotifications =
+        await NotificationsHandler.getNotificationsForGroup(
+          token,
+          "notifications"
+        );
+      var habitNotifications =
+        await NotificationsHandler.getNotificationsForGroup(token, "habit");
+
+      if (habitNotifications.length > 0) {
+        setIsNotificationsEnabled(habitNotifications[0]?.preference === "on");
+        setHabitExpoIDs(habitNotifications[0]?.expoIDs);
+
+        var hour = habitNotifications[0]?.triggers[0]?.hour;
+        if (hour == 0 || hour === undefined) {
+          hour = "00";
+        }
+        var minute = habitNotifications[0]?.triggers[0]?.minute;
+        if (minute == 0 || minute === undefined) {
+          minute = "00";
+        }
+        var newTime = `1995-12-17T${hour}:${minute}:00`;
+
+        setTime(new Date(newTime));
+      }
+    };
+
+    getSystemNotificationPreference();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

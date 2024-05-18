@@ -15,8 +15,9 @@ import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import ToDosAPI from "../../../api/tasks/toDosAPI";
-import TaskModal from "./modals/TaskModal";
+import TaskModal from "../../Todos-Habits/modals/TaskModal";
 import TasksAPI from "../../../api/tasks/tasksAPI";
+import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 const { width, height } = Dimensions.get("window");
 
@@ -58,7 +59,7 @@ const Todos = (props) => {
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)) - 1,
+            month: Number(toDo.dateStamp.substring(4, 6)),
             hour: time[0],
             minute: time[1],
           },
@@ -395,6 +396,21 @@ const Todos = (props) => {
 
   const Tasks = () => (
     <>
+      <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
+        <Text style={styles.tasksTitle}>My tasks</Text>
+        <View style={styles.buttonItems}>
+          <TouchableOpacity
+            onPress={() => {
+              taskRef.current.open();
+            }}
+          >
+            <Image
+              style={styles.plus}
+              source={require("../../../assets/images/plus512.png")}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
       <View style={{ height: 365 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -445,9 +461,12 @@ const Todos = (props) => {
 
   const CreatTasks = () => (
     <>
+      <Text style={styles.title}>
+        Get started by creating tasks for yourself
+      </Text>
       <TouchableOpacity
         onPress={() => {
-          createHabitRef.current.open();
+          taskRef.current.open();
         }}
         style={styles.addButton}
       >
@@ -475,7 +494,6 @@ const Todos = (props) => {
     setIsLoading(true);
     try {
       const accessToken = await getAccessToken();
-      await UserAPI.updateTaskPreference(minuteOffset, accessToken);
 
       if (selectedTrackers.dietSelected) {
         navigationService.navigate("dietStep1", { selectedTrackers });
@@ -508,7 +526,7 @@ const Todos = (props) => {
   };
 
   return (
-    <>
+    <SafeAreaView style={styles.safeAreaContainer}>
       <Spinner visible={isLoading}></Spinner>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -516,28 +534,14 @@ const Todos = (props) => {
         scrollEnabled={false}
         removeClippedSubviews={false}
       >
-        <View style={styles.headerImageCon}>
-          <Image
-            style={styles.headerImage}
-            source={require("../../../assets/images/to-dos512.png")}
-          />
-        </View>
-        <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
-          <Text style={styles.tasksTitle}>My tasks</Text>
-          <View style={styles.buttonItems}>
-            <TouchableOpacity
-              onPress={() => {
-                taskRef.current.open();
-              }}
-            >
-              <Image
-                style={styles.plus}
-                source={require("../../../assets/images/plus512.png")}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
         <View style={styles.center}>
+          <View style={styles.imageCon}>
+            <Image
+              style={styles.image}
+              source={require("../../../assets/images/to-dos512.png")}
+            />
+            <Text style={styles.imageText}>to-dos</Text>
+          </View>
           {tasksAndToDos.length > 0 ? <Tasks /> : <CreatTasks />}
         </View>
         <View style={styles.buttons}>
@@ -552,7 +556,7 @@ const Todos = (props) => {
           </Button>
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -560,22 +564,27 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     overflow: "visible",
-    paddingTop: 30,
     paddingBottom: 80,
+  },
+  safeAreaContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 15,
+    justifyContent: "space-between",
   },
   imageCon: {
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
+    backgroundColor: "rgba(255, 216, 247, 0.62)",
     borderWidth: 2,
+    borderColor: "rgba(204, 173, 198, 0.7)",
     justifyContent: "center",
     alignItems: "center",
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
   },
   imageText: {
     fontSize: 22,
@@ -666,6 +675,15 @@ const styles = StyleSheet.create({
     height: 22,
     marginRight: 8,
   },
+  title: {
+    padding: 10,
+    fontSize: 22,
+    color: "#25436B",
+    fontFamily: "Sego-Bold",
+    marginTop: 15,
+    marginBottom: 20,
+    textAlign: "center",
+  },
   scrollContainer: {
     alignItems: "center",
     overflow: "visible",
@@ -684,7 +702,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 190,
+    height: 350,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -763,6 +781,22 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginLeft: 8,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingTop: 20,
+  },
+  button: {
+    width: "47%",
+  },
+  back: {
+    backgroundColor: "transparent",
+    borderColor: "#CCCCCC",
+  },
+  center: {
+    alignItems: "center",
   },
 });
 

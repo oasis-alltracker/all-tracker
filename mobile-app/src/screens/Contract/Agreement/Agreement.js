@@ -4,12 +4,60 @@ import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import CheckBox from "../../../assets/icons/checkbox";
-
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { getAccessToken } from "../../../user/keychain";
 const Agreement = () => {
   const [checked, setChecked] = useState(false);
 
   const onPressContinue = async () => {
     if (checked) {
+      const token = await getAccessToken();
+      try {
+        systemNotificationsStatus =
+          await NotificationsHandler.checkNotificationsStatus(token);
+        if (systemNotificationsStatus) {
+          await NotificationsHandler.updateNotification(
+            token,
+            "notifications",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "on"
+          );
+          await NotificationsHandler.updateNotification(
+            token,
+            "taskPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "on"
+          );
+        } else {
+          await NotificationsHandler.updateNotification(
+            token,
+            "notifications",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "off"
+          );
+          await NotificationsHandler.updateNotification(
+            token,
+            "taskPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "off"
+          );
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
       setChecked(false);
       navigationService.navigate("setup");
     } else {

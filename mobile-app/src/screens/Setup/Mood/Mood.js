@@ -8,12 +8,12 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
-import { Button } from "../../components";
-import navigationService from "../../navigators/navigationService";
-import Switch from "../../assets/icons/switch";
+import { Button } from "../../../components";
+import navigationService from "../../../navigators/navigationService";
+import Switch from "../../../assets/icons/switch";
 import Toast from "react-native-root-toast";
-import { getAccessToken } from "../../user/keychain";
-import UserAPI from "../../api/user/userAPI";
+import { getAccessToken } from "../../../user/keychain";
+import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const Mood = (props) => {
@@ -70,7 +70,7 @@ const Mood = (props) => {
         <View style={styles.imageCon}>
           <Image
             style={styles.image}
-            source={require("../../assets/images/mood.png")}
+            source={require("../../../assets/images/mood.png")}
           />
           <Text style={styles.imageText}>mood</Text>
         </View>
@@ -127,7 +127,7 @@ const Mood = (props) => {
           <TouchableOpacity onPress={() => {}} style={styles.addButton}>
             <Image
               style={styles.plusImage}
-              source={require("../../assets/images/plus.png")}
+              source={require("../../../assets/images/plus.png")}
             />
           </TouchableOpacity>
         </Button>

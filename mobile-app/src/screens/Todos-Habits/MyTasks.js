@@ -8,8 +8,9 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import moment from "moment";
+import { RenderTodos } from "../../components";
 import Spinner from "react-native-loading-spinner-overlay";
+import moment from "moment";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,7 +21,8 @@ export default function MyTasks({
   tasks,
   doneToDos,
   updateTaskStatus,
-  updateToDoStatus,
+  updateTaskPageToDoStatus,
+  updateCompletedToDoStatus,
 }) {
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [completedToDos, setCompletedToDos] = useState([]);
@@ -32,6 +34,7 @@ export default function MyTasks({
   const today = new Date();
 
   useEffect(() => {
+    console.log("Updating entire task page");
     setTasksAndToDos(toDos.concat(tasks));
     setCompletedToDos([...doneToDos]);
   }, [toDos, tasks, doneToDos]);
@@ -42,10 +45,12 @@ export default function MyTasks({
     item,
     updateTaskStatus,
     updateToDoStatus,
+    isMainPage,
   }) => {
     const [isCheck, setIsCheck] = useState(false);
     const [itemDate, setItemDate] = useState("noDueDate");
     const [prevID, setPrevID] = useState(null);
+    console.log("Rendering item.");
 
     useEffect(() => {
       if (item.isComplete || item.selected) {
@@ -95,19 +100,28 @@ export default function MyTasks({
       } else {
         setItemDate("noDueDate");
       }
-    }, [item]);
+    }, []);
 
     return (
       <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
         <TouchableOpacity
-          onPress={() => {
-            if (!item.isLocked) {
-              setIsCheck((pr) => !pr);
-              if (item.PK.includes("task")) {
-                updateTaskStatus(item);
-              } else {
-                updateToDoStatus(item);
-              }
+          onPress={async () => {
+            setIsCheck((pr) => !pr);
+            console.log("before update: " + item.selected);
+            console.log("before update: " + item.text);
+            if (item.PK.includes("task")) {
+              updateTaskStatus(item, isMainPage);
+            } else {
+              updateToDoStatus(item);
+            }
+            console.log("after update: " + item.selected);
+            console.log("after update: " + item.text);
+            if (item.isComplete || item.selected) {
+              item.isComplete = false;
+              item.selected = false;
+            } else {
+              item.isComplete = true;
+              item.selected = true;
             }
           }}
           style={styles.checkRender}
@@ -178,44 +192,48 @@ export default function MyTasks({
     );
   };
 
-  const Tasks = () => (
-    <View style={{ height: myTasksHeight }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
-      >
-        {tasksAndToDos.map((item, index) => {
-          return (
-            <RenderTodos
-              onPress={() => {
-                var isRecurring = false;
-                if (item.PK.includes("task")) {
-                  isRecurring = true;
-                }
-                taskRef.current.open(true, {
-                  title: item.name,
-                  description: item.description,
-                  isRecurring: isRecurring,
-                  dateStamp: item.dateStamp,
-                  itemSK: item.SK,
-                  toDoID: item.toDoID,
-                  schedule: item.schedule,
-                  isComplete: item.isComplete,
-                  nextDueDate: item.nextDueDate,
-                  completionList: item.completionList,
-                });
-              }}
-              currentDay={today}
-              key={index}
-              item={item}
-              updateTaskStatus={updateTaskStatus}
-              updateToDoStatus={updateToDoStatus}
-            />
-          );
-        })}
-      </ScrollView>
-    </View>
-  );
+  const Tasks = () => {
+    console.log("Refreshing my tasks?");
+    return (
+      <View style={{ height: myTasksHeight }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {tasksAndToDos.map((item, index) => {
+            return (
+              <RenderTodos
+                onPress={() => {
+                  var isRecurring = false;
+                  if (item.PK.includes("task")) {
+                    isRecurring = true;
+                  }
+                  taskRef.current.open(true, {
+                    title: item.name,
+                    description: item.description,
+                    isRecurring: isRecurring,
+                    dateStamp: item.dateStamp,
+                    itemSK: item.SK,
+                    toDoID: item.toDoID,
+                    schedule: item.schedule,
+                    isComplete: item.isComplete,
+                    nextDueDate: item.nextDueDate,
+                    completionList: item.completionList,
+                  });
+                }}
+                currentDay={today}
+                key={index}
+                item={item}
+                updateTaskStatus={updateTaskStatus}
+                updateToDoStatus={updateTaskPageToDoStatus}
+                isMainPage={false}
+              />
+            );
+          })}
+        </ScrollView>
+      </View>
+    );
+  };
 
   const CreatTasks = () => (
     <TouchableOpacity
@@ -265,7 +283,7 @@ export default function MyTasks({
               key={index}
               item={item}
               updateTaskStatus={updateTaskStatus}
-              updateToDoStatus={updateToDoStatus}
+              updateToDoStatus={updateCompletedToDoStatus}
             />
           );
         })}
@@ -488,6 +506,17 @@ const styles = StyleSheet.create({
     height: 20,
     resizeMode: "contain",
   },
+  repeatImage: {
+    width: 30,
+    height: 30,
+    marginLeft: 8,
+  },
+  toDoScrollContainer: {
+    alignItems: "center",
+    overflow: "visible",
+    paddingBottom: 20,
+    width: width - 30,
+  },
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
@@ -546,10 +575,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Sego",
     paddingRight: 16,
-  },
-  repeatImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 8,
   },
 });

@@ -248,7 +248,7 @@ const TodosHabits = ({ navigation }) => {
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)) - 1,
+            month: Number(toDo.dateStamp.substring(4, 6)),
             hour: time[0],
             minute: time[1],
           },
@@ -313,41 +313,32 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateToDoStatus = async (updatedToDo) => {
+  const updateMainPageToDoStatus = async (updatedToDo) => {
+    console.log("updateMainPageToDoStatus");
+
+    var newToDos = [...toDos];
+    var newDueToDos = [...dueToDos];
+    var newSK = updatedToDo.SK;
     try {
-      var doneToDoUpdated = false;
-      var dueToDoUpdated = false;
-
-      var index = toDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
-      var toDo = toDos[index];
-
-      if (toDo == undefined) {
-        index = doneToDos.findIndex(
-          (item) => item.toDoID == updatedToDo.toDoID
-        );
-        toDo = doneToDos[index];
-        toDo.selected = true;
-        toDo.isComplete = false;
-        doneToDoUpdated = true;
-      }
-
-      var dueIndex = dueToDos.findIndex(
+      var index = newToDos.findIndex(
         (item) => item.toDoID == updatedToDo.toDoID
       );
-      var dueToDo = dueToDos[dueIndex];
-      if (dueToDo != undefined) {
-        dueToDoUpdated = true;
-      }
+      var toDo = newToDos[index];
 
-      if (!toDo.isLocked) {
+      var dueIndex = newDueToDos.findIndex(
+        (item) => item.toDoID == updatedToDo.toDoID
+      );
+      var dueToDo = newDueToDos[dueIndex];
+
+      if (!toDo.isLocked && !dueToDo.isLocked) {
         var toDoSK = toDo.SK;
         toDo.isLocked = true;
+        dueToDo.isLocked = true;
 
         if (!toDo.selected) {
           toDo.selected = true;
-          if (dueToDoUpdated) {
-            dueToDo.selected = true;
-          }
+          dueToDo.selected = true;
+
           updatedToDo = {
             name: toDo.name,
             dateStamp: toDo.dateStamp,
@@ -355,12 +346,98 @@ const TodosHabits = ({ navigation }) => {
             isComplete: true,
             toDoID: toDo.toDoID,
           };
-          toDo.SK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
+          newSK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
+          toDo.SK = newSK;
+          dueToDo.SK = newSK;
+
           await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         } else {
           toDo.selected = false;
+          dueToDo.selected = false;
+
+          updatedToDo = {
+            name: toDo.name,
+            dateStamp: toDo.dateStamp,
+            description: toDo.description,
+            isComplete: false,
+            toDoID: toDo.toDoID,
+          };
+          newSK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+          toDo.SK = newSK;
+          dueToDo.SK = newSK;
+
+          await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+        }
+        toDo.isLocked = false;
+        dueToDo.isLocked = false;
+
+        setToDos(newToDos);
+      }
+    } catch (e) {
+      console.log(e);
+      setToDos(newToDos);
+      setDueToDos(newDueToDos);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    } finally {
+      return newSK;
+    }
+  };
+
+  const updateTaskPageToDoStatus = async (updatedToDo) => {
+    console.log("updateTaskPageToDoStatus");
+    updatedToDo.text = "text";
+    var newToDos = [...toDos];
+    var newDueToDos = [...dueToDos];
+    var newSK = updatedToDo.SK;
+    try {
+      var dueToDoUpdated = false;
+
+      var index = newToDos.findIndex(
+        (item) => item.toDoID == updatedToDo.toDoID
+      );
+      var toDo = newToDos[index];
+
+      var dueIndex = newDueToDos.findIndex(
+        (item) => item.toDoID == updatedToDo.toDoID
+      );
+      var dueToDo = newDueToDos[dueIndex];
+      if (dueToDo != undefined) {
+        dueToDoUpdated = true;
+      }
+      console.log("dueToDoUpdated:" + dueToDoUpdated);
+
+      if (!toDo.isLocked) {
+        var toDoSK = toDo.SK;
+        toDo.isLocked = true;
+
+        if (!toDo.selected) {
+          toDo.selected = true;
+          newSK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
+          toDo.SK = newSK;
+          if (dueToDoUpdated) {
+            dueToDo.selected = true;
+            dueToDo.SK = newSK;
+          }
+
+          updatedToDo = {
+            name: toDo.name,
+            dateStamp: toDo.dateStamp,
+            description: toDo.description,
+            isComplete: true,
+            toDoID: toDo.toDoID,
+          };
+
+          await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+        } else {
+          toDo.selected = false;
+          newSK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+          toDo.SK = newSK;
           if (dueToDoUpdated) {
             dueToDo.selected = false;
+            dueToDo.SK = newSK;
           }
 
           updatedToDo = {
@@ -370,24 +447,66 @@ const TodosHabits = ({ navigation }) => {
             isComplete: false,
             toDoID: toDo.toDoID,
           };
-          toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+
           await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         }
         toDo.isLocked = false;
 
-        var newToDos = [...toDos];
-        var newDoneToDos = [...doneToDos];
-        var newDueToDos = [...dueToDos];
+        setDueToDos(newDueToDos);
+        setToDos(newToDos);
+      }
+    } catch (e) {
+      console.log(e);
+      setToDos(newToDos);
+      setDueToDos(newDueToDos);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    } finally {
+      return newSK;
+    }
+  };
 
-        if (doneToDoUpdated) {
-          newToDos.push(toDo);
-          newDoneToDos.splice(index, 1);
-          if (
-            toDo.dateStamp <= moment(day).format("YYYYMMDD") ||
-            toDo.dateStamp == "noDueDate"
-          ) {
-            newDueToDos.push(toDo);
-          }
+  const updateCompletedToDoStatus = async (updatedToDo) => {
+    console.log("updateCompletedToDoStatus");
+    var newToDos = [...toDos];
+    var newDoneToDos = [...doneToDos];
+    var newDueToDos = [...dueToDos];
+    var newSK = updatedToDo.SK;
+    try {
+      var index = newDoneToDos.findIndex(
+        (item) => item.toDoID == updatedToDo.toDoID
+      );
+      var toDo = newDoneToDos[index];
+
+      if (!toDo.isLocked) {
+        var toDoSK = toDo.SK;
+        toDo.isLocked = true;
+
+        toDo.selected = false;
+
+        updatedToDo = {
+          name: toDo.name,
+          dateStamp: toDo.dateStamp,
+          description: toDo.description,
+          isComplete: false,
+          toDoID: toDo.toDoID,
+        };
+        var newSK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+        toDo.SK = newSK;
+
+        await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+
+        toDo.isLocked = false;
+
+        newToDos.push(toDo);
+        newDoneToDos.splice(index, 1);
+        if (
+          toDo.dateStamp <= moment(day).format("YYYYMMDD") ||
+          toDo.dateStamp == "noDueDate"
+        ) {
+          newDueToDos.push(toDo);
         }
         setToDos(newToDos);
         setDoneToDos(newDoneToDos);
@@ -395,10 +514,15 @@ const TodosHabits = ({ navigation }) => {
       }
     } catch (e) {
       console.log(e);
+      setToDos(newToDos);
+      setDoneToDos(newDoneToDos);
+      setDueToDos(newDueToDos);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
+    } finally {
+      return newSK;
     }
   };
 
@@ -517,7 +641,7 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateTaskStatus = async (updatedTask) => {
+  const updateTaskStatus = async (updatedTask, isMainPage) => {
     try {
       var index = tasks.findIndex((item) => item.SK == updatedTask.SK);
       var task = tasks[index];
@@ -596,8 +720,11 @@ const TodosHabits = ({ navigation }) => {
         task.isLocked = false;
         var newTasks = [...tasks];
         var newDueTasks = [...dueTasks];
-        setTasks(newTasks);
-        setDueTasks(newDueTasks);
+        if (isMainPage) {
+          setTasks(newTasks);
+        } else {
+          setDueTasks(newDueTasks);
+        }
       }
     } catch (e) {
       console.log(e);
@@ -682,8 +809,8 @@ const TodosHabits = ({ navigation }) => {
             isLoading={isLoading}
             day={day}
             statusList={statusList}
-            toDos={dueToDos}
-            tasks={dueTasks}
+            dueToDos={dueToDos}
+            dueTasks={dueTasks}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
             createHabitRef={createHabitRef}
@@ -691,7 +818,7 @@ const TodosHabits = ({ navigation }) => {
             refreshHabits={refreshHabits}
             updateHabitStatusCount={updateHabitStatusCount}
             onHabitStatusUpdate={onHabitStatusUpdate}
-            updateToDoStatus={updateToDoStatus}
+            updateMainPageToDoStatus={updateMainPageToDoStatus}
             updateTaskStatus={updateTaskStatus}
           />
         );
@@ -712,7 +839,8 @@ const TodosHabits = ({ navigation }) => {
             toDos={toDos}
             tasks={tasks}
             doneToDos={doneToDos}
-            updateToDoStatus={updateToDoStatus}
+            updateTaskPageToDoStatus={updateTaskPageToDoStatus}
+            updateCompletedToDoStatus={updateCompletedToDoStatus}
             updateTaskStatus={updateTaskStatus}
           />
         );
