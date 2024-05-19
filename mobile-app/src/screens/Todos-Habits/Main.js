@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import {
   Image,
   ImageBackground,
@@ -16,7 +16,7 @@ import { sharedStyles } from "../styles";
 
 const { width, height } = Dimensions.get("window");
 
-export default function Main({
+const Main = ({
   day,
   statusList,
   dueToDos,
@@ -31,7 +31,7 @@ export default function Main({
   onHabitStatusUpdate,
   updateToDoStatus,
   updateTaskStatus,
-}) {
+}) => {
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
@@ -506,7 +506,8 @@ export default function Main({
       />
     </>
   );
-}
+};
+export default memo(Main);
 
 const styles = StyleSheet.create({
   emptyHabits: {

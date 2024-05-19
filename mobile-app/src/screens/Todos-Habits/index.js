@@ -391,10 +391,6 @@ const TodosHabits = ({ navigation }) => {
           setToDos(newToDos);
           setDoneToDos(newDoneToDos);
           setDueToDos(newDueToDos);
-        } else if (isMainPage) {
-          setToDos(newToDos);
-        } else {
-          setDueToDos(newDueToDos);
         }
       }
     } catch (e) {
@@ -601,13 +597,6 @@ const TodosHabits = ({ navigation }) => {
           await TasksAPI.updateTask(token, task.SK, task);
         }
         task.isLocked = false;
-        var newTasks = [...dueTasks];
-        var newDueTasks = [...dueTasks];
-        if (isMainPage) {
-          setTasks(newTasks);
-        } else {
-          setDueTasks(newDueTasks);
-        }
       }
     } catch (e) {
       console.log(e);

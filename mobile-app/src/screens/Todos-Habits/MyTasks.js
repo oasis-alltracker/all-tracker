@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import {
   Image,
   ScrollView,
@@ -14,7 +14,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
 
-export default function MyTasks({
+const MyTasks = ({
   isLoading,
   taskRef,
   toDos,
@@ -22,7 +22,7 @@ export default function MyTasks({
   doneToDos,
   updateTaskStatus,
   updateToDoStatus,
-}) {
+}) => {
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [completedToDos, setCompletedToDos] = useState([]);
   const [showCompleted, setShowCompleted] = useState(false);
@@ -324,7 +324,8 @@ export default function MyTasks({
       </ScrollView>
     </>
   );
-}
+};
+export default memo(MyTasks);
 
 const styles = StyleSheet.create({
   container: {
