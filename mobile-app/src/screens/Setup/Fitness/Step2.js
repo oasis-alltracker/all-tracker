@@ -13,19 +13,18 @@ const FitnessStep2 = (props) => {
   const { selectedTrackers } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const onNext = async () => {
-    setIsLoading(true);
-
     try {
       if (selectedTrackers.moodSelected) {
         navigationService.navigate("mood", { selectedTrackers });
       } else if (selectedTrackers.sleepSelected) {
         navigationService.navigate("sleep", { selectedTrackers });
       } else {
+        setIsLoading(true);
         const accessToken = await getAccessToken();
         const { status, data } = await UserAPI.updateUser(
           true,
           selectedTrackers,
-          accessToken,
+          accessToken
         );
 
         //TO-DO check if user is subscribed

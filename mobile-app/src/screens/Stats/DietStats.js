@@ -1,47 +1,78 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import React from "react";
-import DietStats from "../Stats/DietStats";
-import FitnessStats from "../Stats/FitnessStats";
+import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { LineChart } from "react-native-gifted-charts";
 
-export default function Statistics() {
+const data = [
+  { value: 500 },
+  { value: 80 },
+  { value: 90 },
+  { value: 70 },
+  { value: 50 },
+  { value: 400 },
+  { value: 30 },
+  { value: 10 },
+  { value: 40 },
+  { value: 300 },
+  { value: 75 },
+  { value: 70 },
+];
+
+const DietStats = ({}) => {
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
-      <View style={styles.imageCon}>
+    <View style={styles.chartBox}>
+      <View style={styles.chartCircle}>
         <Image
-          style={styles.image}
-          source={require("../../assets/images/stats.png")}
+          style={styles.imageCircle}
+          source={require("../../assets/images/diet.png")}
         />
+        <Text style={styles.text}>diet</Text>
       </View>
-      <View style={styles.dateLine}>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            style={styles.preButton}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
-        <Text style={styles.dateName}>This week</Text>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            style={[styles.preButton, styles.nextButton]}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
+      <View style={styles.chartContainer}>
+        <View style={[styles.dateLine, styles.chartContr]}>
+          <TouchableOpacity style={styles.button}>
+            <Image
+              style={styles.chartChange}
+              source={require("../../assets/images/left.png")}
+            />
+          </TouchableOpacity>
+          <Text style={styles.xLabel}>This week</Text>
+          <TouchableOpacity style={styles.button}>
+            <Image
+              style={[styles.chartChange, styles.nextButton]}
+              source={require("../../assets/images/left.png")}
+            />
+          </TouchableOpacity>
+        </View>
+        <LineChart
+          thickness={2}
+          color="rgba(202, 189, 255, 1)"
+          maxValue={500}
+          animateOnDataChange
+          areaChart
+          hideRules
+          yAxisTextNumberOfLines={1}
+          yAxisLabelWidth={0}
+          hideYAxisText
+          hideDataPoints
+          data={data}
+          startFillColor1={"rgba(202, 189, 255, 1)"}
+          endFillColor1={"rgba(202, 189, 255, 1)"}
+          startOpacity={0.8}
+          endOpacity={0.1}
+          backgroundColor="transparent"
+          xAxisLength={0}
+          initialSpacing={0}
+          yAxisColor="#B3B3B3"
+          xAxisColor="#B3B3B3"
+          height={160}
+          width={220}
+          curved
+        />
+        <Text style={styles.xLabel}>Score: 3.2</Text>
       </View>
-      <DietStats />
-      <FitnessStats />
-    </ScrollView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -163,3 +194,5 @@ const styles = StyleSheet.create({
     height: 15,
   },
 });
+
+export default DietStats;

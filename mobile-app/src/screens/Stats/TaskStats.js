@@ -1,86 +1,63 @@
-import React, { useState, useEffect } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import moment from "moment";
-import TaskStats from "../Stats/TaskStats";
-import HabitStats from "../Stats/HabitStats";
+import React from "react";
+import { View, StyleSheet, Text, Image } from "react-native";
+import { LineChart } from "react-native-gifted-charts";
 
-export default function Statistics(trackingPreferences) {
-  var thisMonday = new Date();
-  thisMonday.setDate(thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7));
+const data = [
+  { value: 500 },
+  { value: 80 },
+  { value: 90 },
+  { value: 70 },
+  { value: 50 },
+  { value: 400 },
+  { value: 30 },
+  { value: 10 },
+  { value: 40 },
+  { value: 300 },
+  { value: 75 },
+  { value: 70 },
+];
 
-  const [selectedMonday, setSelectedMonday] = useState(new Date());
-
-  const updateWeek = (dateChange) => {
-    var newDate = new Date(
-      selectedMonday.setDate(selectedMonday.getDate() + dateChange)
-    );
-    setSelectedMonday(newDate);
-  };
-
-  useEffect(() => {
-    var newDate = new Date(
-      thisMonday.setDate(thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7))
-    );
-    setSelectedMonday(newDate);
-  }, []);
-
+const TaskStats = () => {
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-      scrollEnabled={false}
-    >
-      <View style={styles.imageCon}>
+    <View style={styles.chartBox}>
+      <View style={styles.chartCircle}>
         <Image
-          style={styles.image}
-          source={require("../../assets/images/stats.png")}
+          style={styles.imageCircle}
+          source={require("../../assets/images/to-dos.png")}
         />
+        <Text style={styles.text}>to-dos</Text>
       </View>
-
-      <View style={styles.dateLineMain}>
-        <TouchableOpacity
-          style={styles.buttonMain}
-          onPress={() => updateWeek(-7)}
-        >
-          <Image
-            style={[styles.preButtonMain, styles.nextButtonMain]}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
-        <>
-          {moment(thisMonday).format("YYYYMMDD") ==
-          moment(selectedMonday).format("YYYYMMDD") ? (
-            <Text style={styles.dateNameMain}>This week</Text>
-          ) : (
-            <Text style={styles.dateNameMain}>
-              Week of {selectedMonday.toDateString().slice(4, -4)}
-            </Text>
-          )}
-        </>
-        <TouchableOpacity
-          style={styles.buttonMain}
-          onPress={() => updateWeek(7)}
-        >
-          <Image
-            style={styles.preButtonMain}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
+      <View style={styles.chartContainer}>
+        <LineChart
+          thickness={2}
+          color="rgba(255, 207, 245, 1)"
+          maxValue={500}
+          animateOnDataChange
+          areaChart
+          hideRules
+          yAxisTextNumberOfLines={1}
+          yAxisLabelWidth={0}
+          hideYAxisText
+          hideDataPoints
+          data={data}
+          startFillColor1={"rgba(255, 207, 245, 1)"}
+          endFillColor1={"rgba(255, 207, 245, 1)"}
+          startOpacity={0.8}
+          endOpacity={0.1}
+          backgroundColor="transparent"
+          xAxisLength={0}
+          initialSpacing={0}
+          yAxisColor="#B3B3B3"
+          xAxisColor="#B3B3B3"
+          height={130}
+          width={180}
+          curved
+        />
+        <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
       </View>
-
-      {trackingPreferences.trackingPreferences.toDosSelected && <TaskStats />}
-
-      {trackingPreferences.trackingPreferences.habitsSelected && <HabitStats />}
-    </ScrollView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -215,3 +192,5 @@ const styles = StyleSheet.create({
     ],
   },
 });
+
+export default TaskStats;

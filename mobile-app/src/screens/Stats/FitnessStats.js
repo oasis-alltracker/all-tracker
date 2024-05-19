@@ -1,47 +1,35 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import React from "react";
-import DietStats from "../Stats/DietStats";
-import FitnessStats from "../Stats/FitnessStats";
+import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
 
-export default function Statistics() {
+const days = ["M", "T", "W", "T", "F", "S", "S"];
+
+const FitnessStats = () => {
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
-      <View style={styles.imageCon}>
+    <View style={styles.chartBox}>
+      <View style={styles.chartCircle}>
         <Image
-          style={styles.image}
-          source={require("../../assets/images/stats.png")}
+          style={styles.imageCircle}
+          source={require("../../assets/images/fitness.png")}
         />
+        <Text style={styles.text}>fitness</Text>
       </View>
-      <View style={styles.dateLine}>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            style={styles.preButton}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
-        <Text style={styles.dateName}>This week</Text>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            style={[styles.preButton, styles.nextButton]}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
+      <View style={styles.chartContainer}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          contentContainerStyle={styles.days}
+        >
+          {days.map((item, index) => (
+            <View style={styles.day} key={index}>
+              <Text style={styles.dayText}>{item}</Text>
+            </View>
+          ))}
+        </ScrollView>
+        <Text style={styles.xLabel}>Days worked out: 6</Text>
       </View>
-      <DietStats />
-      <FitnessStats />
-    </ScrollView>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -163,3 +151,5 @@ const styles = StyleSheet.create({
     height: 15,
   },
 });
+
+export default FitnessStats;

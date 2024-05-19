@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   TouchableOpacity,
@@ -18,6 +18,7 @@ import UserAPI from "../api/user/userAPI";
 import { getAccessToken } from "../user/keychain";
 
 import DrawerScreen from "./DrawerScreen";
+import Stats from "./Stats/Stats";
 
 const Drawer = createDrawerNavigator();
 
@@ -26,6 +27,7 @@ const { width, height } = Dimensions.get("window");
 const Main = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [buttons, setButtons] = useState([]);
+  const statsRef = useRef(null);
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
@@ -115,7 +117,19 @@ const Main = ({ navigation }) => {
             </Button>
           ))}
         </View>
+        <TouchableOpacity
+          style={styles.downImageContainer}
+          onPress={() => {
+            statsRef.current.open({});
+          }}
+        >
+          <Image
+            style={styles.downImage}
+            source={require("../assets/images/down-arrow.png")}
+          />
+        </TouchableOpacity>
       </>
+      <Stats getRef={(ref) => (statsRef.current = ref)} />
     </View>
   );
 };
@@ -133,6 +147,18 @@ const styles = StyleSheet.create({
   image: {
     width: 130,
     height: 130,
+  },
+  downImage: {
+    width: 75,
+    height: 75,
+  },
+  downImageContainer: {
+    justifyContent: "center",
+    textAlign: "center",
+    alignItems: "center",
+    paddingTop: 60,
+    marginTop: 5,
+    marginBottom: 5,
   },
   errorToast: {
     textColor: "#25436B",
