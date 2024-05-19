@@ -71,7 +71,7 @@ const EnterCode = (props) => {
             ],
             {
               cancelable: true,
-            }
+            },
           );
         } else if (data?.loginFailed == "incorrectOTP") {
           setIsLoading(false);
@@ -91,9 +91,8 @@ const EnterCode = (props) => {
           await saveToken("accessToken", data.accessToken);
           await saveToken("refreshToken", data.refreshToken);
           const accessToken = await getAccessToken();
-          const { status: userStatus, data: userData } = await UserAPI.getUser(
-            accessToken
-          );
+          const { status: userStatus, data: userData } =
+            await UserAPI.getUser(accessToken);
 
           setIsLoading(false);
           if (userData["isSetupComplete"]) {

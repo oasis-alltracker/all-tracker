@@ -146,7 +146,7 @@ const TodosHabits = ({ navigation }) => {
     const token = await getAccessToken();
     const statusList = await HabitStatusListAPI.getHabitStatusList(
       token,
-      moment(showingDate).format("YYYYMMDD")
+      moment(showingDate).format("YYYYMMDD"),
     );
 
     setStatusList(statusList);
@@ -224,7 +224,7 @@ const TodosHabits = ({ navigation }) => {
       userDoneToDos = await ToDosAPI.getToDos(token, true);
       userDueToDos = await ToDosAPI.getToDosForToday(
         token,
-        moment(day).format("YYYYMMDD")
+        moment(day).format("YYYYMMDD"),
       );
       setToDos(userToDos);
       setDoneToDos(userDoneToDos);
@@ -259,7 +259,7 @@ const TodosHabits = ({ navigation }) => {
           "Task Reminder",
           toDo.name,
           trigger,
-          true
+          true,
         );
       }
 
@@ -282,7 +282,7 @@ const TodosHabits = ({ navigation }) => {
       if (isNotificationsOn) {
         prevNotification = await NotificationsHandler.getNotificationsForGroup(
           token,
-          `task-${toDo.toDoID}`
+          `task-${toDo.toDoID}`,
         );
         trigger = [
           {
@@ -299,7 +299,7 @@ const TodosHabits = ({ navigation }) => {
           toDo.name,
           trigger,
           true,
-          prevNotification.expoIDs
+          prevNotification.expoIDs,
         );
       }
       await getToDos(token);
@@ -323,7 +323,7 @@ const TodosHabits = ({ navigation }) => {
 
       if (toDo == undefined) {
         index = doneToDos.findIndex(
-          (item) => item.toDoID == updatedToDo.toDoID
+          (item) => item.toDoID == updatedToDo.toDoID,
         );
         toDo = doneToDos[index];
         toDo.selected = true;
@@ -332,7 +332,7 @@ const TodosHabits = ({ navigation }) => {
       }
 
       var dueIndex = dueToDos.findIndex(
-        (item) => item.toDoID == updatedToDo.toDoID
+        (item) => item.toDoID == updatedToDo.toDoID,
       );
       var dueToDo = dueToDos[dueIndex];
       if (dueToDo != undefined) {
@@ -424,7 +424,7 @@ const TodosHabits = ({ navigation }) => {
       userTasks = await TasksAPI.getTasks(token);
       userDueTasks = await TasksAPI.getDueAndOverdueTaks(
         token,
-        moment(day).format("YYYYMMDD")
+        moment(day).format("YYYYMMDD"),
       );
       setTasks(userTasks);
       setDueTasks(userDueTasks);
@@ -458,7 +458,7 @@ const TodosHabits = ({ navigation }) => {
           "Task Reminder",
           task.name,
           triggers,
-          true
+          true,
         );
       }
       await getTasks(token);
@@ -482,7 +482,7 @@ const TodosHabits = ({ navigation }) => {
       if (isNotificationsOn) {
         prevNotification = await NotificationsHandler.getNotificationsForGroup(
           token,
-          `task-${taskSK}`
+          `task-${taskSK}`,
         );
 
         triggers = [];
@@ -501,7 +501,7 @@ const TodosHabits = ({ navigation }) => {
           task.name,
           triggers,
           true,
-          prevNotification.expoIDs
+          prevNotification.expoIDs,
         );
       }
 
@@ -539,7 +539,7 @@ const TodosHabits = ({ navigation }) => {
           var lastCompletionDate = new Date(
             Number(year),
             Number(month) - 1,
-            Number(day)
+            Number(day),
           );
           var dayOfWeek = lastCompletionDate.getDay();
           var nextDayOfWeek = 0;
@@ -626,13 +626,13 @@ const TodosHabits = ({ navigation }) => {
   const refreshTasksAndToDos = async (newDate) => {
     userDueToDos = await ToDosAPI.getToDosForToday(
       token,
-      moment(newDate).format("YYYYMMDD")
+      moment(newDate).format("YYYYMMDD"),
     );
     setDueToDos(userDueToDos);
 
     userDueTasks = await TasksAPI.getDueAndOverdueTaks(
       token,
-      moment(newDate).format("YYYYMMDD")
+      moment(newDate).format("YYYYMMDD"),
     );
     setDueTasks(userDueTasks);
   };

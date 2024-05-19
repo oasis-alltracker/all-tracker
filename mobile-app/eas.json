@@ -14,7 +14,7 @@
         "resourceClass": "m1-medium"
       }
     },
-    "development-simulator":{
+    "development-simulator": {
       "extends": "development",
       "ios": {
         "buildConfiguration": "Debug",
@@ -26,14 +26,12 @@
       "ios": {
         "resourceClass": "m1-medium"
       }
-
     },
     "production": {
-      "autoIncrement":true
+      "autoIncrement": true
     }
   },
   "submit": {
-    "production": {
-    }
+    "production": {}
   }
 }

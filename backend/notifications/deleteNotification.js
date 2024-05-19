@@ -1,37 +1,35 @@
 class DeleteNotification {
-    constructor(db) {
-      this.DB = db;
-    }
+  constructor(db) {
+    this.DB = db;
+  }
 
-    async deleteNotification(user, NotificationID) {
-        
-        try {
-            await this.remove(user.email, NotificationID);
+  async deleteNotification(user, NotificationID) {
+    try {
+      await this.remove(user.email, NotificationID);
 
-            return {
-                statusCode: 200,
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': true,
-                }
-            };
-        }
-        catch (e) {
-            console.log(e);
-            return {
-                statusCode: 500,
-                body: JSON.stringify("Request failed"),
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': true,
-                }
-            };
-        }
+      return {
+        statusCode: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        statusCode: 500,
+        body: JSON.stringify("Request failed"),
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+      };
     }
+  }
 
-    async remove(email, notificationID) {
-        const key = {PK: `${email}-notification`, SK: notificationID};
-        await this.DB.deleteItem(key);
-    }
-};
-module.exports = DeleteNotification;   
+  async remove(email, notificationID) {
+    const key = { PK: `${email}-notification`, SK: notificationID };
+    await this.DB.deleteItem(key);
+  }
+}
+module.exports = DeleteNotification;

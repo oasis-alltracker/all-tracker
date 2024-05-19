@@ -39,7 +39,7 @@ const DietStep10 = (props) => {
         const { status, data } = await UserAPI.updateUser(
           true,
           selectedTrackers,
-          accessToken
+          accessToken,
         );
 
         //TO-DO check if user is subscribed

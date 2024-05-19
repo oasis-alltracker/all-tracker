@@ -51,7 +51,7 @@ const HabitsNotifications = (props) => {
           "Don't forget to update your habit progress",
           [{ hour: Number(hour), minute: Number(minute), repeats: true }],
           true,
-          habitExpoIDs
+          habitExpoIDs,
         );
       }
     } else {
@@ -62,7 +62,7 @@ const HabitsNotifications = (props) => {
         "undefined",
         "undefined",
         "undefined",
-        "off"
+        "off",
       );
     }
 
@@ -82,7 +82,7 @@ const HabitsNotifications = (props) => {
         const { status, data } = await UserAPI.updateUser(
           true,
           selectedTrackers,
-          accessToken
+          accessToken,
         );
 
         //TO-DO check if user is subscribed
@@ -95,7 +95,7 @@ const HabitsNotifications = (props) => {
         {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-        }
+        },
       );
     }
 
@@ -112,7 +112,7 @@ const HabitsNotifications = (props) => {
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
-          }
+          },
         );
       }
     } else {
@@ -156,7 +156,7 @@ const HabitsNotifications = (props) => {
       var allNotifications =
         await NotificationsHandler.getNotificationsForGroup(
           token,
-          "notifications"
+          "notifications",
         );
       var habitNotifications =
         await NotificationsHandler.getNotificationsForGroup(token, "habit");

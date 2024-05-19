@@ -15,92 +15,85 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
 
-const dietSettings =
-  {
-    img: require("../../assets/images/person-profile.png"),
-    title: "Personal",
-    childs: [
-      {
-        title: "Personal details",
-        route: "personal",
-      },
-      {
-        title: "Goals",
-        route: "goals",
-      },
-      {
-        title: "Units",
-        route: "units",
-      },
-    ],
-  }
+const dietSettings = {
+  img: require("../../assets/images/person-profile.png"),
+  title: "Personal",
+  childs: [
+    {
+      title: "Personal details",
+      route: "personal",
+    },
+    {
+      title: "Goals",
+      route: "goals",
+    },
+    {
+      title: "Units",
+      route: "units",
+    },
+  ],
+};
 
-const generalSettings =
-  {
-    img: require("../../assets/images/tracking.png"),
-    title: "Tracking",
-    childs: [
-      {
-        title: "Notifications",
-        route: "notifications",
-      },
-      {
-        title: "Tracking Preferences",
-        route: "setup",
-        isUnits: true,
-      },
-    ],
-  }
+const generalSettings = {
+  img: require("../../assets/images/tracking.png"),
+  title: "Tracking",
+  childs: [
+    {
+      title: "Notifications",
+      route: "notifications",
+    },
+    {
+      title: "Tracking Preferences",
+      route: "setup",
+      isUnits: true,
+    },
+  ],
+};
 
+const helpSettings = {
+  img: require("../../assets/images/help.png"),
+  title: "Help",
+  childs: [
+    {
+      title: "Contact",
+      route: "contact",
+      isContact: true,
+    },
+  ],
+};
 
-const helpSettings =
-  {
-    img: require("../../assets/images/help.png"),
-    title: "Help",
-    childs: [
-      {
-        title: "Contact",
-        route: "contact",
-        isContact: true,
-      },
-      
-    ],
-  }
-
-const accountSettings =
-  {
-    img: require("../../assets/images/user-key.png"),
-    title: "Account",
-    childs: [
-      {
-        title: "Logout",
-        isLogout: true
-      },
-      {
-        title: "Delete Account",
-        isDeleteAccount: true
-      },
-    ],
-  }
+const accountSettings = {
+  img: require("../../assets/images/user-key.png"),
+  title: "Account",
+  childs: [
+    {
+      title: "Logout",
+      isLogout: true,
+    },
+    {
+      title: "Delete Account",
+      isDeleteAccount: true,
+    },
+  ],
+};
 
 const SettingsHome = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [trackingPreferences, setTrackingPreferences] = useState([]);
 
   const deleteAccount = async () => {
-    setIsLoading(true)
-    try{
+    setIsLoading(true);
+    try {
       const token = await getAccessToken();
       await UserAPI.deleteUser(token);
       logout();
-      setIsLoading(false)
+      setIsLoading(false);
       navigationService.reset("landing", 0);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
     }
-    catch(e){
-      console.log(e)
-      setIsLoading(false)
-    }  
-  }
+  };
 
   const deleteAccountHandler = () => {
     Alert.alert(
@@ -118,7 +111,7 @@ const SettingsHome = () => {
       ],
       {
         cancelable: true,
-      }
+      },
     );
   };
 
@@ -139,92 +132,64 @@ const SettingsHome = () => {
       ],
       {
         cancelable: true,
-      }
+      },
     );
   };
 
-
   useEffect(() => {
-    const getDataOnLoad = async() =>{
-      token = await getAccessToken()
-      if(isLoading){
-        const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data.trackingPreferences
-        setIsLoading(false)
-        setTrackingPreferences(trackingPreferencesLoaded)
-      }    
-    }
-    getDataOnLoad()
-
+    const getDataOnLoad = async () => {
+      token = await getAccessToken();
+      if (isLoading) {
+        const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
+          .trackingPreferences;
+        setIsLoading(false);
+        setTrackingPreferences(trackingPreferencesLoaded);
+      }
+    };
+    getDataOnLoad();
   }, []);
-
 
   return (
     <View style={styles.cotainer}>
       <Header />
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
+      <Spinner visible={isLoading}></Spinner>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.item}>
-            <View style={styles.itemHead}>
-              <Image source={generalSettings.img} style={styles.itemImg} />
-              <Text style={styles.itemTitle}>{generalSettings.title}</Text>
-            </View>
-            {generalSettings.childs.map((item, index) => (
-              <TouchableOpacity
-                onPress={(e) => {
-                    navigationService.navigate(item.route);
-                }}
-                style={styles.child}
-                key={index}
-              >
-                <Text style={styles.childTitle}>{item.title}</Text>
-                <Image
-                  style={styles.arrowRight}
-                  resizeMode="stretch"
-                  source={require("../../assets/images/left.png")}
-                />
-              </TouchableOpacity>
-            ))}
+          <View style={styles.itemHead}>
+            <Image source={generalSettings.img} style={styles.itemImg} />
+            <Text style={styles.itemTitle}>{generalSettings.title}</Text>
           </View>
+          {generalSettings.childs.map((item, index) => (
+            <TouchableOpacity
+              onPress={(e) => {
+                navigationService.navigate(item.route);
+              }}
+              style={styles.child}
+              key={index}
+            >
+              <Text style={styles.childTitle}>{item.title}</Text>
+              <Image
+                style={styles.arrowRight}
+                resizeMode="stretch"
+                source={require("../../assets/images/left.png")}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
 
-          { trackingPreferences.dietSelected && 
-            <View style={styles.item}>
-              <View style={styles.itemHead}>
-                <Image source={dietSettings.img} style={styles.itemImg} />
-                <Text style={styles.itemTitle}>{dietSettings.title}</Text>
-              </View>
-              {dietSettings.childs.map((item, index) => (
-                <TouchableOpacity
-                  onPress={(e) => {
-                      navigationService.navigate(item.route);
-                  }}
-                  style={styles.child}
-                  key={index}
-                >
-                  <Text style={styles.childTitle}>{item.title}</Text>
-                  <Image
-                    style={styles.arrowRight}
-                    resizeMode="stretch"
-                    source={require("../../assets/images/left.png")}
-                  />
-                </TouchableOpacity>
-              ))}
-            </View>
-          }
-
+        {trackingPreferences.dietSelected && (
           <View style={styles.item}>
             <View style={styles.itemHead}>
-              <Image source={helpSettings.img} style={styles.itemImg} />
-              <Text style={styles.itemTitle}>{helpSettings.title}</Text>
+              <Image source={dietSettings.img} style={styles.itemImg} />
+              <Text style={styles.itemTitle}>{dietSettings.title}</Text>
             </View>
-            {helpSettings.childs.map((item, index) => (
+            {dietSettings.childs.map((item, index) => (
               <TouchableOpacity
                 onPress={(e) => {
-                    navigationService.navigate(item.route);
+                  navigationService.navigate(item.route);
                 }}
                 style={styles.child}
                 key={index}
@@ -238,37 +203,57 @@ const SettingsHome = () => {
               </TouchableOpacity>
             ))}
           </View>
+        )}
 
-          <View style={styles.item}>
-            <View style={styles.itemHead}>
-              <Image source={accountSettings.img} style={styles.itemImg} />
-              <Text style={styles.itemTitle}>{accountSettings.title}</Text>
-            </View>
-            {accountSettings.childs.map((item, index) => (
-              <TouchableOpacity
-                onPress={(e) => {
-
-                  if (item.isLogout) {
-                    logoutHandler();
-                  }
-                  else if(item.isDeleteAccount){
-                    deleteAccountHandler();
-                  }
-                }}
-                style={styles.child}
-                key={index}
-              >
-                <Text style={styles.childTitle}>{item.title}</Text>
-                <Image
-                  style={styles.arrowRight}
-                  resizeMode="stretch"
-                  source={require("../../assets/images/left.png")}
-                />
-              </TouchableOpacity>
-            ))}
+        <View style={styles.item}>
+          <View style={styles.itemHead}>
+            <Image source={helpSettings.img} style={styles.itemImg} />
+            <Text style={styles.itemTitle}>{helpSettings.title}</Text>
           </View>
+          {helpSettings.childs.map((item, index) => (
+            <TouchableOpacity
+              onPress={(e) => {
+                navigationService.navigate(item.route);
+              }}
+              style={styles.child}
+              key={index}
+            >
+              <Text style={styles.childTitle}>{item.title}</Text>
+              <Image
+                style={styles.arrowRight}
+                resizeMode="stretch"
+                source={require("../../assets/images/left.png")}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
 
-
+        <View style={styles.item}>
+          <View style={styles.itemHead}>
+            <Image source={accountSettings.img} style={styles.itemImg} />
+            <Text style={styles.itemTitle}>{accountSettings.title}</Text>
+          </View>
+          {accountSettings.childs.map((item, index) => (
+            <TouchableOpacity
+              onPress={(e) => {
+                if (item.isLogout) {
+                  logoutHandler();
+                } else if (item.isDeleteAccount) {
+                  deleteAccountHandler();
+                }
+              }}
+              style={styles.child}
+              key={index}
+            >
+              <Text style={styles.childTitle}>{item.title}</Text>
+              <Image
+                style={styles.arrowRight}
+                resizeMode="stretch"
+                source={require("../../assets/images/left.png")}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -319,7 +304,7 @@ const styles = StyleSheet.create({
   arrowRight: {
     width: 10,
     height: 20,
-    marginTop:6
+    marginTop: 6,
   },
 });
 

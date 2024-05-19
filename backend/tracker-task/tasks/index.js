@@ -48,7 +48,7 @@ module.exports.handler = async (event, context, callback) => {
     response = await updateTask.updateTask(
       user,
       taskID,
-      JSON.parse(event.body)
+      JSON.parse(event.body),
     );
   } else if (event.httpMethod == "POST") {
     response = await createTask.createTask(user, JSON.parse(event.body));

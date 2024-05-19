@@ -6,15 +6,19 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/auth-redirect" element={<AuthRedirect />}/>
-        <Route path="/" element={<>
-          <div>
-            <h1>Page Coming Soon!</h1>
-          </div>
-        </>}/>
+        <Route path="/auth-redirect" element={<AuthRedirect />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <div>
+                <h1>Page Coming Soon!</h1>
+              </div>
+            </>
+          }
+        />
       </Routes>
     </Router>
-  
   );
 }
 

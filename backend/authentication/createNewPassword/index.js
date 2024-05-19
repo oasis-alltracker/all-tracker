@@ -45,7 +45,7 @@ module.exports.handler = async (event, context, callback) => {
           const saltRounds = 10;
           const hashedPassword = await bcrypt.hash(
             userCredentials.password,
-            saltRounds
+            saltRounds,
           );
 
           await userDB.updatePassword(email, hashedPassword);

@@ -37,7 +37,7 @@ module.exports.handler = async (event, context, callback) => {
           } else if (
             await bcrypt.compare(
               userCredentials.tempPassword,
-              hashedTempPassword
+              hashedTempPassword,
             )
           ) {
             body = JSON.stringify({
@@ -51,7 +51,7 @@ module.exports.handler = async (event, context, callback) => {
             });
             await failedAttempt(
               email,
-              tempPasswordResponse.Item.failedAttempts
+              tempPasswordResponse.Item.failedAttempts,
             );
           }
         } else {

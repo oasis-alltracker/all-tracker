@@ -10,13 +10,13 @@ class GetHabitStats {
         const habits = await this.getHabits(user.email);
         const habitStatuses = await this.getHabitStatusListForDay(
           user.email,
-          day
+          day,
         );
 
         for (var habitEntry of habits) {
           const statusSK = `${day}-${habitEntry.SK}`;
           var habitStatus = habitStatuses.find(
-            (status) => status.SK === statusSK
+            (status) => status.SK === statusSK,
           );
 
           if (habitStatus !== undefined) {

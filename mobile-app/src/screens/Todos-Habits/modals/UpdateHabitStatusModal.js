@@ -6,7 +6,11 @@ import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 
-export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, refreshHabits }) {
+export default function UpdateHabitStatusModal({
+  getRef,
+  onHabitStatusUpdate,
+  refreshHabits,
+}) {
   const [visible, setVisible] = useState(false);
 
   const [isPositive, setIsPositive] = useState(false);
@@ -19,25 +23,23 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
   useEffect(() => {
     let ref = {
       open(isEdit = false, props) {
+        setVisible(true);
 
-        setVisible(true)
+        setName(props.name);
+        setSK(props.SK);
+        setIsPositive(props.isPositive);
+        setCount(props.count);
+        setThreshold(props.threshold);
 
-        setName(props.name)
-        setSK(props.SK)
-        setIsPositive(props.isPositive)
-        setCount(props.count)
-        setThreshold(props.threshold)
-
-        if(props.count >= props.threshold) {
-          setCount(props.threshold)
-          if(props.isPositive) {
+        if (props.count >= props.threshold) {
+          setCount(props.threshold);
+          if (props.isPositive) {
             Toast.show("Habit complete. Great job!", {
               ...styles.positiveToast,
               duration: Toast.durations.LONG,
               position: Toast.positions.BOTTOM,
             });
-          }
-          else{
+          } else {
             Toast.show("You striked out. Try again tomorrow!", {
               ...styles.negativeToast,
               duration: Toast.durations.LONG,
@@ -55,65 +57,61 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
   }, []);
 
   const backDropPressed = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     await refreshHabits();
-    setIsLoading(false)
+    setIsLoading(false);
     setVisible(false);
-  }
+  };
 
   const onSave = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const habit = {
       isPositive: isPositive,
       SK: SK,
       count: count,
       name: name,
-    }
+    };
 
-    await onHabitStatusUpdate(habit, count)
-    setIsLoading(false)
+    await onHabitStatusUpdate(habit, count);
+    setIsLoading(false);
     setVisible(false);
-    
-  }
+  };
 
   const onPlusPressed = () => {
-    if(count > 0){
-      setCount(count-1);
+    if (count > 0) {
+      setCount(count - 1);
     }
-  }
+  };
   const onMinusPressed = () => {
-    if(threshold - count == 1){
-      if(isPositive) {
+    if (threshold - count == 1) {
+      if (isPositive) {
         Toast.show("Habit complete. Great job!", {
           ...styles.positiveToast,
           duration: Toast.durations.LONG,
         });
-      }
-      else{
+      } else {
         Toast.show("You striked out. Try again tomorrow!", {
           ...styles.negativeToast,
           duration: Toast.durations.LONG,
         });
       }
     }
-    if(count >= threshold) {
-      if(isPositive) {
+    if (count >= threshold) {
+      if (isPositive) {
         Toast.show("Habit complete. Great job!", {
           ...styles.positiveToast,
           duration: Toast.durations.LONG,
         });
-      }
-      else{
+      } else {
         Toast.show("You striked out. Try again tomorrow!", {
           ...styles.negativeToast,
           duration: Toast.durations.LONG,
         });
       }
+    } else {
+      setCount(count + 1);
     }
-    else {
-      setCount(count+1);
-    }
-  }
+  };
 
   return (
     <RNModal
@@ -123,11 +121,9 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
       backdropColor="rgba(215, 246, 255, 0.27)"
       style={styles.modal}
     >
-      <Spinner
-        visible={isLoading}>
-      </Spinner>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
-        <View style={[styles.row, {paddingBottom: 10}]}>
+        <View style={[styles.row, { paddingBottom: 10 }]}>
           <Text style={styles.inputTitle}>{name}</Text>
         </View>
 
@@ -136,7 +132,10 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
         </View>
 
         <View style={styles.row}>
-          <TouchableOpacity onPress={() => onMinusPressed()} style={styles.countButton}>
+          <TouchableOpacity
+            onPress={() => onMinusPressed()}
+            style={styles.countButton}
+          >
             <Image
               style={styles.plusMain}
               source={require("../../../assets/images/remove.png")}
@@ -144,10 +143,13 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
           </TouchableOpacity>
 
           <View style={styles.countContainer}>
-            <Text style={styles.countText}>{threshold-count}</Text>
+            <Text style={styles.countText}>{threshold - count}</Text>
           </View>
 
-          <TouchableOpacity onPress={() => onPlusPressed()} style={styles.countButton}>
+          <TouchableOpacity
+            onPress={() => onPlusPressed()}
+            style={styles.countButton}
+          >
             <Image
               style={styles.plusMain}
               source={require("../../../assets/images/plus512.png")}
@@ -156,16 +158,15 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
         </View>
 
         <View style={styles.row}>
-          {isPositive? 
+          {isPositive ? (
             <>
-              <Text style={styles.text}>completions left</Text>    
+              <Text style={styles.text}>completions left</Text>
             </>
-            :
+          ) : (
             <>
-              <Text style={styles.text}>strikes left</Text>  
+              <Text style={styles.text}>strikes left</Text>
             </>
-            }
-
+          )}
         </View>
         <View style={styles.row2}>
           <Button
@@ -177,7 +178,7 @@ export default function UpdateHabitStatusModal({ getRef, onHabitStatusUpdate, re
           <Button onPress={() => onSave()} style={styles.button}>
             Ok
           </Button>
-        </View>   
+        </View>
       </View>
     </RNModal>
   );
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     margin: 0,
     alignItems: "center",
     justifyContent: "center",
-    flex:1
+    flex: 1,
   },
   container: {
     width: "90%",
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: 15,
-    marginHorizontal: 15
+    marginHorizontal: 15,
   },
   inputTitle: {
     color: "#25436B",
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginTop: 35,
-    marginHorizontal: 15
+    marginHorizontal: 15,
   },
   button: {
     width: "47%",
@@ -271,7 +272,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   countButton: {
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   positiveToast: {
     backgroundColor: "#D7F6FF",

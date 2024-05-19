@@ -8,12 +8,14 @@ class GetHabitStatusList {
       const habits = await this.getHabits(user.email);
       const habitStatuses = await this.getHabitStatusListForDay(
         user.email,
-        dateStamp
+        dateStamp,
       );
 
       for (var habitEntry of habits) {
         const statusSK = `${dateStamp}-${habitEntry.SK}`;
-        var habitStatus = habitStatuses.find((status) => status.SK === statusSK);
+        var habitStatus = habitStatuses.find(
+          (status) => status.SK === statusSK,
+        );
 
         if (habitStatus !== undefined) {
           habitEntry.count = habitStatus.count;

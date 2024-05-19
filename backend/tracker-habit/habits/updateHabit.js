@@ -44,9 +44,8 @@ class UpdateHabit {
       ":threshold": habit.threshold,
       ":pngURL": habit.pngURL,
       ":time": habit.time,
-
     };
-    
+
     await this.DB.updateItem(expression, key, names, values);
   }
 }

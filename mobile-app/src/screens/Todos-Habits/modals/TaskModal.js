@@ -49,7 +49,7 @@ export default function TaskModal({
     newIsNotificationsOn,
     newTime,
     newDateStamp,
-    newSchedule
+    newSchedule,
   ) => {
     setIsRecurring(newIsRecurring);
     setIsNotificationsOn(newIsNotificationsOn);
@@ -80,7 +80,7 @@ export default function TaskModal({
         ],
         {
           cancelable: true,
-        }
+        },
       );
     } else {
       setVisible(false);
@@ -167,7 +167,7 @@ export default function TaskModal({
       token = await getAccessToken();
       notifications = await NotificationsHandler.getNotificationsForGroup(
         token,
-        `task-${itemID}`
+        `task-${itemID}`,
       );
 
       if (notifications.length == 1) {

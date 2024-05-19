@@ -40,7 +40,7 @@ const ImageView = ({ getRef, isAvatar }) => {
 
     const result = await FileSystem.downloadAsync(
       data.images[data.index].url,
-      FileSystem.documentDirectory + fileName
+      FileSystem.documentDirectory + fileName,
     );
 
     requestPermission().then(async (res) => {
@@ -74,7 +74,7 @@ const ImageView = ({ getRef, isAvatar }) => {
         })}
       />
     ),
-    [data.images]
+    [data.images],
   );
 
   return (

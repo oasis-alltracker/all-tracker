@@ -5,16 +5,16 @@ import { Header } from "../../components";
 const Contact = () => {
   return (
     <>
-    <View style={styles.container}>
-      <Header showCenter={false} />
-      <Text style={styles.title}>Contact</Text>
-    </View>
-    <View style={styles.container}>
+      <View style={styles.container}>
+        <Header showCenter={false} />
+        <Text style={styles.title}>Contact</Text>
+      </View>
+      <View style={styles.container}>
         <Text style={styles.text}>If you would like to contact us,</Text>
         <Text style={styles.text}>please DM on instagram</Text>
         <Text style={styles.texBold}>@oasis.all-tracker</Text>
       </View>
-      </>
+    </>
   );
 };
 

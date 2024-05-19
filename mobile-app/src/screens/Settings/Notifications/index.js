@@ -62,7 +62,7 @@ const Notifications = () => {
         await NotificationsHandler.turnOffNotification(
           token,
           "habit",
-          habitExpoIDs
+          habitExpoIDs,
         );
         setIsHabitsEnabled((previousState) => !previousState);
       } else {
@@ -77,7 +77,7 @@ const Notifications = () => {
             "Don't forget to update your habit progress",
             [{ hour: Number(hour), minute: Number(minute), repeats: true }],
             isNotificationsEnabled,
-            habitExpoIDs
+            habitExpoIDs,
           );
           if (expoIDs) {
             setIsHabitsEnabled((previousState) => !previousState);
@@ -89,7 +89,7 @@ const Notifications = () => {
             {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
-            }
+            },
           );
         }
       }
@@ -125,7 +125,7 @@ const Notifications = () => {
               {
                 ...styles.errorToast,
                 duration: Toast.durations.LONG,
-              }
+              },
             );
           }
         } catch (e) {
@@ -160,7 +160,7 @@ const Notifications = () => {
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
-          }
+          },
         );
       }
     }
@@ -201,7 +201,7 @@ const Notifications = () => {
           "Don't forget to update your habit progress",
           [{ hour: Number(hour), minute: Number(minute), repeats: true }],
           isNotificationsEnabled,
-          habitExpoIDs
+          habitExpoIDs,
         );
         if (expoIDs) {
           setHabitExpoIDs(expoIDs);
@@ -212,7 +212,7 @@ const Notifications = () => {
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
-          }
+          },
         );
       }
     }
@@ -241,7 +241,7 @@ const Notifications = () => {
         var allNotifications =
           await NotificationsHandler.getNotificationsForGroup(
             token,
-            "notifications"
+            "notifications",
           );
         var habitNotifications =
           await NotificationsHandler.getNotificationsForGroup(token, "habit");

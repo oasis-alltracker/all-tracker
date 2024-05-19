@@ -26,7 +26,7 @@ module.exports.handler = async (event, context, callback) => {
       const userCredentials = JSON.parse(event.body);
       const email = userCredentials.email.toLowerCase();
 
-      if(email != "test@test.com") {
+      if (email != "test@test.com") {
         const otpKey = { PK: email, SK: "otp" };
         const otpResponse = await dbService.getItem(otpKey);
         const emailKey = { PK: email, SK: email };
@@ -38,20 +38,33 @@ module.exports.handler = async (event, context, callback) => {
         ) {
           body = JSON.stringify({ loginFailed: "locked" });
           statusCode = 200;
-        } else if (!isEmptyObject(otpResponse) && !isEmptyObject(existingUser)) {
+        } else if (
+          !isEmptyObject(otpResponse) &&
+          !isEmptyObject(existingUser)
+        ) {
           const hashedPassword = otpResponse.Item.hashedOTP;
           const creationTime = new Date(otpResponse.Item.createdAt);
 
           if (new Date() - creationTime > FIVE_MINUTES) {
             body = JSON.stringify({ loginFailed: "expired" });
             statusCode = 200;
-          } else if (await bcrypt.compare(userCredentials.otp, hashedPassword)) {
-            const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-              expiresIn: "48h",
-            });
-            const refreshToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-              expiresIn: "100d",
-            });
+          } else if (
+            await bcrypt.compare(userCredentials.otp, hashedPassword)
+          ) {
+            const accessToken = jwt.sign(
+              { email: email },
+              ACCESS_TOKEN_SECRET,
+              {
+                expiresIn: "48h",
+              },
+            );
+            const refreshToken = jwt.sign(
+              { email: email },
+              ACCESS_TOKEN_SECRET,
+              {
+                expiresIn: "100d",
+              },
+            );
             body = JSON.stringify({
               accessToken: accessToken,
               refreshToken: refreshToken,
@@ -63,16 +76,15 @@ module.exports.handler = async (event, context, callback) => {
             statusCode = 200;
             await userDB.updateFailedAttemptsCount(
               email,
-              existingUser.Item.failedAttempts + 1
+              existingUser.Item.failedAttempts + 1,
             );
           }
         } else {
           body = JSON.stringify({ loginFailed: "User does not exist." });
           statusCode = 401;
         }
-      }
-      else{
-        if(userCredentials.otp == "1234"){
+      } else {
+        if (userCredentials.otp == "1234") {
           const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
             expiresIn: "48h",
           });
@@ -84,8 +96,7 @@ module.exports.handler = async (event, context, callback) => {
             refreshToken: refreshToken,
           });
           statusCode = 200;
-        }
-        else{
+        } else {
           body = JSON.stringify({ loginFailed: "incorrectOTP" });
           statusCode = 200;
         }

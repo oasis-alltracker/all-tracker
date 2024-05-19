@@ -20,26 +20,27 @@ module.exports.handler = async (event, context, callback) => {
     const userCredentials = JSON.parse(event.body);
     const email = userCredentials.email.toLowerCase();
 
-    if(email != "test@test.com"){
+    if (email != "test@test.com") {
       const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
-  
+
       const saltRounds = 10;
       const hashedOTP = await bcrypt.hash(otp, saltRounds);
       const hashedPassword = await bcrypt.hash(
         userCredentials.password,
-        saltRounds
+        saltRounds,
       );
       const existingUser = await userDB.userExistsOrCreateUser(
         email,
-        hashedPassword
+        hashedPassword,
       );
       var body;
       if (!existingUser || existingUser.failedAttempts < 5) {
         if (existingUser) {
-          if ( !existingUser.hashedPassword || 
+          if (
+            !existingUser.hashedPassword ||
             !(await bcrypt.compare(
               userCredentials.password,
-              existingUser.hashedPassword
+              existingUser.hashedPassword,
             ))
           ) {
             if (existingUser.failedAttempts >= 4) {
@@ -49,7 +50,7 @@ module.exports.handler = async (event, context, callback) => {
             }
             await userDB.updateFailedAttemptsCount(
               email,
-              existingUser.failedAttempts + 1
+              existingUser.failedAttempts + 1,
             );
             callback(null, {
               statusCode: 200,
@@ -70,21 +71,16 @@ module.exports.handler = async (event, context, callback) => {
         await sqs.sendMessage(params).promise();
         body = { isCorrectPassword: true, isAccountLocked: false };
         await userDB.updateFailedAttemptsCount(email, 0);
-      }
-      else {
+      } else {
         body = { isCorrectPassword: false, isAccountLocked: true };
       }
-    }
-    else {
-      if(userCredentials.password == "1234"){
+    } else {
+      if (userCredentials.password == "1234") {
         body = { isCorrectPassword: true, isAccountLocked: false };
-      }
-      else{
+      } else {
         body = { isCorrectPassword: false, isAccountLocked: false };
       }
-      
     }
-
 
     callback(null, {
       statusCode: 200,

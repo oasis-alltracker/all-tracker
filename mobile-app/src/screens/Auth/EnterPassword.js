@@ -51,7 +51,7 @@ const EnterPassword = (props) => {
       ],
       {
         cancelable: true,
-      }
+      },
     );
   };
 
@@ -89,7 +89,7 @@ const EnterPassword = (props) => {
             ],
             {
               cancelable: true,
-            }
+            },
           );
         } else {
           setIsLoading(false);

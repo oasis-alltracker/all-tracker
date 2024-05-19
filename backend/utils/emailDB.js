@@ -5,19 +5,20 @@ class EmailDB {
 
   async addFailedEmail(emailAddress, failedReason) {
     if (!emailAddress) {
-      throw new Error('Invalid input');
+      throw new Error("Invalid input");
     }
 
     try {
       const recordToInsert = this.getEmailRecord(emailAddress, failedReason);
       await this.dbService.putItem(recordToInsert);
-    } 
-    catch (e) {
-      throw new Error('Something went wrong sending adding the failed email.', { cause: e });
+    } catch (e) {
+      throw new Error("Something went wrong sending adding the failed email.", {
+        cause: e,
+      });
     }
   }
 
-  getEmailRecord(emailAddress, failedReason){
+  getEmailRecord(emailAddress, failedReason) {
     let recordToInsert = {};
     recordToInsert.PK = emailAddress;
     recordToInsert.SK = emailAddress;
@@ -26,33 +27,38 @@ class EmailDB {
     return recordToInsert;
   }
 
-  async verifyEmailAddress(emailAddress){
+  async verifyEmailAddress(emailAddress) {
     try {
-      const { expression, names, values } = this.getVerifyEmailCondition(emailAddress);
+      const { expression, names, values } =
+        this.getVerifyEmailCondition(emailAddress);
 
-      const response = await this.dbService.queryItem(expression, names, values);
+      const response = await this.dbService.queryItem(
+        expression,
+        names,
+        values,
+      );
 
-      if(response?.Items?.[0]?.failedReason){
+      if (response?.Items?.[0]?.failedReason) {
         return false;
-      }
-      else {
+      } else {
         return true;
       }
-  
-    } catch(e) {
+    } catch (e) {
       console.log(e);
-      throw new Error('Something went wrong verifying the email address.', { cause: e });
+      throw new Error("Something went wrong verifying the email address.", {
+        cause: e,
+      });
     }
   }
   getVerifyEmailCondition(emailAddress) {
     return {
-      expression: '#pk = :emailAddress AND #sk = :emailAddress ',
+      expression: "#pk = :emailAddress AND #sk = :emailAddress ",
       names: {
-        '#pk': 'PK',
-        '#sk': 'SK',
+        "#pk": "PK",
+        "#sk": "SK",
       },
       values: {
-        ':emailAddress': emailAddress,
+        ":emailAddress": emailAddress,
       },
     };
   }

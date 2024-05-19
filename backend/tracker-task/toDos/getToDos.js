@@ -10,7 +10,7 @@ class GetToDos {
       if (queryStringParameters.dateStamp) {
         toDos = await this.getDueAndOverdueToDos(
           user.email,
-          queryStringParameters.dateStamp
+          queryStringParameters.dateStamp,
         );
         var toDosNoDueDate = await this.getNoDueDateToDos(user.email);
         toDos.push.apply(toDos, toDosNoDueDate);

@@ -40,7 +40,7 @@ class CreateTask {
     var lastCompletionDate = new Date(
       Number(year),
       Number(month) - 1,
-      Number(day)
+      Number(day),
     );
     var dayOfWeek = lastCompletionDate.getDay();
     var nextDayOfWeek = 0;

@@ -21,27 +21,26 @@ class DbUtils {
   }
 
   deleteItems(pk, items) {
-    if(items.length>0) {
-
+    if (items.length > 0) {
       const params = {
         RequestItems: {
-          [this.tableName]: []
-        }
+          [this.tableName]: [],
+        },
       };
-  
-      for(var item of items){
+
+      for (var item of items) {
         const key = {
-          'PK':  pk,
-          'SK':  item.SK
-        }
-        
+          PK: pk,
+          SK: item.SK,
+        };
+
         params.RequestItems[this.tableName].push({
           DeleteRequest: {
-            Key: key
-          }
+            Key: key,
+          },
         });
       }
-  
+
       return new Promise((resolve, reject) => {
         this.DB.batchWrite(params, function (err, data) {
           if (err) {
@@ -51,7 +50,6 @@ class DbUtils {
           }
         });
       });
-
     }
   }
 

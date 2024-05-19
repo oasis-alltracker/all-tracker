@@ -17,7 +17,6 @@ class HabitsAPI {
   }
 
   static async createHabit(token, habit) {
-
     const headers = {
       Authorization: `Bearer ${token}`,
     };
@@ -43,7 +42,6 @@ class HabitsAPI {
       Authorization: `Bearer ${token}`,
     };
     const url = API + habitID;
-
 
     await axios.delete(url, { headers: headers });
   }

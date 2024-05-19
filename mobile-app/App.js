@@ -38,7 +38,7 @@ export default function App() {
 
     return () => {
       Notifications.removeNotificationSubscription(
-        notificationListener.current
+        notificationListener.current,
       );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
@@ -49,9 +49,8 @@ export default function App() {
       if (await isLoggedIn()) {
         const accessToken = await getAccessToken();
         try {
-          const { status: status, data: userData } = await UserAPI.getUser(
-            accessToken
-          );
+          const { status: status, data: userData } =
+            await UserAPI.getUser(accessToken);
           if (userData) {
             if (userData["isSetupComplete"]) {
               setInitialRoute("main");

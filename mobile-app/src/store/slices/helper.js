@@ -1,7 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const helper = createSlice({
-  name: 'helper',
+  name: "helper",
   initialState: {
     isConnected: false,
   },
@@ -13,5 +13,5 @@ export const helper = createSlice({
   },
 });
 
-export const {setIsConneted} = helper.actions;
+export const { setIsConneted } = helper.actions;
 export default helper.reducer;

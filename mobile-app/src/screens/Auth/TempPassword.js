@@ -27,7 +27,7 @@ const EnterPassword = (props) => {
     if (tempPassword.length > 0) {
       const { status, data } = await LoginAPI.verifyTempPassword(
         email,
-        tempPassword
+        tempPassword,
       );
 
       if (status == 200) {

@@ -41,7 +41,7 @@ const SleepStep2 = (props) => {
       const { status, data } = await UserAPI.updateUser(
         true,
         selectedTrackers,
-        accessToken
+        accessToken,
       );
       setIsLoading(false);
       //TO-DO check if user is subscribed

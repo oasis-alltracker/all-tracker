@@ -33,14 +33,16 @@ export default function Statistics(trackingPreferences) {
 
   const updateWeek = (dateChange) => {
     var newDate = new Date(
-      selectedMonday.setDate(selectedMonday.getDate() + dateChange)
+      selectedMonday.setDate(selectedMonday.getDate() + dateChange),
     );
     setSelectedMonday(newDate);
   };
 
   useEffect(() => {
     var newDate = new Date(
-      thisMonday.setDate(thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7))
+      thisMonday.setDate(
+        thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7),
+      ),
     );
     setSelectedMonday(newDate);
   }, []);

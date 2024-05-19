@@ -24,7 +24,7 @@ class SendOTPEmail {
       this.emailService.setTemplateName(process.env.OTP_TEMPLATE_NAME);
     } else {
       this.emailService.setTemplateName(
-        process.env.TEMP_PASSWAORD_TEMPLATE_NAME
+        process.env.TEMP_PASSWAORD_TEMPLATE_NAME,
       );
     }
 

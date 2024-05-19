@@ -103,9 +103,8 @@ const EnterEmail = () => {
   //--------------------- SAVE USER TOKENS
   const processUserAccessToken = async () => {
     const accessToken = await getAccessToken();
-    const { status: userStatus, data: userData } = await UserAPI.getUser(
-      accessToken
-    );
+    const { status: userStatus, data: userData } =
+      await UserAPI.getUser(accessToken);
 
     setIsLoading(false);
     if (userData.isSetupComplete) {
@@ -149,7 +148,7 @@ const EnterEmail = () => {
               ],
               {
                 cancelable: true,
-              }
+              },
             );
           } else if (data?.exists) {
             setIsLoading(false);

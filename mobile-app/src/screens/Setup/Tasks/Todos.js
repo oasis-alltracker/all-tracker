@@ -70,7 +70,7 @@ const Todos = (props) => {
           "Task Reminder",
           toDo.name,
           trigger,
-          true
+          true,
         );
       }
 
@@ -94,7 +94,7 @@ const Todos = (props) => {
       if (isNotificationsOn) {
         prevNotification = await NotificationsHandler.getNotificationsForGroup(
           token,
-          `task-${toDo.toDoID}`
+          `task-${toDo.toDoID}`,
         );
         trigger = [
           {
@@ -111,7 +111,7 @@ const Todos = (props) => {
           toDo.name,
           trigger,
           true,
-          prevNotification.expoIDs
+          prevNotification.expoIDs,
         );
       }
       await getToDos(token);
@@ -222,7 +222,7 @@ const Todos = (props) => {
           "Task Reminder",
           task.name,
           triggers,
-          true
+          true,
         );
       }
       await getTasks(token);
@@ -246,7 +246,7 @@ const Todos = (props) => {
       if (isNotificationsOn) {
         prevNotification = await NotificationsHandler.getNotificationsForGroup(
           token,
-          `task-${taskSK}`
+          `task-${taskSK}`,
         );
 
         triggers = [];
@@ -265,7 +265,7 @@ const Todos = (props) => {
           task.name,
           triggers,
           true,
-          prevNotification.expoIDs
+          prevNotification.expoIDs,
         );
       }
 
@@ -299,7 +299,7 @@ const Todos = (props) => {
           var lastCompletionDate = new Date(
             Number(year),
             Number(month) - 1,
-            Number(day)
+            Number(day),
           );
           var dayOfWeek = lastCompletionDate.getDay();
           var nextDayOfWeek = 0;
@@ -503,7 +503,7 @@ const Todos = (props) => {
         const { status, data } = await UserAPI.updateUser(
           true,
           selectedTrackers,
-          accessToken
+          accessToken,
         );
 
         //TO-DO check if user is subscribed

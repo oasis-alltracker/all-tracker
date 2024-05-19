@@ -82,7 +82,7 @@ const Main = ({
         var newItemDate = new Date(
           Number(year),
           Number(month) - 1,
-          Number(day)
+          Number(day),
         );
         setItemDate(newItemDate);
       } else {

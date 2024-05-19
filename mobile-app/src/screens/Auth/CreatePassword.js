@@ -33,7 +33,7 @@ const CreatePassword = (props) => {
           var { status, data } = await LoginAPI.createNewPassword(
             email,
             tempPassword,
-            password
+            password,
           );
           if (status == 200) {
             if (!data || data?.loginFailed) {
@@ -82,7 +82,7 @@ const CreatePassword = (props) => {
                   ...styles.errorToast,
                   duration: Toast.durations.LONG,
                   position: Toast.positions.CENTER,
-                }
+                },
               );
             }
           } else {

@@ -52,7 +52,7 @@ const LoanSheet = ({ getRef, onPress }) => {
           animation(200 + bottom);
         }
       },
-    })
+    }),
   ).current;
 
   if (!visible) {

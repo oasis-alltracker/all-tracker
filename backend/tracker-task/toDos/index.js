@@ -39,7 +39,7 @@ module.exports.handler = async (event, context, callback) => {
     response = await updateToDo.updateToDo(
       user,
       toDoID,
-      JSON.parse(event.body)
+      JSON.parse(event.body),
     );
   } else if (event.httpMethod == "POST") {
     response = await createToDo.createToDo(user, JSON.parse(event.body));

@@ -1,4 +1,4 @@
-import LoginAPI from '../../api/auth/loginAPI'
+import LoginAPI from "../../api/auth/loginAPI";
 export async function resendOTP() {
-    await LoginAPI.requestOTP(email)
+  await LoginAPI.requestOTP(email);
 }
