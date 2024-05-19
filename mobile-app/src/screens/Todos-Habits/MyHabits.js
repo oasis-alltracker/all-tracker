@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -7,13 +7,18 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
 
-export default function MyHabits({isLoading, habits, createHabitRef, updateHabitRef}) {
-  const Habits = () => (  
+export default function MyHabits({
+  isLoading,
+  habits,
+  createHabitRef,
+  updateHabitRef,
+}) {
+  const Habits = () => (
     <View style={{ height: 365 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}>  
-
+        contentContainerStyle={styles.scrollContainer}
+      >
         {habits.map((val, key) => {
           return (
             <TouchableOpacity
@@ -25,7 +30,7 @@ export default function MyHabits({isLoading, habits, createHabitRef, updateHabit
                   pngURL: val.pngURL,
                   threshold: val.threshold,
                   time: val.time,
-                  habitID: val.SK
+                  habitID: val.SK,
                 });
               }}
               style={[
@@ -35,7 +40,10 @@ export default function MyHabits({isLoading, habits, createHabitRef, updateHabit
             >
               <Text style={styles.itemText}>{val.name}</Text>
               <Text
-                style={[styles.itemText2, val.isPositive && { color: "#7FE5FF" }]}
+                style={[
+                  styles.itemText2,
+                  val.isPositive && { color: "#7FE5FF" },
+                ]}
               >
                 {val.isPositive ? "Good" : "Bad"}
               </Text>
@@ -43,48 +51,45 @@ export default function MyHabits({isLoading, habits, createHabitRef, updateHabit
           );
         })}
       </ScrollView>
-      </View>
+    </View>
+  );
 
-    );
-  
-    const CreatHabits = () => (
-        <TouchableOpacity
-          onPress={() => {
-            createHabitRef.current.open();
-          }}
-          style={styles.addButton}
-        >
-          <Text style={styles.buttonText}>
-            Click here to create your first habit
-          </Text>
-          <View style={styles.plusCon}>
-            <Image
-              style={styles.plusImage}
-              source={require("../../assets/images/plus.png")}
-            />
-          </View>
-        </TouchableOpacity>
-    );
+  const CreatHabits = () => (
+    <TouchableOpacity
+      onPress={() => {
+        createHabitRef.current.open();
+      }}
+      style={styles.addButton}
+    >
+      <Text style={styles.buttonText}>
+        Click here to create your first habit
+      </Text>
+      <View style={styles.plusCon}>
+        <Image
+          style={styles.plusImage}
+          source={require("../../assets/images/plus.png")}
+        />
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <>
-      <Spinner
-          visible={isLoading}>
-      </Spinner>
+      <Spinner visible={isLoading}></Spinner>
       <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-      scrollEnabled={false}
-      removeClippedSubviews={false}>  
-
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+        scrollEnabled={false}
+        removeClippedSubviews={false}
+      >
         <View style={styles.headerImageCon}>
           <Image
             style={styles.headerImage}
             source={require("../../assets/images/habits512.png")}
           />
         </View>
-        
-        <View style={[styles.line, { paddingTop:15, marginBottom: 15 }]}>
+
+        <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
           <Text style={styles.habitsTitle}>My habits</Text>
           <View style={styles.buttonItems}>
             <TouchableOpacity
@@ -98,18 +103,14 @@ export default function MyHabits({isLoading, habits, createHabitRef, updateHabit
               />
             </TouchableOpacity>
           </View>
-
         </View>
         <View style={styles.center}>
-          {
-          habits.length>0 ? <Habits/> : <CreatHabits/>
-          }
+          {habits.length > 0 ? <Habits /> : <CreatHabits />}
         </View>
       </ScrollView>
-    </>       
+    </>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    paddingTop: 20
+    paddingTop: 20,
   },
   button: {
     width: "47%",
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
-    width: width-30,
+    width: width - 30,
   },
   line: {
     flexDirection: "row",
@@ -259,11 +260,10 @@ const styles = StyleSheet.create({
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
-    marginRight:10
+    marginRight: 10,
   },
   refresh: {
-    width:30,
+    width: 30,
     height: 30,
   },
 });
-

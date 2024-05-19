@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -7,10 +8,9 @@ import {
   View,
   Dimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import { RenderTodos } from "../../components";
-import Spinner from "react-native-loading-spinner-overlay";
 import moment from "moment";
+
+import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,8 +21,7 @@ export default function MyTasks({
   tasks,
   doneToDos,
   updateTaskStatus,
-  updateTaskPageToDoStatus,
-  updateCompletedToDoStatus,
+  updateToDoStatus,
 }) {
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [completedToDos, setCompletedToDos] = useState([]);
@@ -34,12 +33,11 @@ export default function MyTasks({
   const today = new Date();
 
   useEffect(() => {
-    console.log("Updating entire task page");
     setTasksAndToDos(toDos.concat(tasks));
     setCompletedToDos([...doneToDos]);
   }, [toDos, tasks, doneToDos]);
 
-  const RenderTodos = ({
+  const RenderMyTaskTodos = ({
     onPress = () => {},
     currentDay,
     item,
@@ -49,34 +47,12 @@ export default function MyTasks({
   }) => {
     const [isCheck, setIsCheck] = useState(false);
     const [itemDate, setItemDate] = useState("noDueDate");
-    const [prevID, setPrevID] = useState(null);
-    console.log("Rendering item.");
 
     useEffect(() => {
       if (item.isComplete || item.selected) {
         setIsCheck(true);
       } else {
         setIsCheck(false);
-      }
-
-      if (!prevID) {
-        if (item.toDoID) {
-          setPrevID(item.toDoID);
-        } else {
-          setPrevID(item.SK);
-        }
-      } else {
-        if (item.toDoID && item.toDoID != prevID) {
-          setPrevID(item.toDoID);
-          if (item.selected) {
-            setIsCheck(true);
-          } else {
-            setIsCheck(false);
-          }
-        } else if (!item.toDoID && item.SK != prevID) {
-          setPrevID(item.SK);
-          setIsCheck(false);
-        }
       }
 
       var itemDateStamp = "noDueDate";
@@ -107,21 +83,10 @@ export default function MyTasks({
         <TouchableOpacity
           onPress={async () => {
             setIsCheck((pr) => !pr);
-            console.log("before update: " + item.selected);
-            console.log("before update: " + item.text);
             if (item.PK.includes("task")) {
-              updateTaskStatus(item, isMainPage);
+              await updateTaskStatus(item, isMainPage);
             } else {
-              updateToDoStatus(item);
-            }
-            console.log("after update: " + item.selected);
-            console.log("after update: " + item.text);
-            if (item.isComplete || item.selected) {
-              item.isComplete = false;
-              item.selected = false;
-            } else {
-              item.isComplete = true;
-              item.selected = true;
+              await updateToDoStatus(item, false);
             }
           }}
           style={styles.checkRender}
@@ -193,7 +158,6 @@ export default function MyTasks({
   };
 
   const Tasks = () => {
-    console.log("Refreshing my tasks?");
     return (
       <View style={{ height: myTasksHeight }}>
         <ScrollView
@@ -202,7 +166,7 @@ export default function MyTasks({
         >
           {tasksAndToDos.map((item, index) => {
             return (
-              <RenderTodos
+              <RenderMyTaskTodos
                 onPress={() => {
                   var isRecurring = false;
                   if (item.PK.includes("task")) {
@@ -225,7 +189,7 @@ export default function MyTasks({
                 key={index}
                 item={item}
                 updateTaskStatus={updateTaskStatus}
-                updateToDoStatus={updateTaskPageToDoStatus}
+                updateToDoStatus={updateToDoStatus}
                 isMainPage={false}
               />
             );
@@ -260,7 +224,7 @@ export default function MyTasks({
       >
         {completedToDos.map((item, index) => {
           return (
-            <RenderTodos
+            <RenderMyTaskTodos
               onPress={() => {
                 var isRecurring = false;
                 if (item.PK.includes("task")) {
@@ -283,7 +247,7 @@ export default function MyTasks({
               key={index}
               item={item}
               updateTaskStatus={updateTaskStatus}
-              updateToDoStatus={updateCompletedToDoStatus}
+              updateToDoStatus={updateToDoStatus}
             />
           );
         })}
@@ -505,6 +469,17 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: "contain",
+  },
+  repeatImage: {
+    width: 30,
+    height: 30,
+    marginLeft: 8,
+  },
+  toDoScrollContainer: {
+    alignItems: "center",
+    overflow: "visible",
+    paddingBottom: 20,
+    width: width - 30,
   },
   repeatImage: {
     width: 30,

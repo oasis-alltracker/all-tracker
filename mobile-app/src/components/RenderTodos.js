@@ -19,34 +19,12 @@ const RenderTodos = ({
 }) => {
   const [isCheck, setIsCheck] = useState(false);
   const [itemDate, setItemDate] = useState("noDueDate");
-  const [prevID, setPrevID] = useState(null);
-  console.log("Rendering item.");
 
   useEffect(() => {
     if (item.isComplete || item.selected) {
       setIsCheck(true);
     } else {
       setIsCheck(false);
-    }
-
-    if (!prevID) {
-      if (item.toDoID) {
-        setPrevID(item.toDoID);
-      } else {
-        setPrevID(item.SK);
-      }
-    } else {
-      if (item.toDoID && item.toDoID != prevID) {
-        setPrevID(item.toDoID);
-        if (item.selected) {
-          setIsCheck(true);
-        } else {
-          setIsCheck(false);
-        }
-      } else if (!item.toDoID && item.SK != prevID) {
-        setPrevID(item.SK);
-        setIsCheck(false);
-      }
     }
 
     var itemDateStamp = "noDueDate";
@@ -66,26 +44,17 @@ const RenderTodos = ({
     } else {
       setItemDate("noDueDate");
     }
-  }, []);
+  }, [item]);
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
       <TouchableOpacity
         onPress={async () => {
           setIsCheck((pr) => !pr);
-          console.log("before update: " + item.selected);
           if (item.PK.includes("task")) {
             await updateTaskStatus(item, isMainPage);
           } else {
-            item.SK = await updateToDoStatus(item);
-          }
-          console.log("after update: " + item.selected);
-          if (item.isComplete || item.selected) {
-            item.isComplete = false;
-            item.selected = false;
-          } else {
-            item.isComplete = true;
-            item.selected = true;
+            await updateToDoStatus(item);
           }
         }}
         style={styles.checkRender}

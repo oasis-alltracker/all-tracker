@@ -160,10 +160,6 @@ const Todos = (props) => {
           await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
         }
         toDo.isLocked = false;
-
-        var newToDos = [...toDos];
-
-        setToDos(newToDos);
       }
     } catch (e) {
       console.log(e);
@@ -350,7 +346,6 @@ const Todos = (props) => {
         }
         task.isLocked = false;
         var newTasks = [...tasks];
-        setTasks(newTasks);
       }
     } catch (e) {
       console.log(e);
