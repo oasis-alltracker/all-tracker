@@ -74,10 +74,8 @@ export default function Statistics(trackingPreferences) {
           />
         </TouchableOpacity>
       </View>
-
-      {trackingPreferences.trackingPreferences.toDosSelected && <TaskStats />}
-
       {trackingPreferences.trackingPreferences.habitsSelected && <HabitStats />}
+      {trackingPreferences.trackingPreferences.toDosSelected && <TaskStats />}
     </ScrollView>
   );
 }
