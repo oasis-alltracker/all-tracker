@@ -13,6 +13,8 @@ import Mood from "./Mood";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
+import WellnessReportsAPI from "../../api/mood/wellnessReportsAPI";
+import SleepReportsAPI from "../../api/sleep/sleepReportsAPI";
 import { TabView } from "react-native-tab-view";
 import { sharedStyles } from "../styles";
 
@@ -26,12 +28,178 @@ const MoodSleep = ({ navigation }) => {
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }]);
   const [dots, setDots] = useState([]);
 
+  const [allWellnessReports, setAllWellnessReports] = useState([]);
+  const [wellnessReportsForDay, setWellnessReportsForDay] = useState([]);
+  const [allSleepReports, setAllSleepReports] = useState([]);
+  const [sleepReportsForDay, setSleepReportsForDay] = useState([]);
+
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
     setDay(newDate);
   };
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+
+  const createMoodReport = async (moodReport) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await WellnessReportsAPI.createWellnessReport(token, moodReport);
+
+      await getMoodReports(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const getMoodReports = async () => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      reportsForDay = await WellnessReportsAPI.getWellnessReportsForToday(
+        token,
+        day
+      );
+      allReports = await WellnessReportsAPI.getWellnessReportsForMutlipleDays(
+        token,
+        "0",
+        day
+      );
+
+      setWellnessReportsForDay(reportsForDay);
+      setAllWellnessReports(allReports);
+
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateMoodReport = async (moodReport) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await WellnessReportsAPI.updateWellnessReport(
+        token,
+        moodReport.SK,
+        moodReport
+      );
+
+      await getMoodReports(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const deleteMoodReport = async (wellnessReportID) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await WellnessReportsAPI.deleteWellnessReport(token, wellnessReportID);
+
+      await getMoodReports();
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const createSleepReport = async (sleepReport) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await SleepReportsAPI.createSleepReport(token, sleepReport);
+
+      await getSleepReports(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const getSleepReports = async () => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      reportsForDay = await SleepReportsAPI.getSleepReportsForToday(token, day);
+      allReports = await SleepReportsAPI.getSleepReportsForMutlipleDays(
+        token,
+        "0",
+        day
+      );
+
+      setSleepReportsForDay(reportsForDay);
+      setAllSleepReports(allReports);
+
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateSleepReport = async (sleepReport) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await SleepReportsAPI.updateSleepReport(
+        token,
+        sleepReport.SK,
+        sleepReport
+      );
+
+      await getSleepReports(token);
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const deleteSleepReport = async (sleepReportID) => {
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      await SleepReportsAPI.deleteSleepReport(token, sleepReportID);
+
+      await getSleepReports();
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
