@@ -10,7 +10,17 @@ import React from "react";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 
-export default function Main({ day, trackingPreferences, updateDate }) {
+export default function Main(
+  day,
+  trackingPreferences,
+  updateDate,
+  moodRef,
+  sleepRef,
+  createMoodReport,
+  createSleepReport,
+  wellnessReportsForDay,
+  sleepReportsForDay
+) {
   const today = new Date();
 
   return (

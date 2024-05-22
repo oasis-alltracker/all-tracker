@@ -20,7 +20,11 @@ const items = [
   },
 ];
 
-export default function Sleep() {
+export default function Sleep({
+  sleepRef,
+  createSleepReport,
+  allSleepReports,
+}) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

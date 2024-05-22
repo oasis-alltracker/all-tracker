@@ -20,7 +20,7 @@ const items = [
   },
 ];
 
-export default function Mood() {
+export default function Mood({ moodRef, createSleepReport, allSleepReports }) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}

@@ -17,6 +17,8 @@ import WellnessReportsAPI from "../../api/mood/wellnessReportsAPI";
 import SleepReportsAPI from "../../api/sleep/sleepReportsAPI";
 import { TabView } from "react-native-tab-view";
 import { sharedStyles } from "../styles";
+import SleepReportModal from "./modals/sleepReportModal";
+import WellnessReportModal from "./modals/wellnessReportModal";
 
 const MoodSleep = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -32,6 +34,9 @@ const MoodSleep = ({ navigation }) => {
   const [wellnessReportsForDay, setWellnessReportsForDay] = useState([]);
   const [allSleepReports, setAllSleepReports] = useState([]);
   const [sleepReportsForDay, setSleepReportsForDay] = useState([]);
+
+  const sleepRef = useRef(null);
+  const moodRef = useRef(null);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -246,12 +251,30 @@ const MoodSleep = ({ navigation }) => {
             day={day}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
+            moodRef={moodRef}
+            sleepRef={sleepRef}
+            createMoodReport={createMoodReport}
+            createSleepReport={createSleepReport}
+            wellnessReportsForDay={wellnessReportsForDay}
+            sleepReportsForDay={sleepReportsForDay}
           />
         );
       case "second":
-        return <Sleep />;
+        return (
+          <Sleep
+            sleepRef={sleepRef}
+            createSleepReport={createSleepReport}
+            allSleepReports={allSleepReports}
+          />
+        );
       case "third":
-        return <Mood />;
+        return (
+          <Mood
+            moodRef={moodRef}
+            createMoodReport={createMoodReport}
+            allWellnessReports={allWellnessReports}
+          />
+        );
       case "fourth":
         return <Statistics />;
       default:
@@ -294,6 +317,16 @@ const MoodSleep = ({ navigation }) => {
           })}
         </View>
       </View>
+      <SleepReportModal
+        getRef={(ref) => (taskRef.current = ref)}
+        updateSleepReport={updateSleepReport}
+        deleteSleepReport={deleteSleepReport}
+      />
+      <WellnessReportModal
+        getRef={(ref) => (taskRef.current = ref)}
+        updateMoodReport={updateMoodReport}
+        deleteMoodReport={deleteMoodReport}
+      />
     </SafeAreaView>
   );
 };
