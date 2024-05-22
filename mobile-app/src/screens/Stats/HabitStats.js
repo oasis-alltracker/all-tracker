@@ -1,25 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
+import StatsAPI from "../../api/stats/statsAPI";
+import { getAccessToken } from "../../user/keychain";
+import Spinner from "react-native-loading-spinner-overlay";
 
-const data = [
-  { value: 500 },
-  { value: 80 },
-  { value: 90 },
-  { value: 70 },
-  { value: 50 },
-  { value: 400 },
-  { value: 30 },
-  { value: 10 },
-  { value: 40 },
-  { value: 300 },
-  { value: 75 },
-  { value: 70 },
-];
+const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
-const HabitStats = ({}) => {
+const HabitStats = ({ sunday }) => {
+  const [habitStats, setHabitStats] = useState([
+    { value: 1, label: labels[0] },
+    { value: 1, label: labels[1] },
+    { value: 1, label: labels[2] },
+    { value: 1, label: labels[3] },
+    { value: 1, label: labels[4] },
+    { value: 1, label: labels[5] },
+    { value: 1, label: labels[6] },
+  ]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalCompletions, setTotalCompletions] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getStatsOnLoad = async () => {
+      var token = await getAccessToken();
+      var data = await StatsAPI.getHabitStats(token, sunday);
+
+      var count = 0;
+      var completions = 0;
+
+      for (var i = 0; i < data.length; i++) {
+        count += data[i].habitCount;
+        completions += data[i].completions;
+
+        if (data[i].habitCount == 0) {
+          data[i] = { value: 100, label: labels[i] };
+        } else {
+          data[i] = {
+            label: labels[i],
+            value: Math.floor(
+              ((data[i].completions * 1.0) / data[i].habitCount) * 100
+            ),
+          };
+        }
+      }
+      setTotalCount(count);
+      setTotalCompletions(completions);
+      setHabitStats(data);
+      setIsLoading(false);
+    };
+    setIsLoading(true);
+    getStatsOnLoad();
+  }, [sunday]);
+
   return (
     <View style={styles.chartBox}>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.chartCircle}>
         <Image
           style={styles.imageCircle}
@@ -31,7 +67,7 @@ const HabitStats = ({}) => {
         <LineChart
           thickness={2}
           color="rgba(255, 207, 245, 1)"
-          maxValue={500}
+          maxValue={100}
           animateOnDataChange
           areaChart
           hideRules
@@ -39,10 +75,11 @@ const HabitStats = ({}) => {
           yAxisLabelWidth={0}
           hideYAxisText
           hideDataPoints
-          data={data}
+          data={habitStats}
           startFillColor1={"rgba(255, 207, 245, 1)"}
           endFillColor1={"rgba(255, 207, 245, 1)"}
           startOpacity={0.8}
+          labelTextStyle={{ fontFamily: "Sego", fontSize: 8 }}
           endOpacity={0.1}
           backgroundColor="transparent"
           xAxisLength={0}
@@ -50,10 +87,21 @@ const HabitStats = ({}) => {
           yAxisColor="#B3B3B3"
           xAxisColor="#B3B3B3"
           height={130}
-          width={180}
-          curved
+          width={190}
+          spacing={40}
         />
-        <Text style={styles.xLabel}>Completed - 10/20 - 50%</Text>
+        {totalCount > 0 ? (
+          <>
+            <Text style={styles.xLabel}>
+              Completed - {totalCompletions}/{totalCount} -{" "}
+              {Math.floor(((totalCompletions * 1.0) / totalCount) * 100)}%
+            </Text>
+          </>
+        ) : (
+          <Text style={styles.xLabel}>
+            Completed - {totalCompletions}/{totalCount} - 100%
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -149,8 +197,9 @@ const styles = StyleSheet.create({
     color: "#25436B",
   },
   xLabel: {
-    fontSize: 12,
-    fontFamily: "Sego",
+    fontSize: 14,
+    fontFamily: "Sego-Bold",
+    color: "#25436B",
   },
   chartContainer: {
     alignItems: "center",

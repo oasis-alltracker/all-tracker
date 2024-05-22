@@ -29,7 +29,7 @@ module.exports.handler = async (event, context, callback) => {
   var sunday = event.queryStringParameters.sunday;
 
   if (event.httpMethod == "GET") {
-    response = await getTaskStats.getTaskStats(user, sunday);
+    response = await getTaskStats.getTaskStats(user, Number(sunday));
   }
   callback(null, response);
 };

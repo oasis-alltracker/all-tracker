@@ -26,18 +26,10 @@ module.exports.handler = async (event, context, callback) => {
     });
   }
 
-  var days = [
-    event.queryStringParameters.monday,
-    event.queryStringParameters.tuesday,
-    event.queryStringParameters.wednesday,
-    event.queryStringParameters.thursday,
-    event.queryStringParameters.friday,
-    event.queryStringParameters.saturday,
-    event.queryStringParameters.sunday,
-  ];
+  var sunday = event.queryStringParameters.sunday;
 
   if (event.httpMethod == "GET") {
-    response = await getHabitStats.getHabitStats(user, days);
+    response = await getHabitStats.getHabitStats(user, Number(sunday));
   }
   callback(null, response);
 };

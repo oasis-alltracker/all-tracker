@@ -499,6 +499,19 @@ functions:
           method: delete
           cors: true
 
+##TaskStats
+  taskStats:
+    handler: tracker-task/taskStats/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/taskStats
+          method: get
+          cors: true
+
 
 ##### F I T N E S S #####
 ##Exercise Entries##

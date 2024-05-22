@@ -9,12 +9,12 @@ class GetTaskStats {
       for (var i = 0; i < 7; i++) {
         const completeToDos = await this.getTodosForDay(
           user.email,
-          day + i,
+          (day + i).toString(),
           true
         );
         const incompleteToDos = await this.getTodosForDay(
           user.email,
-          day + i,
+          (day + i).toString(),
           false
         );
 
@@ -29,7 +29,7 @@ class GetTaskStats {
 
       var tasks = await this.getTasks(user.email);
       for (var task of tasks) {
-        for (completionDate of task.completionList) {
+        for (var completionDate of task.completionList) {
           if (completionDate >= day && completionDate < day + 7) {
             response[completionDate - day].completionCount += 1;
             response[completionDate - day].taskCount += 1;

@@ -3,20 +3,21 @@ class GetHabitStats {
     this.DB = db;
   }
 
-  async getHabitStats(user, days) {
+  async getHabitStats(user, sunday) {
     var response = [];
     try {
-      for (var day of days) {
+      for (var i = 0; i < 7; i++) {
+        var day = sunday + i;
         const habits = await this.getHabits(user.email);
         const habitStatuses = await this.getHabitStatusListForDay(
           user.email,
-          day,
+          day.toString()
         );
 
         for (var habitEntry of habits) {
           const statusSK = `${day}-${habitEntry.SK}`;
           var habitStatus = habitStatuses.find(
-            (status) => status.SK === statusSK,
+            (status) => status.SK === statusSK
           );
 
           if (habitStatus !== undefined) {
@@ -32,7 +33,6 @@ class GetHabitStats {
 
         var completionCount = 0;
         for (var habitStatus of habits) {
-          console.log(habits);
           if (habitStatus.isPositive) {
             if (habitStatus.count >= habitStatus.threshold) {
               completionCount++;

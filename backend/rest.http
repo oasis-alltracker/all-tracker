@@ -32,7 +32,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "1513"
+   "otp": "2878"
 }
 ###
 
@@ -58,8 +58,8 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "tempPassword": "I2TsFOh4fr",
-   "password": "12345"
+   "tempPassword": "avv20D4KWY",
+   "password": "1234"
 }
 ###
 
@@ -250,8 +250,8 @@ Authorization: Bearer token
 //------------H A B I T   S T A T S----------
 //-------------------------------------------
 //Get habit stats for a week.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStats?monday=20240205&tuesday=20240206&wednesday=20240207&thursday=20240208&friday=20240209&saturday=20240210&sunday=20240311
-Authorization: Bearer token
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStats?sunday=20240519
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNjM0MjAxNiwiZXhwIjoxNzE2NTE0ODE2fQ.GzoaMrDghThRl8UMev7j9bStVluZbhTGEYDs-rpx1Es
 ###
 
 
@@ -321,7 +321,7 @@ Authorization: Bearer token
 
 //Get all complete or incomplete to-dos.
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?isComplete=false
-Authorization: Bearer token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNTU1ODA2MCwiZXhwIjoxNzE1NzMwODYwfQ.-uxivo9chektipTK_SfiirCwRFwX_m9QtmghKcBOCtw
 ###
 
 //Create to-do.
@@ -353,6 +353,12 @@ DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos/fa
 Authorization: Bearer token
 ###
 
+//------------T A S K   S T A T S------------
+//-------------------------------------------
+//Get habit stats for a week.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/taskStats?sunday=20240519
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNjM0MjAxNiwiZXhwIjoxNzE2NTE0ODE2fQ.GzoaMrDghThRl8UMev7j9bStVluZbhTGEYDs-rpx1Es
+###
 
 
 //-------------------------------------------

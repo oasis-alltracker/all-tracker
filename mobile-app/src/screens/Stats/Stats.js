@@ -25,16 +25,15 @@ const Stats = ({ getRef }) => {
   const [visible, setVisible] = useState(false);
   const [trackingPreferences, setTrackingPreferences] = useState(false);
 
-  var thisMonday = new Date();
-  thisMonday.setDate(thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7));
+  var thisSunday = new Date();
+  thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
 
-  const [selectedMonday, setSelectedMonday] = useState(new Date());
-
+  const [selectedSunday, setSelectedSunday] = useState(thisSunday);
   const updateWeek = (dateChange) => {
     var newDate = new Date(
-      selectedMonday.setDate(selectedMonday.getDate() + dateChange)
+      selectedSunday.setDate(selectedSunday.getDate() + dateChange)
     );
-    setSelectedMonday(newDate);
+    setSelectedSunday(newDate);
   };
 
   useEffect(() => {
@@ -47,12 +46,6 @@ const Stats = ({ getRef }) => {
     let ref = {
       open() {
         setVisible(true);
-        var newDate = new Date(
-          thisMonday.setDate(
-            thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7)
-          )
-        );
-        setSelectedMonday(newDate);
         getPreferencesOnLoad();
       },
       close() {
@@ -104,12 +97,12 @@ const Stats = ({ getRef }) => {
             />
           </TouchableOpacity>
           <>
-            {moment(thisMonday).format("YYYYMMDD") ==
-            moment(selectedMonday).format("YYYYMMDD") ? (
+            {moment(thisSunday).format("YYYYMMDD") ==
+            moment(selectedSunday).format("YYYYMMDD") ? (
               <Text style={styles.dateNameMain}>This week</Text>
             ) : (
               <Text style={styles.dateNameMain}>
-                Week of {selectedMonday.toDateString().slice(4, -4)}
+                Week of {selectedSunday.toDateString().slice(4, -4)}
               </Text>
             )}
           </>
@@ -144,8 +137,14 @@ const Stats = ({ getRef }) => {
                 </View>
                 <Text style={styles.entityTitle}>Mind</Text>
               </View>
-              {trackingPreferences?.habitsSelected && <HabitStats />}
-              {trackingPreferences?.toDosSelected && <TaskStats />}
+              {trackingPreferences?.habitsSelected && (
+                <HabitStats
+                  sunday={moment(selectedSunday).format("YYYYMMDD")}
+                />
+              )}
+              {trackingPreferences?.toDosSelected && (
+                <TaskStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+              )}
             </View>
           )}
           {(trackingPreferences?.dietSelected ||
