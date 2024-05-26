@@ -12,9 +12,9 @@ const options = {
   gestureEnabled: true,
 };
 
-function SetupNavigator() {
+function SleepNavigator() {
   return (
-    <Stack.Navigator screenOptions={options} initialRouteName={"sleepStep1"}>
+    <Stack.Navigator screenOptions={options} initialRouteName={"sleepTest"}>
       <Stack.Screen name="sleepStep1" component={SleepStep1} />
       <Stack.Screen name="sleepStep2" component={SleepStep2} />
       <Stack.Screen name="sleepStep3" component={SleepStep3} />
@@ -24,4 +24,4 @@ function SetupNavigator() {
   );
 }
 
-export default SetupNavigator;
+export default SleepNavigator;

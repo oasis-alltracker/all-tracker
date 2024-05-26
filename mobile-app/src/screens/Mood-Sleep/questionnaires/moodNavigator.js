@@ -13,16 +13,16 @@ const options = {
   gestureEnabled: true,
 };
 
-function SetupNavigator() {
+function MoodNavigator() {
   return (
-    <Stack.Navigator screenOptions={options} initialRouteName={"wellnessStep1"}>
-      <Stack.Screen name="wellnessStep1" component={WellnessStep1} />
-      <Stack.Screen name="wellnessStep2" component={WellnessStep2} />
-      <Stack.Screen name="wellnessStep3" component={WellnessStep3} />
-      <Stack.Screen name="wellnessStep4" component={WellnessStep4} />
-      <Stack.Screen name="wellnessStep5" component={WellnessStep5} />
+    <Stack.Navigator screenOptions={options} initialRouteName={"moodTest"}>
+      <Stack.Screen name="moodStep1" component={WellnessStep1} />
+      <Stack.Screen name="moodStep2" component={WellnessStep2} />
+      <Stack.Screen name="moodStep3" component={WellnessStep3} />
+      <Stack.Screen name="moodStep4" component={WellnessStep4} />
+      <Stack.Screen name="moodStep5" component={WellnessStep5} />
     </Stack.Navigator>
   );
 }
 
-export default SetupNavigator;
+export default MoodNavigator;

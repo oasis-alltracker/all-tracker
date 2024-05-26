@@ -70,7 +70,7 @@ const MyTasks = ({
         var newItemDate = new Date(
           Number(year),
           Number(month) - 1,
-          Number(day),
+          Number(day)
         );
         setItemDate(newItemDate);
       } else {
@@ -199,7 +199,7 @@ const MyTasks = ({
     );
   };
 
-  const CreatTasks = () => (
+  const CreateTasks = () => (
     <TouchableOpacity
       onPress={() => {
         createHabitRef.current.open();
@@ -286,7 +286,7 @@ const MyTasks = ({
           </View>
         </View>
         <View style={styles.center}>
-          {tasksAndToDos.length > 0 ? <Tasks /> : <CreatTasks />}
+          {tasksAndToDos.length > 0 ? <Tasks /> : <CreateTasks />}
         </View>
         <View style={[styles.line, { paddingTop: 5, marginBottom: 15 }]}>
           <Text style={styles.completedTitle}>Completed</Text>

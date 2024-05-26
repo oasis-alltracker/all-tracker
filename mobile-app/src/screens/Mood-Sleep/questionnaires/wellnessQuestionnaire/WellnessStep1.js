@@ -1,31 +1,73 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
-import { Button } from "../../../components";
-import navigationService from "../../../navigators/navigationService";
+import { Button } from "../../../../components";
+import navigationService from "../../../../navigators/navigationService";
+import Toast from "react-native-root-toast";
 
-const WellnessStep1 = (props) => {
-  const { selectedTrackers } = props.route.params;
+const { width, height } = Dimensions.get("window");
+
+const data = [
+  {
+    image: require("../../../../assets/images/moodRating/5.png"),
+  },
+  {
+    image: require("../../../../assets/images/moodRating/4.png"),
+  },
+  {
+    image: require("../../../../assets/images/moodRating/3.png"),
+  },
+  {
+    image: require("../../../../assets/images/moodRating/2.png"),
+  },
+  {
+    image: require("../../../../assets/images/moodRating/1.png"),
+  },
+];
+
+const WellnessStep1 = () => {
+  const [active, setActive] = useState(0);
+
+  const onNext = async () => {
+    var moodReport = {};
+    if (active == 0) {
+      Toast.show("Please make a selection.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    } else {
+      moodReport.feeling = 6 - active;
+      navigationService.navigate("moodStep2", { moodReport });
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.center}
-      >
-        <View style={styles.imageCon}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/images/fitness.png")}
-          />
-          <Text style={styles.imageText}>fitness</Text>
-        </View>
-        <Text style={styles.title}>What is your goal?</Text>
-        <Button style={styles.bigButtons}> Improve explosivity</Button>
-        <Button style={styles.bigButtons}>Increase strength</Button>
-        <Button style={styles.bigButtons}>Build muscle</Button>
-        <Button style={styles.bigButtons}>Improve cardio</Button>
-      </ScrollView>
+      <View style={styles.center}>
+        <Text style={styles.title}>Overall, how are you feeling?</Text>
+
+        {data.map((val, key) => (
+          <TouchableOpacity
+            key={key}
+            onPress={() => {
+              setActive(key + 1);
+            }}
+            style={[
+              styles.imageCon,
+              active === key + 1 && { backgroundColor: "#D7F6FF" },
+            ]}
+          >
+            <Image style={styles.image} source={val.image} />
+          </TouchableOpacity>
+        ))}
+      </View>
+
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
@@ -33,12 +75,7 @@ const WellnessStep1 = (props) => {
         >
           Back
         </Button>
-        <Button
-          onPress={() =>
-            navigationService.navigate("fitnessStep2", { selectedTrackers })
-          }
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -57,28 +94,37 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: "rgba(202, 189, 255, 0.65)",
+    backgroundColor: "rgba(255, 216, 247, 0.62)",
     borderWidth: 2,
-    borderColor: "rgba(162, 151, 204, 0.7)",
+    borderColor: "rgba(204, 173, 198, 0.7)",
     justifyContent: "center",
     alignItems: "center",
   },
   image: {
-    width: 120,
+    width: 70,
     height: 70,
+  },
+  imageCon: {
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    width: width * 0.9,
+    marginBottom: 15,
+    borderColor: "#CCCCCC",
   },
   imageText: {
     fontSize: 22,
     color: "#25436B",
     fontFamily: "Sego",
-    marginTop: 10,
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 15,
-    marginBottom: 20,
+    marginTop: 60,
+    marginBottom: 35,
+    textAlign: "center",
   },
   buttons: {
     flexDirection: "row",
@@ -96,12 +142,20 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "transparent",
     borderColor: "#CCCCCC",
-    height: 90,
-    borderRadius: 40,
-    marginTop: 10,
+    height: 60,
+    borderRadius: 20,
+    marginTop: 0,
   },
   center: {
     alignItems: "center",
+  },
+  textStyle: {
+    fontSize: 20,
+    fontFamily: "Sego",
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 

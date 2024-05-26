@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Image,
   ScrollView,
@@ -6,21 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
 
-const items = [
-  {
-    name: "Aug 18-2pm",
-  },
-  {
-    name: "Aug 17-11am",
-  },
-  {
-    name: "Aug 9-5pm",
-  },
-];
+import navigationService from "../../navigators/navigationService";
 
-export default function Mood({ moodRef, createSleepReport, allSleepReports }) {
+export default function Mood({ moodRef, allWellnessReports }) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -34,25 +24,51 @@ export default function Mood({ moodRef, createSleepReport, allSleepReports }) {
       </View>
       <View style={[styles.line, { marginBottom: 15 }]}>
         <Text style={styles.title}>Wellness Diary</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigationService.navigate("moodTest")}
+        >
           <Image
             style={styles.plus}
             source={require("../../assets/images/plus512.png")}
           />
         </TouchableOpacity>
       </View>
-      {items.map((val, key) => {
-        return <RenderItems key={key} item={val} />;
-      })}
+      {allWellnessReports.length > 0 ? (
+        <>
+          {allWellnessReports.map((val, key) => {
+            return <RenderItems key={key} item={val} moodRef={moodRef} />;
+          })}
+        </>
+      ) : (
+        <TouchableOpacity
+          onPress={() => {
+            moodRef.current.open();
+          }}
+          style={styles.addButton}
+        >
+          <Text style={styles.buttonText}>
+            Click here to do a wellness check-in.
+          </Text>
+          <View style={styles.plusCon}>
+            <Image
+              style={styles.plusImage}
+              source={require("../../assets/images/plus.png")}
+            />
+          </View>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 }
 
-export const RenderItems = ({ item }) => {
+export const RenderItems = ({ item, moodRef }) => {
   return (
-    <View style={styles.item}>
-      <Text style={styles.itemText}>{item.name}</Text>
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => moodRef.current.open(item)}
+    >
+      <Text style={styles.itemText}>{item.title}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -118,5 +134,33 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "Sego",
     flex: 1,
+  },
+  plusCon: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    alignItems: "center",
+    paddingVertical: 15,
+  },
+  addButton: {
+    borderWidth: 1.5,
+    borderColor: "rgba(204, 204, 204, 0.728)",
+    width: width - 30,
+    height: 190,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: 0.7,
+  },
+  buttonText: {
+    color: "rgba(37, 67, 107, 0.6)",
+    fontFamily: "Sego",
+    paddingBottom: 15,
+  },
+  plusImage: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
   },
 });

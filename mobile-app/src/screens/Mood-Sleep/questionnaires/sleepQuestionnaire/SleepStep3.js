@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image } from "react-native";
-import { Button } from "../../../components";
-import navigationService from "../../../navigators/navigationService";
+import { Button } from "../../../../components";
+import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
-import { getAccessToken } from "../../../user/keychain";
-import UserAPI from "../../../api/user/userAPI";
-import Spinner from "react-native-loading-spinner-overlay";
+const { width, height } = Dimensions.get("window");
 
 const data = [
   {
@@ -18,8 +21,10 @@ const data = [
   },
 ];
 
-const SleepStep3 = ({ createSleepReport, moodReport }) => {
+const SleepStep3 = (props) => {
   const [active, setActive] = useState(0);
+
+  const { sleepReport } = props.route.params;
 
   const onNext = async () => {
     if (active == 0) {
@@ -29,29 +34,32 @@ const SleepStep3 = ({ createSleepReport, moodReport }) => {
       });
     } else {
       if (active == 1) {
-        moodReport.didWindDown = true;
+        sleepReport.didWindDown = true;
       } else {
-        moodReport.didWindDown = false;
+        sleepReport.didWindDown = false;
       }
 
-      navigationService.navigate("sleep4", { createSleepReport, moodReport });
+      navigationService.navigate("sleepStep4", { sleepReport });
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={isLoading}></Spinner>
-
       <View style={styles.center}>
         <Text style={styles.title}>Did you wind down before bed?</Text>
 
         {data.map((val, key) => (
           <TouchableOpacity
+            key={key}
+            style={[
+              styles.buttonCon,
+              active === key + 1 && { backgroundColor: "#D7F6FF" },
+            ]}
             onPress={() => {
               setActive(key + 1);
             }}
           >
-            <Text>{val.text}</Text>
+            <Text style={styles.yesNoText}>{val.text}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -88,6 +96,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  buttonCon: {
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    width: width * 0.9,
+    height: 120,
+    marginBottom: 15,
+    borderColor: "#CCCCCC",
+  },
   image: {
     width: 80,
     height: 80,
@@ -99,11 +117,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 15,
-    marginBottom: 35,
+    marginTop: 60,
+    marginBottom: 100,
+    textAlign: "center",
+  },
+  yesNoText: {
+    fontSize: 25,
+    color: "#25436B",
+    fontFamily: "Sego",
     textAlign: "center",
   },
   buttons: {

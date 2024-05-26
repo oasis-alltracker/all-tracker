@@ -1,19 +1,8 @@
-import {
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-  View,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button, Calendar } from "../../../components";
-import Toast from "react-native-root-toast";
-import { getAccessToken } from "../../../user/keychain";
-import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
 export default function SleepReportModal({
   getRef,
@@ -58,7 +47,7 @@ export default function SleepReportModal({
 
   useEffect(() => {
     let ref = {
-      open(isEdit = false, props) {
+      open(props) {
         setVisible(true);
 
         setTitle(props.title);
@@ -113,18 +102,7 @@ export default function SleepReportModal({
         </View>
 
         <View style={styles.descriptionRow}>
-          <TouchableOpacity
-            onPress={() => {
-              calendarRef.current.open(isEdit, {
-                isRecurring: isRecurring,
-                dateStamp: dateStamp,
-                schedule: schedule,
-                itemID: itemID,
-                time: time,
-                notifications: isNotificationsOn,
-              });
-            }}
-          >
+          <TouchableOpacity>
             <Image
               style={styles.searchImage}
               source={require("../../../assets/images/date-picker.png")}
@@ -134,17 +112,13 @@ export default function SleepReportModal({
 
         <View style={styles.buttonsRow}>
           <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
-            {isEdit ? "Delete" : "Cancel"}
+            {"Delete"}
           </Button>
           <Button onPress={() => onSave()} style={styles.button}>
             Save
           </Button>
         </View>
       </View>
-      <Calendar
-        saveDateHandler={saveDateHandler}
-        getRef={(ref) => (calendarRef.current = ref)}
-      />
     </RNModal>
   );
 }

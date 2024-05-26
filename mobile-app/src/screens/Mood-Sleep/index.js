@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   TouchableOpacity,
@@ -44,23 +44,6 @@ const MoodSleep = ({ navigation }) => {
     setDay(newDate);
   };
   const [isPageLoaded, setIsPageLoaded] = useState(false);
-
-  const createMoodReport = async (moodReport) => {
-    try {
-      setIsLoading(true);
-      token = await getAccessToken();
-      await WellnessReportsAPI.createWellnessReport(token, moodReport);
-
-      await getMoodReports(token);
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
 
   const getMoodReports = async () => {
     try {
@@ -117,23 +100,6 @@ const MoodSleep = ({ navigation }) => {
       await WellnessReportsAPI.deleteWellnessReport(token, wellnessReportID);
 
       await getMoodReports();
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
-  const createSleepReport = async (sleepReport) => {
-    try {
-      setIsLoading(true);
-      token = await getAccessToken();
-      await SleepReportsAPI.createSleepReport(token, sleepReport);
-
-      await getSleepReports(token);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -253,27 +219,15 @@ const MoodSleep = ({ navigation }) => {
             updateDate={updateDate}
             moodRef={moodRef}
             sleepRef={sleepRef}
-            createMoodReport={createMoodReport}
-            createSleepReport={createSleepReport}
             wellnessReportsForDay={wellnessReportsForDay}
             sleepReportsForDay={sleepReportsForDay}
           />
         );
       case "second":
-        return (
-          <Sleep
-            sleepRef={sleepRef}
-            createSleepReport={createSleepReport}
-            allSleepReports={allSleepReports}
-          />
-        );
+        return <Sleep sleepRef={sleepRef} allSleepReports={allSleepReports} />;
       case "third":
         return (
-          <Mood
-            moodRef={moodRef}
-            createMoodReport={createMoodReport}
-            allWellnessReports={allWellnessReports}
-          />
+          <Mood moodRef={moodRef} allWellnessReports={allWellnessReports} />
         );
       case "fourth":
         return <Statistics />;
@@ -318,12 +272,12 @@ const MoodSleep = ({ navigation }) => {
         </View>
       </View>
       <SleepReportModal
-        getRef={(ref) => (taskRef.current = ref)}
+        getRef={(ref) => (sleepRef.current = ref)}
         updateSleepReport={updateSleepReport}
         deleteSleepReport={deleteSleepReport}
       />
       <WellnessReportModal
-        getRef={(ref) => (taskRef.current = ref)}
+        getRef={(ref) => (moodRef.current = ref)}
         updateMoodReport={updateMoodReport}
         deleteMoodReport={deleteMoodReport}
       />

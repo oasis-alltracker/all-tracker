@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Image,
   ScrollView,
@@ -6,27 +7,27 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import navigationService from "../../navigators/navigationService";
 
-export default function Main(
+export default function Main({
   day,
   trackingPreferences,
   updateDate,
   moodRef,
   sleepRef,
-  createMoodReport,
-  createSleepReport,
   wellnessReportsForDay,
-  sleepReportsForDay
-) {
+  sleepReportsForDay,
+}) {
   const today = new Date();
+  console.log(day);
 
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={sharedStyles.container}
+      scrollEnabled={false}
     >
       <View
         style={[
@@ -78,13 +79,33 @@ export default function Main(
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Mood</Text>
           </View>
-          <Text style={styles.questionText}>How are you feeling?</Text>
-          <TouchableOpacity style={styles.addBtn}>
-            <Image
-              style={styles.plus}
-              source={require("../../assets/images/plus512.png")}
-            />
-          </TouchableOpacity>
+          {wellnessReportsForDay.length > 0 ? (
+            <TouchableOpacity style={styles.addBtn}>
+              <Image
+                style={styles.plus}
+                source={
+                  "../../assets/images/moodRating" +
+                  wellnessReportsForDay[wellnessReportsForDay.length - 1] +
+                  ".png"
+                }
+              />
+            </TouchableOpacity>
+          ) : (
+            <>
+              <Text style={styles.questionText}>How are you feeling?</Text>
+              <TouchableOpacity
+                style={styles.addBtn}
+                onPress={() => {
+                  navigationService.navigate("moodTest");
+                }}
+              >
+                <Image
+                  style={styles.plus}
+                  source={require("../../assets/images/plus512.png")}
+                />
+              </TouchableOpacity>
+            </>
+          )}
         </>
       )}
       {trackingPreferences.sleepSelected && (
@@ -92,13 +113,34 @@ export default function Main(
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Sleep</Text>
           </View>
-          <Text style={styles.questionText}>How was your sleep?</Text>
-          <TouchableOpacity style={styles.addBtn}>
-            <Image
-              style={styles.plus}
-              source={require("../../assets/images/plus512.png")}
-            />
-          </TouchableOpacity>
+
+          {sleepReportsForDay.length > 0 ? (
+            <TouchableOpacity style={styles.addBtn}>
+              <Image
+                style={styles.plus}
+                source={
+                  "../../assets/images/sleepRating" +
+                  sleepReportsForDay[sleepReportsForDay.length - 1] +
+                  ".png"
+                }
+              />
+            </TouchableOpacity>
+          ) : (
+            <>
+              <Text style={styles.questionText}>How was your sleep?</Text>
+              <TouchableOpacity
+                style={styles.addBtn}
+                onPress={() => {
+                  navigationService.navigate("sleepTest");
+                }}
+              >
+                <Image
+                  style={styles.plus}
+                  source={require("../../assets/images/plus512.png")}
+                />
+              </TouchableOpacity>
+            </>
+          )}
         </>
       )}
     </ScrollView>

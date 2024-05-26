@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Image,
   ScrollView,
@@ -6,25 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
 
-const items = [
-  {
-    name: "Aug 18-19",
-  },
-  {
-    name: "Aug 17-18",
-  },
-  {
-    name: "Aug 9-10",
-  },
-];
+import navigationService from "../../navigators/navigationService";
 
-export default function Sleep({
-  sleepRef,
-  createSleepReport,
-  allSleepReports,
-}) {
+export default function Sleep({ sleepRef, allSleepReports }) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -38,25 +24,53 @@ export default function Sleep({
       </View>
       <View style={[styles.line, { marginBottom: 15 }]}>
         <Text style={styles.title}>Sleep Journal</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigationService.navigate("sleepTest")}
+        >
           <Image
             style={styles.plus}
             source={require("../../assets/images/plus512.png")}
           />
         </TouchableOpacity>
       </View>
-      {items.map((val, key) => {
-        return <RenderItems key={key} item={val} />;
-      })}
+      {allSleepReports.length > 0 ? (
+        <>
+          {allSleepReports.map((val, key) => {
+            return <RenderItems key={key} item={val} sleepRef={sleepRef} />;
+          })}
+        </>
+      ) : (
+        <>
+          <TouchableOpacity
+            onPress={() => {
+              sleepRef.current.open();
+            }}
+            style={styles.addButton}
+          >
+            <Text style={styles.buttonText}>
+              Click here to review your sleep.
+            </Text>
+            <View style={styles.plusCon}>
+              <Image
+                style={styles.plusImage}
+                source={require("../../assets/images/plus.png")}
+              />
+            </View>
+          </TouchableOpacity>
+        </>
+      )}
     </ScrollView>
   );
 }
 
-export const RenderItems = ({ item }) => {
+export const RenderItems = ({ item, sleepRef }) => {
   return (
-    <View style={styles.item}>
-      <Text style={styles.itemText}>{item.name}</Text>
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => sleepRef.current.open(item)}
+    >
+      <Text style={styles.itemText}>{item.title}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -122,5 +136,33 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "Sego",
     flex: 1,
+  },
+  plusCon: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    alignItems: "center",
+    paddingVertical: 15,
+  },
+  addButton: {
+    borderWidth: 1.5,
+    borderColor: "rgba(204, 204, 204, 0.728)",
+    width: width - 30,
+    height: 190,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    opacity: 0.7,
+  },
+  buttonText: {
+    color: "rgba(37, 67, 107, 0.6)",
+    fontFamily: "Sego",
+    paddingBottom: 15,
+  },
+  plusImage: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
   },
 });
