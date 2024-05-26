@@ -6,9 +6,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 
 import navigationService from "../../navigators/navigationService";
+const { width, height } = Dimensions.get("window");
 
 export default function Mood({ moodRef, allWellnessReports }) {
   return (
@@ -25,7 +27,7 @@ export default function Mood({ moodRef, allWellnessReports }) {
       <View style={[styles.line, { marginBottom: 15 }]}>
         <Text style={styles.title}>Wellness Diary</Text>
         <TouchableOpacity
-          onPress={() => navigationService.navigate("moodTest")}
+          onPress={() => navigationService.navigate("moodStep2")}
         >
           <Image
             style={styles.plus}

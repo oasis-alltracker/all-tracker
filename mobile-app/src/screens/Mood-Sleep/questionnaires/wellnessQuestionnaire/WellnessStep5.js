@@ -29,7 +29,7 @@ const WellnessStep5 = (props) => {
       token = await getAccessToken();
       await WellnessReportsAPI.createWellnessReport(token, moodReport);
       setIsLoading(false);
-      await navigationService.reset("mood-sleep", 0);
+      navigationService.reset("mood-sleep", 0);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
@@ -52,8 +52,6 @@ const WellnessStep5 = (props) => {
         duration: Toast.durations.LONG,
       });
     }
-
-    navigationService.navigate("");
   };
 
   return (

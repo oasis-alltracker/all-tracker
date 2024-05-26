@@ -53,8 +53,6 @@ const SleepStep5 = (props) => {
         duration: Toast.durations.LONG,
       });
     }
-
-    navigationService.navigate("");
   };
 
   return (

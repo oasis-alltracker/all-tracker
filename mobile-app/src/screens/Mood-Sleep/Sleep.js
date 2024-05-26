@@ -6,9 +6,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 
 import navigationService from "../../navigators/navigationService";
+const { width, height } = Dimensions.get("window");
 
 export default function Sleep({ sleepRef, allSleepReports }) {
   return (
@@ -25,7 +27,7 @@ export default function Sleep({ sleepRef, allSleepReports }) {
       <View style={[styles.line, { marginBottom: 15 }]}>
         <Text style={styles.title}>Sleep Journal</Text>
         <TouchableOpacity
-          onPress={() => navigationService.navigate("sleepTest")}
+          onPress={() => navigationService.navigate("sleepStep1")}
         >
           <Image
             style={styles.plus}

@@ -10,6 +10,8 @@ import MenuIcon from "../assets/icons/menu";
 import { Button, MainHeader } from "../components";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import navigationService from "../navigators/navigationService";
+import SleepQuestionnaire from "./Mood-Sleep/questionnaires/sleepNavigator";
+import MoodQuestionnaire from "./Mood-Sleep/questionnaires/moodNavigator";
 import TodosHabits from "./Todos-Habits";
 import MoodSleep from "./Mood-Sleep";
 import FitnessDiet from "./Fitness-Diet";
@@ -180,6 +182,8 @@ function MainDrawer() {
       <Drawer.Screen name="todos-habits" component={TodosHabits} />
       <Drawer.Screen name="mood-sleep" component={MoodSleep} />
       <Drawer.Screen name="fitness-diet" component={FitnessDiet} />
+      <Drawer.Screen name="sleepTest" component={SleepQuestionnaire} />
+      <Drawer.Screen name="moodTest" component={MoodQuestionnaire} />
     </Drawer.Navigator>
   );
 }
