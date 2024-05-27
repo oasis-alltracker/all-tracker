@@ -38,10 +38,10 @@ class CreateWellnessReport {
       SK: `${wellnessReport.dateStamp}-${wellnessReportID}`,
       feeling: wellnessReport.feeling,
       mood: wellnessReport.mood,
-      time: wellnessReport.time,
       location: wellnessReport.location,
       company: wellnessReport.company,
       activity: wellnessReport.activity,
+      title: wellnessReport.title,
     };
 
     await this.DB.putItem(data);

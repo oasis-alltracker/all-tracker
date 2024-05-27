@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 60,
+    marginTop: 125,
     textAlign: "center",
   },
   input: {
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: "row",
+    paddingTop: 40,
     justifyContent: "space-between",
     width: "100%",
   },

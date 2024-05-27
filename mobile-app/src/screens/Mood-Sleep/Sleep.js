@@ -10,13 +10,66 @@ import {
 } from "react-native";
 
 import navigationService from "../../navigators/navigationService";
+import moment from "moment";
 const { width, height } = Dimensions.get("window");
+const today = new Date();
 
 export default function Sleep({ sleepRef, allSleepReports }) {
+  const Journals = () => (
+    <View style={{ height: 365 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        {allSleepReports.map((val, key) => {
+          return (
+            <TouchableOpacity
+              key={key.toString()}
+              onPress={() => {
+                sleepRef.current.open(val);
+              }}
+              style={[
+                styles.item,
+                key === allSleepReports.length - 1 && {
+                  borderBottomWidth: 2,
+                },
+              ]}
+            >
+              <Text style={styles.itemText}>{val.title}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
+  );
+  const CreateJournal = () => (
+    <TouchableOpacity
+      onPress={() => {
+        navigationService.navigate("sleepTest", {
+          screen: "sleepStep1",
+          params: {
+            dateString: today.toDateString(),
+            dateStamp: moment(today).format("YYYYMMDD"),
+          },
+        });
+      }}
+      style={styles.addButton}
+    >
+      <Text style={styles.buttonText}>Click here to review your sleep.</Text>
+      <View style={styles.plusCon}>
+        <Image
+          style={styles.plusImage}
+          source={require("../../assets/images/plus.png")}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
+      scrollEnabled={false}
     >
       <View style={styles.imageCon}>
         <Image
@@ -24,10 +77,18 @@ export default function Sleep({ sleepRef, allSleepReports }) {
           source={require("../../assets/images/sleep.png")}
         />
       </View>
-      <View style={[styles.line, { marginBottom: 15 }]}>
+      <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
         <Text style={styles.title}>Sleep Journal</Text>
         <TouchableOpacity
-          onPress={() => navigationService.navigate("sleepStep1")}
+          onPress={() =>
+            navigationService.navigate("sleepTest", {
+              screen: "sleepStep1",
+              params: {
+                dateString: today.toDateString(),
+                dateStamp: moment(today).format("YYYYMMDD"),
+              },
+            })
+          }
         >
           <Image
             style={styles.plus}
@@ -35,32 +96,9 @@ export default function Sleep({ sleepRef, allSleepReports }) {
           />
         </TouchableOpacity>
       </View>
-      {allSleepReports.length > 0 ? (
-        <>
-          {allSleepReports.map((val, key) => {
-            return <RenderItems key={key} item={val} sleepRef={sleepRef} />;
-          })}
-        </>
-      ) : (
-        <>
-          <TouchableOpacity
-            onPress={() => {
-              sleepRef.current.open();
-            }}
-            style={styles.addButton}
-          >
-            <Text style={styles.buttonText}>
-              Click here to review your sleep.
-            </Text>
-            <View style={styles.plusCon}>
-              <Image
-                style={styles.plusImage}
-                source={require("../../assets/images/plus.png")}
-              />
-            </View>
-          </TouchableOpacity>
-        </>
-      )}
+      <View style={styles.center}>
+        {allSleepReports.length > 0 ? <Journals /> : <CreateJournal />}
+      </View>
     </ScrollView>
   );
 }
@@ -97,6 +135,9 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  center: {
+    alignItems: "center",
+  },
   imageText: {
     fontSize: 22,
     color: "#25436B",
@@ -116,28 +157,37 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   title: {
-    fontSize: 33,
+    fontSize: 31,
     color: "#25436B",
     fontFamily: "Sego-Bold",
   },
   contentContainerStyle: {
     paddingHorizontal: 20,
   },
+  itemText: {
+    color: "#1E1E1E",
+    fontSize: 20,
+    fontFamily: "Sego",
+
+    flex: 1,
+  },
   item: {
     flexDirection: "row",
-    borderTopWidth: 2,
-    borderTopColor: "#ccc",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    borderBottomWidth: 0,
     width: "100%",
     paddingVertical: 20,
     paddingHorizontal: 20,
     justifyContent: "space-between",
     alignItems: "center",
   },
-  itemText: {
-    color: "#1E1E1E",
-    fontSize: 24,
-    fontFamily: "Sego",
-    flex: 1,
+  plusImage: {
+    width: 30,
+    height: 30,
+    resizeMode: "contain",
   },
   plusCon: {
     position: "absolute",
@@ -151,7 +201,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 190,
+    height: 350,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -160,11 +210,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "rgba(37, 67, 107, 0.6)",
     fontFamily: "Sego",
-    paddingBottom: 15,
   },
-  plusImage: {
-    width: 20,
-    height: 20,
-    resizeMode: "contain",
+  scrollContainer: {
+    alignItems: "center",
+    overflow: "visible",
+    paddingBottom: 80,
+    width: width - 30,
   },
 });

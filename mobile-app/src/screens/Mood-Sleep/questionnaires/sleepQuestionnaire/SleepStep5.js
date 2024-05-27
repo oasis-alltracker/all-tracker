@@ -3,94 +3,76 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   Dimensions,
-  TouchableWithoutFeedback,
-  Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
-import Spinner from "react-native-loading-spinner-overlay";
-import SleepReportsAPI from "../../../../api/sleep/sleepReportsAPI";
-import { getAccessToken } from "../../../../user/keychain";
 const { width, height } = Dimensions.get("window");
 
-const SleepStep5 = (props) => {
-  const [journal, setJournal] = useState(
-    "Description: \n\nSetting and Environment: \n\nCharacters and People: \n\nSymbols and Objetcs: \n\nRefeliction and Interpretation:"
-  );
-  const [isLoading, setIsLoading] = useState(false);
+const data = [
+  {
+    text: "Yes",
+  },
+  {
+    text: "No",
+  },
+];
+
+const SleepStep4 = (props) => {
+  const [active, setActive] = useState(0);
   const { sleepReport } = props.route.params;
 
-  const createSleepReport = async (sleepReport) => {
-    try {
-      token = await getAccessToken();
-      console.log(sleepReport);
-      await SleepReportsAPI.createSleepReport(token, sleepReport);
-      setIsLoading(false);
-      await navigationService.reset("mood-sleep", 0);
-    } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
   const onNext = async () => {
-    sleepReport.journal = journal;
-    setIsLoading(true);
-    try {
-      await createSleepReport(sleepReport);
-    } catch (e) {
-      setIsLoading(false);
+    if (active == 0) {
       Toast.show("Please make a selection.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
+    } else {
+      if (active == 1) {
+        sleepReport.didRelaxation = true;
+      } else {
+        sleepReport.didRelaxation = false;
+      }
+      navigationService.navigate("sleepStep6", { sleepReport });
     }
   };
-
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
-        <>
-          <Spinner visible={isLoading}></Spinner>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.center}>
+        <Text style={styles.title}>Did you feel relaxed before bedtime?</Text>
 
-          <View style={styles.center}>
-            <Text style={styles.title}>Did you dream?</Text>
-          </View>
+        {data.map((val, key) => (
+          <TouchableOpacity
+            key={key}
+            style={[
+              styles.buttonCon,
+              active === key + 1 && { backgroundColor: "#D7F6FF" },
+            ]}
+            onPress={() => {
+              setActive(key + 1);
+            }}
+          >
+            <Text style={styles.yesNoText}>{val.text}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
-          <View style={styles.textCon}>
-            <TextInput
-              multiline
-              placeholderTextColor={"#7B97BC"}
-              placeholder="Decsribe your dream in as much detail as you'd like:"
-              style={styles.input}
-              onChangeText={setJournal}
-              value={journal}
-              numberOfLines={100}
-            />
-          </View>
-
-          <View style={styles.buttons}>
-            <Button
-              onPress={() => navigationService.goBack()}
-              style={[styles.button, styles.back]}
-            >
-              Back
-            </Button>
-            <Button onPress={() => onNext()} style={styles.button}>
-              Next
-            </Button>
-          </View>
-        </>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+      <View style={styles.buttons}>
+        <Button
+          onPress={() => navigationService.goBack()}
+          style={[styles.button, styles.back]}
+        >
+          Back
+        </Button>
+        <Button onPress={() => onNext()} style={styles.button}>
+          Next
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -100,7 +82,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 15,
     justifyContent: "space-between",
-    alignItems: "center",
   },
   imageCon: {
     width: 180,
@@ -111,6 +92,16 @@ const styles = StyleSheet.create({
     borderColor: "rgba(204, 173, 198, 0.7)",
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonCon: {
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    width: width * 0.9,
+    height: 120,
+    marginBottom: 15,
+    borderColor: "#CCCCCC",
   },
   image: {
     width: 80,
@@ -126,29 +117,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 60,
+    marginTop: 120,
+    marginBottom: 80,
     textAlign: "center",
   },
-  input: {
+  yesNoText: {
+    fontSize: 25,
     color: "#25436B",
-    fontSize: 14,
     fontFamily: "Sego",
-    flex: 1,
-    marginLeft: 5,
-    marginTop: 15,
-    padding: 10,
+    textAlign: "center",
   },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-  },
-  textCon: {
-    borderRadius: 25,
-    borderWidth: 2,
-    width: width * 0.9,
-    height: height * 0.5,
-    borderColor: "#CCCCCC",
   },
   button: {
     width: "47%",
@@ -178,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SleepStep5;
+export default SleepStep4;

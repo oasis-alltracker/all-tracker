@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 60,
-    marginBottom: 100,
+    marginTop: 120,
+    marginBottom: 80,
     textAlign: "center",
   },
   yesNoText: {

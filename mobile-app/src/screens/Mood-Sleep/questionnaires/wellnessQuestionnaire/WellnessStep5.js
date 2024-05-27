@@ -3,76 +3,48 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   Dimensions,
   TouchableWithoutFeedback,
+  TextInput,
   Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
-import Spinner from "react-native-loading-spinner-overlay";
-import WellnessReportsAPI from "../../../../api/mood/wellnessReportsAPI";
-import { getAccessToken } from "../../../../user/keychain";
+
 const { width, height } = Dimensions.get("window");
 
 const WellnessStep5 = (props) => {
-  const [journal, setJournal] = useState(
-    "Overall Well-being: \n\nGratidue and Positive Thinking: \n\nStress management: \n\nPersonal Growth:"
-  );
-  const [isLoading, setIsLoading] = useState(false);
+  const [company, setCompany] = useState("");
   const { moodReport } = props.route.params;
 
-  const createMoodReport = async (moodReport) => {
-    try {
-      token = await getAccessToken();
-      await WellnessReportsAPI.createWellnessReport(token, moodReport);
-      setIsLoading(false);
-      navigationService.reset("mood-sleep", 0);
-    } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
-    }
-  };
-
   const onNext = async () => {
-    moodReport.journal = journal;
-    setIsLoading(true);
-    try {
-      await createMoodReport(moodReport);
-    } catch (e) {
-      setIsLoading(false);
-      Toast.show("Please make a selection.", {
+    if (company == "") {
+      Toast.show("Don't forget to write an entry.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
+    } else {
+      moodReport.company = company;
+      navigationService.navigate("moodStep6", { moodReport });
     }
   };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <>
-          <Spinner visible={isLoading}></Spinner>
-
           <View style={styles.center}>
-            <Text style={styles.title}>Anything you'd like to add?</Text>
+            <Text style={styles.title}>Who are you with?</Text>
           </View>
 
           <View style={styles.textCon}>
             <TextInput
-              multiline
               placeholderTextColor={"#7B97BC"}
-              placeholder="Provide as much description as you'd like:"
+              placeholder="Friends, alone, dog..."
               style={styles.input}
-              onChangeText={setJournal}
-              value={journal}
-              numberOfLines={100}
+              onChangeText={setCompany}
+              value={company}
             />
           </View>
 
@@ -125,20 +97,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 60,
+    marginTop: 125,
     textAlign: "center",
   },
   input: {
     color: "#25436B",
-    fontSize: 14,
+    fontSize: 22,
     fontFamily: "Sego",
     flex: 1,
-    marginLeft: 5,
-    marginTop: 15,
-    padding: 10,
   },
   buttons: {
     flexDirection: "row",
+    paddingTop: 40,
     justifyContent: "space-between",
     width: "100%",
   },
@@ -146,8 +116,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     width: width * 0.9,
-    height: height * 0.5,
+    height: 100,
     borderColor: "#CCCCCC",
+    alignItems: "center",
+    textAlign: "center",
   },
   button: {
     width: "47%",

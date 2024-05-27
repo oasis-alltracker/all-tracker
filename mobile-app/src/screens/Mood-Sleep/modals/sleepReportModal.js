@@ -4,6 +4,24 @@ import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button, Calendar } from "../../../components";
 
+const data = [
+  {
+    image: require("../../../assets/images/sleepRating/1.png"),
+  },
+  {
+    image: require("../../../assets/images/sleepRating/2.png"),
+  },
+  {
+    image: require("../../../assets/images/sleepRating/3.png"),
+  },
+  {
+    image: require("../../../assets/images/sleepRating/4.png"),
+  },
+  {
+    image: require("../../../assets/images/sleepRating/5.png"),
+  },
+];
+
 export default function SleepReportModal({
   getRef,
   updateSleepReport,
@@ -12,7 +30,7 @@ export default function SleepReportModal({
   const [visible, setVisible] = useState(false);
 
   const [title, setTitle] = useState(null);
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState(1);
   const [wasComfyEnvironment, setWasComfyEnvironmen] = useState(null);
   const [didWindDown, setDidWindDown] = useState(null);
   const [didManageIntake, setDidManageIntake] = useState(null);
@@ -30,7 +48,7 @@ export default function SleepReportModal({
           text: "Yes",
           isPreferred: true,
           onPress: () => {
-            deleteSleepReport(moodReportSK);
+            deleteSleepReport(sleepReportSK);
             setVisible(false);
           },
         },
@@ -76,37 +94,49 @@ export default function SleepReportModal({
       style={styles.modal}
     >
       <View style={styles.container}>
-        <View style={styles.nameRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
+        <Text style={styles.titleTitle}>{title}</Text>
+        <View style={styles.center}>
           <Image
-            style={styles.searchImage}
-            source={require("../../../assets/images/date-picker.png")}
+            style={styles.ratingImage}
+            source={data[Number(rating) - 1].image}
           />
         </View>
 
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Comfy?</Text>
+          {wasComfyEnvironment ? (
+            <Text style={styles.dataValue}>Yes</Text>
+          ) : (
+            <Text style={styles.dataValue}>No</Text>
+          )}
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Wind down?</Text>
+          {didWindDown ? (
+            <Text style={styles.dataValue}>Yes</Text>
+          ) : (
+            <Text style={styles.dataValue}>No</Text>
+          )}
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Managed intake?</Text>
+          {didManageIntake ? (
+            <Text style={styles.dataValue}>Yes</Text>
+          ) : (
+            <Text style={styles.dataValue}>No</Text>
+          )}
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Relaxed?</Text>
+          {didRelaxation ? (
+            <Text style={styles.dataValue}>Yes</Text>
+          ) : (
+            <Text style={styles.dataValue}>No</Text>
+          )}
         </View>
-
-        <View style={styles.descriptionRow}>
-          <TouchableOpacity>
-            <Image
-              style={styles.searchImage}
-              source={require("../../../assets/images/date-picker.png")}
-            />
+        <View style={styles.center}>
+          <TouchableOpacity style={styles.diaryButton}>
+            <Text style={styles.diaryText}>Dream</Text>
           </TouchableOpacity>
         </View>
 
@@ -115,7 +145,7 @@ export default function SleepReportModal({
             {"Delete"}
           </Button>
           <Button onPress={() => onSave()} style={styles.button}>
-            Save
+            Ok
           </Button>
         </View>
       </View>
@@ -138,9 +168,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderBlockColor: "rgba(0,0,0,0.5)",
   },
-  searchImage: {
-    width: 30,
-    height: 30,
+  ratingImage: {
+    width: 70,
+    height: 70,
+    marginVertical: 15,
   },
   editData: {
     width: 40,
@@ -156,7 +187,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 70,
+    marginBottom: 12,
   },
   buttonsRow: {
     flexDirection: "row",
@@ -164,14 +195,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 5,
   },
-  inputTitle: {
+  dataTitle: {
     color: "#25436B",
-    fontSize: 30,
+    fontSize: 22,
+    fontFamily: "Sego",
+    marginLeft: 5,
+  },
+  titleTitle: {
+    color: "#25436B",
+    fontSize: 28,
+    fontFamily: "Sego-Bold",
+    marginTop: 10,
+  },
+  dataValue: {
+    color: "#25436B",
+    fontSize: 22,
     fontFamily: "Sego-Bold",
     flex: 1,
-    marginLeft: 5,
-    marginTop: 15,
-    paddingVertical: 10,
+    paddingRight: 10,
+    textAlign: "right",
   },
   title: {
     color: "#25436B",
@@ -217,5 +259,24 @@ const styles = StyleSheet.create({
   checkImage: {
     width: 20,
     height: 20,
+  },
+  center: {
+    alignItems: "center",
+  },
+  diaryButton: {
+    borderWidth: 2,
+    borderColor: "#CCCCCC",
+    borderRadius: 30,
+    height: 40,
+    width: 150,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+    marginBottom: 40,
+  },
+  diaryText: {
+    color: "#25436B",
+    fontFamily: "Sego-Bold",
+    fontSize: 20,
   },
 });

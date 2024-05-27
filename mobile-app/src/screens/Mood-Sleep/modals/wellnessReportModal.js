@@ -4,6 +4,24 @@ import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button, Calendar } from "../../../components";
 
+const data = [
+  {
+    image: require("../../../assets/images/moodRating/1.png"),
+  },
+  {
+    image: require("../../../assets/images/moodRating/2.png"),
+  },
+  {
+    image: require("../../../assets/images/moodRating/3.png"),
+  },
+  {
+    image: require("../../../assets/images/moodRating/4.png"),
+  },
+  {
+    image: require("../../../assets/images/moodRating/5.png"),
+  },
+];
+
 export default function WellnessReportModal({
   getRef,
   updateMoodReport,
@@ -12,7 +30,7 @@ export default function WellnessReportModal({
   const [visible, setVisible] = useState(false);
 
   const [title, setTitle] = useState(null);
-  const [feeling, setFeeling] = useState(null);
+  const [feeling, setFeeling] = useState(1);
   const [mood, setMood] = useState(null);
   const [activity, setActivity] = useState(null);
   const [location, setLocation] = useState(null);
@@ -50,7 +68,7 @@ export default function WellnessReportModal({
       open(props) {
         setVisible(true);
 
-        setTitle(title);
+        setTitle(props.title);
         setFeeling(props.feeling);
         setMood(props.mood);
         setActivity(props.activity);
@@ -76,37 +94,33 @@ export default function WellnessReportModal({
       style={styles.modal}
     >
       <View style={styles.container}>
-        <View style={styles.nameRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
+        <Text style={styles.titleTitle}>{title}</Text>
+        <View style={styles.center}>
           <Image
-            style={styles.searchImage}
-            source={require("../../../assets/images/date-picker.png")}
+            style={styles.ratingImage}
+            source={data[Number(feeling) - 1].image}
           />
         </View>
 
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Mood</Text>
+          <Text style={styles.dataValue}>{mood}</Text>
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Activity</Text>
+          <Text style={styles.dataValue}>{activity}</Text>
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Company</Text>
+          <Text style={styles.dataValue}>{company}</Text>
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.inputTitle}>{title}</Text>
-          <Text style={styles.inputTitle}>{title}</Text>
+          <Text style={styles.dataTitle}>Location</Text>
+          <Text style={styles.dataValue}>{location}</Text>
         </View>
-
-        <View style={styles.descriptionRow}>
-          <TouchableOpacity>
-            <Image
-              style={styles.searchImage}
-              source={require("../../../assets/images/date-picker.png")}
-            />
+        <View style={styles.center}>
+          <TouchableOpacity style={styles.diaryButton}>
+            <Text style={styles.diaryText}>Diary</Text>
           </TouchableOpacity>
         </View>
 
@@ -115,7 +129,7 @@ export default function WellnessReportModal({
             {"Delete"}
           </Button>
           <Button onPress={() => onSave()} style={styles.button}>
-            Save
+            Ok
           </Button>
         </View>
       </View>
@@ -138,9 +152,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderBlockColor: "rgba(0,0,0,0.5)",
   },
-  searchImage: {
-    width: 30,
-    height: 30,
+  ratingImage: {
+    width: 70,
+    height: 70,
+    marginVertical: 15,
   },
   editData: {
     width: 40,
@@ -156,7 +171,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 70,
+    marginBottom: 12,
   },
   buttonsRow: {
     flexDirection: "row",
@@ -164,14 +179,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 5,
   },
-  inputTitle: {
+  dataTitle: {
     color: "#25436B",
-    fontSize: 30,
-    fontFamily: "Sego-Bold",
+    fontSize: 22,
+    fontFamily: "Sego",
     flex: 1,
     marginLeft: 5,
-    marginTop: 15,
-    paddingVertical: 10,
+  },
+  titleTitle: {
+    color: "#25436B",
+    fontSize: 28,
+    fontFamily: "Sego-Bold",
+    marginTop: 10,
+  },
+  dataValue: {
+    color: "#25436B",
+    fontSize: 22,
+    fontFamily: "Sego-Bold",
+    flex: 1,
+    paddingRight: 10,
+    textAlign: "right",
   },
   title: {
     color: "#25436B",
@@ -217,5 +244,24 @@ const styles = StyleSheet.create({
   checkImage: {
     width: 20,
     height: 20,
+  },
+  center: {
+    alignItems: "center",
+  },
+  diaryButton: {
+    borderWidth: 2,
+    borderColor: "#CCCCCC",
+    borderRadius: 30,
+    height: 40,
+    width: 150,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+    marginBottom: 40,
+  },
+  diaryText: {
+    color: "#25436B",
+    fontFamily: "Sego-Bold",
+    fontSize: 20,
   },
 });

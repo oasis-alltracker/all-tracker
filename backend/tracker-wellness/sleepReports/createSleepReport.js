@@ -41,6 +41,7 @@ class CreateSleepReport {
       didWindDown: sleeReport.didWindDown,
       didManageIntake: sleeReport.didManageIntake,
       didRelaxation: sleeReport.didRelaxation,
+      title: sleeReport.title,
     };
 
     await this.DB.putItem(data);

@@ -30,20 +30,21 @@ class UpdateWellnessReport {
   async updateReport(email, wellnessReportID, sleeReport) {
     const key = { PK: `${email}-wellnessReport`, SK: wellnessReportID };
     const expression =
-      "SET #feeling = :feeling, #mood = :mood, #location = :location, #company = :company, #activity = :activity";
+      "SET #feeling = :feeling, #mood = :mood, #location = :location, #company = :company, #activity = :activity, #title = :title";
     const names = {
       "#feeling": "feeling",
       "#mood": "mood",
       "#location": "location",
       "#company": "company",
       "#activity": "activity",
+      "#title": "title",
     };
     const values = {
       ":feeling": sleeReport.feeling,
       ":mood": sleeReport.mood,
       ":location": sleeReport.location,
       ":company": sleeReport.company,
-      ":activity": sleeReport.activity,
+      ":title": sleeReport.title,
     };
 
     await this.DB.updateItem(expression, key, names, values);

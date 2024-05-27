@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -11,17 +11,52 @@ import moment from "moment";
 import { sharedStyles } from "../styles";
 import navigationService from "../../navigators/navigationService";
 
+const moodData = [
+  {
+    image: require("../../assets/images/moodRating/1.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/2.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/3.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/4.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/5.png"),
+  },
+];
+
+const sleepData = [
+  {
+    image: require("../../assets/images/sleepRating/1.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/2.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/3.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/4.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/5.png"),
+  },
+];
+
 export default function Main({
   day,
   trackingPreferences,
   updateDate,
   moodRef,
   sleepRef,
-  wellnessReportsForDay,
-  sleepReportsForDay,
+  wellnessReportForDay,
+  sleepReportForDay,
 }) {
   const today = new Date();
-  console.log(day);
 
   return (
     <ScrollView
@@ -79,14 +114,17 @@ export default function Main({
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Mood</Text>
           </View>
-          {wellnessReportsForDay.length > 0 ? (
-            <TouchableOpacity style={styles.addBtn}>
+          {wellnessReportForDay ? (
+            <TouchableOpacity
+              style={styles.ratingBtn}
+              onPress={() => {
+                moodRef.current.open(wellnessReportForDay);
+              }}
+            >
               <Image
-                style={styles.plus}
+                style={styles.ratingImage}
                 source={
-                  "../../assets/images/moodRating" +
-                  wellnessReportsForDay[wellnessReportsForDay.length - 1] +
-                  ".png"
+                  moodData[Number(wellnessReportForDay.feeling) - 1].image
                 }
               />
             </TouchableOpacity>
@@ -96,7 +134,13 @@ export default function Main({
               <TouchableOpacity
                 style={styles.addBtn}
                 onPress={() => {
-                  navigationService.navigate("moodTest");
+                  navigationService.navigate("moodTest", {
+                    screen: "moodStep1",
+                    params: {
+                      dateString: day.toDateString(),
+                      dateStamp: moment(day).format("YYYYMMDD"),
+                    },
+                  });
                 }}
               >
                 <Image
@@ -114,15 +158,16 @@ export default function Main({
             <Text style={sharedStyles.trackerTitle}>Sleep</Text>
           </View>
 
-          {sleepReportsForDay.length > 0 ? (
-            <TouchableOpacity style={styles.addBtn}>
+          {sleepReportForDay ? (
+            <TouchableOpacity
+              style={styles.ratingBtn}
+              onPress={() => {
+                sleepRef.current.open(sleepReportForDay);
+              }}
+            >
               <Image
-                style={styles.plus}
-                source={
-                  "../../assets/images/sleepRating" +
-                  sleepReportsForDay[sleepReportsForDay.length - 1] +
-                  ".png"
-                }
+                style={styles.ratingImage}
+                source={sleepData[Number(sleepReportForDay.rating) - 1].image}
               />
             </TouchableOpacity>
           ) : (
@@ -131,7 +176,13 @@ export default function Main({
               <TouchableOpacity
                 style={styles.addBtn}
                 onPress={() => {
-                  navigationService.navigate("sleepTest");
+                  navigationService.navigate("sleepTest", {
+                    screen: "sleepStep1",
+                    params: {
+                      dateString: day.toDateString(),
+                      dateStamp: moment(day).format("YYYYMMDD"),
+                    },
+                  });
                 }}
               >
                 <Image
@@ -169,11 +220,26 @@ const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
     borderRadius: 30,
     height: 80,
-    width: 350,
+    width: 300,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,
     marginTop: 10,
-    marginBottom: 30,
+  },
+  ratingBtn: {
+    borderWidth: 2,
+    borderColor: "#CCCCCC",
+    borderRadius: 30,
+    height: 100,
+    width: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  ratingImage: {
+    width: 65,
+    height: 65,
   },
 });

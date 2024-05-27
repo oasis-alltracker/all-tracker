@@ -32,11 +32,14 @@ const data = [
   },
 ];
 
-const WellnessStep1 = () => {
+const WellnessStep1 = (props) => {
   const [active, setActive] = useState(0);
+  const { dateStamp, dateString } = props.route.params;
 
   const onNext = async () => {
     var moodReport = {};
+    moodReport.dateStamp = dateStamp;
+    moodReport.title = dateString.slice(4, -4);
     if (active == 0) {
       Toast.show("Please make a selection.", {
         ...styles.errorToast,
@@ -70,7 +73,7 @@ const WellnessStep1 = () => {
 
       <View style={styles.buttons}>
         <Button
-          onPress={() => navigationService.goBack()}
+          onPress={() => navigationService.reset("mood-sleep", 0)}
           style={[styles.button, styles.back]}
         >
           Back
@@ -101,13 +104,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 70,
-    height: 70,
+    width: 65,
+    height: 65,
   },
   imageCon: {
     borderRadius: 25,
     borderWidth: 2,
     justifyContent: "center",
+    height: 75,
     alignItems: "center",
     width: width * 0.9,
     marginBottom: 15,

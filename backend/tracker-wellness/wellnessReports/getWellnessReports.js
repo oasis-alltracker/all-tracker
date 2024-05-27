@@ -9,7 +9,7 @@ class GetWellnessReports {
       if (queryStringParameters.dateStamp) {
         wellnessReports = await this.getReportsForOneDay(
           user.email,
-          queryStringParameters.dateStamp,
+          queryStringParameters.dateStamp
         );
       } else if (
         queryStringParameters.startDate &&
@@ -18,7 +18,7 @@ class GetWellnessReports {
         wellnessReports = await this.getReportsForMulitpleDays(
           user.email,
           queryStringParameters.startDate,
-          queryStringParameters.endDate,
+          queryStringParameters.endDate
         );
       } else {
         throw new Error("Missing queryStringParameters");
@@ -72,7 +72,7 @@ class GetWellnessReports {
     };
 
     const response = await this.DB.queryItem(expression, names, values);
-    return response?.Items;
+    return response?.Items.reverse();
   }
 }
 module.exports = GetWellnessReports;

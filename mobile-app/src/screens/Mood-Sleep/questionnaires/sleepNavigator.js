@@ -5,6 +5,7 @@ import SleepStep2 from "./sleepQuestionnaire/SleepStep2";
 import SleepStep3 from "./sleepQuestionnaire/SleepStep3";
 import SleepStep4 from "./sleepQuestionnaire/SleepStep4";
 import SleepStep5 from "./sleepQuestionnaire/SleepStep5";
+import SleepStep6 from "./sleepQuestionnaire/SleepStep6";
 const Stack = createStackNavigator();
 
 const options = {
@@ -20,6 +21,7 @@ function SleepNavigator() {
       <Stack.Screen name="sleepStep3" component={SleepStep3} />
       <Stack.Screen name="sleepStep4" component={SleepStep4} />
       <Stack.Screen name="sleepStep5" component={SleepStep5} />
+      <Stack.Screen name="sleepStep6" component={SleepStep6} />
     </Stack.Navigator>
   );
 }

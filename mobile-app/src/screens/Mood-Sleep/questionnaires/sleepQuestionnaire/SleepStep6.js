@@ -3,48 +3,76 @@ import {
   View,
   Text,
   StyleSheet,
+  TextInput,
   Dimensions,
   TouchableWithoutFeedback,
-  TextInput,
   Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
-
+import Spinner from "react-native-loading-spinner-overlay";
+import SleepReportsAPI from "../../../../api/sleep/sleepReportsAPI";
+import { getAccessToken } from "../../../../user/keychain";
 const { width, height } = Dimensions.get("window");
 
-const WellnessStep3 = (props) => {
-  const [activity, setActivity] = useState("");
-  const { moodReport } = props.route.params;
+const SleepStep6 = (props) => {
+  const [journal, setJournal] = useState(
+    "Description: \n\nSetting and Environment: \n\nCharacters and People: \n\nSymbols and Objetcs: \n\nRefeliction and Interpretation:"
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const { sleepReport } = props.route.params;
 
-  const onNext = async () => {
-    if (activity == "") {
-      Toast.show("Don't forget to write an entry.", {
+  const createSleepReport = async (sleepReport) => {
+    try {
+      token = await getAccessToken();
+      await SleepReportsAPI.createSleepReport(token, sleepReport);
+      setIsLoading(false);
+      await navigationService.reset("mood-sleep", 0);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
-    } else {
-      moodReport.activity = activity;
-      navigationService.navigate("moodStep4", { moodReport });
     }
   };
+
+  const onNext = async () => {
+    sleepReport.journal = journal;
+    setIsLoading(true);
+    try {
+      await createSleepReport(sleepReport);
+    } catch (e) {
+      setIsLoading(false);
+      Toast.show("Please make a selection.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <>
+          <Spinner visible={isLoading}></Spinner>
+
           <View style={styles.center}>
-            <Text style={styles.title}>What activity were you performing?</Text>
+            <Text style={styles.title}>Did you dream?</Text>
           </View>
 
           <View style={styles.textCon}>
             <TextInput
+              multiline
               placeholderTextColor={"#7B97BC"}
-              placeholder="Reading, watching TV.."
+              placeholder="Decsribe your dream in as much detail as you'd like:"
               style={styles.input}
-              onChangeText={setActivity}
-              value={activity}
+              onChangeText={setJournal}
+              value={journal}
+              numberOfLines={100}
             />
           </View>
 
@@ -97,29 +125,29 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 125,
+    marginTop: 80,
     textAlign: "center",
   },
   input: {
     color: "#25436B",
-    fontSize: 22,
+    fontSize: 14,
     fontFamily: "Sego",
     flex: 1,
+    marginLeft: 5,
+    marginTop: 15,
+    padding: 10,
   },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: 82,
     width: "100%",
   },
   textCon: {
     borderRadius: 25,
     borderWidth: 2,
     width: width * 0.9,
-    height: 100,
+    height: height * 0.5,
     borderColor: "#CCCCCC",
-    alignItems: "center",
-    textAlign: "center",
   },
   button: {
     width: "47%",
@@ -149,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WellnessStep3;
+export default SleepStep6;

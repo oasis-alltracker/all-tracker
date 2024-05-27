@@ -17,7 +17,10 @@ import WellnessReportsAPI from "../../api/mood/wellnessReportsAPI";
 import SleepReportsAPI from "../../api/sleep/sleepReportsAPI";
 import { TabView } from "react-native-tab-view";
 import { sharedStyles } from "../styles";
+import Spinner from "react-native-loading-spinner-overlay";
 import SleepReportModal from "./modals/sleepReportModal";
+import moment from "moment";
+
 import WellnessReportModal from "./modals/wellnessReportModal";
 
 const MoodSleep = ({ navigation }) => {
@@ -31,38 +34,44 @@ const MoodSleep = ({ navigation }) => {
   const [dots, setDots] = useState([]);
 
   const [allWellnessReports, setAllWellnessReports] = useState([]);
-  const [wellnessReportsForDay, setWellnessReportsForDay] = useState([]);
+  const [wellnessReportForDay, setWellnessReportForDay] = useState(null);
   const [allSleepReports, setAllSleepReports] = useState([]);
-  const [sleepReportsForDay, setSleepReportsForDay] = useState([]);
+  const [sleepReportForDay, setSleepReportForDay] = useState(null);
 
   const sleepRef = useRef(null);
   const moodRef = useRef(null);
 
-  const updateDate = (dateChange) => {
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const updateDate = async (dateChange) => {
+    setIsLoading(true);
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
     setDay(newDate);
+    await getSleepReports(moment(newDate).format("YYYYMMDD"));
+    await getMoodReports(moment(newDate).format("YYYYMMDD"));
+    setIsLoading(false);
   };
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
-  const getMoodReports = async () => {
+  const getMoodReports = async (dateStamp) => {
     try {
-      setIsLoading(true);
       token = await getAccessToken();
       reportsForDay = await WellnessReportsAPI.getWellnessReportsForToday(
         token,
-        day
+        dateStamp
       );
       allReports = await WellnessReportsAPI.getWellnessReportsForMutlipleDays(
         token,
         "0",
-        day
+        "3"
       );
-
-      setWellnessReportsForDay(reportsForDay);
+      if (reportsForDay.length > 0) {
+        setWellnessReportForDay(reportsForDay[reportsForDay.length - 1]);
+      } else {
+        setWellnessReportForDay(null);
+      }
       setAllWellnessReports(allReports);
-
-      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
@@ -82,7 +91,7 @@ const MoodSleep = ({ navigation }) => {
         moodReport
       );
 
-      await getMoodReports(token);
+      await getMoodReports(moment(day).format("YYYYMMDD"));
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -99,7 +108,7 @@ const MoodSleep = ({ navigation }) => {
       token = await getAccessToken();
       await WellnessReportsAPI.deleteWellnessReport(token, wellnessReportID);
 
-      await getMoodReports();
+      await getMoodReports(moment(day).format("YYYYMMDD"));
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -110,18 +119,26 @@ const MoodSleep = ({ navigation }) => {
     }
   };
 
-  const getSleepReports = async () => {
+  const getSleepReports = async (dateStamp) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
-      reportsForDay = await SleepReportsAPI.getSleepReportsForToday(token, day);
+      reportsForDay = await SleepReportsAPI.getSleepReportsForToday(
+        token,
+        dateStamp
+      );
       allReports = await SleepReportsAPI.getSleepReportsForMutlipleDays(
         token,
         "0",
-        day
+        "3"
       );
 
-      setSleepReportsForDay(reportsForDay);
+      if (reportsForDay.length > 0) {
+        setSleepReportForDay(reportsForDay[reportsForDay.length - 1]);
+      } else {
+        setSleepReportForDay(null);
+      }
+
       setAllSleepReports(allReports);
 
       setIsLoading(false);
@@ -144,7 +161,7 @@ const MoodSleep = ({ navigation }) => {
         sleepReport
       );
 
-      await getSleepReports(token);
+      await getSleepReports(moment(day).format("YYYYMMDD"));
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -161,7 +178,7 @@ const MoodSleep = ({ navigation }) => {
       token = await getAccessToken();
       await SleepReportsAPI.deleteSleepReport(token, sleepReportID);
 
-      await getSleepReports();
+      await getSleepReports(moment(day).format("YYYYMMDD"));
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -183,9 +200,11 @@ const MoodSleep = ({ navigation }) => {
 
       if (trackingPreferencesLoaded.moodSelected) {
         routesPreference.push({ key: "second", title: "Second" });
+        await getMoodReports(moment(day).format("YYYYMMDD"));
       }
       if (trackingPreferencesLoaded.sleepSelected) {
         routesPreference.push({ key: "third", title: "Third" });
+        await getSleepReports(moment(day).format("YYYYMMDD"));
       }
       routesPreference.push({ key: "fourth", title: "Fourth" });
 
@@ -198,14 +217,9 @@ const MoodSleep = ({ navigation }) => {
       setDots(numDots);
     };
 
-    const getDataOnLoad = async () => {
-      token = await getAccessToken();
-    };
-
     if (!isPageLoaded) {
       setIsPageLoaded(true);
       getPreferencesOnLoad();
-      getDataOnLoad();
     }
   }, []);
 
@@ -219,13 +233,13 @@ const MoodSleep = ({ navigation }) => {
             updateDate={updateDate}
             moodRef={moodRef}
             sleepRef={sleepRef}
-            wellnessReportsForDay={wellnessReportsForDay}
-            sleepReportsForDay={sleepReportsForDay}
+            wellnessReportForDay={wellnessReportForDay}
+            sleepReportForDay={sleepReportForDay}
           />
         );
-      case "second":
-        return <Sleep sleepRef={sleepRef} allSleepReports={allSleepReports} />;
       case "third":
+        return <Sleep sleepRef={sleepRef} allSleepReports={allSleepReports} />;
+      case "second":
         return (
           <Mood moodRef={moodRef} allWellnessReports={allWellnessReports} />
         );
@@ -238,6 +252,8 @@ const MoodSleep = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
+
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.headerButton}
