@@ -2,7 +2,9 @@ import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
-import { Button, Calendar } from "../../../components";
+import { Button } from "../../../components";
+import MoodJournalModal from "./moodJournalModal";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const data = [
   {
@@ -36,7 +38,21 @@ export default function WellnessReportModal({
   const [location, setLocation] = useState(null);
   const [company, setCompany] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [moodReportSK, setMoodReportSK] = useState(null);
+  const [moodReport, setMoodReport] = useState(null);
+
+  const moodRef = useRef(null);
+
+  const updateReport = async (journal) => {
+    setIsLoading(true);
+    newReport = moodReport;
+    newReport.journal = journal;
+    await updateMoodReport(newReport);
+    setMoodReport(newReport);
+    setIsLoading(false);
+  };
 
   const onBack = async () => {
     Alert.alert(
@@ -74,8 +90,8 @@ export default function WellnessReportModal({
         setActivity(props.activity);
         setLocation(props.location);
         setCompany(props.company);
-
         setMoodReportSK(props.SK);
+        setMoodReport(props);
       },
       close() {
         setVisible(false);
@@ -93,6 +109,7 @@ export default function WellnessReportModal({
       backdropColor="rgba(215, 246, 255, 0.27)"
       style={styles.modal}
     >
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
         <Text style={styles.titleTitle}>{title}</Text>
         <View style={styles.center}>
@@ -119,7 +136,12 @@ export default function WellnessReportModal({
           <Text style={styles.dataValue}>{location}</Text>
         </View>
         <View style={styles.center}>
-          <TouchableOpacity style={styles.diaryButton}>
+          <TouchableOpacity
+            style={styles.diaryButton}
+            onPress={() => {
+              moodRef.current.open(moodReport);
+            }}
+          >
             <Text style={styles.diaryText}>Diary</Text>
           </TouchableOpacity>
         </View>
@@ -128,11 +150,15 @@ export default function WellnessReportModal({
           <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             {"Delete"}
           </Button>
-          <Button onPress={() => onSave()} style={styles.button}>
+          <Button onPress={() => onDone()} style={styles.button}>
             Ok
           </Button>
         </View>
       </View>
+      <MoodJournalModal
+        getRef={(ref) => (moodRef.current = ref)}
+        updateReport={updateReport}
+      />
     </RNModal>
   );
 }

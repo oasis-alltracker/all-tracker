@@ -42,6 +42,7 @@ class CreateWellnessReport {
       company: wellnessReport.company,
       activity: wellnessReport.activity,
       title: wellnessReport.title,
+      journal: wellnessReport.journal,
     };
 
     await this.DB.putItem(data);

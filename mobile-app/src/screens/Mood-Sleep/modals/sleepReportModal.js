@@ -2,7 +2,9 @@ import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
-import { Button, Calendar } from "../../../components";
+import { Button } from "../../../components";
+import DreamJournalModal from "./dreamJournalModal";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const data = [
   {
@@ -36,7 +38,20 @@ export default function SleepReportModal({
   const [didManageIntake, setDidManageIntake] = useState(null);
   const [didRelaxation, setDidRelaxation] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [sleepReportSK, setSleepReportSK] = useState(null);
+  const [sleepReport, setSleepReport] = useState(null);
+  const dreamRef = useRef(null);
+
+  const updateReport = async (journal) => {
+    setIsLoading(true);
+    newReport = sleepReport;
+    newReport.journal = journal;
+    await updateSleepReport(newReport);
+    setSleepReport(newReport);
+    setIsLoading(false);
+  };
 
   const onBack = async () => {
     Alert.alert(
@@ -76,6 +91,7 @@ export default function SleepReportModal({
         setDidRelaxation(props.didRelaxation);
 
         setSleepReportSK(props.SK);
+        setSleepReport(props);
       },
       close() {
         setVisible(false);
@@ -93,6 +109,7 @@ export default function SleepReportModal({
       backdropColor="rgba(215, 246, 255, 0.27)"
       style={styles.modal}
     >
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
         <Text style={styles.titleTitle}>{title}</Text>
         <View style={styles.center}>
@@ -135,7 +152,12 @@ export default function SleepReportModal({
           )}
         </View>
         <View style={styles.center}>
-          <TouchableOpacity style={styles.diaryButton}>
+          <TouchableOpacity
+            style={styles.diaryButton}
+            onPress={() => {
+              dreamRef.current.open(sleepReport);
+            }}
+          >
             <Text style={styles.diaryText}>Dream</Text>
           </TouchableOpacity>
         </View>
@@ -144,11 +166,15 @@ export default function SleepReportModal({
           <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             {"Delete"}
           </Button>
-          <Button onPress={() => onSave()} style={styles.button}>
+          <Button onPress={() => onDone()} style={styles.button}>
             Ok
           </Button>
         </View>
       </View>
+      <DreamJournalModal
+        getRef={(ref) => (dreamRef.current = ref)}
+        updateReport={updateReport}
+      />
     </RNModal>
   );
 }

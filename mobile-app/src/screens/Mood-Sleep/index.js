@@ -82,6 +82,7 @@ const MoodSleep = ({ navigation }) => {
   };
 
   const updateMoodReport = async (moodReport) => {
+    console.log(moodReport);
     try {
       setIsLoading(true);
       token = await getAccessToken();
