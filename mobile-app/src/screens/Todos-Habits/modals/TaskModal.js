@@ -41,6 +41,7 @@ export default function TaskModal({
   const [isComplete, setIsComplete] = useState(false);
   const [completionList, setCompletionList] = useState(false);
   const [nextDueDate, setNextDueDate] = useState(false);
+  const [scheduleUpdated, setScheduleUpdated] = useState(false);
 
   const calendarRef = useRef(null);
 
@@ -49,13 +50,16 @@ export default function TaskModal({
     newIsNotificationsOn,
     newTime,
     newDateStamp,
-    newSchedule,
+    newSchedule
   ) => {
     setIsRecurring(newIsRecurring);
     setIsNotificationsOn(newIsNotificationsOn);
     setTime(newTime);
     setDateStamp(newDateStamp);
-    setSchedule(newSchedule);
+    if (JSON.stringify(newSchedule) === JSON.stringify(schedule)) {
+      setSchedule(newSchedule);
+      setScheduleUpdated(true);
+    }
   };
 
   const onBack = async () => {
@@ -80,7 +84,7 @@ export default function TaskModal({
         ],
         {
           cancelable: true,
-        },
+        }
       );
     } else {
       setVisible(false);
@@ -109,6 +113,21 @@ export default function TaskModal({
               completionList: completionList,
               nextDueDate: nextDueDate,
             };
+            if (scheduleUpdated) {
+              var today = new Date();
+              var year = today.getFullYear().toString();
+              var month = (today.getMonth() + 1).toString();
+              var day = today.getDate().toString();
+
+              if (month.length == 1) {
+                month = "0" + month;
+              }
+              if (day.length == 1) {
+                day = "0" + day;
+              }
+
+              task.dateStamp = `${year}${month}${day}`;
+            }
             await updateTask(itemSK, task, isNotificationsOn, time);
           } else {
             toDo = {
@@ -167,7 +186,7 @@ export default function TaskModal({
       token = await getAccessToken();
       notifications = await NotificationsHandler.getNotificationsForGroup(
         token,
-        `task-${itemID}`,
+        `task-${itemID}`
       );
 
       if (notifications.length == 1) {
