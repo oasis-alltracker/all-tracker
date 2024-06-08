@@ -79,7 +79,6 @@ export default function App() {
 
     checkIsLoggedIn();
     const unsubscribe = NetInfo.addEventListener((state) => {
-      console.log(state);
       setIsConnected(state.isConnected);
       if (!state.isConnected) {
         showAlert();

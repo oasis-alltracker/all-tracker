@@ -56,7 +56,7 @@ export default function TaskModal({
     setIsNotificationsOn(newIsNotificationsOn);
     setTime(newTime);
     setDateStamp(newDateStamp);
-    if (JSON.stringify(newSchedule) === JSON.stringify(schedule)) {
+    if (JSON.stringify(newSchedule) !== JSON.stringify(schedule)) {
       setSchedule(newSchedule);
       setScheduleUpdated(true);
     }
@@ -128,6 +128,7 @@ export default function TaskModal({
 
               task.dateStamp = `${year}${month}${day}`;
             }
+            setScheduleUpdated(false);
             await updateTask(itemSK, task, isNotificationsOn, time);
           } else {
             toDo = {
