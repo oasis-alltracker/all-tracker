@@ -122,7 +122,6 @@ const MoodSleep = ({ navigation }) => {
 
   const getSleepReports = async (dateStamp) => {
     try {
-      setIsLoading(true);
       token = await getAccessToken();
       reportsForDay = await SleepReportsAPI.getSleepReportsForToday(
         token,
@@ -141,8 +140,6 @@ const MoodSleep = ({ navigation }) => {
       }
 
       setAllSleepReports(allReports);
-
-      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
@@ -192,6 +189,7 @@ const MoodSleep = ({ navigation }) => {
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
+      setIsLoading(true);
       token = await getAccessToken();
       const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
         .trackingPreferences;
@@ -216,6 +214,7 @@ const MoodSleep = ({ navigation }) => {
         numDots.push(i);
       }
       setDots(numDots);
+      setIsLoading(false);
     };
 
     if (!isPageLoaded) {
