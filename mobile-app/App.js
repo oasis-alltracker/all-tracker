@@ -12,6 +12,7 @@ import { ActivityIndicator, StyleSheet } from "react-native";
 import { getAccessToken, isLoggedIn, logout } from "./src/user/keychain";
 import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
+import NetInfo from "@react-native-community/netinfo";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,11 +20,19 @@ export default function App() {
     "Sego-Bold": require("./src/assets/fonts/segoesc_bold.ttf"),
   });
   const [loading, setLoading] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
   const [initialRoute, setInitialRoute] = useState("landing");
 
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  const showAlert = () => {
+    Alert.alert(
+      "Internet Connection",
+      "You are offline. Some features may not be available."
+    );
+  };
 
   useEffect(() => {
     notificationListener.current =
@@ -38,7 +47,7 @@ export default function App() {
 
     return () => {
       Notifications.removeNotificationSubscription(
-        notificationListener.current,
+        notificationListener.current
       );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
@@ -49,8 +58,9 @@ export default function App() {
       if (await isLoggedIn()) {
         const accessToken = await getAccessToken();
         try {
-          const { status: status, data: userData } =
-            await UserAPI.getUser(accessToken);
+          const { status: status, data: userData } = await UserAPI.getUser(
+            accessToken
+          );
           if (userData) {
             if (userData["isSetupComplete"]) {
               setInitialRoute("main");
@@ -68,7 +78,18 @@ export default function App() {
     };
 
     checkIsLoggedIn();
-  }, [loading]);
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      console.log(state);
+      setIsConnected(state.isConnected);
+      if (!state.isConnected) {
+        showAlert();
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   if (!fontsLoaded) {
     return null;
@@ -79,7 +100,7 @@ export default function App() {
       <Provider store={store}>
         <StatusBar translucent backgroundColor="transparent" />
         <PersistGate loading={null} persistor={persistor}>
-          {loading ? (
+          {loading || !isConnected ? (
             <ActivityIndicator
               color={"#3097E7"}
               size={"large"}
