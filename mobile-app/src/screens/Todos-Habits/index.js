@@ -646,23 +646,28 @@ const TodosHabits = ({ navigation }) => {
     const getPreferencesOnLoad = async () => {
       setIsLoading(true);
       token = await getAccessToken();
+
       const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
         .trackingPreferences;
+
+      Promise.all(
+        createStatusList(day),
+        getHabits(),
+        getToDos(token),
+        getTasks(token)
+      );
+
       setTrackingPreferences(trackingPreferencesLoaded);
 
       var routesPreference = routes;
 
       if (trackingPreferencesLoaded.habitsSelected) {
         routesPreference.push({ key: "second", title: "Second" });
-        await createStatusList(day);
-        await getHabits();
       }
       if (trackingPreferencesLoaded.toDosSelected) {
         routesPreference.push({ key: "third", title: "Third" });
-        await getToDos(token);
-        await getTasks(token);
       }
-      setIsLoading(false);
+
       routesPreference.push({ key: "fourth", title: "Fourth" });
 
       setRoutes(routesPreference);
@@ -672,6 +677,7 @@ const TodosHabits = ({ navigation }) => {
         numDots.push(i);
       }
       setDots(numDots);
+      setIsLoading(false);
     };
 
     if (!isPageLoaded) {
