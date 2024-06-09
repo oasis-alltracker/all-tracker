@@ -522,8 +522,9 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateTaskStatus = async (updatedTask, isMainPage) => {
+  const updateTaskStatus = async (updatedTask) => {
     try {
+      var nextDueDate;
       var dueTaskUpdated = false;
       var index = tasks.findIndex((item) => item.SK == updatedTask.SK);
       var task = tasks[index];
@@ -583,18 +584,20 @@ const TodosHabits = ({ navigation }) => {
 
           task.selected = true;
           task.completionList.push(task.nextDueDate);
-          task.nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
+          nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
+          task.nextDueDate = nextDueDate;
 
           if (dueTaskUpdated) {
             dueTask.selected = true;
-            dueTask.completionList.push(task.nextDueDate);
-            dueTask.nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
+            dueTask.completionList.push(dueTask.nextDueDate);
+            dueTask.nextDueDate = nextDueDate;
           }
 
           await TasksAPI.updateTask(token, task.SK, task);
         } else {
           task.selected = false;
-          task.nextDueDate = task.completionList.pop();
+          nextDueDate = task.completionList.pop();
+          task.nextDueDate = nextDueDate;
           if (dueTaskUpdated) {
             dueTask.selected = false;
             dueTask.nextDueDate = dueTask.completionList.pop();
@@ -602,6 +605,7 @@ const TodosHabits = ({ navigation }) => {
           await TasksAPI.updateTask(token, task.SK, task);
         }
         task.isLocked = false;
+        return nextDueDate;
       }
     } catch (e) {
       console.log(e);

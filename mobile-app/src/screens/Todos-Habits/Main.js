@@ -38,7 +38,7 @@ const Main = ({
   const [toDosHeight, setToDosHeight] = useState(150);
 
   useEffect(() => {
-    setTasksAndToDos([...dueToDos, ...dueTasks]);
+    setTasksAndToDos(dueToDos.concat(dueTasks));
   }, [dueToDos, dueTasks]);
 
   useEffect(() => {
@@ -55,7 +55,6 @@ const Main = ({
     item,
     updateTaskStatus,
     updateToDoStatus,
-    isMainPage,
   }) => {
     const [isCheck, setIsCheck] = useState(false);
     const [itemDate, setItemDate] = useState("noDueDate");
@@ -82,7 +81,7 @@ const Main = ({
         var newItemDate = new Date(
           Number(year),
           Number(month) - 1,
-          Number(day),
+          Number(day)
         );
         setItemDate(newItemDate);
       } else {
@@ -96,7 +95,17 @@ const Main = ({
           onPress={async () => {
             setIsCheck((pr) => !pr);
             if (item.PK.includes("task")) {
-              await updateTaskStatus(item, isMainPage);
+              var nextDueDate = await updateTaskStatus(item);
+              var year = nextDueDate.substring(0, 4);
+              var month = nextDueDate.substring(4, 6);
+              var day = nextDueDate.substring(6, 8);
+
+              var newItemDate = new Date(
+                Number(year),
+                Number(month) - 1,
+                Number(day)
+              );
+              setItemDate(newItemDate);
             } else {
               await updateToDoStatus(item, true);
             }
