@@ -14,6 +14,7 @@ import { Button, Calendar } from "../../../components";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function TaskModal({
   getRef,
@@ -42,6 +43,8 @@ export default function TaskModal({
   const [completionList, setCompletionList] = useState(false);
   const [nextDueDate, setNextDueDate] = useState(false);
   const [scheduleUpdated, setScheduleUpdated] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const calendarRef = useRef(null);
 
@@ -72,13 +75,24 @@ export default function TaskModal({
           {
             text: "Yes",
             isPreferred: true,
-            onPress: () => {
-              if (isRecurring) {
-                deleteTask(itemSK);
-              } else {
-                deleteToDo(itemSK);
+            onPress: async () => {
+              try {
+                setIsLoading(true);
+                if (isRecurring) {
+                  await deleteTask(itemSK);
+                } else {
+                  await deleteToDo(itemSK);
+                }
+                setIsLoading(false);
+                setVisible(false);
+              } catch (e) {
+                setIsLoading(false);
+                console.log(e);
+                Toast.show("Something went wrong. Please try again.", {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                });
               }
-              setVisible(false);
             },
           },
         ],
@@ -104,6 +118,7 @@ export default function TaskModal({
       });
     } else {
       try {
+        setIsLoading(true);
         if (isEdit) {
           if (isRecurring) {
             task = {
@@ -171,8 +186,10 @@ export default function TaskModal({
             await createToDo(toDo, isNotificationsOn, time);
           }
         }
+        setIsLoading(false);
         setVisible(false);
       } catch (e) {
+        setIsLoading(false);
         console.log(e);
         Toast.show("Something went wrong. Please try again.", {
           ...styles.errorToast,
@@ -254,6 +271,8 @@ export default function TaskModal({
       backdropColor="rgba(215, 246, 255, 0.27)"
       style={styles.modal}
     >
+      <Spinner visible={isLoading}></Spinner>
+
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.nameRow}>

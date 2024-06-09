@@ -210,7 +210,7 @@ const MyTasks = ({
   const CreateTasks = () => (
     <TouchableOpacity
       onPress={() => {
-        createHabitRef.current.open();
+        taskRef.current.open();
       }}
       style={styles.addButton}
     >
