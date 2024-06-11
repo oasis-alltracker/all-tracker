@@ -43,7 +43,7 @@ const Main = ({
 
   useEffect(() => {
     if (trackingPreferences.habitsSelected) {
-      setToDosHeight(150);
+      setToDosHeight(120);
     } else {
       setToDosHeight(330);
     }
@@ -640,12 +640,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginLeft: 8,
-  },
-  toDoScrollContainer: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingBottom: 20,
-    width: width - 30,
   },
   itemRenderMain: {
     flexDirection: "row",
