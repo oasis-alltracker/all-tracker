@@ -406,7 +406,7 @@ const Todos = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ height: 365 }}>
+      <View style={{ height: 325 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
@@ -524,7 +524,6 @@ const Todos = (props) => {
       <Spinner visible={isLoading}></Spinner>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.container}
         scrollEnabled={false}
         removeClippedSubviews={false}
       >
@@ -696,7 +695,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 350,
+    height: 310,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",

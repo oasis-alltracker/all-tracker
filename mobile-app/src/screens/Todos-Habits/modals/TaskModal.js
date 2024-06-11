@@ -107,7 +107,7 @@ export default function TaskModal({
 
   const onSave = async () => {
     if (title == "" && description == "") {
-      Toast.show("You must complete the form to create a habit.", {
+      Toast.show("You must complete the form to create a task.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });

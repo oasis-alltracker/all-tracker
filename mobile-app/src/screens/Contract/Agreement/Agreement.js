@@ -23,7 +23,7 @@ const Agreement = () => {
             "undefined",
             "undefined",
             "undefined",
-            "on",
+            "on"
           );
           await NotificationsHandler.updateNotification(
             token,
@@ -32,7 +32,7 @@ const Agreement = () => {
             "undefined",
             "undefined",
             "undefined",
-            "on",
+            "on"
           );
         } else {
           await NotificationsHandler.updateNotification(
@@ -42,7 +42,7 @@ const Agreement = () => {
             "undefined",
             "undefined",
             "undefined",
-            "off",
+            "off"
           );
           await NotificationsHandler.updateNotification(
             token,
@@ -51,7 +51,7 @@ const Agreement = () => {
             "undefined",
             "undefined",
             "undefined",
-            "off",
+            "off"
           );
         }
       } catch (e) {
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-    marginTop: 150,
+    marginTop: 120,
   },
   view: {
     flex: 1,
