@@ -2,25 +2,25 @@ import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
-import { Button } from "../../../components";
+import { Button } from "../../../../components";
 import DreamJournalModal from "./dreamJournalModal";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const data = [
   {
-    image: require("../../../assets/images/sleepRating/1.png"),
+    image: require("../../../../assets/images/sleepRating/1.png"),
   },
   {
-    image: require("../../../assets/images/sleepRating/2.png"),
+    image: require("../../../../assets/images/sleepRating/2.png"),
   },
   {
-    image: require("../../../assets/images/sleepRating/3.png"),
+    image: require("../../../../assets/images/sleepRating/3.png"),
   },
   {
-    image: require("../../../assets/images/sleepRating/4.png"),
+    image: require("../../../../assets/images/sleepRating/4.png"),
   },
   {
-    image: require("../../../assets/images/sleepRating/5.png"),
+    image: require("../../../../assets/images/sleepRating/5.png"),
   },
 ];
 

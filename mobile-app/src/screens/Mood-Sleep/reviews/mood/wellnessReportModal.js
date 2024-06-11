@@ -2,25 +2,25 @@ import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
-import { Button } from "../../../components";
+import { Button } from "../../../../components";
 import MoodJournalModal from "./moodJournalModal";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const data = [
   {
-    image: require("../../../assets/images/moodRating/1.png"),
+    image: require("../../../../assets/images/moodRating/1.png"),
   },
   {
-    image: require("../../../assets/images/moodRating/2.png"),
+    image: require("../../../../assets/images/moodRating/2.png"),
   },
   {
-    image: require("../../../assets/images/moodRating/3.png"),
+    image: require("../../../../assets/images/moodRating/3.png"),
   },
   {
-    image: require("../../../assets/images/moodRating/4.png"),
+    image: require("../../../../assets/images/moodRating/4.png"),
   },
   {
-    image: require("../../../assets/images/moodRating/5.png"),
+    image: require("../../../../assets/images/moodRating/5.png"),
   },
 ];
 

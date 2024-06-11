@@ -18,10 +18,10 @@ import SleepReportsAPI from "../../api/sleep/sleepReportsAPI";
 import { TabView } from "react-native-tab-view";
 import { sharedStyles } from "../styles";
 import Spinner from "react-native-loading-spinner-overlay";
-import SleepReportModal from "./modals/sleepReportModal";
+import SleepReportModal from "./reviews/sleep/sleepReportModal";
 import moment from "moment";
 
-import WellnessReportModal from "./modals/wellnessReportModal";
+import WellnessReportModal from "./reviews/mood/wellnessReportModal";
 
 const MoodSleep = ({ navigation }) => {
   const [index, setIndex] = useState(0);

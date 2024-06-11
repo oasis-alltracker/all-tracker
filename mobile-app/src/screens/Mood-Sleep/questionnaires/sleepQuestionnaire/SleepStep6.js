@@ -6,6 +6,8 @@ import {
   TextInput,
   Dimensions,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
   Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -64,7 +66,10 @@ const SleepStep6 = (props) => {
             <Text style={styles.title}>Did you dream?</Text>
           </View>
 
-          <View style={styles.textCon}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.textCon}
+          >
             <TextInput
               multiline
               placeholderTextColor={"#7B97BC"}
@@ -74,7 +79,7 @@ const SleepStep6 = (props) => {
               value={journal}
               numberOfLines={100}
             />
-          </View>
+          </KeyboardAvoidingView>
 
           <View style={styles.buttons}>
             <Button

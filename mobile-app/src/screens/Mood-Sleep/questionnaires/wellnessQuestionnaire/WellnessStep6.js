@@ -3,7 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
+  KeyboardAvoidingView,
   TextInput,
+  Platform,
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
@@ -63,8 +65,10 @@ const WellnessStep6 = (props) => {
           <View style={styles.center}>
             <Text style={styles.title}>Anything else?</Text>
           </View>
-
-          <View style={styles.textCon}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.textCon}
+          >
             <TextInput
               multiline
               placeholderTextColor={"#7B97BC"}
@@ -74,7 +78,7 @@ const WellnessStep6 = (props) => {
               value={journal}
               numberOfLines={100}
             />
-          </View>
+          </KeyboardAvoidingView>
 
           <View style={styles.buttons}>
             <Button

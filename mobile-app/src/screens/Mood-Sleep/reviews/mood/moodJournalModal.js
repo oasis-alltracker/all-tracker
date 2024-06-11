@@ -6,11 +6,12 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
+  KeyboardAvoidingView,
   Alert,
+  Platform,
 } from "react-native";
 import RNModal from "react-native-modal";
-import { Button } from "../../../components";
+import { Button } from "../../../../components";
 
 export default function MoodJournalModal({ getRef, updateReport }) {
   const [visible, setVisible] = useState(false);
@@ -69,7 +70,10 @@ export default function MoodJournalModal({ getRef, updateReport }) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Text style={styles.titleTitle}>Diary</Text>
-          <ScrollView style={styles.scrollView}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.textCon}
+          >
             <TextInput
               multiline
               placeholderTextColor={"#7B97BC"}
@@ -79,7 +83,7 @@ export default function MoodJournalModal({ getRef, updateReport }) {
               value={journal}
               numberOfLines={100}
             />
-          </ScrollView>
+          </KeyboardAvoidingView>
 
           <View style={styles.buttonsRow}>
             <Button
@@ -140,6 +144,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 5,
+    paddingTop: 40,
   },
   dataTitle: {
     color: "#25436B",
@@ -221,5 +226,9 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontFamily: "Sego-Bold",
     fontSize: 20,
+  },
+  textCon: {
+    width: 340,
+    height: 290,
   },
 });
