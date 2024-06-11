@@ -189,41 +189,56 @@ const HabitsNotifications = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.center}
-      >
-        <Spinner visible={isLoading}></Spinner>
-        <View style={styles.imageCon}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/images/habits512.png")}
-          />
-          <Text style={styles.imageText}>habits</Text>
-        </View>
-        <Button
-          disabled={true}
-          style={[styles.bigButtons, styles.notification]}
-        >
-          <View style={styles.row}>
-            <Text style={[styles.text]}>Notifications:</Text>
-            <View>
-              <Switch
-                width={55}
-                height={32}
-                onValueChange={toggleSwitch}
-                value={isNotificationsEnabled}
-                trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-                thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#ffd8f7"}
-              />
-            </View>
+      <Spinner visible={isLoading}></Spinner>
+      <View style={styles.imageCon}>
+        <Image
+          style={styles.image}
+          source={require("../../../assets/images/habits512.png")}
+        />
+        <Text style={styles.imageText}>habits</Text>
+      </View>
+      <View style={styles.notification}>
+        <View style={styles.row}>
+          <Text style={[styles.text]}>Notifications:</Text>
+          <View>
+            <Switch
+              width={55}
+              height={32}
+              onValueChange={toggleSwitch}
+              value={isNotificationsEnabled}
+              trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+              thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#ffd8f7"}
+            />
           </View>
-          <Text style={[styles.text, styles.minitext]}>
-            Get a daily reminder to update your habit progress.
-          </Text>
+        </View>
+        <Text style={[styles.text, styles.minitext]}>
+          Get a daily reminder to update your habit progress.
+        </Text>
 
-          <View style={styles.timeRow}>
-            {Platform.OS === "ios" ? (
+        <View style={styles.timeRow}>
+          {Platform.OS === "ios" ? (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={time}
+              mode={"time"}
+              is24Hour={true}
+              onChange={onChange}
+            />
+          ) : (
+            <TouchableOpacity
+              style={styles.timeButton}
+              testID="setMinMax"
+              value="time"
+              onPress={() => {
+                setShow(true);
+              }}
+              title="toggleMinMaxDate"
+            >
+              <Text style={styles.timeText}>{formatDateObject(time)}</Text>
+            </TouchableOpacity>
+          )}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {show && (
               <DateTimePicker
                 testID="dateTimePicker"
                 value={time}
@@ -231,33 +246,10 @@ const HabitsNotifications = (props) => {
                 is24Hour={true}
                 onChange={onChange}
               />
-            ) : (
-              <TouchableOpacity
-                style={styles.timeButton}
-                testID="setMinMax"
-                value="time"
-                onPress={() => {
-                  setShow(true);
-                }}
-                title="toggleMinMaxDate"
-              >
-                <Text style={styles.timeText}>{formatDateObject(time)}</Text>
-              </TouchableOpacity>
             )}
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              {show && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={time}
-                  mode={"time"}
-                  is24Hour={true}
-                  onChange={onChange}
-                />
-              )}
-            </View>
           </View>
-        </Button>
-      </ScrollView>
+        </View>
+      </View>
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
@@ -315,6 +307,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
+    paddingTop: 60,
   },
   button: {
     width: "47%",
@@ -323,20 +316,18 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderColor: "#CCCCCC",
   },
-  bigButtons: {
+  notification: {
+    flexDirection: "column",
+    alignItems: "flex-start",
     width: "100%",
     backgroundColor: "transparent",
     borderColor: "rgba(172, 197, 204, 0.75)",
     height: 200,
     borderRadius: 40,
-    marginTop: 10,
     paddingHorizontal: 25,
     justifyContent: "center",
-  },
-  notification: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    marginTop: 100,
+    borderWidth: 2,
+    borderColor: "rgba(172, 197, 204, 0.75)",
   },
   center: {},
   selectImage: {
@@ -369,50 +360,6 @@ const styles = StyleSheet.create({
   minitext: {
     fontSize: 15,
     marginTop: 10,
-  },
-  selectText: {
-    margin: 20,
-    fontSize: 20,
-  },
-  selectTime: {
-    marginBottom: 0,
-  },
-  timeText: {
-    fontSize: 16,
-  },
-  notificationCon: {
-    height: "auto",
-    flexDirection: "column",
-    paddingHorizontal: 0,
-    alignItems: "flex-start",
-  },
-  inactive: {
-    backgroundColor: "transparent",
-    borderColor: "transparent",
-  },
-  dayBt: {
-    height: 35,
-    borderRadius: 10,
-    marginBottom: 0,
-  },
-  timeCon: {
-    paddingHorizontal: 20,
-  },
-  dayList: {
-    paddingHorizontal: 20,
-    paddingBottom: 15,
-  },
-  whatTime: {
-    fontSize: 20,
-  },
-  addButton: {
-    alignSelf: "center",
-    marginVertical: 15,
-  },
-  plusImage: {
-    width: 30,
-    height: 30,
-    resizeMode: "contain",
   },
   timeButton: {
     borderWidth: 1.5,

@@ -42,39 +42,39 @@ const SelectTrackers = () => {
       const { status, data } = await UserAPI.updateUser(
         false,
         selectedTrackers,
-        accessToken,
+        accessToken
       );
       if (status == 200) {
         setIsLoading(false);
         if (habitsSelected) {
           await navigationService.navigate(
             "habitsCreation",
-            (selectedTrackers = { selectedTrackers }),
+            (selectedTrackers = { selectedTrackers })
           );
         } else if (toDosSelected) {
           await navigationService.navigate(
             "todos",
-            (selectedTrackers = { selectedTrackers }),
+            (selectedTrackers = { selectedTrackers })
           );
         } else if (dietSelected) {
           await navigationService.navigate(
             "dietStep1",
-            (selectedTrackers = { selectedTrackers }),
+            (selectedTrackers = { selectedTrackers })
           );
         } else if (fitnessSelected) {
           await navigationService.navigate(
             "fitness",
-            (selectedTrackers = { selectedTrackers }),
+            (selectedTrackers = { selectedTrackers })
           );
         } else if (moodSelected) {
           await navigationService.navigate(
             "mood",
-            (selectedTrackers = { selectedTrackers }),
+            (selectedTrackers = { selectedTrackers })
           );
         } else if (sleepSelected) {
           await navigationService.navigate(
             "sleep",
-            (selectedTrackers = { selectedTrackers }),
+            (selectedTrackers = { selectedTrackers })
           );
         }
       } else {
@@ -241,8 +241,8 @@ const styles = StyleSheet.create({
     height: 50,
   },
   button: {
-    width: 135,
-    height: 135,
+    width: 125,
+    height: 125,
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -275,5 +275,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-evenly",
     paddingVertical: 15,
+    paddingHorizontal: 8,
   },
 });

@@ -112,7 +112,7 @@ const HabitsCreation = (props) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={{ height: 325 }}>
+      <View style={{ height: 305 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 320,
+    height: 290,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",

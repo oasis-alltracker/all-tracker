@@ -200,8 +200,8 @@ export default function Main({
 
 const styles = StyleSheet.create({
   plus: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
   title: {
     fontSize: 33,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#CCCCCC",
     borderRadius: 30,
-    height: 80,
+    height: 70,
     width: 300,
     justifyContent: "center",
     alignItems: "center",

@@ -406,7 +406,7 @@ const Todos = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ height: 325 }}>
+      <View style={{ height: 305 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
@@ -522,43 +522,32 @@ const Todos = (props) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <Spinner visible={isLoading}></Spinner>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        scrollEnabled={false}
-        removeClippedSubviews={false}
-      >
-        <View style={styles.center}>
-          <View style={styles.imageCon}>
-            <Image
-              style={styles.image}
-              source={require("../../../assets/images/to-dos512.png")}
-            />
-            <Text style={styles.imageText}>to-dos</Text>
-          </View>
-          {tasksAndToDos.length > 0 ? <Tasks /> : <CreatTasks />}
+      <View style={styles.center}>
+        <View style={styles.imageCon}>
+          <Image
+            style={styles.image}
+            source={require("../../../assets/images/to-dos512.png")}
+          />
+          <Text style={styles.imageText}>to-dos</Text>
         </View>
-        <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
-            Back
-          </Button>
-          <Button onPress={() => onNext()} style={styles.button}>
-            Next
-          </Button>
-        </View>
-      </ScrollView>
+        {tasksAndToDos.length > 0 ? <Tasks /> : <CreatTasks />}
+      </View>
+      <View style={styles.buttons}>
+        <Button
+          onPress={() => navigationService.goBack()}
+          style={[styles.button, styles.back]}
+        >
+          Back
+        </Button>
+        <Button onPress={() => onNext()} style={styles.button}>
+          Next
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingBottom: 80,
-  },
   safeAreaContainer: {
     flex: 1,
     backgroundColor: "#fff",
@@ -695,7 +684,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 310,
+    height: 290,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
