@@ -69,7 +69,6 @@ const TaskStats = ({ sunday }) => {
           thickness={2}
           color="rgba(255, 207, 245, 1)"
           maxValue={100}
-          animateOnDataChange
           areaChart
           hideRules
           yAxisTextNumberOfLines={1}
