@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
 
 const days = ["M", "T", "W", "T", "F", "S", "S"];
 
-const FitnessStats = () => {
+const FitnessStats = ({ sunday, updateStats }) => {
   return (
     <View style={styles.chartBox}>
       <View style={styles.chartCircle}>

@@ -53,6 +53,8 @@ const TodosHabits = ({ navigation }) => {
 
   const [trackingPreferences, setTrackingPreferences] = useState([]);
 
+  const [updateStats, setUpdateStats] = useState(0);
+
   const createHabitRef = useRef(null);
   const updateHabitRef = useRef(null);
 
@@ -75,6 +77,7 @@ const TodosHabits = ({ navigation }) => {
 
       await getHabits();
       await createStatusList(day);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -163,6 +166,7 @@ const TodosHabits = ({ navigation }) => {
 
       await updateHabitStatusCount(habitStatus, count);
       await createStatusList(day);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -181,6 +185,7 @@ const TodosHabits = ({ navigation }) => {
       await HabitsAPI.deleteHabit(token, habitID);
       await getHabits();
       await createStatusList(day);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -198,6 +203,7 @@ const TodosHabits = ({ navigation }) => {
       await HabitsAPI.updateHabit(token, habitID, habit);
       await getHabits();
       await createStatusList(day);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -269,6 +275,7 @@ const TodosHabits = ({ navigation }) => {
       }
 
       await getToDos(token);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -308,6 +315,7 @@ const TodosHabits = ({ navigation }) => {
         );
       }
       await getToDos(token);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -397,6 +405,7 @@ const TodosHabits = ({ navigation }) => {
           setDoneToDos(newDoneToDos);
           setDueToDos(newDueToDos);
         }
+        setUpdateStats(updateStats + 1);
       }
     } catch (e) {
       console.log(e);
@@ -413,6 +422,7 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await ToDosAPI.deleteToDo(token, toDoID);
       await getToDos(token);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -467,6 +477,7 @@ const TodosHabits = ({ navigation }) => {
         );
       }
       await getTasks(token);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -511,6 +522,7 @@ const TodosHabits = ({ navigation }) => {
       }
 
       await getTasks(token);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -605,6 +617,7 @@ const TodosHabits = ({ navigation }) => {
           await TasksAPI.updateTask(token, task.SK, task);
         }
         task.isLocked = false;
+        setUpdateStats(updateStats + 1);
         return nextDueDate;
       }
     } catch (e) {
@@ -622,6 +635,7 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await TasksAPI.deleteTask(token, taskID);
       await getTasks(token);
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -733,7 +747,12 @@ const TodosHabits = ({ navigation }) => {
           />
         );
       case "fourth":
-        return <Statistics trackingPreferences={trackingPreferences} />;
+        return (
+          <Statistics
+            trackingPreferences={trackingPreferences}
+            updateStats={updateStats}
+          />
+        );
       default:
         return null;
     }

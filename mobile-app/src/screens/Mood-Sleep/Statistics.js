@@ -11,7 +11,7 @@ import moment from "moment";
 import MoodStats from "../Stats/MoodStats";
 import SleepStats from "../Stats/SleepStats";
 
-export default function Statistics(trackingPreferences) {
+const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();
   thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
 
@@ -67,15 +67,16 @@ export default function Statistics(trackingPreferences) {
           />
         </TouchableOpacity>
       </View>
-      {trackingPreferences.trackingPreferences.moodSelected && (
+      {trackingPreferences.moodSelected && (
         <MoodStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
       )}
-      {trackingPreferences.trackingPreferences.sleepSelected && (
+      {trackingPreferences.sleepSelected && (
         <SleepStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
       )}
     </ScrollView>
   );
-}
+};
+export default Statistics;
 
 const styles = StyleSheet.create({
   container: {
@@ -88,8 +89,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
+    backgroundColor: "#FFEFBD",
+    borderColor: "#CCBF98",
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

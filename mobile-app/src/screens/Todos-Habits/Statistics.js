@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -11,7 +11,7 @@ import moment from "moment";
 import TaskStats from "../Stats/TaskStats";
 import HabitStats from "../Stats/HabitStats";
 
-export default function Statistics(trackingPreferences) {
+const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();
   thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
 
@@ -23,6 +23,10 @@ export default function Statistics(trackingPreferences) {
     );
     setSelectedSunday(newDate);
   };
+
+  useEffect(() => {
+    console.log("Stats updated.");
+  }, [updateStats]);
 
   return (
     <ScrollView
@@ -67,15 +71,22 @@ export default function Statistics(trackingPreferences) {
           />
         </TouchableOpacity>
       </View>
-      {trackingPreferences.trackingPreferences.habitsSelected && (
-        <HabitStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+      {trackingPreferences.habitsSelected && (
+        <HabitStats
+          sunday={moment(selectedSunday).format("YYYYMMDD")}
+          updateStats={updateStats}
+        />
       )}
-      {trackingPreferences.trackingPreferences.toDosSelected && (
-        <TaskStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+      {trackingPreferences.toDosSelected && (
+        <TaskStats
+          sunday={moment(selectedSunday).format("YYYYMMDD")}
+          updateStats={updateStats}
+        />
       )}
     </ScrollView>
   );
-}
+};
+export default Statistics;
 
 const styles = StyleSheet.create({
   container: {

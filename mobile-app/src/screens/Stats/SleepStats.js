@@ -17,7 +17,7 @@ const data = [
   { value: 70 },
 ];
 
-const SleepStats = ({}) => {
+const SleepStats = ({ sunday, updateStats }) => {
   return (
     <View style={styles.chartBox}>
       <View style={styles.chartCircle}>

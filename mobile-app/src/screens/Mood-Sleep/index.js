@@ -44,6 +44,8 @@ const MoodSleep = ({ navigation }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [updateStats, setUpdateStats] = useState(0);
+
   const updateDate = async (dateChange) => {
     setIsLoading(true);
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;

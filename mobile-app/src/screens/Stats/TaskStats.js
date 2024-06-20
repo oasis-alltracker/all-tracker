@@ -7,7 +7,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
-const TaskStats = ({ sunday }) => {
+const TaskStats = ({ sunday, updateStats }) => {
   const [taskStats, setTaskStats] = useState([
     { value: 1, label: labels[0] },
     { value: 1, label: labels[1] },
@@ -52,7 +52,7 @@ const TaskStats = ({ sunday }) => {
     };
     setIsLoading(true);
     getStatsOnLoad();
-  }, [sunday]);
+  }, [sunday, updateStats]);
 
   return (
     <View style={styles.chartBox}>
