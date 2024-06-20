@@ -49,9 +49,9 @@ const MoodStats = () => {
           initialSpacing={0}
           yAxisColor="#B3B3B3"
           xAxisColor="#B3B3B3"
-          height={130}
-          width={150}
-          curved
+          height={120}
+          width={190}
+          spacing={40}
         />
         <Text style={styles.xLabel}>Average sleep rating: 3.7</Text>
       </View>
@@ -60,95 +60,38 @@ const MoodStats = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingTop: 30,
-    paddingBottom: 80,
-  },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "#FFEFBD",
-    borderColor: "#CCBF98",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    // borderWidth: 1,
-    // borderColor: "#ACC5CC",
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    // backgroundColor: "#D7F6FF",
-    // borderWidth: 1,
-    // borderColor: "#CCCCCC",
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
-  },
   chartBox: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 50,
+    marginTop: 20,
+    paddingRight: 35,
   },
   chartCircle: {
-    width: 65,
-    height: 65,
+    width: 75,
+    height: 75,
     borderRadius: 45,
     backgroundColor: "#FFEFBD",
     borderColor: "#CCBF98",
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginRight: 30,
+    marginTop: 35,
+    marginRight: 40,
   },
   imageCircle: {
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
   },
   text: {
     fontSize: 13,
     fontFamily: "Sego",
+    color: "#25436B",
   },
   xLabel: {
-    fontSize: 12,
-    fontFamily: "Sego",
+    fontSize: 14,
+    fontFamily: "Sego-Bold",
+    color: "#25436B",
   },
   chartContainer: {
     alignItems: "center",

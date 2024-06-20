@@ -243,7 +243,7 @@ const MoodSleep = ({ navigation }) => {
           <Mood moodRef={moodRef} allWellnessReports={allWellnessReports} />
         );
       case "fourth":
-        return <Statistics />;
+        return <Statistics trackingPreferences={trackingPreferences} />;
       default:
         return null;
     }

@@ -142,13 +142,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    height: 170,
+    height: 160,
     borderRadius: 50,
     marginHorizontal: 20,
   },
   image: {
-    width: 130,
-    height: 130,
+    width: 125,
+    height: 125,
   },
   downImage: {
     width: 75,

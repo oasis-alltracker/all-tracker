@@ -86,37 +86,37 @@ const Stats = ({ getRef }) => {
           />
         </View>
 
-        <View style={styles.dateLineMain}>
-          <TouchableOpacity
-            style={styles.buttonMain}
-            onPress={() => updateWeek(-7)}
-          >
-            <Image
-              style={[styles.preButtonMain, styles.nextButtonMain]}
-              source={require("../../assets/images/left.png")}
-            />
-          </TouchableOpacity>
-          <>
-            {moment(thisSunday).format("YYYYMMDD") ==
-            moment(selectedSunday).format("YYYYMMDD") ? (
-              <Text style={styles.dateNameMain}>This week</Text>
-            ) : (
-              <Text style={styles.dateNameMain}>
-                Week of {selectedSunday.toDateString().slice(4, -4)}
-              </Text>
-            )}
-          </>
-          <TouchableOpacity
-            style={styles.buttonMain}
-            onPress={() => updateWeek(7)}
-          >
-            <Image
-              style={styles.preButtonMain}
-              source={require("../../assets/images/left.png")}
-            />
-          </TouchableOpacity>
-        </View>
         <ScrollView style={styles.tcContainer}>
+          <View style={styles.dateLineMain}>
+            <TouchableOpacity
+              style={styles.buttonMain}
+              onPress={() => updateWeek(-7)}
+            >
+              <Image
+                style={[styles.preButtonMain, styles.nextButtonMain]}
+                source={require("../../assets/images/left.png")}
+              />
+            </TouchableOpacity>
+            <>
+              {moment(thisSunday).format("YYYYMMDD") ==
+              moment(selectedSunday).format("YYYYMMDD") ? (
+                <Text style={styles.dateNameMain}>This week</Text>
+              ) : (
+                <Text style={styles.dateNameMain}>
+                  Week of {selectedSunday.toDateString().slice(4, -4)}
+                </Text>
+              )}
+            </>
+            <TouchableOpacity
+              style={styles.buttonMain}
+              onPress={() => updateWeek(7)}
+            >
+              <Image
+                style={styles.preButtonMain}
+                source={require("../../assets/images/left.png")}
+              />
+            </TouchableOpacity>
+          </View>
           {(trackingPreferences?.habitsSelected ||
             trackingPreferences?.toDosSelected) && (
             <View style={styles.entityView}>
@@ -233,14 +233,12 @@ const styles = StyleSheet.create({
   tcContainer: {
     marginTop: 15,
     marginBottom: 15,
-    marginLeft: 10,
-    marginRight: 10,
     height: height * 0.7,
   },
   statsImageCon: {
-    width: 320,
-    height: 120,
-    borderRadius: 50,
+    width: width - 65,
+    height: 100,
+    borderRadius: 20,
     backgroundColor: "#D7F6FF",
     borderColor: "rgba(183,207,214,255)",
     borderWidth: 2,
@@ -266,6 +264,8 @@ const styles = StyleSheet.create({
   entityView: {
     marginBottom: 30,
     marginTop: 15,
+    marginLeft: 10,
+    marginRight: 10,
   },
   entityHeader: {
     width: "100%",
@@ -365,6 +365,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     marginTop: 20,
+    marginBottom: 10,
     borderWidth: 1,
     borderColor: "#ACC5CC",
     borderRadius: 2,
@@ -396,15 +397,15 @@ const styles = StyleSheet.create({
     ],
   },
   upImage: {
-    width: 70,
-    height: 70,
+    width: 60,
+    height: 60,
   },
   upImageContainer: {
     justifyContent: "center",
     textAlign: "center",
     alignItems: "center",
-    paddingTop: 20,
-    marginBottom: 20,
+    paddingTop: 5,
+    marginBottom: 15,
   },
 });
 

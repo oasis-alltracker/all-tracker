@@ -85,7 +85,7 @@ const HabitStats = ({ sunday }) => {
           initialSpacing={0}
           yAxisColor="#B3B3B3"
           xAxisColor="#B3B3B3"
-          height={130}
+          height={120}
           width={190}
           spacing={40}
         />
@@ -107,66 +107,6 @@ const HabitStats = ({ sunday }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingTop: 30,
-    paddingBottom: 80,
-  },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    // borderWidth: 1,
-    // borderColor: "#ACC5CC",
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    // backgroundColor: "#D7F6FF",
-    // borderWidth: 1,
-    // borderColor: "#CCCCCC",
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
-  },
   chartBox: {
     width: "100%",
     flexDirection: "row",
@@ -202,42 +142,6 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: "center",
-  },
-  dateLineMain: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: "#ACC5CC",
-    borderRadius: 2,
-  },
-  buttonMain: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
-    borderWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0)",
-    borderBottomColor: "rgba(0, 0, 0, 0)",
-    borderRightColor: "#ccc",
-    borderLeftColor: "#ccc",
-  },
-  dateNameMain: {
-    fontSize: 26,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-  },
-  preButtonMain: {
-    width: 30,
-    height: 30,
-  },
-  nextButtonMain: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
   },
 });
 
