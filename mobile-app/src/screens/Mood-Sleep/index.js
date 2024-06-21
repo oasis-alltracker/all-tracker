@@ -196,15 +196,18 @@ const MoodSleep = ({ navigation }) => {
         .trackingPreferences;
       setTrackingPreferences(trackingPreferencesLoaded);
 
+      Promise.all(
+        getMoodReports(moment(day).format("YYYYMMDD")),
+        getSleepReports(moment(day).format("YYYYMMDD"))
+      );
+
       var routesPreference = routes;
 
       if (trackingPreferencesLoaded.moodSelected) {
         routesPreference.push({ key: "second", title: "Second" });
-        await getMoodReports(moment(day).format("YYYYMMDD"));
       }
       if (trackingPreferencesLoaded.sleepSelected) {
         routesPreference.push({ key: "third", title: "Third" });
-        await getSleepReports(moment(day).format("YYYYMMDD"));
       }
       routesPreference.push({ key: "fourth", title: "Fourth" });
 
