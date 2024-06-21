@@ -32,7 +32,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "2878"
+   "otp": "2073"
 }
 ###
 
@@ -251,7 +251,7 @@ Authorization: Bearer token
 //-------------------------------------------
 //Get habit stats for a week.
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitStats?sunday=20240519
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNjM0MjAxNiwiZXhwIjoxNzE2NTE0ODE2fQ.GzoaMrDghThRl8UMev7j9bStVluZbhTGEYDs-rpx1Es
+Authorization: Bearer token
 ###
 
 
@@ -321,12 +321,12 @@ Authorization: Bearer token
 
 //Get all complete or incomplete to-dos.
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos?isComplete=false
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNTU1ODA2MCwiZXhwIjoxNzE1NzMwODYwfQ.-uxivo9chektipTK_SfiirCwRFwX_m9QtmghKcBOCtw
+Authorization: Bearer token
 ###
 
 //Create to-do.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/toDos
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNTU1ODA2MCwiZXhwIjoxNzE1NzMwODYwfQ.-uxivo9chektipTK_SfiirCwRFwX_m9QtmghKcBOCtw
+Authorization: Bearer token
 
 {
     "name": "Finish this app",
@@ -357,7 +357,7 @@ Authorization: Bearer token
 //-------------------------------------------
 //Get habit stats for a week.
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/taskStats?sunday=20240519
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTcxNjM0MjAxNiwiZXhwIjoxNzE2NTE0ODE2fQ.GzoaMrDghThRl8UMev7j9bStVluZbhTGEYDs-rpx1Es
+Authorization: Bearer token
 ###
 
 
@@ -681,6 +681,12 @@ DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/wellness
 Authorization: Bearer token
 ###
 
+//--------W E L L N E S S   S T A T S--------
+//-------------------------------------------
+//Get mood stats for a week.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/moodStats?sunday=20240609
+Authorization: Bearer token
+###
 
 
 //---------S L E E P   R E P O R T S---------
@@ -726,6 +732,14 @@ Authorization: Bearer token
 DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepReports/20230209-e4452c60-a7f8-11ed-bee5-edd4f1743780
 Authorization: Bearer token
 ###
+
+//-----------S L E E P   S T A T S-----------
+//-------------------------------------------
+//Get sleep stats for a week.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepStats?sunday=20240609
+Authorization: Bearer token
+###
+
 
 
 

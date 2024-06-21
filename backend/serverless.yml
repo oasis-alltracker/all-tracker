@@ -422,6 +422,19 @@ functions:
           method: delete
           cors: true
 
+##SleepStats##
+  sleepStats:
+    handler: tracker-wellness/sleepStats/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/sleepStats
+          method: get
+          cors: true
+
 ##WellnessReports##
   wellnessReports:
     handler: tracker-wellness/wellnessReports/index.handler
@@ -445,6 +458,19 @@ functions:
       - http:
           path: v1/wellnessReports/{wellnessReportID}
           method: delete
+          cors: true
+
+##MoodStats##
+  moodStats:
+    handler: tracker-wellness/wellnessStats/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/moodStats
+          method: get
           cors: true
 
 
