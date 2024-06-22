@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
+import StatsAPI from "../../api/stats/statsAPI";
+import Spinner from "react-native-loading-spinner-overlay";
+import { getAccessToken } from "../../user/keychain";
 import { LineChart } from "react-native-gifted-charts";
 
 const data = [
@@ -17,6 +20,8 @@ const data = [
   { value: 70 },
 ];
 
+const labels = ["S", "M", "T", "W", "T", "F", "S"];
+
 const MoodStats = ({ sunday, updateStats }) => {
   const [moodStats, setMoodStats] = useState([
     { value: 0, label: labels[0] },
@@ -33,7 +38,7 @@ const MoodStats = ({ sunday, updateStats }) => {
   useEffect(() => {
     const getStatsOnLoad = async () => {
       var token = await getAccessToken();
-      var ratings = await StatsAPI.getSleepStats(token, sunday);
+      var ratings = await StatsAPI.getMoodStats(token, sunday);
 
       var ratingSum = 0;
 
@@ -41,13 +46,13 @@ const MoodStats = ({ sunday, updateStats }) => {
         ratingSum += ratings[i].rating;
         ratings[i] = {
           label: labels[i],
-          value: ratings[i].rating,
+          value: Number(ratings[i].rating),
         };
       }
 
       var newAverage = (ratingSum * 1.0) / 7;
       setAveragerRating(newAverage);
-      setSleepStats(ratings);
+      setMoodStats(ratings);
       setIsLoading(false);
     };
     setIsLoading(true);
@@ -56,6 +61,7 @@ const MoodStats = ({ sunday, updateStats }) => {
 
   return (
     <View style={styles.chartBox}>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.chartCircle}>
         <Image
           style={styles.imageCircle}
@@ -64,9 +70,9 @@ const MoodStats = ({ sunday, updateStats }) => {
         <Text style={styles.text}>mood</Text>
       </View>
       <View style={styles.chartContainer}>
-        <BarChart
+        <LineChart
           thickness={2}
-          frontColor={"#FFEFBD"}
+          color="#FFEFBD"
           maxValue={5}
           areaChart
           hideRules
@@ -74,7 +80,7 @@ const MoodStats = ({ sunday, updateStats }) => {
           yAxisLabelWidth={0}
           hideYAxisText
           hideDataPoints
-          data={sleepStats}
+          data={moodStats}
           startFillColor1={"#FFEFBD"}
           endFillColor1={"#FFEFBD"}
           startOpacity={0.8}
@@ -85,14 +91,13 @@ const MoodStats = ({ sunday, updateStats }) => {
           initialSpacing={0}
           yAxisColor="#B3B3B3"
           xAxisColor="#B3B3B3"
-          barWidth={15}
-          roundedBottom
-          roundedTop
           height={120}
           width={190}
-          spacing={10}
+          spacing={40}
         />
-        <Text style={styles.xLabel}>Average sleep rating: {averageRating}</Text>
+        <Text style={styles.xLabel}>
+          Average mood rating: {Math.round(averageRating * 10) / 10}
+        </Text>
       </View>
     </View>
   );

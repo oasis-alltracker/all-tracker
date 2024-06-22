@@ -68,10 +68,16 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
         </TouchableOpacity>
       </View>
       {trackingPreferences.moodSelected && (
-        <MoodStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+        <MoodStats
+          sunday={moment(selectedSunday).format("YYYYMMDD")}
+          updateStats={updateStats}
+        />
       )}
       {trackingPreferences.sleepSelected && (
-        <SleepStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+        <SleepStats
+          sunday={moment(selectedSunday).format("YYYYMMDD")}
+          updateStats={updateStats}
+        />
       )}
     </ScrollView>
   );

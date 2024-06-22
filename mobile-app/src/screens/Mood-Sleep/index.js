@@ -111,6 +111,7 @@ const MoodSleep = ({ navigation }) => {
       await WellnessReportsAPI.deleteWellnessReport(token, wellnessReportID);
 
       await getMoodReports(moment(day).format("YYYYMMDD"));
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -178,6 +179,7 @@ const MoodSleep = ({ navigation }) => {
       await SleepReportsAPI.deleteSleepReport(token, sleepReportID);
 
       await getSleepReports(moment(day).format("YYYYMMDD"));
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -245,7 +247,12 @@ const MoodSleep = ({ navigation }) => {
           <Mood moodRef={moodRef} allWellnessReports={allWellnessReports} />
         );
       case "fourth":
-        return <Statistics trackingPreferences={trackingPreferences} />;
+        return (
+          <Statistics
+            trackingPreferences={trackingPreferences}
+            updateStats={updateStats}
+          />
+        );
       default:
         return null;
     }

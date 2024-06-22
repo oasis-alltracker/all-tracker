@@ -192,8 +192,14 @@ const Stats = ({ getRef }) => {
                 </View>
                 <Text style={styles.entityTitle}>Soul</Text>
               </View>
-              {trackingPreferences?.moodSelected && <MoodStats />}
-              {trackingPreferences?.sleepSelected && <SleepStats />}
+              {trackingPreferences?.moodSelected && (
+                <MoodStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+              )}
+              {trackingPreferences?.sleepSelected && (
+                <SleepStats
+                  sunday={moment(selectedSunday).format("YYYYMMDD")}
+                />
+              )}
             </View>
           )}
         </ScrollView>

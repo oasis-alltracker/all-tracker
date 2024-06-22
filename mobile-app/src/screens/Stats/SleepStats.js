@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
-import { BarChart } from "react-native-gifted-charts";
+import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -31,7 +31,7 @@ const SleepStats = ({ sunday, updateStats }) => {
         ratingSum += ratings[i].rating;
         ratings[i] = {
           label: labels[i],
-          value: ratings[i].rating,
+          value: Number(ratings[i].rating),
         };
       }
 
@@ -55,9 +55,9 @@ const SleepStats = ({ sunday, updateStats }) => {
         <Text style={styles.text}>sleep</Text>
       </View>
       <View style={styles.chartContainer}>
-        <BarChart
+        <LineChart
           thickness={2}
-          frontColor={"#FFEFBD"}
+          color="#FFEFBD"
           maxValue={5}
           areaChart
           hideRules
@@ -76,14 +76,13 @@ const SleepStats = ({ sunday, updateStats }) => {
           initialSpacing={0}
           yAxisColor="#B3B3B3"
           xAxisColor="#B3B3B3"
-          barWidth={15}
-          roundedBottom
-          roundedTop
           height={120}
           width={190}
-          spacing={10}
+          spacing={40}
         />
-        <Text style={styles.xLabel}>Average sleep rating: {averageRating}</Text>
+        <Text style={styles.xLabel}>
+          Average sleep rating: {Math.round(averageRating * 10) / 10}
+        </Text>
       </View>
     </View>
   );

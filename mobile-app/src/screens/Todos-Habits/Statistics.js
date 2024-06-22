@@ -24,9 +24,7 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
     setSelectedSunday(newDate);
   };
 
-  useEffect(() => {
-    console.log("Stats updated.");
-  }, [updateStats]);
+  useEffect(() => {}, [updateStats]);
 
   return (
     <ScrollView
