@@ -34,5 +34,39 @@ class StatsAPI {
       console.log(e);
     }
   }
+
+  static async getMoodStats(token, sunday) {
+    const api = BASE_URL + "moodStats/";
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      const response = await axios.get(api, {
+        headers: headers,
+        params: { sunday: sunday },
+      });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async getSleepStats(token, sunday) {
+    const api = BASE_URL + "sleepStats/";
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      const response = await axios.get(api, {
+        headers: headers,
+        params: { sunday: sunday },
+      });
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 export default StatsAPI;

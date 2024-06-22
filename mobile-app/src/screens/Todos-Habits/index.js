@@ -668,7 +668,7 @@ const TodosHabits = ({ navigation }) => {
       const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
         .trackingPreferences;
 
-      Promise.all(
+      await Promise.all(
         createStatusList(day),
         getHabits(),
         getToDos(token),
