@@ -4,7 +4,7 @@ import { Switch } from "../../../components";
 
 const weekDays = ["Every day", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-const EmotionalItem = ({ item }) => {
+const Soultification = ({ item }) => {
   const [active, setActive] = useState(0);
 
   return (
@@ -132,4 +132,4 @@ export const styles = StyleSheet.create({
   },
 });
 
-export default EmotionalItem;
+export default Soultification;

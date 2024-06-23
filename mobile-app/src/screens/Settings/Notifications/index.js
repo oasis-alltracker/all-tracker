@@ -10,34 +10,13 @@ import {
 } from "react-native";
 
 import { Header } from "../../../components";
-import EmotionalItem from "./emotionalItem";
+import Soultification from "./soultification";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../../../user/keychain";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import UserAPI from "../../../api/user/userAPI";
-
-const physicalData = [
-  {
-    title: "Breakfast",
-    time: "8:00 AM",
-  },
-  {
-    title: "Lunch",
-    time: "8:00 AM",
-  },
-  {
-    title: "Dinner",
-    time: "8:00 AM",
-  },
-];
-
-const emotionalData = [
-  "Wellness check-in",
-  "Bedtime reminder",
-  "Morning alarm",
-];
 
 const Notifications = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -49,6 +28,12 @@ const Notifications = () => {
   const [habitTime, setHabitTime] = useState(new Date("1995-12-17T12:00:00"));
   const [show, setShow] = useState(false);
   const [isTasksEnabled, setIsTasksEnabled] = useState(false);
+
+  const [isMorningAlarmToggled, setIsMorningAlarmToggled] = useState(false);
+  const [isBedTimeReminderToggled, setIsBedTimeReminderToggled] =
+    useState(false);
+  const [isWellnessCheckinToggled, setIsWellnessCheckinToggled] =
+    useState(false);
 
   const habitsToggled = async () => {
     setIsLoading(true);
@@ -62,7 +47,7 @@ const Notifications = () => {
         await NotificationsHandler.turnOffNotification(
           token,
           "habit",
-          habitExpoIDs,
+          habitExpoIDs
         );
         setIsHabitsEnabled((previousState) => !previousState);
       } else {
@@ -77,7 +62,7 @@ const Notifications = () => {
             "Don't forget to update your habit progress",
             [{ hour: Number(hour), minute: Number(minute), repeats: true }],
             isNotificationsEnabled,
-            habitExpoIDs,
+            habitExpoIDs
           );
           if (expoIDs) {
             setIsHabitsEnabled((previousState) => !previousState);
@@ -89,8 +74,146 @@ const Notifications = () => {
             {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
-            },
+            }
           );
+        }
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const morningAlarmToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    if (isNotificationsEnabled) {
+      if (isMorningAlarmToggled) {
+        setIsMorningAlarmToggled((previousState) => !previousState);
+        try {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "morning"
+          );
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsMorningAlarmToggled((previousState) => !previousState);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "morning"
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
+          }
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const bedTimeReminderToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    if (isNotificationsEnabled) {
+      if (isBedTimeReminderToggled) {
+        setIsBedTimeReminderToggled((previousState) => !previousState);
+        try {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "sleep"
+          );
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsBedTimeReminderToggled((previousState) => !previousState);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "sleep"
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
+          }
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const wellnessCheckinToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    if (isNotificationsEnabled) {
+      if (isWellnessCheckinToggled) {
+        setIsWellnessCheckinToggled((previousState) => !previousState);
+        try {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "mood"
+          );
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsWellnessCheckinToggled((previousState) => !previousState);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "mood"
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
+          }
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
         }
       }
     }
@@ -106,7 +229,10 @@ const Notifications = () => {
       if (isTasksEnabled) {
         setIsTasksEnabled((previousState) => !previousState);
         try {
-          await NotificationsHandler.turnOffAllTaskNotifications(token);
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "task"
+          );
         } catch (e) {
           console.log(e);
           setIsLoading(false);
@@ -118,14 +244,17 @@ const Notifications = () => {
             await NotificationsHandler.checkNotificationsStatus(token);
           if (systemNotificationsStatus) {
             setIsTasksEnabled((previousState) => !previousState);
-            await NotificationsHandler.turnOnTaskNotifications(token);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "task"
+            );
           } else {
             Toast.show(
               "To get reminders, you need to turn on notifications in your phone's settings.",
               {
                 ...styles.errorToast,
                 duration: Toast.durations.LONG,
-              },
+              }
             );
           }
         } catch (e) {
@@ -147,6 +276,9 @@ const Notifications = () => {
       setIsNotificationsEnabled(false);
       setIsHabitsEnabled(false);
       setIsTasksEnabled(false);
+      setIsBedTimeReminderToggled(false);
+      setIsMorningAlarmToggled(false);
+      setIsWellnessCheckinToggled(false);
     } else {
       var systemNotificationsStatus = true;
       systemNotificationsStatus =
@@ -160,7 +292,7 @@ const Notifications = () => {
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
-          },
+          }
         );
       }
     }
@@ -177,7 +309,7 @@ const Notifications = () => {
     return dateObject.toLocaleString("en-US", options);
   };
 
-  const onChange = async (event, selectedDate) => {
+  const onChangeHabitTime = async (event, selectedDate) => {
     setIsLoading(true);
     setIsHabitsEnabled(false);
     if (Platform.OS === "android") {
@@ -201,7 +333,7 @@ const Notifications = () => {
           "Don't forget to update your habit progress",
           [{ hour: Number(hour), minute: Number(minute), repeats: true }],
           isNotificationsEnabled,
-          habitExpoIDs,
+          habitExpoIDs
         );
         if (expoIDs) {
           setHabitExpoIDs(expoIDs);
@@ -212,7 +344,7 @@ const Notifications = () => {
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
-          },
+          }
         );
       }
     }
@@ -241,17 +373,40 @@ const Notifications = () => {
         var allNotifications =
           await NotificationsHandler.getNotificationsForGroup(
             token,
-            "notifications",
+            "notifications"
           );
         var habitNotifications =
           await NotificationsHandler.getNotificationsForGroup(token, "habit");
         var taskNotificationsIsOn =
-          await NotificationsHandler.getTaskPreferenceNotificationsState(token);
+          await NotificationsHandler.getGroupPreferenceNotificationsState(
+            token,
+            "taskPrefence"
+          );
+
+        var morningNotificationsIsOn =
+          await NotificationsHandler.getGroupPreferenceNotificationsState(
+            token,
+            "morningPreference"
+          );
+        var sleepNotificationsIsOn =
+          await NotificationsHandler.getGroupPreferenceNotificationsState(
+            token,
+            "sleepPrefence"
+          );
+        var moodNotificationsIsOn =
+          await NotificationsHandler.getGroupPreferenceNotificationsState(
+            token,
+            "moodPrefence"
+          );
 
         setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
         setIsHabitsEnabled(habitNotifications[0]?.preference === "on");
         setHabitExpoIDs(habitNotifications[0]?.expoIDs);
         setIsTasksEnabled(taskNotificationsIsOn == "on");
+
+        setIsMorningAlarmToggled(morningNotificationsIsOn == "on");
+        setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
+        setIsWellnessCheckinToggled(moodNotificationsIsOn == "on");
 
         var hour = habitNotifications[0]?.triggers[0]?.hour;
         if (hour == 0 || hour === undefined) {
@@ -321,7 +476,7 @@ const Notifications = () => {
                         value={habitTime}
                         mode={"time"}
                         is24Hour={true}
-                        onChange={onChange}
+                        onChange={onChangeHabitTime}
                       />
                     ) : (
                       <TouchableOpacity
@@ -347,7 +502,7 @@ const Notifications = () => {
                           value={habitTime}
                           mode={"time"}
                           is24Hour={true}
-                          onChange={onChange}
+                          onChange={onChangeHabitTime}
                         />
                       )}
                     </>
@@ -375,36 +530,39 @@ const Notifications = () => {
           trackingPreferences.dietSelected) && (
           <>
             <Text style={styles.sectionTitle}>Physical</Text>
-            {physicalData.map((val, key) => {
-              return (
-                <View
-                  key={key.toString()}
-                  style={[styles.itemContainer, styles.itemContainer4]}
-                >
-                  <Switch />
-                  <Text style={styles.itemTitle}>{val.title}</Text>
-                  <View
-                    style={[
-                      styles.itemContainer,
-                      styles.itemContainer3,
-                      { backgroundColor: "#D7F6FF" },
-                    ]}
-                  >
-                    <Text style={styles.smallText}>{val.time}</Text>
-                  </View>
-                </View>
-              );
-            })}
+            <View
+              key={key.toString()}
+              style={[styles.itemContainer, styles.itemContainer4]}
+            >
+              <Switch />
+              <Text style={styles.itemTitle}>{val.title}</Text>
+              <View
+                style={[
+                  styles.itemContainer,
+                  styles.itemContainer3,
+                  { backgroundColor: "#D7F6FF" },
+                ]}
+              >
+                <Text style={styles.smallText}>{val.time}</Text>
+              </View>
+            </View>
           </>
         )}
 
-        {(trackingPreferences.fitnessSelected ||
-          trackingPreferences.dietSelected) && (
+        {(trackingPreferences.moodSelected ||
+          trackingPreferences.sleepSelected) && (
           <>
             <Text style={styles.sectionTitle}>Emotional</Text>
-            {emotionalData.map((val, key) => {
-              return <EmotionalItem item={val} key={key} />;
-            })}
+
+            {trackingPreferences.moodSelected && (
+              <Soultification item="Wellness check-in" />
+            )}
+            {trackingPreferences.sleepSelected && (
+              <>
+                <Soultification item="Bedtime reminder" />
+                <Soultification item="Morning alarm" />
+              </>
+            )}
           </>
         )}
       </ScrollView>

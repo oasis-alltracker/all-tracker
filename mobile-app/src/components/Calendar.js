@@ -46,7 +46,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     false,
   ]);
   const [reminderTime, setReminderTime] = useState(
-    new Date("1995-12-17T12:00:00"),
+    new Date("1995-12-17T12:00:00")
   );
   const [isReminderEnabled, setIsReminderEnabled] = useState(false);
   const [systemNotificationsEnabled, setSystemNotificationsEnabled] =
@@ -60,9 +60,12 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
       allNotificationsIsOn =
         await NotificationsHandler.getAllNotificationsState(token);
       taskNotificationsIsOn =
-        await NotificationsHandler.getTaskPreferenceNotificationsState(token);
+        await NotificationsHandler.getGroupPreferenceNotificationsState(
+          token,
+          "taskPreference"
+        );
       setSystemNotificationsEnabled(
-        allNotificationsIsOn == "on" && taskNotificationsIsOn == "on",
+        allNotificationsIsOn == "on" && taskNotificationsIsOn == "on"
       );
     };
 
@@ -92,7 +95,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
             {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
-            },
+            }
           );
         }
       } else {
@@ -101,7 +104,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
-          },
+          }
         );
       }
     }
@@ -216,7 +219,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
       isReminderEnabled,
       timeArray,
       dueDate,
-      schedule,
+      schedule
     );
   };
 
@@ -235,7 +238,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           setMarkedDay({
             [`${props.dateStamp.substring(0, 4)}-${props.dateStamp.substring(
               4,
-              6,
+              6
             )}-${props.dateStamp.substring(6, 8)}`]: oneDay,
           });
         }
@@ -259,7 +262,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         }
 
         reminderTimeFromNotification = new Date(
-          `1995-12-17T${hour}:${minute}:00`,
+          `1995-12-17T${hour}:${minute}:00`
         );
         setReminderTime(reminderTimeFromNotification);
         setIsReminderEnabled(props.notifications);

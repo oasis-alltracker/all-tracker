@@ -11,15 +11,12 @@ class NotificationsHandler {
   static async getAllNotificationsState(token) {
     notificationsState = await this.getNotificationsForGroup(
       token,
-      "notifications",
+      "notifications"
     );
     return notificationsState[0].preference;
   }
-  static async getTaskPreferenceNotificationsState(token) {
-    notificationsState = await this.getNotificationsForGroup(
-      token,
-      "taskPreference",
-    );
+  static async getGroupPreferenceNotificationsState(token, group) {
+    notificationsState = await this.getNotificationsForGroup(token, group);
     return notificationsState[0].preference;
   }
   static async turnOnAllNotifications(token) {
@@ -31,7 +28,7 @@ class NotificationsHandler {
       "undefined",
       "undefined",
       "undefined",
-      "on",
+      "on"
     );
     notifications = await this.getAllNotifications(token);
     for (var notification of notifications) {
@@ -46,36 +43,12 @@ class NotificationsHandler {
           notification.body,
           notification.triggers,
           true,
-          notification.expoIDs,
+          notification.expoIDs
         );
       }
     }
   }
-  static async turnOnTaskNotifications(token) {
-    await this.updateNotification(
-      token,
-      "taskPreference",
-      "undefined",
-      "undefined",
-      "undefined",
-      "undefined",
-      "on",
-    );
-    notifications = await this.getNotificationsForGroup(token, "task");
-    for (var notification of notifications) {
-      if (notification.SK !== "taskPreference") {
-        await this.turnOnNotification(
-          token,
-          notification.SK,
-          notification.title,
-          notification.body,
-          notification.triggers,
-          true,
-          notification.expoIDs,
-        );
-      }
-    }
-  }
+
   static async turnOffAllNotifications(token) {
     await this.cancelAllPushNotifications();
     await this.updateNotification(
@@ -85,7 +58,7 @@ class NotificationsHandler {
       "undefined",
       "undefined",
       "undefined",
-      "off",
+      "off"
     );
 
     const notifications = await this.getAllNotifications(token);
@@ -97,32 +70,57 @@ class NotificationsHandler {
         await this.turnOffNotification(
           token,
           notification.SK,
-          notification.expoIDs,
+          notification.expoIDs
         );
       }
     }
   }
 
-  static async turnOffAllTaskNotifications(token) {
+  static async turnOnGroupPreferenceNotifications(token, group) {
+    var prefenceKey = group + "Preference";
     await this.updateNotification(
       token,
-      "taskPreference",
+      prefenceKey,
       "undefined",
       "undefined",
       "undefined",
       "undefined",
-      "off",
+      "on"
     );
-    notifications = await this.getNotificationsForGroup(token, "task");
+    notifications = await this.getNotificationsForGroup(token, group);
     for (var notification of notifications) {
-      if (
-        notification.SK !== "taskPreference" &&
-        notification.preference === "on"
-      ) {
+      if (notification.SK !== prefenceKey) {
+        await this.turnOnNotification(
+          token,
+          notification.SK,
+          notification.title,
+          notification.body,
+          notification.triggers,
+          true,
+          notification.expoIDs
+        );
+      }
+    }
+  }
+
+  static async turnOffGroupPreferenceNotifications(token, group) {
+    var prefenceKey = group + "Preference";
+    await this.updateNotification(
+      token,
+      prefenceKey,
+      "undefined",
+      "undefined",
+      "undefined",
+      "undefined",
+      "off"
+    );
+    notifications = await this.getNotificationsForGroup(token, group);
+    for (var notification of notifications) {
+      if (notification.SK !== prefenceKey && notification.preference === "on") {
         await this.turnOffNotification(
           token,
           notification.SK,
-          notification.expoIDs,
+          notification.expoIDs
         );
       }
     }
@@ -150,7 +148,7 @@ class NotificationsHandler {
     body,
     triggers,
     notifications,
-    prevExpoIDs = false,
+    prevExpoIDs = false
   ) {
     var expoIDs = [];
     if (notifications) {
@@ -159,7 +157,7 @@ class NotificationsHandler {
           const expoID = await this.schedulePushNotification(
             title,
             body,
-            trigger,
+            trigger
           );
           expoIDs.push(expoID);
         } catch (e) {
@@ -182,7 +180,7 @@ class NotificationsHandler {
         title,
         body,
         triggers,
-        "on",
+        "on"
       );
       return expoIDs;
     } catch (e) {
@@ -193,7 +191,7 @@ class NotificationsHandler {
   static async turnOffNotification(token, notificationID, expoIDs) {
     var notifications = await this.getNotificationsForGroup(
       token,
-      notificationID,
+      notificationID
     );
 
     for (notification of notifications) {
@@ -204,7 +202,7 @@ class NotificationsHandler {
         notification.title,
         notification.body,
         notification.triggers,
-        "off",
+        "off"
       );
     }
 
@@ -223,7 +221,7 @@ class NotificationsHandler {
         notification.body,
         notification.triggers,
         isAllNotificationsOn,
-        [expoID],
+        [expoID]
       );
     }
   }
@@ -245,7 +243,7 @@ class NotificationsHandler {
     title,
     body,
     triggers,
-    preference,
+    preference
   ) {
     const headers = {
       Authorization: `Bearer ${token}`,
