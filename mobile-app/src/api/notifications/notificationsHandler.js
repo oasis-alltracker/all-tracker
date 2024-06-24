@@ -77,10 +77,10 @@ class NotificationsHandler {
   }
 
   static async turnOnGroupPreferenceNotifications(token, group) {
-    var prefenceKey = group + "Preference";
+    var preferenceKey = group + "Preference";
     await this.updateNotification(
       token,
-      prefenceKey,
+      preferenceKey,
       "undefined",
       "undefined",
       "undefined",
@@ -89,7 +89,7 @@ class NotificationsHandler {
     );
     notifications = await this.getNotificationsForGroup(token, group);
     for (var notification of notifications) {
-      if (notification.SK !== prefenceKey) {
+      if (notification.SK !== preferenceKey) {
         await this.turnOnNotification(
           token,
           notification.SK,
@@ -104,10 +104,10 @@ class NotificationsHandler {
   }
 
   static async turnOffGroupPreferenceNotifications(token, group) {
-    var prefenceKey = group + "Preference";
+    var preferenceKey = group + "Preference";
     await this.updateNotification(
       token,
-      prefenceKey,
+      preferenceKey,
       "undefined",
       "undefined",
       "undefined",
@@ -116,7 +116,10 @@ class NotificationsHandler {
     );
     notifications = await this.getNotificationsForGroup(token, group);
     for (var notification of notifications) {
-      if (notification.SK !== prefenceKey && notification.preference === "on") {
+      if (
+        notification.SK !== preferenceKey &&
+        notification.preference === "on"
+      ) {
         await this.turnOffNotification(
           token,
           notification.SK,

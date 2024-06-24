@@ -1,28 +1,155 @@
-import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
-import { Switch } from "../../../components";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  Platform,
+  Switch,
+} from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
+import Toast from "react-native-root-toast";
+import { getAccessToken } from "../../../user/keychain";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
 const weekDays = ["Every day", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-const Soultification = ({ item }) => {
-  const [active, setActive] = useState(0);
+const Soultification = ({
+  title,
+  body,
+  notifications,
+  isToggled,
+  toggled,
+  setIsToggled,
+  group,
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [show, setShow] = useState(false);
+
+  const [activeSchedule1, setActiveSchedule1] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [timeSchedule1, setTimeSchedule1] = useState(
+    new Date("1995-12-17T12:00:00")
+  );
+
+  const [activeSchedule2, setActiveSchedule2] = useState(0);
+  const [timeSchedule2, setTimeSchedule2] = useState(
+    new Date("1995-12-17T12:00:00")
+  );
+
+  const [activeSchedule3, setActiveSchedule3] = useState(0);
+  const [timeSchedule3, setTimeSchedule3] = useState(
+    new Date("1995-12-17T12:00:00")
+  );
+
+  const onChangeSchedule1 = async (event, selectedDate) => {
+    setIsLoading(true);
+    setIsToggled(false);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+
+    const token = await getAccessToken();
+    timeArray = formatDateObjectBackend(selectedDate).split(":");
+    hour = timeArray[0];
+    minute = timeArray[1];
+
+    if (isToggled) {
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus =
+        await NotificationsHandler.checkNotificationsStatus(token);
+      if (systemNotificationsStatus) {
+        const expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          group + 1,
+          title,
+          body,
+          [{ hour: Number(hour), minute: Number(minute), repeats: true }],
+          isNotificationsEnabled,
+          habitExpoIDs
+        );
+        if (expoIDs) {
+          setHabitExpoIDs(expoIDs);
+        }
+      } else {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
+    }
+
+    setHabitTime(selectedDate);
+    setIsLoading(false);
+  };
 
   return (
     <View style={[styles.itemContainer, styles.itemContainer2]}>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.line}>
-        <Text style={styles.itemTitle}>{item}</Text>
-        <Switch />
+        <Text style={styles.itemTitle}>{title}</Text>
+        <Switch
+          width={55}
+          height={32}
+          onValueChange={toggled}
+          value={isToggled}
+          trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+          thumbColor={isToggled ? "#d7f6ff" : "#ffd8f7"}
+        />
       </View>
       <View style={styles.line}>
-        {weekDays.map((val, key) => {
+        {weekDays.map((val, index) => {
           return (
             <TouchableOpacity
-              key={key.toString()}
+              key={index.toString()}
               onPress={() => {
-                setActive(key);
+                var newActiveSchedule;
+                if (index == 0 && !activeSchedule1[index]) {
+                  newActiveSchedule = [
+                    true,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                  ];
+                } else {
+                  newActiveSchedule = [...activeSchedule1];
+                  newActiveSchedule[index] = !activeSchedule1[index];
+
+                  var selectEveryDay = true;
+                  for (var i = 0; i < newActiveSchedule.length; i++) {
+                    if (newActiveSchedule[i]) {
+                      selectEveryDay = false;
+                      break;
+                    }
+                  }
+                  if (selectEveryDay) {
+                    newActiveSchedule[0] = true;
+                  } else {
+                    newActiveSchedule[0] = false;
+                  }
+                }
+
+                setActiveSchedule1(newActiveSchedule);
               }}
               style={
-                key === active
+                activeSchedule1[index]
                   ? [styles.itemContainer, styles.itemContainer4]
                   : {}
               }
@@ -34,8 +161,51 @@ const Soultification = ({ item }) => {
       </View>
       <View style={styles.line}>
         <Text style={[styles.smallText, { fontSize: 15 }]}>A what time ?</Text>
-        <View style={[styles.itemContainer, styles.itemContainer3]}>
-          <Text style={styles.smallText}>8:00 am</Text>
+        <View
+          style={[
+            styles.habitTimeContainer,
+            styles.itemContainer3,
+            { backgroundColor: "#D7F6FF" },
+          ]}
+        >
+          <>
+            {Platform.OS === "ios" ? (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={timeSchedule1}
+                mode={"time"}
+                is24Hour={true}
+                onChange={onChangeSchedule1}
+              />
+            ) : (
+              <TouchableOpacity
+                style={styles.timeButton}
+                testID="setMinMax"
+                value="time"
+                onPress={() => {
+                  setShow(true);
+                }}
+                title="toggleMinMaxDate"
+              >
+                <Text style={styles.timeText}>
+                  {formatDateObject(habitTime)}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <>
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={habitTime}
+                  mode={"time"}
+                  is24Hour={true}
+                  onChange={onChangeHabitTime}
+                />
+              )}
+            </>
+          </View>
         </View>
       </View>
       <TouchableOpacity>

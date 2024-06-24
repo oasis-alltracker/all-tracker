@@ -20,20 +20,59 @@ import UserAPI from "../../../api/user/userAPI";
 
 const Notifications = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [show, setShow] = useState(false);
   const [trackingPreferences, setTrackingPreferences] = useState({});
 
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
+
   const [isHabitsEnabled, setIsHabitsEnabled] = useState(false);
   const [habitExpoIDs, setHabitExpoIDs] = useState([]);
   const [habitTime, setHabitTime] = useState(new Date("1995-12-17T12:00:00"));
-  const [show, setShow] = useState(false);
+
   const [isTasksEnabled, setIsTasksEnabled] = useState(false);
 
-  const [isMorningAlarmToggled, setIsMorningAlarmToggled] = useState(false);
-  const [isBedTimeReminderToggled, setIsBedTimeReminderToggled] =
-    useState(false);
   const [isWellnessCheckinToggled, setIsWellnessCheckinToggled] =
     useState(false);
+  const [moodNotifications, setMoodNotifications] = useState(false);
+
+  const [isMorningAlarmToggled, setIsMorningAlarmToggled] = useState(false);
+  const [morningNotifications, setMorningNotifications] = useState(false);
+  const [isBedTimeReminderToggled, setIsBedTimeReminderToggled] =
+    useState(false);
+  const [sleepNotifications, setSleepNotifications] = useState(false);
+
+  const allNotificationsToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    if (isNotificationsEnabled) {
+      await NotificationsHandler.turnOffAllNotifications(token);
+      setIsNotificationsEnabled(false);
+      setIsHabitsEnabled(false);
+      setIsTasksEnabled(false);
+      setIsBedTimeReminderToggled(false);
+      setIsMorningAlarmToggled(false);
+      setIsWellnessCheckinToggled(false);
+    } else {
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus =
+        await NotificationsHandler.checkNotificationsStatus(token);
+      if (systemNotificationsStatus) {
+        await NotificationsHandler.turnOnAllNotifications(token);
+        setIsNotificationsEnabled((previousState) => !previousState);
+      } else {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
+    }
+
+    setIsLoading(false);
+  };
 
   const habitsToggled = async () => {
     setIsLoading(true);
@@ -76,6 +115,52 @@ const Notifications = () => {
               duration: Toast.durations.LONG,
             }
           );
+        }
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const tasksToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    if (isNotificationsEnabled) {
+      if (isTasksEnabled) {
+        setIsTasksEnabled((previousState) => !previousState);
+        try {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "task"
+          );
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsTasksEnabled((previousState) => !previousState);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "task"
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
+          }
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
         }
       }
     }
@@ -221,85 +306,6 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const tasksToggled = async () => {
-    setIsLoading(true);
-    const token = await getAccessToken();
-
-    if (isNotificationsEnabled) {
-      if (isTasksEnabled) {
-        setIsTasksEnabled((previousState) => !previousState);
-        try {
-          await NotificationsHandler.turnOffGroupPreferenceNotifications(
-            token,
-            "task"
-          );
-        } catch (e) {
-          console.log(e);
-          setIsLoading(false);
-        }
-      } else {
-        try {
-          var systemNotificationsStatus = true;
-          systemNotificationsStatus =
-            await NotificationsHandler.checkNotificationsStatus(token);
-          if (systemNotificationsStatus) {
-            setIsTasksEnabled((previousState) => !previousState);
-            await NotificationsHandler.turnOnGroupPreferenceNotifications(
-              token,
-              "task"
-            );
-          } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your phone's settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-              }
-            );
-          }
-        } catch (e) {
-          console.log(e);
-          setIsLoading(false);
-        }
-      }
-    }
-
-    setIsLoading(false);
-  };
-
-  const allNotificationsToggled = async () => {
-    setIsLoading(true);
-    const token = await getAccessToken();
-
-    if (isNotificationsEnabled) {
-      await NotificationsHandler.turnOffAllNotifications(token);
-      setIsNotificationsEnabled(false);
-      setIsHabitsEnabled(false);
-      setIsTasksEnabled(false);
-      setIsBedTimeReminderToggled(false);
-      setIsMorningAlarmToggled(false);
-      setIsWellnessCheckinToggled(false);
-    } else {
-      var systemNotificationsStatus = true;
-      systemNotificationsStatus =
-        await NotificationsHandler.checkNotificationsStatus(token);
-      if (systemNotificationsStatus) {
-        await NotificationsHandler.turnOnAllNotifications(token);
-        setIsNotificationsEnabled((previousState) => !previousState);
-      } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
-      }
-    }
-
-    setIsLoading(false);
-  };
-
   const formatDateObject = (dateObject) => {
     const options = {
       hour: "numeric",
@@ -375,38 +381,52 @@ const Notifications = () => {
             token,
             "notifications"
           );
+
         var habitNotifications =
           await NotificationsHandler.getNotificationsForGroup(token, "habit");
+
         var taskNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
             token,
-            "taskPrefence"
+            "taskPreference"
           );
+
+        var moodNotificationsIsOn =
+          await NotificationsHandler.getGroupPreferenceNotificationsState(
+            token,
+            "moodPreference"
+          );
+        var newMoodNotifications =
+          await NotificationsHandler.getNotificationsForGroup(token, "mood");
 
         var morningNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
             token,
             "morningPreference"
           );
+        var newMorningNotifications =
+          await NotificationsHandler.getNotificationsForGroup(token, "mood");
+
         var sleepNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
             token,
-            "sleepPrefence"
+            "sleepPreference"
           );
-        var moodNotificationsIsOn =
-          await NotificationsHandler.getGroupPreferenceNotificationsState(
-            token,
-            "moodPrefence"
-          );
+        var newSleepNotifications =
+          await NotificationsHandler.getNotificationsForGroup(token, "sleep");
 
         setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
         setIsHabitsEnabled(habitNotifications[0]?.preference === "on");
         setHabitExpoIDs(habitNotifications[0]?.expoIDs);
         setIsTasksEnabled(taskNotificationsIsOn == "on");
 
-        setIsMorningAlarmToggled(morningNotificationsIsOn == "on");
-        setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
         setIsWellnessCheckinToggled(moodNotificationsIsOn == "on");
+        setMoodNotifications(newMoodNotifications);
+
+        setIsMorningAlarmToggled(morningNotificationsIsOn == "on");
+        setMorningNotifications(newMorningNotifications);
+        setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
+        setSleepNotifications(newSleepNotifications);
 
         var hour = habitNotifications[0]?.triggers[0]?.hour;
         if (hour == 0 || hour === undefined) {
@@ -555,12 +575,36 @@ const Notifications = () => {
             <Text style={styles.sectionTitle}>Emotional</Text>
 
             {trackingPreferences.moodSelected && (
-              <Soultification item="Wellness check-in" />
+              <Soultification
+                title="Wellness check-in"
+                body="It's time to check in with yourself"
+                notifications={moodNotifications}
+                isToggled={isWellnessCheckinToggled}
+                toggled={wellnessCheckinToggled}
+                setIsToggled={setIsWellnessCheckinToggled}
+                group="mood"
+              />
             )}
             {trackingPreferences.sleepSelected && (
               <>
-                <Soultification item="Bedtime reminder" />
-                <Soultification item="Morning alarm" />
+                <Soultification
+                  title="Bedtime reminder"
+                  body="It's time for bed"
+                  notifications={sleepNotifications}
+                  isToggled={isBedTimeReminderToggled}
+                  toggled={bedTimeReminderToggled}
+                  setIsToggled={setIsBedTimeReminderToggled}
+                  group="sleep"
+                />
+                <Soultification
+                  title="Morning alarm"
+                  body="Time to wake up amd review your sleep"
+                  notifications={morningNotifications}
+                  isToggled={isMorningAlarmToggled}
+                  toggled={morningAlarmToggled}
+                  setIsToggled={setIsMorningAlarmToggled}
+                  group="morning"
+                />
               </>
             )}
           </>

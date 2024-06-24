@@ -34,6 +34,33 @@ const Agreement = () => {
             "undefined",
             "on"
           );
+          await NotificationsHandler.updateNotification(
+            token,
+            "moodPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "on"
+          );
+          await NotificationsHandler.updateNotification(
+            token,
+            "sleepPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "on"
+          );
+          await NotificationsHandler.updateNotification(
+            token,
+            "morningPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "on"
+          );
         } else {
           await NotificationsHandler.updateNotification(
             token,
@@ -47,6 +74,33 @@ const Agreement = () => {
           await NotificationsHandler.updateNotification(
             token,
             "taskPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "off"
+          );
+          await NotificationsHandler.updateNotification(
+            token,
+            "moodPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "off"
+          );
+          await NotificationsHandler.updateNotification(
+            token,
+            "sleepPreference",
+            "undefined",
+            "undefined",
+            "undefined",
+            "undefined",
+            "off"
+          );
+          await NotificationsHandler.updateNotification(
+            token,
+            "morningPreference",
             "undefined",
             "undefined",
             "undefined",
