@@ -585,7 +585,7 @@ const Notifications = () => {
         {(trackingPreferences.moodSelected ||
           trackingPreferences.sleepSelected) && (
           <>
-            <Text style={styles.sectionTitle}>Emotional</Text>
+            <Text style={styles.sectionTitle}>Spiritual</Text>
 
             {trackingPreferences.moodSelected && (
               <Soultification
@@ -662,8 +662,6 @@ export const styles = StyleSheet.create({
   habitTimeContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#ccc",
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
@@ -694,17 +692,17 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 35,
+    fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego",
-    marginTop: 30,
-    marginBottom: 5,
-    paddingHorizontal: 20,
+    marginTop: 35,
+    marginBottom: 8,
+    paddingHorizontal: 10,
   },
   itemTitle: {
     fontSize: 22,
     color: "#25436B",
-    fontFamily: "Sego",
+    fontFamily: "Sego-Bold",
     marginLeft: 15,
     flex: 1,
   },
