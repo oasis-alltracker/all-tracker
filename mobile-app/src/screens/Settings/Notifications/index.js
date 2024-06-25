@@ -168,7 +168,7 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const morningAlarmToggled = async () => {
+  const morningAlarmToggled = async (notificationTriggers) => {
     setIsLoading(true);
     const token = await getAccessToken();
 
@@ -195,6 +195,21 @@ const Notifications = () => {
               token,
               "morning"
             );
+            var listOfExpoIDs = [];
+            for (var i = 0; i < notificationTriggers.length; i++) {
+              const expoIDs = await NotificationsHandler.turnOnNotification(
+                token,
+                "morning-" + (i + 1),
+                "Morning alarm",
+                "Time to wake up and review your sleep",
+                notificationTriggers[i].triggers,
+                isNotificationsEnabled,
+                notificationTriggers.expoIDs
+              );
+              listOfExpoIDs.push(expoIDs);
+            }
+            setIsLoading(false);
+            return listOfExpoIDs;
           } else {
             Toast.show(
               "To get reminders, you need to turn on notifications in your phone's settings.",
@@ -214,7 +229,7 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const bedTimeReminderToggled = async () => {
+  const bedTimeReminderToggled = async (notificationTriggers) => {
     setIsLoading(true);
     const token = await getAccessToken();
 
@@ -241,6 +256,21 @@ const Notifications = () => {
               token,
               "sleep"
             );
+            var listOfExpoIDs = [];
+            for (var i = 0; i < notificationTriggers.length; i++) {
+              const expoIDs = await NotificationsHandler.turnOnNotification(
+                token,
+                "sleep-" + (i + 1),
+                "Bedtime reminder",
+                "It's time for bed",
+                notificationTriggers[i].triggers,
+                isNotificationsEnabled,
+                notificationTriggers[i].expoIDs
+              );
+              listOfExpoIDs.push(expoIDs);
+            }
+            setIsLoading(false);
+            return listOfExpoIDs;
           } else {
             Toast.show(
               "To get reminders, you need to turn on notifications in your phone's settings.",
@@ -260,7 +290,7 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const wellnessCheckinToggled = async () => {
+  const wellnessCheckinToggled = async (notificationTriggers) => {
     setIsLoading(true);
     const token = await getAccessToken();
 
@@ -287,6 +317,21 @@ const Notifications = () => {
               token,
               "mood"
             );
+            var listOfExpoIDs = [];
+            for (var i = 0; i < notificationTriggers.length; i++) {
+              const expoIDs = await NotificationsHandler.turnOnNotification(
+                token,
+                "mood-" + (i + 1),
+                "Wellness check-in",
+                "It's time to check in with yourself",
+                notificationTriggers[i].triggers,
+                isNotificationsEnabled,
+                notificationTriggers[i].expoIDs
+              );
+              listOfExpoIDs.push(expoIDs);
+            }
+            setIsLoading(false);
+            return listOfExpoIDs;
           } else {
             Toast.show(
               "To get reminders, you need to turn on notifications in your phone's settings.",
@@ -316,47 +361,12 @@ const Notifications = () => {
   };
 
   const onChangeHabitTime = async (event, selectedDate) => {
-    setIsLoading(true);
     setIsHabitsEnabled(false);
     if (Platform.OS === "android") {
       setShow(false);
     }
 
-    const token = await getAccessToken();
-    timeArray = formatDateObjectBackend(selectedDate).split(":");
-    hour = timeArray[0];
-    minute = timeArray[1];
-
-    if (isHabitsEnabled) {
-      var systemNotificationsStatus = true;
-      systemNotificationsStatus =
-        await NotificationsHandler.checkNotificationsStatus(token);
-      if (systemNotificationsStatus) {
-        const expoIDs = await NotificationsHandler.turnOnNotification(
-          token,
-          "habit",
-          "Habit Journal",
-          "Don't forget to update your habit progress",
-          [{ hour: Number(hour), minute: Number(minute), repeats: true }],
-          isNotificationsEnabled,
-          habitExpoIDs
-        );
-        if (expoIDs) {
-          setHabitExpoIDs(expoIDs);
-        }
-      } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
-      }
-    }
-
     setHabitTime(selectedDate);
-    setIsLoading(false);
   };
 
   const formatDateObjectBackend = (dateObject) => {
@@ -397,7 +407,7 @@ const Notifications = () => {
             "moodPreference"
           );
         var newMoodNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "mood");
+          await NotificationsHandler.getNotificationsForGroup(token, "mood-");
 
         var morningNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
@@ -405,7 +415,10 @@ const Notifications = () => {
             "morningPreference"
           );
         var newMorningNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "mood");
+          await NotificationsHandler.getNotificationsForGroup(
+            token,
+            "morning-"
+          );
 
         var sleepNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
@@ -413,7 +426,7 @@ const Notifications = () => {
             "sleepPreference"
           );
         var newSleepNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "sleep");
+          await NotificationsHandler.getNotificationsForGroup(token, "sleep-");
 
         setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
         setIsHabitsEnabled(habitNotifications[0]?.preference === "on");

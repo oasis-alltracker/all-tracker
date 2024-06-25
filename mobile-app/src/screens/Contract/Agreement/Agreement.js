@@ -41,7 +41,7 @@ const Agreement = () => {
             "undefined",
             "undefined",
             "undefined",
-            "on"
+            "off"
           );
           await NotificationsHandler.updateNotification(
             token,
@@ -50,7 +50,7 @@ const Agreement = () => {
             "undefined",
             "undefined",
             "undefined",
-            "on"
+            "off"
           );
           await NotificationsHandler.updateNotification(
             token,
@@ -59,7 +59,7 @@ const Agreement = () => {
             "undefined",
             "undefined",
             "undefined",
-            "on"
+            "off"
           );
         } else {
           await NotificationsHandler.updateNotification(

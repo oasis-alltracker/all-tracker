@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -14,7 +14,7 @@ import { getAccessToken } from "../../../user/keychain";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
-const weekDays = ["Every day", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const weekDays = ["Every day", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const Soultification = ({
   title,
@@ -29,7 +29,7 @@ const Soultification = ({
   const [show, setShow] = useState(false);
 
   const [activeSchedule1, setActiveSchedule1] = useState([
-    false,
+    true,
     false,
     false,
     false,
@@ -41,60 +41,279 @@ const Soultification = ({
   const [timeSchedule1, setTimeSchedule1] = useState(
     new Date("1995-12-17T12:00:00")
   );
+  const [expoIDsSchedule1, setExpoIDsSchedule1] = useState([]);
 
-  const [activeSchedule2, setActiveSchedule2] = useState(0);
+  const [activeSchedule2, setActiveSchedule2] = useState(null);
   const [timeSchedule2, setTimeSchedule2] = useState(
     new Date("1995-12-17T12:00:00")
   );
+  const [expoIDsSchedule2, setExpoIDsSchedule2] = useState([]);
 
-  const [activeSchedule3, setActiveSchedule3] = useState(0);
+  const [activeSchedule3, setActiveSchedule3] = useState(null);
   const [timeSchedule3, setTimeSchedule3] = useState(
     new Date("1995-12-17T12:00:00")
   );
+  const [expoIDsSchedule3, setExpoIDsSchedule3] = useState([]);
+
+  const formatDateObjectBackend = (dateObject) => {
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+    };
+    return dateObject.toLocaleString("en-US", options);
+  };
+
+  const onToggle = async () => {
+    setIsLoading(true);
+    var notificationTriggers = [];
+
+    const token = await getAccessToken();
+
+    if (!isToggled) {
+      if (activeSchedule1) {
+        var triggerDates = [...activeSchedule1];
+        if (activeSchedule1[0]) {
+          triggerDates = Array.from({ length: 8 }, (_) => true);
+        }
+        timeArray = formatDateObjectBackend(timeSchedule1).split(":");
+        hour = timeArray[0];
+        minute = timeArray[1];
+
+        var triggers = [];
+        for (var i = 1; i < triggerDates.length; i++) {
+          if (triggerDates[i]) {
+            triggers.push({
+              hour: Number(hour),
+              minute: Number(minute),
+              weekday: i,
+            });
+          }
+        }
+        notificationTriggers.push({
+          triggers: triggers,
+          expoIDs: expoIDsSchedule1,
+        });
+      }
+
+      if (activeSchedule2) {
+        var triggerDates = [...activeSchedule1];
+        if (activeSchedule2[0]) {
+          triggerDates = Array.from({ length: 8 }, (_) => true);
+        }
+        timeArray = formatDateObjectBackend(timeSchedule2).split(":");
+        hour = timeArray[0];
+        minute = timeArray[1];
+
+        var triggers = [];
+        for (var i = 1; i < triggerDates.length; i++) {
+          if (triggerDates[i]) {
+            triggers.push({
+              hour: Number(hour),
+              minute: Number(minute),
+              weekday: i,
+            });
+          }
+        }
+        notificationTriggers.push({
+          triggers: triggers,
+          expoIDs: expoIDsSchedule2,
+        });
+      }
+      if (activeSchedule3) {
+        var triggerDates = [...activeSchedule1];
+        if (activeSchedule3[0]) {
+          triggerDates = Array.from({ length: 8 }, (_) => true);
+        }
+        timeArray = formatDateObjectBackend(timeSchedule3).split(":");
+        hour = timeArray[0];
+        minute = timeArray[1];
+
+        var triggers = [];
+        for (var i = 1; i < triggerDates.length; i++) {
+          if (triggerDates[i]) {
+            triggers.push({
+              hour: Number(hour),
+              minute: Number(minute),
+              weekday: i,
+            });
+          }
+        }
+        notificationTriggers.push({
+          triggers: triggers,
+          expoIDs: expoIDsSchedule3,
+        });
+      }
+    }
+    var listOfExpoIDs = await toggled(notificationTriggers);
+    if (listOfExpoIDs) {
+      for (var i = 1; i <= 3; i++) {
+        if (i == 1) {
+          setExpoIDsSchedule1(listOfExpoIDs[i - 1]);
+        }
+        if (i == 2) {
+          setExpoIDsSchedule2(listOfExpoIDs[i - 1]);
+        }
+        if (i == 3) {
+          setExpoIDsSchedule3(listOfExpoIDs[i - 1]);
+        }
+      }
+    }
+    setIsLoading(false);
+  };
 
   const onChangeSchedule1 = async (event, selectedDate) => {
-    setIsLoading(true);
     setIsToggled(false);
     if (Platform.OS === "android") {
       setShow(false);
     }
-
-    const token = await getAccessToken();
-    timeArray = formatDateObjectBackend(selectedDate).split(":");
-    hour = timeArray[0];
-    minute = timeArray[1];
-
-    if (isToggled) {
-      var systemNotificationsStatus = true;
-      systemNotificationsStatus =
-        await NotificationsHandler.checkNotificationsStatus(token);
-      if (systemNotificationsStatus) {
-        const expoIDs = await NotificationsHandler.turnOnNotification(
-          token,
-          group + 1,
-          title,
-          body,
-          [{ hour: Number(hour), minute: Number(minute), repeats: true }],
-          isNotificationsEnabled,
-          habitExpoIDs
-        );
-        if (expoIDs) {
-          setHabitExpoIDs(expoIDs);
-        }
-      } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
-      }
-    }
-
-    setHabitTime(selectedDate);
-    setIsLoading(false);
+    setTimeSchedule1(selectedDate);
   };
+
+  const onChangeSchedule2 = async (event, selectedDate) => {
+    setIsToggled(false);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+    setTimeSchedule2(timeSchedule2);
+  };
+
+  const onChangeSchedule3 = async (event, selectedDate) => {
+    setIsToggled(false);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+    setTimeSchedule3(timeSchedule3);
+  };
+
+  useEffect(() => {
+    const onLoad = async () => {
+      if (notifications) {
+        for (notification of notifications) {
+          if (notification.SK === group + "-1") {
+            setExpoIDsSchedule1(notification.expoIDs);
+            var newActiveSchedule = Array.from({ length: 8 }, (_) => false);
+            for (trigger of notification.triggers) {
+              newActiveSchedule[trigger.weekday] = true;
+            }
+            var everyDay = true;
+            for (var i = 1; i < newActiveSchedule.length; i++) {
+              if (!newActiveSchedule[i]) {
+                everyDay = false;
+                break;
+              }
+            }
+            if (everyDay) {
+              newActiveSchedule = [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+              ];
+            }
+            setActiveSchedule1(newActiveSchedule);
+
+            var hour = notification.triggers[0]?.hour;
+            if (hour == 0 || hour === undefined) {
+              hour = "00";
+            }
+            var minute = notification.triggers[0]?.minute;
+            if (minute == 0 || minute === undefined) {
+              minute = "00";
+            }
+            var newTime = `1995-12-17T${hour}:${minute}:00`;
+
+            setTimeSchedule1(new Date(newTime));
+          }
+          if (notification.SK === group + "-2") {
+            setExpoIDsSchedule2(notification.expoIDs);
+
+            var newActiveSchedule = Array.from({ length: 8 }, (_) => false);
+            for (trigger of notification.triggers) {
+              newActiveSchedule[trigger.weekday] = true;
+            }
+            var everyDay = true;
+            for (var i = 1; i < newActiveSchedule.length; i++) {
+              if (!newActiveSchedule[i]) {
+                everyDay = false;
+                break;
+              }
+            }
+            if (everyDay) {
+              newActiveSchedule = [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+              ];
+            }
+            setActiveSchedule2(newActiveSchedule);
+
+            var hour = notification.triggers[0]?.hour;
+            if (hour == 0 || hour === undefined) {
+              hour = "00";
+            }
+            var minute = notification.triggers[0]?.minute;
+            if (minute == 0 || minute === undefined) {
+              minute = "00";
+            }
+            var newTime = `1995-12-17T${hour}:${minute}:00`;
+
+            setTimeSchedule2(new Date(newTime));
+          }
+          if (notification.SK === group + "-3") {
+            setExpoIDsSchedule3(notification.expoIDs);
+
+            var newActiveSchedule = Array.from({ length: 8 }, (_) => false);
+            for (trigger of notification.triggers) {
+              newActiveSchedule[trigger.weekday] = true;
+            }
+            var everyDay = true;
+            for (var i = 1; i < newActiveSchedule.length; i++) {
+              if (!newActiveSchedule[i]) {
+                everyDay = false;
+                break;
+              }
+            }
+            if (everyDay) {
+              newActiveSchedule = [
+                true,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+              ];
+            }
+            setActiveSchedule3(newActiveSchedule);
+
+            var hour = notification.triggers[0]?.hour;
+            if (hour == 0 || hour === undefined) {
+              hour = "00";
+            }
+            var minute = notification.triggers[0]?.minute;
+            if (minute == 0 || minute === undefined) {
+              minute = "00";
+            }
+            var newTime = `1995-12-17T${hour}:${minute}:00`;
+
+            setTimeSchedule3(new Date(newTime));
+          }
+        }
+      }
+    };
+    onLoad();
+  }, [notifications]);
 
   return (
     <View style={[styles.itemContainer, styles.itemContainer2]}>
@@ -104,7 +323,7 @@ const Soultification = ({
         <Switch
           width={55}
           height={32}
-          onValueChange={toggled}
+          onValueChange={onToggle}
           value={isToggled}
           trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
           thumbColor={isToggled ? "#d7f6ff" : "#ffd8f7"}
