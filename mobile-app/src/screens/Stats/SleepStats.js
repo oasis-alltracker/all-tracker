@@ -28,10 +28,14 @@ const SleepStats = ({ sunday, updateStats }) => {
       var ratingSum = 0;
 
       for (var i = 0; i < ratings.length; i++) {
-        ratingSum += ratings[i].rating;
+        rating = 1;
+        if (ratings[i].rating != 0) {
+          rating = ratings[i].rating;
+        }
+        ratingSum += rating;
         ratings[i] = {
           label: labels[i],
-          value: Number(ratings[i].rating),
+          value: Number(rating),
         };
       }
 
