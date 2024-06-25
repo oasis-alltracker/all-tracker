@@ -66,8 +66,8 @@ class DeleteUser {
     const tasks = await this.getAll(email, "task");
     await this.DB.deleteItems(`${email}-task`, tasks);
 
-    const taskStatuses = await this.getAll(email, "taskStatus");
-    await this.DB.deleteItems(`${email}-taskStatus`, taskStatuses);
+    const toDos = await this.getAll(email, "toDo");
+    await this.DB.deleteItems(`${email}-toDo`, toDos);
 
     const notifications = await this.getAll(email, "notification");
     await this.DB.deleteItems(`${email}-notification`, notifications);
