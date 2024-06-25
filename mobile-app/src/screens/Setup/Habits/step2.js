@@ -153,6 +153,7 @@ const HabitsNotifications = (props) => {
 
   useEffect(() => {
     const getSystemNotificationPreference = async () => {
+      setIsLoading(true);
       token = await getAccessToken();
       allNotificationsIsOn =
         await NotificationsHandler.getAllNotificationsState(token);
@@ -182,6 +183,7 @@ const HabitsNotifications = (props) => {
 
         setTime(new Date(newTime));
       }
+      setIsLoading(false);
     };
 
     getSystemNotificationPreference();

@@ -24,7 +24,7 @@ const Soultification = ({
   setIsToggled,
   group,
 }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
 
   const [activeSchedule1, setActiveSchedule1] = useState([
@@ -63,8 +63,12 @@ const Soultification = ({
     return dateObject.toLocaleString("en-US", options);
   };
 
-  const addNewSchedule = () => {
-    setIsToggled(false);
+  const addNewSchedule = async () => {
+    if (isToggled) {
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupNotifications(token, group);
+      setIsToggled(false);
+    }
     if (!activeSchedule2) {
       setActiveSchedule2([
         true,
@@ -92,8 +96,6 @@ const Soultification = ({
 
   const removeSchedule2 = async () => {
     setIsLoading(true);
-    setIsToggled(false);
-
     const token = await getAccessToken();
     await NotificationsHandler.turnOffNotification(
       token,
@@ -104,13 +106,9 @@ const Soultification = ({
 
     setActiveSchedule2(null);
     setIsLoading(false);
-
-    setActiveSchedule2(null);
   };
   const removeSchedule3 = async () => {
     setIsLoading(true);
-    setIsToggled(false);
-
     const token = await getAccessToken();
     await NotificationsHandler.turnOffNotification(
       token,
@@ -156,7 +154,7 @@ const Soultification = ({
       }
 
       if (activeSchedule2) {
-        var triggerDates = [...activeSchedule1];
+        var triggerDates = [...activeSchedule2];
         if (activeSchedule2[0]) {
           triggerDates = Array.from({ length: 8 }, (_) => true);
         }
@@ -180,7 +178,7 @@ const Soultification = ({
         });
       }
       if (activeSchedule3) {
-        var triggerDates = [...activeSchedule1];
+        var triggerDates = [...activeSchedule3];
         if (activeSchedule3[0]) {
           triggerDates = Array.from({ length: 8 }, (_) => true);
         }
@@ -222,7 +220,11 @@ const Soultification = ({
   };
 
   const onChangeSchedule1 = async (event, selectedDate) => {
-    setIsToggled(false);
+    if (isToggled) {
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupNotifications(token, group);
+      setIsToggled(false);
+    }
     if (Platform.OS === "android") {
       setShow(false);
     }
@@ -230,7 +232,11 @@ const Soultification = ({
   };
 
   const onChangeSchedule2 = async (event, selectedDate) => {
-    setIsToggled(false);
+    if (isToggled) {
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupNotifications(token, group);
+      setIsToggled(false);
+    }
     if (Platform.OS === "android") {
       setShow(false);
     }
@@ -238,7 +244,11 @@ const Soultification = ({
   };
 
   const onChangeSchedule3 = async (event, selectedDate) => {
-    setIsToggled(false);
+    if (isToggled) {
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupNotifications(token, group);
+      setIsToggled(false);
+    }
     if (Platform.OS === "android") {
       setShow(false);
     }
@@ -248,6 +258,7 @@ const Soultification = ({
   useEffect(() => {
     const onLoad = async () => {
       if (notifications) {
+        setIsLoading(true);
         for (notification of notifications) {
           if (notification.SK === group + "-1") {
             setExpoIDsSchedule1(notification.expoIDs);
@@ -369,6 +380,7 @@ const Soultification = ({
             setTimeSchedule3(new Date(newTime));
           }
         }
+        setIsLoading(false);
       }
     };
     onLoad();
@@ -395,8 +407,16 @@ const Soultification = ({
               return (
                 <TouchableOpacity
                   key={index.toString()}
-                  onPress={() => {
-                    setIsToggled(false);
+                  onPress={async () => {
+                    if (isToggled) {
+                      const token = await getAccessToken();
+                      NotificationsHandler.turnOffGroupNotifications(
+                        token,
+                        group
+                      );
+                      setIsToggled(false);
+                    }
+
                     var newActiveSchedule;
                     if (index == 0 && !activeSchedule1[index]) {
                       newActiveSchedule = [
@@ -500,8 +520,15 @@ const Soultification = ({
               return (
                 <TouchableOpacity
                   key={index.toString()}
-                  onPress={() => {
-                    setIsToggled(false);
+                  onPress={async () => {
+                    if (isToggled) {
+                      const token = await getAccessToken();
+                      NotificationsHandler.turnOffGroupNotifications(
+                        token,
+                        group
+                      );
+                      setIsToggled(false);
+                    }
                     var newActiveSchedule;
                     if (index == 0 && !activeSchedule2[index]) {
                       newActiveSchedule = [
@@ -618,8 +645,15 @@ const Soultification = ({
               return (
                 <TouchableOpacity
                   key={index.toString()}
-                  onPress={() => {
-                    setIsToggled(false);
+                  onPress={async () => {
+                    if (isToggled) {
+                      const token = await getAccessToken();
+                      NotificationsHandler.turnOffGroupNotifications(
+                        token,
+                        group
+                      );
+                      setIsToggled(false);
+                    }
                     var newActiveSchedule;
                     if (index == 0 && !activeSchedule3[index]) {
                       newActiveSchedule = [
@@ -730,7 +764,7 @@ const Soultification = ({
           </View>
         </>
       )}
-      {!(activeSchedule3 && activeSchedule3) && (
+      {!(activeSchedule2 && activeSchedule3) && (
         <TouchableOpacity
           onPress={() => {
             addNewSchedule();

@@ -1,38 +1,97 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Switch from "../../../assets/icons/switch";
+import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
-import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
+import Soultification from "../../Settings/Notifications/soultification";
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
 const SleepStep2 = (props) => {
   const { selectedTrackers } = props.route.params;
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [isNotif, setIsNotif] = useState(false);
-  const [days] = useState([
-    "Every Day",
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-  ]);
-  const [active, setActive] = useState(0);
+  const [isBedTimeReminderToggled, setIsBedTimeReminderToggled] =
+    useState(false);
+  const [sleepNotifications, setSleepNotifications] = useState(false);
+
+  const bedTimeReminderToggled = async (notificationTriggers) => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+    var systemNotificationsStatus = true;
+    systemNotificationsStatus =
+      await NotificationsHandler.checkNotificationsStatus(token);
+
+    if (systemNotificationsStatus) {
+      if (isBedTimeReminderToggled) {
+        setIsBedTimeReminderToggled((previousState) => !previousState);
+        try {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "sleep"
+          );
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsBedTimeReminderToggled((previousState) => !previousState);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "sleep"
+            );
+            var listOfExpoIDs = [];
+            for (var i = 0; i < notificationTriggers.length; i++) {
+              const expoIDs = await NotificationsHandler.turnOnNotification(
+                token,
+                "sleep-" + (i + 1),
+                "Bedtime reminder",
+                "It's time for bed",
+                notificationTriggers[i].triggers,
+                true,
+                notificationTriggers[i].expoIDs
+              );
+              listOfExpoIDs.push(expoIDs);
+            }
+            setIsLoading(false);
+            return listOfExpoIDs;
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
+          }
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      }
+    } else {
+      Toast.show(
+        "To get reminders, you need to turn on notifications in your phone's settings.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
+    }
+
+    setIsLoading(false);
+  };
 
   const onNext = async () => {
     setIsLoading(true);
@@ -41,7 +100,7 @@ const SleepStep2 = (props) => {
       const { status, data } = await UserAPI.updateUser(
         true,
         selectedTrackers,
-        accessToken,
+        accessToken
       );
       setIsLoading(false);
       //TO-DO check if user is subscribed
@@ -55,6 +114,26 @@ const SleepStep2 = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    const onLoad = async () => {
+      setIsLoading(true);
+      var token = await getAccessToken();
+
+      var sleepNotificationsIsOn =
+        await NotificationsHandler.getGroupPreferenceNotificationsState(
+          token,
+          "sleepPreference"
+        );
+      var newSleepNotifications =
+        await NotificationsHandler.getNotificationsForGroup(token, "sleep-");
+      setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
+      setSleepNotifications(newSleepNotifications);
+
+      setIsLoading(false);
+    };
+    onLoad();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -70,61 +149,17 @@ const SleepStep2 = (props) => {
           />
           <Text style={styles.imageText}>sleep</Text>
         </View>
-        <Button
-          disabled={true}
-          style={[styles.bigButtons, styles.notification]}
-        >
-          <View style={styles.row}>
-            <Text style={[styles.text]}>Notifications:</Text>
-            <TouchableOpacity onPress={() => setIsNotif((pr) => !pr)}>
-              <Switch width={55} height={32} active={isNotif} />
-            </TouchableOpacity>
-          </View>
-          <Text style={[styles.text, styles.minitext]}>
-            Get ready for a good night sleep
-          </Text>
-        </Button>
-        <Button
-          disabled={true}
-          style={[styles.bigButtons, styles.notificationCon]}
-        >
-          <Text style={[styles.text, styles.selectText]}>Bedtime reminder</Text>
-          <ScrollView
-            contentContainerStyle={styles.dayList}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          >
-            {days.map((item, index) => (
-              <Button
-                textStyle={[styles.text, styles.timeText]}
-                onPress={() => setActive(index)}
-                style={
-                  index !== active
-                    ? [styles.dayBt, styles.inactive]
-                    : styles.dayBt
-                }
-                key={index}
-              >
-                {item}
-              </Button>
-            ))}
-          </ScrollView>
-          <View style={[styles.row, styles.timeCon]}>
-            <Text style={[styles.text, styles.whatTime]}>At what time?</Text>
-            <Button
-              style={styles.dayBt}
-              textStyle={[styles.text, styles.timeText]}
-            >
-              8:00 PM
-            </Button>
-          </View>
-          <TouchableOpacity onPress={() => {}} style={styles.addButton}>
-            <Image
-              style={styles.plusImage}
-              source={require("../../../assets/images/plus.png")}
-            />
-          </TouchableOpacity>
-        </Button>
+        <View style={{ marginTop: 65 }}>
+          <Soultification
+            title="Bedtime reminder"
+            body="It's time for bed"
+            notifications={sleepNotifications}
+            isToggled={isBedTimeReminderToggled}
+            toggled={bedTimeReminderToggled}
+            setIsToggled={setIsBedTimeReminderToggled}
+            group="sleep"
+          />
+        </View>
       </ScrollView>
       <View style={styles.buttons}>
         <Button

@@ -217,23 +217,23 @@ class NotificationsHandler {
   static async turnOnGroupNotifications(token, group, isAllNotificationsOn) {
     notifications = await this.getNotificationsForGroup(token, group);
     for (notification of notificaions) {
-      await turnOnNotification(
+      await this.turnOnNotification(
         token,
         notification.SK,
         notification.title,
         notification.body,
         notification.triggers,
         isAllNotificationsOn,
-        [expoID]
+        notification.expoIDs
       );
     }
   }
 
-  static async turnOffGroupNotifications(token) {
+  static async turnOffGroupNotifications(token, group) {
     notifications = await this.getNotificationsForGroup(token, group);
-    for (notification of notificaions) {
+    for (notification of notifications) {
       for (expoID of notification.expoIDs) {
-        await cancelPushNotification(expoID);
+        await this.cancelPushNotification(expoID);
       }
     }
   }

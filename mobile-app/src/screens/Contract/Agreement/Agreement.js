@@ -6,11 +6,15 @@ import Toast from "react-native-root-toast";
 import CheckBox from "../../../assets/icons/checkbox";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { getAccessToken } from "../../../user/keychain";
+import Spinner from "react-native-loading-spinner-overlay";
+
 const Agreement = () => {
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onPressContinue = async () => {
     if (checked) {
+      setIsLoading(true);
       const token = await getAccessToken();
       try {
         systemNotificationsStatus =
@@ -108,12 +112,16 @@ const Agreement = () => {
             "off"
           );
         }
+        setChecked(false);
+        setIsLoading(false);
+        navigationService.navigate("setup");
       } catch (e) {
-        console.log(e);
+        setIsLoading(false);
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
       }
-
-      setChecked(false);
-      navigationService.navigate("setup");
     } else {
       Toast.show("You must sign the agreement to continue.", {
         ...styles.errorToast,
@@ -124,6 +132,7 @@ const Agreement = () => {
 
   return (
     <View style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.view}>
         <View style={styles.center}>
           <Text style={styles.title}>Welcome to Oasis!</Text>

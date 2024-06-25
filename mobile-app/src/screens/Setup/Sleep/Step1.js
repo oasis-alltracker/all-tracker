@@ -1,35 +1,121 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Switch from "../../../assets/icons/switch";
+import Toast from "react-native-root-toast";
+import { getAccessToken } from "../../../user/keychain";
+import Spinner from "react-native-loading-spinner-overlay";
+import Soultification from "../../Settings/Notifications/soultification";
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
 const SleepStep1 = (props) => {
   const { selectedTrackers } = props.route.params;
 
-  const [isNotif, setIsNotif] = useState(false);
-  const [days] = useState([
-    "Every Day",
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-  ]);
-  const [active, setActive] = useState(0);
+  const [isMorningAlarmToggled, setIsMorningAlarmToggled] = useState(false);
+  const [morningNotifications, setMorningNotifications] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const morningAlarmToggled = async (notificationTriggers) => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+
+    var systemNotificationsStatus = true;
+    systemNotificationsStatus =
+      await NotificationsHandler.checkNotificationsStatus(token);
+
+    if (systemNotificationsStatus) {
+      if (isMorningAlarmToggled) {
+        setIsMorningAlarmToggled((previousState) => !previousState);
+        try {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "morning"
+          );
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsMorningAlarmToggled((previousState) => !previousState);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "morning"
+            );
+            var listOfExpoIDs = [];
+            for (var i = 0; i < notificationTriggers.length; i++) {
+              const expoIDs = await NotificationsHandler.turnOnNotification(
+                token,
+                "morning-" + (i + 1),
+                "Morning alarm",
+                "Time to wake up and review your sleep",
+                notificationTriggers[i].triggers,
+                true,
+                notificationTriggers.expoIDs
+              );
+              listOfExpoIDs.push(expoIDs);
+            }
+            setIsLoading(false);
+            return listOfExpoIDs;
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
+          }
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      }
+    } else {
+      Toast.show(
+        "To get reminders, you need to turn on notifications in your phone's settings.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
+    }
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    const onLoad = async () => {
+      setIsLoading(true);
+      var token = await getAccessToken();
+
+      var morningNotificationsIsOn =
+        await NotificationsHandler.getGroupPreferenceNotificationsState(
+          token,
+          "morningPreference"
+        );
+      var newMorningNotifications =
+        await NotificationsHandler.getNotificationsForGroup(token, "morning-");
+
+      setIsMorningAlarmToggled(morningNotificationsIsOn == "on");
+      setMorningNotifications(newMorningNotifications);
+
+      setIsLoading(false);
+    };
+    onLoad();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}
@@ -41,61 +127,17 @@ const SleepStep1 = (props) => {
           />
           <Text style={styles.imageText}>sleep</Text>
         </View>
-        <Button
-          disabled={true}
-          style={[styles.bigButtons, styles.notification]}
-        >
-          <View style={styles.row}>
-            <Text style={[styles.text]}>Notifications:</Text>
-            <TouchableOpacity onPress={() => setIsNotif((pr) => !pr)}>
-              <Switch width={55} height={32} active={isNotif} />
-            </TouchableOpacity>
-          </View>
-          <Text style={[styles.text, styles.minitext]}>
-            Review your sleep and write in your dream journal
-          </Text>
-        </Button>
-        <Button
-          disabled={true}
-          style={[styles.bigButtons, styles.notificationCon]}
-        >
-          <Text style={[styles.text, styles.selectText]}>Morning alarm</Text>
-          <ScrollView
-            contentContainerStyle={styles.dayList}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          >
-            {days.map((item, index) => (
-              <Button
-                textStyle={[styles.text, styles.timeText]}
-                onPress={() => setActive(index)}
-                style={
-                  index !== active
-                    ? [styles.dayBt, styles.inactive]
-                    : styles.dayBt
-                }
-                key={index}
-              >
-                {item}
-              </Button>
-            ))}
-          </ScrollView>
-          <View style={[styles.row, styles.timeCon]}>
-            <Text style={[styles.text, styles.whatTime]}>At what time?</Text>
-            <Button
-              style={styles.dayBt}
-              textStyle={[styles.text, styles.timeText]}
-            >
-              8:00 PM
-            </Button>
-          </View>
-          <TouchableOpacity onPress={() => {}} style={styles.addButton}>
-            <Image
-              style={styles.plusImage}
-              source={require("../../../assets/images/plus.png")}
-            />
-          </TouchableOpacity>
-        </Button>
+        <View style={{ marginTop: 65 }}>
+          <Soultification
+            title="Morning alarm"
+            body="Time to wake up amd review your sleep"
+            notifications={morningNotifications}
+            isToggled={isMorningAlarmToggled}
+            toggled={morningAlarmToggled}
+            setIsToggled={setIsMorningAlarmToggled}
+            group="morning"
+          />
+        </View>
       </ScrollView>
       <View style={styles.buttons}>
         <Button

@@ -687,12 +687,12 @@ export const styles = StyleSheet.create({
   },
   screenName: {
     color: "#25436B",
-    fontSize: 32,
+    fontSize: 34,
     fontFamily: "Sego-Bold",
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 30,
+    fontSize: 32,
     color: "#25436B",
     fontFamily: "Sego",
     marginTop: 35,

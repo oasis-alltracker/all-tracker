@@ -374,9 +374,11 @@ const Todos = (props) => {
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
+      setIsLoading(true);
       token = await getAccessToken();
       await getToDos(token);
       await getTasks(token);
+      setIsLoading(false);
     };
 
     if (!isPageLoaded) {
