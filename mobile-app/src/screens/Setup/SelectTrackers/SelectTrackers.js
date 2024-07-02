@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header, Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +17,7 @@ const SelectTrackers = () => {
   const [sleepSelected, setSleepSelected] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
 
   const setSelectedTrackers = async () => {
     setIsLoading(true);
@@ -40,7 +41,7 @@ const SelectTrackers = () => {
       const accessToken = await getAccessToken();
 
       const { status, data } = await UserAPI.updateUser(
-        false,
+        isSetupComplete,
         selectedTrackers,
         accessToken
       );
@@ -94,6 +95,35 @@ const SelectTrackers = () => {
       });
     }
   };
+  useEffect(() => {
+    const fetchTrackingPreferences = async () => {
+      setIsLoading(true);
+      try {
+        const token = await getAccessToken();
+        const user = (await UserAPI.getUser(token)).data;
+        const trackingPreferencesLoaded = user.trackingPreferences;
+
+        setIsSetupComplete(user.isSetupComplete);
+        if (trackingPreferencesLoaded.habitsSelected) setHabitsSelected(true);
+        if (trackingPreferencesLoaded.toDosSelected) setToDosSelected(true);
+        if (trackingPreferencesLoaded.dietSelected) setDietSelected(true);
+        if (trackingPreferencesLoaded.fitnessSelected) setFitnessSelected(true);
+        if (trackingPreferencesLoaded.moodSelected) setMoodSelected(true);
+        if (trackingPreferencesLoaded.sleepSelected) setSleepSelected(true);
+      } catch (e) {
+        console.log(e);
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.CENTER,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchTrackingPreferences();
+  }, []);
+
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
@@ -276,5 +306,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     paddingVertical: 15,
     paddingHorizontal: 8,
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
