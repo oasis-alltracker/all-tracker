@@ -104,12 +104,12 @@ Authorization: Bearer token
 
 //-----------H E A L T H   I N F O-----------
 //-------------------------------------------
-//Get health info.
+//Get diet goals.
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/dietGoals
 Authorization: Bearer token
 ###
 
-//Update health info.
+//Update diet goals.
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/dietGoals
 Authorization: Bearer token
 

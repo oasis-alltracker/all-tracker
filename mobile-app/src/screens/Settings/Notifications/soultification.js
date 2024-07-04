@@ -222,8 +222,9 @@ const Soultification = ({
   const onChangeSchedule1 = async (event, selectedDate) => {
     if (isToggled) {
       const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, group);
+      await NotificationsHandler.turnOffGroupNotifications(token, group);
       setIsToggled(false);
+      setExpoIDsSchedule1([]);
     }
     if (Platform.OS === "android") {
       setShow(false);
@@ -236,6 +237,7 @@ const Soultification = ({
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupNotifications(token, group);
       setIsToggled(false);
+      setExpoIDsSchedule2([]);
     }
     if (Platform.OS === "android") {
       setShow(false);
@@ -248,6 +250,7 @@ const Soultification = ({
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupNotifications(token, group);
       setIsToggled(false);
+      setExpoIDsSchedule3([]);
     }
     if (Platform.OS === "android") {
       setShow(false);

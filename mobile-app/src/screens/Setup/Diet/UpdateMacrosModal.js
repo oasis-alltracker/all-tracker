@@ -11,11 +11,13 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
 
   const [text, setText] = useState(false);
   const [title, setTitle] = useState(false);
-  const [imageUri, setImageUri] = useState(false);
+  const [imageUri, setImageUri] = useState(
+    require("../../../assets/images/fats.png")
+  );
   const [isCal, setIsCal] = useState(false);
   const [units, setUnits] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("0");
 
   useEffect(() => {
     let ref = {

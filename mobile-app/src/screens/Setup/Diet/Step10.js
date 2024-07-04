@@ -1,23 +1,239 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  Image,
+  Switch,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Switch from "../../../assets/icons/switch";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const DietStep10 = (props) => {
   const { selectedTrackers } = props.route.params;
-  const [isNotif, setIsNotif] = useState(false);
-  const [switch1, setSwitch1] = useState(false);
-  const [switch2, setSwitch2] = useState(false);
-  const [switch3, setSwitch3] = useState(false);
+  const [isBreakfastEnabled, setIsBreakfastEnabled] = useState(false);
+  const [breakfastTime, setBreakfastTime] = useState(
+    new Date("1995-12-17T12:00:00")
+  );
+  const [breakfastExpoIDs, setBreakfastExpoIDs] = useState([]);
+
+  const [isLunchEnabled, setIsLunchEnabled] = useState(false);
+  const [lunchTime, setLunchTime] = useState(new Date("1995-12-17T12:00:00"));
+  const [lunchExpoIDs, setLunchExpoIDs] = useState([]);
+
+  const [isDinnerEnabled, setIsDinnerEnabled] = useState(false);
+  const [dinnerTime, setDinnerTime] = useState(new Date("1995-12-17T12:00:00"));
+  const [dinnerExpoIDs, setDinnerExpoIDs] = useState([]);
+
+  const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const formatDateObject = (dateObject) => {
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    return dateObject.toLocaleString("en-US", options);
+  };
+
+  const formatDateObjectBackend = (dateObject) => {
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: false,
+    };
+    return dateObject.toLocaleString("en-US", options);
+  };
+
+  const breakfastToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+    timeArray = formatDateObjectBackend(breakfastTime).split(":");
+    hour = timeArray[0];
+    minute = timeArray[1];
+
+    if (isBreakfastEnabled) {
+      await NotificationsHandler.turnOffNotification(
+        token,
+        "breakfast",
+        breakfastExpoIDs
+      );
+      setIsBreakfastEnabled((previousState) => !previousState);
+    } else {
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus =
+        await NotificationsHandler.checkNotificationsStatus(token);
+      if (systemNotificationsStatus || !isNotificationsEnabled) {
+        const expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          "breakfast",
+          "Breakfast time!",
+          "Don't forget to update your diet journal.",
+          [{ hour: Number(hour), minute: Number(minute), repeats: true }],
+          true,
+          breakfastExpoIDs
+        );
+        if (expoIDs) {
+          setIsBreakfastEnabled((previousState) => !previousState);
+          setBreakfastExpoIDs(expoIDs);
+        }
+      } else {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const lunchToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+    timeArray = formatDateObjectBackend(lunchTime).split(":");
+    hour = timeArray[0];
+    minute = timeArray[1];
+
+    if (isLunchEnabled) {
+      await NotificationsHandler.turnOffNotification(
+        token,
+        "lunch",
+        lunchExpoIDs
+      );
+      setIsLunchEnabled((previousState) => !previousState);
+    } else {
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus =
+        await NotificationsHandler.checkNotificationsStatus(token);
+      if (systemNotificationsStatus || !isNotificationsEnabled) {
+        const expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          "lunch",
+          "Lunch time!",
+          "Don't forget to update your diet journal.",
+          [{ hour: Number(hour), minute: Number(minute), repeats: true }],
+          true,
+          lunchExpoIDs
+        );
+        if (expoIDs) {
+          setIsLunchEnabled((previousState) => !previousState);
+          setLunchExpoIDs(expoIDs);
+        }
+      } else {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const dinnerToggled = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+    timeArray = formatDateObjectBackend(dinnerTime).split(":");
+    hour = timeArray[0];
+    minute = timeArray[1];
+
+    if (isDinnerEnabled) {
+      await NotificationsHandler.turnOffNotification(
+        token,
+        "dinner",
+        dinnerExpoIDs
+      );
+      setIsDinnerEnabled((previousState) => !previousState);
+    } else {
+      var systemNotificationsStatus = true;
+      systemNotificationsStatus =
+        await NotificationsHandler.checkNotificationsStatus(token);
+      if (systemNotificationsStatus || !isNotificationsEnabled) {
+        const expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          "dinner",
+          "Dinner time!",
+          "Don't forget to update your diet journal.",
+          [{ hour: Number(hour), minute: Number(minute), repeats: true }],
+          true,
+          dinnerExpoIDs
+        );
+        if (expoIDs) {
+          setIsDinnerEnabled((previousState) => !previousState);
+          setDinnerExpoIDs(expoIDs);
+        }
+      } else {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  const onChangeBreakfastTime = async (event, selectedDate) => {
+    if (isBreakfastEnabled) {
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupNotifications(token, "breakfast");
+      setIsBreakfastEnabled(false);
+      setBreakfastExpoIDs([]);
+    }
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+    setBreakfastTime(selectedDate);
+  };
+
+  const onChangeLunchTime = async (event, selectedDate) => {
+    if (isLunchEnabled) {
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupNotifications(token, "lunch");
+      setIsLunchEnabled(false);
+      setLunchExpoIDs([]);
+    }
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+    setLunchTime(selectedDate);
+  };
+
+  const onChangeDinnerTime = async (event, selectedDate) => {
+    if (isDinnerEnabled) {
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupNotifications(token, "dinner");
+      setIsDinnerEnabled(false);
+      setDinnerExpoIDs([]);
+    }
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
+    setDinnerTime(selectedDate);
+  };
 
   const onNext = async () => {
     try {
@@ -51,6 +267,72 @@ const DietStep10 = (props) => {
     }
   };
 
+  useEffect(() => {
+    const onLoad = async () => {
+      setIsLoading(true);
+      var token = await getAccessToken();
+
+      var allNotifications =
+        await NotificationsHandler.getNotificationsForGroup(
+          token,
+          "notifications"
+        );
+
+      var breakfastNotifications =
+        await NotificationsHandler.getNotificationsForGroup(token, "breakfast");
+
+      var lunchNotifications =
+        await NotificationsHandler.getNotificationsForGroup(token, "lunch");
+
+      var dinnerNotifications =
+        await NotificationsHandler.getNotificationsForGroup(token, "dinner");
+
+      setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
+      setIsBreakfastEnabled(breakfastNotifications[0]?.preference === "on");
+      setIsLunchEnabled(lunchNotifications[0]?.preference === "on");
+      setIsDinnerEnabled(dinnerNotifications[0]?.preference === "on");
+      setBreakfastExpoIDs(breakfastNotifications[0]?.expoIDs);
+      setLunchExpoIDs(lunchNotifications[0]?.expoIDs);
+      setDinnerExpoIDs(dinnerNotifications[0]?.expoIDs);
+
+      var breakfastHour = breakfastNotifications[0]?.triggers[0]?.hour;
+      if (breakfastHour == 0 || breakfastHour === undefined) {
+        breakfastHour = "00";
+      }
+      var breakfastMinute = breakfastNotifications[0]?.triggers[0]?.minute;
+      if (breakfastMinute == 0 || breakfastMinute === undefined) {
+        breakfastMinute = "00";
+      }
+      var newBreakfastTime = `1995-12-17T${breakfastHour}:${breakfastMinute}:00`;
+      setBreakfastTime(new Date(newBreakfastTime));
+
+      var lunchHour = lunchNotifications[0]?.triggers[0]?.hour;
+      if (lunchHour == 0 || lunchHour === undefined) {
+        lunchHour = "00";
+      }
+      var lunchMinute = lunchNotifications[0]?.triggers[0]?.minute;
+      if (lunchMinute == 0 || lunchMinute === undefined) {
+        lunchMinute = "00";
+      }
+      var newLunchTime = `1995-12-17T${lunchHour}:${lunchMinute}:00`;
+      setLunchTime(new Date(newLunchTime));
+
+      var dinnerHour = dinnerNotifications[0]?.triggers[0]?.hour;
+      if (dinnerHour == 0 || dinnerHour === undefined) {
+        dinnerHour = "00";
+      }
+      var dinnerMinute = dinnerNotifications[0]?.triggers[0]?.minute;
+      if (dinnerMinute == 0 || dinnerMinute === undefined) {
+        dinnerMinute = "00";
+      }
+      var newDinnerTime = `1995-12-17T${dinnerHour}:${dinnerMinute}:00`;
+      setDinnerTime(new Date(newDinnerTime));
+
+      setIsLoading(false);
+    };
+    onLoad();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
@@ -73,12 +355,12 @@ const DietStep10 = (props) => {
           <Switch
             width={55}
             height={32}
-            onValueChange={habitsToggled}
-            value={isHabitsEnabled}
+            onValueChange={breakfastToggled}
+            value={isBreakfastEnabled}
             trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isHabitsEnabled ? "#d7f6ff" : "#ffd8f7"}
+            thumbColor={isBreakfastEnabled ? "#d7f6ff" : "#ffd8f7"}
           />
-          <Text style={styles.itemTitle}>Habits</Text>
+          <Text style={styles.itemTitle}>Breakfast</Text>
           <View
             style={[
               styles.habitTimeContainer,
@@ -90,10 +372,10 @@ const DietStep10 = (props) => {
               {Platform.OS === "ios" ? (
                 <DateTimePicker
                   testID="dateTimePicker"
-                  value={habitTime}
+                  value={breakfastTime}
                   mode={"time"}
                   is24Hour={true}
-                  onChange={onChangeHabitTime}
+                  onChange={onChangeBreakfastTime}
                 />
               ) : (
                 <TouchableOpacity
@@ -106,7 +388,7 @@ const DietStep10 = (props) => {
                   title="toggleMinMaxDate"
                 >
                   <Text style={styles.timeText}>
-                    {formatDateObject(habitTime)}
+                    {formatDateObject(breakfastTime)}
                   </Text>
                 </TouchableOpacity>
               )}
@@ -116,10 +398,124 @@ const DietStep10 = (props) => {
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={habitTime}
+                    value={breakfastTime}
                     mode={"time"}
                     is24Hour={true}
-                    onChange={onChangeHabitTime}
+                    onChange={onChangeBreakfastTime}
+                  />
+                )}
+              </>
+            </View>
+          </View>
+        </View>
+        <View style={[styles.habitContainer, styles.itemContainer4]}>
+          <Switch
+            width={55}
+            height={32}
+            onValueChange={lunchToggled}
+            value={isLunchEnabled}
+            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+            thumbColor={isLunchEnabled ? "#d7f6ff" : "#ffd8f7"}
+          />
+          <Text style={styles.itemTitle}>Lunch</Text>
+          <View
+            style={[
+              styles.habitTimeContainer,
+              styles.itemContainer3,
+              { backgroundColor: "#D7F6FF" },
+            ]}
+          >
+            <>
+              {Platform.OS === "ios" ? (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={lunchTime}
+                  mode={"time"}
+                  is24Hour={true}
+                  onChange={onChangeLunchTime}
+                />
+              ) : (
+                <TouchableOpacity
+                  style={styles.timeButton}
+                  testID="setMinMax"
+                  value="time"
+                  onPress={() => {
+                    setShow(true);
+                  }}
+                  title="toggleMinMaxDate"
+                >
+                  <Text style={styles.timeText}>
+                    {formatDateObject(lunchTime)}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={lunchTime}
+                    mode={"time"}
+                    is24Hour={true}
+                    onChange={onChangeLunchTime}
+                  />
+                )}
+              </>
+            </View>
+          </View>
+        </View>
+        <View style={[styles.habitContainer, styles.itemContainer4]}>
+          <Switch
+            width={55}
+            height={32}
+            onValueChange={dinnerToggled}
+            value={isDinnerEnabled}
+            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+            thumbColor={isDinnerEnabled ? "#d7f6ff" : "#ffd8f7"}
+          />
+          <Text style={styles.itemTitle}>Dinner</Text>
+          <View
+            style={[
+              styles.habitTimeContainer,
+              styles.itemContainer3,
+              { backgroundColor: "#D7F6FF" },
+            ]}
+          >
+            <>
+              {Platform.OS === "ios" ? (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={dinnerTime}
+                  mode={"time"}
+                  is24Hour={true}
+                  onChange={onChangeDinnerTime}
+                />
+              ) : (
+                <TouchableOpacity
+                  style={styles.timeButton}
+                  testID="setMinMax"
+                  value="time"
+                  onPress={() => {
+                    setShow(true);
+                  }}
+                  title="toggleMinMaxDate"
+                >
+                  <Text style={styles.timeText}>
+                    {formatDateObject(dinnerTime)}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={dinnerTime}
+                    mode={"time"}
+                    is24Hour={true}
+                    onChange={onChangeDinnerTime}
                   />
                 )}
               </>
@@ -225,7 +621,7 @@ const styles = StyleSheet.create({
   minitext: {
     fontSize: 12,
     marginTop: 5,
-    marginBottom: 20,
+    marginBottom: 35,
   },
   title: {
     fontSize: 28,
@@ -244,6 +640,42 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 16,
+  },
+  habitContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    marginBottom: 10,
+  },
+  habitTimeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    marginBottom: 10,
+  },
+  itemContainer3: {
+    borderRadius: 15,
+    paddingHorizontal: 6,
+    paddingVertical: 10,
+    marginBottom: 0,
+  },
+  itemContainer4: {
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  itemTitle: {
+    fontSize: 22,
+    color: "#25436B",
+    fontFamily: "Sego-Bold",
+    marginLeft: 15,
+    flex: 1,
   },
 });
 
