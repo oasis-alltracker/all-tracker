@@ -20,16 +20,8 @@ const dietSettings = {
   title: "Personal",
   childs: [
     {
-      title: "Personal details",
-      route: "personal",
-    },
-    {
       title: "Goals",
       route: "goals",
-    },
-    {
-      title: "Units",
-      route: "units",
     },
   ],
 };
@@ -111,7 +103,7 @@ const SettingsHome = () => {
       ],
       {
         cancelable: true,
-      },
+      }
     );
   };
 
@@ -132,7 +124,7 @@ const SettingsHome = () => {
       ],
       {
         cancelable: true,
-      },
+      }
     );
   };
 

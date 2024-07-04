@@ -155,10 +155,13 @@ const DietStep9 = (props) => {
       setProteinGoalValue(Math.round(protein));
       setFatGoalValue(Math.round(fat));
       DietGoalsAPI.updateDietGoals(token, {
-        carbGoal: { value: Math.round(carbs), units: calorieUnit },
+        carbGoal: Math.round(carbs),
         proteinGoal: Math.round(protein),
         fatGoal: Math.round(fat),
-        calorieGoal: Math.round(dailyCalorieIntake),
+        calorieGoal: {
+          value: Math.round(dailyCalorieIntake),
+          units: calorieUnit,
+        },
       });
       setIsLoading(false);
     };
