@@ -1,12 +1,35 @@
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
+import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
 
 const DietStep1 = (props) => {
+  const [goal, setGoal] = useState("none");
   const { selectedTrackers } = props.route.params;
+
+  const onNext = () => {
+    if (goal != "none") {
+      navigationService.navigate("dietStep3", { selectedTrackers, goal });
+    } else {
+      Toast.show("Please make a selection", {
+        ...styles.errorToast,
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+      });
+    }
+  };
+
+  const getButtonColour = (buttonGoal) => {
+    if (buttonGoal == goal) {
+      return "rgba(215, 246, 255, 0.65)";
+    } else {
+      return "transparent";
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.center}>
@@ -18,9 +41,43 @@ const DietStep1 = (props) => {
           <Text style={styles.imageText}>diet</Text>
         </View>
         <Text style={styles.title}>What is your goal?</Text>
-        <Button style={styles.bigButtons}>Lose weight</Button>
-        <Button style={styles.bigButtons}>Maintain weight</Button>
-        <Button style={styles.bigButtons}>Gain weight</Button>
+        <Button
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("lose") },
+          ]}
+          textStyle={styles.buttonsText}
+          onPress={() => {
+            setGoal("lose");
+          }}
+        >
+          Lose weight
+        </Button>
+        <Button
+          style={[
+            styles.bigButtons,
+
+            { backgroundColor: getButtonColour("maintain") },
+          ]}
+          textStyle={styles.buttonsText}
+          onPress={() => {
+            setGoal("maintain");
+          }}
+        >
+          Maintain weight
+        </Button>
+        <Button
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("gain") },
+          ]}
+          onPress={() => {
+            setGoal("gain");
+          }}
+          textStyle={styles.buttonsText}
+        >
+          Gain weight
+        </Button>
       </View>
       <View style={styles.buttons}>
         <Button
@@ -31,7 +88,7 @@ const DietStep1 = (props) => {
         </Button>
         <Button
           onPress={() => {
-            navigationService.navigate("dietStep2", { selectedTrackers });
+            onNext();
           }}
           style={styles.button}
         >
@@ -73,8 +130,12 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 15,
+    marginTop: 25,
     marginBottom: 20,
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
   buttons: {
     flexDirection: "row",
@@ -92,9 +153,12 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "transparent",
     borderColor: "#CCCCCC",
-    height: 100,
-    borderRadius: 40,
+    height: 80,
+    borderRadius: 30,
     marginTop: 10,
+  },
+  buttonsText: {
+    fontSize: 22,
   },
   center: {
     alignItems: "center",

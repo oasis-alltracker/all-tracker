@@ -5,10 +5,10 @@ const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 const DB = new DynamoDB.DocumentClient();
 const dbService = new DbUtils(DB, tableName);
 
-const GetHealthInfo = require("./getHealthInfo");
-const getHealthInfo = new GetHealthInfo(dbService);
-const UpdateHealthInfo = require("./updateHealthInfo");
-const updateHealthInfo = new UpdateHealthInfo(dbService);
+const GetDietGoals = require("./getDietGoals");
+const getDietGoals = new GetDietGoals(dbService);
+const UpdateDietGoals = require("./updateDietGoals");
+const updateDietGoals = new UpdateDietGoals(dbService);
 
 const { authenticateToken } = require("../../utils/authenticateToken");
 
@@ -29,11 +29,11 @@ module.exports.handler = async (event, context, callback) => {
   }
 
   if (event.httpMethod == "GET") {
-    response = await getHealthInfo.getHealthInfo(user);
+    response = await getDietGoals.getDietGoals(user);
   } else if (event.httpMethod == "PUT") {
-    response = await updateHealthInfo.updateHealthInfo(
+    response = await updateDietGoals.updateDietGoals(
       user,
-      JSON.parse(event.body),
+      JSON.parse(event.body)
     );
   }
 

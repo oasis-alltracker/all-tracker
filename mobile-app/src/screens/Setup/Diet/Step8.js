@@ -1,18 +1,96 @@
+import React, { useEffect, useState } from "react";
+
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
+import Toast from "react-native-root-toast";
+
+const weightChangeValues = {
+  kg: {
+    ultimate: 1.0,
+    steady: 0.75,
+    gradual: 0.5,
+    relaxed: 0.25,
+  },
+  lb: {
+    ultimate: 2.20462,
+    steady: 1.65348,
+    gradual: 1.10231,
+    relaxed: 0.551,
+  },
+};
 
 const DietStep8 = (props) => {
-  const { selectedTrackers } = props.route.params;
+  const {
+    selectedTrackers,
+    goal,
+    weightGoal,
+    currentWeight,
+    currentHeight,
+    birthYear,
+    activityLevel,
+  } = props.route.params;
+
+  const [ultimateNumberOfWeeks, setUltimateNumberOfWeeks] = useState(0);
+  const [steadyNumberOfWeeks, setSteadyNumberOfWeeks] = useState(0);
+  const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
+  const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
+
+  const [intensity, setIntesity] = useState(null);
+
+  const getButtonColour = (selectedIntensity) => {
+    if (intensity == selectedIntensity) {
+      return "rgba(215, 246, 255, 0.65)";
+    } else {
+      return "transparent";
+    }
+  };
+
+  const onNext = () => {
+    if (intensity) {
+      const weightChangePerWeek =
+        weightChangeValues[currentWeight.units][intensity];
+      navigationService.navigate("dietStep9", {
+        selectedTrackers,
+        goal,
+        weightGoal,
+        currentWeight,
+        currentHeight,
+        birthYear,
+        activityLevel,
+        weightChangePerWeek,
+      });
+    } else {
+      Toast.show("Please make a selection", {
+        ...styles.errorToast,
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+      });
+    }
+  };
+
+  useEffect(() => {
+    const totalWeightChange = Math.abs(
+      currentWeight.weight - weightGoal.weight
+    );
+    if (currentWeight.units === "kg") {
+      setUltimateNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 1));
+      setSteadyNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.75));
+      setGradualNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.5));
+      setRelaxedNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.25));
+    } else {
+      setUltimateNumberOfWeeks(Math.round(totalWeightChange / 2.20462));
+      setSteadyNumberOfWeeks(Math.round(totalWeightChange / 1.65348));
+      setGradualNumberOfWeeks(Math.round(totalWeightChange / 1.10231));
+      setRelaxedNumberOfWeeks(Math.round(totalWeightChange / 0.551));
+    }
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.center}
-      >
+      <View style={styles.center}>
         <View style={styles.imageCon}>
           <Image
             style={styles.image}
@@ -21,7 +99,15 @@ const DietStep8 = (props) => {
           <Text style={styles.imageText}>diet</Text>
         </View>
         <Text style={styles.title}>Choose your intensity</Text>
-        <Button style={styles.bigButtons}>
+        <Button
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("ultimate") },
+          ]}
+          onPress={() => {
+            setIntesity("ultimate");
+          }}
+        >
           <View style={styles.row}>
             <Image
               style={styles.selectImage}
@@ -29,11 +115,21 @@ const DietStep8 = (props) => {
               source={require("../../../assets/images/ultimate.png")}
             />
             <Text style={[styles.text, styles.flex]}>Ultimate</Text>
-            <Text style={styles.text}>5 weeks</Text>
+            <Text style={styles.text}>{ultimateNumberOfWeeks} weeks</Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>1kg/week</Text>
+          <Text style={[styles.text, styles.minitext]}>
+            {currentWeight.units == "kg" ? "1kg" : "2.2lbs"}/week
+          </Text>
         </Button>
-        <Button style={styles.bigButtons}>
+        <Button
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("steady") },
+          ]}
+          onPress={() => {
+            setIntesity("steady");
+          }}
+        >
           <View style={styles.row}>
             <Image
               style={styles.selectImage}
@@ -41,11 +137,21 @@ const DietStep8 = (props) => {
               source={require("../../../assets/images/steady.png")}
             />
             <Text style={[styles.text, styles.flex]}>Steady</Text>
-            <Text style={styles.text}>6 weeks</Text>
+            <Text style={styles.text}>{steadyNumberOfWeeks} weeks</Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>0.75kg/week</Text>
+          <Text style={[styles.text, styles.minitext]}>
+            {currentWeight.units == "kg" ? "0.75kg" : "1.6lbs"}/week
+          </Text>
         </Button>
-        <Button style={styles.bigButtons}>
+        <Button
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("gradual") },
+          ]}
+          onPress={() => {
+            setIntesity("gradual");
+          }}
+        >
           <View style={styles.row}>
             <Image
               style={styles.selectImage}
@@ -53,11 +159,21 @@ const DietStep8 = (props) => {
               source={require("../../../assets/images/gradually.png")}
             />
             <Text style={[styles.text, styles.flex]}>Gradual</Text>
-            <Text style={styles.text}>9 weeks</Text>
+            <Text style={styles.text}>{gradualNumberOfWeeks} weeks</Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>0.5kg/week</Text>
+          <Text style={[styles.text, styles.minitext]}>
+            {currentWeight.units == "kg" ? "0.5kg" : "1.1lbs"}/week
+          </Text>
         </Button>
-        <Button style={styles.bigButtons}>
+        <Button
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("relaxed") },
+          ]}
+          onPress={() => {
+            setIntesity("relaxed");
+          }}
+        >
           <View style={styles.row}>
             <Image
               style={styles.selectImage}
@@ -65,11 +181,13 @@ const DietStep8 = (props) => {
               source={require("../../../assets/images/relaxed.png")}
             />
             <Text style={[styles.text, styles.flex]}>Relaxed</Text>
-            <Text style={styles.text}>18 weeks</Text>
+            <Text style={styles.text}>{relaxedNumberOfWeeks} weeks</Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>0.25kg/week</Text>
+          <Text style={[styles.text, styles.minitext]}>
+            {currentWeight.units == "kg" ? "0.25kg" : "0.5lbs"}/week
+          </Text>
         </Button>
-      </ScrollView>
+      </View>
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
@@ -77,12 +195,7 @@ const DietStep8 = (props) => {
         >
           Back
         </Button>
-        <Button
-          onPress={() =>
-            navigationService.navigate("dietStep9", { selectedTrackers })
-          }
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -121,7 +234,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 15,
+    marginTop: 25,
     marginBottom: 20,
   },
   buttons: {
@@ -140,9 +253,8 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "transparent",
     borderColor: "#CCCCCC",
-    height: 90,
-    borderRadius: 40,
-    marginTop: 10,
+    height: 65,
+    borderRadius: 30,
     paddingHorizontal: 25,
     flexDirection: "column",
     justifyContent: "center",
@@ -152,8 +264,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selectImage: {
-    width: 30,
-    height: 30,
+    width: 22,
+    height: 22,
     marginRight: 10,
   },
   row: {
@@ -165,12 +277,16 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#25436B",
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: "Sego",
   },
   minitext: {
     fontSize: 16,
     marginTop: 10,
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 

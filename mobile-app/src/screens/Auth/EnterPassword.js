@@ -37,11 +37,13 @@ const EnterPassword = (props) => {
           isPreferred: true,
           onPress: async () => {
             try {
+              setIsLoading(true);
+              setPassword("");
               await LoginAPI.requestNewPassword(email);
+              setIsLoading(false);
               await navigationService.navigate("tempPassword", {
                 email,
               });
-              setPassword("");
             } catch (e) {
               logout();
               navigationService.reset("landing", 0);
@@ -51,7 +53,7 @@ const EnterPassword = (props) => {
       ],
       {
         cancelable: true,
-      },
+      }
     );
   };
 
@@ -89,7 +91,7 @@ const EnterPassword = (props) => {
             ],
             {
               cancelable: true,
-            },
+            }
           );
         } else {
           setIsLoading(false);
@@ -230,8 +232,7 @@ const styles = StyleSheet.create({
     textColor: "#25436B",
   },
   linkBtn: {
-    marginVertical: 10,
-    marginTop: 300,
+    marginTop: 180,
     paddingBottom: 10,
   },
   linkText: {

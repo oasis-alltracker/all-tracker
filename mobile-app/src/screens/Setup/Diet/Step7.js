@@ -1,18 +1,67 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
+import Toast from "react-native-root-toast";
 
 const DietStep7 = (props) => {
-  const { selectedTrackers } = props.route.params;
+  const {
+    selectedTrackers,
+    goal,
+    weightGoal,
+    currentWeight,
+    currentHeight,
+    birthYear,
+  } = props.route.params;
+
+  const [activityLevel, setActivityLevel] = useState(null);
+
+  const getButtonColour = (index) => {
+    if (index == activityLevel) {
+      return "rgba(215, 246, 255, 0.65)";
+    } else {
+      return "transparent";
+    }
+  };
+
+  const onNext = () => {
+    if (activityLevel) {
+      if (goal === "maintain") {
+        const weightChangePerWeek = 0;
+        navigationService.navigate("dietStep9", {
+          selectedTrackers,
+          goal,
+          weightGoal,
+          currentWeight,
+          currentHeight,
+          birthYear,
+          activityLevel,
+          weightChangePerWeek,
+        });
+      } else {
+        navigationService.navigate("dietStep8", {
+          selectedTrackers,
+          goal,
+          weightGoal,
+          currentWeight,
+          currentHeight,
+          birthYear,
+          activityLevel,
+        });
+      }
+    } else {
+      Toast.show("Please make a selection", {
+        ...styles.errorToast,
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+      });
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.center}
-      >
+      <View style={styles.center}>
         <View style={styles.imageCon}>
           <Image
             style={styles.image}
@@ -21,11 +70,43 @@ const DietStep7 = (props) => {
           <Text style={styles.imageText}>diet</Text>
         </View>
         <Text style={styles.title}> How active are you?</Text>
-        <Button style={styles.bigButtons}>Not very active</Button>
-        <Button style={styles.bigButtons}> Moderately active</Button>
-        <Button style={styles.bigButtons}>Active</Button>
-        <Button style={styles.bigButtons}>Very active</Button>
-      </ScrollView>
+        <Button
+          style={[styles.bigButtons, { backgroundColor: getButtonColour(0) }]}
+          textStyle={styles.buttonsText}
+          onPress={() => {
+            setActivityLevel(0);
+          }}
+        >
+          Not very active
+        </Button>
+        <Button
+          style={[styles.bigButtons, { backgroundColor: getButtonColour(1) }]}
+          textStyle={styles.buttonsText}
+          onPress={() => {
+            setActivityLevel(1);
+          }}
+        >
+          Moderately active
+        </Button>
+        <Button
+          style={[styles.bigButtons, { backgroundColor: getButtonColour(2) }]}
+          textStyle={styles.buttonsText}
+          onPress={() => {
+            setActivityLevel(2);
+          }}
+        >
+          Active
+        </Button>
+        <Button
+          style={[styles.bigButtons, { backgroundColor: getButtonColour(3) }]}
+          textStyle={styles.buttonsText}
+          onPress={() => {
+            setActivityLevel(3);
+          }}
+        >
+          Very active
+        </Button>
+      </View>
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
@@ -33,12 +114,7 @@ const DietStep7 = (props) => {
         >
           Back
         </Button>
-        <Button
-          onPress={() =>
-            navigationService.navigate("dietStep8", { selectedTrackers })
-          }
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
@@ -77,7 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 15,
+    marginTop: 25,
     marginBottom: 20,
   },
   buttons: {
@@ -96,12 +172,18 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "transparent",
     borderColor: "#CCCCCC",
-    height: 90,
-    borderRadius: 40,
-    marginTop: 10,
+    height: 65,
+    borderRadius: 30,
+  },
+  buttonsText: {
+    fontSize: 20,
   },
   center: {
     alignItems: "center",
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 

@@ -198,24 +198,24 @@ functions:
 
 
 ##### U S E R - I N F O #####
-##Health Info##
-  healthInfo:
-    handler: userInfo/healthInfo/index.handler
+##Diet Goals##
+  dietGoals:
+    handler: tracker-diet/dietGoals/index.handler
     role: 
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
     events:
       - http:
-          path: v1/healthInfo
+          path: v1/dietGoals
           method: get
           cors: true
       - http:
-          path: v1/healthInfo
+          path: v1/dietGoals
           method: put
           cors: true 
 
-##Health Info##
+##User Info##
   user:
     handler: userInfo/user/index.handler
     role: 

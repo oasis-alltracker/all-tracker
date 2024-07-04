@@ -1,9 +1,9 @@
-class GetHealthInfo {
+class GetDietGoals {
   constructor(db) {
     this.DB = db;
   }
 
-  async getHealthInfo(user) {
+  async getDietGoals(user) {
     try {
       const healthInfo = await this.getInfo(user.email);
 
@@ -35,12 +35,12 @@ class GetHealthInfo {
       "#sk": "SK",
     };
     const values = {
-      ":pk": `${user}-healthInfo`,
-      ":sk": `healthInfo`,
+      ":pk": `${user}-dietGoals`,
+      ":sk": `dietGoals`,
     };
 
     const response = await this.DB.queryItem(expression, names, values);
     return response?.Items;
   }
 }
-module.exports = GetHealthInfo;
+module.exports = GetDietGoals;

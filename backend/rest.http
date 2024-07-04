@@ -32,7 +32,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 
 {
    "email": "hodgerta@gmail.com",
-   "otp": "2073"
+   "otp": "2098"
 }
 ###
 
@@ -105,18 +105,16 @@ Authorization: Bearer token
 //-----------H E A L T H   I N F O-----------
 //-------------------------------------------
 //Get health info.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/healthInfo
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/dietGoals
 Authorization: Bearer token
 ###
 
 //Update health info.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/healthInfo
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/dietGoals
 Authorization: Bearer token
 
 {
-    "weight": 200,
-    "height": 180,
-    "weightGoal": 220,
+    "carbGoal": 220,
     "calorieGoal": 4000,
     "proteinGoal": 200,    
     "fatGoal": 30

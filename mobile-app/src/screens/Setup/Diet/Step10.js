@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -61,10 +55,7 @@ const DietStep10 = (props) => {
     <SafeAreaView style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.center}
-      >
+      <View style={styles.center}>
         <View style={styles.imageCon}>
           <Image
             style={styles.image}
@@ -72,61 +63,70 @@ const DietStep10 = (props) => {
           />
           <Text style={styles.imageText}>diet</Text>
         </View>
-        <Button
-          disabled={true}
-          style={[styles.bigButtons, styles.notification]}
-        >
-          <View style={styles.row}>
-            <Text style={[styles.text]}>Notifications:</Text>
-            <TouchableOpacity onPress={() => setIsNotif((pr) => !pr)}>
-              <Switch width={55} height={32} active={isNotif} />
-            </TouchableOpacity>
+
+        <Text style={styles.title}>Notifications:</Text>
+
+        <Text style={[styles.text, styles.minitext]}>
+          Get personalized reminders to stay on track
+        </Text>
+        <View style={[styles.habitContainer, styles.itemContainer4]}>
+          <Switch
+            width={55}
+            height={32}
+            onValueChange={habitsToggled}
+            value={isHabitsEnabled}
+            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+            thumbColor={isHabitsEnabled ? "#d7f6ff" : "#ffd8f7"}
+          />
+          <Text style={styles.itemTitle}>Habits</Text>
+          <View
+            style={[
+              styles.habitTimeContainer,
+              styles.itemContainer3,
+              { backgroundColor: "#D7F6FF" },
+            ]}
+          >
+            <>
+              {Platform.OS === "ios" ? (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={habitTime}
+                  mode={"time"}
+                  is24Hour={true}
+                  onChange={onChangeHabitTime}
+                />
+              ) : (
+                <TouchableOpacity
+                  style={styles.timeButton}
+                  testID="setMinMax"
+                  value="time"
+                  onPress={() => {
+                    setShow(true);
+                  }}
+                  title="toggleMinMaxDate"
+                >
+                  <Text style={styles.timeText}>
+                    {formatDateObject(habitTime)}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={habitTime}
+                    mode={"time"}
+                    is24Hour={true}
+                    onChange={onChangeHabitTime}
+                  />
+                )}
+              </>
+            </View>
           </View>
-          <Text style={[styles.text, styles.minitext]}>
-            Get personalized reminders to stay on track
-          </Text>
-        </Button>
-        <Text style={styles.title}>Meals</Text>
-        <Button disabled={true} style={styles.bigButtons}>
-          <TouchableOpacity onPress={() => setSwitch1((pr) => !pr)}>
-            <Switch active={switch1} />
-          </TouchableOpacity>
-          <Text style={[styles.text, styles.selectText]}>Breakfast</Text>
-          <Button
-            textStyle={styles.timeText}
-            style={styles.selectTime}
-            disabled={true}
-          >
-            8:00 AM
-          </Button>
-        </Button>
-        <Button disabled={true} style={styles.bigButtons}>
-          <TouchableOpacity onPress={() => setSwitch2((pr) => !pr)}>
-            <Switch active={switch2} />
-          </TouchableOpacity>
-          <Text style={[styles.text, styles.selectText]}>Lunch</Text>
-          <Button
-            textStyle={styles.timeText}
-            style={styles.selectTime}
-            disabled={true}
-          >
-            11:00 AM
-          </Button>
-        </Button>
-        <Button disabled={true} style={styles.bigButtons}>
-          <TouchableOpacity onPress={() => setSwitch3((pr) => !pr)}>
-            <Switch active={switch3} />
-          </TouchableOpacity>
-          <Text style={[styles.text, styles.selectText]}>Dinner</Text>
-          <Button
-            textStyle={styles.timeText}
-            style={styles.selectTime}
-            disabled={true}
-          >
-            8:00 PM
-          </Button>
-        </Button>
-      </ScrollView>
+        </View>
+      </View>
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
@@ -170,13 +170,7 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     marginTop: 10,
   },
-  title: {
-    fontSize: 24,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-    marginTop: 20,
-    marginLeft: 10,
-  },
+
   boldText: {
     fontFamily: "Sego-Bold",
   },
@@ -207,7 +201,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginTop: 20,
   },
-  center: {},
+  center: { alignItems: "center" },
   selectImage: {
     width: 45,
     height: 45,
@@ -230,7 +224,15 @@ const styles = StyleSheet.create({
   },
   minitext: {
     fontSize: 12,
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 28,
+    color: "#25436B",
+    fontFamily: "Sego-Bold",
+    marginTop: 25,
+    textAlign: "center",
   },
   selectText: {
     flex: 1,

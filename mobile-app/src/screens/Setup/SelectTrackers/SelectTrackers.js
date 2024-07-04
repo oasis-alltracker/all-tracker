@@ -104,12 +104,13 @@ const SelectTrackers = () => {
         const trackingPreferencesLoaded = user.trackingPreferences;
 
         setIsSetupComplete(user.isSetupComplete);
-        if (trackingPreferencesLoaded.habitsSelected) setHabitsSelected(true);
-        if (trackingPreferencesLoaded.toDosSelected) setToDosSelected(true);
-        if (trackingPreferencesLoaded.dietSelected) setDietSelected(true);
-        if (trackingPreferencesLoaded.fitnessSelected) setFitnessSelected(true);
-        if (trackingPreferencesLoaded.moodSelected) setMoodSelected(true);
-        if (trackingPreferencesLoaded.sleepSelected) setSleepSelected(true);
+        if (trackingPreferencesLoaded?.habitsSelected) setHabitsSelected(true);
+        if (trackingPreferencesLoaded?.toDosSelected) setToDosSelected(true);
+        if (trackingPreferencesLoaded?.dietSelected) setDietSelected(true);
+        if (trackingPreferencesLoaded?.fitnessSelected)
+          setFitnessSelected(true);
+        if (trackingPreferencesLoaded?.moodSelected) setMoodSelected(true);
+        if (trackingPreferencesLoaded?.sleepSelected) setSleepSelected(true);
       } catch (e) {
         console.log(e);
         Toast.show("Something went wrong. Please try again.", {
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   nextButton: {
-    marginHorizontal: 20,
+    marginHorizontal: 30,
   },
   buttonText: {
     color: "#25436B",

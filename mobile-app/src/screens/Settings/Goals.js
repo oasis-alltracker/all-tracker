@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Header } from "../../components";
 
@@ -30,10 +23,7 @@ const Goals = () => {
   return (
     <View style={styles.container}>
       <Header showCenter={false} />
-      <ScrollView
-        contentContainerStyle={styles.contentContainerStyle}
-        showsVerticalScrollIndicator={false}
-      >
+      <View style={styles.contentContainerStyle}>
         <Text style={styles.title}>Goals</Text>
         <View style={[styles.item, styles.head]}>
           <View style={[styles.item, styles.headItem]}>
@@ -70,7 +60,7 @@ const Goals = () => {
             </TouchableOpacity>
           </View>
         ))}
-      </ScrollView>
+      </View>
     </View>
   );
 };

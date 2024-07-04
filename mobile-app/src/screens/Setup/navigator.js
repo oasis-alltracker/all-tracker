@@ -8,7 +8,6 @@ import Todos from "./Tasks/Todos";
 import DietStep1 from "./Diet/Step1";
 import DietStep2 from "./Diet/Step2";
 import DietStep3 from "./Diet/Step3";
-import DietStep4 from "./Diet/Step4";
 import DietStep5 from "./Diet/Step5";
 import DietStep6 from "./Diet/Step6";
 import DietStep7 from "./Diet/Step7";
@@ -39,7 +38,6 @@ function SetupNavigator() {
       <Stack.Screen name="dietStep1" component={DietStep1} />
       <Stack.Screen name="dietStep2" component={DietStep2} />
       <Stack.Screen name="dietStep3" component={DietStep3} />
-      <Stack.Screen name="dietStep4" component={DietStep4} />
       <Stack.Screen name="dietStep5" component={DietStep5} />
       <Stack.Screen name="dietStep6" component={DietStep6} />
       <Stack.Screen name="dietStep7" component={DietStep7} />

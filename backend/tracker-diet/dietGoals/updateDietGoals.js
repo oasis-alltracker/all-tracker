@@ -1,9 +1,9 @@
-class UpdateHealthInfo {
+class UpdateDietGoals {
   constructor(db) {
     this.DB = db;
   }
 
-  async updateHealthInfo(user, body) {
+  async updateDietGoals(user, body) {
     try {
       await this.updateInfo(user.email, body);
 
@@ -28,21 +28,17 @@ class UpdateHealthInfo {
   }
 
   async updateInfo(email, healthInfo) {
-    const key = { PK: `${email}-healthInfo`, SK: `healthInfo` };
+    const key = { PK: `${email}-dietGoals`, SK: `dietGoals` };
     const expression =
-      "SET #weight = :weight, #height = :height, #weightGoal = :weightGoal, #calorieGoal = :calorieGoal, #proteinGoal = :proteinGoal, #fatGoal = :fatGoal";
+      "SET #carbGoal = :carbGoal, #calorieGoal = :calorieGoal, #proteinGoal = :proteinGoal, #fatGoal = :fatGoal";
     const names = {
-      "#weight": "weight",
-      "#height": "height",
-      "#weightGoal": "weightGoal",
+      "#carbGoal": "carbGoal",
       "#calorieGoal": "calorieGoal",
       "#proteinGoal": "proteinGoal",
       "#fatGoal": "fatGoal",
     };
     const values = {
-      ":weight": healthInfo.weight,
-      ":height": healthInfo.height,
-      ":weightGoal": healthInfo.weightGoal,
+      ":carbGoal": healthInfo.carbGoal,
       ":calorieGoal": healthInfo.calorieGoal,
       ":proteinGoal": healthInfo.proteinGoal,
       ":fatGoal": healthInfo.fatGoal,
@@ -50,4 +46,4 @@ class UpdateHealthInfo {
     await this.DB.updateItem(expression, key, names, values);
   }
 }
-module.exports = UpdateHealthInfo;
+module.exports = UpdateDietGoals;

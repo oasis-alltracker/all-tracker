@@ -1,59 +1,101 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
 import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
+import Toast from "react-native-root-toast";
 
 const DietStep6 = (props) => {
-  const { selectedTrackers } = props.route.params;
-  const [isSm, setIsSm] = useState(true);
+  const { selectedTrackers, goal, weightGoal, currentWeight } =
+    props.route.params;
+  const [isCm, setIsCm] = useState(true);
+  const [height, setHeight] = useState(null);
+
+  const onNext = () => {
+    if (height) {
+      if (!isNaN(Number(height))) {
+        const currentHeight = { height: height, units: isCm ? "cm" : "in" };
+
+        navigationService.navigate("dietStep5", {
+          selectedTrackers,
+          goal,
+          weightGoal,
+          currentWeight,
+          currentHeight,
+        });
+      } else {
+        Toast.show("Please enter a number", {
+          ...styles.errorToast,
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.CENTER,
+        });
+      }
+    } else {
+      Toast.show("Please make a selection", {
+        ...styles.errorToast,
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+      });
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.center}>
-        <View style={styles.imageCon}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/images/diet.png")}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.center}>
+          <View style={styles.imageCon}>
+            <Image
+              style={styles.image}
+              source={require("../../../assets/images/diet.png")}
+            />
+            <Text style={styles.imageText}>diet</Text>
+          </View>
+          <Text style={styles.title}>How tall are you?</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="0"
+            onChangeText={setHeight}
+            value={height}
+            keyboardType="number-pad"
           />
-          <Text style={styles.imageText}>diet</Text>
+          <View style={[styles.buttons, styles.kgButtons]}>
+            <Button
+              textStyle={styles.kgText}
+              onPress={() => setIsCm(true)}
+              style={[styles.kgBtn, !isCm && styles.inactive]}
+            >
+              cm
+            </Button>
+            <Button
+              textStyle={styles.kgText}
+              onPress={() => setIsCm(false)}
+              style={[styles.kgBtn, isCm && styles.inactive]}
+            >
+              in
+            </Button>
+          </View>
         </View>
-        <Text style={styles.title}>How tall are you?</Text>
-        <TextInput style={styles.input} placeholder={isSm ? "0cm" : "0ft"} />
-        <View style={[styles.buttons, styles.kgButtons]}>
+        <View style={styles.buttons}>
           <Button
-            textStyle={styles.kgText}
-            onPress={() => setIsSm(true)}
-            style={[styles.kgBtn, !isSm && styles.inactive]}
+            onPress={() => navigationService.goBack()}
+            style={[styles.button, styles.back]}
           >
-            cm
+            Back
           </Button>
-          <Button
-            textStyle={styles.kgText}
-            onPress={() => setIsSm(false)}
-            style={[styles.kgBtn, isSm && styles.inactive]}
-          >
-            ft
+          <Button onPress={() => onNext()} style={styles.button}>
+            Next
           </Button>
         </View>
-      </View>
-      <View style={styles.buttons}>
-        <Button
-          onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
-        >
-          Back
-        </Button>
-        <Button
-          onPress={() =>
-            navigationService.navigate("dietStep7", { selectedTrackers })
-          }
-          style={styles.button}
-        >
-          Next
-        </Button>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -88,8 +130,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 15,
-    marginBottom: 20,
+    marginTop: 25,
+    marginBottom: 65,
     textAlign: "center",
   },
   buttons: {
@@ -113,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginTop: 10,
     textAlign: "center",
-    fontSize: 40,
+    fontSize: 26,
     marginBottom: 25,
     fontFamily: "Sego",
   },
@@ -135,6 +177,10 @@ const styles = StyleSheet.create({
   },
   kgText: {
     fontSize: 18,
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 
