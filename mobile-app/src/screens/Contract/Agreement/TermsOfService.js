@@ -154,7 +154,12 @@ const TermsOfService = () => {
           other persons (collectively, “User Submissions”) and any and all
           Interactive Functions. Any and all User Submissions must comply with
           all applicable federal, provincial, local, and international laws,
-          regulations, and terms of service.
+          regulations, and terms of service. User Submissions refer only to app
+          entries that you have saved, stored or shared to the App with the
+          explicit intention of allowing other users or us to view or access it
+          through the App (i.e public or semi-public). Any entries made to the
+          app that have not been expressly declared as such by you are not
+          considered User Submissions and will be treated as confidential.
         </Text>
         <Text style={styles.text}>
           Without limiting the foregoing, you warrant and agree that your use of
