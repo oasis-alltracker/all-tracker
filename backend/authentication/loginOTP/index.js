@@ -58,14 +58,14 @@ module.exports.handler = async (event, context, callback) => {
               ACCESS_TOKEN_SECRET,
               {
                 expiresIn: "48h",
-              },
+              }
             );
             const refreshToken = jwt.sign(
               { email: email },
               ACCESS_TOKEN_SECRET,
               {
                 expiresIn: "100d",
-              },
+              }
             );
             body = JSON.stringify({
               accessToken: accessToken,
@@ -73,12 +73,16 @@ module.exports.handler = async (event, context, callback) => {
             });
             statusCode = 200;
             await userDB.updateFailedAttemptsCount(email, 0);
+            await dbService.putItem({
+              PK: `${email}`,
+              SK: `otp`,
+            });
           } else {
             body = JSON.stringify({ loginFailed: "incorrectOTP" });
             statusCode = 200;
             await userDB.updateFailedAttemptsCount(
               email,
-              existingUser.Item.failedAttempts + 1,
+              existingUser.Item.failedAttempts + 1
             );
           }
         } else {
