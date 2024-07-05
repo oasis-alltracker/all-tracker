@@ -1,16 +1,18 @@
-const DynamoDB = require("aws-sdk/clients/dynamodb");
+const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
+const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+const { SQS } = require("@aws-sdk/client-sqs");
+
 const DbUtils = require("../../utils/databaseManager");
 const { isEmptyObject } = require("../../utils//objectUtils");
 
 const tableName = process.env.ALL_TRACKER_TABLE_NAME;
-const DB = new DynamoDB.DocumentClient();
+const DB = DynamoDBDocument.from(new DynamoDB());
 const dbService = new DbUtils(DB, tableName);
 
 const UserDB = require("../../utils/userDB");
 const userDB = new UserDB(dbService);
 
 const bcrypt = require("bcryptjs");
-const SQS = require("aws-sdk/clients/sqs");
 const sqs = new SQS();
 const queueUrl = process.env.SEND_OTP_URL;
 
@@ -42,7 +44,7 @@ module.exports.handler = async (event, context, callback) => {
         }),
         QueueUrl: queueUrl,
       };
-      await sqs.sendMessage(params).promise();
+      await sqs.sendMessage(params);
       await userDB.updateFailedAttemptsCount(0);
     }
 

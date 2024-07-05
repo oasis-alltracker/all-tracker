@@ -1,4 +1,4 @@
-const SQS = require("aws-sdk/clients/sqs");
+const { SQS } = require("@aws-sdk/client-sqs");
 const sqs = new SQS();
 const queueUrl = process.env.INTEGRATE_URL;
 const JSEncrypt = require("node-jsencrypt");
@@ -21,7 +21,7 @@ module.exports.handler = async (event, context, callback) => {
       MessageBody: JSON.stringify({ code: code, user: user }),
       QueueUrl: queueUrl,
     };
-    await sqs.sendMessage(params).promise();
+    await sqs.sendMessage(params);
     callback(null, {
       statusCode: 200,
       headers: {

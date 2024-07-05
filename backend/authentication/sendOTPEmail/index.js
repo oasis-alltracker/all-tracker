@@ -1,10 +1,12 @@
-const DynamoDB = require("aws-sdk/clients/dynamodb");
-const SES = require("aws-sdk/clients/ses");
+const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
+const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+const { SES } = require("@aws-sdk/client-ses");
+
 const DbUtils = require("../../utils/databaseManager");
 
-const ses = new SES({ apiVersion: "2010-12-01" });
+const ses = new SES();
 const tableName = process.env.ALL_TRACKER_TABLE_NAME;
-const DB = new DynamoDB.DocumentClient();
+const DB = DynamoDBDocument.from(new DynamoDB());
 const dbService = new DbUtils(DB, tableName);
 
 const EmailDB = require("../../utils/emailDB");

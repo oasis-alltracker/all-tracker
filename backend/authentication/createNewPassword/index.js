@@ -1,13 +1,15 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const DynamoDB = require("aws-sdk/clients/dynamodb");
+const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
+const { DynamoDB } = require("@aws-sdk/client-dynamodb");
+
 const DbUtils = require("../../utils/databaseManager");
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
 const tableName = process.env.ALL_TRACKER_TABLE_NAME;
-const DB = new DynamoDB.DocumentClient();
+const DB = DynamoDBDocument.from(new DynamoDB());
 const dbService = new DbUtils(DB, tableName);
 
 const UserDB = require("../../utils/userDB");

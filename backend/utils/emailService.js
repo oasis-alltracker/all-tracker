@@ -22,7 +22,7 @@ class EmailService {
     params.ConfigurationSetName = this.configurationSetName;
 
     try {
-      await this.SES.sendTemplatedEmail(params).promise();
+      await this.SES.sendTemplatedEmail(params);
     } catch (e) {
       console.log(e);
       throw new Error("Something went wrong sending the email template.");
