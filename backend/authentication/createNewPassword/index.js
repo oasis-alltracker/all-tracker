@@ -30,7 +30,10 @@ module.exports.handler = async (event, context, callback) => {
       const tempPasswordKey = { PK: email, SK: "tempPassword" };
       const tempPasswordResponse = await dbService.getItem(tempPasswordKey);
 
-      if (!isEmptyObject(tempPasswordResponse)) {
+      if (
+        tempPasswordResponse.Item &&
+        !isEmptyObject(tempPasswordResponse.Item)
+      ) {
         const hashedTempPassword = tempPasswordResponse.Item.hashedTempPassword;
         const creationTime = new Date(tempPasswordResponse.Item.createdAt);
 
@@ -47,7 +50,7 @@ module.exports.handler = async (event, context, callback) => {
           const saltRounds = 10;
           const hashedPassword = await bcrypt.hash(
             userCredentials.password,
-            saltRounds,
+            saltRounds
           );
 
           await userDB.updatePassword(email, hashedPassword);

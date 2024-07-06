@@ -24,7 +24,7 @@ module.exports.handler = async (event, context, callback) => {
     };
     const existingEmail = await dbService.getItem(emailKey);
 
-    if (!isEmptyObject(existingEmail)) {
+    if (existingEmail.Item && !isEmptyObject(existingEmail.Item)) {
       if (existingEmail.failedAttempts >= 5) {
         callback(null, {
           statusCode: 200,

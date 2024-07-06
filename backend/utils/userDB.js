@@ -8,7 +8,7 @@ class UserDB {
   async userExistsOrCreateUser(email, hashedPassword) {
     const emailKey = { PK: email, SK: email };
     const existingUser = await this.dbService.getItem(emailKey);
-    if (!isEmptyObject(existingUser)) {
+    if (existingUser.Item && !isEmptyObject(existingUser.Item)) {
       this.updateFailedAttemptsCount(0);
       return existingUser.Item;
     } else {

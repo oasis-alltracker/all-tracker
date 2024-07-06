@@ -35,14 +35,17 @@ module.exports.handler = async (event, context, callback) => {
         const existingUser = await dbService.getItem(emailKey);
 
         if (
-          !isEmptyObject(existingUser) &&
+          existingUser.Item &&
+          !isEmptyObject(existingUser.Item) &&
           existingUser.Item.failedAttempts > 5
         ) {
           body = JSON.stringify({ loginFailed: "locked" });
           statusCode = 200;
         } else if (
-          !isEmptyObject(otpResponse) &&
-          !isEmptyObject(existingUser)
+          existingUser.Item &&
+          otpResponse.Item &&
+          !isEmptyObject(otpResponse.Item) &&
+          !isEmptyObject(existingUser.Item)
         ) {
           const hashedPassword = otpResponse.Item.hashedOTP;
           const creationTime = new Date(otpResponse.Item.createdAt);

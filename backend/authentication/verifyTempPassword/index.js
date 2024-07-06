@@ -28,7 +28,10 @@ module.exports.handler = async (event, context, callback) => {
       const tempPasswordKey = { PK: email, SK: "tempPassword" };
       const tempPasswordResponse = await dbService.getItem(tempPasswordKey);
 
-      if (!isEmptyObject(tempPasswordResponse)) {
+      if (
+        tempPasswordResponse.Item &&
+        !isEmptyObject(tempPasswordResponse.Item)
+      ) {
         if (tempPasswordResponse.Item.failedAttempts < 5) {
           const hashedTempPassword =
             tempPasswordResponse.Item.hashedTempPassword;
@@ -39,7 +42,7 @@ module.exports.handler = async (event, context, callback) => {
           } else if (
             await bcrypt.compare(
               userCredentials.tempPassword,
-              hashedTempPassword,
+              hashedTempPassword
             )
           ) {
             body = JSON.stringify({
@@ -53,7 +56,7 @@ module.exports.handler = async (event, context, callback) => {
             });
             await failedAttempt(
               email,
-              tempPasswordResponse.Item.failedAttempts,
+              tempPasswordResponse.Item.failedAttempts
             );
           }
         } else {
