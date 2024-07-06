@@ -66,7 +66,11 @@ const Soultification = ({
   const addNewSchedule = async () => {
     if (isToggled) {
       const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, group);
+      NotificationsHandler.turnOffGroupPreferenceNotifications(token, group, [
+        ...expoIDsSchedule1,
+        ...expoIDsSchedule2,
+        ...expoIDsSchedule3,
+      ]);
       setIsToggled(false);
     }
     if (!activeSchedule2) {
@@ -124,8 +128,6 @@ const Soultification = ({
   const onToggle = async () => {
     setIsLoading(true);
     var notificationTriggers = [];
-
-    const token = await getAccessToken();
 
     if (!isToggled) {
       if (activeSchedule1) {
@@ -204,15 +206,15 @@ const Soultification = ({
     }
     var listOfExpoIDs = await toggled(notificationTriggers);
     if (listOfExpoIDs) {
-      for (var i = 1; i <= 3; i++) {
+      for (var i = 0; i < listOfExpoIDs.length; i++) {
+        if (i == 0) {
+          setExpoIDsSchedule1(listOfExpoIDs[i]);
+        }
         if (i == 1) {
-          setExpoIDsSchedule1(listOfExpoIDs[i - 1]);
+          setExpoIDsSchedule2(listOfExpoIDs[i]);
         }
         if (i == 2) {
-          setExpoIDsSchedule2(listOfExpoIDs[i - 1]);
-        }
-        if (i == 3) {
-          setExpoIDsSchedule3(listOfExpoIDs[i - 1]);
+          setExpoIDsSchedule3(listOfExpoIDs[i]);
         }
       }
     }
@@ -221,9 +223,19 @@ const Soultification = ({
 
   const onChangeSchedule1 = async (event, selectedDate) => {
     if (isToggled) {
-      const token = await getAccessToken();
-      await NotificationsHandler.turnOffGroupNotifications(token, group);
       setIsToggled(false);
+      const token = await getAccessToken();
+      const prevExpoIDs = [
+        ...expoIDsSchedule1,
+        ...expoIDsSchedule2,
+        ...expoIDsSchedule3,
+      ];
+      await NotificationsHandler.turnOffGroupPreferenceNotifications(
+        token,
+        group,
+        prevExpoIDs
+      );
+
       setExpoIDsSchedule1([]);
     }
     if (Platform.OS === "android") {
@@ -234,9 +246,14 @@ const Soultification = ({
 
   const onChangeSchedule2 = async (event, selectedDate) => {
     if (isToggled) {
-      const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, group);
       setIsToggled(false);
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupPreferenceNotifications(token, group, [
+        ...expoIDsSchedule1,
+        ...expoIDsSchedule2,
+        ...expoIDsSchedule3,
+      ]);
+
       setExpoIDsSchedule2([]);
     }
     if (Platform.OS === "android") {
@@ -247,9 +264,14 @@ const Soultification = ({
 
   const onChangeSchedule3 = async (event, selectedDate) => {
     if (isToggled) {
-      const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, group);
       setIsToggled(false);
+      const token = await getAccessToken();
+      NotificationsHandler.turnOffGroupPreferenceNotifications(token, group, [
+        ...expoIDsSchedule1,
+        ...expoIDsSchedule2,
+        ...expoIDsSchedule3,
+      ]);
+
       setExpoIDsSchedule3([]);
     }
     if (Platform.OS === "android") {
@@ -413,9 +435,14 @@ const Soultification = ({
                   onPress={async () => {
                     if (isToggled) {
                       const token = await getAccessToken();
-                      NotificationsHandler.turnOffGroupNotifications(
+                      NotificationsHandler.turnOffGroupPreferenceNotifications(
                         token,
-                        group
+                        group,
+                        [
+                          ...expoIDsSchedule1,
+                          ...expoIDsSchedule2,
+                          ...expoIDsSchedule3,
+                        ]
                       );
                       setIsToggled(false);
                     }
@@ -526,9 +553,14 @@ const Soultification = ({
                   onPress={async () => {
                     if (isToggled) {
                       const token = await getAccessToken();
-                      NotificationsHandler.turnOffGroupNotifications(
+                      NotificationsHandler.turnOffGroupPreferenceNotifications(
                         token,
-                        group
+                        group,
+                        [
+                          ...expoIDsSchedule1,
+                          ...expoIDsSchedule2,
+                          ...expoIDsSchedule3,
+                        ]
                       );
                       setIsToggled(false);
                     }
@@ -651,9 +683,14 @@ const Soultification = ({
                   onPress={async () => {
                     if (isToggled) {
                       const token = await getAccessToken();
-                      NotificationsHandler.turnOffGroupNotifications(
+                      NotificationsHandler.turnOffGroupPreferenceNotifications(
                         token,
-                        group
+                        group,
+                        [
+                          ...expoIDsSchedule1,
+                          ...expoIDsSchedule2,
+                          ...expoIDsSchedule3,
+                        ]
                       );
                       setIsToggled(false);
                     }

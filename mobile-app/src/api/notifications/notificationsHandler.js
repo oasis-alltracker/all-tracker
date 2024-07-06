@@ -76,7 +76,11 @@ class NotificationsHandler {
     }
   }
 
-  static async turnOnGroupPreferenceNotifications(token, group) {
+  static async turnOnGroupPreferenceNotifications(
+    token,
+    group,
+    turnOnIndividuals = false
+  ) {
     var preferenceKey = group + "Preference";
     await this.updateNotification(
       token,
@@ -87,23 +91,29 @@ class NotificationsHandler {
       "undefined",
       "on"
     );
-    notifications = await this.getNotificationsForGroup(token, group);
-    for (var notification of notifications) {
-      if (notification.SK !== preferenceKey) {
-        await this.turnOnNotification(
-          token,
-          notification.SK,
-          notification.title,
-          notification.body,
-          notification.triggers,
-          true,
-          notification.expoIDs
-        );
+    if (turnOnIndividuals) {
+      notifications = await this.getNotificationsForGroup(token, group);
+      for (var notification of notifications) {
+        if (notification.SK !== preferenceKey) {
+          await this.turnOnNotification(
+            token,
+            notification.SK,
+            notification.title,
+            notification.body,
+            notification.triggers,
+            true,
+            notification.expoIDs
+          );
+        }
       }
     }
   }
 
-  static async turnOffGroupPreferenceNotifications(token, group) {
+  static async turnOffGroupPreferenceNotifications(
+    token,
+    group,
+    prevExpoIDs = false
+  ) {
     var preferenceKey = group + "Preference";
     await this.updateNotification(
       token,
@@ -114,19 +124,7 @@ class NotificationsHandler {
       "undefined",
       "off"
     );
-    notifications = await this.getNotificationsForGroup(token, group);
-    for (var notification of notifications) {
-      if (
-        notification.SK !== preferenceKey &&
-        notification.preference === "on"
-      ) {
-        await this.turnOffNotification(
-          token,
-          notification.SK,
-          notification.expoIDs
-        );
-      }
-    }
+    await this.turnOffGroupNotifications(token, group, prevExpoIDs);
   }
   static async checkNotificationsStatus(token) {
     const pushToken = await this.registerForPushNotificationsAsync();
@@ -229,11 +227,21 @@ class NotificationsHandler {
     }
   }
 
-  static async turnOffGroupNotifications(token, group) {
+  static async turnOffGroupNotifications(token, group, prevExpoIDs = false) {
     notifications = await this.getNotificationsForGroup(token, group);
+
     for (notification of notifications) {
-      for (expoID of notification.expoIDs) {
-        await this.cancelPushNotification(expoID);
+      if (notification.SK !== group + "Preference") {
+        await this.turnOffNotification(
+          token,
+          notification.SK,
+          notification.expoIDs
+        );
+      }
+    }
+    if (prevExpoIDs) {
+      for (var prevExpoID of prevExpoIDs) {
+        await this.cancelPushNotification(prevExpoID);
       }
     }
   }

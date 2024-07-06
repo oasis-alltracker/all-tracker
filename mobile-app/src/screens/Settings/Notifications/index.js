@@ -162,7 +162,8 @@ const Notifications = () => {
             setIsTasksEnabled((previousState) => !previousState);
             await NotificationsHandler.turnOnGroupPreferenceNotifications(
               token,
-              "task"
+              "task",
+              true
             );
           } else {
             Toast.show(
@@ -522,7 +523,11 @@ const Notifications = () => {
   const onChangeHabitTime = async (event, selectedDate) => {
     if (isHabitsEnabled) {
       const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, "habits");
+      NotificationsHandler.turnOffGroupNotifications(
+        token,
+        "habit",
+        habitExpoIDs
+      );
       setIsHabitsEnabled(false);
       setHabitExpoIDs([]);
     }
@@ -535,7 +540,11 @@ const Notifications = () => {
   const onChangeBreakfastTime = async (event, selectedDate) => {
     if (isBreakfastEnabled) {
       const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, "breakfast");
+      NotificationsHandler.turnOffGroupNotifications(
+        token,
+        "breakfast",
+        breakfastExpoIDs
+      );
       setIsBreakfastEnabled(false);
       setBreakfastExpoIDs([]);
     }
@@ -548,7 +557,11 @@ const Notifications = () => {
   const onChangeLunchTime = async (event, selectedDate) => {
     if (isLunchEnabled) {
       const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, "lunch");
+      NotificationsHandler.turnOffGroupNotifications(
+        token,
+        "lunch",
+        lunchExpoIDs
+      );
       setIsLunchEnabled(false);
       setLunchExpoIDs([]);
     }
@@ -561,7 +574,11 @@ const Notifications = () => {
   const onChangeDinnerTime = async (event, selectedDate) => {
     if (isDinnerEnabled) {
       const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(token, "dinner");
+      NotificationsHandler.turnOffGroupNotifications(
+        token,
+        "dinner",
+        dinnerExpoIDs
+      );
       setIsDinnerEnabled(false);
       setDinnerExpoIDs([]);
     }
