@@ -201,7 +201,7 @@ const HabitsNotifications = (props) => {
       </View>
       <View style={styles.notification}>
         <View style={styles.row}>
-          <Text style={[styles.text]}>Notifications:</Text>
+          <Text style={[styles.text, styles.title]}>Notifications:</Text>
           <View>
             <Switch
               width={55}
@@ -296,11 +296,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   title: {
-    fontSize: 24,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 20,
-    marginLeft: 10,
+    fontFamily: "Sego-Bold",
+    fontSize: 26,
   },
   boldText: {
     fontFamily: "Sego-Bold",
