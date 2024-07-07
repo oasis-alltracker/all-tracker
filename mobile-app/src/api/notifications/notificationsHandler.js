@@ -162,6 +162,7 @@ class NotificationsHandler {
           );
           expoIDs.push(expoID);
         } catch (e) {
+          console.log(e);
           return false;
         }
       }

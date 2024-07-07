@@ -62,6 +62,14 @@ const Soultification = ({
     };
     return dateObject.toLocaleString("en-US", options);
   };
+  const formatDateObject = (dateObject) => {
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    return dateObject.toLocaleString("en-US", options);
+  };
 
   const addNewSchedule = async () => {
     if (isToggled) {
@@ -521,7 +529,7 @@ const Soultification = ({
                     title="toggleMinMaxDate"
                   >
                     <Text style={styles.timeText}>
-                      {formatDateObject(habitTime)}
+                      {formatDateObject(timeSchedule1)}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -531,10 +539,10 @@ const Soultification = ({
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={habitTime}
+                      value={timeSchedule1}
                       mode={"time"}
                       is24Hour={true}
-                      onChange={onChangeHabitTime}
+                      onChange={onChangeSchedule1}
                     />
                   )}
                 </>
@@ -651,7 +659,7 @@ const Soultification = ({
                     title="toggleMinMaxDate"
                   >
                     <Text style={styles.timeText}>
-                      {formatDateObject(habitTime)}
+                      {formatDateObject(timeSchedule2)}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -661,10 +669,10 @@ const Soultification = ({
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={habitTime}
+                      value={timeSchedule2}
                       mode={"time"}
                       is24Hour={true}
-                      onChange={onChangeHabitTime}
+                      onChange={onChangeSchedule2}
                     />
                   )}
                 </>
@@ -782,7 +790,7 @@ const Soultification = ({
                     title="toggleMinMaxDate"
                   >
                     <Text style={styles.timeText}>
-                      {formatDateObject(habitTime)}
+                      {formatDateObject(timeSchedule3)}
                     </Text>
                   </TouchableOpacity>
                 )}
@@ -792,10 +800,10 @@ const Soultification = ({
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={habitTime}
+                      value={timeSchedule3}
                       mode={"time"}
                       is24Hour={true}
-                      onChange={onChangeHabitTime}
+                      onChange={onChangeSchedule3}
                     />
                   )}
                 </>
