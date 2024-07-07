@@ -43,7 +43,7 @@ const Main = ({
 
   useEffect(() => {
     if (trackingPreferences.habitsSelected) {
-      setToDosHeight(120);
+      setToDosHeight(180);
     } else {
       setToDosHeight(330);
     }
@@ -537,7 +537,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     paddingHorizontal: 20,
-    height: 140,
+    height: 130,
   },
   habitImageMain: {
     width: 60,
