@@ -1,6 +1,6 @@
 import axios from "axios";
-import { BASE_URL } from "@env";
-const API = BASE_URL + "toDos/";
+const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+const API = EXPO_PUBLIC_BASE_URL + "toDos/";
 
 class ToDosAPI {
   static async getToDosForToday(token, dateStamp) {

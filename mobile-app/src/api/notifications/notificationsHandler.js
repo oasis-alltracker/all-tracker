@@ -4,8 +4,8 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import axios from "axios";
 
-import { BASE_URL } from "@env";
-const API = BASE_URL + "notifications/";
+const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+const API = EXPO_PUBLIC_BASE_URL + "notifications/";
 
 class NotificationsHandler {
   static async getAllNotificationsState(token) {

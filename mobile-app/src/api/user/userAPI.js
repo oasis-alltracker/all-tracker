@@ -1,6 +1,6 @@
 import axios from "axios";
-import { BASE_URL } from "@env";
-const API = BASE_URL + "user/";
+const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+const API = EXPO_PUBLIC_BASE_URL + "user/";
 
 class UserAPI {
   static async getUser(token) {
