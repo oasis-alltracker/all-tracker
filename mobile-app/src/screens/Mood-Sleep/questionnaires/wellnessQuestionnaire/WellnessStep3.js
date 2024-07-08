@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: "Sego",
     flex: 1,
+    textAlign: "center",
+    width: "100%",
   },
   buttons: {
     flexDirection: "row",
