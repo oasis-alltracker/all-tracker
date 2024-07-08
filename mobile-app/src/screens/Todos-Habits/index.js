@@ -259,7 +259,7 @@ const TodosHabits = ({ navigation }) => {
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)) - 1,
+            month: Number(toDo.dateStamp.substring(4, 6)),
             hour: time[0],
             minute: time[1],
           },
@@ -299,7 +299,7 @@ const TodosHabits = ({ navigation }) => {
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)) - 1,
+            month: Number(toDo.dateStamp.substring(4, 6)),
             hour: time[0],
             minute: time[1],
           },
