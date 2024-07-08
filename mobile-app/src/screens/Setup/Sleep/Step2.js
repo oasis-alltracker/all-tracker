@@ -103,8 +103,11 @@ const SleepStep2 = (props) => {
         accessToken
       );
       setIsLoading(false);
-      //TO-DO check if user is subscribed
-      await navigationService.reset("main", 0);
+      if (true) {
+        await navigationService.navigate("explainsubscription");
+      } else {
+        await navigationService.reset("main", 0);
+      }
     } catch (e) {
       setIsLoading(false);
       console.log(e);

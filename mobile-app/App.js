@@ -8,11 +8,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet, Platform } from "react-native";
 import { getAccessToken, isLoggedIn, logout } from "./src/user/keychain";
 import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
+import Purchases from "react-native-purchases";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -77,6 +78,11 @@ export default function App() {
       setLoading(false);
     };
 
+    if (Platform.OS === "android") {
+      Purchases.configure({ apiKey: "goog_qebjpCbePNjgIZTDmsuXLciQyyt" });
+    } else if (Platform.OS === "ios") {
+      Purchases.configure({ apiKey: "appl_UOmgvrKMTaUIkAHVZouJukEKHLQ" });
+    }
     checkIsLoggedIn();
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);

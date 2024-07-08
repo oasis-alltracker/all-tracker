@@ -20,6 +20,7 @@ import TaskModal from "../../Todos-Habits/modals/TaskModal";
 import TasksAPI from "../../../api/tasks/tasksAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { set } from "lodash";
 const { width, height } = Dimensions.get("window");
 
 const Todos = (props) => {
@@ -508,9 +509,12 @@ const Todos = (props) => {
           accessToken
         );
 
-        //TO-DO check if user is subscribed
         setIsLoading(false);
-        await navigationService.reset("main", 0);
+        if (true) {
+          await navigationService.navigate("explainsubscription");
+        } else {
+          await navigationService.reset("main", 0);
+        }
       }
     } catch (e) {
       console.log(e);

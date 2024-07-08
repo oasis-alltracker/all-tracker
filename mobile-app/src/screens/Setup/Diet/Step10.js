@@ -264,10 +264,12 @@ const DietStep10 = (props) => {
           selectedTrackers,
           accessToken
         );
-
-        //TO-DO check if user is subscribed
         setIsLoading(false);
-        await navigationService.reset("main", 0);
+        if (true) {
+          await navigationService.navigate("explainsubscription");
+        } else {
+          await navigationService.reset("main", 0);
+        }
       }
     } catch (e) {
       console.log(e);

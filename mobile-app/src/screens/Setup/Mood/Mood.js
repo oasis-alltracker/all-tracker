@@ -106,9 +106,12 @@ const Mood = (props) => {
           accessToken
         );
 
-        //TO-DO check if user is subscribed
         setIsLoading(false);
-        navigationService.reset("main", 0);
+        if (true) {
+          await navigationService.navigate("explainsubscription");
+        } else {
+          await navigationService.reset("main", 0);
+        }
       }
     } catch (e) {
       console.log(e);
