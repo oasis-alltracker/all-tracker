@@ -85,7 +85,7 @@ const SleepStats = ({ sunday, updateStats }) => {
           spacing={40}
         />
         <Text style={styles.xLabel}>
-          Average sleep rating: {Math.round(averageRating * 10) / 10}
+          Average rating: {Math.round(averageRating * 10) / 10}/5
         </Text>
       </View>
     </View>
