@@ -11,11 +11,14 @@ import {
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Purchases from "react-native-purchases";
+import UserAPI from "../../../api/user/userAPI";
 
 const { width, height } = Dimensions.get("window");
-const ExplainSubscription = () => {
+const ExplainSubscription = (props) => {
+  const { selectedTrackers } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
 
   const subscribe = async () => {
@@ -35,8 +38,14 @@ const ExplainSubscription = () => {
 
         if (monthly) {
           const purchaseMade = await Purchases.purchasePackage(monthly);
-          // Handle purchaseMade if necessary
-          console.log("Purchase made:", purchaseMade);
+          const accessToken = await getAccessToken();
+          const { status, data } = await UserAPI.updateUser(
+            true,
+            selectedTrackers,
+            accessToken
+          );
+          navigationService.reset("main", 0);
+          setIsLoading(false);
         } else {
           Alert.alert("Error", "Monthly subscription not available.");
         }
@@ -47,8 +56,15 @@ const ExplainSubscription = () => {
       Alert.alert("Error", "Failed to acquire subscription.");
       console.error(error);
     }
+    const accessToken = await getAccessToken();
+    const { status, data } = await UserAPI.updateUser(
+      true,
+      selectedTrackers,
+      accessToken
+    );
+    navigationService.reset("main", 0);
+
     setIsLoading(false);
-    await navigationService.reset("main", 0);
   };
 
   return (

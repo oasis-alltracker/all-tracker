@@ -96,18 +96,24 @@ const SleepStep2 = (props) => {
   const onNext = async () => {
     setIsLoading(true);
     try {
+      setIsLoading(true);
       const accessToken = await getAccessToken();
-      const { status, data } = await UserAPI.updateUser(
-        true,
-        selectedTrackers,
+
+      const { status: status, data: userData } = await UserAPI.getUser(
         accessToken
       );
-      setIsLoading(false);
-      if (true) {
-        await navigationService.navigate("explainsubscription");
+
+      if (userData && !userData["isSetupComplete"]) {
+        navigationService.navigate("explainsubscription", { selectedTrackers });
       } else {
-        await navigationService.reset("main", 0);
+        const { status, data } = await UserAPI.updateUser(
+          true,
+          selectedTrackers,
+          accessToken
+        );
+        navigationService.reset("main", 0);
       }
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       console.log(e);
