@@ -1,3 +1,5 @@
+import React, { useState, useRef, useEffect } from "react";
+
 import {
   View,
   Text,
@@ -6,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
 import { Image } from "react-native";
 import { Button, RenderTodos } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
@@ -14,7 +15,7 @@ import UserAPI from "../../../api/user/userAPI";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
-import ToDosAPI from "../../../api/tasks/toDosAPI";
+import ToDosAPI from "../../../api/toDos/toDosAPI";
 import TaskModal from "../../Todos-Habits/modals/TaskModal";
 import TasksAPI from "../../../api/tasks/tasksAPI";
 import { SafeAreaView } from "react-native-safe-area-context";

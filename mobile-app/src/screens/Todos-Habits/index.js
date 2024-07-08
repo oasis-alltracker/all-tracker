@@ -19,7 +19,7 @@ import MenuIcon from "../../assets/icons/menu";
 
 import { getAccessToken } from "../../user/keychain";
 import HabitsAPI from "../../api/habits/habitsAPI";
-import ToDosAPI from "../../api/tasks/toDosAPI";
+import ToDosAPI from "../../api/toDos/toDosAPI";
 import HabitStatusesAPI from "../../api/habits/habitStatusesAPI";
 import UserAPI from "../../api/user/userAPI";
 import HabitStatusListAPI from "../../api/habits/habitStatusListAPI";
