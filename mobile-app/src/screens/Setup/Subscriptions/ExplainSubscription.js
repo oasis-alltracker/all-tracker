@@ -31,7 +31,6 @@ const ExplainSubscription = (props) => {
       }
       const offerings = await Purchases.getOfferings();
       const { current } = offerings;
-      console.log("current", current);
 
       if (current) {
         const { monthly } = current;
@@ -45,7 +44,6 @@ const ExplainSubscription = (props) => {
             accessToken
           );
           navigationService.reset("main", 0);
-          setIsLoading(false);
         } else {
           Alert.alert("Error", "Monthly subscription not available.");
         }
@@ -56,13 +54,6 @@ const ExplainSubscription = (props) => {
       Alert.alert("Error", "Failed to acquire subscription.");
       console.error(error);
     }
-    const accessToken = await getAccessToken();
-    const { status, data } = await UserAPI.updateUser(
-      true,
-      selectedTrackers,
-      accessToken
-    );
-    navigationService.reset("main", 0);
 
     setIsLoading(false);
   };
