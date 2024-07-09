@@ -27,7 +27,7 @@ const ExplainSubscription = (props) => {
       if (Platform.OS === "android") {
         Purchases.configure({ apiKey: "goog_qebjpCbePNjgIZTDmsuXLciQyyt" });
       } else if (Platform.OS === "ios") {
-        Purchases.configure({ apiKey: "appl_UOmgvrKMTaUIkAHVZouJukEKHLQ" });
+        Purchases.configure({ apiKey: "appl_UmNtbYioXdkYnRLudqwACDfioTQ" });
       }
       const offerings = await Purchases.getOfferings();
       const { current } = offerings;
@@ -51,7 +51,7 @@ const ExplainSubscription = (props) => {
         Alert.alert("Error", "No offerings available.");
       }
     } catch (error) {
-      Alert.alert("Error", "Failed to acquire subscription.");
+      Alert.alert("Error", "Failed to purchase subscription.");
       console.error(error);
     }
 
