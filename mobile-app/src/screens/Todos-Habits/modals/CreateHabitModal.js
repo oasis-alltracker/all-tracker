@@ -31,7 +31,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
   const [habitSearch, setHabitSearch] = useState(false);
 
   const [image, setImage] = useState(
-    "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
   );
 
   const [tempHabitName, setTempHabitName] = useState(false);
@@ -463,7 +463,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/meditate.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/meditate.png"
                   )
                 }
               >
@@ -478,7 +478,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/drink-water.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/drink-water.png"
                   )
                 }
               >
@@ -493,7 +493,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/run.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/run.png"
                   )
                 }
               >
@@ -508,7 +508,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-junk-food.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-junk-food.png"
                   )
                 }
               >
@@ -525,7 +525,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/dog-walk.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/dog-walk.png"
                   )
                 }
               >
@@ -540,7 +540,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/stretch.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/stretch.png"
                   )
                 }
               >
@@ -555,7 +555,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/workout.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/workout.png"
                   )
                 }
               >
@@ -570,7 +570,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/cycling.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/cycling.png"
                   )
                 }
               >
@@ -587,7 +587,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-phone.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-phone.png"
                   )
                 }
               >
@@ -602,7 +602,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png"
                   )
                 }
               >
@@ -617,7 +617,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/shower.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/shower.png"
                   )
                 }
               >
@@ -632,7 +632,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/journal.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/journal.png"
                   )
                 }
               >
@@ -649,7 +649,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/time-to-eat.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/time-to-eat.png"
                   )
                 }
               >
@@ -664,7 +664,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-alcohol.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-alcohol.png"
                   )
                 }
               >
@@ -679,7 +679,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/guitar.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/guitar.png"
                   )
                 }
               >
@@ -694,7 +694,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/tea.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/tea.png"
                   )
                 }
               >
@@ -711,7 +711,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/outdoors.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/outdoors.png"
                   )
                 }
               >
@@ -726,7 +726,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/swimming.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/swimming.png"
                   )
                 }
               >
@@ -741,7 +741,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/recreational-drugs.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/recreational-drugs.png"
                   )
                 }
               >
@@ -756,7 +756,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/jumpsuit.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/jumpsuit.png"
                   )
                 }
               >
@@ -773,7 +773,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/herbs.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/herbs.png"
                   )
                 }
               >
@@ -788,7 +788,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/drum.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/drum.png"
                   )
                 }
               >
@@ -803,7 +803,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/piano.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/piano.png"
                   )
                 }
               >
@@ -818,7 +818,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/console.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/console.png"
                   )
                 }
               >
@@ -835,7 +835,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/audio-jack.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/audio-jack.png"
                   )
                 }
               >
@@ -850,7 +850,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/party-music.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/party-music.png"
                   )
                 }
               >
@@ -865,7 +865,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/eco-idea.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/eco-idea.png"
                   )
                 }
               >
@@ -880,7 +880,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/flipflop.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/flipflop.png"
                   )
                 }
               >
@@ -897,7 +897,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/multimedia.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/multimedia.png"
                   )
                 }
               >
@@ -912,7 +912,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/music-note.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/music-note.png"
                   )
                 }
               >
@@ -927,7 +927,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/add-to-cart.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/add-to-cart.png"
                   )
                 }
               >
@@ -942,7 +942,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/gym.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/gym.png"
                   )
                 }
               >
@@ -959,7 +959,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/electric-guitar.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/electric-guitar.png"
                   )
                 }
               >
@@ -974,7 +974,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/news.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/news.png"
                   )
                 }
               >
@@ -989,7 +989,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/runner.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/runner.png"
                   )
                 }
               >
@@ -1004,7 +1004,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/yoga.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/yoga.png"
                   )
                 }
               >
@@ -1021,7 +1021,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/exercise.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/exercise.png"
                   )
                 }
               >
@@ -1036,7 +1036,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/smoking.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/smoking.png"
                   )
                 }
               >
@@ -1051,7 +1051,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-food.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-food.png"
                   )
                 }
               >
@@ -1066,7 +1066,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={styles.imageSelector}
                 onPress={() =>
                   selectImage(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/read.png",
+                    "https://oasis-images.s3.ca-central-1.amazonaws.com/read.png"
                   )
                 }
               >
@@ -1101,16 +1101,19 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         Toast.show("Don't forget to give this habit a name.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
         });
       } else if (threshold <= 0) {
         Toast.show("'Times a day' needs to be greater than 0.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
         });
       } else if (time == new Date("1995-12-17T12:00:00")) {
         Toast.show("Don't forget to set a time.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
         });
       } else if (
         habitName &&
@@ -1141,6 +1144,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         Toast.show("You must complete the form to create a habit.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
         });
       }
     };

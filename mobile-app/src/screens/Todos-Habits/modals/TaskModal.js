@@ -110,11 +110,13 @@ export default function TaskModal({
       Toast.show("You must complete the form to create a task.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
       });
     } else if (title == "") {
       Toast.show("Don't forget to give this task a name.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
       });
     } else {
       try {
