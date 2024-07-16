@@ -313,25 +313,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
               </View>
               <View style={styles.habitItem}>
                 <TouchableOpacity
-                  style={[
-                    styles.habitSelector,
-                    { backgroundColor: "rgba(255, 216, 247, 0.62)" },
-                  ]}
-                  onPress={() => selectHabit("No junk food")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/no-junk-food.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>No junk food</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
                   style={styles.habitSelector}
                   onPress={() => selectHabit("Be outdoors")}
                 >
@@ -343,23 +324,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                   />
                 </TouchableOpacity>
                 <Text style={styles.text}>Be outdoors</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={[
-                    styles.habitSelector,
-                    { backgroundColor: "rgba(255, 216, 247, 0.62)" },
-                  ]}
-                  onPress={() => selectHabit("No phone")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/no-phone.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>No phone</Text>
               </View>
             </View>
             <View style={styles.habitSearchRow}>
@@ -379,25 +343,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
               </View>
               <View style={styles.habitItem}>
                 <TouchableOpacity
-                  style={[
-                    styles.habitSelector,
-                    { backgroundColor: "rgba(255, 216, 247, 0.62)" },
-                  ]}
-                  onPress={() => selectHabit("No alcohol")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/no-alcohol.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>No alcohol</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
                   style={styles.habitSelector}
                   onPress={() => selectHabit("Swim")}
                 >
@@ -409,23 +354,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                   />
                 </TouchableOpacity>
                 <Text style={styles.text}>Swim</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={[
-                    styles.habitSelector,
-                    { backgroundColor: "rgba(255, 216, 247, 0.62)" },
-                  ]}
-                  onPress={() => selectHabit("No drugs")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/recreational-drugs.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>No drugs</Text>
               </View>
             </View>
           </View>
@@ -1101,23 +1029,19 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         Toast.show("Don't forget to give this habit a name.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.CENTER,
         });
       } else if (threshold <= 0) {
         Toast.show("'Times a day' needs to be greater than 0.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.CENTER,
         });
       } else if (time == new Date("1995-12-17T12:00:00")) {
         Toast.show("Don't forget to set a time.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.CENTER,
         });
       } else if (
         habitName &&
-        isPositiveIndex !== "" &&
         threshold &&
         image != "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
       ) {
@@ -1132,11 +1056,9 @@ export default function CreateHabitModal({ getRef, createHabit }) {
             hour12: false,
           }),
         };
-        if (isPositiveIndex == 0) {
-          habit.isPositive = true;
-        } else {
-          habit.isPositive = false;
-        }
+
+        habit.isPositive = true;
+
         backDropPressed();
         await createHabit(habit);
         setIsLoading(false);
@@ -1220,33 +1142,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                   <Image style={styles.image} source={{ uri: image }} />
                 </TouchableOpacity>
               </View>
-              <View style={styles.row}>
-                <Text style={styles.key}>Good or bad:</Text>
-                <View style={[styles.itemContainer, styles.itemContainer2]}>
-                  <View style={styles.bottomItems}>
-                    {items.map((item, index) => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            setIsPositiveIndex(index);
-                          }}
-                          key={index.toString()}
-                          style={[
-                            styles.itemContainer,
-                            styles.itemContainer3,
-                            index === isPositiveIndex && {
-                              backgroundColor: "#D7F6FF",
-                            },
-                          ]}
-                        >
-                          <Text style={styles.smallText}>{item}</Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                </View>
-              </View>
-              <View style={styles.row}>
+
+              <View style={[styles.row, { marginBottom: 10 }]}>
                 <Text style={styles.key}>Times a day:</Text>
                 <TextInput
                   style={styles.input}
@@ -1294,7 +1191,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    height: 480,
     paddingVertical: 20,
     backgroundColor: "#fff",
     borderRadius: 30,
@@ -1349,7 +1245,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(172, 197, 204, 0.75)",
     borderRadius: 20,
-    width: 130,
+    width: 120,
     height: 40,
     paddingHorizontal: 20,
     color: "#25436B",
@@ -1373,12 +1269,12 @@ const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
   },
   image: {
-    width: 90,
-    height: 90,
+    width: 70,
+    height: 70,
   },
   selectImage: {
-    width: 135,
-    height: 135,
+    width: 120,
+    height: 120,
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
