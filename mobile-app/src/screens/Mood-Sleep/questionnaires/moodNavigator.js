@@ -17,7 +17,15 @@ const options = {
 function MoodNavigator() {
   return (
     <Stack.Navigator screenOptions={options} initialRouteName={"moodTest"}>
-      <Stack.Screen name="moodStep1" component={WellnessStep1} />
+      <Stack.Screen name="moodStep1">
+        {(props) => (
+          <WellnessStep1
+            {...props}
+            dateStampNotif={props.route.params?.dateStamp}
+            dateStringNotif={props.route.params?.dateString}
+          />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="moodStep2" component={WellnessStep2} />
       <Stack.Screen name="moodStep3" component={WellnessStep3} />
       <Stack.Screen name="moodStep4" component={WellnessStep4} />

@@ -36,8 +36,15 @@ const data = [
 const SleepStep1 = (props) => {
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(0);
+  var dateStamp, dateString;
 
-  const { dateStamp, dateString } = props.route.params;
+  if (props.route.params) {
+    dateStamp = props.route.params.dateStamp;
+    dateString = props.route.params.dateString;
+  } else {
+    dateStamp = props.dateStampNotif;
+    dateString = props.dateStringNotif;
+  }
 
   const onNext = async () => {
     var sleepReport = {};

@@ -13,10 +13,22 @@ const options = {
   gestureEnabled: true,
 };
 
-function SleepNavigator() {
+function SleepNavigator(props) {
   return (
-    <Stack.Navigator screenOptions={options} initialRouteName={"sleepTest"}>
-      <Stack.Screen name="sleepStep1" component={SleepStep1} />
+    <Stack.Navigator
+      dateStampNotif={props}
+      screenOptions={options}
+      initialRouteName={"sleepTest"}
+    >
+      <Stack.Screen name="sleepStep1">
+        {(props) => (
+          <SleepStep1
+            {...props}
+            dateStampNotif={props.route.params?.dateStamp}
+            dateStringNotif={props.route.params?.dateString}
+          />
+        )}
+      </Stack.Screen>
       <Stack.Screen name="sleepStep2" component={SleepStep2} />
       <Stack.Screen name="sleepStep3" component={SleepStep3} />
       <Stack.Screen name="sleepStep4" component={SleepStep4} />

@@ -170,46 +170,6 @@ const SelectTrackers = () => {
             style={[
               styles.button,
               {
-                backgroundColor: "rgba(202, 189, 255, 0.68)",
-                borderColor: "rgba(162, 151, 204, 0.744)",
-              },
-              !dietSelected && { opacity: 0.7 },
-              dietSelected && { borderWidth: 2 },
-              dietSelected && { borderColor: "#25436B" },
-            ]}
-            onPress={() => setDietSelected(!dietSelected)}
-          >
-            <Image
-              style={styles.image}
-              source={require("../../../assets/images/diet512.png")}
-            />
-            <Text style={styles.title}>diet</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              {
-                backgroundColor: "rgba(202, 189, 255, 0.68)",
-                borderColor: "rgba(162, 151, 204, 0.744)",
-              },
-              !fitnessSelected && { opacity: 0.7 },
-              fitnessSelected && { borderWidth: 2 },
-              fitnessSelected && { borderColor: "#25436B" },
-            ]}
-            onPress={() => setFitnessSelected(!fitnessSelected)}
-          >
-            <Image
-              style={styles.image}
-              source={require("../../../assets/images/fitness512.png")}
-            />
-            <Text style={styles.title}>fitness</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.center}>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
               },
@@ -263,17 +223,16 @@ const styles = StyleSheet.create({
   center: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 40,
+    justifyContent: "space-evenly",
     width: "100%",
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 65,
+    height: 65,
   },
   button: {
-    width: 125,
-    height: 125,
+    width: 145,
+    height: 145,
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",

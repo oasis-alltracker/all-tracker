@@ -34,7 +34,15 @@ const data = [
 
 const WellnessStep1 = (props) => {
   const [active, setActive] = useState(0);
-  const { dateStamp, dateString } = props.route.params;
+  var dateStamp, dateString;
+
+  if (props.route.params) {
+    dateStamp = props.route.params.dateStamp;
+    dateString = props.route.params.dateString;
+  } else {
+    dateStamp = props.dateStampNotif;
+    dateString = props.dateStringNotif;
+  }
 
   const onNext = async () => {
     var moodReport = {};

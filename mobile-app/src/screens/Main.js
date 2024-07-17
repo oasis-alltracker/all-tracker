@@ -15,6 +15,7 @@ import MoodQuestionnaire from "./Mood-Sleep/questionnaires/moodNavigator";
 import TodosHabits from "./Todos-Habits";
 import MoodSleep from "./Mood-Sleep";
 import FitnessDiet from "./Fitness-Diet";
+import moment from "moment";
 
 import UserAPI from "../api/user/userAPI";
 import { getAccessToken } from "../user/keychain";
@@ -167,10 +168,26 @@ const styles = StyleSheet.create({
   },
 });
 
-function MainDrawer() {
+const MainDrawer = ({ navigation, initialMainRoute }) => {
+  useEffect(() => {
+    if (initialMainRoute !== "mainscreen") {
+      if (initialMainRoute === "sleepTest" || initialMainRoute === "moodTest") {
+        const today = new Date();
+        navigation.navigate("main", {
+          screen: initialMainRoute,
+          params: {
+            dateString: today.toDateString(),
+            dateStamp: moment(today).format("YYYYMMDD"),
+          },
+        });
+      }
+    } else {
+      navigation.navigate("main", { screen: initialMainRoute });
+    }
+  }, [initialMainRoute]);
   return (
     <Drawer.Navigator
-      initialRouteName="mainscreen"
+      initialRouteName={initialMainRoute}
       drawerContent={DrawerScreen}
       screenOptions={{
         headerShown: false,
@@ -186,6 +203,6 @@ function MainDrawer() {
       <Drawer.Screen name="moodTest" component={MoodQuestionnaire} />
     </Drawer.Navigator>
   );
-}
+};
 
 export default MainDrawer;

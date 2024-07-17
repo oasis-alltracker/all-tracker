@@ -23,6 +23,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
   const [initialRoute, setInitialRoute] = useState("landing");
+  const [initialMainRoute, setInitialMainRoute] = useState("mainscreen");
 
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -42,8 +43,28 @@ export default function App() {
       });
 
     responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((e) => {
-        console.log(e);
+      Notifications.addNotificationResponseReceivedListener((event) => {
+        console.log(event.notification.request.content.title);
+        if (event.notification.request.content.title === "Habit Journal") {
+          setInitialMainRoute("todos-habits");
+        } else if (
+          event.notification.request.content.title === "Task Reminder"
+        ) {
+          setInitialMainRoute("todos-habits");
+        } else if (
+          event.notification.request.content.title === "Wellness check-in"
+        ) {
+          setInitialMainRoute("moodTest");
+        } else if (
+          event.notification.request.content.title === "Morning alarm"
+        ) {
+          console.log("first one");
+          setInitialMainRoute("sleepTest");
+        } else if (
+          event.notification.request.content.title === "Bedtime reminder"
+        ) {
+          setInitialMainRoute("mood-sleep");
+        }
       });
 
     return () => {
@@ -113,7 +134,10 @@ export default function App() {
             />
           ) : (
             <NavigationContainer ref={navigationService._navigator}>
-              <AppNavigator initialRoute={initialRoute} />
+              <AppNavigator
+                initialRoute={initialRoute}
+                initialMainRoute={initialMainRoute}
+              />
             </NavigationContainer>
           )}
         </PersistGate>
