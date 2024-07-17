@@ -42,7 +42,7 @@ const Landing = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#fffdf8",
     paddingTop: 5,
   },
   logo: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     borderRadius: 60,
-    width: viewportWidth - 25,
+    width: viewportWidth - 35,
     height: 60,
     borderWidth: 2,
     borderColor: "lightgray",

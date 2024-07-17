@@ -1313,8 +1313,7 @@ const styles = StyleSheet.create({
   habitSearchRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 40,
+    justifyContent: "space-evenly",
     marginTop: 15,
     marginBottom: 5,
   },
