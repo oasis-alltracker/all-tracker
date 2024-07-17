@@ -41,9 +41,13 @@ const SleepStep1 = (props) => {
   if (props.route.params) {
     dateStamp = props.route.params.dateStamp;
     dateString = props.route.params.dateString;
-  } else {
+  } else if (props.dateStampNotif && props.dateStringNotif) {
     dateStamp = props.dateStampNotif;
     dateString = props.dateStringNotif;
+  } else {
+    const today = new Date();
+    dateString = today.toDateString();
+    dateStamp = moment(today).format("YYYYMMDD");
   }
 
   const onNext = async () => {
