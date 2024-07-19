@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontFamily: "Sego",
     fontSize: 18,
+    width: "90%",
   },
   button: {
     width: "47%",
