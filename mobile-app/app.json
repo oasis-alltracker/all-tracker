@@ -2,7 +2,7 @@
   "expo": {
     "name": "Oasis",
     "slug": "oasistracker",
-    "version": "2.2.5",
+    "version": "2.2.6",
     "orientation": "portrait",
     "icon": "./src/assets/images/app-icon.png",
     "userInterfaceStyle": "light",
