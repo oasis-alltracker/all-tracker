@@ -54,12 +54,12 @@ export default function App() {
         } else if (
           event.notification.request.content.title === "Wellness check-in"
         ) {
-          setInitialMainRoute("moodTest");
+          setInitialMainRoute("mood-sleep");
         } else if (
           event.notification.request.content.title === "Morning alarm"
         ) {
           console.log("first one");
-          setInitialMainRoute("sleepTest");
+          setInitialMainRoute("mood-sleep");
         } else if (
           event.notification.request.content.title === "Bedtime reminder"
         ) {
