@@ -548,11 +548,13 @@ const styles = StyleSheet.create({
     color: "#FFBEF1",
     fontSize: 13,
     fontFamily: "Sego",
+    paddingRight: 6,
   },
   itemRenderText3Main: {
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
+    paddingRight: 6,
   },
   dueTodayText: {
     color: "#25436B",
