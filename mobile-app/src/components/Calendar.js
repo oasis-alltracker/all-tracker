@@ -280,69 +280,70 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   }, []);
 
   const renderCalendar = useMemo(() => (
-    <Calendar
-      markingType={"custom"}
-      markedDates={markedDay}
-      marking={{
-        customTextStyle: {
-          fontFamily: "Sego-Bold",
-        },
-        customStyles: {
-          text: {
+    <View style={{ height: 330 }}>
+      <Calendar
+        markedDates={markedDay}
+        marking={{
+          customTextStyle: {
             fontFamily: "Sego-Bold",
           },
-        },
-      }}
-      hideExtraDays={false}
-      disableMonthChange={false}
-      calendarStyle={{
-        width: width - 45.5,
-        height: 120,
-      }}
-      theme={{
-        calendarBackground: "transparent",
-        weekVerticalMargin: 0,
-        selectedDayTextColor: "#303C5E",
-        selectedDayBackgroundColor: "#18A0FB",
-        textMonthFontFamily: "Sego-Bold",
-        textDayHeaderFontFamily: "Sego-Bold",
-        todayTextColor: "#303C5E",
-        monthTextColor: "#303C5E",
-        textDayFontFamily: "Sego-Bold",
-        dayTextColor: "#303C5E",
-        textDayStyle: {
-          fontFamily: "Sego-Bold",
-        },
-        arrowColor: "#303C5E",
-        "stylesheet.calendar.main": {
-          calendar: {
-            paddingLeft: 0,
-            paddingRight: 0,
-            backgroundColor: "transparent",
-            borderRadius: 5,
+          customStyles: {
+            text: {
+              fontFamily: "Sego-Bold",
+            },
           },
-          dayContainer: {
-            marginVertical: 4,
+        }}
+        hideExtraDays={false}
+        disableMonthChange={false}
+        calendarStyle={{
+          width: width - 45.5,
+          height: 120,
+        }}
+        theme={{
+          calendarBackground: "transparent",
+          weekVerticalMargin: 0,
+          selectedDayTextColor: "#303C5E",
+          selectedDayBackgroundColor: "#18A0FB",
+          textMonthFontFamily: "Sego-Bold",
+          textDayHeaderFontFamily: "Sego-Bold",
+          todayBackgroundColor: "#fe9289",
+          todayTextColor: "#303C5E",
+          monthTextColor: "#303C5E",
+          textDayFontFamily: "Sego-Bold",
+          dayTextColor: "#303C5E",
+          textDayStyle: {
+            fontFamily: "Sego-Bold",
           },
-          placeholderText: {
-            color: "transparent",
+          arrowColor: "#303C5E",
+          "stylesheet.calendar.main": {
+            calendar: {
+              paddingLeft: 0,
+              paddingRight: 0,
+              backgroundColor: "transparent",
+              borderRadius: 5,
+            },
+            dayContainer: {
+              marginVertical: 4,
+            },
+            placeholderText: {
+              color: "transparent",
+            },
           },
-        },
-      }}
-      style={{
-        borderRadius: 5,
-        paddingHorizontal: 15,
-        paddingBottom: 0,
-        // height: 0,
-      }}
-      scrollEnabled={false}
-      hideArrows={false}
-      calendarWidth={width - 45}
-      calendarHeight={290}
-      horizontal={true}
-      onDayPress={dayPress}
-      pagingEnabled={true}
-    />
+        }}
+        style={{
+          borderRadius: 5,
+          paddingTop: 5,
+          paddingBottom: 0,
+        }}
+        scrollEnabled={false}
+        hideArrows={false}
+        calendarWidth={width - 45}
+        calendarHeight={290}
+        horizontal={true}
+        onDayPress={dayPress}
+        pagingEnabled={true}
+      />
+    </View>
   ));
 
   return (
