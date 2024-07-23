@@ -443,56 +443,59 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           </>
         )}
 
-        <View style={[styles.reminderContainer]}>
-          <Switch
-            width={55}
-            height={32}
-            onValueChange={notificationsToggled}
-            value={isReminderEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isReminderEnabled ? "#d7f6ff" : "#ffd8f7"}
-          />
-          <Text style={styles.reminderTitle}>Reminder</Text>
-          <View style={styles.timeSelectContainer}>
-            <>
-              {Platform.OS === "ios" ? (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={reminderTime}
-                  mode={"time"}
-                  is24Hour={true}
-                  onChange={onChange}
-                />
-              ) : (
-                <TouchableOpacity
-                  testID="setMinMax"
-                  value="time"
-                  onPress={() => {
-                    setShow(true);
-                  }}
-                  title="toggleMinMaxDate"
-                >
-                  <Text style={styles.timeText}>
-                    {formatDateObject(reminderTime)}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <>
-                {show && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={reminderTime}
-                    mode={"time"}
-                    is24Hour={true}
-                    onChange={onChange}
-                  />
-                )}
-              </>
+        {Platform.OS === "ios" ||
+          (Platform.OS === "android" && !isRecurring && (
+            <View style={[styles.reminderContainer]}>
+              <Switch
+                width={55}
+                height={32}
+                onValueChange={notificationsToggled}
+                value={isReminderEnabled}
+                trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+                thumbColor={isReminderEnabled ? "#d7f6ff" : "#ffd8f7"}
+              />
+              <Text style={styles.reminderTitle}>Reminder</Text>
+              <View style={styles.timeSelectContainer}>
+                <>
+                  {Platform.OS === "ios" ? (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={reminderTime}
+                      mode={"time"}
+                      is24Hour={true}
+                      onChange={onChange}
+                    />
+                  ) : (
+                    <TouchableOpacity
+                      testID="setMinMax"
+                      value="time"
+                      onPress={() => {
+                        setShow(true);
+                      }}
+                      title="toggleMinMaxDate"
+                    >
+                      <Text style={styles.timeText}>
+                        {formatDateObject(reminderTime)}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <>
+                    {show && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={reminderTime}
+                        mode={"time"}
+                        is24Hour={true}
+                        onChange={onChange}
+                      />
+                    )}
+                  </>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          ))}
 
         <View style={styles.line}>
           <TouchableOpacity

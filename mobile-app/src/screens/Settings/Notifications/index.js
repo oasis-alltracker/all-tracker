@@ -531,10 +531,11 @@ const Notifications = () => {
       setIsHabitsEnabled(false);
       setHabitExpoIDs([]);
     }
+
+    setHabitTime(selectedDate);
     if (Platform.OS === "android") {
       setShow(false);
     }
-    setHabitTime(selectedDate);
   };
 
   const onChangeBreakfastTime = async (event, selectedDate) => {

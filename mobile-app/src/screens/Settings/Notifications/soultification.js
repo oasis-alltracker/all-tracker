@@ -148,15 +148,26 @@ const Soultification = ({
         minute = timeArray[1];
 
         var triggers = [];
-        for (var i = 1; i < triggerDates.length; i++) {
-          if (triggerDates[i]) {
-            triggers.push({
+        if (Platform.OS === "ios") {
+          for (var i = 1; i < triggerDates.length; i++) {
+            if (triggerDates[i]) {
+              triggers.push({
+                hour: Number(hour),
+                minute: Number(minute),
+                weekday: i,
+              });
+            }
+          }
+        } else {
+          triggers = [
+            {
               hour: Number(hour),
               minute: Number(minute),
-              weekday: i,
-            });
-          }
+              repeats: true,
+            },
+          ];
         }
+
         notificationTriggers.push({
           triggers: triggers,
           expoIDs: expoIDsSchedule1,
@@ -246,10 +257,11 @@ const Soultification = ({
 
       setExpoIDsSchedule1([]);
     }
+
+    setTimeSchedule1(selectedDate);
     if (Platform.OS === "android") {
       setShow(false);
     }
-    setTimeSchedule1(selectedDate);
   };
 
   const onChangeSchedule2 = async (event, selectedDate) => {
@@ -420,97 +432,53 @@ const Soultification = ({
   }, [notifications]);
 
   return (
-    <View style={[styles.itemContainer, styles.itemContainer2]}>
-      <Spinner visible={isLoading}></Spinner>
-      <View style={styles.line}>
-        <Text style={styles.itemTitle}>{title}</Text>
-        <Switch
-          width={55}
-          height={32}
-          onValueChange={onToggle}
-          value={isToggled}
-          trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-          thumbColor={isToggled ? "#d7f6ff" : "#ffd8f7"}
-        />
-      </View>
-      {activeSchedule1 && (
-        <>
-          <View style={[styles.line, { marginTop: 8 }]}>
-            {weekDays.map((val, index) => {
-              return (
+    <>
+      {Platform.OS === "android" ? (
+        <View style={[styles.habitContainer, styles.habitContainer4]}>
+          <Switch
+            width={55}
+            height={32}
+            onValueChange={onToggle}
+            value={isToggled}
+            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+            thumbColor={isToggled ? "#d7f6ff" : "#ffd8f7"}
+          />
+          <Text style={styles.itemTitle}>{title}</Text>
+          <View
+            style={[
+              styles.habitTimeContainer,
+              styles.habitContainer3,
+              { backgroundColor: "#D7F6FF" },
+            ]}
+          >
+            <>
+              {Platform.OS === "ios" ? (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={timeSchedule1}
+                  mode={"time"}
+                  is24Hour={true}
+                  onChange={onChangeSchedule1}
+                />
+              ) : (
                 <TouchableOpacity
-                  key={index.toString()}
-                  onPress={async () => {
-                    if (isToggled) {
-                      const token = await getAccessToken();
-                      NotificationsHandler.turnOffGroupPreferenceNotifications(
-                        token,
-                        group,
-                        [
-                          ...expoIDsSchedule1,
-                          ...expoIDsSchedule2,
-                          ...expoIDsSchedule3,
-                        ]
-                      );
-                      setIsToggled(false);
-                    }
-
-                    var newActiveSchedule;
-                    if (index == 0 && !activeSchedule1[index]) {
-                      newActiveSchedule = [
-                        true,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                      ];
-                    } else {
-                      newActiveSchedule = [...activeSchedule1];
-                      newActiveSchedule[index] = !activeSchedule1[index];
-
-                      var selectEveryDay = true;
-                      for (var i = 0; i < newActiveSchedule.length; i++) {
-                        if (newActiveSchedule[i]) {
-                          selectEveryDay = false;
-                          break;
-                        }
-                      }
-                      if (selectEveryDay) {
-                        newActiveSchedule[0] = true;
-                      } else {
-                        newActiveSchedule[0] = false;
-                      }
-                    }
-
-                    setActiveSchedule1(newActiveSchedule);
+                  style={styles.timeButton}
+                  testID="setMinMax"
+                  value="time"
+                  onPress={() => {
+                    setShow(true);
                   }}
-                  style={
-                    activeSchedule1[index]
-                      ? [styles.itemContainer, styles.itemContainer4]
-                      : {}
-                  }
+                  title="toggleMinMaxDate"
                 >
-                  <Text style={styles.smallText}>{val}</Text>
+                  <Text style={styles.timeText}>
+                    {formatDateObject(timeSchedule1)}
+                  </Text>
                 </TouchableOpacity>
-              );
-            })}
-          </View>
-          <View style={styles.line}>
-            <Text style={[styles.smallText, { fontSize: 15 }]}>
-              A what time ?
-            </Text>
-            <View
-              style={[
-                styles.habitTimeContainer,
-                styles.itemContainer3,
-                { backgroundColor: "#D7F6FF" },
-              ]}
-            >
+              )}
+            </>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <>
-                {Platform.OS === "ios" ? (
+                {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
                     value={timeSchedule1}
@@ -518,314 +486,420 @@ const Soultification = ({
                     is24Hour={true}
                     onChange={onChangeSchedule1}
                   />
-                ) : (
-                  <TouchableOpacity
-                    style={styles.timeButton}
-                    testID="setMinMax"
-                    value="time"
-                    onPress={() => {
-                      setShow(true);
-                    }}
-                    title="toggleMinMaxDate"
-                  >
-                    <Text style={styles.timeText}>
-                      {formatDateObject(timeSchedule1)}
-                    </Text>
-                  </TouchableOpacity>
                 )}
               </>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <>
-                  {show && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={timeSchedule1}
-                      mode={"time"}
-                      is24Hour={true}
-                      onChange={onChangeSchedule1}
-                    />
-                  )}
-                </>
-              </View>
             </View>
           </View>
-        </>
-      )}
-      {activeSchedule2 && (
-        <>
-          <View style={[styles.line, { marginTop: 20 }]}>
-            {weekDays.map((val, index) => {
-              return (
-                <TouchableOpacity
-                  key={index.toString()}
-                  onPress={async () => {
-                    if (isToggled) {
-                      const token = await getAccessToken();
-                      NotificationsHandler.turnOffGroupPreferenceNotifications(
-                        token,
-                        group,
-                        [
-                          ...expoIDsSchedule1,
-                          ...expoIDsSchedule2,
-                          ...expoIDsSchedule3,
-                        ]
-                      );
-                      setIsToggled(false);
-                    }
-                    var newActiveSchedule;
-                    if (index == 0 && !activeSchedule2[index]) {
-                      newActiveSchedule = [
-                        true,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                      ];
-                    } else {
-                      newActiveSchedule = [...activeSchedule2];
-                      newActiveSchedule[index] = !activeSchedule2[index];
-
-                      var selectEveryDay = true;
-                      for (var i = 0; i < newActiveSchedule.length; i++) {
-                        if (newActiveSchedule[i]) {
-                          selectEveryDay = false;
-                          break;
-                        }
-                      }
-                      if (selectEveryDay) {
-                        newActiveSchedule[0] = true;
-                      } else {
-                        newActiveSchedule[0] = false;
-                      }
-                    }
-
-                    setActiveSchedule2(newActiveSchedule);
-                  }}
-                  style={
-                    activeSchedule2[index]
-                      ? [styles.itemContainer, styles.itemContainer4]
-                      : {}
-                  }
-                >
-                  <Text style={styles.smallText}>{val}</Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+        </View>
+      ) : (
+        <View style={[styles.itemContainer, styles.itemContainer2]}>
+          <Spinner visible={isLoading}></Spinner>
           <View style={styles.line}>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  removeSchedule2();
-                }}
-              >
-                <Image
-                  source={require("../../../assets/images/trash.png")}
-                  resizeMode="contain"
-                  style={styles.trashImage}
-                />
-              </TouchableOpacity>
-              <Text style={[styles.smallText, { fontSize: 15 }]}>
-                A what time ?
-              </Text>
-            </View>
-            <View
-              style={[
-                styles.habitTimeContainer,
-                styles.itemContainer3,
-                { backgroundColor: "#D7F6FF" },
-              ]}
-            >
-              <>
-                {Platform.OS === "ios" ? (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={timeSchedule2}
-                    mode={"time"}
-                    is24Hour={true}
-                    onChange={onChangeSchedule2}
-                  />
-                ) : (
-                  <TouchableOpacity
-                    style={styles.timeButton}
-                    testID="setMinMax"
-                    value="time"
-                    onPress={() => {
-                      setShow(true);
-                    }}
-                    title="toggleMinMaxDate"
-                  >
-                    <Text style={styles.timeText}>
-                      {formatDateObject(timeSchedule2)}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <>
-                  {show && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={timeSchedule2}
-                      mode={"time"}
-                      is24Hour={true}
-                      onChange={onChangeSchedule2}
-                    />
-                  )}
-                </>
-              </View>
-            </View>
+            <Text style={styles.itemTitle}>{title}</Text>
+            <Switch
+              width={55}
+              height={32}
+              onValueChange={onToggle}
+              value={isToggled}
+              trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
+              thumbColor={isToggled ? "#d7f6ff" : "#ffd8f7"}
+            />
           </View>
-        </>
-      )}
-      {activeSchedule3 && (
-        <>
-          <View style={[styles.line, { marginTop: 20 }]}>
-            {weekDays.map((val, index) => {
-              return (
-                <TouchableOpacity
-                  key={index.toString()}
-                  onPress={async () => {
-                    if (isToggled) {
-                      const token = await getAccessToken();
-                      NotificationsHandler.turnOffGroupPreferenceNotifications(
-                        token,
-                        group,
-                        [
-                          ...expoIDsSchedule1,
-                          ...expoIDsSchedule2,
-                          ...expoIDsSchedule3,
-                        ]
-                      );
-                      setIsToggled(false);
-                    }
-                    var newActiveSchedule;
-                    if (index == 0 && !activeSchedule3[index]) {
-                      newActiveSchedule = [
-                        true,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                      ];
-                    } else {
-                      newActiveSchedule = [...activeSchedule3];
-                      newActiveSchedule[index] = !activeSchedule3[index];
-
-                      var selectEveryDay = true;
-                      for (var i = 0; i < newActiveSchedule.length; i++) {
-                        if (newActiveSchedule[i]) {
-                          selectEveryDay = false;
-                          break;
+          {activeSchedule1 && (
+            <>
+              <View style={[styles.line, { marginTop: 8 }]}>
+                {weekDays.map((val, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index.toString()}
+                      onPress={async () => {
+                        if (isToggled) {
+                          const token = await getAccessToken();
+                          NotificationsHandler.turnOffGroupPreferenceNotifications(
+                            token,
+                            group,
+                            [
+                              ...expoIDsSchedule1,
+                              ...expoIDsSchedule2,
+                              ...expoIDsSchedule3,
+                            ]
+                          );
+                          setIsToggled(false);
                         }
-                      }
-                      if (selectEveryDay) {
-                        newActiveSchedule[0] = true;
-                      } else {
-                        newActiveSchedule[0] = false;
-                      }
-                    }
 
-                    setActiveSchedule3(newActiveSchedule);
-                  }}
-                  style={
-                    activeSchedule3[index]
-                      ? [styles.itemContainer, styles.itemContainer4]
-                      : {}
-                  }
-                >
-                  <Text style={styles.smallText}>{val}</Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-          <View style={styles.line}>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  removeSchedule3();
-                }}
-              >
-                <Image
-                  source={require("../../../assets/images/trash.png")}
-                  resizeMode="contain"
-                  style={styles.trashImage}
-                />
-              </TouchableOpacity>
-              <Text style={[styles.smallText, { fontSize: 15 }]}>
-                A what time ?
-              </Text>
-            </View>
+                        var newActiveSchedule;
+                        if (index == 0 && !activeSchedule1[index]) {
+                          newActiveSchedule = [
+                            true,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                          ];
+                        } else {
+                          newActiveSchedule = [...activeSchedule1];
+                          newActiveSchedule[index] = !activeSchedule1[index];
 
-            <View
-              style={[
-                styles.habitTimeContainer,
-                styles.itemContainer3,
-                { backgroundColor: "#D7F6FF" },
-              ]}
-            >
-              <>
-                {Platform.OS === "ios" ? (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={timeSchedule3}
-                    mode={"time"}
-                    is24Hour={true}
-                    onChange={onChangeSchedule3}
-                  />
-                ) : (
-                  <TouchableOpacity
-                    style={styles.timeButton}
-                    testID="setMinMax"
-                    value="time"
-                    onPress={() => {
-                      setShow(true);
-                    }}
-                    title="toggleMinMaxDate"
-                  >
-                    <Text style={styles.timeText}>
-                      {formatDateObject(timeSchedule3)}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <>
-                  {show && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={timeSchedule3}
-                      mode={"time"}
-                      is24Hour={true}
-                      onChange={onChangeSchedule3}
-                    />
-                  )}
-                </>
+                          var selectEveryDay = true;
+                          for (var i = 0; i < newActiveSchedule.length; i++) {
+                            if (newActiveSchedule[i]) {
+                              selectEveryDay = false;
+                              break;
+                            }
+                          }
+                          if (selectEveryDay) {
+                            newActiveSchedule[0] = true;
+                          } else {
+                            newActiveSchedule[0] = false;
+                          }
+                        }
+
+                        setActiveSchedule1(newActiveSchedule);
+                      }}
+                      style={
+                        activeSchedule1[index]
+                          ? [styles.itemContainer, styles.itemContainer4]
+                          : {}
+                      }
+                    >
+                      <Text style={styles.smallText}>{val}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
               </View>
-            </View>
-          </View>
-        </>
+              <View style={styles.line}>
+                <Text style={[styles.smallText, { fontSize: 15 }]}>
+                  A what time ?
+                </Text>
+                <View
+                  style={[
+                    styles.habitTimeContainer,
+                    styles.itemContainer3,
+                    { backgroundColor: "#D7F6FF" },
+                  ]}
+                >
+                  <>
+                    {Platform.OS === "ios" ? (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={timeSchedule1}
+                        mode={"time"}
+                        is24Hour={true}
+                        onChange={onChangeSchedule1}
+                      />
+                    ) : (
+                      <TouchableOpacity
+                        style={styles.timeButton}
+                        testID="setMinMax"
+                        value="time"
+                        onPress={() => {
+                          setShow(true);
+                        }}
+                        title="toggleMinMaxDate"
+                      >
+                        <Text style={styles.timeText}>
+                          {formatDateObject(timeSchedule1)}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  </>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <>
+                      {show && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={timeSchedule1}
+                          mode={"time"}
+                          is24Hour={true}
+                          onChange={onChangeSchedule1}
+                        />
+                      )}
+                    </>
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
+          {activeSchedule2 && (
+            <>
+              <View style={[styles.line, { marginTop: 20 }]}>
+                {weekDays.map((val, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index.toString()}
+                      onPress={async () => {
+                        if (isToggled) {
+                          const token = await getAccessToken();
+                          NotificationsHandler.turnOffGroupPreferenceNotifications(
+                            token,
+                            group,
+                            [
+                              ...expoIDsSchedule1,
+                              ...expoIDsSchedule2,
+                              ...expoIDsSchedule3,
+                            ]
+                          );
+                          setIsToggled(false);
+                        }
+                        var newActiveSchedule;
+                        if (index == 0 && !activeSchedule2[index]) {
+                          newActiveSchedule = [
+                            true,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                          ];
+                        } else {
+                          newActiveSchedule = [...activeSchedule2];
+                          newActiveSchedule[index] = !activeSchedule2[index];
+
+                          var selectEveryDay = true;
+                          for (var i = 0; i < newActiveSchedule.length; i++) {
+                            if (newActiveSchedule[i]) {
+                              selectEveryDay = false;
+                              break;
+                            }
+                          }
+                          if (selectEveryDay) {
+                            newActiveSchedule[0] = true;
+                          } else {
+                            newActiveSchedule[0] = false;
+                          }
+                        }
+
+                        setActiveSchedule2(newActiveSchedule);
+                      }}
+                      style={
+                        activeSchedule2[index]
+                          ? [styles.itemContainer, styles.itemContainer4]
+                          : {}
+                      }
+                    >
+                      <Text style={styles.smallText}>{val}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <View style={styles.line}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      removeSchedule2();
+                    }}
+                  >
+                    <Image
+                      source={require("../../../assets/images/trash.png")}
+                      resizeMode="contain"
+                      style={styles.trashImage}
+                    />
+                  </TouchableOpacity>
+                  <Text style={[styles.smallText, { fontSize: 15 }]}>
+                    A what time ?
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    styles.habitTimeContainer,
+                    styles.itemContainer3,
+                    { backgroundColor: "#D7F6FF" },
+                  ]}
+                >
+                  <>
+                    {Platform.OS === "ios" ? (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={timeSchedule2}
+                        mode={"time"}
+                        is24Hour={true}
+                        onChange={onChangeSchedule2}
+                      />
+                    ) : (
+                      <TouchableOpacity
+                        style={styles.timeButton}
+                        testID="setMinMax"
+                        value="time"
+                        onPress={() => {
+                          setShow(true);
+                        }}
+                        title="toggleMinMaxDate"
+                      >
+                        <Text style={styles.timeText}>
+                          {formatDateObject(timeSchedule2)}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  </>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <>
+                      {show && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={timeSchedule2}
+                          mode={"time"}
+                          is24Hour={true}
+                          onChange={onChangeSchedule2}
+                        />
+                      )}
+                    </>
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
+          {activeSchedule3 && (
+            <>
+              <View style={[styles.line, { marginTop: 20 }]}>
+                {weekDays.map((val, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index.toString()}
+                      onPress={async () => {
+                        if (isToggled) {
+                          const token = await getAccessToken();
+                          NotificationsHandler.turnOffGroupPreferenceNotifications(
+                            token,
+                            group,
+                            [
+                              ...expoIDsSchedule1,
+                              ...expoIDsSchedule2,
+                              ...expoIDsSchedule3,
+                            ]
+                          );
+                          setIsToggled(false);
+                        }
+                        var newActiveSchedule;
+                        if (index == 0 && !activeSchedule3[index]) {
+                          newActiveSchedule = [
+                            true,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                            false,
+                          ];
+                        } else {
+                          newActiveSchedule = [...activeSchedule3];
+                          newActiveSchedule[index] = !activeSchedule3[index];
+
+                          var selectEveryDay = true;
+                          for (var i = 0; i < newActiveSchedule.length; i++) {
+                            if (newActiveSchedule[i]) {
+                              selectEveryDay = false;
+                              break;
+                            }
+                          }
+                          if (selectEveryDay) {
+                            newActiveSchedule[0] = true;
+                          } else {
+                            newActiveSchedule[0] = false;
+                          }
+                        }
+
+                        setActiveSchedule3(newActiveSchedule);
+                      }}
+                      style={
+                        activeSchedule3[index]
+                          ? [styles.itemContainer, styles.itemContainer4]
+                          : {}
+                      }
+                    >
+                      <Text style={styles.smallText}>{val}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              <View style={styles.line}>
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      removeSchedule3();
+                    }}
+                  >
+                    <Image
+                      source={require("../../../assets/images/trash.png")}
+                      resizeMode="contain"
+                      style={styles.trashImage}
+                    />
+                  </TouchableOpacity>
+                  <Text style={[styles.smallText, { fontSize: 15 }]}>
+                    A what time ?
+                  </Text>
+                </View>
+
+                <View
+                  style={[
+                    styles.habitTimeContainer,
+                    styles.itemContainer3,
+                    { backgroundColor: "#D7F6FF" },
+                  ]}
+                >
+                  <>
+                    {Platform.OS === "ios" ? (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={timeSchedule3}
+                        mode={"time"}
+                        is24Hour={true}
+                        onChange={onChangeSchedule3}
+                      />
+                    ) : (
+                      <TouchableOpacity
+                        style={styles.timeButton}
+                        testID="setMinMax"
+                        value="time"
+                        onPress={() => {
+                          setShow(true);
+                        }}
+                        title="toggleMinMaxDate"
+                      >
+                        <Text style={styles.timeText}>
+                          {formatDateObject(timeSchedule3)}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  </>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <>
+                      {show && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={timeSchedule3}
+                          mode={"time"}
+                          is24Hour={true}
+                          onChange={onChangeSchedule3}
+                        />
+                      )}
+                    </>
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
+          {!(activeSchedule2 && activeSchedule3) && (
+            <TouchableOpacity
+              onPress={() => {
+                addNewSchedule();
+              }}
+            >
+              <Image
+                source={require("../../../assets/images/plus.png")}
+                resizeMode="contain"
+                style={styles.plusImage}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       )}
-      {!(activeSchedule2 && activeSchedule3) && (
-        <TouchableOpacity
-          onPress={() => {
-            addNewSchedule();
-          }}
-        >
-          <Image
-            source={require("../../../assets/images/plus.png")}
-            resizeMode="contain"
-            style={styles.plusImage}
-          />
-        </TouchableOpacity>
-      )}
-    </View>
+    </>
   );
 };
 
@@ -838,6 +912,16 @@ export const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  habitContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#ccc",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    marginBottom: 10,
   },
   itemContainer: {
     flexDirection: "row",
@@ -858,6 +942,30 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 0,
     backgroundColor: "#D7F6FF",
+  },
+  habitContainer3: {
+    borderRadius: 15,
+    paddingHorizontal: 6,
+    paddingVertical: 10,
+    marginBottom: 0,
+  },
+  habitContainer4: {
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  habitTimeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    marginBottom: 10,
+  },
+  timeText: {
+    fontSize: 17,
+    color: "#25436B",
+    fontFamily: "Sego",
   },
   itemContainer4: {
     borderRadius: 8,

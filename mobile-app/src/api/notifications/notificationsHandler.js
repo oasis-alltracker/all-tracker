@@ -154,6 +154,9 @@ class NotificationsHandler {
     var expoIDs = [];
     if (notifications) {
       for (var trigger of triggers) {
+        if (Platform.OS === "android" && trigger.month && trigger.day) {
+          trigger = { seconds: this.getSecondsUntilDate(trigger) };
+        }
         try {
           const expoID = await this.schedulePushNotification(
             title,
@@ -366,6 +369,19 @@ class NotificationsHandler {
 
   static async cancelAllPushNotifications() {
     await Notifications.cancelAllScheduledNotificationsAsync();
+  }
+
+  static getSecondsUntilDate({ day, month, hour, minute }) {
+    const now = new Date();
+    let date = new Date(now.getFullYear(), month - 1, day, hour, minute, 0);
+    let diff = date.getTime() - now.getTime();
+    if (diff > 0) {
+      return Math.floor(diff / 1000);
+    } else {
+      date = new Date(now.getFullYear() + 1, month, day, hour, minute);
+      diff = date.getTime() - now.getTime();
+      return Math.floor(diff / 1000);
+    }
   }
 }
 export default NotificationsHandler;
