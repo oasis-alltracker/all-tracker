@@ -412,35 +412,33 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
             {renderCalendar}
           </>
         ) : (
-          <>
-            <View style={styles.daysContainer}>
-              {daysOfWeek.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      var newIndexes = [...activeIndexes];
-                      if (activeIndexes[index]) {
-                        newIndexes[index] = false;
-                      } else {
-                        newIndexes[index] = true;
-                      }
-                      if (newIndexes.every((index) => index === false)) {
-                        setIsReminderEnabled(false);
-                      }
-                      setActiveIndexes(newIndexes);
-                    }}
-                    key={index.toString()}
-                    style={[
-                      styles.dayContainer,
-                      activeIndexes[index] && { backgroundColor: "#D7F6FF" },
-                    ]}
-                  >
-                    <Text style={styles.dayText}>{item}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </>
+          <View style={styles.daysContainer}>
+            {daysOfWeek.map((item, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    var newIndexes = [...activeIndexes];
+                    if (activeIndexes[index]) {
+                      newIndexes[index] = false;
+                    } else {
+                      newIndexes[index] = true;
+                    }
+                    if (newIndexes.every((index) => index === false)) {
+                      setIsReminderEnabled(false);
+                    }
+                    setActiveIndexes(newIndexes);
+                  }}
+                  key={index.toString()}
+                  style={[
+                    styles.dayContainer,
+                    activeIndexes[index] && { backgroundColor: "#D7F6FF" },
+                  ]}
+                >
+                  <Text style={styles.dayText}>{item}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         )}
 
         {Platform.OS === "ios" ||
@@ -640,7 +638,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginBottom: 10,
     paddingHorizontal: 15,
-    paddingVertical: 15,
+    paddingTop: 2,
+    paddingBottom: 8,
   },
   timeSelectContainer: {
     flexDirection: "row",
@@ -677,9 +676,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 8,
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 15,
+    marginBottom: 8,
     width: "100%",
   },
   dayContainer: {
