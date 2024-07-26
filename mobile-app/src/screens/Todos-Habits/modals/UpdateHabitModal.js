@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
+  KeyboardAvoidingView,
   Alert,
 } from "react-native";
 import RNModal from "react-native-modal";
@@ -869,52 +870,56 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
         backdropColor="rgba(215, 246, 255, 0.27)"
         style={styles.modal}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <View style={styles.row}>
-              <TextInput
-                placeholderTextColor={"#7B97BC"}
-                placeholder="Name"
-                style={styles.title}
-                onChangeText={setHabitName}
-                value={habitName}
-              />
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.key}>Image:</Text>
-              <TouchableOpacity
-                style={styles.selectImage}
-                onPress={() => searchImage()}
-              >
-                <Image style={styles.image} source={{ uri: image }} />
-              </TouchableOpacity>
-            </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+              <View style={styles.row}>
+                <TextInput
+                  placeholderTextColor={"#7B97BC"}
+                  placeholder="Name"
+                  style={styles.title}
+                  onChangeText={setHabitName}
+                  value={habitName}
+                />
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.key}>Image:</Text>
+                <TouchableOpacity
+                  style={styles.selectImage}
+                  onPress={() => searchImage()}
+                >
+                  <Image style={styles.image} source={{ uri: image }} />
+                </TouchableOpacity>
+              </View>
 
-            <View style={styles.row}>
-              <Text style={styles.key}>Times a day:</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={setThreshold}
-                keyboardType="number-pad"
-                value={threshold}
-                onSubmitEditing={Keyboard.dismiss}
-                maxLength={2}
-              />
-            </View>
+              <View style={styles.row}>
+                <Text style={styles.key}>Times a day:</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={setThreshold}
+                  keyboardType="number-pad"
+                  value={threshold}
+                  onSubmitEditing={Keyboard.dismiss}
+                  maxLength={2}
+                />
+              </View>
 
-            <View style={styles.row2}>
-              <Button
-                onPress={() => onDelete()}
-                style={[styles.button, styles.back]}
-              >
-                Delete
-              </Button>
-              <Button onPress={() => onSave()} style={styles.button}>
-                Save
-              </Button>
+              <View style={styles.row2}>
+                <Button
+                  onPress={() => onDelete()}
+                  style={[styles.button, styles.back]}
+                >
+                  Delete
+                </Button>
+                <Button onPress={() => onSave()} style={styles.button}>
+                  Save
+                </Button>
+              </View>
             </View>
-          </View>
-        </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </RNModal>
     );
   };

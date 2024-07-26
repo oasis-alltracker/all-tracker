@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  KeyboardAvoidingView,
   View,
   Alert,
 } from "react-native";
@@ -274,62 +275,65 @@ export default function TaskModal({
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
-
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <View style={styles.nameRow}>
-            <TextInput
-              placeholderTextColor={"#7B97BC"}
-              placeholder="Name"
-              style={styles.inputTitle}
-              onChangeText={setTitle}
-              value={title}
-            />
-            <TouchableOpacity
-              onPress={() => {
-                calendarRef.current.open(isEdit, {
-                  isRecurring: isRecurring,
-                  dateStamp: dateStamp,
-                  schedule: schedule,
-                  itemID: itemID,
-                  time: time,
-                  notifications: isNotificationsOn,
-                });
-              }}
-            >
-              <Image
-                style={styles.searchImage}
-                source={require("../../../assets/images/date-picker.png")}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.nameRow}>
+              <TextInput
+                placeholderTextColor={"#7B97BC"}
+                placeholder="Name"
+                style={styles.inputTitle}
+                onChangeText={setTitle}
+                value={title}
               />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  calendarRef.current.open(isEdit, {
+                    isRecurring: isRecurring,
+                    dateStamp: dateStamp,
+                    schedule: schedule,
+                    itemID: itemID,
+                    time: time,
+                    notifications: isNotificationsOn,
+                  });
+                }}
+              >
+                <Image
+                  style={styles.searchImage}
+                  source={require("../../../assets/images/date-picker.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.descriptionRow}>
+              <Image
+                style={styles.editData}
+                source={require("../../../assets/images/edit.png")}
+              />
+              <TextInput
+                multiline
+                placeholderTextColor={"#7B97BC"}
+                placeholder="Description"
+                style={styles.input}
+                onChangeText={setDescription}
+                value={description}
+              />
+            </View>
+            <View style={styles.buttonsRow}>
+              <Button
+                onPress={() => onBack()}
+                style={[styles.button, styles.back]}
+              >
+                {isEdit ? "Delete" : "Cancel"}
+              </Button>
+              <Button onPress={() => onSave()} style={styles.button}>
+                Save
+              </Button>
+            </View>
           </View>
-          <View style={styles.descriptionRow}>
-            <Image
-              style={styles.editData}
-              source={require("../../../assets/images/edit.png")}
-            />
-            <TextInput
-              multiline
-              placeholderTextColor={"#7B97BC"}
-              placeholder="Description"
-              style={styles.input}
-              onChangeText={setDescription}
-              value={description}
-            />
-          </View>
-          <View style={styles.buttonsRow}>
-            <Button
-              onPress={() => onBack()}
-              style={[styles.button, styles.back]}
-            >
-              {isEdit ? "Delete" : "Cancel"}
-            </Button>
-            <Button onPress={() => onSave()} style={styles.button}>
-              Save
-            </Button>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
       <Calendar
         saveDateHandler={saveDateHandler}
         getRef={(ref) => (calendarRef.current = ref)}
