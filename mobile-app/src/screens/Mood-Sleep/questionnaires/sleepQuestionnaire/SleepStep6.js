@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginTop: 15,
     padding: 10,
+    textAlignVertical: "top",
   },
   buttons: {
     flexDirection: "row",

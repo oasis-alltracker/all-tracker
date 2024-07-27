@@ -943,7 +943,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    paddingVertical: 20,
+    paddingVertical: 15,
     backgroundColor: "#fff",
     borderRadius: 30,
     paddingHorizontal: 20,

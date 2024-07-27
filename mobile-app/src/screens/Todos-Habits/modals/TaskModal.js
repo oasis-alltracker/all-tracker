@@ -374,9 +374,8 @@ const styles = StyleSheet.create({
   },
   descriptionRow: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 70,
+    marginBottom: 30,
   },
   buttonsRow: {
     flexDirection: "row",
@@ -391,7 +390,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 5,
     marginTop: 15,
-    paddingVertical: 10,
+    paddingVertical: 5,
   },
   title: {
     color: "#25436B",
@@ -412,11 +411,13 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 100,
-    paddingHorizontal: 5,
+    paddingHorizontal: 2,
     color: "#25436B",
     flex: 1,
     fontFamily: "Sego",
     fontSize: 18,
+    height: 120,
+    textAlignVertical: "top",
   },
   button: {
     width: "47%",

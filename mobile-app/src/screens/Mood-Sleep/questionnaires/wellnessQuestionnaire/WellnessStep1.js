@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    paddingTop: 60,
-    paddingBottom: 35,
+    marginTop: 40,
+    marginBottom: 35,
     textAlign: "center",
   },
   buttons: {

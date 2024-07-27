@@ -186,8 +186,9 @@ const styles = StyleSheet.create({
   input: {
     color: "#25436B",
     fontFamily: "Sego",
-    fontSize: 18,
+    fontSize: 14,
     width: "90%",
+    textAlignVertical: "top",
   },
   button: {
     width: "47%",

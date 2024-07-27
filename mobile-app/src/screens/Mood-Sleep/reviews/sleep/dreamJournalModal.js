@@ -187,7 +187,8 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontFamily: "Sego",
     fontSize: 14,
-    width: "94%",
+    width: "90%",
+    textAlignVertical: "top",
     height: 210,
   },
   button: {
