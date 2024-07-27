@@ -71,7 +71,7 @@ const EnterCode = (props) => {
             ],
             {
               cancelable: true,
-            },
+            }
           );
         } else if (data?.loginFailed == "incorrectOTP") {
           setIsLoading(false);
@@ -91,8 +91,9 @@ const EnterCode = (props) => {
           await saveToken("accessToken", data.accessToken);
           await saveToken("refreshToken", data.refreshToken);
           const accessToken = await getAccessToken();
-          const { status: userStatus, data: userData } =
-            await UserAPI.getUser(accessToken);
+          const { status: userStatus, data: userData } = await UserAPI.getUser(
+            accessToken
+          );
 
           setIsLoading(false);
           if (userData["isSetupComplete"]) {
@@ -189,7 +190,11 @@ const EnterCode = (props) => {
                       if (codeRef.current[item - 1]) {
                         Code[item - 1] = nativeEvent.key;
                         setCode(Code);
-                        codeRef.current[item].focus();
+                        try {
+                          codeRef.current[item].focus();
+                        } catch (e) {
+                          console.log(e);
+                        }
                       }
                     }
                     if (nativeEvent.key === "Backspace" && item - 1 !== 0) {
