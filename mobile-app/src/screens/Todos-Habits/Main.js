@@ -35,7 +35,7 @@ const Main = ({
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
-  const [toDosHeight, setToDosHeight] = useState(150);
+  const [toDosHeight, setToDosHeight] = useState(100);
 
   useEffect(() => {
     setTasksAndToDos(dueToDos.concat(dueTasks));
@@ -43,7 +43,7 @@ const Main = ({
 
   useEffect(() => {
     if (trackingPreferences.habitsSelected) {
-      setToDosHeight(180);
+      setToDosHeight(height * 0.2);
     } else {
       setToDosHeight(330);
     }
@@ -501,7 +501,7 @@ const Main = ({
             ) : (
               <>
                 <Text style={styles.quoteText}>
-                  "Luck is the residue of hard work."
+                  - "Luck is the residue of hard work."
                 </Text>
               </>
             )}
@@ -622,8 +622,8 @@ const styles = StyleSheet.create({
   quoteText: {
     fontFamily: "Sego",
     color: "#25436B",
-    fontSize: 16,
-    marginTop: 20,
+    fontSize: 15,
+    marginTop: 22,
   },
   repeatImage: {
     width: 30,

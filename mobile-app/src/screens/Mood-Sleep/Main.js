@@ -6,10 +6,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import navigationService from "../../navigators/navigationService";
+const { width, height } = Dimensions.get("window");
 
 const moodData = [
   {
@@ -211,7 +213,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   questionText: {
-    fontSize: 26,
+    fontSize: 24,
     color: "#25436B",
     fontFamily: "Sego",
   },
@@ -219,27 +221,28 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#CCCCCC",
     borderRadius: 30,
-    height: 80,
-    width: 300,
+    height: height * 0.065,
+    width: 280,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 20,
-    marginTop: 10,
+    marginBottom: 14,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   ratingBtn: {
     borderWidth: 2,
     borderColor: "#CCCCCC",
     borderRadius: 30,
-    height: 105,
-    width: 300,
+    height: height * 0.1,
+    width: 280,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 12,
   },
   ratingImage: {
-    width: 65,
-    height: 65,
+    width: height * 0.08,
+    height: height * 0.08,
   },
 });

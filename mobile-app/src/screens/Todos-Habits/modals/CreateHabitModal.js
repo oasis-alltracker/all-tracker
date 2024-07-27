@@ -1298,8 +1298,6 @@ const styles = StyleSheet.create({
   tcContainer: {
     marginTop: 15,
     marginBottom: 15,
-    marginLeft: 10,
-    marginRight: 10,
     height: height * 0.7,
   },
   habitSearchContainer: {

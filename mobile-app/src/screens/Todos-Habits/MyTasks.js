@@ -11,6 +11,7 @@ import {
 import moment from "moment";
 
 import Spinner from "react-native-loading-spinner-overlay";
+import { sharedStyles } from "../styles";
 
 const { width, height } = Dimensions.get("window");
 
@@ -27,7 +28,7 @@ const MyTasks = ({
   const [completedToDos, setCompletedToDos] = useState([]);
   const [showCompleted, setShowCompleted] = useState(false);
 
-  const [myTasksHeight, setMyTasksHeight] = useState(290);
+  const [myTasksHeight, setMyTasksHeight] = useState(height * 0.35);
   const [completedRotation, setCompletedRotation] = useState("0deg");
 
   const today = new Date();
@@ -225,7 +226,7 @@ const MyTasks = ({
   );
 
   const DoneToDos = () => (
-    <View style={{ height: 120 }}>
+    <View style={{ height: height * 0.19 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
@@ -272,9 +273,17 @@ const MyTasks = ({
         scrollEnabled={false}
         removeClippedSubviews={false}
       >
-        <View style={styles.headerImageCon}>
+        <View
+          style={[
+            sharedStyles.headerImageContainer,
+            {
+              backgroundColor: "rgba(255, 207, 245, 0.65)",
+              borderColor: "rgba(255, 207, 245, 0.70)",
+            },
+          ]}
+        >
           <Image
-            style={styles.headerImage}
+            style={sharedStyles.headerImage}
             source={require("../../assets/images/to-dos512.png")}
           />
         </View>
@@ -303,11 +312,11 @@ const MyTasks = ({
               onPress={() => {
                 if (showCompleted) {
                   setShowCompleted(false);
-                  setMyTasksHeight(290);
+                  setMyTasksHeight(height * 0.35);
                   setCompletedRotation("0deg");
                 } else {
                   setShowCompleted(true);
-                  setMyTasksHeight(190);
+                  setMyTasksHeight(height * 0.2);
                   setCompletedRotation("90deg");
                 }
               }}
@@ -463,7 +472,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 190,
+    height: height * 0.22,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -475,8 +484,8 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   plusImage: {
-    width: 20,
-    height: 20,
+    width: height * 0.02,
+    height: height * 0.02,
     resizeMode: "contain",
   },
   repeatImage: {

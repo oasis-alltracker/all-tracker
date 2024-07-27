@@ -6,6 +6,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   View,
+  Platform,
   Alert,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
@@ -362,8 +363,8 @@ const styles = StyleSheet.create({
     height: 30,
   },
   editData: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
   nameRow: {
     flexDirection: "row",
@@ -411,7 +412,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 100,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
     color: "#25436B",
     flex: 1,
     fontFamily: "Sego",

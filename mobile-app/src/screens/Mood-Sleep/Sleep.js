@@ -11,6 +11,7 @@ import {
 
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
+import { sharedStyles } from "../styles";
 const { width, height } = Dimensions.get("window");
 const today = new Date();
 
@@ -71,9 +72,17 @@ export default function Sleep({ sleepRef, allSleepReports }) {
       contentContainerStyle={styles.container}
       scrollEnabled={false}
     >
-      <View style={styles.imageCon}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          {
+            backgroundColor: "#FFEFBD",
+            borderColor: "#CCBF98",
+          },
+        ]}
+      >
         <Image
-          style={styles.image}
+          style={sharedStyles.headerImage}
           source={require("../../assets/images/sleep.png")}
         />
       </View>
@@ -119,6 +128,7 @@ const styles = StyleSheet.create({
     overflow: "visible",
     paddingTop: 30,
     paddingBottom: 80,
+    alignItems: "center",
   },
   imageCon: {
     width: 180,
@@ -201,7 +211,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 350,
+    height: height * 0.43,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",

@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   Alert,
 } from "react-native";
 import RNModal from "react-native-modal";
@@ -894,7 +895,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
                 </TouchableOpacity>
               </View>
 
-              <View style={styles.row}>
+              <View style={[styles.row, { marginBottom: 10 }]}>
                 <Text style={styles.key}>Times a day:</Text>
                 <TextInput
                   style={styles.input}
@@ -903,6 +904,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
                   value={threshold}
                   onSubmitEditing={Keyboard.dismiss}
                   maxLength={2}
+                  blurOnSubmit={false}
                 />
               </View>
 
@@ -978,7 +980,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 40,
+    marginTop: 25,
   },
   title: {
     color: "#25436B",
@@ -995,7 +997,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(172, 197, 204, 0.75)",
     borderRadius: 20,
-    width: 130,
+    width: 120,
     height: 40,
     paddingHorizontal: 20,
     color: "#25436B",
@@ -1019,12 +1021,12 @@ const styles = StyleSheet.create({
     borderColor: "#CCCCCC",
   },
   image: {
-    width: 90,
-    height: 90,
+    width: 70,
+    height: 70,
   },
   selectImage: {
-    width: 135,
-    height: 135,
+    width: 120,
+    height: 120,
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
@@ -1048,8 +1050,6 @@ const styles = StyleSheet.create({
   tcContainer: {
     marginTop: 15,
     marginBottom: 15,
-    marginLeft: 10,
-    marginRight: 10,
     height: height * 0.7,
   },
   habitSearchContainer: {
@@ -1063,8 +1063,7 @@ const styles = StyleSheet.create({
   habitSearchRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 40,
+    justifyContent: "space-evenly",
     marginTop: 15,
     marginBottom: 5,
   },

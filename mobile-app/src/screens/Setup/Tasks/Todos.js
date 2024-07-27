@@ -410,7 +410,7 @@ const Todos = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{ height: 305 }}>
+      <View style={{ height: height * 0.365 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 290,
+    height: height * 0.34,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",

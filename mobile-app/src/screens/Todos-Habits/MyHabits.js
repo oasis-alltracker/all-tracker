@@ -4,6 +4,7 @@ import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import Spinner from "react-native-loading-spinner-overlay";
+import { sharedStyles } from "../styles";
 
 const { width, height } = Dimensions.get("window");
 
@@ -14,7 +15,7 @@ export default function MyHabits({
   updateHabitRef,
 }) {
   const Habits = () => (
-    <View style={{ height: 365 }}>
+    <View style={{ height: height * 0.43 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
@@ -82,9 +83,17 @@ export default function MyHabits({
         scrollEnabled={false}
         removeClippedSubviews={false}
       >
-        <View style={styles.headerImageCon}>
+        <View
+          style={[
+            sharedStyles.headerImageContainer,
+            {
+              backgroundColor: "rgba(255, 207, 245, 0.65)",
+              borderColor: "rgba(255, 207, 245, 0.70)",
+            },
+          ]}
+        >
           <Image
-            style={styles.headerImage}
+            style={sharedStyles.headerImage}
             source={require("../../assets/images/habits512.png")}
           />
         </View>
@@ -179,8 +188,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   plusImage: {
-    width: 30,
-    height: 30,
+    width: 18,
+    height: 18,
     resizeMode: "contain",
   },
   plusCon: {
@@ -195,7 +204,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
     width: width - 30,
-    height: 350,
+    height: height * 0.4,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",

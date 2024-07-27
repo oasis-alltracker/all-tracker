@@ -1,5 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
@@ -7,6 +13,8 @@ import CheckBox from "../../../assets/icons/checkbox";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
+
+const { width, height } = Dimensions.get("window");
 
 const Agreement = () => {
   const [checked, setChecked] = useState(false);
@@ -187,10 +195,9 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#25436B",
-    fontSize: 35,
+    fontSize: 34,
     textAlign: "center",
     fontFamily: "Sego-Bold",
-    marginTop: 35,
     marginBottom: 50,
   },
   linkBtn: {
@@ -198,8 +205,8 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginVertical: 45,
-    paddingHorizontal: 10,
+    marginTop: height * 0.06,
+    marginBottom: height * 0.04,
   },
   agreementText: {
     fontSize: 18,
@@ -211,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Sego",
     textDecorationLine: "underline",
-    marginVertical: 5,
+    marginVertical: height * 0.004,
   },
   boldText: {
     fontFamily: "Sego-Bold",
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-    marginTop: 120,
+    marginTop: height * 0.16,
   },
   view: {
     flex: 1,

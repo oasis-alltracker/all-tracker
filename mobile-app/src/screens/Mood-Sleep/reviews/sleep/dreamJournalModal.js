@@ -82,7 +82,6 @@ export default function DreamJournalModal({ getRef, updateReport }) {
               style={styles.input}
               onChangeText={setJournal}
               value={journal}
-              numberOfLines={100}
             />
           </KeyboardAvoidingView>
 
@@ -187,8 +186,9 @@ const styles = StyleSheet.create({
   input: {
     color: "#25436B",
     fontFamily: "Sego",
-    fontSize: 18,
-    width: "90%",
+    fontSize: 14,
+    width: "94%",
+    height: 210,
   },
   button: {
     width: "47%",

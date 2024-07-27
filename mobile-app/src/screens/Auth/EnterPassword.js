@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     textColor: "#25436B",
   },
   linkBtn: {
-    marginTop: 180,
+    marginTop: 155,
     paddingBottom: 10,
   },
   linkText: {

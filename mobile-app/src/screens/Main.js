@@ -159,9 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     alignItems: "center",
-    paddingTop: 60,
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: height * 0.065,
   },
   errorToast: {
     textColor: "#25436B",

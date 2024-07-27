@@ -273,7 +273,8 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    padding: 20,
+    paddingHorizantal: 10,
+    paddingVertical: 5,
     justifyContent: "space-between",
     paddingBottom: 100,
   },
@@ -292,7 +293,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   signContainer: {
-    marginTop: 90,
     marginBottom: 10,
     justifyContent: "center",
     alignSelf: "center",
@@ -325,6 +325,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 30,
+    paddingTop: 32,
     fontFamily: "Sego",
     textAlign: "center",
   },

@@ -7,16 +7,16 @@ export const sharedStyles = StyleSheet.create({
     paddingBottom: 80,
   },
   headerImageContainer: {
-    width: 180,
-    height: 180,
+    width: 150,
+    height: 150,
     borderRadius: 100,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
   },
   headerImage: {
-    width: 100,
-    height: 100,
+    width: 85,
+    height: 85,
     tintColor: "#25436B",
   },
   datePickerView: {
@@ -46,12 +46,12 @@ export const sharedStyles = StyleSheet.create({
     marginTop: 10,
   },
   increaseDateImage: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
   },
   decreaseDateImage: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     transform: [
       {
         rotate: "180deg",
@@ -69,7 +69,7 @@ export const sharedStyles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     paddingHorizontal: 20,
-    marginTop: 20,
+    paddingTop: 16,
   },
 
   trackerTitle: {

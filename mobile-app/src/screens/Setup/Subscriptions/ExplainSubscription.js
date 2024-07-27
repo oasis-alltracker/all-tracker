@@ -67,7 +67,7 @@ const ExplainSubscription = (props) => {
           justifyContent: "center",
         }}
       >
-        <Text style={[styles.title, { marginTop: height * 0.09 }]}>
+        <Text style={[styles.title, { marginTop: height * 0.18 }]}>
           1 month <Text style={styles.bold}>free</Text>
         </Text>
         <Text style={styles.title}>then $2.99/month</Text>
@@ -87,7 +87,7 @@ const ExplainSubscription = (props) => {
             <Text style={[styles.bold, { color: "#B981E7" }]}>Oasis</Text>
           </Text>
           <View style={{ width: width * 0.8 }}>
-            <Text style={[styles.bottomMessage, { marginTop: height * 0.04 }]}>
+            <Text style={[styles.bottomMessage, { marginTop: height * 0.01 }]}>
               To use this app you must subscribe to the Oasis:All-Access plan
             </Text>
           </View>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   middleContainer: {
     flex: 1,
-    paddingVertical: 30,
+    paddingVertical: 20,
     alignItems: "center",
     overflow: "hidden",
   },
@@ -133,28 +133,25 @@ const styles = StyleSheet.create({
     width: "100%",
     resizeMode: "contain",
     backgroundColor: "rgba(255, 232, 163, 0.4)",
-    height: height * 0.3,
-    marginBottom: 20,
+    height: height * 0.26,
+    marginBottom: height * 0.02,
   },
   text: {
     fontFamily: "Sego",
     fontSize: 24,
     color: "#25436B",
-    marginTop: 2,
     textAlign: "center",
   },
   bottomMessage: {
     fontFamily: "Sego",
-    fontSize: 14,
+    fontSize: 12,
     color: "#25436B",
-    marginTop: 2,
     textAlign: "center",
   },
   title: {
     color: "#25436B",
     fontFamily: "Sego",
-    fontSize: 32,
-    marginTop: 7,
+    fontSize: 28,
     textAlign: "center",
   },
   bold: {

@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import TaskStats from "../Stats/TaskStats";
 import HabitStats from "../Stats/HabitStats";
+import { sharedStyles } from "../styles";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();
@@ -32,9 +33,17 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
       contentContainerStyle={styles.container}
       scrollEnabled={false}
     >
-      <View style={styles.imageCon}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          {
+            backgroundColor: "rgba(255, 207, 245, 0.65)",
+            borderColor: "rgba(255, 207, 245, 0.70)",
+          },
+        ]}
+      >
         <Image
-          style={styles.image}
+          style={sharedStyles.headerImage}
           source={require("../../assets/images/stats.png")}
         />
       </View>
@@ -208,8 +217,8 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
   },
   preButtonMain: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
   },
   nextButtonMain: {
     transform: [

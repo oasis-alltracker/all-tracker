@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, Dimensions } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
+const [width, height] = [
+  Dimensions.get("window").width,
+  Dimensions.get("window").height,
+];
 
 const TaskStats = ({ sunday, updateStats }) => {
   const [taskStats, setTaskStats] = useState([
@@ -86,7 +90,7 @@ const TaskStats = ({ sunday, updateStats }) => {
           initialSpacing={0}
           yAxisColor="#B3B3B3"
           xAxisColor="#B3B3B3"
-          height={120}
+          height={height * 0.15}
           width={190}
           spacing={40}
         />
@@ -124,8 +128,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 35,
-    marginRight: 40,
+    marginTop: 30,
+    marginRight: 35,
   },
   imageCircle: {
     width: 28,
