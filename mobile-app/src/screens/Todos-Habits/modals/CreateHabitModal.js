@@ -100,7 +100,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       style={styles.scrollModal}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        <Spinner visible={isLoading}></Spinner>
         <ScrollView style={styles.habitSearchContainer}>
           <View style={styles.scrollViewView}>
             <TouchableOpacity
@@ -370,7 +369,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       backdropColor="rgba(215, 246, 255, 0.27)"
       style={styles.scrollModal}
     >
-      <SafeAreaView style={styles.safeAreaContainer}>
+      <SafeAreaView style={[styles.safeAreaContainer, { width: width }]}>
         <ScrollView style={styles.tcContainer}>
           <View style={styles.scrollViewView}>
             <TouchableOpacity
@@ -1029,16 +1028,19 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         Toast.show("Don't forget to give this habit a name.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
         });
       } else if (threshold <= 0) {
         Toast.show("'Times a day' needs to be greater than 0.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
         });
       } else if (time == new Date("1995-12-17T12:00:00")) {
         Toast.show("Don't forget to set a time.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
         });
       } else if (
         habitName &&

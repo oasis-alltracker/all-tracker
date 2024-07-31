@@ -8,41 +8,29 @@ class WellnessReportsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { dateStamp: dateStamp },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { dateStamp: dateStamp },
+    });
+    return response?.data;
   }
   static async getWellnessReportsForMutlipleDays(token, startDate, endDate) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { startDate: startDate, endDate: endDate },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { startDate: startDate, endDate: endDate },
+    });
+    return response?.data;
   }
   static async createWellnessReport(token, wellnessReport) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, wellnessReport, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, wellnessReport, { headers: headers });
   }
 
   static async updateWellnessReport(token, wellnessReportID, wellnessReport) {
@@ -51,11 +39,7 @@ class WellnessReportsAPI {
     };
     const url = API + wellnessReportID;
 
-    try {
-      await axios.put(url, wellnessReport, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, wellnessReport, { headers: headers });
   }
 
   static async deleteWellnessReport(token, wellnessReportID) {
@@ -64,11 +48,7 @@ class WellnessReportsAPI {
     };
     const url = API + wellnessReportID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default WellnessReportsAPI;

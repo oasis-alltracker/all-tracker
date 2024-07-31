@@ -8,15 +8,11 @@ class ExercisesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { workoutPlanID: workoutPlanID },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { workoutPlanID: workoutPlanID },
+    });
+    return response?.data;
   }
 
   static async createExercise(token, exercise) {
@@ -24,11 +20,7 @@ class ExercisesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, exercise, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, exercise, { headers: headers });
   }
 
   static async updateExercise(token, exerciseID, exercise) {
@@ -37,11 +29,7 @@ class ExercisesAPI {
     };
     const url = API + exerciseID;
 
-    try {
-      await axios.put(url, exercise, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, exercise, { headers: headers });
   }
 
   static async deleteExercise(token, exerciseID) {
@@ -50,11 +38,7 @@ class ExercisesAPI {
     };
     const url = API + exerciseID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default ExercisesAPI;

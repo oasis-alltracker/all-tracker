@@ -8,12 +8,8 @@ class WorkoutPlansAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, { headers: headers });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, { headers: headers });
+    return response?.data;
   }
 
   static async createWorkoutPlan(token, workoutPlan) {
@@ -21,11 +17,7 @@ class WorkoutPlansAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, workoutPlan, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, workoutPlan, { headers: headers });
   }
 
   static async updateWorkoutPlan(token, workoutPlanID, workoutPlan) {
@@ -34,11 +26,7 @@ class WorkoutPlansAPI {
     };
     const url = API + workoutPlanID;
 
-    try {
-      await axios.put(url, workoutPlan, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, workoutPlan, { headers: headers });
   }
 
   static async deleteWorkoutPlan(token, workoutPlanID) {
@@ -47,11 +35,7 @@ class WorkoutPlansAPI {
     };
     const url = API + workoutPlanID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default WorkoutPlansAPI;

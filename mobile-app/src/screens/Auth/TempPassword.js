@@ -27,7 +27,7 @@ const EnterPassword = (props) => {
     if (tempPassword.length > 0) {
       const { status, data } = await LoginAPI.verifyTempPassword(
         email,
-        tempPassword,
+        tempPassword
       );
 
       if (status == 200) {
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     color: "black",
-    fontSize: 22,
+    fontSize: 20,
     marginLeft: 10,
     height: 40,
     textAlign: "center",

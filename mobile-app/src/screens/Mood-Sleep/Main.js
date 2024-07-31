@@ -71,7 +71,7 @@ export default function Main({
           sharedStyles.headerImageContainer,
           {
             backgroundColor: "#FFEFBD",
-            borderColor: "#CCBF98",
+            borderColor: "#ffe8a1",
           },
         ]}
       >

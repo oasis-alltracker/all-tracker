@@ -180,7 +180,7 @@ const Stats = ({ getRef }) => {
                   style={[
                     {
                       backgroundColor: "#FFEFBD",
-                      borderColor: "#CCBF98",
+                      borderColor: "#ffe8a1",
                     },
                     styles.entityImageCon,
                   ]}
@@ -190,7 +190,7 @@ const Stats = ({ getRef }) => {
                     source={require("../../assets/images/soul-blue.png")}
                   />
                 </View>
-                <Text style={styles.entityTitle}>Soul</Text>
+                <Text style={styles.entityTitle}>Spirit</Text>
               </View>
               {trackingPreferences?.moodSelected && (
                 <MoodStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
@@ -279,10 +279,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   entityTitle: {
-    fontSize: 40,
+    fontSize: 38,
     color: "#25436B",
     fontFamily: "Sego",
-    paddingLeft: 20,
+    paddingLeft: 22,
   },
   imageText: {
     fontSize: 22,

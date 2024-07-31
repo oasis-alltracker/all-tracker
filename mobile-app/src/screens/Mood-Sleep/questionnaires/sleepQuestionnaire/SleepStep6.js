@@ -20,9 +20,7 @@ import { getAccessToken } from "../../../../user/keychain";
 const { width, height } = Dimensions.get("window");
 
 const SleepStep6 = (props) => {
-  const [journal, setJournal] = useState(
-    "Description: \n\nSetting and Environment: \n\nCharacters and People: \n\nSymbols and Objetcs: \n\nRefeliction and Interpretation:"
-  );
+  const [journal, setJournal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { sleepReport } = props.route.params;
 

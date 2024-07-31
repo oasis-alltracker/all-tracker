@@ -9,15 +9,11 @@ class DietGoalsAPI {
     };
 
     var status, data;
-    try {
-      const response = await axios.get(API, { headers: headers });
-      status = response?.status;
-      data = response?.data[0];
-    } catch (e) {
-      console.log(e);
-      status = error.response.status;
-      data = error.response.data;
-    }
+
+    const response = await axios.get(API, { headers: headers });
+    status = response?.status;
+    data = response?.data[0];
+
     return data;
   }
 
@@ -27,11 +23,7 @@ class DietGoalsAPI {
     };
     const url = API;
 
-    try {
-      await axios.put(url, dietGoals, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, dietGoals, { headers: headers });
   }
 }
 export default DietGoalsAPI;

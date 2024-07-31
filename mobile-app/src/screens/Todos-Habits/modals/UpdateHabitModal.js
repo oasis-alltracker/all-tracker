@@ -118,8 +118,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
       backdropColor="rgba(215, 246, 255, 0.27)"
       style={styles.scrollModal}
     >
-      <SafeAreaView style={styles.safeAreaContainer}>
-        <Spinner visible={isLoading}></Spinner>
+      <SafeAreaView style={[styles.safeAreaContainer, { width: width }]}>
         <ScrollView style={styles.tcContainer}>
           <View style={styles.scrollViewView}>
             <TouchableOpacity
@@ -778,6 +777,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
         Toast.show("Threshold must be greater than 0.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
         });
       } else if (
         habitName &&
@@ -804,6 +804,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
         Toast.show("You must complete the form to update a habit.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
         });
       }
     };

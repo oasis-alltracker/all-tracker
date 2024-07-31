@@ -8,12 +8,8 @@ class HabitsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, { headers: headers });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, { headers: headers });
+    return response?.data;
   }
 
   static async createHabit(token, habit) {
@@ -21,11 +17,7 @@ class HabitsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, habit, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, habit, { headers: headers });
   }
 
   static async updateHabit(token, habitID, habit) {

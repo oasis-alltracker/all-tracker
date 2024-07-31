@@ -19,6 +19,7 @@ import FitnessStep2 from "./Fitness/Step2";
 import SleepStep1 from "./Sleep/Step1";
 import SleepStep2 from "./Sleep/Step2";
 import Mood from "./Mood/Mood";
+import SetupFlow from "./SelectTrackers/SetupFlow";
 
 const Stack = createStackNavigator();
 
@@ -56,6 +57,7 @@ function SetupNavigator() {
       />
       <Stack.Screen name="habitsCreation" component={HabitsCreation} />
       <Stack.Screen name="todos" component={Todos} />
+      <Stack.Screen name="setupFlow" component={SetupFlow} />
     </Stack.Navigator>
   );
 }

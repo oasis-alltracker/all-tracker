@@ -20,9 +20,7 @@ import { getAccessToken } from "../../../../user/keychain";
 const { width, height } = Dimensions.get("window");
 
 const WellnessStep6 = (props) => {
-  const [journal, setJournal] = useState(
-    "Overall Well-being: \n\nGratidue and Positive Thinking: \n\nStress management: \n\nPersonal Growth:"
-  );
+  const [journal, setJournal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { moodReport } = props.route.params;
 
@@ -72,7 +70,7 @@ const WellnessStep6 = (props) => {
             <TextInput
               multiline
               placeholderTextColor={"#7B97BC"}
-              placeholder="Provide as much description as you'd like:"
+              placeholder="Write as much as you'd like:"
               style={styles.input}
               onChangeText={setJournal}
               value={journal}

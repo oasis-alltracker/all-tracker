@@ -10,35 +10,23 @@ class FoodItemsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, { headers: headers });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, { headers: headers });
+    return response?.data;
   }
   static async getFoodItem(token) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, { headers: headers });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, { headers: headers });
+    return response?.data;
   }
   static async createFoodItem(token, foodItem) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, foodItem, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, foodItem, { headers: headers });
   }
 
   static async updateFoodItem(token, foodItemID, foodItem) {
@@ -47,11 +35,7 @@ class FoodItemsAPI {
     };
     const url = API + foodItemID;
 
-    try {
-      await axios.put(url, foodItem, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, foodItem, { headers: headers });
   }
 
   static async deleteFoodItem(token, foodItemID) {
@@ -60,11 +44,7 @@ class FoodItemsAPI {
     };
     const url = API + foodItemID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default FoodItemsAPI;

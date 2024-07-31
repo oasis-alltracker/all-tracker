@@ -48,8 +48,6 @@ class LoginAPI {
       data = response?.data;
     } catch (e) {
       console.log(e);
-      status = error.response.status;
-      data = error.response.data;
     }
 
     return { status, data };

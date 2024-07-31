@@ -46,12 +46,12 @@ export const sharedStyles = StyleSheet.create({
     marginTop: 10,
   },
   increaseDateImage: {
-    width: 25,
-    height: 25,
+    width: 27,
+    height: 27,
   },
   decreaseDateImage: {
-    width: 25,
-    height: 25,
+    width: 27,
+    height: 27,
     transform: [
       {
         rotate: "180deg",

@@ -8,42 +8,30 @@ class ToDosAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { dateStamp: dateStamp },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { dateStamp: dateStamp },
+    });
+    return response?.data;
   }
   static async getToDos(token, isComplete) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { isComplete: isComplete },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { isComplete: isComplete },
+    });
+    return response?.data;
   }
   static async createToDo(token, toDo) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      response = await axios.post(API, toDo, { headers: headers });
-      return response?.data?.ID;
-    } catch (e) {
-      console.log(e);
-    }
+    response = await axios.post(API, toDo, { headers: headers });
+    return response?.data?.ID;
   }
 
   static async updateToDo(token, toDoID, toDo) {
@@ -52,11 +40,7 @@ class ToDosAPI {
     };
     const url = API + toDoID;
 
-    try {
-      await axios.put(url, toDo, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, toDo, { headers: headers });
   }
 
   static async deleteToDo(token, toDoID) {
@@ -65,11 +49,7 @@ class ToDosAPI {
     };
     const url = API + toDoID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default ToDosAPI;

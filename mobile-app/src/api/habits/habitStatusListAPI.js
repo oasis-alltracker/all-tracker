@@ -8,15 +8,11 @@ class HabitStatusListAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { dateStamp: dateStamp },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { dateStamp: dateStamp },
+    });
+    return response?.data;
   }
 }
 export default HabitStatusListAPI;

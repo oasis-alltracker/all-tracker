@@ -47,7 +47,12 @@ const SelectTrackers = () => {
       );
       if (status == 200) {
         setIsLoading(false);
-        if (habitsSelected) {
+        if (isSetupComplete) {
+          await navigationService.navigate(
+            "setupFlow",
+            (selectedTrackers = { selectedTrackers })
+          );
+        } else if (habitsSelected) {
           await navigationService.navigate(
             "habitsCreation",
             (selectedTrackers = { selectedTrackers })

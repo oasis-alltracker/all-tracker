@@ -77,7 +77,7 @@ export default function MoodJournalModal({ getRef, updateReport }) {
             <TextInput
               multiline
               placeholderTextColor={"#7B97BC"}
-              placeholder="Provide as much description as you'd like:"
+              placeholder="Write as much detail as you'd like:"
               style={styles.input}
               onChangeText={setJournal}
               value={journal}

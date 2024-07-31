@@ -23,26 +23,18 @@ class WorkoutEntriesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { startDate: startDate, endDate: endDate },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { startDate: startDate, endDate: endDate },
+    });
+    return response?.data;
   }
   static async createWorkoutEntry(token, workoutEntry) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, workoutEntry, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, workoutEntry, { headers: headers });
   }
 
   static async updateWorkoutEntry(token, workoutEntryID, workoutEntry) {
@@ -51,11 +43,7 @@ class WorkoutEntriesAPI {
     };
     const url = API + workoutEntryID;
 
-    try {
-      await axios.put(url, workoutEntry, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, workoutEntry, { headers: headers });
   }
 
   static async deleteWorkoutEntry(token, workoutEntryID) {
@@ -64,11 +52,7 @@ class WorkoutEntriesAPI {
     };
     const url = API + workoutEntryID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default WorkoutEntriesAPI;

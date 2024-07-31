@@ -100,7 +100,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
+      Toast.show("Something went wrong. Please refresh the page.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
@@ -647,17 +647,25 @@ const TodosHabits = ({ navigation }) => {
   };
 
   const refreshTasksAndToDos = async (newDate) => {
-    userDueToDos = await ToDosAPI.getToDosForToday(
-      token,
-      moment(newDate).format("YYYYMMDD")
-    );
-    setDueToDos(userDueToDos);
+    try {
+      userDueToDos = await ToDosAPI.getToDosForToday(
+        token,
+        moment(newDate).format("YYYYMMDD")
+      );
+      setDueToDos(userDueToDos);
 
-    userDueTasks = await TasksAPI.getDueAndOverdueTaks(
-      token,
-      moment(newDate).format("YYYYMMDD")
-    );
-    setDueTasks(userDueTasks);
+      userDueTasks = await TasksAPI.getDueAndOverdueTaks(
+        token,
+        moment(newDate).format("YYYYMMDD")
+      );
+      setDueTasks(userDueTasks);
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please refresh the page.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
   };
 
   useEffect(() => {

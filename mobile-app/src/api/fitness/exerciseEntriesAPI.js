@@ -8,41 +8,29 @@ class ExerciseEntriesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { dateStamp: dateStamp },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { dateStamp: dateStamp },
+    });
+    return response?.data;
   }
   static async getExerciseEntriesForMutlipleDays(token, startDate, endDate) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { startDate: startDate, endDate: endDate },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { startDate: startDate, endDate: endDate },
+    });
+    return response?.data;
   }
   static async createExerciseEntry(token, exerciseEntry) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, exerciseEntry, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, exerciseEntry, { headers: headers });
   }
 
   static async updateExerciseEntry(token, exerciseEntryID, exerciseEntry) {
@@ -51,11 +39,7 @@ class ExerciseEntriesAPI {
     };
     const url = API + exerciseEntryID;
 
-    try {
-      await axios.put(url, exerciseEntry, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, exerciseEntry, { headers: headers });
   }
 
   static async deleteExerciseEntry(token, exerciseEntryID) {
@@ -64,11 +48,7 @@ class ExerciseEntriesAPI {
     };
     const url = API + exerciseEntryID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default ExerciseEntriesAPI;

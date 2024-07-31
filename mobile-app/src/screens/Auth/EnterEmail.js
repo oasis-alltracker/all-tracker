@@ -121,59 +121,58 @@ const EnterEmail = () => {
     if (isEmailValid(email)) {
       const { status, data } = await LoginAPI.doesUserExist(email);
 
-      if (status == 200)
-        if (data) {
-          if (data.isAccountLocked) {
-            setIsLoading(false);
-            Alert.alert(
-              "Oasis Account Locked",
-              "Your account has been locked for security reasons. To unlock it, you must reset your password",
-              [
-                { text: "Cancel", style: "cancel" },
-                {
-                  text: "Unlock",
-                  isPreferred: true,
-                  onPress: async () => {
-                    try {
-                      await LoginAPI.requestNewPassword(email);
-                      await navigationService.navigate("tempPassword", {
-                        email,
-                      });
-                      setEmail("");
-                    } catch (e) {
-                      logout();
-                      navigationService.reset("landing", 0);
-                    }
-                  },
-                },
-              ],
+      if (status == 200 && data) {
+        if (data.isAccountLocked) {
+          setIsLoading(false);
+          Alert.alert(
+            "Oasis Account Locked",
+            "Your account has been locked for security reasons. To unlock it, you must reset your password",
+            [
+              { text: "Cancel", style: "cancel" },
               {
-                cancelable: true,
-              }
-            );
-          } else if (data?.exists) {
-            setIsLoading(false);
+                text: "Unlock",
+                isPreferred: true,
+                onPress: async () => {
+                  try {
+                    await LoginAPI.requestNewPassword(email);
+                    await navigationService.navigate("tempPassword", {
+                      email,
+                    });
+                    setEmail("");
+                  } catch (e) {
+                    logout();
+                    navigationService.reset("landing", 0);
+                  }
+                },
+              },
+            ],
+            {
+              cancelable: true,
+            }
+          );
+        } else if (data?.exists) {
+          setIsLoading(false);
 
-            await navigationService.navigate("enterPassword", {
-              email,
-            });
-            setEmail("");
-          } else {
-            setIsLoading(false);
-
-            await navigationService.navigate("createPassword", {
-              email,
-            });
-            setEmail("");
-          }
+          await navigationService.navigate("enterPassword", {
+            email,
+          });
+          setEmail("");
         } else {
           setIsLoading(false);
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.CENTER,
+
+          await navigationService.navigate("createPassword", {
+            email,
           });
+          setEmail("");
         }
+      } else {
+        setIsLoading(false);
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+        });
+      }
     } else {
       setIsLoading(false);
       Toast.show("Please enter a valid email address.", {
@@ -259,6 +258,7 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
     marginVertical: 30,
     textAlign: "center",
+    paddingHorizontal: 10,
   },
   input: {
     color: "#25436B",
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   },
   emailInput: {
     color: "black",
-    fontSize: 22,
+    fontSize: 20,
     marginLeft: 10,
     height: 40,
     textAlign: "center",

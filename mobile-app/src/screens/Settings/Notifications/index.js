@@ -757,7 +757,7 @@ const Notifications = () => {
         {(trackingPreferences.habitsSelected ||
           trackingPreferences.toDosSelected) && (
           <>
-            <Text style={styles.sectionTitle}>Mental</Text>
+            <Text style={styles.sectionTitle}>Mind</Text>
 
             {trackingPreferences.habitsSelected && (
               <View style={[styles.habitContainer, styles.itemContainer4]}>
@@ -1025,7 +1025,7 @@ const Notifications = () => {
         {(trackingPreferences.moodSelected ||
           trackingPreferences.sleepSelected) && (
           <>
-            <Text style={styles.sectionTitle}>Spiritual</Text>
+            <Text style={styles.sectionTitle}>Spirit</Text>
 
             {trackingPreferences.moodSelected && (
               <Soultification

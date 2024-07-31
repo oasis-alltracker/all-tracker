@@ -48,7 +48,7 @@ const Main = ({ navigation }) => {
           buttonPreference.push({
             image: require("../assets/images/mind-white512.png"),
             color: "rgba(255, 207, 245, 0.65)",
-            border: "rgba(255, 207, 245, 0.70)",
+            border: "#f5c4ea",
             onPress: () => {
               navigationService.reset("todos-habits", 0);
             },
@@ -61,7 +61,7 @@ const Main = ({ navigation }) => {
           buttonPreference.push({
             image: require("../assets/images/body-white.png"),
             color: "rgba(213, 203, 255, 0.65)",
-            border: "rgba(213, 203, 255, 0.70)",
+            border: "rgba(213, 203, 255, 0.9)",
             onPress: () => {
               navigationService.reset("fitness-diet", 0);
             },
@@ -74,7 +74,7 @@ const Main = ({ navigation }) => {
           buttonPreference.push({
             image: require("../assets/images/soul-white.png"),
             color: "rgba(255, 233, 167, 0.75)",
-            border: "rgba(255, 233, 167, 0.80)",
+            border: "#f5de93",
             onPress: () => {
               navigationService.reset("mood-sleep", 0);
             },

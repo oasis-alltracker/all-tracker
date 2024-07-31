@@ -8,15 +8,11 @@ class HabitStatusesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: { dateStamp: dateStamp, isComplete: isComplete },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { dateStamp: dateStamp, isComplete: isComplete },
+    });
+    return response?.data;
   }
   static async getHabitStatusesForMutlipleDays(
     token,
@@ -28,30 +24,22 @@ class HabitStatusesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(API, {
-        headers: headers,
-        params: {
-          startDate: startDate,
-          endDate: endDate,
-          isComplete: isComplete,
-        },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(API, {
+      headers: headers,
+      params: {
+        startDate: startDate,
+        endDate: endDate,
+        isComplete: isComplete,
+      },
+    });
+    return response?.data;
   }
   static async createHabitStatus(token, habitStatus) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      await axios.post(API, habitStatus, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.post(API, habitStatus, { headers: headers });
   }
 
   static async updateHabitStatus(token, habitStatusID, habitStatus) {
@@ -60,11 +48,7 @@ class HabitStatusesAPI {
     };
     const url = API + habitStatusID;
 
-    try {
-      await axios.put(url, habitStatus, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.put(url, habitStatus, { headers: headers });
   }
 
   static async deleteHabitStatus(token, habitStatusID) {
@@ -73,11 +57,7 @@ class HabitStatusesAPI {
     };
     const url = API + habitStatusID;
 
-    try {
-      await axios.delete(url, { headers: headers });
-    } catch (e) {
-      console.log(e);
-    }
+    await axios.delete(url, { headers: headers });
   }
 }
 export default HabitStatusesAPI;

@@ -36,7 +36,7 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
           sharedStyles.headerImageContainer,
           {
             backgroundColor: "#FFEFBD",
-            borderColor: "#CCBF98",
+            borderColor: "#ffe8a1",
           },
         ]}
       >
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     backgroundColor: "#FFEFBD",
-    borderColor: "#CCBF98",
+    borderColor: "#ffe8a1",
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
