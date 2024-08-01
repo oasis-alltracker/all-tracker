@@ -31,13 +31,13 @@ const generalSettings = {
   title: "Tracking",
   childs: [
     {
-      title: "Notifications",
-      route: "notifications",
-    },
-    {
       title: "Tracking Preferences",
       route: "setup",
       isUnits: true,
+    },
+    {
+      title: "Notifications",
+      route: "notifications",
     },
   ],
 };
