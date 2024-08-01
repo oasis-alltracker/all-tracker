@@ -142,8 +142,8 @@ const SelectTrackers = () => {
           <TouchableOpacity
             style={[
               styles.button,
-              !habitsSelected && { opacity: 0.7 },
-              habitsSelected && { borderWidth: 2 },
+              !habitsSelected && { opacity: 0.5 },
+              habitsSelected && { borderWidth: 1.5 },
               habitsSelected && { borderColor: "#25436B" },
             ]}
             onPress={() => setHabitsSelected(!habitsSelected)}
@@ -157,8 +157,8 @@ const SelectTrackers = () => {
           <TouchableOpacity
             style={[
               styles.button,
-              !toDosSelected && { opacity: 0.7 },
-              toDosSelected && { borderWidth: 2 },
+              !toDosSelected && { opacity: 0.5 },
+              toDosSelected && { borderWidth: 1.5 },
               toDosSelected && { borderColor: "#25436B" },
             ]}
             onPress={() => setToDosSelected(!toDosSelected)}
@@ -178,8 +178,8 @@ const SelectTrackers = () => {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
               },
-              !moodSelected && { opacity: 0.7 },
-              moodSelected && { borderWidth: 2 },
+              !moodSelected && { opacity: 0.5 },
+              moodSelected && { borderWidth: 1.5 },
               moodSelected && { borderColor: "#25436B" },
             ]}
             onPress={() => setMoodSelected(!moodSelected)}
@@ -197,8 +197,8 @@ const SelectTrackers = () => {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
               },
-              !sleepSelected && { opacity: 0.7 },
-              sleepSelected && { borderWidth: 2 },
+              !sleepSelected && { opacity: 0.5 },
+              sleepSelected && { borderWidth: 1.5 },
               sleepSelected && { borderColor: "#25436B" },
             ]}
             onPress={() => setSleepSelected(!sleepSelected)}
@@ -242,8 +242,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255, 216, 247, 0.62)",
-    borderWidth: 2,
-    borderColor: "rgba(204, 173, 198, 0.7)",
+    borderColor: "rgba(255, 207, 245, 0.70)",
   },
   title: {
     color: "#25436B",
