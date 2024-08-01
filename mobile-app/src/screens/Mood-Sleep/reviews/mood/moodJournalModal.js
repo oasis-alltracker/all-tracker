@@ -81,7 +81,6 @@ export default function MoodJournalModal({ getRef, updateReport }) {
               style={styles.input}
               onChangeText={setJournal}
               value={journal}
-              numberOfLines={100}
             />
           </KeyboardAvoidingView>
 
@@ -189,6 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     width: "90%",
     textAlignVertical: "top",
+    height: 210,
   },
   button: {
     width: "47%",
