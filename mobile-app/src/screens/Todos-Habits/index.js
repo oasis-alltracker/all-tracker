@@ -96,13 +96,13 @@ const TodosHabits = ({ navigation }) => {
     try {
       token = await getAccessToken();
 
-      createStatusList(date);
+      await createStatusList(date);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please refresh the page.", {
         ...styles.errorToast,
-        duration: Toast.durations.LONG,
+        duration: Toast.durations.SHORT,
       });
     }
   };
@@ -665,7 +665,7 @@ const TodosHabits = ({ navigation }) => {
       console.log(e);
       Toast.show("Something went wrong. Please refresh the page.", {
         ...styles.errorToast,
-        duration: Toast.durations.LONG,
+        duration: Toast.durations.SHORT,
       });
     }
   };

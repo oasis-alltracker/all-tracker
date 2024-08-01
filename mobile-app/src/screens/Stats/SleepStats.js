@@ -50,7 +50,7 @@ const SleepStats = ({ sunday, updateStats }) => {
         setIsLoading(false);
         Toast.show("Something went wrong. Please refresh the page.", {
           ...styles.errorToast,
-          duration: Toast.durations.LONG,
+          duration: Toast.durations.SHORT,
         });
       }
     };
@@ -138,6 +138,10 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: "center",
+  },
+  errorToast: {
+    backgroundColor: "#FFD7D7",
+    textColor: "#25436B",
   },
 });
 
