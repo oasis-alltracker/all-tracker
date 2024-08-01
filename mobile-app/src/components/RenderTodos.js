@@ -166,7 +166,8 @@ const styles = StyleSheet.create({
   },
   itemRenderTextMain: {
     color: "#1E1E1E",
-    fontSize: 20,
+    fontSize: 18,
+    paddingRight: 5,
     fontFamily: "Sego",
     marginLeft: 20,
     paddingVertical: 5,
@@ -174,7 +175,8 @@ const styles = StyleSheet.create({
   },
   itemRenderTextMainStrikeThru: {
     color: "#1E1E1E",
-    fontSize: 20,
+    fontSize: 18,
+    paddingRight: 5,
     fontFamily: "Sego",
     marginLeft: 20,
     paddingVertical: 5,
