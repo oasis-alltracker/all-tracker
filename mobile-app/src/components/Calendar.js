@@ -306,7 +306,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           selectedDayBackgroundColor: "#18A0FB",
           textMonthFontFamily: "Sego-Bold",
           textDayHeaderFontFamily: "Sego-Bold",
-          todayBackgroundColor: "#fe9289",
+          todayBackgroundColor: "#fcefc2",
           todayTextColor: "#303C5E",
           monthTextColor: "#303C5E",
           textDayFontFamily: "Sego-Bold",
