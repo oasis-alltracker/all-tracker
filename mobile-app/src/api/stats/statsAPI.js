@@ -8,15 +8,11 @@ class StatsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(api, {
-        headers: headers,
-        params: { sunday: sunday },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(api, {
+      headers: headers,
+      params: { sunday: sunday },
+    });
+    return response?.data;
   }
   static async getTaskStats(token, sunday) {
     const api = EXPO_PUBLIC_BASE_URL + "taskStats/";
@@ -24,15 +20,11 @@ class StatsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(api, {
-        headers: headers,
-        params: { sunday: sunday },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(api, {
+      headers: headers,
+      params: { sunday: sunday },
+    });
+    return response?.data;
   }
 
   static async getMoodStats(token, sunday) {
@@ -41,15 +33,11 @@ class StatsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(api, {
-        headers: headers,
-        params: { sunday: sunday },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(api, {
+      headers: headers,
+      params: { sunday: sunday },
+    });
+    return response?.data;
   }
 
   static async getSleepStats(token, sunday) {
@@ -58,15 +46,11 @@ class StatsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    try {
-      const response = await axios.get(api, {
-        headers: headers,
-        params: { sunday: sunday },
-      });
-      return response?.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const response = await axios.get(api, {
+      headers: headers,
+      params: { sunday: sunday },
+    });
+    return response?.data;
   }
 }
 export default StatsAPI;

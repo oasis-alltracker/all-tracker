@@ -5,6 +5,7 @@ import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 const { width, height } = Dimensions.get("window");
+import Toast from "react-native-root-toast";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -23,27 +24,35 @@ const SleepStats = ({ sunday, updateStats }) => {
 
   useEffect(() => {
     const getStatsOnLoad = async () => {
-      var token = await getAccessToken();
-      var ratings = await StatsAPI.getSleepStats(token, sunday);
+      try {
+        var token = await getAccessToken();
+        var ratings = await StatsAPI.getSleepStats(token, sunday);
 
-      var ratingSum = 0;
+        var ratingSum = 0;
 
-      for (var i = 0; i < ratings.length; i++) {
-        rating = 1;
-        if (ratings[i].rating != 0) {
-          rating = ratings[i].rating;
+        for (var i = 0; i < ratings.length; i++) {
+          rating = 1;
+          if (ratings[i].rating != 0) {
+            rating = ratings[i].rating;
+          }
+          ratingSum += rating;
+          ratings[i] = {
+            label: labels[i],
+            value: Number(rating),
+          };
         }
-        ratingSum += rating;
-        ratings[i] = {
-          label: labels[i],
-          value: Number(rating),
-        };
-      }
 
-      var newAverage = (ratingSum * 1.0) / 7;
-      setAveragerRating(newAverage);
-      setSleepStats(ratings);
-      setIsLoading(false);
+        var newAverage = (ratingSum * 1.0) / 7;
+        setAveragerRating(newAverage);
+        setSleepStats(ratings);
+        setIsLoading(false);
+      } catch (e) {
+        setIsLoading(false);
+        Toast.show("Something went wrong. Please refresh the page.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
+      }
     };
     setIsLoading(true);
     getStatsOnLoad();

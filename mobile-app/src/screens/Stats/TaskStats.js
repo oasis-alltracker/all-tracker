@@ -4,6 +4,7 @@ import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
+import Toast from "react-native-root-toast";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 const [width, height] = [
@@ -27,32 +28,41 @@ const TaskStats = ({ sunday, updateStats }) => {
 
   useEffect(() => {
     const getStatsOnLoad = async () => {
-      var token = await getAccessToken();
-      var data = await StatsAPI.getTaskStats(token, sunday);
+      try {
+        var token = await getAccessToken();
+        var data = await StatsAPI.getTaskStats(token, sunday);
 
-      var count = 0;
-      var completions = 0;
+        var count = 0;
+        var completions = 0;
 
-      for (var i = 0; i < data.length; i++) {
-        count += data[i].taskCount;
-        completions += data[i].completionCount;
+        for (var i = 0; i < data.length; i++) {
+          count += data[i].taskCount;
+          completions += data[i].completionCount;
 
-        if (data[i].taskCount == 0) {
-          data[i] = { value: 100, label: labels[i] };
-        } else {
-          data[i] = {
-            label: labels[i],
-            value: Math.floor(
-              ((data[i].completionCount * 1.0) / data[i].taskCount) * 100
-            ),
-          };
+          if (data[i].taskCount == 0) {
+            data[i] = { value: 100, label: labels[i] };
+          } else {
+            data[i] = {
+              label: labels[i],
+              value: Math.floor(
+                ((data[i].completionCount * 1.0) / data[i].taskCount) * 100
+              ),
+            };
+          }
         }
-      }
 
-      setTotalCount(count);
-      setTotalCompletions(completions);
-      setTaskStats(data);
-      setIsLoading(false);
+        setTotalCount(count);
+        setTotalCompletions(completions);
+        setTaskStats(data);
+        setIsLoading(false);
+      } catch (e) {
+        console.log(e);
+        setIsLoading(false);
+        Toast.show("Something went wrong. Please refresh the page.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
+      }
     };
     setIsLoading(true);
     getStatsOnLoad();

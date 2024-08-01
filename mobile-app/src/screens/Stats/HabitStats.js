@@ -4,6 +4,7 @@ import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
+import Toast from "react-native-root-toast";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 const { width, height } = Dimensions.get("window");
@@ -24,31 +25,39 @@ const HabitStats = ({ sunday, updateStats }) => {
 
   useEffect(() => {
     const getStatsOnLoad = async () => {
-      var token = await getAccessToken();
-      var data = await StatsAPI.getHabitStats(token, sunday);
+      try {
+        var token = await getAccessToken();
+        var data = await StatsAPI.getHabitStats(token, sunday);
 
-      var count = 0;
-      var completions = 0;
+        var count = 0;
+        var completions = 0;
 
-      for (var i = 0; i < data.length; i++) {
-        count += data[i].habitCount;
-        completions += data[i].completions;
+        for (var i = 0; i < data.length; i++) {
+          count += data[i].habitCount;
+          completions += data[i].completions;
 
-        if (data[i].habitCount == 0) {
-          data[i] = { value: 100, label: labels[i] };
-        } else {
-          data[i] = {
-            label: labels[i],
-            value: Math.floor(
-              ((data[i].completions * 1.0) / data[i].habitCount) * 100
-            ),
-          };
+          if (data[i].habitCount == 0) {
+            data[i] = { value: 100, label: labels[i] };
+          } else {
+            data[i] = {
+              label: labels[i],
+              value: Math.floor(
+                ((data[i].completions * 1.0) / data[i].habitCount) * 100
+              ),
+            };
+          }
         }
+        setTotalCount(count);
+        setTotalCompletions(completions);
+        setHabitStats(data);
+        setIsLoading(false);
+      } catch (e) {
+        setIsLoading(false);
+        Toast.show("Something went wrong. Please refresh the page.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        });
       }
-      setTotalCount(count);
-      setTotalCompletions(completions);
-      setHabitStats(data);
-      setIsLoading(false);
     };
     setIsLoading(true);
     getStatsOnLoad();
