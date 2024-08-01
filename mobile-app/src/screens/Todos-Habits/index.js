@@ -416,11 +416,12 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const deleteToDo = async (toDoID) => {
+  const deleteToDo = async (toDoSK, toDoID) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
-      await ToDosAPI.deleteToDo(token, toDoID);
+      await ToDosAPI.deleteToDo(token, toDoSK);
+      await NotificationsHandler.deleteNotification(`task-${toDoID}`);
       await getToDos(token);
       setUpdateStats(updateStats + 1);
       setIsLoading(false);
@@ -634,6 +635,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await TasksAPI.deleteTask(token, taskID);
+      await NotificationsHandler.deleteNotification(`task-${taskID}`);
       await getTasks(token);
       setUpdateStats(updateStats + 1);
       setIsLoading(false);

@@ -83,7 +83,7 @@ export default function TaskModal({
                 if (isRecurring) {
                   await deleteTask(itemSK);
                 } else {
-                  await deleteToDo(itemSK);
+                  await deleteToDo(itemSK, itemID);
                 }
                 setIsLoading(false);
                 setVisible(false);
