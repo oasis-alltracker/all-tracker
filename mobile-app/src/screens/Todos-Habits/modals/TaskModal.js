@@ -361,10 +361,11 @@ const styles = StyleSheet.create({
   searchImage: {
     width: 30,
     height: 30,
+    marginTop: 12,
   },
   editData: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
   },
   nameRow: {
     flexDirection: "row",
@@ -375,7 +376,7 @@ const styles = StyleSheet.create({
   descriptionRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 30,
+    marginBottom: 25,
   },
   buttonsRow: {
     flexDirection: "row",
@@ -391,6 +392,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginTop: 15,
     paddingVertical: 5,
+    paddingRight: 10,
   },
   title: {
     color: "#25436B",
@@ -415,8 +417,8 @@ const styles = StyleSheet.create({
     color: "#25436B",
     flex: 1,
     fontFamily: "Sego",
-    fontSize: 18,
-    height: 120,
+    fontSize: 14,
+    height: 110,
     textAlignVertical: "top",
   },
   button: {
