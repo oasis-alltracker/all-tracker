@@ -20,7 +20,6 @@ import TaskModal from "../../Todos-Habits/modals/TaskModal";
 import TasksAPI from "../../../api/tasks/tasksAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
-import { set } from "lodash";
 const { width, height } = Dimensions.get("window");
 
 const Todos = (props) => {
@@ -512,11 +511,36 @@ const Todos = (props) => {
             selectedTrackers,
           });
         } else {
-          const { status, data } = await UserAPI.updateUser(
-            true,
-            selectedTrackers,
-            accessToken
-          );
+          setIsLoading(true);
+          if (!selectedTrackers.toDosSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "task"
+            );
+          }
+          if (!selectedTrackers.habitsSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "habit"
+            );
+          }
+          if (!selectedTrackers.moodSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "mood"
+            );
+          }
+          if (!selectedTrackers.sleepSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "morning"
+            );
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "sleep"
+            );
+          }
+          setIsLoading(false);
           navigationService.reset("main", 0);
         }
         setIsLoading(false);

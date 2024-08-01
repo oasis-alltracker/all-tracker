@@ -96,11 +96,36 @@ const HabitsNotifications = (props) => {
             selectedTrackers,
           });
         } else {
-          const { status, data } = await UserAPI.updateUser(
-            true,
-            selectedTrackers,
-            accessToken
-          );
+          setIsLoading(true);
+          if (!selectedTrackers.toDosSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "task"
+            );
+          }
+          if (!selectedTrackers.habitsSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "habit"
+            );
+          }
+          if (!selectedTrackers.moodSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "mood"
+            );
+          }
+          if (!selectedTrackers.sleepSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "morning"
+            );
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "sleep"
+            );
+          }
+          setIsLoading(false);
           navigationService.reset("main", 0);
         }
         setIsLoading(false);

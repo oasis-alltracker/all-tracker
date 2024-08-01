@@ -10,6 +10,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Header, Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 const { width, height } = Dimensions.get("window");
 
 const data = [
@@ -23,6 +25,7 @@ const data = [
 
 const SetupFlow = (props) => {
   const [active, setActive] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { selectedTrackers } = props.route.params;
 
@@ -50,6 +53,36 @@ const SetupFlow = (props) => {
           await navigationService.navigate("sleep", { selectedTrackers });
         }
       } else {
+        setIsLoading(true);
+        if (!selectedTrackers.toDosSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "task"
+          );
+        }
+        if (!selectedTrackers.habitsSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "habit"
+          );
+        }
+        if (!selectedTrackers.moodSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "mood"
+          );
+        }
+        if (!selectedTrackers.sleepSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "morning"
+          );
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "sleep"
+          );
+        }
+        setIsLoading(false);
         navigationService.reset("main", 0);
       }
     }
@@ -58,6 +91,7 @@ const SetupFlow = (props) => {
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
       <Header />
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.middleContainer}>
         <Text style={styles.title}>
           Would you like go though the setup process?
