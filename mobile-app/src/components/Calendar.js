@@ -111,15 +111,11 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   };
 
   const onChange = async (event, selectedDate) => {
-    setReminderTime(selectedDate);
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
-
     newTimeArray = formatDateObjectBackend(selectedDate).split(":");
     newTimeArray[0] = Number(newTimeArray[0]);
     newTimeArray[1] = Number(newTimeArray[1]);
-    if (event.type === "dismissed") {
+    if (event.type === "dismissed" || Platform.OS === "android") {
+      setShow(false);
       notificationsToggled(true);
     }
   };

@@ -538,10 +538,9 @@ const Notifications = () => {
     }
 
     setHabitTime(selectedDate);
-    if (Platform.OS === "android") {
+
+    if (event.type === "dismissed" || Platform.OS === "android") {
       setShow(false);
-    }
-    if (event.type === "dismissed") {
       habitsToggled();
     }
   };
@@ -557,11 +556,9 @@ const Notifications = () => {
       setIsBreakfastEnabled(false);
       setBreakfastExpoIDs([]);
     }
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
     setBreakfastTime(selectedDate);
-    if (event.type === "dismissed") {
+    if (event.type === "dismissed" || Platform.OS === "android") {
+      setShow(false);
       breakfastToggled();
     }
   };
@@ -577,11 +574,10 @@ const Notifications = () => {
       setIsLunchEnabled(false);
       setLunchExpoIDs([]);
     }
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
+
     setLunchTime(selectedDate);
-    if (event.type === "dismissed") {
+    if (event.type === "dismissed" || Platform.OS === "android") {
+      setShow(false);
       lunchToggled();
     }
   };
@@ -597,11 +593,10 @@ const Notifications = () => {
       setIsDinnerEnabled(false);
       setDinnerExpoIDs([]);
     }
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
+
     setDinnerTime(selectedDate);
-    if (event.type === "dismissed") {
+    if (event.type === "dismissed" || Platform.OS === "android") {
+      setShow(false);
       dinnerToggled();
     }
   };

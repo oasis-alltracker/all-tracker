@@ -260,10 +260,9 @@ const Soultification = ({
     }
 
     setTimeSchedule1(selectedDate);
-    if (Platform.OS === "android") {
+
+    if (event.type === "dismissed" || Platform.OS === "android") {
       setShow(false);
-    }
-    if (event.type === "dismissed") {
       onToggle(true);
     }
   };
@@ -280,11 +279,10 @@ const Soultification = ({
 
       setExpoIDsSchedule2([]);
     }
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
+
     setTimeSchedule2(selectedDate);
-    if (event.type === "dismissed") {
+    if (event.type === "dismissed" || Platform.OS === "android") {
+      setShow(false);
       onToggle(true);
     }
   };
@@ -301,11 +299,10 @@ const Soultification = ({
 
       setExpoIDsSchedule3([]);
     }
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
+
     setTimeSchedule3(selectedDate);
-    if (event.type === "dismissed") {
+    if (event.type === "dismissed" || Platform.OS === "android") {
+      setShow(false);
       onToggle(true);
     }
   };
