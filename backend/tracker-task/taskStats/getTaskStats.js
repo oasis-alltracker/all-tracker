@@ -5,16 +5,40 @@ class GetTaskStats {
 
   async getTaskStats(user, day) {
     var response = [];
+    var sunday = day.toString();
+    var year = sunday.substring(0, 4);
+    var month = sunday.substring(4, 6);
+    var day = sunday.substring(6, 8);
+    var daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
     try {
       for (var i = 0; i < 7; i++) {
+        var currentDay = parseInt(day) + i;
+        var currentMonth = parseInt(month);
+        var currentYear = parseInt(year);
+        if (currentDay > daysInMonth) {
+          currentDay = currentDay - daysInMonth;
+          if (parseInt(month) + 1 > 12) {
+            currentMonth = 1;
+            currentYear = parseInt(year) + 1;
+          } else {
+            currentMonth = parseInt(month) + 1;
+          }
+        }
+        if (currentDay <= 9) {
+          currentDay = "0" + currentDay;
+        }
+        if (currentMonth <= 9) {
+          currentMonth = "0" + currentMonth;
+        }
+        var dateSK = parseInt(`${currentYear}${currentMonth}${currentDay}`);
         const completeToDos = await this.getTodosForDay(
           user.email,
-          (day + i).toString(),
+          dateSK.toString(),
           true
         );
         const incompleteToDos = await this.getTodosForDay(
           user.email,
-          (day + i).toString(),
+          dateSK.toString(),
           false
         );
 
@@ -30,13 +54,13 @@ class GetTaskStats {
       var tasks = await this.getTasks(user.email);
       for (var task of tasks) {
         for (var completionDate of task.completionList) {
-          if (completionDate >= day && completionDate < day + 7) {
-            response[completionDate - day].completionCount += 1;
-            response[completionDate - day].taskCount += 1;
+          if (completionDate >= dateSK && completionDate < dateSK + 7) {
+            response[completionDate - dateSK].completionCount += 1;
+            response[completionDate - dateSK].taskCount += 1;
           }
         }
-        if (task.nextDueDate >= day && task.nextDueDate < day + 7) {
-          response[task.nextDueDate - day].taskCount += 1;
+        if (task.nextDueDate >= dateSK && task.nextDueDate < dateSK + 7) {
+          response[task.nextDueDate - dateSK].taskCount += 1;
         }
       }
       return {

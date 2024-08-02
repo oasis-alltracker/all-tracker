@@ -5,11 +5,35 @@ class GetSleepStats {
 
   async getSleepStats(user, day) {
     var response = [];
+    var sunday = day.toString();
+    var year = sunday.substring(0, 4);
+    var month = sunday.substring(4, 6);
+    var day = sunday.substring(6, 8);
+    var daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
     try {
       for (var i = 0; i < 7; i++) {
+        var currentDay = parseInt(day) + i;
+        var currentMonth = parseInt(month);
+        var currentYear = parseInt(year);
+        if (currentDay > daysInMonth) {
+          currentDay = currentDay - daysInMonth;
+          if (parseInt(month) + 1 > 12) {
+            currentMonth = 1;
+            currentYear = parseInt(year) + 1;
+          } else {
+            currentMonth = parseInt(month) + 1;
+          }
+        }
+        if (currentDay <= 9) {
+          currentDay = "0" + currentDay;
+        }
+        if (currentMonth <= 9) {
+          currentMonth = "0" + currentMonth;
+        }
+        var dateSK = parseInt(`${currentYear}${currentMonth}${currentDay}`);
         const sleepReportsForDay = await this.getSleepReportsForDay(
           user.email,
-          (day + i).toString()
+          (dateSK + i).toString()
         );
 
         var total = 0;
