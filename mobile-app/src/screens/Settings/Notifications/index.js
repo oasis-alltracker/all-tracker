@@ -89,7 +89,7 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const habitsToggled = async () => {
+  const habitsToggled = async (turnOn = false) => {
     setIsLoading(true);
     const token = await getAccessToken();
     timeArray = formatDateObjectBackend(habitTime).split(":");
@@ -97,13 +97,13 @@ const Notifications = () => {
     minute = timeArray[1];
 
     if (isNotificationsEnabled) {
-      if (isHabitsEnabled) {
+      if (isHabitsEnabled && !turnOn) {
         await NotificationsHandler.turnOffNotification(
           token,
           "habit",
           habitExpoIDs
         );
-        setIsHabitsEnabled((previousState) => !previousState);
+        setIsHabitsEnabled(false);
       } else {
         var systemNotificationsStatus = true;
         systemNotificationsStatus =
@@ -119,7 +119,7 @@ const Notifications = () => {
             habitExpoIDs
           );
           if (expoIDs) {
-            setIsHabitsEnabled((previousState) => !previousState);
+            setIsHabitsEnabled(true);
             setHabitExpoIDs(expoIDs);
           }
         } else {
@@ -184,7 +184,7 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const breakfastToggled = async () => {
+  const breakfastToggled = async (turnOn = false) => {
     setIsLoading(true);
     const token = await getAccessToken();
     timeArray = formatDateObjectBackend(breakfastTime).split(":");
@@ -192,13 +192,13 @@ const Notifications = () => {
     minute = timeArray[1];
 
     if (isNotificationsEnabled) {
-      if (isBreakfastEnabled) {
+      if (isBreakfastEnabled && !turnOn) {
         await NotificationsHandler.turnOffNotification(
           token,
           "breakfast",
           breakfastExpoIDs
         );
-        setIsBreakfastEnabled((previousState) => !previousState);
+        setIsBreakfastEnabled(false);
       } else {
         var systemNotificationsStatus = true;
         systemNotificationsStatus =
@@ -214,7 +214,7 @@ const Notifications = () => {
             breakfastExpoIDs
           );
           if (expoIDs) {
-            setIsBreakfastEnabled((previousState) => !previousState);
+            setIsBreakfastEnabled(true);
             setBreakfastExpoIDs(expoIDs);
           }
         } else {
@@ -232,7 +232,7 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const lunchToggled = async () => {
+  const lunchToggled = async (turnOn = false) => {
     setIsLoading(true);
     const token = await getAccessToken();
     timeArray = formatDateObjectBackend(lunchTime).split(":");
@@ -240,13 +240,13 @@ const Notifications = () => {
     minute = timeArray[1];
 
     if (isNotificationsEnabled) {
-      if (isLunchEnabled) {
+      if (isLunchEnabled && !turnOn) {
         await NotificationsHandler.turnOffNotification(
           token,
           "lunch",
           lunchExpoIDs
         );
-        setIsLunchEnabled((previousState) => !previousState);
+        setIsLunchEnabled(false);
       } else {
         var systemNotificationsStatus = true;
         systemNotificationsStatus =
@@ -262,7 +262,7 @@ const Notifications = () => {
             lunchExpoIDs
           );
           if (expoIDs) {
-            setIsLunchEnabled((previousState) => !previousState);
+            setIsLunchEnabled(true);
             setLunchExpoIDs(expoIDs);
           }
         } else {
@@ -280,7 +280,7 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const dinnerToggled = async () => {
+  const dinnerToggled = async (turnOn = false) => {
     setIsLoading(true);
     const token = await getAccessToken();
     timeArray = formatDateObjectBackend(dinnerTime).split(":");
@@ -288,13 +288,13 @@ const Notifications = () => {
     minute = timeArray[1];
 
     if (isNotificationsEnabled) {
-      if (isDinnerEnabled) {
+      if (isDinnerEnabled && !turnOn) {
         await NotificationsHandler.turnOffNotification(
           token,
           "dinner",
           dinnerExpoIDs
         );
-        setIsDinnerEnabled((previousState) => !previousState);
+        setIsDinnerEnabled(false);
       } else {
         var systemNotificationsStatus = true;
         systemNotificationsStatus =
@@ -310,7 +310,7 @@ const Notifications = () => {
             dinnerExpoIDs
           );
           if (expoIDs) {
-            setIsDinnerEnabled((previousState) => !previousState);
+            setIsDinnerEnabled(true);
             setDinnerExpoIDs(expoIDs);
           }
         } else {
@@ -328,13 +328,12 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const morningAlarmToggled = async (notificationTriggers) => {
+  const morningAlarmToggled = async (notificationTriggers, turnOn) => {
     setIsLoading(true);
     const token = await getAccessToken();
-
     if (isNotificationsEnabled) {
-      if (isMorningAlarmToggled) {
-        setIsMorningAlarmToggled((previousState) => !previousState);
+      if (isMorningAlarmToggled && !turnOn) {
+        setIsMorningAlarmToggled(false);
         try {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
             token,
@@ -350,7 +349,7 @@ const Notifications = () => {
           systemNotificationsStatus =
             await NotificationsHandler.checkNotificationsStatus(token);
           if (systemNotificationsStatus) {
-            setIsMorningAlarmToggled((previousState) => !previousState);
+            setIsMorningAlarmToggled(true);
             await NotificationsHandler.turnOnGroupPreferenceNotifications(
               token,
               "morning"
@@ -360,7 +359,7 @@ const Notifications = () => {
               const expoIDs = await NotificationsHandler.turnOnNotification(
                 token,
                 "morning-" + (i + 1),
-                "Morning alarm",
+                "Sleep reflection",
                 "Time to wake up and review your sleep",
                 notificationTriggers[i].triggers,
                 isNotificationsEnabled,
@@ -389,13 +388,16 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const bedTimeReminderToggled = async (notificationTriggers) => {
+  const bedTimeReminderToggled = async (
+    notificationTriggers,
+    turnOn = false
+  ) => {
     setIsLoading(true);
     const token = await getAccessToken();
 
     if (isNotificationsEnabled) {
-      if (isBedTimeReminderToggled) {
-        setIsBedTimeReminderToggled((previousState) => !previousState);
+      if (isBedTimeReminderToggled && !turnOn) {
+        setIsBedTimeReminderToggled(false);
         try {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
             token,
@@ -411,7 +413,7 @@ const Notifications = () => {
           systemNotificationsStatus =
             await NotificationsHandler.checkNotificationsStatus(token);
           if (systemNotificationsStatus) {
-            setIsBedTimeReminderToggled((previousState) => !previousState);
+            setIsBedTimeReminderToggled(true);
             await NotificationsHandler.turnOnGroupPreferenceNotifications(
               token,
               "sleep"
@@ -450,13 +452,16 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const wellnessCheckinToggled = async (notificationTriggers) => {
+  const wellnessCheckinToggled = async (
+    notificationTriggers,
+    turnOn = false
+  ) => {
     setIsLoading(true);
     const token = await getAccessToken();
 
     if (isNotificationsEnabled) {
-      if (isWellnessCheckinToggled) {
-        setIsWellnessCheckinToggled((previousState) => !previousState);
+      if (isWellnessCheckinToggled && !turnOn) {
+        setIsWellnessCheckinToggled(false);
         try {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
             token,
@@ -472,7 +477,7 @@ const Notifications = () => {
           systemNotificationsStatus =
             await NotificationsHandler.checkNotificationsStatus(token);
           if (systemNotificationsStatus) {
-            setIsWellnessCheckinToggled((previousState) => !previousState);
+            setIsWellnessCheckinToggled(true);
             await NotificationsHandler.turnOnGroupPreferenceNotifications(
               token,
               "mood"
@@ -536,6 +541,9 @@ const Notifications = () => {
     if (Platform.OS === "android") {
       setShow(false);
     }
+    if (event.type === "dismissed") {
+      habitsToggled();
+    }
   };
 
   const onChangeBreakfastTime = async (event, selectedDate) => {
@@ -553,6 +561,9 @@ const Notifications = () => {
       setShow(false);
     }
     setBreakfastTime(selectedDate);
+    if (event.type === "dismissed") {
+      breakfastToggled();
+    }
   };
 
   const onChangeLunchTime = async (event, selectedDate) => {
@@ -570,6 +581,9 @@ const Notifications = () => {
       setShow(false);
     }
     setLunchTime(selectedDate);
+    if (event.type === "dismissed") {
+      lunchToggled();
+    }
   };
 
   const onChangeDinnerTime = async (event, selectedDate) => {
@@ -587,6 +601,9 @@ const Notifications = () => {
       setShow(false);
     }
     setDinnerTime(selectedDate);
+    if (event.type === "dismissed") {
+      dinnerToggled();
+    }
   };
 
   const formatDateObjectBackend = (dateObject) => {
@@ -1041,16 +1058,7 @@ const Notifications = () => {
             {trackingPreferences.sleepSelected && (
               <>
                 <Soultification
-                  title="Bedtime reminder"
-                  body="It's time for bed"
-                  notifications={sleepNotifications}
-                  isToggled={isBedTimeReminderToggled}
-                  toggled={bedTimeReminderToggled}
-                  setIsToggled={setIsBedTimeReminderToggled}
-                  group="sleep"
-                />
-                <Soultification
-                  title="Morning alarm"
+                  title="Sleep review"
                   body="Time to wake up amd review your sleep"
                   notifications={morningNotifications}
                   isToggled={isMorningAlarmToggled}

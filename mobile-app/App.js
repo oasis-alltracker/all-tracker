@@ -56,7 +56,7 @@ export default function App() {
         ) {
           setInitialMainRoute("mood-sleep");
         } else if (
-          event.notification.request.content.title === "Morning alarm"
+          event.notification.request.content.title === "Sleep review"
         ) {
           console.log("first one");
           setInitialMainRoute("mood-sleep");

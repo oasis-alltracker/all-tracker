@@ -7,6 +7,7 @@ import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
+import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import Soultification from "../../Settings/Notifications/soultification";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
@@ -54,7 +55,7 @@ const SleepStep1 = (props) => {
               const expoIDs = await NotificationsHandler.turnOnNotification(
                 token,
                 "morning-" + (i + 1),
-                "Morning alarm",
+                "Sleep review",
                 "Time to wake up and review your sleep",
                 notificationTriggers[i].triggers,
                 true,
@@ -112,6 +113,62 @@ const SleepStep1 = (props) => {
     onLoad();
   }, []);
 
+  const onNext = async () => {
+    setIsLoading(true);
+    try {
+      setIsLoading(true);
+      const accessToken = await getAccessToken();
+
+      const { status: status, data: userData } = await UserAPI.getUser(
+        accessToken
+      );
+
+      if (userData && !userData["isSetupComplete"]) {
+        navigationService.navigate("explainsubscription", { selectedTrackers });
+      } else {
+        setIsLoading(true);
+        if (!selectedTrackers.toDosSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "task"
+          );
+        }
+        if (!selectedTrackers.habitsSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "habit"
+          );
+        }
+        if (!selectedTrackers.moodSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "mood"
+          );
+        }
+        if (!selectedTrackers.sleepSelected) {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "morning"
+          );
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
+            token,
+            "sleep"
+          );
+        }
+        setIsLoading(false);
+        navigationService.reset("main", 0);
+      }
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      console.log(e);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
@@ -129,7 +186,7 @@ const SleepStep1 = (props) => {
         </View>
         <View style={{ marginTop: 65 }}>
           <Soultification
-            title="Morning alarm"
+            title="Sleep review"
             body="Time to wake up amd review your sleep"
             notifications={morningNotifications}
             isToggled={isMorningAlarmToggled}
@@ -146,12 +203,7 @@ const SleepStep1 = (props) => {
         >
           Back
         </Button>
-        <Button
-          onPress={() =>
-            navigationService.navigate("sleepStep2", { selectedTrackers })
-          }
-          style={styles.button}
-        >
+        <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>

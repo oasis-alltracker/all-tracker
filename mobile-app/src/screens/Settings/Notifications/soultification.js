@@ -73,13 +73,13 @@ const Soultification = ({
 
   const addNewSchedule = async () => {
     if (isToggled) {
-      const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupPreferenceNotifications(token, group, [
-        ...expoIDsSchedule1,
-        ...expoIDsSchedule2,
-        ...expoIDsSchedule3,
-      ]);
       setIsToggled(false);
+      const token = await getAccessToken();
+      await NotificationsHandler.turnOffGroupPreferenceNotifications(
+        token,
+        group,
+        [...expoIDsSchedule1, ...expoIDsSchedule2, ...expoIDsSchedule3]
+      );
     }
     if (!activeSchedule2) {
       setActiveSchedule2([
@@ -104,6 +104,7 @@ const Soultification = ({
         false,
       ]);
     }
+    onToggle(true);
   };
 
   const removeSchedule2 = async () => {
@@ -133,11 +134,11 @@ const Soultification = ({
     setIsLoading(false);
   };
 
-  const onToggle = async () => {
+  const onToggle = async (turnOn = false) => {
     setIsLoading(true);
     var notificationTriggers = [];
 
-    if (!isToggled) {
+    if (!isToggled || turnOn) {
       if (activeSchedule1) {
         var triggerDates = [...activeSchedule1];
         if (activeSchedule1[0]) {
@@ -223,7 +224,7 @@ const Soultification = ({
         });
       }
     }
-    var listOfExpoIDs = await toggled(notificationTriggers);
+    var listOfExpoIDs = await toggled(notificationTriggers, turnOn);
     if (listOfExpoIDs) {
       for (var i = 0; i < listOfExpoIDs.length; i++) {
         if (i == 0) {
@@ -262,6 +263,9 @@ const Soultification = ({
     if (Platform.OS === "android") {
       setShow(false);
     }
+    if (event.type === "dismissed") {
+      onToggle(true);
+    }
   };
 
   const onChangeSchedule2 = async (event, selectedDate) => {
@@ -280,6 +284,9 @@ const Soultification = ({
       setShow(false);
     }
     setTimeSchedule2(selectedDate);
+    if (event.type === "dismissed") {
+      onToggle(true);
+    }
   };
 
   const onChangeSchedule3 = async (event, selectedDate) => {
@@ -298,6 +305,9 @@ const Soultification = ({
       setShow(false);
     }
     setTimeSchedule3(selectedDate);
+    if (event.type === "dismissed") {
+      onToggle(true);
+    }
   };
 
   useEffect(() => {
@@ -570,10 +580,7 @@ const Soultification = ({
                   );
                 })}
               </View>
-              <View style={styles.line}>
-                <Text style={[styles.smallText, { fontSize: 15 }]}>
-                  A what time ?
-                </Text>
+              <View style={styles.timeContainer}>
                 <View
                   style={[
                     styles.habitTimeContainer,
@@ -687,23 +694,7 @@ const Soultification = ({
                   );
                 })}
               </View>
-              <View style={styles.line}>
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      removeSchedule2();
-                    }}
-                  >
-                    <Image
-                      source={require("../../../assets/images/trash.png")}
-                      resizeMode="contain"
-                      style={styles.trashImage}
-                    />
-                  </TouchableOpacity>
-                  <Text style={[styles.smallText, { fontSize: 15 }]}>
-                    A what time ?
-                  </Text>
-                </View>
+              <View style={styles.timeContainer}>
                 <View
                   style={[
                     styles.habitTimeContainer,
@@ -817,24 +808,7 @@ const Soultification = ({
                   );
                 })}
               </View>
-              <View style={styles.line}>
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      removeSchedule3();
-                    }}
-                  >
-                    <Image
-                      source={require("../../../assets/images/trash.png")}
-                      resizeMode="contain"
-                      style={styles.trashImage}
-                    />
-                  </TouchableOpacity>
-                  <Text style={[styles.smallText, { fontSize: 15 }]}>
-                    A what time ?
-                  </Text>
-                </View>
-
+              <View style={styles.timeContainer}>
                 <View
                   style={[
                     styles.habitTimeContainer,
@@ -884,18 +858,61 @@ const Soultification = ({
               </View>
             </>
           )}
-          {!(activeSchedule2 && activeSchedule3) && (
-            <TouchableOpacity
-              onPress={() => {
-                addNewSchedule();
-              }}
-            >
-              <Image
-                source={require("../../../assets/images/plus.png")}
-                resizeMode="contain"
-                style={styles.plusImage}
-              />
-            </TouchableOpacity>
+          {!activeSchedule2 && !activeSchedule3 && (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => {
+                  addNewSchedule();
+                }}
+              >
+                <Image
+                  source={require("../../../assets/images/plus.png")}
+                  resizeMode="contain"
+                  style={styles.plusImage}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          {activeSchedule2 && !activeSchedule3 && (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => {
+                  removeSchedule2();
+                }}
+              >
+                <Image
+                  source={require("../../../assets/images/trash.png")}
+                  resizeMode="contain"
+                  style={styles.trashImage}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  addNewSchedule();
+                }}
+              >
+                <Image
+                  source={require("../../../assets/images/plus.png")}
+                  resizeMode="contain"
+                  style={styles.plusImage}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+          {activeSchedule2 && activeSchedule3 && (
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => {
+                  removeSchedule3();
+                }}
+              >
+                <Image
+                  source={require("../../../assets/images/trash.png")}
+                  resizeMode="contain"
+                  style={styles.trashImage}
+                />
+              </TouchableOpacity>
+            </View>
           )}
         </View>
       )}
@@ -974,6 +991,13 @@ export const styles = StyleSheet.create({
     marginBottom: 0,
     backgroundColor: "#D7F6FF",
   },
+  timeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginBottom: 5,
+  },
   line: {
     flexDirection: "row",
     alignItems: "center",
@@ -1017,12 +1041,14 @@ export const styles = StyleSheet.create({
     height: 22,
     alignSelf: "center",
     marginTop: 10,
+    marginHorizontal: 10,
   },
   trashImage: {
     width: 22,
     height: 22,
     alignSelf: "center",
-    marginRight: 5,
+    marginTop: 8,
+    marginHorizontal: 10,
   },
 });
 

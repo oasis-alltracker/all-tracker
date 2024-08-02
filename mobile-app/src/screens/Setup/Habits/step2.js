@@ -89,7 +89,6 @@ const HabitsNotifications = (props) => {
         const { status: status, data: userData } = await UserAPI.getUser(
           accessToken
         );
-        console.log(userData);
 
         if (userData && !userData["isSetupComplete"]) {
           navigationService.navigate("explainsubscription", {
@@ -167,6 +166,9 @@ const HabitsNotifications = (props) => {
     }
 
     setTime(selectedDate);
+    if (event.type === "dismissed") {
+      toggleSwitch();
+    }
   };
 
   const formatDateObject = (dateObject) => {

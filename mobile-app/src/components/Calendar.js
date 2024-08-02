@@ -77,9 +77,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     setMarkedDay({ [day.dateString]: oneDay });
   };
 
-  const notificationsToggled = async () => {
-    if (isReminderEnabled) {
-      setIsReminderEnabled((previousState) => !previousState);
+  const notificationsToggled = async (turnOn = false) => {
+    if (isReminderEnabled && !turnOn) {
+      setIsReminderEnabled(false);
     } else {
       if (
         (dateStamp && dateStamp != "noDueDate") ||
@@ -88,7 +88,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         var systemNotificationsStatus =
           await NotificationsHandler.checkNotificationsStatus(token);
         if (systemNotificationsStatus && systemNotificationsEnabled) {
-          setIsReminderEnabled((previousState) => !previousState);
+          setIsReminderEnabled(true);
         } else {
           Toast.show(
             "To get reminders, you need to turn on notifications in your settings.",
@@ -119,7 +119,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     newTimeArray = formatDateObjectBackend(selectedDate).split(":");
     newTimeArray[0] = Number(newTimeArray[0]);
     newTimeArray[1] = Number(newTimeArray[1]);
-    setTimeArray(newTimeArray);
+    if (event.type === "dismissed") {
+      notificationsToggled(true);
+    }
   };
 
   const formatDateObjectBackend = (dateObject) => {
