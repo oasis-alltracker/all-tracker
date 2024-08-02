@@ -141,8 +141,8 @@ const HabitsNotifications = (props) => {
 
     setIsLoading(false);
   };
-  const toggleSwitch = () => {
-    if (!isNotificationsEnabled) {
+  const toggleSwitch = (turnOn = false) => {
+    if (!isNotificationsEnabled || turnOn) {
       if (systemNotificationsEnabled) {
         setIsNotificationsEnabled(true);
       } else {
@@ -167,7 +167,7 @@ const HabitsNotifications = (props) => {
 
     setTime(selectedDate);
     if (event.type === "dismissed") {
-      toggleSwitch();
+      toggleSwitch(true);
     }
   };
 

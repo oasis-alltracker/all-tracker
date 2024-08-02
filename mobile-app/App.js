@@ -44,7 +44,6 @@ export default function App() {
 
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((event) => {
-        console.log(event.notification.request.content.title);
         if (event.notification.request.content.title === "Habit Journal") {
           setInitialMainRoute("todos-habits");
         } else if (
@@ -58,7 +57,6 @@ export default function App() {
         } else if (
           event.notification.request.content.title === "Sleep review"
         ) {
-          console.log("first one");
           setInitialMainRoute("mood-sleep");
         } else if (
           event.notification.request.content.title === "Bedtime reminder"
