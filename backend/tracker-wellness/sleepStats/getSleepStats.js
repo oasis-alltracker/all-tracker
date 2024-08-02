@@ -33,7 +33,7 @@ class GetSleepStats {
         var dateSK = parseInt(`${currentYear}${currentMonth}${currentDay}`);
         const sleepReportsForDay = await this.getSleepReportsForDay(
           user.email,
-          (dateSK + i).toString()
+          dateSK.toString()
         );
 
         var total = 0;

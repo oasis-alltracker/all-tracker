@@ -33,7 +33,7 @@ class GetWellnessStats {
         var dateSK = parseInt(`${currentYear}${currentMonth}${currentDay}`);
         const wellnessReportsForDay = await this.getWellnessReportsForDay(
           user.email,
-          (dateSK + i).toString()
+          dateSK.toString()
         );
 
         var total = 0;
