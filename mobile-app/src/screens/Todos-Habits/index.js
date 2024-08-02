@@ -421,6 +421,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await ToDosAPI.deleteToDo(token, toDoSK);
+      await NotificationsHandler.turnOffNotification(token, `task-${toDoID}`);
       await NotificationsHandler.deleteNotification(`task-${toDoID}`);
       await getToDos(token);
       setUpdateStats(updateStats + 1);
@@ -635,6 +636,7 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await TasksAPI.deleteTask(token, taskID);
+      await NotificationsHandler.turnOffNotification(token, `task-${taskID}`);
       await NotificationsHandler.deleteNotification(`task-${taskID}`);
       await getTasks(token);
       setUpdateStats(updateStats + 1);
