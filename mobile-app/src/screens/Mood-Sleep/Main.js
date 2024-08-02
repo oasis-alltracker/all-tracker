@@ -202,8 +202,8 @@ export default function Main({
 
 const styles = StyleSheet.create({
   plus: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
   title: {
     fontSize: 33,

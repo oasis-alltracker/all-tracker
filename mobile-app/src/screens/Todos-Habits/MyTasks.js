@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
   },
   completedTitle: {
-    fontSize: 22,
+    fontSize: 20,
     color: "#25436B",
     fontFamily: "Sego-Bold",
     paddingLeft: 4,
@@ -450,8 +450,8 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
   },
   nextButton: {
-    width: 22,
-    height: 22,
+    width: 18,
+    height: 18,
     marginRight: 8,
   },
   scrollContainer: {
