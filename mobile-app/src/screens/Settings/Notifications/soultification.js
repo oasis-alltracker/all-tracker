@@ -73,7 +73,6 @@ const Soultification = ({
 
   const addNewSchedule = async () => {
     if (isToggled) {
-      setIsToggled(false);
       const token = await getAccessToken();
       await NotificationsHandler.turnOffGroupPreferenceNotifications(
         token,
