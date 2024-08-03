@@ -242,8 +242,9 @@ const Soultification = ({
   };
 
   const onChangeSchedule1 = async (event, selectedDate) => {
+    setTimeSchedule1(selectedDate);
+
     if (isToggled) {
-      setIsToggled(false);
       const token = await getAccessToken();
       const prevExpoIDs = [
         ...expoIDsSchedule1,
@@ -258,18 +259,26 @@ const Soultification = ({
 
       setExpoIDsSchedule1([]);
     }
-
-    setTimeSchedule1(selectedDate);
-
-    if (event.type === "dismissed" || Platform.OS === "android") {
+    if (Platform.OS === "android") {
       setShow(false);
+    }
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
       onToggle(true);
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 
   const onChangeSchedule2 = async (event, selectedDate) => {
+    setTimeSchedule2(selectedDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
     if (isToggled) {
-      setIsToggled(false);
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupPreferenceNotifications(token, group, [
         ...expoIDsSchedule1,
@@ -280,16 +289,23 @@ const Soultification = ({
       setExpoIDsSchedule2([]);
     }
 
-    setTimeSchedule2(selectedDate);
-    if (event.type === "dismissed" || Platform.OS === "android") {
-      setShow(false);
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
       onToggle(true);
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 
   const onChangeSchedule3 = async (event, selectedDate) => {
+    setTimeSchedule3(selectedDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
     if (isToggled) {
-      setIsToggled(false);
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupPreferenceNotifications(token, group, [
         ...expoIDsSchedule1,
@@ -300,10 +316,14 @@ const Soultification = ({
       setExpoIDsSchedule3([]);
     }
 
-    setTimeSchedule3(selectedDate);
-    if (event.type === "dismissed" || Platform.OS === "android") {
-      setShow(false);
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
       onToggle(true);
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 

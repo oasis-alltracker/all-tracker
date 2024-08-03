@@ -19,7 +19,7 @@ const SleepStep1 = (props) => {
   const [morningNotifications, setMorningNotifications] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const morningAlarmToggled = async (notificationTriggers) => {
+  const morningAlarmToggled = async (notificationTriggers, turnOn = false) => {
     setIsLoading(true);
     const token = await getAccessToken();
 
@@ -28,8 +28,8 @@ const SleepStep1 = (props) => {
       await NotificationsHandler.checkNotificationsStatus(token);
 
     if (systemNotificationsStatus) {
-      if (isMorningAlarmToggled) {
-        setIsMorningAlarmToggled((previousState) => !previousState);
+      if (isMorningAlarmToggled && !turnOn) {
+        setIsMorningAlarmToggled(false);
         try {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
             token,
@@ -45,7 +45,7 @@ const SleepStep1 = (props) => {
           systemNotificationsStatus =
             await NotificationsHandler.checkNotificationsStatus(token);
           if (systemNotificationsStatus) {
-            setIsMorningAlarmToggled((previousState) => !previousState);
+            setIsMorningAlarmToggled(true);
             await NotificationsHandler.turnOnGroupPreferenceNotifications(
               token,
               "morning"

@@ -162,9 +162,17 @@ const HabitsNotifications = (props) => {
 
   const onChange = (event, selectedDate) => {
     setTime(selectedDate);
-    if (event.type === "dismissed" || Platform.OS === "android") {
+    if (Platform.OS === "android") {
       setShow(false);
+    }
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
       toggleSwitch(true);
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 

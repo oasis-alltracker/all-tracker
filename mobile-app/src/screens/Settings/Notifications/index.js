@@ -359,7 +359,7 @@ const Notifications = () => {
               const expoIDs = await NotificationsHandler.turnOnNotification(
                 token,
                 "morning-" + (i + 1),
-                "Sleep reflection",
+                "Sleep review",
                 "Time to wake up and review your sleep",
                 notificationTriggers[i].triggers,
                 isNotificationsEnabled,
@@ -526,6 +526,10 @@ const Notifications = () => {
   };
 
   const onChangeHabitTime = async (event, selectedDate) => {
+    setHabitTime(selectedDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
     if (isHabitsEnabled) {
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupNotifications(
@@ -533,19 +537,27 @@ const Notifications = () => {
         "habit",
         habitExpoIDs
       );
-      setIsHabitsEnabled(false);
       setHabitExpoIDs([]);
     }
 
     setHabitTime(selectedDate);
 
-    if (event.type === "dismissed" || Platform.OS === "android") {
-      setShow(false);
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
       habitsToggled();
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 
   const onChangeBreakfastTime = async (event, selectedDate) => {
+    setBreakfastTime(selectedDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
     if (isBreakfastEnabled) {
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupNotifications(
@@ -556,14 +568,23 @@ const Notifications = () => {
       setIsBreakfastEnabled(false);
       setBreakfastExpoIDs([]);
     }
-    setBreakfastTime(selectedDate);
-    if (event.type === "dismissed" || Platform.OS === "android") {
-      setShow(false);
-      breakfastToggled();
+
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
+      breakfastToggled(true);
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 
   const onChangeLunchTime = async (event, selectedDate) => {
+    setLunchTime(selectedDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
     if (isLunchEnabled) {
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupNotifications(
@@ -575,14 +596,22 @@ const Notifications = () => {
       setLunchExpoIDs([]);
     }
 
-    setLunchTime(selectedDate);
-    if (event.type === "dismissed" || Platform.OS === "android") {
-      setShow(false);
-      lunchToggled();
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
+      lunchToggled(true);
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 
   const onChangeDinnerTime = async (event, selectedDate) => {
+    setDinnerTime(selectedDate);
+    if (Platform.OS === "android") {
+      setShow(false);
+    }
     if (isDinnerEnabled) {
       const token = await getAccessToken();
       NotificationsHandler.turnOffGroupNotifications(
@@ -590,14 +619,17 @@ const Notifications = () => {
         "dinner",
         dinnerExpoIDs
       );
-      setIsDinnerEnabled(false);
       setDinnerExpoIDs([]);
     }
 
-    setDinnerTime(selectedDate);
-    if (event.type === "dismissed" || Platform.OS === "android") {
-      setShow(false);
-      dinnerToggled();
+    if (
+      (Platform.OS === "ios" && event.type === "dismissed") ||
+      (Platform.OS === "android" && event.type === "set")
+    ) {
+      dinnerToggled(true);
+    }
+    if (Platform.OS === "android" && event.type === "dismissed") {
+      setIsToggled(false);
     }
   };
 

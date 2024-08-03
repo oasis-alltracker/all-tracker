@@ -20,7 +20,10 @@ const Mood = (props) => {
     useState(false);
   const [moodNotifications, setMoodNotifications] = useState(false);
 
-  const wellnessCheckinToggled = async (notificationTriggers) => {
+  const wellnessCheckinToggled = async (
+    notificationTriggers,
+    turnOn = false
+  ) => {
     setIsLoading(true);
     const token = await getAccessToken();
 
@@ -29,8 +32,8 @@ const Mood = (props) => {
       await NotificationsHandler.checkNotificationsStatus(token);
 
     if (systemNotificationsStatus) {
-      if (isWellnessCheckinToggled) {
-        setIsWellnessCheckinToggled((previousState) => !previousState);
+      if (isWellnessCheckinToggled && !turnOn) {
+        setIsWellnessCheckinToggled(false);
         try {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
             token,
@@ -46,7 +49,7 @@ const Mood = (props) => {
           systemNotificationsStatus =
             await NotificationsHandler.checkNotificationsStatus(token);
           if (systemNotificationsStatus) {
-            setIsWellnessCheckinToggled((previousState) => !previousState);
+            setIsWellnessCheckinToggled(true);
             await NotificationsHandler.turnOnGroupPreferenceNotifications(
               token,
               "mood"
