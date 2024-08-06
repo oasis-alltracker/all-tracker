@@ -209,7 +209,6 @@ class NotificationsHandler {
         "off"
       );
     }
-    console.log(expoIDs);
     if (expoIDs) {
       for (var expoID of expoIDs) {
         await this.cancelPushNotification(expoID);
