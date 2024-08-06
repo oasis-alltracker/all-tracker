@@ -209,9 +209,11 @@ class NotificationsHandler {
         "off"
       );
     }
-
-    for (var expoID of expoIDs) {
-      await this.cancelPushNotification(expoID);
+    console.log(expoIDs);
+    if (expoIDs) {
+      for (var expoID of expoIDs) {
+        await this.cancelPushNotification(expoID);
+      }
     }
   }
 
@@ -279,7 +281,7 @@ class NotificationsHandler {
     }
   }
 
-  static async deleteNotification(notificationID, token) {
+  static async deleteNotification(token, notificationID) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };

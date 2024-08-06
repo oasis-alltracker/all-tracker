@@ -114,7 +114,7 @@ const Soultification = ({
       group + "-2",
       expoIDsSchedule2
     );
-    await NotificationsHandler.deleteNotification(group + "-2", token);
+    await NotificationsHandler.deleteNotification(token, group + "-2");
 
     setActiveSchedule2(null);
     setIsLoading(false);
@@ -127,7 +127,7 @@ const Soultification = ({
       group + "-3",
       expoIDsSchedule2
     );
-    await NotificationsHandler.deleteNotification(group + "-3", token);
+    await NotificationsHandler.deleteNotification(token, group + "-3");
 
     setActiveSchedule3(null);
     setIsLoading(false);
