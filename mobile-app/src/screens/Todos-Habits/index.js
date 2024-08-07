@@ -292,10 +292,12 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await ToDosAPI.updateToDo(token, toDoSK, toDo);
       if (isNotificationsOn) {
-        prevNotification = await NotificationsHandler.getNotificationsForGroup(
-          token,
-          `task-${toDo.toDoID}`
-        );
+        var prevNotification =
+          await NotificationsHandler.getNotificationsForGroup(
+            token,
+            `task-${toDo.toDoID}`
+          );
+        var prevExpoIDs = prevNotification[0]?.expoIDs;
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
@@ -311,13 +313,14 @@ const TodosHabits = ({ navigation }) => {
           toDo.name,
           trigger,
           true,
-          prevNotification.expoIDs
+          prevExpoIDs
         );
       }
       await getToDos(token);
       setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
+      console.log(e);
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -421,8 +424,19 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await ToDosAPI.deleteToDo(token, toDoSK);
-      await NotificationsHandler.turnOffNotification(token, `task-${toDoID}`);
-      await NotificationsHandler.deleteNotification(token, `task-${toDoID}`);
+
+      var prevNotification =
+        await NotificationsHandler.getNotificationsForGroup(
+          token,
+          `task-${toDoID}`
+        );
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+      await NotificationsHandler.deleteNotification(
+        token,
+        `task-${toDoID}`,
+        prevExpoIDs
+      );
+
       await getToDos(token);
       setUpdateStats(updateStats + 1);
       setIsLoading(false);
@@ -499,11 +513,12 @@ const TodosHabits = ({ navigation }) => {
       await TasksAPI.updateTask(token, taskSK, task);
 
       if (isNotificationsOn) {
-        prevNotification = await NotificationsHandler.getNotificationsForGroup(
-          token,
-          `task-${taskSK}`
-        );
-
+        var prevNotification =
+          await NotificationsHandler.getNotificationsForGroup(
+            token,
+            `task-${taskSK}`
+          );
+        var prevExpoIDs = prevNotification[0]?.expoIDs;
         triggers = [];
         for (var day of task.schedule.days) {
           triggers.push({
@@ -520,7 +535,7 @@ const TodosHabits = ({ navigation }) => {
           task.name,
           triggers,
           true,
-          prevNotification.expoIDs
+          prevExpoIDs
         );
       }
 
@@ -637,8 +652,20 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await TasksAPI.deleteTask(token, taskID);
-      await NotificationsHandler.turnOffNotification(token, `task-${taskID}`);
-      await NotificationsHandler.deleteNotification(token, `task-${taskID}`);
+
+      var prevNotification =
+        await NotificationsHandler.getNotificationsForGroup(
+          token,
+          `task-${taskID}`
+        );
+
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+      await NotificationsHandler.deleteNotification(
+        token,
+        `task-${taskID}`,
+        prevExpoIDs
+      );
+
       await getTasks(token);
       setUpdateStats(updateStats + 1);
       setIsLoading(false);

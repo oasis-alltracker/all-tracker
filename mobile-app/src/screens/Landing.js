@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     width: viewportWidth - 35,
     height: 60,
     borderWidth: 2,
-    borderColor: "lightgray",
+    borderColor: "#c2f0fc",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#D7F6FF",

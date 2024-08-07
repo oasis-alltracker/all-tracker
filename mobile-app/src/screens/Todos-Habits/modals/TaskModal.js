@@ -38,7 +38,7 @@ export default function TaskModal({
 
   const [isRecurring, setIsRecurring] = useState(false);
   const [isNotificationsOn, setIsNotificationsOn] = useState(false);
-  const [time, setTime] = useState(null);
+  const [time, setTime] = useState([12, 0]);
   const [dateStamp, setDateStamp] = useState("noDueDate");
   const [schedule, setSchedule] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
@@ -108,6 +108,7 @@ export default function TaskModal({
   };
 
   const onSave = async () => {
+    Keyboard.dismiss();
     if (title == "" && description == "") {
       Toast.show("You must complete the form to create a task.", {
         ...styles.errorToast,
