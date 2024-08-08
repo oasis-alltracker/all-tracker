@@ -41,7 +41,7 @@ class GetWellnessStats {
           total += report.feeling;
         }
 
-        var rating = 0;
+        var rating = 3;
         if (wellnessReportsForDay.length > 0) {
           rating = (total * 1.0) / wellnessReportsForDay.length;
         }

@@ -41,7 +41,7 @@ class GetSleepStats {
           total += report.rating;
         }
 
-        var rating = 0;
+        var rating = 3;
         if (sleepReportsForDay.length > 0) {
           rating = (total * 1.0) / sleepReportsForDay.length;
         }
