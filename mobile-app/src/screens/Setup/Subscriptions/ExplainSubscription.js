@@ -88,7 +88,8 @@ const ExplainSubscription = (props) => {
           </Text>
           <View style={{ width: width * 0.8 }}>
             <Text style={[styles.bottomMessage, { marginTop: height * 0.01 }]}>
-              To use this app you must subscribe to the Oasis:All-Access plan
+              Payment is optional. If you cancel the subscription, you won't
+              lose access
             </Text>
           </View>
         </View>
