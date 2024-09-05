@@ -6288,6 +6288,11 @@ react-native-screens@~3.29.0:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
 
+react-native-skadnetwork@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-skadnetwork/-/react-native-skadnetwork-0.1.1.tgz#b410aba34202e411f7dc36e9c4675b7d32222b0c"
+  integrity sha512-r3yI2Q3g8dkJhXe3E8vJD14LqsvjNSXHwvCbmfnamfQFy8nRHvNm9ZH0yxL2PSiF2LNgdKUKM94mSLm3OcGhGw==
+
 react-native-svg@14.1.0:
   version "14.1.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-14.1.0.tgz#7903bddd3c71bf3a8a503918253c839e6edaa724"
