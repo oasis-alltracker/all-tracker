@@ -53,6 +53,15 @@
           }
         }
       ],
+      [
+        "react-native-fbsdk-next",
+        {
+          "appID": "479711671637686",
+          "clientToken": "9d3d9ed23b295add3df9137b1fa208b0",
+          "displayName": "Oasis: All-Tracker",
+          "scheme": "fb479711671637686"
+        }
+      ],
       "expo-secure-store",
       [
         "expo-notifications",
