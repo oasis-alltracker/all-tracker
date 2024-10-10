@@ -329,23 +329,55 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateToDoStatus = async (updatedToDo, isMainPage) => {
+  const updateDueToDoStatus = async (updatedToDo) => {
     try {
-      var doneToDoUpdated = false;
+      var index = toDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
+      var toDo = toDos[index];
+
+      var toDoSK = toDo.SK;
+
+      if (!toDo.selected) {
+        toDo.selected = true;
+
+        updatedToDo = {
+          name: toDo.name,
+          dateStamp: toDo.dateStamp,
+          description: toDo.description,
+          isComplete: true,
+          toDoID: toDo.toDoID,
+        };
+        toDo.SK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
+        await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+      } else {
+        toDo.selected = false;
+
+        updatedToDo = {
+          name: toDo.name,
+          dateStamp: toDo.dateStamp,
+          description: toDo.description,
+          isComplete: false,
+          toDoID: toDo.toDoID,
+        };
+        toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+        await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+      }
+
+      //setUpdateStats(updateStats + 1);
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateToDoStatus = async (updatedToDo) => {
+    try {
       var dueToDoUpdated = false;
 
       var index = toDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
       var toDo = toDos[index];
-
-      if (toDo == undefined) {
-        index = doneToDos.findIndex(
-          (item) => item.toDoID == updatedToDo.toDoID
-        );
-        toDo = doneToDos[index];
-        toDo.selected = true;
-        toDo.isComplete = false;
-        doneToDoUpdated = true;
-      }
 
       var dueIndex = dueToDos.findIndex(
         (item) => item.toDoID == updatedToDo.toDoID
@@ -355,61 +387,84 @@ const TodosHabits = ({ navigation }) => {
         dueToDoUpdated = true;
       }
 
-      if (!toDo.isLocked) {
-        var toDoSK = toDo.SK;
-        toDo.isLocked = true;
+      var toDoSK = toDo.SK;
 
-        if (!toDo.selected) {
-          toDo.selected = true;
-          if (dueToDoUpdated) {
-            dueToDo.selected = true;
-          }
-          updatedToDo = {
-            name: toDo.name,
-            dateStamp: toDo.dateStamp,
-            description: toDo.description,
-            isComplete: true,
-            toDoID: toDo.toDoID,
-          };
-          toDo.SK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
-          await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
-        } else {
-          toDo.selected = false;
-          if (dueToDoUpdated) {
-            dueToDo.selected = false;
-          }
-
-          updatedToDo = {
-            name: toDo.name,
-            dateStamp: toDo.dateStamp,
-            description: toDo.description,
-            isComplete: false,
-            toDoID: toDo.toDoID,
-          };
-          toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
-          await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+      if (toDo.selected) {
+        if (dueToDoUpdated) {
+          dueToDo.selected = true;
         }
-        toDo.isLocked = false;
-
-        var newToDos = [...toDos];
-        var newDoneToDos = [...doneToDos];
-        var newDueToDos = [...dueToDos];
-
-        if (doneToDoUpdated) {
-          newToDos.push(toDo);
-          newDoneToDos.splice(index, 1);
-          if (
-            toDo.dateStamp == moment(day).format("YYYYMMDD") ||
-            toDo.dateStamp == "noDueDate"
-          ) {
-            newDueToDos.push(toDo);
-          }
-          setToDos(newToDos);
-          setDoneToDos(newDoneToDos);
-          setDueToDos(newDueToDos);
+        updatedToDo = {
+          name: toDo.name,
+          dateStamp: toDo.dateStamp,
+          description: toDo.description,
+          isComplete: true,
+          toDoID: toDo.toDoID,
+        };
+        toDo.SK = `true-${toDo.dateStamp}-${toDo.toDoID}`;
+        await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+      } else {
+        if (dueToDoUpdated) {
+          dueToDo.selected = false;
         }
-        setUpdateStats(updateStats + 1);
+
+        updatedToDo = {
+          name: toDo.name,
+          dateStamp: toDo.dateStamp,
+          description: toDo.description,
+          isComplete: false,
+          toDoID: toDo.toDoID,
+        };
+        toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+        await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
+      //setUpdateStats(updateStats + 1);
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
+  const updateDoneToDoStatus = async (updatedToDo) => {
+    try {
+      index = doneToDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
+      toDo = doneToDos[index];
+      toDo.selected = true;
+      toDo.isComplete = false;
+      doneToDoUpdated = true;
+
+      var toDoSK = toDo.SK;
+
+      toDo.selected = false;
+
+      updatedToDo = {
+        name: toDo.name,
+        dateStamp: toDo.dateStamp,
+        description: toDo.description,
+        isComplete: false,
+        toDoID: toDo.toDoID,
+      };
+      toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
+      await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
+
+      var newToDos = [...toDos];
+      var newDoneToDos = [...doneToDos];
+      var newDueToDos = [...dueToDos];
+      newToDos.push(toDo);
+      newDoneToDos.splice(index, 1);
+      if (
+        toDo.dateStamp <= moment(day).format("YYYYMMDD") ||
+        toDo.dateStamp == "noDueDate"
+      ) {
+        newDueToDos.push(toDo);
+      }
+      setToDos(newToDos);
+      setDoneToDos(newDoneToDos);
+      setDueToDos(newDueToDos);
+
+      setUpdateStats(updateStats + 1);
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -552,6 +607,79 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
+  const updateDueTaskStatus = async (updatedTask) => {
+    try {
+      var nextDueDate;
+      var index = tasks.findIndex((item) => item.SK == updatedTask.SK);
+      var task = tasks[index];
+
+      if (!task.selected) {
+        var year = task.nextDueDate.substring(0, 4);
+        var month = task.nextDueDate.substring(4, 6);
+        var day = task.nextDueDate.substring(6, 8);
+        var lastCompletionDate = new Date(
+          Number(year),
+          Number(month) - 1,
+          Number(day)
+        );
+        var dayOfWeek = lastCompletionDate.getDay();
+        var nextDayOfWeek = 0;
+        for (var recurringDay of task.schedule.days) {
+          if (recurringDay > dayOfWeek) {
+            nextDayOfWeek = recurringDay;
+            break;
+          }
+        }
+        if (nextDayOfWeek == 0) {
+          nextDayOfWeek = task.schedule.days[0];
+        }
+
+        var dateChange = 0;
+        //use brain cells please
+        if (nextDayOfWeek > dayOfWeek) {
+          dateChange = nextDayOfWeek - dayOfWeek;
+        } else if (nextDayOfWeek == dayOfWeek) {
+          dateChange = 7;
+        } else {
+          dateChange = 7 - dayOfWeek + nextDayOfWeek;
+        }
+
+        lastCompletionDate.setDate(lastCompletionDate.getDate() + dateChange);
+
+        var nextDueDateYear = lastCompletionDate.getFullYear().toString();
+        var nextDueDateMonth = (lastCompletionDate.getMonth() + 1).toString();
+        var nextDueDateDay = lastCompletionDate.getDate().toString();
+
+        if (nextDueDateMonth.length == 1) {
+          nextDueDateMonth = "0" + nextDueDateMonth;
+        }
+        if (nextDueDateDay.length == 1) {
+          nextDueDateDay = "0" + nextDueDateDay;
+        }
+
+        task.selected = true;
+        task.completionList.push(task.nextDueDate);
+        nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
+        task.nextDueDate = nextDueDate;
+
+        await TasksAPI.updateTask(token, task.SK, task);
+      } else {
+        task.selected = false;
+        nextDueDate = task.completionList.pop();
+        task.nextDueDate = nextDueDate;
+
+        await TasksAPI.updateTask(token, task.SK, task);
+      }
+      return nextDueDate;
+    } catch (e) {
+      console.log(e);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
+  };
+
   const updateTaskStatus = async (updatedTask) => {
     try {
       var nextDueDate;
@@ -565,79 +693,69 @@ const TodosHabits = ({ navigation }) => {
         dueTaskUpdated = true;
       }
 
-      if (!task.isLocked) {
-        task.isLocked = true;
-
-        if (!task.selected) {
-          var year = task.nextDueDate.substring(0, 4);
-          var month = task.nextDueDate.substring(4, 6);
-          var day = task.nextDueDate.substring(6, 8);
-          var lastCompletionDate = new Date(
-            Number(year),
-            Number(month) - 1,
-            Number(day)
-          );
-          var dayOfWeek = lastCompletionDate.getDay();
-          var nextDayOfWeek = 0;
-          for (var recurringDay of task.schedule.days) {
-            if (recurringDay > dayOfWeek) {
-              nextDayOfWeek = recurringDay;
-              break;
-            }
+      if (task.selected) {
+        var year = task.nextDueDate.substring(0, 4);
+        var month = task.nextDueDate.substring(4, 6);
+        var day = task.nextDueDate.substring(6, 8);
+        var lastCompletionDate = new Date(
+          Number(year),
+          Number(month) - 1,
+          Number(day)
+        );
+        var dayOfWeek = lastCompletionDate.getDay();
+        var nextDayOfWeek = 0;
+        for (var recurringDay of task.schedule.days) {
+          if (recurringDay > dayOfWeek) {
+            nextDayOfWeek = recurringDay;
+            break;
           }
-          if (nextDayOfWeek == 0) {
-            nextDayOfWeek = task.schedule.days[0];
-          }
-
-          var dateChange = 0;
-          //use brain cells please
-          if (nextDayOfWeek > dayOfWeek) {
-            dateChange = nextDayOfWeek - dayOfWeek;
-          } else if (nextDayOfWeek == dayOfWeek) {
-            dateChange = 7;
-          } else {
-            dateChange = 7 - dayOfWeek + nextDayOfWeek;
-          }
-
-          lastCompletionDate.setDate(lastCompletionDate.getDate() + dateChange);
-
-          var nextDueDateYear = lastCompletionDate.getFullYear().toString();
-          var nextDueDateMonth = (lastCompletionDate.getMonth() + 1).toString();
-          var nextDueDateDay = lastCompletionDate.getDate().toString();
-
-          if (nextDueDateMonth.length == 1) {
-            nextDueDateMonth = "0" + nextDueDateMonth;
-          }
-          if (nextDueDateDay.length == 1) {
-            nextDueDateDay = "0" + nextDueDateDay;
-          }
-
-          task.selected = true;
-          task.completionList.push(task.nextDueDate);
-          nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
-          task.nextDueDate = nextDueDate;
-
-          if (dueTaskUpdated) {
-            dueTask.selected = true;
-            dueTask.completionList.push(dueTask.nextDueDate);
-            dueTask.nextDueDate = nextDueDate;
-          }
-
-          await TasksAPI.updateTask(token, task.SK, task);
-        } else {
-          task.selected = false;
-          nextDueDate = task.completionList.pop();
-          task.nextDueDate = nextDueDate;
-          if (dueTaskUpdated) {
-            dueTask.selected = false;
-            dueTask.nextDueDate = dueTask.completionList.pop();
-          }
-          await TasksAPI.updateTask(token, task.SK, task);
         }
-        task.isLocked = false;
-        setUpdateStats(updateStats + 1);
-        return nextDueDate;
+        if (nextDayOfWeek == 0) {
+          nextDayOfWeek = task.schedule.days[0];
+        }
+
+        var dateChange = 0;
+        //use brain cells please
+        if (nextDayOfWeek > dayOfWeek) {
+          dateChange = nextDayOfWeek - dayOfWeek;
+        } else if (nextDayOfWeek == dayOfWeek) {
+          dateChange = 7;
+        } else {
+          dateChange = 7 - dayOfWeek + nextDayOfWeek;
+        }
+
+        lastCompletionDate.setDate(lastCompletionDate.getDate() + dateChange);
+
+        var nextDueDateYear = lastCompletionDate.getFullYear().toString();
+        var nextDueDateMonth = (lastCompletionDate.getMonth() + 1).toString();
+        var nextDueDateDay = lastCompletionDate.getDate().toString();
+
+        if (nextDueDateMonth.length == 1) {
+          nextDueDateMonth = "0" + nextDueDateMonth;
+        }
+        if (nextDueDateDay.length == 1) {
+          nextDueDateDay = "0" + nextDueDateDay;
+        }
+
+        if (dueTaskUpdated) {
+          dueTask.selected = true;
+          dueTask.completionList.push(dueTask.nextDueDate);
+          dueTask.nextDueDate = nextDueDate;
+        }
+
+        await TasksAPI.updateTask(token, task.SK, task);
+      } else {
+        task.selected = false;
+        nextDueDate = task.completionList.pop();
+        task.nextDueDate = nextDueDate;
+        if (dueTaskUpdated) {
+          dueTask.selected = false;
+          dueTask.nextDueDate = dueTask.completionList.pop();
+        }
+        await TasksAPI.updateTask(token, task.SK, task);
       }
+      setUpdateStats(updateStats + 1);
+      return nextDueDate;
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -762,8 +880,8 @@ const TodosHabits = ({ navigation }) => {
             refreshHabits={refreshHabits}
             updateHabitStatusCount={updateHabitStatusCount}
             onHabitStatusUpdate={onHabitStatusUpdate}
-            updateToDoStatus={updateToDoStatus}
-            updateTaskStatus={updateTaskStatus}
+            updateDueToDoStatus={updateDueToDoStatus}
+            updateDueTaskStatus={updateDueTaskStatus}
           />
         );
       case "second":
@@ -784,6 +902,7 @@ const TodosHabits = ({ navigation }) => {
             tasks={tasks}
             doneToDos={doneToDos}
             updateToDoStatus={updateToDoStatus}
+            updateDoneToDoStatus={updateDoneToDoStatus}
             updateTaskStatus={updateTaskStatus}
           />
         );

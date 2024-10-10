@@ -23,6 +23,7 @@ const MyTasks = ({
   doneToDos,
   updateTaskStatus,
   updateToDoStatus,
+  updateDoneToDoStatus,
 }) => {
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [completedToDos, setCompletedToDos] = useState([]);
@@ -83,6 +84,7 @@ const MyTasks = ({
         <TouchableOpacity
           onPress={async () => {
             setIsCheck((pr) => !pr);
+            item.selected = !item.selected;
             if (item.PK.includes("task")) {
               var nextDueDate = await updateTaskStatus(item);
               var year = nextDueDate.substring(0, 4);
@@ -96,7 +98,7 @@ const MyTasks = ({
               );
               setItemDate(newItemDate);
             } else {
-              await updateToDoStatus(item, false);
+              await updateToDoStatus(item);
             }
           }}
           style={styles.checkRender}
@@ -256,7 +258,7 @@ const MyTasks = ({
               key={index}
               item={item}
               updateTaskStatus={updateTaskStatus}
-              updateToDoStatus={updateToDoStatus}
+              updateToDoStatus={updateDoneToDoStatus}
             />
           );
         })}

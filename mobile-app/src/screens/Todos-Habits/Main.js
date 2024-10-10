@@ -29,8 +29,8 @@ const Main = ({
   refreshHabits,
   updateHabitStatusCount,
   onHabitStatusUpdate,
-  updateToDoStatus,
-  updateTaskStatus,
+  updateDueToDoStatus,
+  updateDueTaskStatus,
 }) => {
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
@@ -53,8 +53,8 @@ const Main = ({
     onPress = () => {},
     currentDay,
     item,
-    updateTaskStatus,
-    updateToDoStatus,
+    updateDueTaskStatus,
+    updateDueToDoStatus,
   }) => {
     const [isCheck, setIsCheck] = useState(false);
     const [itemDate, setItemDate] = useState("noDueDate");
@@ -94,8 +94,9 @@ const Main = ({
         <TouchableOpacity
           onPress={async () => {
             setIsCheck((pr) => !pr);
+            item.selected = !item.selected;
             if (item.PK.includes("task")) {
-              var nextDueDate = await updateTaskStatus(item);
+              var nextDueDate = await updateDueTaskStatus(item);
               var year = nextDueDate.substring(0, 4);
               var month = nextDueDate.substring(4, 6);
               var day = nextDueDate.substring(6, 8);
@@ -105,9 +106,10 @@ const Main = ({
                 Number(month) - 1,
                 Number(day)
               );
+
               setItemDate(newItemDate);
             } else {
-              await updateToDoStatus(item, true);
+              await updateDueToDoStatus(item);
             }
           }}
           style={styles.checkRender}
@@ -492,8 +494,8 @@ const Main = ({
                       currentDay={day}
                       key={index}
                       item={item}
-                      updateTaskStatus={updateTaskStatus}
-                      updateToDoStatus={updateToDoStatus}
+                      updateDueTaskStatus={updateDueTaskStatus}
+                      updateDueToDoStatus={updateDueToDoStatus}
                     />
                   ))}
                 </ScrollView>
