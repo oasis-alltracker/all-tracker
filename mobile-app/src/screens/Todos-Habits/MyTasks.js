@@ -90,13 +90,19 @@ const MyTasks = ({
               var year = nextDueDate.substring(0, 4);
               var month = nextDueDate.substring(4, 6);
               var day = nextDueDate.substring(6, 8);
-
               var newItemDate = new Date(
                 Number(year),
                 Number(month) - 1,
                 Number(day)
               );
               setItemDate(newItemDate);
+              if (item.selected) {
+                item.completionList.push(item.nextDueDate);
+                item.nextDueDate = nextDueDate;
+              } else {
+                item.completionList.pop();
+                item.nextDueDate = nextDueDate;
+              }
             } else {
               await updateToDoStatus(item);
             }

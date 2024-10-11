@@ -737,24 +737,53 @@ const TodosHabits = ({ navigation }) => {
           nextDueDateDay = "0" + nextDueDateDay;
         }
 
+        nextDueDate = `${nextDueDateYear}${nextDueDateMonth}${nextDueDateDay}`;
+        var completionList = task.completionList;
+        completionList.push(task.nextDueDate);
+
+        var newTask = {
+          PK: task.PK,
+          SK: task.SK,
+          completionList: completionList,
+          description: task.description,
+          name: task.name,
+          nextDueDate: nextDueDate,
+          schedule: task.schedule,
+          selected: true,
+        };
+
         if (dueTaskUpdated) {
           dueTask.selected = true;
           dueTask.completionList.push(dueTask.nextDueDate);
           dueTask.nextDueDate = nextDueDate;
         }
 
-        await TasksAPI.updateTask(token, task.SK, task);
+        await TasksAPI.updateTask(token, task.SK, newTask);
       } else {
-        task.selected = false;
-        nextDueDate = task.completionList.pop();
-        task.nextDueDate = nextDueDate;
+        nextDueDate = task.completionList[task.completionList.length - 1];
         if (dueTaskUpdated) {
           dueTask.selected = false;
-          dueTask.nextDueDate = dueTask.completionList.pop();
+          dueTask.completionList.pop();
+          dueTask.nextDueDate = nextDueDate;
         }
-        await TasksAPI.updateTask(token, task.SK, task);
+
+        var completionList = task.completionList.slice(
+          0,
+          task.completionList.length - 1
+        );
+
+        var newTask = {
+          PK: task.PK,
+          SK: task.SK,
+          completionList: completionList,
+          description: task.description,
+          name: task.name,
+          nextDueDate: nextDueDate,
+          schedule: task.schedule,
+          selected: false,
+        };
+        await TasksAPI.updateTask(token, task.SK, newTask);
       }
-      setUpdateStats(updateStats + 1);
       return nextDueDate;
     } catch (e) {
       console.log(e);
@@ -999,7 +1028,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });
