@@ -207,7 +207,6 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });

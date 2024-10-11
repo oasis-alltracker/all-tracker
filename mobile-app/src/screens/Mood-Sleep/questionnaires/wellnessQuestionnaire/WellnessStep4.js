@@ -146,7 +146,6 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });

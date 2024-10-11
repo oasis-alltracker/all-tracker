@@ -285,7 +285,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });

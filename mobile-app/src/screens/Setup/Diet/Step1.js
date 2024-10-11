@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
   buttons: {

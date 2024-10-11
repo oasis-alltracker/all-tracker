@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH - 50,
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });

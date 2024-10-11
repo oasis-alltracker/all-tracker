@@ -171,7 +171,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });

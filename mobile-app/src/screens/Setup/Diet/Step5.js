@@ -161,7 +161,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });

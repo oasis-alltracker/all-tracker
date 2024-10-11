@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });

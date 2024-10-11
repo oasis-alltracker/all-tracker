@@ -1420,7 +1420,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
   text: {

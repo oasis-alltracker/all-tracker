@@ -419,7 +419,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   errorToast: {
-    backgroundColor: "#FFD7D7",
     textColor: "#25436B",
   },
 });
