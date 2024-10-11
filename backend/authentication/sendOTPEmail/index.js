@@ -13,7 +13,7 @@ const EmailDB = require("../../utils/emailDB");
 const emailDB = new EmailDB(dbService);
 
 const EmailService = require("../../utils/emailService");
-const source = "no-reply@oasis-alltracker.com";
+const source = "no-reply@oasis-journal.com";
 const configurationSetName = process.env.CONFIGURATION_SET_NAME;
 const emailService = new EmailService(ses, source, configurationSetName);
 
