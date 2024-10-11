@@ -25,101 +25,52 @@ const Agreement = () => {
       setIsLoading(true);
       const token = await getAccessToken();
       try {
-        systemNotificationsStatus =
-          await NotificationsHandler.checkNotificationsStatus(token);
-        if (systemNotificationsStatus) {
-          await NotificationsHandler.updateNotification(
-            token,
-            "notifications",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "on"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "taskPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "on"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "moodPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "sleepPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "morningPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-        } else {
-          await NotificationsHandler.updateNotification(
-            token,
-            "notifications",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "taskPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "moodPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "sleepPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-          await NotificationsHandler.updateNotification(
-            token,
-            "morningPreference",
-            "undefined",
-            "undefined",
-            "undefined",
-            "undefined",
-            "off"
-          );
-        }
+        await NotificationsHandler.updateNotification(
+          token,
+          "notifications",
+          "undefined",
+          "undefined",
+          "undefined",
+          "undefined",
+          "on"
+        );
+        await NotificationsHandler.updateNotification(
+          token,
+          "taskPreference",
+          "undefined",
+          "undefined",
+          "undefined",
+          "undefined",
+          "on"
+        );
+        await NotificationsHandler.updateNotification(
+          token,
+          "moodPreference",
+          "undefined",
+          "undefined",
+          "undefined",
+          "undefined",
+          "off"
+        );
+        await NotificationsHandler.updateNotification(
+          token,
+          "sleepPreference",
+          "undefined",
+          "undefined",
+          "undefined",
+          "undefined",
+          "off"
+        );
+        await NotificationsHandler.updateNotification(
+          token,
+          "morningPreference",
+          "undefined",
+          "undefined",
+          "undefined",
+          "undefined",
+          "off"
+        );
+
         setChecked(false);
         setIsLoading(false);
         navigationService.navigate("setup");
