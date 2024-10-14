@@ -283,6 +283,13 @@ export default function TaskModal({
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <View style={styles.nameRow}>
+              {!title && (
+                <Image
+                  style={styles.editData}
+                  source={require("../../../assets/images/edit.png")}
+                />
+              )}
+
               <TextInput
                 placeholderTextColor={"#7B97BC"}
                 placeholder="Name"
@@ -309,14 +316,10 @@ export default function TaskModal({
               </TouchableOpacity>
             </View>
             <View style={styles.descriptionRow}>
-              <Image
-                style={styles.editData}
-                source={require("../../../assets/images/edit.png")}
-              />
               <TextInput
                 multiline
                 placeholderTextColor={"#7B97BC"}
-                placeholder="Description"
+                placeholder="Description (optional)"
                 style={styles.input}
                 onChangeText={setDescription}
                 value={description}
@@ -360,13 +363,14 @@ const styles = StyleSheet.create({
     borderBlockColor: "rgba(0,0,0,0.5)",
   },
   searchImage: {
-    width: 30,
-    height: 30,
-    marginTop: 12,
+    width: 25,
+    height: 25,
+    marginTop: 10,
   },
   editData: {
-    width: 30,
-    height: 30,
+    width: 32,
+    height: 32,
+    marginTop: 10,
   },
   nameRow: {
     flexDirection: "row",
