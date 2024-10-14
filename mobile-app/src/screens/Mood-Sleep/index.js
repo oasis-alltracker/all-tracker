@@ -20,6 +20,7 @@ import { sharedStyles } from "../styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import SleepReportModal from "./reviews/sleep/sleepReportModal";
 import moment from "moment";
+import Toast from "react-native-root-toast";
 
 import WellnessReportModal from "./reviews/mood/wellnessReportModal";
 
@@ -59,15 +60,22 @@ const MoodSleep = ({ navigation }) => {
   const getMoodReports = async (dateStamp) => {
     try {
       token = await getAccessToken();
-      reportsForDay = await WellnessReportsAPI.getWellnessReportsForToday(
-        token,
-        dateStamp
+      const reportsForDayRequest =
+        WellnessReportsAPI.getWellnessReportsForToday(token, dateStamp);
+      const allReportsRequest =
+        WellnessReportsAPI.getWellnessReportsForMutlipleDays(token, "0", "3");
+
+      var reportsForDay;
+      var allReports;
+
+      await Promise.all([reportsForDayRequest, allReportsRequest]).then(
+        (data) => {
+          console.log(data);
+          reportsForDay = data[0];
+          allReports = data[1];
+        }
       );
-      allReports = await WellnessReportsAPI.getWellnessReportsForMutlipleDays(
-        token,
-        "0",
-        "3"
-      );
+
       if (reportsForDay.length > 0) {
         setWellnessReportForDay(reportsForDay[reportsForDay.length - 1]);
       } else {
@@ -75,6 +83,7 @@ const MoodSleep = ({ navigation }) => {
       }
       setAllWellnessReports(allReports);
     } catch (e) {
+      console.log(e);
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -125,14 +134,19 @@ const MoodSleep = ({ navigation }) => {
   const getSleepReports = async (dateStamp) => {
     try {
       token = await getAccessToken();
-      reportsForDay = await SleepReportsAPI.getSleepReportsForToday(
-        token,
-        dateStamp
-      );
-      allReports = await SleepReportsAPI.getSleepReportsForMutlipleDays(
-        token,
-        "0",
-        "3"
+      const reportsForDayRequest =
+        await SleepReportsAPI.getSleepReportsForToday(token, dateStamp);
+      const allReportsRequest =
+        await SleepReportsAPI.getSleepReportsForMutlipleDays(token, "0", "3");
+
+      var reportsForDay;
+      var allReports;
+
+      await Promise.all([reportsForDayRequest, allReportsRequest]).then(
+        (data) => {
+          reportsForDay = data[0];
+          allReports = data[1];
+        }
       );
 
       if (reportsForDay.length > 0) {
@@ -196,16 +210,19 @@ const MoodSleep = ({ navigation }) => {
       token = await getAccessToken();
       const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
         .trackingPreferences;
+
+      await Promise.all(
+        getMoodReports(moment(day).format("YYYYMMDD")),
+        getSleepReports(moment(day).format("YYYYMMDD"))
+      );
       setTrackingPreferences(trackingPreferencesLoaded);
 
       var routesPreference = routes;
 
       if (trackingPreferencesLoaded.moodSelected) {
-        await getMoodReports(moment(day).format("YYYYMMDD"));
         routesPreference.push({ key: "second", title: "Second" });
       }
       if (trackingPreferencesLoaded.sleepSelected) {
-        await getSleepReports(moment(day).format("YYYYMMDD"));
         routesPreference.push({ key: "third", title: "Third" });
       }
       routesPreference.push({ key: "fourth", title: "Fourth" });
@@ -220,10 +237,7 @@ const MoodSleep = ({ navigation }) => {
       setIsLoading(false);
     };
 
-    if (!isPageLoaded) {
-      setIsPageLoaded(true);
-      getPreferencesOnLoad();
-    }
+    getPreferencesOnLoad();
   }, []);
 
   const renderScene = ({ route }) => {
