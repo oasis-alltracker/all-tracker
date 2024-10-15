@@ -304,6 +304,7 @@ const TodosHabits = ({ navigation }) => {
             month: Number(toDo.dateStamp.substring(4, 6)),
             hour: time[0],
             minute: time[1],
+            type: "yearly",
           },
         ];
         expoIDs = await NotificationsHandler.turnOnNotification(
@@ -575,11 +576,13 @@ const TodosHabits = ({ navigation }) => {
           );
         var prevExpoIDs = prevNotification[0]?.expoIDs;
         triggers = [];
-        for (var day of task.schedule.days) {
+        for (var day of task.schedule) {
           triggers.push({
             weekday: day + 1,
             hour: time[0],
             minute: time[1],
+            type: "weekly",
+            repeats: true,
           });
         }
 
