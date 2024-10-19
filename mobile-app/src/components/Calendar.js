@@ -125,9 +125,6 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     ) {
       notificationsToggled(true);
     }
-    if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
-    }
   };
 
   const formatDateObjectBackend = (dateObject) => {

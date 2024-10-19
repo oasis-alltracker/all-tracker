@@ -155,7 +155,6 @@ const Soultification = ({
               minute: Number(minute),
               weekday: i,
               repeats: true,
-              type: "weekly",
             });
           }
         }
@@ -182,6 +181,7 @@ const Soultification = ({
               hour: Number(hour),
               minute: Number(minute),
               weekday: i,
+              repeats: true,
             });
           }
         }
@@ -206,6 +206,7 @@ const Soultification = ({
               hour: Number(hour),
               minute: Number(minute),
               weekday: i,
+              repeats: true,
             });
           }
         }
@@ -215,6 +216,7 @@ const Soultification = ({
         });
       }
     }
+    console.log("toggling");
     var listOfExpoIDs = await toggled(notificationTriggers, turnOn);
     if (listOfExpoIDs) {
       for (var i = 0; i < listOfExpoIDs.length; i++) {

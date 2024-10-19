@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { Image } from "react-native";
 import { Button, RenderTodos } from "../../../components";
@@ -57,12 +58,19 @@ const Todos = (props) => {
       toDoID = await ToDosAPI.createToDo(token, toDo);
 
       if (isNotificationsOn) {
+        var month;
+        if (Platform.OS == "android") {
+          month = Number(toDo.dateStamp.substring(4, 6)) - 1;
+        } else if (Platform.OS == "ios") {
+          month = Number(toDo.dateStamp.substring(4, 6));
+        }
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)),
+            month: month,
             hour: time[0],
             minute: time[1],
+            repeats: false,
           },
         ];
         expoIDs = await NotificationsHandler.turnOnNotification(
@@ -97,12 +105,20 @@ const Todos = (props) => {
           token,
           `task-${toDo.toDoID}`
         );
+        var month;
+        if (Platform.OS == "android") {
+          month = Number(toDo.dateStamp.substring(4, 6)) - 1;
+        } else if (Platform.OS == "ios") {
+          month = Number(toDo.dateStamp.substring(4, 6));
+        }
+
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)),
+            month: month,
             hour: time[0],
             minute: time[1],
+            repeats: false,
           },
         ];
         expoIDs = await NotificationsHandler.turnOnNotification(

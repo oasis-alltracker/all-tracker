@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView } from "react-native-tab-view";
@@ -256,12 +257,19 @@ const TodosHabits = ({ navigation }) => {
       toDoID = await ToDosAPI.createToDo(token, toDo);
 
       if (isNotificationsOn) {
+        var month;
+        if (Platform.OS == "android") {
+          month = Number(toDo.dateStamp.substring(4, 6)) - 1;
+        } else if (Platform.OS == "ios") {
+          month = Number(toDo.dateStamp.substring(4, 6));
+        }
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)),
+            month: month,
             hour: time[0],
             minute: time[1],
+            repeats: false,
           },
         ];
         expoIDs = await NotificationsHandler.turnOnNotification(
@@ -298,13 +306,19 @@ const TodosHabits = ({ navigation }) => {
             `task-${toDo.toDoID}`
           );
         var prevExpoIDs = prevNotification[0]?.expoIDs;
+        var month;
+        if (Platform.OS == "android") {
+          month = Number(toDo.dateStamp.substring(4, 6)) - 1;
+        } else if (Platform.OS == "ios") {
+          month = Number(toDo.dateStamp.substring(4, 6));
+        }
         trigger = [
           {
             day: Number(toDo.dateStamp.substring(6, 8)),
-            month: Number(toDo.dateStamp.substring(4, 6)),
+            month: month,
             hour: time[0],
             minute: time[1],
-            type: "yearly",
+            repeats: false,
           },
         ];
         expoIDs = await NotificationsHandler.turnOnNotification(
@@ -581,7 +595,6 @@ const TodosHabits = ({ navigation }) => {
             weekday: day + 1,
             hour: time[0],
             minute: time[1],
-            type: "weekly",
             repeats: true,
           });
         }

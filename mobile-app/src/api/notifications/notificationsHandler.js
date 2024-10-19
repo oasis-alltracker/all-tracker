@@ -155,7 +155,9 @@ class NotificationsHandler {
     if (notifications) {
       for (var trigger of triggers) {
         if (Platform.OS === "android" && trigger.month && trigger.day) {
-          trigger = { seconds: this.getSecondsUntilDate(trigger) };
+          trigger = {
+            seconds: this.getSecondsUntilDate(trigger),
+          };
         }
         try {
           const expoID = await this.schedulePushNotification(
@@ -374,7 +376,7 @@ class NotificationsHandler {
 
   static getSecondsUntilDate({ day, month, hour, minute }) {
     const now = new Date();
-    let date = new Date(now.getFullYear(), month - 1, day, hour, minute, 0);
+    let date = new Date(now.getFullYear(), month, day, hour, minute, 0);
     let diff = date.getTime() - now.getTime();
     if (diff > 0) {
       return Math.floor(diff / 1000);
