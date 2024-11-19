@@ -551,6 +551,7 @@ const TodosHabits = ({ navigation }) => {
             weekday: day + 1,
             hour: time[0],
             minute: time[1],
+            repeats: true,
           });
         }
 

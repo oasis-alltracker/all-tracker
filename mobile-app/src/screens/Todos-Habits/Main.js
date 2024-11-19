@@ -35,7 +35,7 @@ const Main = ({
   const updateHabitsStatusRef = useRef(null);
   const today = new Date();
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
-  const [toDosHeight, setToDosHeight] = useState(100);
+  const [toDosHeight, setToDosHeight] = useState(height * 0.2);
 
   useEffect(() => {
     setTasksAndToDos(dueToDos.concat(dueTasks));
@@ -43,9 +43,9 @@ const Main = ({
 
   useEffect(() => {
     if (trackingPreferences.habitsSelected) {
-      setToDosHeight(height * 0.2);
+      setToDosHeight(height * 0.26);
     } else {
-      setToDosHeight(330);
+      setToDosHeight(height * 0.5);
     }
   }, [trackingPreferences]);
 

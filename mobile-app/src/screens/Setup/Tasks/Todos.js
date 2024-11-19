@@ -230,9 +230,9 @@ const Todos = (props) => {
             weekday: day + 1,
             hour: time[0],
             minute: time[1],
+            repeats: true,
           });
         }
-
         expoIDs = await NotificationsHandler.turnOnNotification(
           token,
           `task-${taskID}`,
