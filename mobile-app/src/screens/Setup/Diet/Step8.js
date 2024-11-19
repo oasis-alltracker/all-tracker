@@ -284,9 +284,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default DietStep8;

@@ -31,11 +31,11 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 GoogleSignin.configure({
   androidClientId:
-    "315014991553-j5b6on7h282vrtkvlmjuaksaoh989t9c.apps.googleusercontent.com",
+    "43771055341-19thc1stj86lcu6fg32mj9jkt1mnq10e.apps.googleusercontent.com",
   iosClientId:
-    "315014991553-eo63jke24uk35ihhuqg8ltpa4iqp48aq.apps.googleusercontent.com",
+    "43771055341-6ifjbjlqepa7e78etvbo1qre9008fetv.apps.googleusercontent.com",
   webClientId:
-    "315014991553-li1flvq9ro8h1ulm4qa9t3p87u8p1usn.apps.googleusercontent.com",
+    "43771055341-4cm2hvtpuo1sdjrbddoduopuqpvgm77i.apps.googleusercontent.com",
 });
 
 const EnterEmail = () => {
@@ -333,9 +333,7 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 28,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
   emailInput: {
     color: "black",
     fontSize: 20,

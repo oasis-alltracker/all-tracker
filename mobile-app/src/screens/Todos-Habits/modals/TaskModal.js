@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
   editData: {
     width: 32,
     height: 32,
-    marginTop: 10,
+    marginTop: 5,
   },
   nameRow: {
     flexDirection: "row",
@@ -412,9 +412,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "Sego",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
   input: {
     width: 100,
     paddingHorizontal: 2,

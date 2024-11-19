@@ -215,9 +215,7 @@ const styles = StyleSheet.create({
   nextButton: {
     width: SCREEN_WIDTH - 50,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default CreatePassword;

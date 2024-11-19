@@ -208,9 +208,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Sego",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
   middleContainer: {
     flex: 1,
     textAlignVertical: "center",

@@ -172,9 +172,7 @@ const styles = StyleSheet.create({
   kgText: {
     fontSize: 18,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default DietStep2;

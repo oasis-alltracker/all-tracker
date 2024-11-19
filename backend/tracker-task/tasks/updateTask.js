@@ -42,14 +42,14 @@ class UpdateTask {
       );
       var dayOfWeek = lastCompletionDate.getDay();
       var nextDayOfWeek = 0;
-      for (var recurringDay of task.schedule.days) {
+      for (var recurringDay of task.schedule) {
         if (recurringDay >= dayOfWeek) {
           nextDayOfWeek = recurringDay;
           break;
         }
       }
       if (nextDayOfWeek == 0) {
-        nextDayOfWeek = task.schedule.days[0];
+        nextDayOfWeek = task.schedule[0];
       }
 
       var dateChange = 0;

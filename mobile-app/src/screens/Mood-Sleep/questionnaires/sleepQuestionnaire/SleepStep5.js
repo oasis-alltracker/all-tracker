@@ -154,9 +154,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Sego",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default SleepStep4;

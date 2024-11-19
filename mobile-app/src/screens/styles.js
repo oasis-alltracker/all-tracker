@@ -7,16 +7,16 @@ export const sharedStyles = StyleSheet.create({
     paddingBottom: 80,
   },
   headerImageContainer: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
     borderRadius: 100,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
   },
   headerImage: {
-    width: 85,
-    height: 85,
+    width: 65,
+    height: 65,
     tintColor: "#25436B",
   },
   datePickerView: {

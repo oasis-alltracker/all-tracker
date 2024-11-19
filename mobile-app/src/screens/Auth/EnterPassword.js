@@ -227,9 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignSelf: "center",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
   linkBtn: {
     marginTop: 155,
     paddingBottom: 10,

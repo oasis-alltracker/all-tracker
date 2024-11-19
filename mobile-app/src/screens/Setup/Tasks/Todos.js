@@ -225,7 +225,7 @@ const Todos = (props) => {
       taskID = await TasksAPI.createTask(token, task);
       if (isNotificationsOn) {
         triggers = [];
-        for (var day of task.schedule.days) {
+        for (var day of task.schedule) {
           triggers.push({
             weekday: day + 1,
             hour: time[0],
@@ -267,7 +267,7 @@ const Todos = (props) => {
         );
 
         triggers = [];
-        for (var day of task.schedule.days) {
+        for (var day of task.schedule) {
           triggers.push({
             weekday: day + 1,
             hour: time[0],
@@ -320,14 +320,14 @@ const Todos = (props) => {
           );
           var dayOfWeek = lastCompletionDate.getDay();
           var nextDayOfWeek = 0;
-          for (var recurringDay of task.schedule.days) {
+          for (var recurringDay of task.schedule) {
             if (recurringDay > dayOfWeek) {
               nextDayOfWeek = recurringDay;
               break;
             }
           }
           if (nextDayOfWeek == 0) {
-            nextDayOfWeek = task.schedule.days[0];
+            nextDayOfWeek = task.schedule[0];
           }
 
           var dateChange = 0;

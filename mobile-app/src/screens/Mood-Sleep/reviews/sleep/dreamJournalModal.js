@@ -179,9 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "Sego",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
   input: {
     color: "#25436B",
     fontFamily: "Sego",

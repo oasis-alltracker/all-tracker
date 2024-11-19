@@ -298,9 +298,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "center",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
   resendOTPText: {
     color: "#25436B",
     textDecorationLine: "underline",

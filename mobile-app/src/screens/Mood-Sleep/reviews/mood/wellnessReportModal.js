@@ -239,9 +239,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: "Sego",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
   input: {
     width: 100,
     paddingHorizontal: 20,

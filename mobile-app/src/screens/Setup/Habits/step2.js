@@ -418,9 +418,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default HabitsNotifications;

@@ -153,9 +153,7 @@ const styles = StyleSheet.create({
   chartContainer: {
     alignItems: "center",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default HabitStats;

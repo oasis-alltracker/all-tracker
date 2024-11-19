@@ -271,7 +271,5 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 8,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });

@@ -181,9 +181,7 @@ const styles = StyleSheet.create({
   center: {
     alignItems: "center",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default DietStep7;

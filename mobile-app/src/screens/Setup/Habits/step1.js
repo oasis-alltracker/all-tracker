@@ -348,7 +348,5 @@ const styles = StyleSheet.create({
     color: "rgba(37, 67, 107, 0.6)",
     fontFamily: "Sego",
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });

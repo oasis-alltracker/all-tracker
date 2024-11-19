@@ -161,9 +161,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: height * 0.065,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 const MainDrawer = ({ navigation, initialMainRoute }) => {

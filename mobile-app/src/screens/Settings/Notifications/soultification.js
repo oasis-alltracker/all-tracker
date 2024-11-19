@@ -216,7 +216,6 @@ const Soultification = ({
         });
       }
     }
-    console.log("toggling");
     var listOfExpoIDs = await toggled(notificationTriggers, turnOn);
     if (listOfExpoIDs) {
       for (var i = 0; i < listOfExpoIDs.length; i++) {

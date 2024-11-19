@@ -198,6 +198,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         if (isEdit) {
           Toast.show("You must select at least one day.", {
             ...styles.errorToast,
+            position: Toast.positions.CENTER,
             duration: Toast.durations.LONG,
           });
           return;
@@ -659,7 +660,7 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
   },
   errorToast: {
-    textColor: "#25436B",
+    textColor: "#fff",
   },
   daysContainer: {
     flexDirection: "row",

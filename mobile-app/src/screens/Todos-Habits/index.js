@@ -546,7 +546,7 @@ const TodosHabits = ({ navigation }) => {
       taskID = await TasksAPI.createTask(token, task);
       if (isNotificationsOn) {
         triggers = [];
-        for (var day of task.schedule.days) {
+        for (var day of task.schedule) {
           triggers.push({
             weekday: day + 1,
             hour: time[0],
@@ -640,14 +640,14 @@ const TodosHabits = ({ navigation }) => {
         );
         var dayOfWeek = lastCompletionDate.getDay();
         var nextDayOfWeek = 0;
-        for (var recurringDay of task.schedule.days) {
+        for (var recurringDay of task.schedule) {
           if (recurringDay > dayOfWeek) {
             nextDayOfWeek = recurringDay;
             break;
           }
         }
         if (nextDayOfWeek == 0) {
-          nextDayOfWeek = task.schedule.days[0];
+          nextDayOfWeek = task.schedule[0];
         }
 
         var dateChange = 0;
@@ -720,14 +720,14 @@ const TodosHabits = ({ navigation }) => {
         );
         var dayOfWeek = lastCompletionDate.getDay();
         var nextDayOfWeek = 0;
-        for (var recurringDay of task.schedule.days) {
+        for (var recurringDay of task.schedule) {
           if (recurringDay > dayOfWeek) {
             nextDayOfWeek = recurringDay;
             break;
           }
         }
         if (nextDayOfWeek == 0) {
-          nextDayOfWeek = task.schedule.days[0];
+          nextDayOfWeek = task.schedule[0];
         }
 
         var dateChange = 0;
@@ -1043,9 +1043,7 @@ const styles = StyleSheet.create({
     left: 20,
     zIndex: 1,
   },
-  errorToast: {
-    textColor: "#25436B",
-  },
+  errorToast: { textColor: "#fff" },
 });
 
 export default TodosHabits;

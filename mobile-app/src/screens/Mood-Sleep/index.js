@@ -70,7 +70,6 @@ const MoodSleep = ({ navigation }) => {
 
       await Promise.all([reportsForDayRequest, allReportsRequest]).then(
         (data) => {
-          console.log(data);
           reportsForDay = data[0];
           allReports = data[1];
         }
