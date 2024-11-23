@@ -6,21 +6,21 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
-const { width, height } = Dimensions.get("window");
 const today = new Date();
 
 export default function Sleep({ sleepRef, allSleepReports }) {
+  const { width, height } = useWindowDimensions();
   const Journals = () => (
     <View style={{ height: 365 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={[styles.scrollContainer, { width: width - 30 }]}
       >
         {allSleepReports.map((val, key) => {
           return (
@@ -54,7 +54,7 @@ export default function Sleep({ sleepRef, allSleepReports }) {
           },
         });
       }}
-      style={styles.addButton}
+      style={[styles.addButton, { width: width - 30, height: height * 0.43 }]}
     >
       <Text style={styles.buttonText}>Click here to review your sleep.</Text>
       <View style={styles.plusCon}>
@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
     color: "#1E1E1E",
     fontSize: 20,
     fontFamily: "Sego",
-
     flex: 1,
   },
   item: {
@@ -210,8 +209,6 @@ const styles = StyleSheet.create({
   addButton: {
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
-    width: width - 30,
-    height: height * 0.43,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -225,6 +222,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
-    width: width - 30,
   },
 });

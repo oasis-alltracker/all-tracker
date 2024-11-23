@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Header, Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
@@ -9,6 +16,8 @@ import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const SelectTrackers = () => {
+  const { width, height } = useWindowDimensions();
+
   const [habitsSelected, setHabitsSelected] = useState(false);
   const [toDosSelected, setToDosSelected] = useState(false);
   const [dietSelected, setDietSelected] = useState(false);
@@ -134,7 +143,7 @@ const SelectTrackers = () => {
     <SafeAreaView edges={["bottom"]} style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
       <Header />
-      <Text style={styles.subtitle}>
+      <Text style={[styles.subtitle, { marginTop: height * 0.05 }]}>
         What would you like to track inside your journal?
       </Text>
       <View style={styles.middleContainer}>
@@ -145,11 +154,15 @@ const SelectTrackers = () => {
               !habitsSelected && { opacity: 0.5 },
               habitsSelected && { borderWidth: 1.5 },
               habitsSelected && { borderColor: "#25436B" },
+              { width: height * 0.2, height: height * 0.2 },
             ]}
             onPress={() => setHabitsSelected(!habitsSelected)}
           >
             <Image
-              style={styles.image}
+              style={{
+                width: height * 0.08,
+                height: height * 0.08,
+              }}
               source={require("../../../assets/images/habits512.png")}
             />
             <Text style={styles.title}>habits</Text>
@@ -160,11 +173,15 @@ const SelectTrackers = () => {
               !toDosSelected && { opacity: 0.5 },
               toDosSelected && { borderWidth: 1.5 },
               toDosSelected && { borderColor: "#25436B" },
+              { width: height * 0.2, height: height * 0.2 },
             ]}
             onPress={() => setToDosSelected(!toDosSelected)}
           >
             <Image
-              style={styles.image}
+              style={{
+                width: height * 0.08,
+                height: height * 0.08,
+              }}
               source={require("../../../assets/images/to-dos512.png")}
             />
             <Text style={styles.title}>to-dos</Text>
@@ -177,6 +194,8 @@ const SelectTrackers = () => {
               {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
+                width: height * 0.2,
+                height: height * 0.2,
               },
               !moodSelected && { opacity: 0.5 },
               moodSelected && { borderWidth: 1.5 },
@@ -185,7 +204,10 @@ const SelectTrackers = () => {
             onPress={() => setMoodSelected(!moodSelected)}
           >
             <Image
-              style={styles.image}
+              style={{
+                width: height * 0.08,
+                height: height * 0.08,
+              }}
               source={require("../../../assets/images/mood512.png")}
             />
             <Text style={styles.title}>mood</Text>
@@ -196,6 +218,8 @@ const SelectTrackers = () => {
               {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
+                width: height * 0.2,
+                height: height * 0.2,
               },
               !sleepSelected && { opacity: 0.5 },
               sleepSelected && { borderWidth: 1.5 },
@@ -204,14 +228,20 @@ const SelectTrackers = () => {
             onPress={() => setSleepSelected(!sleepSelected)}
           >
             <Image
-              style={styles.image}
+              style={{
+                width: height * 0.08,
+                height: height * 0.08,
+              }}
               source={require("../../../assets/images/sleep512.png")}
             />
             <Text style={styles.title}>sleep</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <Button onPress={() => setSelectedTrackers()} style={styles.nextButton}>
+      <Button
+        onPress={() => setSelectedTrackers()}
+        style={{ marginHorizontal: width * 0.05 }}
+      >
         Continue
       </Button>
     </SafeAreaView>
@@ -231,14 +261,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
   },
-  image: {
-    width: 65,
-    height: 65,
-  },
   button: {
-    width: 145,
-    height: 145,
-    borderRadius: 100,
+    borderRadius: 200,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255, 216, 247, 0.62)",
@@ -246,20 +270,16 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#25436B",
-    fontSize: 22,
+    fontSize: 24,
     marginTop: 7,
     fontFamily: "Sego",
   },
   subtitle: {
     color: "#25436B",
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: "Sego-Bold",
     textAlign: "center",
     paddingHorizontal: 15,
-    marginTop: 15,
-  },
-  nextButton: {
-    marginHorizontal: 30,
   },
   buttonText: {
     color: "#25436B",

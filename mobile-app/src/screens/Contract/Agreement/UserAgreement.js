@@ -1,15 +1,19 @@
-import { Text, StyleSheet, ScrollView, Dimensions } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  ScrollView,
+  useWindowDimensions,
+} from "react-native";
 import React from "react";
 import { Header } from "../../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const { width, height } = Dimensions.get("window");
-
 const UserAgreement = () => {
+  const { width, height } = useWindowDimensions();
   return (
     <SafeAreaView style={styles.container}>
       <Header showCenter={false} />
-      <ScrollView style={styles.tcContainer}>
+      <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
         <Text style={styles.title}>User Agreement</Text>
         <Text style={styles.header}>Click-wrap Software Licence Agreement</Text>
         <Text style={styles.text}>
@@ -447,7 +451,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: 10,
     marginRight: 10,
-    height: height * 0.7,
   },
 });
 

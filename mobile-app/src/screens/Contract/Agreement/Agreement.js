@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
@@ -14,9 +14,8 @@ import NotificationsHandler from "../../../api/notifications/notificationsHandle
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 
-const { width, height } = Dimensions.get("window");
-
 const Agreement = () => {
+  const { width, height } = useWindowDimensions();
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -93,13 +92,13 @@ const Agreement = () => {
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.view}>
-        <View style={styles.center}>
+        <View style={[styles.center, { marginTop: height * 0.16 }]}>
           <Text style={styles.title}>Welcome to Oasis!</Text>
           <TouchableOpacity
             onPress={() => navigationService.navigate("termsOfService")}
             style={styles.linkBtn}
           >
-            <Text style={styles.linkText}>
+            <Text style={[styles.linkText, { marginVertical: height * 0.004 }]}>
               Read our <Text style={styles.boldText}>Terms of Service</Text>
             </Text>
           </TouchableOpacity>
@@ -107,7 +106,7 @@ const Agreement = () => {
             onPress={() => navigationService.navigate("privacyPolicy")}
             style={styles.linkBtn}
           >
-            <Text style={styles.linkText}>
+            <Text style={[styles.linkText, { marginVertical: height * 0.004 }]}>
               Read the <Text style={styles.boldText}>Privacy Policy</Text>
             </Text>
           </TouchableOpacity>
@@ -115,11 +114,16 @@ const Agreement = () => {
             onPress={() => navigationService.navigate("userAgreement")}
             style={styles.linkBtn}
           >
-            <Text style={styles.linkText}>
+            <Text style={[styles.linkText, { marginVertical: height * 0.004 }]}>
               Read the <Text style={styles.boldText}>User Agreement</Text>
             </Text>
           </TouchableOpacity>
-          <View style={styles.row}>
+          <View
+            style={[
+              styles.row,
+              { marginTop: height * 0.06, marginBottom: height * 0.04 },
+            ]}
+          >
             <TouchableOpacity onPress={() => setChecked((pr) => !pr)}>
               <CheckBox checked={checked} />
             </TouchableOpacity>
@@ -156,8 +160,6 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginTop: height * 0.06,
-    marginBottom: height * 0.04,
   },
   agreementText: {
     fontSize: 18,
@@ -169,7 +171,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Sego",
     textDecorationLine: "underline",
-    marginVertical: height * 0.004,
   },
   boldText: {
     fontFamily: "Sego-Bold",
@@ -180,7 +181,6 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-    marginTop: height * 0.16,
   },
   view: {
     flex: 1,

@@ -3,7 +3,7 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
+  useWindowDimensions,
   TouchableWithoutFeedback,
   TextInput,
   Keyboard,
@@ -13,9 +13,8 @@ import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 
-const { width, height } = Dimensions.get("window");
-
 const WellnessStep3 = (props) => {
+  const { width, height } = useWindowDimensions();
   const [activity, setActivity] = useState("");
   const { moodReport } = props.route.params;
 
@@ -38,7 +37,7 @@ const WellnessStep3 = (props) => {
             <Text style={styles.title}>What activity were you performing?</Text>
           </View>
 
-          <View style={styles.textCon}>
+          <View style={[styles.textCon, { width: width * 0.9 }]}>
             <TextInput
               placeholderTextColor={"#7B97BC"}
               placeholder="Reading, watching TV.."
@@ -117,7 +116,6 @@ const styles = StyleSheet.create({
   textCon: {
     borderRadius: 25,
     borderWidth: 2,
-    width: width * 0.9,
     height: 100,
     borderColor: "#CCCCCC",
     alignItems: "center",

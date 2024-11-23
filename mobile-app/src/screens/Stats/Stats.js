@@ -3,7 +3,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Dimensions,
+  useWindowDimensions,
   Text,
   TouchableOpacity,
   Image,
@@ -19,9 +19,8 @@ import moment from "moment";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
 
-const { width, height } = Dimensions.get("window");
-
 const Stats = ({ getRef }) => {
+  const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
   const [trackingPreferences, setTrackingPreferences] = useState(false);
 
@@ -62,7 +61,7 @@ const Stats = ({ getRef }) => {
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => backDropPressed()}
       backdropColor="rgba(215, 246, 255, 0.27)"
-      style={styles.scrollModal}
+      style={[styles.scrollModal, { height: height * 0.7 }]}
       presentationStyle="pageSheet"
       transparent={false}
     >
@@ -79,14 +78,14 @@ const Stats = ({ getRef }) => {
           />
         </TouchableOpacity>
 
-        <View style={styles.statsImageCon}>
+        <View style={[styles.statsImageCon, { width: width - 65 }]}>
           <Image
             style={styles.statsImage}
             source={require("../../assets/images/stats.png")}
           />
         </View>
 
-        <ScrollView style={styles.tcContainer}>
+        <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
           <View style={styles.dateLineMain}>
             <TouchableOpacity
               style={styles.buttonMain}
@@ -239,10 +238,8 @@ const styles = StyleSheet.create({
   tcContainer: {
     marginTop: 15,
     marginBottom: 15,
-    height: height * 0.7,
   },
   statsImageCon: {
-    width: width - 65,
     height: 100,
     borderRadius: 20,
     backgroundColor: "#D7F6FF",
@@ -315,7 +312,6 @@ const styles = StyleSheet.create({
     margin: 0,
     alignItems: "center",
     justifyContent: "center",
-    height: height * 0.7,
   },
   button: {
     paddingVertical: 15,

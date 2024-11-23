@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Dimensions,
+  useWindowDimensions,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Platform,
@@ -17,9 +17,9 @@ import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import SleepReportsAPI from "../../../../api/sleep/sleepReportsAPI";
 import { getAccessToken } from "../../../../user/keychain";
-const { width, height } = Dimensions.get("window");
 
 const SleepStep6 = (props) => {
+  const { width, height } = useWindowDimensions();
   const [journal, setJournal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { sleepReport } = props.route.params;
@@ -66,7 +66,10 @@ const SleepStep6 = (props) => {
 
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.textCon}
+            style={[
+              styles.textCon,
+              { width: width * 0.9, height: height * 0.5 },
+            ]}
           >
             <TextInput
               multiline
@@ -149,8 +152,6 @@ const styles = StyleSheet.create({
   textCon: {
     borderRadius: 25,
     borderWidth: 2,
-    width: width * 0.9,
-    height: height * 0.5,
     borderColor: "#CCCCCC",
   },
   button: {

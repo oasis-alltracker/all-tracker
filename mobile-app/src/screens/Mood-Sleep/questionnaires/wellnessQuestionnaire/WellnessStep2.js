@@ -3,19 +3,18 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableWithoutFeedback,
   TextInput,
   Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 
-const { width, height } = Dimensions.get("window");
-
 const WellnessStep2 = (props) => {
+  const { width, height } = useWindowDimensions();
   const [mood, setMood] = useState("");
   const { moodReport } = props.route.params;
 
@@ -38,7 +37,7 @@ const WellnessStep2 = (props) => {
             <Text style={styles.title}>How would you describe your mood?</Text>
           </View>
 
-          <View style={styles.textCon}>
+          <View style={[styles.textCon, { width: width * 0.9 }]}>
             <TextInput
               placeholderTextColor={"#7B97BC"}
               placeholder="Sad, happy, tired, excited.."
@@ -117,7 +116,6 @@ const styles = StyleSheet.create({
   textCon: {
     borderRadius: 25,
     borderWidth: 2,
-    width: width * 0.9,
     height: 100,
     borderColor: "#CCCCCC",
     alignItems: "center",

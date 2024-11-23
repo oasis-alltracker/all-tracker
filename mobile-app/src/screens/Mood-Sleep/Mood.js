@@ -6,21 +6,22 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
-const { width, height } = Dimensions.get("window");
+
 const today = new Date();
 
 export default function Mood({ moodRef, allWellnessReports }) {
+  const { width, height } = useWindowDimensions();
   const Diaries = () => (
     <View style={{ height: 365 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={[styles.scrollContainer, { width: width - 30 }]}
       >
         {allWellnessReports.map((val, key) => {
           return (
@@ -54,7 +55,7 @@ export default function Mood({ moodRef, allWellnessReports }) {
           },
         });
       }}
-      style={styles.addButton}
+      style={[styles.addButton, { width: width - 30, height: height * 0.43 }]}
     >
       <Text style={styles.buttonText}>
         Click here to do a wellness check-in.
@@ -201,8 +202,6 @@ const styles = StyleSheet.create({
   addButton: {
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
-    width: width - 30,
-    height: height * 0.43,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -216,6 +215,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
-    width: width - 30,
   },
 });

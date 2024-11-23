@@ -1,14 +1,6 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-const { width, height } = Dimensions.get("window");
 const RenderTodos = ({
   onPress = () => {},
   currentDay,
@@ -131,12 +123,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginLeft: 8,
-  },
-  toDoScrollContainer: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingBottom: 20,
-    width: width - 30,
   },
   itemRenderMain: {
     flexDirection: "row",

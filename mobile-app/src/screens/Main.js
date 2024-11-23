@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import MenuIcon from "../assets/icons/menu";
 import { Button, MainHeader } from "../components";
@@ -25,9 +25,8 @@ import Stats from "./Stats/Stats";
 
 const Drawer = createDrawerNavigator();
 
-const { width, height } = Dimensions.get("window");
-
 const Main = ({ navigation }) => {
+  const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(true);
   const [buttons, setButtons] = useState([]);
   const statsRef = useRef(null);
@@ -121,7 +120,7 @@ const Main = ({ navigation }) => {
           ))}
         </View>
         <TouchableOpacity
-          style={styles.downImageContainer}
+          style={[styles.downImageContainer, { marginTop: height * 0.065 }]}
           onPress={() => {
             statsRef.current.open({});
           }}
@@ -159,7 +158,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     alignItems: "center",
-    marginTop: height * 0.065,
   },
   errorToast: { textColor: "#fff" },
 });

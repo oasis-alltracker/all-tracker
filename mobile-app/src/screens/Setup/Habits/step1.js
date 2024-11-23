@@ -1,5 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  useWindowDimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
@@ -12,9 +18,9 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 
-const { width, height } = Dimensions.get("window");
-
 const HabitsCreation = (props) => {
+  const { width, height } = useWindowDimensions();
+
   const { selectedTrackers } = props.route.params;
   const [habits, setHabits] = useState([]);
   const [habitsIsLoaded, setHabitsIsLoaded] = useState(false);
@@ -115,7 +121,10 @@ const HabitsCreation = (props) => {
       <View style={{ height: height * 0.365 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={[
+            styles.scrollContainer,
+            { width: width - 30 },
+          ]}
           removeClippedSubviews={false}
         >
           {habits.map((val, key) => {
@@ -172,7 +181,7 @@ const HabitsCreation = (props) => {
         onPress={() => {
           modalRef.current.open();
         }}
-        style={styles.addButton}
+        style={[styles.addButton, { width: width - 30, height: height * 0.34 }]}
       >
         <Text style={styles.buttonText}>
           You can do this later if you'd like
@@ -289,8 +298,7 @@ const styles = StyleSheet.create({
   addButton: {
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
-    width: width - 30,
-    height: height * 0.34,
+
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -300,7 +308,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
-    width: width - 30,
   },
   line: {
     flexDirection: "row",

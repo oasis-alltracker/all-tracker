@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -12,8 +12,6 @@ import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
-
-const { width, height } = Dimensions.get("window");
 
 const data = [
   {
@@ -34,6 +32,7 @@ const data = [
 ];
 
 const SleepStep1 = (props) => {
+  const { width, height } = useWindowDimensions();
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(0);
   var dateStamp, dateString;
@@ -85,10 +84,14 @@ const SleepStep1 = (props) => {
             }}
             style={[
               styles.imageCon,
+              { height: height * 0.09, width: width * 0.9 },
               active === key + 1 && { backgroundColor: "#D7F6FF" },
             ]}
           >
-            <Image style={styles.image} source={val.image} />
+            <Image
+              style={{ width: height * 0.08, height: height * 0.08 }}
+              source={val.image}
+            />
           </TouchableOpacity>
         ))}
       </View>
@@ -115,18 +118,11 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: "space-between",
   },
-
-  image: {
-    width: height * 0.08,
-    height: height * 0.08,
-  },
   imageCon: {
     borderRadius: 25,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    height: height * 0.09,
-    width: width * 0.9,
     marginBottom: 15,
     borderColor: "#CCCCCC",
   },

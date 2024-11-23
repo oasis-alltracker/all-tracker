@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, Image, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  useWindowDimensions,
+} from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
@@ -7,9 +13,9 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
-const { width, height } = Dimensions.get("window");
 
 const HabitStats = ({ sunday, updateStats }) => {
+  const { width, height } = useWindowDimensions();
   const [habitStats, setHabitStats] = useState([
     { value: 1, label: labels[0] },
     { value: 1, label: labels[1] },

@@ -4,7 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
+  useWindowDimensions,
   ScrollView,
   TouchableOpacity,
   Platform,
@@ -21,10 +21,10 @@ import TaskModal from "../../Todos-Habits/modals/TaskModal";
 import TasksAPI from "../../../api/tasks/tasksAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
-const { width, height } = Dimensions.get("window");
 
 const Todos = (props) => {
   const { selectedTrackers } = props.route.params;
+  const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
 
   const [toDos, setToDos] = useState([]);
@@ -428,7 +428,10 @@ const Todos = (props) => {
       <View style={{ height: height * 0.365 }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={[
+            styles.scrollContainer,
+            { width: width - 30 },
+          ]}
         >
           {tasksAndToDos.map((item, index) => {
             return (
@@ -482,7 +485,7 @@ const Todos = (props) => {
         onPress={() => {
           taskRef.current.open();
         }}
-        style={styles.addButton}
+        style={[styles.addButton, { height: height * 0.34, width: width - 30 }]}
       >
         <Text style={styles.buttonText}>Click here to create a task</Text>
         <View style={styles.plusCon}>
@@ -722,7 +725,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 20,
-    width: width - 30,
   },
   plusCon: {
     position: "absolute",
@@ -735,8 +737,6 @@ const styles = StyleSheet.create({
   addButton: {
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
-    width: width - 30,
-    height: height * 0.34,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",

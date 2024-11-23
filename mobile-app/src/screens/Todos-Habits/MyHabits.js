@@ -1,12 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  useWindowDimensions,
+  ScrollView,
+} from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import Spinner from "react-native-loading-spinner-overlay";
 import { sharedStyles } from "../styles";
-
-const { width, height } = Dimensions.get("window");
 
 export default function MyHabits({
   isLoading,
@@ -14,11 +18,12 @@ export default function MyHabits({
   createHabitRef,
   updateHabitRef,
 }) {
+  const { width, height } = useWindowDimensions();
   const Habits = () => (
     <View style={{ height: height * 0.43 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={[styles.scrollContainer, { width: width - 30 }]}
       >
         {habits.map((val, key) => {
           return (
@@ -60,7 +65,7 @@ export default function MyHabits({
       onPress={() => {
         createHabitRef.current.open();
       }}
-      style={styles.addButton}
+      style={[styles.addButton, { width: width - 30, height: height * 0.4 }]}
     >
       <Text style={styles.buttonText}>
         Click here to create your first habit
@@ -203,8 +208,6 @@ const styles = StyleSheet.create({
   addButton: {
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
-    width: width - 30,
-    height: height * 0.4,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -214,7 +217,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
-    width: width - 30,
   },
   line: {
     flexDirection: "row",

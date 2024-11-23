@@ -6,9 +6,9 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Platform,
-  Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
@@ -17,9 +17,9 @@ import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import WellnessReportsAPI from "../../../../api/mood/wellnessReportsAPI";
 import { getAccessToken } from "../../../../user/keychain";
-const { width, height } = Dimensions.get("window");
 
 const WellnessStep6 = (props) => {
+  const { width, height } = useWindowDimensions();
   const [journal, setJournal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { moodReport } = props.route.params;
@@ -65,7 +65,10 @@ const WellnessStep6 = (props) => {
           </View>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.textCon}
+            style={[
+              styles.textCon,
+              { width: width * 0.9, height: height * 0.5 },
+            ]}
           >
             <TextInput
               multiline
@@ -148,8 +151,6 @@ const styles = StyleSheet.create({
   textCon: {
     borderRadius: 25,
     borderWidth: 2,
-    width: width * 0.9,
-    height: height * 0.5,
     borderColor: "#CCCCCC",
   },
   button: {

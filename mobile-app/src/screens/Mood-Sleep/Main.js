@@ -6,12 +6,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import navigationService from "../../navigators/navigationService";
-const { width, height } = Dimensions.get("window");
 
 const moodData = [
   {
@@ -59,6 +58,7 @@ export default function Main({
   sleepReportForDay,
 }) {
   const today = new Date();
+  const { width, height } = useWindowDimensions();
 
   return (
     <ScrollView
@@ -118,13 +118,13 @@ export default function Main({
           </View>
           {wellnessReportForDay ? (
             <TouchableOpacity
-              style={styles.ratingBtn}
+              style={[styles.ratingBtn, { height: height * 0.1 }]}
               onPress={() => {
                 moodRef.current.open(wellnessReportForDay);
               }}
             >
               <Image
-                style={styles.ratingImage}
+                style={{ width: height * 0.08, height: height * 0.08 }}
                 source={
                   moodData[Number(wellnessReportForDay.feeling) - 1].image
                 }
@@ -134,7 +134,7 @@ export default function Main({
             <>
               <Text style={styles.questionText}>How are you feeling?</Text>
               <TouchableOpacity
-                style={styles.addBtn}
+                style={[styles.addBtn, { height: height * 0.065 }]}
                 onPress={() => {
                   navigationService.navigate("moodTest", {
                     screen: "moodStep1",
@@ -162,13 +162,13 @@ export default function Main({
 
           {sleepReportForDay ? (
             <TouchableOpacity
-              style={styles.ratingBtn}
+              style={[styles.ratingBtn, { height: height * 0.1 }]}
               onPress={() => {
                 sleepRef.current.open(sleepReportForDay);
               }}
             >
               <Image
-                style={styles.ratingImage}
+                style={{ width: height * 0.08, height: height * 0.08 }}
                 source={sleepData[Number(sleepReportForDay.rating) - 1].image}
               />
             </TouchableOpacity>
@@ -176,7 +176,7 @@ export default function Main({
             <>
               <Text style={styles.questionText}>How was your sleep?</Text>
               <TouchableOpacity
-                style={styles.addBtn}
+                style={[styles.addBtn, { height: height * 0.065 }]}
                 onPress={() => {
                   navigationService.navigate("sleepTest", {
                     screen: "sleepStep1",
@@ -221,7 +221,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#CCCCCC",
     borderRadius: 30,
-    height: height * 0.065,
     width: 280,
     justifyContent: "center",
     alignItems: "center",
@@ -233,16 +232,11 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#CCCCCC",
     borderRadius: 30,
-    height: height * 0.1,
     width: 280,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,
     marginTop: 10,
     marginBottom: 12,
-  },
-  ratingImage: {
-    width: height * 0.08,
-    height: height * 0.08,
   },
 });

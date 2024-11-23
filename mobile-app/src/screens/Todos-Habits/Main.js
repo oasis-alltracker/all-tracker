@@ -7,14 +7,12 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 import { sharedStyles } from "../styles";
-
-const { width, height } = Dimensions.get("window");
 
 const Main = ({
   day,
@@ -33,6 +31,7 @@ const Main = ({
   updateDueTaskStatus,
 }) => {
   const updateHabitsStatusRef = useRef(null);
+  const { width, height } = useWindowDimensions();
   const today = new Date();
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [toDosHeight, setToDosHeight] = useState(height * 0.2);
@@ -474,7 +473,10 @@ const Main = ({
               <View style={{ height: toDosHeight }}>
                 <ScrollView
                   showsVerticalScrollIndicator={false}
-                  contentContainerStyle={styles.toDoScrollContainer}
+                  contentContainerStyle={[
+                    styles.toDoScrollContainer,
+                    { width: width - 30 },
+                  ]}
                 >
                   {tasksAndToDos.map((item, index) => (
                     <RenderMainTodos
@@ -506,11 +508,11 @@ const Main = ({
                 </ScrollView>
               </View>
             ) : (
-              <>
+              <View style={{ width: "100%", textAlign: "left" }}>
                 <Text style={styles.quoteText}>
                   - "Luck is the residue of hard work."
                 </Text>
-              </>
+              </View>
             )}
           </>
         )}
@@ -628,6 +630,7 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 15,
     marginTop: 22,
+    paddingHorizontal: 40,
   },
   repeatImage: {
     width: 30,
@@ -638,7 +641,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 20,
-    width: width - 30,
   },
   repeatImage: {
     width: 30,

@@ -6,14 +6,12 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import moment from "moment";
 
 import Spinner from "react-native-loading-spinner-overlay";
 import { sharedStyles } from "../styles";
-
-const { width, height } = Dimensions.get("window");
 
 const MyTasks = ({
   isLoading,
@@ -25,6 +23,7 @@ const MyTasks = ({
   updateToDoStatus,
   updateDoneToDoStatus,
 }) => {
+  const { width, height } = useWindowDimensions();
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [completedToDos, setCompletedToDos] = useState([]);
   const [showCompleted, setShowCompleted] = useState(false);
@@ -180,7 +179,10 @@ const MyTasks = ({
       <View style={{ height: myTasksHeight }}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}
+          contentContainerStyle={[
+            styles.scrollContainer,
+            { width: width - 30 },
+          ]}
         >
           {tasksAndToDos.map((item, index) => {
             return (
@@ -221,12 +223,15 @@ const MyTasks = ({
       onPress={() => {
         taskRef.current.open();
       }}
-      style={styles.addButton}
+      style={[styles.addButton, { width: width - 30, height: height * 0.22 }]}
     >
       <Text style={styles.buttonText}>Click here to create a task</Text>
       <View style={styles.plusCon}>
         <Image
-          style={styles.plusImage}
+          style={[
+            styles.plusImage,
+            { width: height * 0.02, height: height * 0.02 },
+          ]}
           source={require("../../assets/images/plus.png")}
         />
       </View>
@@ -237,7 +242,7 @@ const MyTasks = ({
     <View style={{ height: height * 0.19 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={[styles.scrollContainer, { width: width - 30 }]}
       >
         {completedToDos.map((item, index) => {
           return (
@@ -466,7 +471,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 20,
-    width: width - 30,
   },
   plusCon: {
     position: "absolute",
@@ -479,8 +483,6 @@ const styles = StyleSheet.create({
   addButton: {
     borderWidth: 1.5,
     borderColor: "rgba(204, 204, 204, 0.728)",
-    width: width - 30,
-    height: height * 0.22,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -492,8 +494,6 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   plusImage: {
-    width: height * 0.02,
-    height: height * 0.02,
     resizeMode: "contain",
   },
   repeatImage: {
@@ -501,22 +501,10 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 8,
   },
-  toDoScrollContainer: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingBottom: 20,
-    width: width - 30,
-  },
   repeatImage: {
     width: 30,
     height: 30,
     marginLeft: 8,
-  },
-  toDoScrollContainer: {
-    alignItems: "center",
-    overflow: "visible",
-    paddingBottom: 20,
-    width: width - 30,
   },
   itemRenderMain: {
     flexDirection: "row",

@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   Image,
-  Dimensions,
+  useWindowDimensions,
   Alert,
   Platform,
 } from "react-native";
@@ -16,8 +16,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Purchases from "react-native-purchases";
 import UserAPI from "../../../api/user/userAPI";
 
-const { width, height } = Dimensions.get("window");
 const ExplainSubscription = (props) => {
+  const { width, height } = useWindowDimensions();
   const { selectedTrackers } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,7 +74,10 @@ const ExplainSubscription = (props) => {
         <View style={styles.middleContainer}>
           <Image
             source={require("../../../assets/images/subscription-image.png")}
-            style={styles.poster}
+            style={[
+              styles.poster,
+              { height: height * 0.26, marginBottom: height * 0.02 },
+            ]}
           />
           <Text style={styles.text}>
             Find <Text style={styles.bold}>equilibrium</Text>
@@ -95,7 +98,10 @@ const ExplainSubscription = (props) => {
         </View>
       </View>
 
-      <Button onPress={() => subscribe()} style={styles.nextButton}>
+      <Button
+        onPress={() => subscribe()}
+        style={[styles.nextButton, { height: height * 0.065 }]}
+      >
         Subscribe
       </Button>
     </SafeAreaView>
@@ -134,8 +140,6 @@ const styles = StyleSheet.create({
     width: "100%",
     resizeMode: "contain",
     backgroundColor: "rgba(255, 232, 163, 0.4)",
-    height: height * 0.26,
-    marginBottom: height * 0.02,
   },
   text: {
     fontFamily: "Sego",

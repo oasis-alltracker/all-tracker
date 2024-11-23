@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Header, Button } from "../../../components";
@@ -12,7 +12,6 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
-const { width, height } = Dimensions.get("window");
 
 const data = [
   {
@@ -24,6 +23,7 @@ const data = [
 ];
 
 const SetupFlow = (props) => {
+  const { width, height } = useWindowDimensions();
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -102,6 +102,7 @@ const SetupFlow = (props) => {
             key={key}
             style={[
               styles.buttonCon,
+              { width: width * 0.9 },
               active === key + 1 && { backgroundColor: "#D7F6FF" },
             ]}
             onPress={() => {
@@ -151,7 +152,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    width: width * 0.9,
     height: 110,
     marginBottom: 15,
     borderColor: "#CCCCCC",

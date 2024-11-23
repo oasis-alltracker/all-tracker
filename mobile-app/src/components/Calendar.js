@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import {
-  Dimensions,
+  useWindowDimensions,
   Text,
   View,
   TouchableOpacity,
@@ -16,7 +16,6 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../user/keychain";
 
-const { width, height } = Dimensions.get("window");
 const oneDay = {
   startingDay: true,
   endingDay: true,
@@ -27,6 +26,7 @@ const oneDay = {
 const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
 const DatePicker = ({ getRef, saveDateHandler }) => {
+  const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
 
