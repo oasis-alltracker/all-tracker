@@ -14,6 +14,24 @@ import moment from "moment";
 import { sharedStyles } from "../styles";
 const today = new Date();
 
+const data = [
+  {
+    image: require("../../assets/images/sleepRating/1.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/2.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/3.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/4.png"),
+  },
+  {
+    image: require("../../assets/images/sleepRating/5.png"),
+  },
+];
+
 export default function Sleep({ sleepRef, allSleepReports }) {
   const { width, height } = useWindowDimensions();
   const Journals = () => (
@@ -37,6 +55,17 @@ export default function Sleep({ sleepRef, allSleepReports }) {
               ]}
             >
               <Text style={styles.itemText}>{val.title}</Text>
+              <Text>
+                <View
+                  style={styles.sleepImageContainer}
+                  onPress={() => searchImage()}
+                >
+                  <Image
+                    style={styles.sleepImage}
+                    source={data[Number(val.rating) - 1].image}
+                  />
+                </View>
+              </Text>
             </TouchableOpacity>
           );
         })}
@@ -188,7 +217,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderBottomWidth: 0,
     width: "100%",
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: "space-between",
     alignItems: "center",
@@ -197,6 +226,19 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: "contain",
+  },
+  sleepImage: {
+    width: 30,
+    height: 30,
+  },
+  sleepImageContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#CCCCCC",
   },
   plusCon: {
     position: "absolute",

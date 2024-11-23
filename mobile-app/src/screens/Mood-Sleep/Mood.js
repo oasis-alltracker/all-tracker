@@ -15,6 +15,24 @@ import { sharedStyles } from "../styles";
 
 const today = new Date();
 
+const data = [
+  {
+    image: require("../../assets/images/moodRating/1.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/2.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/3.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/4.png"),
+  },
+  {
+    image: require("../../assets/images/moodRating/5.png"),
+  },
+];
+
 export default function Mood({ moodRef, allWellnessReports }) {
   const { width, height } = useWindowDimensions();
   const Diaries = () => (
@@ -38,6 +56,17 @@ export default function Mood({ moodRef, allWellnessReports }) {
               ]}
             >
               <Text style={styles.itemText}>{val.title}</Text>
+              <Text>
+                <View
+                  style={styles.moodImageContainer}
+                  onPress={() => searchImage()}
+                >
+                  <Image
+                    style={styles.moodImage}
+                    source={data[Number(val.feeling) - 1].image}
+                  />
+                </View>
+              </Text>
             </TouchableOpacity>
           );
         })}
@@ -158,6 +187,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 30,
   },
+  moodImage: {
+    width: 30,
+    height: 30,
+  },
+  moodImageContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#CCCCCC",
+  },
   title: {
     fontSize: 31,
     color: "#25436B",
@@ -181,7 +223,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderBottomWidth: 0,
     width: "100%",
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: "space-between",
     alignItems: "center",
