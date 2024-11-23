@@ -147,13 +147,16 @@ const HabitsCreation = (props) => {
                 ]}
               >
                 <Text style={styles.itemText}>{val.name}</Text>
-                <Text
-                  style={[
-                    styles.itemText2,
-                    val.isPositive && { color: "#7FE5FF" },
-                  ]}
-                >
-                  {val.isPositive ? "Good" : "Bad"}
+                <Text>
+                  <View
+                    style={styles.habitImageContainer}
+                    onPress={() => searchImage()}
+                  >
+                    <Image
+                      style={styles.habitImage}
+                      source={{ uri: val.pngURL }}
+                    />
+                  </View>
                 </Text>
               </TouchableOpacity>
             );
@@ -338,6 +341,19 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Sego",
   },
+  habitImage: {
+    width: 30,
+    height: 30,
+  },
+  habitImageContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#CCCCCC",
+  },
   item: {
     flexDirection: "row",
     borderWidth: 2,
@@ -346,7 +362,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderBottomWidth: 0,
     width: "100%",
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: "space-between",
     alignItems: "center",
