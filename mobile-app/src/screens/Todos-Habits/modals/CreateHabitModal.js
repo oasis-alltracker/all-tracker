@@ -5,7 +5,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  Dimensions,
+  useWindowDimensions,
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
@@ -16,15 +16,13 @@ import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
-import Spinner from "react-native-loading-spinner-overlay";
 
 import HabitsDB from "../../../api/DB/habitsDB";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const { width, height } = Dimensions.get("window");
-
 export default function CreateHabitModal({ getRef, createHabit }) {
+  const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
 
   const [imageSearch, setImageSearch] = useState(false);
@@ -97,10 +95,15 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => backDropPressed()}
       backdropColor="rgba(215, 246, 255, 0.27)"
-      style={styles.scrollModal}
+      style={[styles.scrollModal, { height: height * 0.7 }]}
     >
       <SafeAreaView style={styles.safeAreaContainer}>
-        <ScrollView style={styles.habitSearchContainer}>
+        <ScrollView
+          style={[
+            styles.habitSearchContainer,
+            { height: height * 0.7, width: width },
+          ]}
+        >
           <View style={styles.scrollViewView}>
             <TouchableOpacity
               style={styles.backButton}
@@ -367,10 +370,10 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => backDropPressed()}
       backdropColor="rgba(215, 246, 255, 0.27)"
-      style={styles.scrollModal}
+      style={[styles.scrollModal, { height: height * 0.7 }]}
     >
       <SafeAreaView style={[styles.safeAreaContainer, { width: width }]}>
-        <ScrollView style={styles.tcContainer}>
+        <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
           <View style={styles.scrollViewView}>
             <TouchableOpacity
               style={styles.backButton}
@@ -1189,7 +1192,6 @@ const styles = StyleSheet.create({
     margin: 0,
     alignItems: "center",
     justifyContent: "center",
-    height: height * 0.7,
   },
   container: {
     width: "90%",
@@ -1300,15 +1302,12 @@ const styles = StyleSheet.create({
   tcContainer: {
     marginTop: 15,
     marginBottom: 15,
-    height: height * 0.7,
   },
   habitSearchContainer: {
     marginTop: 15,
     marginBottom: 15,
     marginLeft: 10,
     marginRight: 10,
-    height: height * 0.7,
-    width: width,
   },
   habitSearchRow: {
     flexDirection: "row",
