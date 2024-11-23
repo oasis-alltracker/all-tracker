@@ -2,7 +2,7 @@
   "expo": {
     "name": "Oasis",
     "slug": "oasistracker",
-    "version": "2.3.9",
+    "version": "2.4.1",
     "orientation": "portrait",
     "icon": "./src/assets/images/app-icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,7 @@
         "CFBundleURLTypes": [
           {
             "CFBundleURLSchemes": [
-              "com.googleusercontent.apps.315014991553-eo63jke24uk35ihhuqg8ltpa4iqp48aq"
+              "com.googleusercontent.apps.43771055341-6ifjbjlqepa7e78etvbo1qre9008fetv"
             ]
           }
         ]
