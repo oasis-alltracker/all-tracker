@@ -15,7 +15,7 @@ const userDB = new UserDB(dbService);
 
 const { OAuth2Client } = require("google-auth-library");
 const CLIENT_ID =
-  "315014991553-li1flvq9ro8h1ulm4qa9t3p87u8p1usn.apps.googleusercontent.com";
+  "43771055341-4cm2hvtpuo1sdjrbddoduopuqpvgm77i.apps.googleusercontent.com";
 const client = new OAuth2Client(CLIENT_ID);
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
