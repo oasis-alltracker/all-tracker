@@ -36,45 +36,52 @@ module.exports.handler = async (event, context, callback) => {
         hashedPassword,
       );
       var body;
-      if (!existingUser || existingUser.failedAttempts < 5) {
-        if (existingUser) {
-          if (
-            !existingUser.hashedPassword ||
-            !(await bcrypt.compare(
-              userCredentials.password,
-              existingUser.hashedPassword,
-            ))
-          ) {
-            if (existingUser.failedAttempts >= 4) {
-              body = { isCorrectPassword: false, isAccountLocked: true };
-            } else {
-              body = { isCorrectPassword: false, isAccountLocked: false };
+      if(existingUser.infractionCount < 2) {
+        if (!existingUser || existingUser.failedAttempts < 2) {
+          if (existingUser) {
+            if (
+              !existingUser.hashedPassword ||
+              !(await bcrypt.compare(
+                userCredentials.password,
+                existingUser.hashedPassword,
+              ))
+            ) {
+              if (existingUser.failedAttempts >= 1) {
+                body = { isCorrectPassword: false, isAccountLocked: true };
+                await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
+              } else {
+                body = { isCorrectPassword: false, isAccountLocked: false };
+              }
+              await userDB.updateFailedAttemptsCount(
+                email,
+                existingUser.failedAttempts + 1,
+              );
+              callback(null, {
+                statusCode: 200,
+                body: JSON.stringify(body),
+                headers: {
+                  "Access-Control-Allow-Origin": "*",
+                  "Access-Control-Allow-Credentials": true,
+                },
+              });
+              return;
             }
-            await userDB.updateFailedAttemptsCount(
-              email,
-              existingUser.failedAttempts + 1,
-            );
-            callback(null, {
-              statusCode: 200,
-              body: JSON.stringify(body),
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true,
-              },
-            });
-            return;
           }
+          await createOTP(email, hashedOTP);
+          const params = {
+            MessageBody: JSON.stringify({ email: email, otp: otp }),
+            QueueUrl: queueUrl,
+          };
+          await sqs.sendMessage(params);
+          body = { isCorrectPassword: true, isAccountLocked: false };
+          await userDB.updateFailedAttemptsCount(email, 0);
+        } else {
+          body = { isCorrectPassword: false, isAccountLocked: true };
+          await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
         }
-        await createOTP(email, hashedOTP);
-        const params = {
-          MessageBody: JSON.stringify({ email: email, otp: otp }),
-          QueueUrl: queueUrl,
-        };
-        await sqs.sendMessage(params);
-        body = { isCorrectPassword: true, isAccountLocked: false };
-        await userDB.updateFailedAttemptsCount(email, 0);
-      } else {
-        body = { isCorrectPassword: false, isAccountLocked: true };
+      }
+      else {
+        body = { isCorrectPassword: false, isAccountLocked: true, isAccountSuspended: true };
       }
     } else {
       if (userCredentials.password == "1234") {

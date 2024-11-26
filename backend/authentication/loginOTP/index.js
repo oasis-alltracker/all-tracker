@@ -34,12 +34,20 @@ module.exports.handler = async (event, context, callback) => {
         const emailKey = { PK: email, SK: email };
         const existingUser = await dbService.getItem(emailKey);
 
-        if (
+        if(existingUser.Item &&
+          !isEmptyObject(existingUser.Item) &&
+          existingUser.Item.infractionCount > 1){
+            body = JSON.stringify({ loginFailed: "suspended" });
+            await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
+            statusCode = 200;
+        }
+        else if (
           existingUser.Item &&
           !isEmptyObject(existingUser.Item) &&
-          existingUser.Item.failedAttempts > 5
+          existingUser.Item.failedAttempts > 1
         ) {
           body = JSON.stringify({ loginFailed: "locked" });
+          await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
           statusCode = 200;
         } else if (
           existingUser.Item &&
@@ -76,18 +84,28 @@ module.exports.handler = async (event, context, callback) => {
             });
             statusCode = 200;
             await userDB.updateFailedAttemptsCount(email, 0);
+            await userDB.updateInfractionCount(email, 0);
             await dbService.putItem({
               PK: `${email}`,
               SK: `otp`,
             });
-          } else {
-            body = JSON.stringify({ loginFailed: "incorrectOTP" });
-            statusCode = 200;
+          } else if (existingUser.Item.failedAttempts >= 1) {
+            body = JSON.stringify({ loginFailed: "locked" });
             await userDB.updateFailedAttemptsCount(
               email,
               existingUser.Item.failedAttempts + 1
             );
-          }
+            await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
+
+          } else {
+              body = JSON.stringify({ loginFailed: "incorrectOTP" });
+              statusCode = 200;
+              await userDB.updateFailedAttemptsCount(
+                email,
+                existingUser.Item.failedAttempts + 1
+              );
+            }
+          }  
         } else {
           body = JSON.stringify({ loginFailed: "User does not exist." });
           statusCode = 401;

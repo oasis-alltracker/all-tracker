@@ -46,6 +46,22 @@ class UserDB {
     await this.dbService.updateItem(expression, key, names, values);
   }
 
+  async updateInfractionCount(email, count) {
+    if (!count) {
+      count = 0;
+    }
+    const key = { PK: `${email}`, SK: `${email}` };
+    const expression = "SET #infractionCount = :infractionCount";
+    const names = {
+      "#infractionCount": "infractionCount",
+    };
+    const values = {
+      ":infractionCount": count,
+    };
+
+    await this.dbService.updateItem(expression, key, names, values);
+  }
+
   async createUser(email, hashedPassword) {
     const data = {
       PK: `${email}`,
