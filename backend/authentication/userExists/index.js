@@ -25,7 +25,20 @@ module.exports.handler = async (event, context, callback) => {
     const existingEmail = await dbService.getItem(emailKey);
 
     if (existingEmail.Item && !isEmptyObject(existingEmail.Item)) {
-      if (existingEmail.failedAttempts >= 5) {
+      if(existingEmail.Item.infractionCount >=2){
+        callback(null, {
+          statusCode: 200,
+          body: JSON.stringify({
+            exists: true,
+            accountIsSuspended: true,
+          }),
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+          },
+        });
+      }
+      else if (existingEmail.Item.failedAttempts >= 2) {
         callback(null, {
           statusCode: 200,
           body: JSON.stringify({

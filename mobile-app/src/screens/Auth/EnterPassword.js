@@ -67,6 +67,19 @@ const EnterPassword = (props) => {
           setIsLoading(false);
           navigationService.navigate("enterCode", { email, password });
           setPassword("");
+
+        } else if (data.isAccountSuspended){
+          setIsLoading(false);
+          Alert.alert(
+            "Oasis Account Suspended",
+            "Your account has been suspended for security reasons. To unlock it, you must contact us",
+            [
+              { text: "Ok",},
+            ],
+            {
+              cancelable: true,
+            }
+          );
         } else if (data.isAccountLocked) {
           setIsLoading(false);
           Alert.alert(

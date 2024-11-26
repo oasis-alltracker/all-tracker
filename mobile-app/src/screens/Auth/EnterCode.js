@@ -87,6 +87,13 @@ const EnterCode = (props) => {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
           });
+        } else if (data?.loginFailed == "suspended") {
+          setIsLoading(false);
+          setShowBottomText(true);
+          Toast.show("Account suspended. Please login with partner sign-in or contact us.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          });
         } else if (data?.accessToken && data?.refreshToken) {
           await saveToken("accessToken", data.accessToken);
           await saveToken("refreshToken", data.refreshToken);
