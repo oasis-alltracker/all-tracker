@@ -22,6 +22,7 @@ const FIVE_MINUTES = 5 * 60 * 1000;
 module.exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
   var body = "";
+  var statusCode = 200;
 
   try {
     if (event.body) {
@@ -34,20 +35,19 @@ module.exports.handler = async (event, context, callback) => {
         const emailKey = { PK: email, SK: email };
         const existingUser = await dbService.getItem(emailKey);
 
-        if(existingUser.Item &&
-          !isEmptyObject(existingUser.Item) &&
-          existingUser.Item.infractionCount > 1){
-            body = JSON.stringify({ loginFailed: "suspended" });
-            await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
-            statusCode = 200;
-        }
-        else if (
+        if (
           existingUser.Item &&
           !isEmptyObject(existingUser.Item) &&
-          existingUser.Item.failedAttempts > 1
+          existingUser.Item.infractionCount >= 2
+        ) {
+          body = JSON.stringify({ loginFailed: "suspended" });
+          statusCode = 200;
+        } else if (
+          existingUser.Item &&
+          !isEmptyObject(existingUser.Item) &&
+          existingUser.Item.failedAttempts >= 3
         ) {
           body = JSON.stringify({ loginFailed: "locked" });
-          await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
           statusCode = 200;
         } else if (
           existingUser.Item &&
@@ -89,44 +89,46 @@ module.exports.handler = async (event, context, callback) => {
               PK: `${email}`,
               SK: `otp`,
             });
-          } else if (existingUser.Item.failedAttempts >= 1) {
+          } else if (existingUser.Item.failedAttempts >= 2) {
             body = JSON.stringify({ loginFailed: "locked" });
+            statusCode = 200;
             await userDB.updateFailedAttemptsCount(
               email,
               existingUser.Item.failedAttempts + 1
             );
-            await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
-
+            await userDB.updateInfractionCount(
+              email,
+              existingUser.Item.infractionCount + 1
+            );
           } else {
-              body = JSON.stringify({ loginFailed: "incorrectOTP" });
-              statusCode = 200;
-              await userDB.updateFailedAttemptsCount(
-                email,
-                existingUser.Item.failedAttempts + 1
-              );
-            }
-          }  
-        } else {
-          body = JSON.stringify({ loginFailed: "User does not exist." });
-          statusCode = 401;
+            body = JSON.stringify({ loginFailed: "incorrectOTP" });
+            statusCode = 200;
+            await userDB.updateFailedAttemptsCount(
+              email,
+              existingUser.Item.failedAttempts + 1
+            );
+          }
         }
       } else {
-        if (userCredentials.otp == "1234") {
-          const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-            expiresIn: "48h",
-          });
-          const refreshToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-            expiresIn: "100d",
-          });
-          body = JSON.stringify({
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-          });
-          statusCode = 200;
-        } else {
-          body = JSON.stringify({ loginFailed: "incorrectOTP" });
-          statusCode = 200;
-        }
+        body = JSON.stringify({ loginFailed: "User does not exist." });
+        statusCode = 401;
+      }
+    } else {
+      if (userCredentials.otp == "1234") {
+        const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
+          expiresIn: "48h",
+        });
+        const refreshToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
+          expiresIn: "100d",
+        });
+        body = JSON.stringify({
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        });
+        statusCode = 200;
+      } else {
+        body = JSON.stringify({ loginFailed: "incorrectOTP" });
+        statusCode = 200;
       }
     }
     callback(null, {

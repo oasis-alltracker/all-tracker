@@ -34,6 +34,10 @@ module.exports.handler = async (event, context, callback) => {
     const hashedTempPassword = await bcrypt.hash(tempPassword, saltRounds);
     const emailKey = { PK: email, SK: email };
     const existingUser = await dbService.getItem(emailKey);
+
+    if (existingUser.Item && existingUser.Item.infractionCount === undefined) {
+      await userDB.updateInfractionCount(email, 0);
+    }
     if (existingUser.Item && !isEmptyObject(existingUser.Item)) {
       await createHashedPassword(email, hashedTempPassword);
 

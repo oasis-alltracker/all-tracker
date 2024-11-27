@@ -29,49 +29,75 @@ module.exports.handler = async (event, context, callback) => {
       const email = userCredentials.email.toLowerCase();
       const tempPasswordKey = { PK: email, SK: "tempPassword" };
       const tempPasswordResponse = await dbService.getItem(tempPasswordKey);
+      const emailKey = { PK: email, SK: email };
+      const existingUser = await dbService.getItem(emailKey);
 
       if (
         tempPasswordResponse.Item &&
         !isEmptyObject(tempPasswordResponse.Item)
       ) {
-        const hashedTempPassword = tempPasswordResponse.Item.hashedTempPassword;
-        const creationTime = new Date(tempPasswordResponse.Item.createdAt);
+        if (existingUser.Item.infractionCount < 2) {
+          const hashedTempPassword =
+            tempPasswordResponse.Item.hashedTempPassword;
+          const creationTime = new Date(tempPasswordResponse.Item.createdAt);
 
-        if (new Date() - creationTime > FIVE_MINUTES) {
-          body = JSON.stringify({ loginFailed: "expired" });
-          statusCode = 200;
-        } else if (tempPasswordResponse.Item.failedAttempts > 4) {
-          body = JSON.stringify({ loginFailed: "locked" });
-          statusCode = 200;
-          await dbService.deleteItem(tempPasswordKey);
-        } else if (
-          await bcrypt.compare(userCredentials.tempPassword, hashedTempPassword)
-        ) {
-          const saltRounds = 10;
-          const hashedPassword = await bcrypt.hash(
-            userCredentials.password,
-            saltRounds
-          );
+          if (new Date() - creationTime > FIVE_MINUTES) {
+            body = JSON.stringify({ loginFailed: "expired" });
+            statusCode = 200;
+          } else if (tempPasswordResponse.Item.failedAttempts >= 3) {
+            body = JSON.stringify({ loginFailed: "locked" });
+            statusCode = 200;
+            await dbService.deleteItem(tempPasswordKey);
+          } else if (
+            await bcrypt.compare(
+              userCredentials.tempPassword,
+              hashedTempPassword
+            )
+          ) {
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(
+              userCredentials.password,
+              saltRounds
+            );
 
-          await userDB.updatePassword(email, hashedPassword);
+            await userDB.updatePassword(email, hashedPassword);
 
-          const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-            expiresIn: "48h",
-          });
-          const refreshToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-            expiresIn: "100d",
-          });
-          body = JSON.stringify({
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-          });
-          statusCode = 200;
-          await userDB.updateFailedAttemptsCount(email, 0);
-          await dbService.deleteItem(tempPasswordKey);
+            const accessToken = jwt.sign(
+              { email: email },
+              ACCESS_TOKEN_SECRET,
+              {
+                expiresIn: "48h",
+              }
+            );
+            const refreshToken = jwt.sign(
+              { email: email },
+              ACCESS_TOKEN_SECRET,
+              {
+                expiresIn: "100d",
+              }
+            );
+            body = JSON.stringify({
+              accessToken: accessToken,
+              refreshToken: refreshToken,
+            });
+            statusCode = 200;
+            await userDB.updateFailedAttemptsCount(email, 0);
+            await userDB.updateInfractionCount(email, 0);
+            await dbService.deleteItem(tempPasswordKey);
+          } else {
+            body = JSON.stringify({ loginFailed: "incorrect" });
+            statusCode = 200;
+            await dbService.deleteItem(tempPasswordKey);
+            await userDB.updateInfractionCount(
+              email,
+              existingUser.Item.infractionCount + 1
+            );
+          }
         } else {
-          body = JSON.stringify({ loginFailed: "incorrect" });
-          statusCode = 200;
-          await dbService.deleteItem(tempPasswordKey);
+          body = JSON.stringify({
+            loginFailed: "suspended",
+          });
+          statusCode = 401;
         }
       } else {
         body = JSON.stringify({

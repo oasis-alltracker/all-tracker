@@ -66,7 +66,7 @@ class UserDB {
     const data = {
       PK: `${email}`,
       SK: `${email}`,
-      isSetupComplete: false,
+      infractionCount: 0,
       failedAttempts: 0,
       hashedPassword: hashedPassword,
       isSetupComplete: false,

@@ -29,32 +29,42 @@ module.exports.handler = async (event, context, callback) => {
       const hashedOTP = await bcrypt.hash(otp, saltRounds);
       const hashedPassword = await bcrypt.hash(
         userCredentials.password,
-        saltRounds,
+        saltRounds
       );
       const existingUser = await userDB.userExistsOrCreateUser(
         email,
-        hashedPassword,
+        hashedPassword
       );
       var body;
-      if(existingUser.infractionCount < 2) {
-        if (!existingUser || existingUser.failedAttempts < 2) {
+      if (existingUser && existingUser.infractionCount === undefined) {
+        await userDB.updateInfractionCount(email, 0);
+      }
+      if (
+        !existingUser ||
+        existingUser.infractionCount === undefined ||
+        existingUser.infractionCount < 2
+      ) {
+        if (!existingUser || existingUser.failedAttempts < 3) {
           if (existingUser) {
             if (
               !existingUser.hashedPassword ||
               !(await bcrypt.compare(
                 userCredentials.password,
-                existingUser.hashedPassword,
+                existingUser.hashedPassword
               ))
             ) {
-              if (existingUser.failedAttempts >= 1) {
+              if (existingUser.failedAttempts >= 2) {
                 body = { isCorrectPassword: false, isAccountLocked: true };
-                await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
+                await userDB.updateInfractionCount(
+                  email,
+                  existingUser.infractionCount + 1
+                );
               } else {
                 body = { isCorrectPassword: false, isAccountLocked: false };
               }
               await userDB.updateFailedAttemptsCount(
                 email,
-                existingUser.failedAttempts + 1,
+                existingUser.failedAttempts + 1
               );
               callback(null, {
                 statusCode: 200,
@@ -77,11 +87,13 @@ module.exports.handler = async (event, context, callback) => {
           await userDB.updateFailedAttemptsCount(email, 0);
         } else {
           body = { isCorrectPassword: false, isAccountLocked: true };
-          await userDB.updateInfractionCount(email, existingUser.infractionCount + 1);
         }
-      }
-      else {
-        body = { isCorrectPassword: false, isAccountLocked: true, isAccountSuspended: true };
+      } else {
+        body = {
+          isCorrectPassword: false,
+          isAccountLocked: true,
+          isAccountSuspended: true,
+        };
       }
     } else {
       if (userCredentials.password == "1234") {

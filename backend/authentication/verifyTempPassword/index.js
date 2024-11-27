@@ -27,41 +27,56 @@ module.exports.handler = async (event, context, callback) => {
       const email = userCredentials.email.toLowerCase();
       const tempPasswordKey = { PK: email, SK: "tempPassword" };
       const tempPasswordResponse = await dbService.getItem(tempPasswordKey);
+      const emailKey = { PK: email, SK: email };
+      const existingUser = await dbService.getItem(emailKey);
 
       if (
         tempPasswordResponse.Item &&
         !isEmptyObject(tempPasswordResponse.Item)
       ) {
-        if (tempPasswordResponse.Item.failedAttempts < 5) {
-          const hashedTempPassword =
-            tempPasswordResponse.Item.hashedTempPassword;
-          const creationTime = new Date(tempPasswordResponse.Item.createdAt);
+        if (existingUser.Item.infractionCount < 2) {
+          if (tempPasswordResponse.Item.failedAttempts < 3) {
+            const hashedTempPassword =
+              tempPasswordResponse.Item.hashedTempPassword;
+            const creationTime = new Date(tempPasswordResponse.Item.createdAt);
 
-          if (new Date() - creationTime > FIVE_MINUTES) {
-            body = JSON.stringify({ requestNewTempPassword: "expired" });
-          } else if (
-            await bcrypt.compare(
-              userCredentials.tempPassword,
-              hashedTempPassword
-            )
-          ) {
-            body = JSON.stringify({
-              requestNewTempPassword: false,
-              passwordMatch: true,
-            });
+            if (new Date() - creationTime > FIVE_MINUTES) {
+              body = JSON.stringify({ requestNewTempPassword: "expired" });
+            } else if (
+              await bcrypt.compare(
+                userCredentials.tempPassword,
+                hashedTempPassword
+              )
+            ) {
+              body = JSON.stringify({
+                requestNewTempPassword: false,
+                passwordMatch: true,
+              });
+            } else {
+              body = JSON.stringify({
+                requestNewTempPassword: false,
+                passwordMatch: false,
+              });
+              await failedAttempt(
+                email,
+                tempPasswordResponse.Item.failedAttempts
+              );
+              if (tempPasswordResponse.Item.failedAttempts >= 2) {
+                await userDB.updateInfractionCount(
+                  email,
+                  existingUser.Item.infractionCount + 1
+                );
+              }
+            }
           } else {
             body = JSON.stringify({
-              requestNewTempPassword: false,
+              requestNewTempPassword: "locked",
               passwordMatch: false,
             });
-            await failedAttempt(
-              email,
-              tempPasswordResponse.Item.failedAttempts
-            );
           }
         } else {
           body = JSON.stringify({
-            requestNewTempPassword: "locked",
+            requestNewTempPassword: "suspended",
             passwordMatch: false,
           });
         }

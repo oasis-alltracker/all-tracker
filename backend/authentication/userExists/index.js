@@ -25,7 +25,7 @@ module.exports.handler = async (event, context, callback) => {
     const existingEmail = await dbService.getItem(emailKey);
 
     if (existingEmail.Item && !isEmptyObject(existingEmail.Item)) {
-      if(existingEmail.Item.infractionCount >=2){
+      if (existingEmail.Item.infractionCount >= 2) {
         callback(null, {
           statusCode: 200,
           body: JSON.stringify({
@@ -37,8 +37,7 @@ module.exports.handler = async (event, context, callback) => {
             "Access-Control-Allow-Credentials": true,
           },
         });
-      }
-      else if (existingEmail.Item.failedAttempts >= 2) {
+      } else if (existingEmail.Item.failedAttempts >= 3) {
         callback(null, {
           statusCode: 200,
           body: JSON.stringify({
