@@ -108,27 +108,27 @@ module.exports.handler = async (event, context, callback) => {
               existingUser.Item.failedAttempts + 1
             );
           }
+        } else {
+          body = JSON.stringify({ loginFailed: "User does not exist." });
+          statusCode = 401;
         }
       } else {
-        body = JSON.stringify({ loginFailed: "User does not exist." });
-        statusCode = 401;
-      }
-    } else {
-      if (userCredentials.otp == "1234") {
-        const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-          expiresIn: "48h",
-        });
-        const refreshToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
-          expiresIn: "100d",
-        });
-        body = JSON.stringify({
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-        });
-        statusCode = 200;
-      } else {
-        body = JSON.stringify({ loginFailed: "incorrectOTP" });
-        statusCode = 200;
+        if (userCredentials.otp == "1234") {
+          const accessToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
+            expiresIn: "48h",
+          });
+          const refreshToken = jwt.sign({ email: email }, ACCESS_TOKEN_SECRET, {
+            expiresIn: "100d",
+          });
+          body = JSON.stringify({
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+          });
+          statusCode = 200;
+        } else {
+          body = JSON.stringify({ loginFailed: "incorrectOTP" });
+          statusCode = 200;
+        }
       }
     }
     callback(null, {
