@@ -49,7 +49,6 @@ module.exports.handler = async (event, context, callback) => {
         QueueUrl: queueUrl,
       };
       await sqs.sendMessage(params);
-      await userDB.updateFailedAttemptsCount(0);
     }
 
     callback(null, {

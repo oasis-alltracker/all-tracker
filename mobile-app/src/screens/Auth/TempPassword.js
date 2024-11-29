@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   View,
   Text,
+  Alert,
   StyleSheet,
   TextInput,
   Dimensions,
@@ -12,6 +13,7 @@ import { Button, Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import LoginAPI from "../../api/auth/loginAPI";
 import Toast from "react-native-root-toast";
+import { logout } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 
 const { width, height } = Dimensions.get("window");
@@ -46,10 +48,51 @@ const EnterPassword = (props) => {
               duration: Toast.durations.LONG,
             });
           }
+        } else if (data?.requestNewTempPassword === "locked") {
+          setIsLoading(false);
+
+          setTempPassword("");
+          Alert.alert(
+            "Account Locked",
+            "Your account has been locked for security reasons. To unlock it, you must reset your password",
+            [
+              { text: "Cancel", style: "cancel" },
+              {
+                text: "Unlock",
+                isPreferred: true,
+                onPress: async () => {
+                  try {
+                    await LoginAPI.requestNewPassword(email);
+                    await navigationService.navigate("tempPassword", { email });
+                    setTempPassword("");
+                  } catch (e) {
+                    console.log(e);
+                    logout();
+                    navigationService.reset("landing", 0);
+                  }
+                },
+              },
+            ],
+            {
+              cancelable: true,
+            }
+          );
+        } else if (data?.requestNewTempPassword === "suspended") {
+          setIsLoading(false);
+          Alert.alert(
+            "Oasis Account Suspended",
+            "Your account has been suspended for security reasons. To unlock it, you must contact us",
+            [{ text: "Ok" }],
+            {
+              cancelable: true,
+            }
+          );
         } else {
           setIsLoading(false);
-          await navigationService.navigate("auth");
-          setTempPassword("");
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          });
         }
       } else {
         setIsLoading(false);

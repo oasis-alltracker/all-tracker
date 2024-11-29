@@ -38,6 +38,7 @@ const EnterCode = (props) => {
 
   const onPressContinue = async () => {
     setIsLoading(true);
+    setCode(["", "", "", ""]);
     otpValue = "";
     for (digit of code) {
       otpValue += digit;
@@ -47,6 +48,7 @@ const EnterCode = (props) => {
       if (status == 200) {
         if (data?.loginFailed == "locked") {
           setCode(["", "", "", ""]);
+          otpValue = "";
           setShowBottomText(false);
           setIsLoading(false);
           Alert.alert(
@@ -59,9 +61,10 @@ const EnterCode = (props) => {
                 isPreferred: true,
                 onPress: async () => {
                   try {
+                    setCode(["", "", "", ""]);
+                    otpValue = "";
                     await LoginAPI.requestNewPassword(email);
                     await navigationService.navigate("tempPassword", { email });
-                    setCode("");
                   } catch (e) {
                     logout();
                     navigationService.reset("landing", 0);
@@ -90,10 +93,13 @@ const EnterCode = (props) => {
         } else if (data?.loginFailed == "suspended") {
           setIsLoading(false);
           setShowBottomText(true);
-          Toast.show("Account suspended. Please login with partner sign-in or contact us.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          });
+          Toast.show(
+            "Account suspended. Please login with partner sign-in or contact us.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+            }
+          );
         } else if (data?.accessToken && data?.refreshToken) {
           await saveToken("accessToken", data.accessToken);
           await saveToken("refreshToken", data.refreshToken);
