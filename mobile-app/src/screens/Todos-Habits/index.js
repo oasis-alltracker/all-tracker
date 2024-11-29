@@ -377,7 +377,9 @@ const TodosHabits = ({ navigation }) => {
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
 
-      setUpdateStats(updateStats + 1);
+      if (updatedToDo.dateStamp != "noDueDate") {
+        setUpdateStats(updateStats + 1);
+      }
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -432,7 +434,9 @@ const TodosHabits = ({ navigation }) => {
         toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
-      setUpdateStats(updateStats + 1);
+      if (updatedToDo.dateStamp != "noDueDate") {
+        setUpdateStats(updateStats + 1);
+      }
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
