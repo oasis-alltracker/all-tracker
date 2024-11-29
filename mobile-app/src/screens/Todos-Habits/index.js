@@ -377,7 +377,7 @@ const TodosHabits = ({ navigation }) => {
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
 
-      //setUpdateStats(updateStats + 1);
+      setUpdateStats(updateStats + 1);
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -432,7 +432,7 @@ const TodosHabits = ({ navigation }) => {
         toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
-      //setUpdateStats(updateStats + 1);
+      setUpdateStats(updateStats + 1);
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -565,7 +565,6 @@ const TodosHabits = ({ navigation }) => {
         );
       }
       await getTasks(token);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -612,7 +611,6 @@ const TodosHabits = ({ navigation }) => {
       }
 
       await getTasks(token);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -831,7 +829,6 @@ const TodosHabits = ({ navigation }) => {
       );
 
       await getTasks(token);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);

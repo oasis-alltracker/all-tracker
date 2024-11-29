@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   },
   logContainer: {
     paddingTop: 0,
+    justifyContent: "center",
     alignItems: "center",
     paddingBottom: 0,
   },
@@ -76,13 +77,15 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     borderWidth: 2,
     borderColor: "#c2f0fc",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#D7F6FF",
   },
   btnText: {
     color: "#B981E7",
     fontFamily: "Sego",
+    justifyContent: "center",
+    alignItems: "center",
     fontSize: 35,
   },
 });
