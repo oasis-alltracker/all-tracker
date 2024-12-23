@@ -1085,6 +1085,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     };
 
     const searchHabit = () => {
+      setTempHabitName(habitName);
+      setTempIsPositiveIndex(isPositiveIndex);
       setTempThreshold(threshold);
       setTempTime(time);
       setHabitSearch(true);
