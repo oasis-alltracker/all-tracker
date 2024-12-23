@@ -12,7 +12,7 @@ const Contact = () => {
       <View style={styles.container}>
         <Text style={styles.text}>If you would like to contact us,</Text>
         <Text style={styles.text}>please DM on instagram</Text>
-        <Text style={styles.texBold}>@oasis.wellness.journal</Text>
+        <Text style={styles.texBold}>@oasis.journal.app</Text>
       </View>
     </>
   );
