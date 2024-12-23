@@ -40,7 +40,7 @@ const WellnessStep5 = (props) => {
           <View style={[styles.textCon, { width: width * 0.9 }]}>
             <TextInput
               placeholderTextColor={"#7B97BC"}
-              placeholder="Friends, alone, dog..."
+              placeholder="Friends, myself, dog..."
               style={styles.input}
               onChangeText={setCompany}
               value={company}
