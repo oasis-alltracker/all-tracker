@@ -78,12 +78,17 @@ const Stats = ({ getRef }) => {
           />
         </TouchableOpacity>
 
-        <View style={[styles.statsImageCon, { width: width - 65 }]}>
+        <TouchableOpacity
+          style={[styles.statsImageCon, { width: width - 65 }]}
+          onPress={() => {
+              setVisible(false);
+          }}
+        >
           <Image
             style={styles.statsImage}
             source={require("../../assets/images/stats.png")}
           />
-        </View>
+        </TouchableOpacity>
 
         <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
           <View style={styles.dateLineMain}>
