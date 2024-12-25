@@ -12,6 +12,7 @@ import moment from "moment";
 
 import Spinner from "react-native-loading-spinner-overlay";
 import { sharedStyles } from "../styles";
+import { todoCompare } from "../../utils/commonUtils";
 
 const MyTasks = ({
   isLoading,
@@ -34,7 +35,9 @@ const MyTasks = ({
   const today = new Date();
 
   useEffect(() => {
-    setTasksAndToDos(toDos.concat(tasks));
+    var tempTasksAndToDos = dueToDos.concat(dueTasks);
+    tempTasksAndToDos.sort((a, b) => todoCompare(a, b));
+    setTasksAndToDos(tempTasksAndToDos);
     setCompletedToDos([...doneToDos]);
   }, [toDos, tasks, doneToDos]);
 
@@ -70,7 +73,7 @@ const MyTasks = ({
         var newItemDate = new Date(
           Number(year),
           Number(month) - 1,
-          Number(day)
+          Number(day),
         );
         setItemDate(newItemDate);
       } else {
@@ -92,7 +95,7 @@ const MyTasks = ({
               var newItemDate = new Date(
                 Number(year),
                 Number(month) - 1,
-                Number(day)
+                Number(day),
               );
               setItemDate(newItemDate);
               if (item.selected) {

@@ -10,6 +10,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
+import { todoCompare } from "../../utils/commonUtils";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 import { sharedStyles } from "../styles";
@@ -37,7 +38,9 @@ const Main = ({
   const [toDosHeight, setToDosHeight] = useState(height * 0.2);
 
   useEffect(() => {
-    setTasksAndToDos(dueToDos.concat(dueTasks));
+    var tempTasksAndToDos = dueToDos.concat(dueTasks);
+    tempTasksAndToDos.sort((a, b) => todoCompare(a, b));
+    setTasksAndToDos(tempTasksAndToDos);
   }, [dueToDos, dueTasks]);
 
   useEffect(() => {
@@ -80,7 +83,7 @@ const Main = ({
         var newItemDate = new Date(
           Number(year),
           Number(month) - 1,
-          Number(day)
+          Number(day),
         );
         setItemDate(newItemDate);
       } else {
@@ -102,7 +105,7 @@ const Main = ({
               var newItemDate = new Date(
                 Number(year),
                 Number(month) - 1,
-                Number(day)
+                Number(day),
               );
               setItemDate(newItemDate);
               if (item.selected) {
