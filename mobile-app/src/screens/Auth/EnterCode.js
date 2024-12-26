@@ -188,9 +188,9 @@ const EnterCode = (props) => {
               Check your inbox for verification code
             </Text>
             <View style={styles.codeFields}>
-              {[1, 2, 3, 4].map((item) => (
+              {[0, 1, 2, 3].map((item) => (
                 <TextInput
-                  ref={(ref) => (codeRef.current[item - 1] = ref)}
+                  ref={(ref) => (codeRef.current[item] = ref)}
                   maxLength={1}
                   keyboardType="number-pad"
                   textContentType={"oneTimeCode"}
@@ -199,36 +199,47 @@ const EnterCode = (props) => {
                   onKeyPress={({ nativeEvent }) => {
                     let Code = [...code];
 
-                    if (Code[item - 1] && keys.includes(nativeEvent.key)) {
-                      if (codeRef.current[item - 1]) {
-                        Code[item - 1] = nativeEvent.key;
+                    if (Code[item] && keys.includes(nativeEvent.key)) {
+                      if (codeRef.current[item]) {
+                        Code[item] = nativeEvent.key;
                         setCode(Code);
                         try {
-                          codeRef.current[item].focus();
+                          codeRef.current[item+1].focus();
                         } catch (e) {
                           console.log(e);
                         }
                       }
                     }
-                    if (nativeEvent.key === "Backspace" && item - 1 !== 0) {
-                      if (!Code[item - 1]) {
-                        codeRef.current[item - 2].focus();
+                    if (nativeEvent.key === "Backspace" && item !== 0) {
+                      if (!Code[item]) {
+                        codeRef.current[item - 1].focus();
                       }
                     }
                   }}
                   onChangeText={(text) => {
                     let Code = [...code];
-                    if (text.length <= 1) {
-                      Code[item - 1] = text;
+                    if(text.length == 4 && item == 0){
+                      Code[0] = text[0]
+                      Code[1] = text[1]
+                      Code[2] = text[2]
+                      Code[3] = text[3]
+                      codeRef.current[0].blur();
                     }
-                    if (text) {
-                      if (codeRef.current[item]) {
-                        codeRef.current[item].focus();
+                    else {
+                      if (text.length <= 1) {
+                        Code[item] = text;
+                      }
+                      
+                      if (text) {
+                        if (codeRef.current[item+1]) {
+                          codeRef.current[item+1].focus();
+                        }
+                      }
+                      if (text && item === 3) {
+                        codeRef.current[3].blur();
                       }
                     }
-                    if (text && item - 1 === 3) {
-                      codeRef.current[3].blur();
-                    }
+
                     setCode(Code);
                   }}
                 />
