@@ -133,6 +133,15 @@ const Notifications = () => {
         }
       }
     }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
+    }
 
     setIsLoading(false);
   };
@@ -179,6 +188,15 @@ const Notifications = () => {
           setIsLoading(false);
         }
       }
+    }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
     }
 
     setIsLoading(false);
@@ -228,6 +246,15 @@ const Notifications = () => {
         }
       }
     }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
+    }
 
     setIsLoading(false);
   };
@@ -276,6 +303,15 @@ const Notifications = () => {
         }
       }
     }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
+    }
 
     setIsLoading(false);
   };
@@ -323,6 +359,15 @@ const Notifications = () => {
           );
         }
       }
+    }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
     }
 
     setIsLoading(false);
@@ -383,6 +428,15 @@ const Notifications = () => {
           setIsLoading(false);
         }
       }
+    }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
     }
 
     setIsLoading(false);
@@ -448,6 +502,15 @@ const Notifications = () => {
         }
       }
     }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
+    }
 
     setIsLoading(false);
   };
@@ -511,6 +574,15 @@ const Notifications = () => {
           setIsLoading(false);
         }
       }
+    }
+    else{
+      Toast.show(
+        "Notifications are disabled. To get reminders, you need to enable them.",
+        {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+        }
+      );
     }
 
     setIsLoading(false);
