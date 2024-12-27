@@ -35,7 +35,7 @@ const MyTasks = ({
   const today = new Date();
 
   useEffect(() => {
-    var tempTasksAndToDos = dueToDos.concat(dueTasks);
+    var tempTasksAndToDos = toDos.concat(tasks);
     tempTasksAndToDos.sort((a, b) => todoCompare(a, b));
     setTasksAndToDos(tempTasksAndToDos);
     setCompletedToDos([...doneToDos]);
