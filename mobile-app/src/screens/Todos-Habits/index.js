@@ -61,6 +61,50 @@ const TodosHabits = ({ navigation }) => {
 
   const taskRef = useRef(null);
 
+  useEffect(() => {
+    const getPreferencesOnLoad = async () => {
+      setIsLoading(true);
+      token = await getAccessToken();
+
+      const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
+        .trackingPreferences;
+
+      await Promise.all(
+        createStatusList(day),
+        getHabits(),
+        getToDos(token),
+        getTasks(token)
+      );
+
+      setTrackingPreferences(trackingPreferencesLoaded);
+
+      var routesPreference = routes;
+
+      if (trackingPreferencesLoaded.habitsSelected) {
+        routesPreference.push({ key: "second", title: "Second" });
+      }
+      if (trackingPreferencesLoaded.toDosSelected) {
+        routesPreference.push({ key: "third", title: "Third" });
+      }
+
+      routesPreference.push({ key: "fourth", title: "Fourth" });
+
+      setRoutes(routesPreference);
+
+      var numDots = [0, 1];
+      for (var i = 2; i < routesPreference.length; i++) {
+        numDots.push(i);
+      }
+      setDots(numDots);
+      setIsLoading(false);
+    };
+
+    if (!isPageLoaded) {
+      setIsPageLoaded(true);
+      getPreferencesOnLoad();
+    }
+  }, []);
+
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
@@ -865,50 +909,6 @@ const TodosHabits = ({ navigation }) => {
       });
     }
   };
-
-  useEffect(() => {
-    const getPreferencesOnLoad = async () => {
-      setIsLoading(true);
-      token = await getAccessToken();
-
-      const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
-        .trackingPreferences;
-
-      await Promise.all(
-        createStatusList(day),
-        getHabits(),
-        getToDos(token),
-        getTasks(token)
-      );
-
-      setTrackingPreferences(trackingPreferencesLoaded);
-
-      var routesPreference = routes;
-
-      if (trackingPreferencesLoaded.habitsSelected) {
-        routesPreference.push({ key: "second", title: "Second" });
-      }
-      if (trackingPreferencesLoaded.toDosSelected) {
-        routesPreference.push({ key: "third", title: "Third" });
-      }
-
-      routesPreference.push({ key: "fourth", title: "Fourth" });
-
-      setRoutes(routesPreference);
-
-      var numDots = [0, 1];
-      for (var i = 2; i < routesPreference.length; i++) {
-        numDots.push(i);
-      }
-      setDots(numDots);
-      setIsLoading(false);
-    };
-
-    if (!isPageLoaded) {
-      setIsPageLoaded(true);
-      getPreferencesOnLoad();
-    }
-  }, []);
 
   const renderScene = ({ route }) => {
     switch (route.key) {
