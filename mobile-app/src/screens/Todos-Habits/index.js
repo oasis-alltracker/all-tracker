@@ -107,7 +107,6 @@ const TodosHabits = ({ navigation }) => {
 
   useEffect(() => {
     if(trackingPreferences){
-      console.log(trackingPreferences);
       if(trackingPreferences.habitsSelected && trackingPreferences.toDosSelected && pageIndex == 3) {
         setUpdateStats(updateStats + 1);
       }

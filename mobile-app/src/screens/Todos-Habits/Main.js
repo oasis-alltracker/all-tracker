@@ -93,46 +93,50 @@ const Main = ({
 
     return (
       <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
-        <TouchableOpacity
-          onPress={async () => {
-            setIsCheck((pr) => !pr);
-            item.selected = !item.selected;
-            if (item.PK.includes("task")) {
-              var nextDueDate = await updateDueTaskStatus(item);
-              var year = nextDueDate.substring(0, 4);
-              var month = nextDueDate.substring(4, 6);
-              var day = nextDueDate.substring(6, 8);
-              var newItemDate = new Date(
-                Number(year),
-                Number(month) - 1,
-                Number(day),
-              );
-              setItemDate(newItemDate);
-              if (item.selected) {
-                item.completionList.push(item.nextDueDate);
-                item.nextDueDate = nextDueDate;
+        <View style={{flexDirection: "row", alignItems: "center",}}>
+          <TouchableOpacity
+            onPress={async () => {
+              setIsCheck((pr) => !pr);
+              item.selected = !item.selected;
+              if (item.PK.includes("task")) {
+                var nextDueDate = await updateDueTaskStatus(item);
+                var year = nextDueDate.substring(0, 4);
+                var month = nextDueDate.substring(4, 6);
+                var day = nextDueDate.substring(6, 8);
+                var newItemDate = new Date(
+                  Number(year),
+                  Number(month) - 1,
+                  Number(day),
+                );
+                setItemDate(newItemDate);
+                if (item.selected) {
+                  item.completionList.push(item.nextDueDate);
+                  item.nextDueDate = nextDueDate;
+                } else {
+                  item.completionList.pop();
+                  item.nextDueDate = nextDueDate;
+                }
               } else {
-                item.completionList.pop();
-                item.nextDueDate = nextDueDate;
+                await updateDueToDoStatus(item);
               }
-            } else {
-              await updateDueToDoStatus(item);
-            }
-          }}
-          style={styles.checkRender}
-        >
-          {isCheck && (
-            <Image
-              style={styles.checkImageRender}
-              source={require("../../assets/images/check.png")}
-            />
-          )}
-        </TouchableOpacity>
-        {isCheck ? (
-          <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
-        ) : (
-          <Text style={styles.itemRenderTextMain}>{item.name}</Text>
-        )}
+            }}
+            style={styles.checkRender}
+          >
+            {isCheck && (
+              <Image
+                style={styles.checkImageRender}
+                source={require("../../assets/images/check.png")}
+              />
+            )}
+          </TouchableOpacity>
+          <View style={{width: 250}}>
+            {isCheck ? (
+              <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
+            ) : (
+              <Text style={styles.itemRenderTextMain}>{item.name}</Text>
+            )}
+          </View>
+        </View>
         {itemDate != "noDueDate" && (
           <>
             {item.toDoID ? (
