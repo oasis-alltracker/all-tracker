@@ -105,6 +105,18 @@ const TodosHabits = ({ navigation }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if(trackingPreferences){
+      console.log(trackingPreferences);
+      if(trackingPreferences.habitsSelected && trackingPreferences.toDosSelected && pageIndex == 3) {
+        setUpdateStats(updateStats + 1);
+      }
+      else if((pageIndex == 2 && !trackingPreferences.habitsSelected) || (pageIndex == 2 && !trackingPreferences.toDosSelected)){
+        setUpdateStats(updateStats + 1);
+      }
+    }
+  }, [pageIndex]);
+
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
@@ -122,7 +134,6 @@ const TodosHabits = ({ navigation }) => {
 
       await getHabits();
       await createStatusList(day);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -211,7 +222,6 @@ const TodosHabits = ({ navigation }) => {
 
       await updateHabitStatusCount(habitStatus, count);
       await createStatusList(day);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -230,7 +240,6 @@ const TodosHabits = ({ navigation }) => {
       await HabitsAPI.deleteHabit(token, habitID);
       await getHabits();
       await createStatusList(day);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -248,7 +257,6 @@ const TodosHabits = ({ navigation }) => {
       await HabitsAPI.updateHabit(token, habitID, habit);
       await getHabits();
       await createStatusList(day);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -327,7 +335,6 @@ const TodosHabits = ({ navigation }) => {
       }
 
       await getToDos(token);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -376,7 +383,6 @@ const TodosHabits = ({ navigation }) => {
         );
       }
       await getToDos(token);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -421,9 +427,6 @@ const TodosHabits = ({ navigation }) => {
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
 
-      if (updatedToDo.dateStamp != "noDueDate") {
-        setUpdateStats(updateStats + 1);
-      }
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -478,9 +481,6 @@ const TodosHabits = ({ navigation }) => {
         toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
-      if (updatedToDo.dateStamp != "noDueDate") {
-        setUpdateStats(updateStats + 1);
-      }
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -492,6 +492,7 @@ const TodosHabits = ({ navigation }) => {
 
   const updateDoneToDoStatus = async (updatedToDo) => {
     try {
+      setIsLoading(true);
       index = doneToDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
       toDo = doneToDos[index];
       toDo.selected = true;
@@ -526,8 +527,8 @@ const TodosHabits = ({ navigation }) => {
       setToDos(newToDos);
       setDoneToDos(newDoneToDos);
       setDueToDos(newDueToDos);
+      setIsLoading(false);
 
-      setUpdateStats(updateStats + 1);
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -556,7 +557,6 @@ const TodosHabits = ({ navigation }) => {
       );
 
       await getToDos(token);
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
