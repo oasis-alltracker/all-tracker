@@ -22,12 +22,12 @@ const Landing = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Image
-        style={[styles.logo, { height: 0.4 * height }]}
+        style={[styles.logo, { height: 0.38 * height }]}
         source={require("../assets/images/landing-logo.png")}
         resizeMode="contain"
       />
       <Image
-        style={[styles.image, { height: 0.44 * height }]}
+        style={[styles.image, { height: 0.42 * height }]}
         source={require("../assets/images/landing-image.png")}
         resizeMode="contain"
       />
