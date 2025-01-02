@@ -191,10 +191,11 @@ const EnterCode = (props) => {
               {[0, 1, 2, 3].map((item) => (
                 <TextInput
                   ref={(ref) => (codeRef.current[item] = ref)}
-                  maxLength={1}
+                  maxLength={4}
                   keyboardType="number-pad"
                   textContentType={"oneTimeCode"}
                   style={styles.input}
+                  value={code[item]}
                   key={item}
                   onKeyPress={({ nativeEvent }) => {
                     let Code = [...code];
@@ -219,11 +220,8 @@ const EnterCode = (props) => {
                   onChangeText={(text) => {
                     let Code = [...code];
                     if(text.length == 4 && item == 0){
-                      Code[0] = text[0]
-                      Code[1] = text[1]
-                      Code[2] = text[2]
-                      Code[3] = text[3]
                       codeRef.current[0].blur();
+                      setCode([text[0], text[1], text[2], text[3]])
                     }
                     else {
                       if (text.length <= 1) {
@@ -238,9 +236,8 @@ const EnterCode = (props) => {
                       if (text && item === 3) {
                         codeRef.current[3].blur();
                       }
-                    }
-
-                    setCode(Code);
+                      setCode(Code);
+                    }                    
                   }}
                 />
               ))}
