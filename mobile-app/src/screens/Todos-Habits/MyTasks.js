@@ -37,8 +37,10 @@ const MyTasks = ({
   useEffect(() => {
     var tempTasksAndToDos = toDos.concat(tasks);
     tempTasksAndToDos.sort((a, b) => todoCompare(a, b));
+    var tempDoneToDos = [...doneToDos];
+    tempDoneToDos.sort((a, b) => todoCompare(b, a));
     setTasksAndToDos(tempTasksAndToDos);
-    setCompletedToDos([...doneToDos]);
+    setCompletedToDos([...tempDoneToDos]);
   }, [toDos, tasks, doneToDos]);
 
   const RenderMyTaskTodos = ({
