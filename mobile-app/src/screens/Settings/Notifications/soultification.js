@@ -25,7 +25,9 @@ const Soultification = ({
   group,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [show3, setShow3] = useState(false);
 
   const [activeSchedule1, setActiveSchedule1] = useState([
     true,
@@ -72,6 +74,7 @@ const Soultification = ({
   };
 
   const addNewSchedule = async () => {
+    setIsLoading(true)
     if (isToggled) {
       const token = await getAccessToken();
       await NotificationsHandler.turnOffGroupPreferenceNotifications(
@@ -104,6 +107,7 @@ const Soultification = ({
       ]);
     }
     onToggle(true);
+    setIsLoading(false)
   };
 
   const removeSchedule2 = async () => {
@@ -236,6 +240,10 @@ const Soultification = ({
   const onChangeSchedule1 = async (event, selectedDate) => {
     setTimeSchedule1(selectedDate);
 
+    if (Platform.OS === "android") {
+      setShow1(false);
+    }
+
     if (isToggled) {
       const token = await getAccessToken();
       const prevExpoIDs = [
@@ -251,24 +259,19 @@ const Soultification = ({
 
       setExpoIDsSchedule1([]);
     }
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
+
     if (
       (Platform.OS === "ios" && event.type === "dismissed") ||
       (Platform.OS === "android" && event.type === "set")
     ) {
       onToggle(true);
     }
-    if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
-    }
   };
 
   const onChangeSchedule2 = async (event, selectedDate) => {
     setTimeSchedule2(selectedDate);
     if (Platform.OS === "android") {
-      setShow(false);
+      setShow2(false);
     }
     if (isToggled) {
       const token = await getAccessToken();
@@ -287,15 +290,12 @@ const Soultification = ({
     ) {
       onToggle(true);
     }
-    if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
-    }
   };
 
   const onChangeSchedule3 = async (event, selectedDate) => {
     setTimeSchedule3(selectedDate);
     if (Platform.OS === "android") {
-      setShow(false);
+      setShow3(false);
     }
     if (isToggled) {
       const token = await getAccessToken();
@@ -313,9 +313,6 @@ const Soultification = ({
       (Platform.OS === "android" && event.type === "set")
     ) {
       onToggle(true);
-    }
-    if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
     }
   };
 
@@ -553,7 +550,7 @@ const Soultification = ({
                       testID="setMinMax"
                       value="time"
                       onPress={() => {
-                        setShow(true);
+                        setShow1(true);
                       }}
                       title="toggleMinMaxDate"
                     >
@@ -565,12 +562,12 @@ const Soultification = ({
                 </>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <>
-                    {show && (
+                    {show1 && (
                       <DateTimePicker
                         testID="dateTimePicker"
                         value={timeSchedule1}
                         mode={"time"}
-                        is24Hour={true}
+                        is24Hour={false}
                         onChange={onChangeSchedule1}
                       />
                     )}
@@ -667,7 +664,7 @@ const Soultification = ({
                       testID="setMinMax"
                       value="time"
                       onPress={() => {
-                        setShow(true);
+                        setShow2(true);
                       }}
                       title="toggleMinMaxDate"
                     >
@@ -679,12 +676,12 @@ const Soultification = ({
                 </>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <>
-                    {show && (
+                    {show2 && (
                       <DateTimePicker
                         testID="dateTimePicker"
                         value={timeSchedule2}
                         mode={"time"}
-                        is24Hour={true}
+                        is24Hour={false}
                         onChange={onChangeSchedule2}
                       />
                     )}
@@ -781,7 +778,7 @@ const Soultification = ({
                       testID="setMinMax"
                       value="time"
                       onPress={() => {
-                        setShow(true);
+                        setShow3(true);
                       }}
                       title="toggleMinMaxDate"
                     >
@@ -793,12 +790,12 @@ const Soultification = ({
                 </>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <>
-                    {show && (
+                    {show3 && (
                       <DateTimePicker
                         testID="dateTimePicker"
                         value={timeSchedule3}
                         mode={"time"}
-                        is24Hour={true}
+                        is24Hour={false}
                         onChange={onChangeSchedule3}
                       />
                     )}

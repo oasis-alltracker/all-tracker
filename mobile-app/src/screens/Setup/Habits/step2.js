@@ -148,7 +148,7 @@ const HabitsNotifications = (props) => {
       } else {
         setIsNotificationsEnabled(false);
         Toast.show(
-          'To get reminders, you need to turn on "all notifications" in settings.',
+          "Notifications are disabled. To get reminders, you need to enable them.",
           {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
@@ -288,7 +288,7 @@ const HabitsNotifications = (props) => {
                 testID="dateTimePicker"
                 value={time}
                 mode={"time"}
-                is24Hour={true}
+                is24Hour={false}
                 onChange={onChange}
               />
             )}

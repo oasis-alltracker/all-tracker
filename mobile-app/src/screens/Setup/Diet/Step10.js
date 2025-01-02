@@ -420,7 +420,7 @@ const DietStep10 = (props) => {
                     testID="dateTimePicker"
                     value={breakfastTime}
                     mode={"time"}
-                    is24Hour={true}
+                    is24Hour={false}
                     onChange={onChangeBreakfastTime}
                   />
                 )}
@@ -477,7 +477,7 @@ const DietStep10 = (props) => {
                     testID="dateTimePicker"
                     value={lunchTime}
                     mode={"time"}
-                    is24Hour={true}
+                    is24Hour={false}
                     onChange={onChangeLunchTime}
                   />
                 )}
@@ -534,7 +534,7 @@ const DietStep10 = (props) => {
                     testID="dateTimePicker"
                     value={dinnerTime}
                     mode={"time"}
-                    is24Hour={true}
+                    is24Hour={false}
                     onChange={onChangeDinnerTime}
                   />
                 )}

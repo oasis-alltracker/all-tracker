@@ -925,7 +925,7 @@ const Notifications = () => {
                           testID="dateTimePicker"
                           value={habitTime}
                           mode={"time"}
-                          is24Hour={true}
+                          is24Hour={false}
                           onChange={onChangeHabitTime}
                         />
                       )}
@@ -1007,7 +1007,7 @@ const Notifications = () => {
                             testID="dateTimePicker"
                             value={breakfastTime}
                             mode={"time"}
-                            is24Hour={true}
+                            is24Hour={false}
                             onChange={onChangeBreakfastTime}
                           />
                         )}
@@ -1066,7 +1066,7 @@ const Notifications = () => {
                             testID="dateTimePicker"
                             value={lunchTime}
                             mode={"time"}
-                            is24Hour={true}
+                            is24Hour={false}
                             onChange={onChangeLunchTime}
                           />
                         )}
@@ -1125,7 +1125,7 @@ const Notifications = () => {
                             testID="dateTimePicker"
                             value={dinnerTime}
                             mode={"time"}
-                            is24Hour={true}
+                            is24Hour={false}
                             onChange={onChangeDinnerTime}
                           />
                         )}
