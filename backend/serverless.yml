@@ -2,7 +2,7 @@ service: all-tracker
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs20.x
   region: ca-central-1
   environment: 
     ALL_TRACKER_TABLE_NAME: ${opt:stage, 'dev'}-all-tracker-table
