@@ -14,7 +14,7 @@
         "resourceClass": "m1-medium"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://pc42o3mjj7.execute-api.ca-central-1.amazonaws.com/production/v1/"
+        "EXPO_PUBLIC_API_URL": "https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1"
       }
     },
     "development-simulator": {
