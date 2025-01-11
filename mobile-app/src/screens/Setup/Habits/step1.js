@@ -109,7 +109,7 @@ const HabitsCreation = (props) => {
         <Text style={styles.habitsTitle}>My habits</Text>
         <TouchableOpacity
           onPress={() => {
-            modalRef.secondary.open();
+            modalRef.create.open();
           }}
         >
           <Image
@@ -132,7 +132,7 @@ const HabitsCreation = (props) => {
               <TouchableOpacity
                 key={key.toString()}
                 onPress={() => {
-                  modalRef.current.open(true, {
+                  modalRef.update.open(true, {
                     isPositive: val.isPositive,
                     habitName: val.name,
                     pngURL: val.pngURL,
@@ -162,15 +162,6 @@ const HabitsCreation = (props) => {
             );
           })}
         </ScrollView>
-        <CreateHabitModal
-          getRef={(ref) => (modalRef.secondary = ref)}
-          createHabit={createHabit}
-        />
-        <UpdateHabitModal
-          getRef={(ref) => (modalRef.current = ref)}
-          updateHabit={updateHabit}
-          deleteHabit={deleteHabit}
-        />
       </View>
     </>
   );
@@ -182,7 +173,7 @@ const HabitsCreation = (props) => {
       </Text>
       <TouchableOpacity
         onPress={() => {
-          modalRef.current.open();
+          modalRef.create.open();
         }}
         style={[styles.addButton, { width: width - 30, height: height * 0.34 }]}
       >
@@ -196,10 +187,6 @@ const HabitsCreation = (props) => {
           />
         </View>
       </TouchableOpacity>
-      <CreateHabitModal
-        getRef={(ref) => (modalRef.current = ref)}
-        createHabit={createHabit}
-      />
     </>
   );
 
@@ -228,6 +215,15 @@ const HabitsCreation = (props) => {
           Next
         </Button>
       </View>
+      <CreateHabitModal
+        getRef={(ref) => (modalRef.create = ref)}
+        createHabit={createHabit}
+      />
+      <UpdateHabitModal
+        getRef={(ref) => (modalRef.update = ref)}
+        updateHabit={updateHabit}
+        deleteHabit={deleteHabit}
+      />
     </SafeAreaView>
   );
 };
