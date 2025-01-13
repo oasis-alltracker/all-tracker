@@ -88,7 +88,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
     }, 1000);
     setTimeout(() => {
       setVisible(true);
-    }, 1015);
+    }, 1051);
   };
 
   const backDropPressed = () => {
@@ -113,12 +113,18 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
     const items = ["Good", "Bad"];
 
     const onSave = async () => {
-      setIsLoading(true);
+      Keyboard.dismiss();
       if (threshold <= 0) {
-        Toast.show("Threshold must be greater than 0.", {
+        Toast.show("Don't forget to set a goal for this habit.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
+          position: Toast.positions.BOTTOM,
+        });
+      } else if (threshold > 99) {
+        Toast.show("Your goal must be less than 100.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
         });
       } else if (
         habitName &&
@@ -139,8 +145,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
 
         habit.isPositive = true;
         backDropPressed();
-        await updateHabit(habitID, habit);
-        setIsLoading(false);
+        updateHabit(habitID, habit);
       } else {
         Toast.show("You must complete the form to update a habit.", {
           ...styles.errorToast,

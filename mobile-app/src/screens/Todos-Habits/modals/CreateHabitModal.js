@@ -66,7 +66,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     }, 1000);
     setTimeout(() => {
       setIsMainVisible(true);
-    }, 1015);
+    }, 1051);
   };
 
   const selectHabit = async (habitName) => {
@@ -99,24 +99,30 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     const items = ["Good", "Bad"];
 
     const onSave = async () => {
-      setIsLoading(true);
+      Keyboard.dismiss();
       if (!habitName) {
         Toast.show("Don't forget to give this habit a name.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
+          position: Toast.positions.BOTTOM,
         });
       } else if (threshold <= 0) {
-        Toast.show("'Times a day' needs to be greater than 0.", {
+        Toast.show("Don't forget to set a goal for this habit.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
+          position: Toast.positions.BOTTOM,
+        });
+      } else if (threshold > 99) {
+        Toast.show("Your goal must be less than 100.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
         });
       } else if (time == new Date("1995-12-17T12:00:00")) {
         Toast.show("Don't forget to set a time.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
+          position: Toast.positions.BOTTOM,
         });
       } else if (
         habitName &&
@@ -138,8 +144,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         habit.isPositive = true;
 
         backDropPressed();
-        await createHabit(habit);
-        setIsLoading(false);
+        createHabit(habit);
       } else {
         Toast.show("You must complete the form to create a habit.", {
           ...styles.errorToast,

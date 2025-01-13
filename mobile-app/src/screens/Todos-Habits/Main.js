@@ -83,7 +83,7 @@ const Main = ({
         var newItemDate = new Date(
           Number(year),
           Number(month) - 1,
-          Number(day),
+          Number(day)
         );
         setItemDate(newItemDate);
       } else {
@@ -93,7 +93,7 @@ const Main = ({
 
     return (
       <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
-        <View style={{flexDirection: "row", alignItems: "center",}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             onPress={async () => {
               setIsCheck((pr) => !pr);
@@ -106,7 +106,7 @@ const Main = ({
                 var newItemDate = new Date(
                   Number(year),
                   Number(month) - 1,
-                  Number(day),
+                  Number(day)
                 );
                 setItemDate(newItemDate);
                 if (item.selected) {
@@ -129,9 +129,11 @@ const Main = ({
               />
             )}
           </TouchableOpacity>
-          <View style={{width: 250}}>
+          <View style={{ width: 250 }}>
             {isCheck ? (
-              <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
+              <Text style={styles.itemRenderTextMainStrikeThru}>
+                {item.name}
+              </Text>
             ) : (
               <Text style={styles.itemRenderTextMain}>{item.name}</Text>
             )}
@@ -620,12 +622,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: "Sego",
   },
-  dueTodayText: {
-    color: "#25436B",
-    fontSize: 13,
-    fontFamily: "Sego",
-    paddingRight: 16,
-  },
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -715,6 +711,6 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
-    paddingRight: 16,
+    paddingLeft: 3,
   },
 });

@@ -4,7 +4,6 @@ import RNModal from "react-native-modal";
 import { Image, TouchableOpacity } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
-import Spinner from "react-native-loading-spinner-overlay";
 
 export default function UpdateHabitStatusModal({
   getRef,
@@ -15,10 +14,9 @@ export default function UpdateHabitStatusModal({
 
   const [isPositive, setIsPositive] = useState(false);
   const [SK, setSK] = useState(false);
-  const [count, setCount] = useState(false);
-  const [name, setName] = useState(false);
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState(0);
   const [threshold, setThreshold] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let ref = {
@@ -57,32 +55,33 @@ export default function UpdateHabitStatusModal({
   }, []);
 
   const backDropPressed = async () => {
-    setIsLoading(true);
-    await refreshHabits();
-    setIsLoading(false);
-    setVisible(false);
-  };
-
-  const onSave = async () => {
-    setIsLoading(true);
     const habit = {
       isPositive: isPositive,
       SK: SK,
       count: count,
       name: name,
     };
-
-    await onHabitStatusUpdate(habit, count);
-    setIsLoading(false);
+    onHabitStatusUpdate(habit, count);
     setVisible(false);
   };
 
-  const onPlusPressed = () => {
+  const onSave = async () => {
+    const habit = {
+      isPositive: isPositive,
+      SK: SK,
+      count: count,
+      name: name,
+    };
+    setVisible(false);
+    onHabitStatusUpdate(habit, count);
+  };
+
+  const onMinusPressed = () => {
     if (count > 0) {
       setCount(count - 1);
     }
   };
-  const onMinusPressed = () => {
+  const onPlusPressed = () => {
     if (threshold - count == 1) {
       if (isPositive) {
         Toast.show("Habit complete. Great job!", {
@@ -121,17 +120,12 @@ export default function UpdateHabitStatusModal({
       backdropColor="rgba(215, 246, 255, 0.27)"
       style={styles.modal}
     >
-      <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
-        <View style={[styles.row, { paddingBottom: 10 }]}>
+        <View style={styles.titleContainer}>
           <Text style={styles.inputTitle}>{name}</Text>
         </View>
 
-        <View style={styles.row}>
-          <Text style={styles.text}>You have</Text>
-        </View>
-
-        <View style={styles.row}>
+        <View style={styles.statusRow}>
           <TouchableOpacity
             onPress={() => onMinusPressed()}
             style={styles.countButton}
@@ -143,7 +137,10 @@ export default function UpdateHabitStatusModal({
           </TouchableOpacity>
 
           <View style={styles.countContainer}>
-            <Text style={styles.countText}>{threshold - count}</Text>
+            <Text style={styles.countText}>{count}</Text>
+          </View>
+          <View style={styles.thresholdContainer}>
+            <Text style={styles.thresholdText}>/ {threshold}</Text>
           </View>
 
           <TouchableOpacity
@@ -157,14 +154,22 @@ export default function UpdateHabitStatusModal({
           </TouchableOpacity>
         </View>
 
-        <View style={styles.row}>
-          {isPositive ? (
+        <View style={styles.bottomTextContainer}>
+          {count == 0 ? (
             <>
-              <Text style={styles.text}>completions left</Text>
+              <Text style={styles.bottomText}>Keep at it!</Text>
             </>
           ) : (
             <>
-              <Text style={styles.text}>strikes left</Text>
+              {count >= threshold ? (
+                <>
+                  <Text style={styles.bottomText}>Congatulations!</Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.bottomText}>Almost there!</Text>
+                </>
+              )}
             </>
           )}
         </View>
@@ -204,39 +209,65 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  row: {
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 15,
+  },
+  statusRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 16,
+    paddingBottom: 12,
+    marginHorizontal: 15,
+  },
+  bottomTextContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 15,
-    marginHorizontal: 15,
+    marginTop: 10,
+    marginHorizontal: 22,
   },
   inputTitle: {
     color: "#25436B",
-    fontSize: 35,
+    fontSize: 37,
     fontFamily: "Sego-Bold",
     flex: 1,
-    // backgroundColor: "green",
-    lineHeight: 35,
+    lineHeight: 38,
     marginTop: 15,
-    paddingVertical: 10,
+    paddingTop: 10,
   },
-  text: {
+  bottomText: {
     color: "#25436B",
-    fontSize: 27,
+    fontSize: 20,
     fontFamily: "Sego",
   },
   countText: {
-    color: "#25436B",
-    fontSize: 42,
+    color: "#757575",
+    fontSize: 38,
     fontFamily: "Sego-Bold",
   },
   countContainer: {
     borderRadius: 5,
-    width: 70,
-    height: 70,
+    width: 60,
+    marginLeft: 15,
+    marginRight: 0,
     borderColor: "rgba(172, 197, 204, 0.75)",
     borderWidth: 2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  thresholdText: {
+    color: "#25436B",
+    fontSize: 38,
+    fontFamily: "Sego-Bold",
+  },
+  thresholdContainer: {
+    borderRadius: 5,
+    width: 100,
+    marginHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -261,7 +292,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 35,
+    marginTop: 25,
     marginHorizontal: 15,
   },
   button: {
@@ -272,7 +303,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   countButton: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 0,
   },
   positiveToast: {
     backgroundColor: "#D7F6FF",
