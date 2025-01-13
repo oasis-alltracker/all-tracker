@@ -75,7 +75,7 @@ const MyTasks = ({
         var newItemDate = new Date(
           Number(year),
           Number(month) - 1,
-          Number(day),
+          Number(day)
         );
         setItemDate(newItemDate);
       } else {
@@ -85,7 +85,7 @@ const MyTasks = ({
 
     return (
       <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
-        <View style={{flexDirection: "row", alignItems: "center",}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             onPress={async () => {
               setIsCheck((pr) => !pr);
@@ -98,7 +98,7 @@ const MyTasks = ({
                 var newItemDate = new Date(
                   Number(year),
                   Number(month) - 1,
-                  Number(day),
+                  Number(day)
                 );
                 setItemDate(newItemDate);
                 if (item.selected) {
@@ -121,9 +121,11 @@ const MyTasks = ({
               />
             )}
           </TouchableOpacity>
-          <View style={{width: 250}}>
+          <View style={{ width: 250 }}>
             {isCheck ? (
-              <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
+              <Text style={styles.itemRenderTextMainStrikeThru}>
+                {item.name}
+              </Text>
             ) : (
               <Text style={styles.itemRenderTextMain}>{item.name}</Text>
             )}
@@ -511,11 +513,6 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 8,
   },
-  repeatImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 8,
-  },
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
@@ -577,6 +574,6 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
-    paddingRight: 16,
+    paddingLeft: 3,
   },
 });

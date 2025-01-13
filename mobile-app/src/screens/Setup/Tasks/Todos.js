@@ -21,6 +21,7 @@ import TaskModal from "../../Todos-Habits/modals/TaskModal";
 import TasksAPI from "../../../api/tasks/tasksAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { todoCompare } from "../../../utils/commonUtils";
 
 const Todos = (props) => {
   const { selectedTrackers } = props.route.params;
@@ -389,23 +390,40 @@ const Todos = (props) => {
     }
   };
 
+  const getAndSortTasksAndTodosOnLoad = async (token) => {
+    userToDos = await ToDosAPI.getToDos(token, false);
+    userTasks = await TasksAPI.getTasks(token);
+    setToDos(userToDos);
+    setTasks(userTasks);
+
+    var tempTasksAndToDos = userToDos.concat(userTasks);
+    tempTasksAndToDos.sort((a, b) => todoCompare(a, b));
+    setTasksAndToDos(tempTasksAndToDos);
+  };
+
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
-      setIsLoading(true);
       token = await getAccessToken();
-      await getToDos(token);
-      await getTasks(token);
+      await getAndSortTasksAndTodosOnLoad(token);
+      setIsPageLoaded(true);
       setIsLoading(false);
     };
 
     if (!isPageLoaded) {
-      setIsPageLoaded(true);
+      setIsLoading(true);
       getPreferencesOnLoad();
     }
   }, []);
 
   useEffect(() => {
-    setTasksAndToDos(toDos.concat(tasks));
+    if (isPageLoaded) {
+      console.log("doing second sort");
+      setIsLoading(true);
+      var tempTasksAndToDos = toDos.concat(tasks);
+      tempTasksAndToDos.sort((a, b) => todoCompare(a, b));
+      setTasksAndToDos(tempTasksAndToDos);
+      setIsLoading(false);
+    }
   }, [tasks, toDos]);
 
   const Tasks = () => (

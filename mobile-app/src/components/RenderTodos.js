@@ -40,29 +40,33 @@ const RenderTodos = ({
 
   return (
     <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
-      <TouchableOpacity
-        onPress={async () => {
-          setIsCheck((pr) => !pr);
-          if (item.PK.includes("task")) {
-            await updateTaskStatus(item, isMainPage);
-          } else {
-            await updateToDoStatus(item);
-          }
-        }}
-        style={styles.checkRender}
-      >
-        {isCheck && (
-          <Image
-            style={styles.checkImageRender}
-            source={require("../assets/images/check.png")}
-          />
-        )}
-      </TouchableOpacity>
-      {isCheck ? (
-        <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
-      ) : (
-        <Text style={styles.itemRenderTextMain}>{item.name}</Text>
-      )}
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TouchableOpacity
+          onPress={async () => {
+            setIsCheck((pr) => !pr);
+            if (item.PK.includes("task")) {
+              await updateTaskStatus(item, isMainPage);
+            } else {
+              await updateToDoStatus(item);
+            }
+          }}
+          style={styles.checkRender}
+        >
+          {isCheck && (
+            <Image
+              style={styles.checkImageRender}
+              source={require("../assets/images/check.png")}
+            />
+          )}
+        </TouchableOpacity>
+        <View style={{ width: 250 }}>
+          {isCheck ? (
+            <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
+          ) : (
+            <Text style={styles.itemRenderTextMain}>{item.name}</Text>
+          )}
+        </View>
+      </View>
       {itemDate != "noDueDate" && (
         <>
           {item.toDoID ? (
@@ -153,19 +157,19 @@ const styles = StyleSheet.create({
   itemRenderTextMain: {
     color: "#1E1E1E",
     fontSize: 18,
-    paddingRight: 5,
     fontFamily: "Sego",
     marginLeft: 20,
     paddingVertical: 5,
+    paddingRight: 5,
     flex: 1,
   },
   itemRenderTextMainStrikeThru: {
     color: "#1E1E1E",
     fontSize: 18,
-    paddingRight: 5,
     fontFamily: "Sego",
     marginLeft: 20,
     paddingVertical: 5,
+    paddingRight: 5,
     flex: 1,
     textDecorationLine: "line-through",
   },
@@ -173,16 +177,18 @@ const styles = StyleSheet.create({
     color: "#FFBEF1",
     fontSize: 13,
     fontFamily: "Sego",
+    paddingRight: 6,
   },
   itemRenderText3Main: {
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
+    paddingRight: 6,
   },
   dueTodayText: {
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
-    paddingRight: 16,
+    paddingLeft: 3,
   },
 });
