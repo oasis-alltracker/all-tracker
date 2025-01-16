@@ -417,7 +417,6 @@ const Todos = (props) => {
 
   useEffect(() => {
     if (isPageLoaded) {
-      console.log("doing second sort");
       setIsLoading(true);
       var tempTasksAndToDos = toDos.concat(tasks);
       tempTasksAndToDos.sort((a, b) => todoCompare(a, b));
