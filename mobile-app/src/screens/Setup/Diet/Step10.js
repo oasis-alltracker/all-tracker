@@ -292,20 +292,25 @@ const DietStep10 = (props) => {
       setIsLoading(true);
       var token = await getAccessToken();
 
-      var allNotifications =
-        await NotificationsHandler.getNotificationsForGroup(
-          token,
-          "notifications"
-        );
+      var allNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "notifications"
+      );
 
-      var breakfastNotifications =
-        await NotificationsHandler.getNotificationsForGroup(token, "breakfast");
+      var breakfastNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "breakfast"
+      );
 
-      var lunchNotifications =
-        await NotificationsHandler.getNotificationsForGroup(token, "lunch");
+      var lunchNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "lunch"
+      );
 
-      var dinnerNotifications =
-        await NotificationsHandler.getNotificationsForGroup(token, "dinner");
+      var dinnerNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "dinner"
+      );
 
       setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
       setIsBreakfastEnabled(breakfastNotifications[0]?.preference === "on");

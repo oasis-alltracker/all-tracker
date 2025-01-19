@@ -30,7 +30,72 @@ const HabitsCreation = (props) => {
   const modalRef = useRef(null);
 
   const onNext = async () => {
-    navigationService.navigate("habitsNotifications", { selectedTrackers });
+    try {
+      if (selectedTrackers.toDosSelected) {
+        navigationService.navigate("todos", { selectedTrackers });
+      } else if (selectedTrackers.dietSelected) {
+        navigationService.navigate("dietStep1", { selectedTrackers });
+      } else if (selectedTrackers.fitnessSelected) {
+        navigationService.navigate("fitness", { selectedTrackers });
+      } else if (selectedTrackers.moodSelected) {
+        navigationService.navigate("mood", { selectedTrackers });
+      } else if (selectedTrackers.sleepSelected) {
+        navigationService.navigate("sleep", { selectedTrackers });
+      } else {
+        setIsLoading(true);
+        const accessToken = await getAccessToken();
+
+        const { status: status, data: userData } = await UserAPI.getUser(
+          accessToken
+        );
+
+        if (userData && !userData["isSetupComplete"]) {
+          navigationService.navigate("explainsubscription", {
+            selectedTrackers,
+          });
+        } else {
+          setIsLoading(true);
+          if (!selectedTrackers.toDosSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "task"
+            );
+          }
+          if (!selectedTrackers.habitsSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "habit"
+            );
+          }
+          if (!selectedTrackers.moodSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "mood"
+            );
+          }
+          if (!selectedTrackers.sleepSelected) {
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "morning"
+            );
+            await NotificationsHandler.turnOffGroupPreferenceNotifications(
+              token,
+              "sleep"
+            );
+          }
+          setIsLoading(false);
+          navigationService.reset("main", 0);
+        }
+        setIsLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+      });
+    }
   };
 
   const createHabit = async (habit) => {

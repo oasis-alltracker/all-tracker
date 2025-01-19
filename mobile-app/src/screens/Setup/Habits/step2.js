@@ -202,13 +202,14 @@ const HabitsNotifications = (props) => {
         await NotificationsHandler.getAllNotificationsState(token);
       setSystemNotificationsEnabled(allNotificationsIsOn == "on");
 
-      var allNotifications =
-        await NotificationsHandler.getNotificationsForGroup(
-          token,
-          "notifications"
-        );
-      var habitNotifications =
-        await NotificationsHandler.getNotificationsForGroup(token, "habit");
+      var allNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "notifications"
+      );
+      var habitNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "habit"
+      );
 
       if (habitNotifications.length > 0) {
         setIsNotificationsEnabled(habitNotifications[0]?.preference === "on");

@@ -159,8 +159,10 @@ const SleepStep2 = (props) => {
           token,
           "sleepPreference"
         );
-      var newSleepNotifications =
-        await NotificationsHandler.getNotificationsForGroup(token, "sleep-");
+      var newSleepNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "sleep-"
+      );
       setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
       setSleepNotifications(newSleepNotifications);
 

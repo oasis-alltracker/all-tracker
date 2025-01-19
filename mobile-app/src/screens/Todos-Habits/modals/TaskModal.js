@@ -207,7 +207,7 @@ export default function TaskModal({
   useEffect(() => {
     const setNotificationData = async (itemID) => {
       token = await getAccessToken();
-      notifications = await NotificationsHandler.getNotificationsForGroup(
+      notifications = await NotificationsHandler.getNotifications(
         token,
         `task-${itemID}`
       );

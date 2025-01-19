@@ -44,6 +44,15 @@ const Agreement = () => {
         );
         await NotificationsHandler.updateNotification(
           token,
+          "habitPreference",
+          "undefined",
+          "undefined",
+          "undefined",
+          "undefined",
+          "on"
+        );
+        await NotificationsHandler.updateNotification(
+          token,
           "moodPreference",
           "undefined",
           "undefined",

@@ -102,7 +102,7 @@ const Todos = (props) => {
       token = await getAccessToken();
       await ToDosAPI.updateToDo(token, toDoSK, toDo);
       if (isNotificationsOn) {
-        prevNotification = await NotificationsHandler.getNotificationsForGroup(
+        prevNotification = await NotificationsHandler.getNotifications(
           token,
           `task-${toDo.toDoID}`
         );
@@ -262,7 +262,7 @@ const Todos = (props) => {
       await TasksAPI.updateTask(token, taskSK, task);
 
       if (isNotificationsOn) {
-        prevNotification = await NotificationsHandler.getNotificationsForGroup(
+        prevNotification = await NotificationsHandler.getNotifications(
           token,
           `task-${taskSK}`
         );

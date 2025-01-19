@@ -102,8 +102,10 @@ const SleepStep1 = (props) => {
           token,
           "morningPreference"
         );
-      var newMorningNotifications =
-        await NotificationsHandler.getNotificationsForGroup(token, "morning-");
+      var newMorningNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "morning-"
+      );
 
       setIsMorningAlarmToggled(morningNotificationsIsOn == "on");
       setMorningNotifications(newMorningNotifications);

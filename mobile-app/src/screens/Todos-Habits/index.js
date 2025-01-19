@@ -106,11 +106,17 @@ const TodosHabits = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if(trackingPreferences){
-      if(trackingPreferences.habitsSelected && trackingPreferences.toDosSelected && pageIndex == 3) {
+    if (trackingPreferences) {
+      if (
+        trackingPreferences.habitsSelected &&
+        trackingPreferences.toDosSelected &&
+        pageIndex == 3
+      ) {
         setUpdateStats(updateStats + 1);
-      }
-      else if((pageIndex == 2 && !trackingPreferences.habitsSelected) || (pageIndex == 2 && !trackingPreferences.toDosSelected)){
+      } else if (
+        (pageIndex == 2 && !trackingPreferences.habitsSelected) ||
+        (pageIndex == 2 && !trackingPreferences.toDosSelected)
+      ) {
         setUpdateStats(updateStats + 1);
       }
     }
@@ -350,11 +356,10 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await ToDosAPI.updateToDo(token, toDoSK, toDo);
       if (isNotificationsOn) {
-        var prevNotification =
-          await NotificationsHandler.getNotificationsForGroup(
-            token,
-            `task-${toDo.toDoID}`
-          );
+        var prevNotification = await NotificationsHandler.getNotifications(
+          token,
+          `task-${toDo.toDoID}`
+        );
         var prevExpoIDs = prevNotification[0]?.expoIDs;
         var month;
         if (Platform.OS == "android") {
@@ -425,7 +430,6 @@ const TodosHabits = ({ navigation }) => {
         toDo.SK = `false-${toDo.dateStamp}-${toDo.toDoID}`;
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
-
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -527,7 +531,6 @@ const TodosHabits = ({ navigation }) => {
       setDoneToDos(newDoneToDos);
       setDueToDos(newDueToDos);
       setIsLoading(false);
-
     } catch (e) {
       console.log(e);
       Toast.show("Something went wrong. Please try again.", {
@@ -543,11 +546,10 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await ToDosAPI.deleteToDo(token, toDoSK);
 
-      var prevNotification =
-        await NotificationsHandler.getNotificationsForGroup(
-          token,
-          `task-${toDoID}`
-        );
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `task-${toDoID}`
+      );
       var prevExpoIDs = prevNotification[0]?.expoIDs;
       await NotificationsHandler.deleteNotification(
         token,
@@ -630,11 +632,10 @@ const TodosHabits = ({ navigation }) => {
       await TasksAPI.updateTask(token, taskSK, task);
 
       if (isNotificationsOn) {
-        var prevNotification =
-          await NotificationsHandler.getNotificationsForGroup(
-            token,
-            `task-${taskSK}`
-          );
+        var prevNotification = await NotificationsHandler.getNotifications(
+          token,
+          `task-${taskSK}`
+        );
         var prevExpoIDs = prevNotification[0]?.expoIDs;
         triggers = [];
         for (var day of task.schedule) {
@@ -862,11 +863,10 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await TasksAPI.deleteTask(token, taskID);
 
-      var prevNotification =
-        await NotificationsHandler.getNotificationsForGroup(
-          token,
-          `task-${taskID}`
-        );
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `task-${taskID}`
+      );
 
       var prevExpoIDs = prevNotification[0]?.expoIDs;
       await NotificationsHandler.deleteNotification(

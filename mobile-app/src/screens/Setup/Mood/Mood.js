@@ -166,8 +166,10 @@ const Mood = (props) => {
           token,
           "moodPreference"
         );
-      var newMoodNotifications =
-        await NotificationsHandler.getNotificationsForGroup(token, "mood-");
+      var newMoodNotifications = await NotificationsHandler.getNotifications(
+        token,
+        "mood-"
+      );
       setIsWellnessCheckinToggled(moodNotificationsIsOn == "on");
       setMoodNotifications(newMoodNotifications);
 

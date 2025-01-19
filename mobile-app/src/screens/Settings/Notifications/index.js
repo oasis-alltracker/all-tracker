@@ -26,8 +26,6 @@ const Notifications = () => {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
 
   const [isHabitsEnabled, setIsHabitsEnabled] = useState(false);
-  const [habitExpoIDs, setHabitExpoIDs] = useState([]);
-  const [habitTime, setHabitTime] = useState(new Date("1995-12-17T12:00:00"));
 
   const [isTasksEnabled, setIsTasksEnabled] = useState(false);
 
@@ -89,51 +87,49 @@ const Notifications = () => {
     setIsLoading(false);
   };
 
-  const habitsToggled = async (turnOn = false) => {
+  const habitsToggled = async () => {
     setIsLoading(true);
     const token = await getAccessToken();
-    timeArray = formatDateObjectBackend(habitTime).split(":");
-    hour = timeArray[0];
-    minute = timeArray[1];
 
     if (isNotificationsEnabled) {
-      if (isHabitsEnabled && !turnOn) {
-        await NotificationsHandler.turnOffNotification(
-          token,
-          "habit",
-          habitExpoIDs
-        );
+      if (isHabitsEnabled) {
         setIsHabitsEnabled(false);
-      } else {
-        var systemNotificationsStatus = true;
-        systemNotificationsStatus =
-          await NotificationsHandler.checkNotificationsStatus(token);
-        if (systemNotificationsStatus) {
-          const expoIDs = await NotificationsHandler.turnOnNotification(
+        try {
+          await NotificationsHandler.turnOffGroupPreferenceNotifications(
             token,
-            "habit",
-            "Habit Journal",
-            "Don't forget to update your habit progress",
-            [{ hour: Number(hour), minute: Number(minute), repeats: true }],
-            isNotificationsEnabled,
-            habitExpoIDs
+            "habit"
           );
-          if (expoIDs) {
-            setIsHabitsEnabled(true);
-            setHabitExpoIDs(expoIDs);
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
+      } else {
+        try {
+          var systemNotificationsStatus = true;
+          systemNotificationsStatus =
+            await NotificationsHandler.checkNotificationsStatus(token);
+          if (systemNotificationsStatus) {
+            setIsTasksEnabled(true);
+            await NotificationsHandler.turnOnGroupPreferenceNotifications(
+              token,
+              "habit",
+              true
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+              }
+            );
           }
-        } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -188,8 +184,7 @@ const Notifications = () => {
           setIsLoading(false);
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -245,8 +240,7 @@ const Notifications = () => {
           );
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -302,8 +296,7 @@ const Notifications = () => {
           );
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -359,8 +352,7 @@ const Notifications = () => {
           );
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -428,8 +420,7 @@ const Notifications = () => {
           setIsLoading(false);
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -501,8 +492,7 @@ const Notifications = () => {
           setIsLoading(false);
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -574,8 +564,7 @@ const Notifications = () => {
           setIsLoading(false);
         }
       }
-    }
-    else{
+    } else {
       Toast.show(
         "Notifications are disabled. To get reminders, you need to enable them.",
         {
@@ -595,34 +584,6 @@ const Notifications = () => {
       hour12: true,
     };
     return dateObject.toLocaleString("en-US", options);
-  };
-
-  const onChangeHabitTime = async (event, selectedDate) => {
-    setHabitTime(selectedDate);
-    if (Platform.OS === "android") {
-      setShow(false);
-    }
-    if (isHabitsEnabled) {
-      const token = await getAccessToken();
-      NotificationsHandler.turnOffGroupNotifications(
-        token,
-        "habit",
-        habitExpoIDs
-      );
-      setHabitExpoIDs([]);
-    }
-
-    setHabitTime(selectedDate);
-
-    if (
-      (Platform.OS === "ios" && event.type === "dismissed") ||
-      (Platform.OS === "android" && event.type === "set")
-    ) {
-      habitsToggled();
-    }
-    if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
-    }
   };
 
   const onChangeBreakfastTime = async (event, selectedDate) => {
@@ -722,14 +683,15 @@ const Notifications = () => {
 
         setTrackingPreferences(user.data.trackingPreferences);
 
-        var allNotifications =
-          await NotificationsHandler.getNotificationsForGroup(
-            token,
-            "notifications"
-          );
+        var allNotifications = await NotificationsHandler.getNotifications(
+          token,
+          "notifications"
+        );
 
-        var habitNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "habit");
+        var habitNotifications = await NotificationsHandler.getNotifications(
+          token,
+          "habit"
+        );
 
         var taskNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
@@ -742,8 +704,10 @@ const Notifications = () => {
             token,
             "moodPreference"
           );
-        var newMoodNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "mood-");
+        var newMoodNotifications = await NotificationsHandler.getNotifications(
+          token,
+          "mood-"
+        );
 
         var morningNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
@@ -751,22 +715,20 @@ const Notifications = () => {
             "morningPreference"
           );
         var newMorningNotifications =
-          await NotificationsHandler.getNotificationsForGroup(
-            token,
-            "morning-"
-          );
+          await NotificationsHandler.getNotifications(token, "morning-");
 
         var sleepNotificationsIsOn =
           await NotificationsHandler.getGroupPreferenceNotificationsState(
             token,
             "sleepPreference"
           );
-        var newSleepNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "sleep-");
+        var newSleepNotifications = await NotificationsHandler.getNotifications(
+          token,
+          "sleep-"
+        );
 
         setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
         setIsHabitsEnabled(habitNotifications[0]?.preference === "on");
-        setHabitExpoIDs(habitNotifications[0]?.expoIDs);
         setIsTasksEnabled(taskNotificationsIsOn == "on");
 
         setIsWellnessCheckinToggled(moodNotificationsIsOn == "on");
@@ -777,29 +739,18 @@ const Notifications = () => {
         setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
         setSleepNotifications(newSleepNotifications);
 
-        var hour = habitNotifications[0]?.triggers[0]?.hour;
-        if (hour == 0 || hour === undefined) {
-          hour = "00";
-        }
-        var minute = habitNotifications[0]?.triggers[0]?.minute;
-        if (minute == 0 || minute === undefined) {
-          minute = "00";
-        }
-        var newTime = `1995-12-17T${hour}:${minute}:00`;
-
-        setHabitTime(new Date(newTime));
-
         var breakfastNotifications =
-          await NotificationsHandler.getNotificationsForGroup(
-            token,
-            "breakfast"
-          );
+          await NotificationsHandler.getNotifications(token, "breakfast");
 
-        var lunchNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "lunch");
+        var lunchNotifications = await NotificationsHandler.getNotifications(
+          token,
+          "lunch"
+        );
 
-        var dinnerNotifications =
-          await NotificationsHandler.getNotificationsForGroup(token, "dinner");
+        var dinnerNotifications = await NotificationsHandler.getNotifications(
+          token,
+          "dinner"
+        );
 
         setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
         setIsBreakfastEnabled(breakfastNotifications[0]?.preference === "on");
@@ -886,52 +837,6 @@ const Notifications = () => {
                   thumbColor={isHabitsEnabled ? "#d7f6ff" : "#ffd8f7"}
                 />
                 <Text style={styles.itemTitle}>Habits</Text>
-                <View
-                  style={[
-                    styles.habitTimeContainer,
-                    styles.itemContainer3,
-                    { backgroundColor: "#D7F6FF" },
-                  ]}
-                >
-                  <>
-                    {Platform.OS === "ios" ? (
-                      <DateTimePicker
-                        testID="dateTimePicker"
-                        value={habitTime}
-                        mode={"time"}
-                        is24Hour={true}
-                        onChange={onChangeHabitTime}
-                      />
-                    ) : (
-                      <TouchableOpacity
-                        style={styles.timeButton}
-                        testID="setMinMax"
-                        value="time"
-                        onPress={() => {
-                          setShow(true);
-                        }}
-                        title="toggleMinMaxDate"
-                      >
-                        <Text style={styles.timeText}>
-                          {formatDateObject(habitTime)}
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  </>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <>
-                      {show && (
-                        <DateTimePicker
-                          testID="dateTimePicker"
-                          value={habitTime}
-                          mode={"time"}
-                          is24Hour={false}
-                          onChange={onChangeHabitTime}
-                        />
-                      )}
-                    </>
-                  </View>
-                </View>
               </View>
             )}
             {trackingPreferences.toDosSelected && (
