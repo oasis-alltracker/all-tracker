@@ -24,7 +24,7 @@ export default function DreamJournalModal({ getRef, updateReport }) {
       "Exit",
       "Any changes will be lost",
       [
-        { text: "Candel", style: "cancel" },
+        { text: "Cancel", style: "cancel" },
         {
           text: "Ok",
           isPreferred: true,

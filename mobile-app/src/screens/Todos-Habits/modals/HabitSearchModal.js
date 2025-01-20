@@ -1,4 +1,4 @@
-import React, { useEffect, useState, seRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import RNModal from "react-native-modal";
 import { Image, StyleSheet, useWindowDimensions } from "react-native";

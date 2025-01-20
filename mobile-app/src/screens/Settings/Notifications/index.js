@@ -109,7 +109,7 @@ const Notifications = () => {
           systemNotificationsStatus =
             await NotificationsHandler.checkNotificationsStatus(token);
           if (systemNotificationsStatus) {
-            setIsTasksEnabled(true);
+            setIsHabitsEnabled(true);
             await NotificationsHandler.turnOnGroupPreferenceNotifications(
               token,
               "habit",
@@ -678,124 +678,124 @@ const Notifications = () => {
   useEffect(() => {
     const onLoad = async () => {
       if (isLoading) {
-        var token = await getAccessToken();
-        var user = await UserAPI.getUser(token);
+        try {
+          var token = await getAccessToken();
+          var user = await UserAPI.getUser(token);
 
-        setTrackingPreferences(user.data.trackingPreferences);
+          setTrackingPreferences(user.data.trackingPreferences);
 
-        var allNotifications = await NotificationsHandler.getNotifications(
-          token,
-          "notifications"
-        );
-
-        var habitNotifications = await NotificationsHandler.getNotifications(
-          token,
-          "habit"
-        );
-
-        var taskNotificationsIsOn =
-          await NotificationsHandler.getGroupPreferenceNotificationsState(
+          var allNotifications = await NotificationsHandler.getNotifications(
             token,
-            "taskPreference"
+            "notifications"
           );
 
-        var moodNotificationsIsOn =
-          await NotificationsHandler.getGroupPreferenceNotificationsState(
+          var habitNotifications =
+            await NotificationsHandler.getGroupPreferenceNotificationsState(
+              token,
+              "habitPreference"
+            );
+
+          var taskNotificationsIsOn =
+            await NotificationsHandler.getGroupPreferenceNotificationsState(
+              token,
+              "taskPreference"
+            );
+
+          var moodNotificationsIsOn =
+            await NotificationsHandler.getGroupPreferenceNotificationsState(
+              token,
+              "moodPreference"
+            );
+          var newMoodNotifications =
+            await NotificationsHandler.getNotifications(token, "mood-");
+
+          var morningNotificationsIsOn =
+            await NotificationsHandler.getGroupPreferenceNotificationsState(
+              token,
+              "morningPreference"
+            );
+          var newMorningNotifications =
+            await NotificationsHandler.getNotifications(token, "morning-");
+
+          var sleepNotificationsIsOn =
+            await NotificationsHandler.getGroupPreferenceNotificationsState(
+              token,
+              "sleepPreference"
+            );
+          var newSleepNotifications =
+            await NotificationsHandler.getNotifications(token, "sleep-");
+
+          setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
+          setIsHabitsEnabled(habitNotifications == "on");
+          setIsTasksEnabled(taskNotificationsIsOn == "on");
+
+          setIsWellnessCheckinToggled(moodNotificationsIsOn == "on");
+          setMoodNotifications(newMoodNotifications);
+
+          setIsMorningAlarmToggled(morningNotificationsIsOn == "on");
+          setMorningNotifications(newMorningNotifications);
+          setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
+          setSleepNotifications(newSleepNotifications);
+
+          var breakfastNotifications =
+            await NotificationsHandler.getNotifications(token, "breakfast");
+
+          var lunchNotifications = await NotificationsHandler.getNotifications(
             token,
-            "moodPreference"
+            "lunch"
           );
-        var newMoodNotifications = await NotificationsHandler.getNotifications(
-          token,
-          "mood-"
-        );
 
-        var morningNotificationsIsOn =
-          await NotificationsHandler.getGroupPreferenceNotificationsState(
+          var dinnerNotifications = await NotificationsHandler.getNotifications(
             token,
-            "morningPreference"
+            "dinner"
           );
-        var newMorningNotifications =
-          await NotificationsHandler.getNotifications(token, "morning-");
 
-        var sleepNotificationsIsOn =
-          await NotificationsHandler.getGroupPreferenceNotificationsState(
-            token,
-            "sleepPreference"
-          );
-        var newSleepNotifications = await NotificationsHandler.getNotifications(
-          token,
-          "sleep-"
-        );
+          setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
+          setIsBreakfastEnabled(breakfastNotifications[0]?.preference === "on");
+          setIsLunchEnabled(lunchNotifications[0]?.preference === "on");
+          setIsDinnerEnabled(dinnerNotifications[0]?.preference === "on");
+          setBreakfastExpoIDs(breakfastNotifications[0]?.expoIDs);
+          setLunchExpoIDs(lunchNotifications[0]?.expoIDs);
+          setDinnerExpoIDs(dinnerNotifications[0]?.expoIDs);
 
-        setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
-        setIsHabitsEnabled(habitNotifications[0]?.preference === "on");
-        setIsTasksEnabled(taskNotificationsIsOn == "on");
+          var breakfastHour = breakfastNotifications[0]?.triggers[0]?.hour;
+          if (breakfastHour == 0 || breakfastHour === undefined) {
+            breakfastHour = "00";
+          }
+          var breakfastMinute = breakfastNotifications[0]?.triggers[0]?.minute;
+          if (breakfastMinute == 0 || breakfastMinute === undefined) {
+            breakfastMinute = "00";
+          }
+          var newBreakfastTime = `1995-12-17T${breakfastHour}:${breakfastMinute}:00`;
+          setBreakfastTime(new Date(newBreakfastTime));
 
-        setIsWellnessCheckinToggled(moodNotificationsIsOn == "on");
-        setMoodNotifications(newMoodNotifications);
+          var lunchHour = lunchNotifications[0]?.triggers[0]?.hour;
+          if (lunchHour == 0 || lunchHour === undefined) {
+            lunchHour = "00";
+          }
+          var lunchMinute = lunchNotifications[0]?.triggers[0]?.minute;
+          if (lunchMinute == 0 || lunchMinute === undefined) {
+            lunchMinute = "00";
+          }
+          var newLunchTime = `1995-12-17T${lunchHour}:${lunchMinute}:00`;
+          setLunchTime(new Date(newLunchTime));
 
-        setIsMorningAlarmToggled(morningNotificationsIsOn == "on");
-        setMorningNotifications(newMorningNotifications);
-        setIsBedTimeReminderToggled(sleepNotificationsIsOn == "on");
-        setSleepNotifications(newSleepNotifications);
+          var dinnerHour = dinnerNotifications[0]?.triggers[0]?.hour;
+          if (dinnerHour == 0 || dinnerHour === undefined) {
+            dinnerHour = "00";
+          }
+          var dinnerMinute = dinnerNotifications[0]?.triggers[0]?.minute;
+          if (dinnerMinute == 0 || dinnerMinute === undefined) {
+            dinnerMinute = "00";
+          }
+          var newDinnerTime = `1995-12-17T${dinnerHour}:${dinnerMinute}:00`;
+          setDinnerTime(new Date(newDinnerTime));
 
-        var breakfastNotifications =
-          await NotificationsHandler.getNotifications(token, "breakfast");
-
-        var lunchNotifications = await NotificationsHandler.getNotifications(
-          token,
-          "lunch"
-        );
-
-        var dinnerNotifications = await NotificationsHandler.getNotifications(
-          token,
-          "dinner"
-        );
-
-        setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
-        setIsBreakfastEnabled(breakfastNotifications[0]?.preference === "on");
-        setIsLunchEnabled(lunchNotifications[0]?.preference === "on");
-        setIsDinnerEnabled(dinnerNotifications[0]?.preference === "on");
-        setBreakfastExpoIDs(breakfastNotifications[0]?.expoIDs);
-        setLunchExpoIDs(lunchNotifications[0]?.expoIDs);
-        setDinnerExpoIDs(dinnerNotifications[0]?.expoIDs);
-
-        var breakfastHour = breakfastNotifications[0]?.triggers[0]?.hour;
-        if (breakfastHour == 0 || breakfastHour === undefined) {
-          breakfastHour = "00";
+          setIsLoading(false);
+        } catch (e) {
+          setIsLoading(false);
+          console.log(e);
         }
-        var breakfastMinute = breakfastNotifications[0]?.triggers[0]?.minute;
-        if (breakfastMinute == 0 || breakfastMinute === undefined) {
-          breakfastMinute = "00";
-        }
-        var newBreakfastTime = `1995-12-17T${breakfastHour}:${breakfastMinute}:00`;
-        setBreakfastTime(new Date(newBreakfastTime));
-
-        var lunchHour = lunchNotifications[0]?.triggers[0]?.hour;
-        if (lunchHour == 0 || lunchHour === undefined) {
-          lunchHour = "00";
-        }
-        var lunchMinute = lunchNotifications[0]?.triggers[0]?.minute;
-        if (lunchMinute == 0 || lunchMinute === undefined) {
-          lunchMinute = "00";
-        }
-        var newLunchTime = `1995-12-17T${lunchHour}:${lunchMinute}:00`;
-        setLunchTime(new Date(newLunchTime));
-
-        var dinnerHour = dinnerNotifications[0]?.triggers[0]?.hour;
-        if (dinnerHour == 0 || dinnerHour === undefined) {
-          dinnerHour = "00";
-        }
-        var dinnerMinute = dinnerNotifications[0]?.triggers[0]?.minute;
-        if (dinnerMinute == 0 || dinnerMinute === undefined) {
-          dinnerMinute = "00";
-        }
-        var newDinnerTime = `1995-12-17T${dinnerHour}:${dinnerMinute}:00`;
-        setDinnerTime(new Date(newDinnerTime));
-
-        setIsLoading(false);
-
-        setIsLoading(false);
       }
     };
     onLoad();

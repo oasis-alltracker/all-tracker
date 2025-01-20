@@ -14,11 +14,13 @@ import { sharedStyles } from "../styles";
 
 export default function MyHabits({
   isLoading,
+  setIsLoading,
   habits,
   createHabitRef,
   updateHabitRef,
 }) {
   const { width, height } = useWindowDimensions();
+
   const Habits = () => (
     <View style={{ height: height * 0.43 }}>
       <ScrollView
@@ -30,6 +32,7 @@ export default function MyHabits({
             <TouchableOpacity
               key={key.toString()}
               onPress={() => {
+                setIsLoading(true);
                 updateHabitRef.current.open(true, {
                   isPositive: val.isPositive,
                   habitName: val.name,

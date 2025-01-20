@@ -213,7 +213,7 @@ export default function TaskModal({
       );
 
       if (notifications.length == 1) {
-        if ((notifications[0].preference = "on")) {
+        if (notifications[0].preference == "on") {
           setIsNotificationsOn(true);
         } else {
           setIsNotificationsOn(false);

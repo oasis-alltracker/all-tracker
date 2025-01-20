@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   useWindowDimensions,
-  ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
@@ -21,8 +20,8 @@ import Toast from "react-native-root-toast";
 
 import HabitsDB from "../../../api/DB/habitsDB";
 
-import { SafeAreaView } from "react-native-safe-area-context";
 import HabitSearchModal from "./HabitSearchModal";
+import HabitNotificationsModal from "./HabitNotificationsModal";
 
 export default function CreateHabitModal({ getRef, createHabit }) {
   const { width, height } = useWindowDimensions();
@@ -31,6 +30,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
 
   const imagesRef = useRef(null);
   const habitSearchRef = useRef(null);
+  const notificationsRef = useRef(null);
 
   const [image, setImage] = useState(
     "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
@@ -39,8 +39,11 @@ export default function CreateHabitModal({ getRef, createHabit }) {
   const [tempHabitName, setTempHabitName] = useState(false);
   const [tempIsPositiveIndex, setTempIsPositiveIndex] = useState(false);
   const [tempThreshold, setTempThreshold] = useState(false);
-  const [tempTime, setTempTime] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [scheduleCount, setScheduleCount] = useState(1);
+  const [times, setTimes] = useState([[12, 0]]);
+  const [isNotificationsOn, setIsNotificationsOn] = useState(false);
 
   useEffect(() => {
     let ref = {
@@ -69,6 +72,47 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     }, 1051);
   };
 
+  const makeTimeArray = (length) => {
+    var arr = [];
+    for (let i = 0; i < length; i++) {
+      arr[i] = [];
+      for (let j = 0; j < 2; j++) {
+        arr[i][j] = 0;
+      }
+    }
+    return arr;
+  };
+
+  const reopenMainFromNotifications = (
+    newScheduleCount = 0,
+    newTimes,
+    newIsNotificationsOn
+  ) => {
+    if (newScheduleCount != 0) {
+      setScheduleCount(newScheduleCount);
+
+      var newNewTimes = makeTimeArray(newScheduleCount);
+
+      for (var i = 0; i < newScheduleCount; i++) {
+        var time = newTimes[i].toString().split(",");
+
+        newNewTimes[i][0] = parseInt(time[0]);
+        newNewTimes[i][1] = parseInt(time[1]);
+      }
+
+      setTimes([...newNewTimes]);
+      setIsNotificationsOn(newIsNotificationsOn);
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    setTimeout(() => {
+      setIsMainVisible(true);
+    }, 1051);
+  };
+
   const selectHabit = async (habitName) => {
     presetHabits = HabitsDB.viewHabits();
     presetHabit = presetHabits.find((habit) => habit.name === habitName);
@@ -81,7 +125,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     setTempHabitName(false);
     setTempIsPositiveIndex(false);
     setTempThreshold(false);
-    setTempTime(false);
 
     setIsMainVisible(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
@@ -91,10 +134,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     const [habitName, setHabitName] = useState("");
     const [isPositiveIndex, setIsPositiveIndex] = useState("");
     const [threshold, setThreshold] = useState("");
-    const [time, setTime] = useState(new Date("1995-12-17T12:00:00"));
-    const [show, setShow] = useState(false);
-
-    const [timeIsSet, setTimeIsSet] = useState(false);
 
     const items = ["Good", "Bad"];
 
@@ -118,12 +157,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
           duration: Toast.durations.LONG,
           position: Toast.positions.BOTTOM,
         });
-      } else if (time == new Date("1995-12-17T12:00:00")) {
-        Toast.show("Don't forget to set a time.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
       } else if (
         habitName &&
         threshold &&
@@ -131,20 +164,14 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       ) {
         habit = {
           name: habitName,
-
           threshold: threshold,
           pngURL: image,
-          time: time.toLocaleString("en-US", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: false,
-          }),
         };
 
         habit.isPositive = true;
 
         backDropPressed();
-        createHabit(habit);
+        createHabit(habit, times, isNotificationsOn);
       } else {
         Toast.show("You must complete the form to create a habit.", {
           ...styles.errorToast,
@@ -158,7 +185,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       setTempHabitName(habitName);
       setTempIsPositiveIndex(isPositiveIndex);
       setTempThreshold(threshold);
-      setTempTime(time);
 
       setIsLoading(true);
       setIsMainVisible(false);
@@ -169,11 +195,25 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       setTempHabitName(habitName);
       setTempIsPositiveIndex(isPositiveIndex);
       setTempThreshold(threshold);
-      setTempTime(time);
 
       setIsLoading(true);
       setIsMainVisible(false);
       habitSearchRef.current.open();
+    };
+
+    const viewNotificationsSchedule = () => {
+      setTempHabitName(habitName);
+      setTempIsPositiveIndex(isPositiveIndex);
+      setTempThreshold(threshold);
+
+      setIsLoading(true);
+      setIsMainVisible(false);
+
+      notificationsRef.current.open({
+        times: times,
+        scheduleCount: scheduleCount,
+        isNotificationsOn: isNotificationsOn,
+      });
     };
 
     useEffect(() => {
@@ -188,9 +228,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       }
       if (tempThreshold && threshold === "") {
         setThreshold(tempThreshold);
-      }
-      if (tempTime && !timeIsSet) {
-        setTime(tempTime);
       }
     }, []);
 
@@ -208,19 +245,24 @@ export default function CreateHabitModal({ getRef, createHabit }) {
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
               <View style={styles.row}>
-                <TextInput
-                  placeholderTextColor={"#7B97BC"}
-                  placeholder="Name"
-                  style={styles.title}
-                  onChangeText={setHabitName}
-                  value={habitName}
-                  blurOnSubmit={false}
-                />
-
                 <TouchableOpacity onPress={() => searchHabit()}>
                   <Image
                     style={styles.searchImage}
                     source={require("../../../assets/images/search2.png")}
+                  />
+                </TouchableOpacity>
+                <TextInput
+                  placeholderTextColor={"#7B97BC"}
+                  placeholder="Name"
+                  style={[styles.title, { width: "75%" }]}
+                  onChangeText={setHabitName}
+                  value={habitName}
+                  blurOnSubmit={false}
+                />
+                <TouchableOpacity onPress={() => viewNotificationsSchedule()}>
+                  <Image
+                    style={styles.reminderBell}
+                    source={require("../../../assets/images/reminder.png")}
                   />
                 </TouchableOpacity>
               </View>
@@ -285,6 +327,11 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         setIsLoading={setIsLoading}
         getRef={(ref) => (habitSearchRef.current = ref)}
       />
+      <HabitNotificationsModal
+        reopenMain={reopenMainFromNotifications}
+        getRef={(ref) => (notificationsRef.current = ref)}
+      />
+
       <MainModal />
     </>
   );
@@ -311,8 +358,14 @@ const styles = StyleSheet.create({
     borderBlockColor: "rgba(0,0,0,0.5)",
   },
   searchImage: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
+    marginBottom: 2,
+  },
+  reminderBell: {
+    width: 35,
+    height: 35,
+    marginBottom: 2,
   },
   row: {
     flexDirection: "row",
@@ -344,9 +397,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#25436B",
-    fontSize: 32,
+    fontSize: 30,
     fontFamily: "Sego-Bold",
-    width: 240,
   },
   key: {
     color: "#25436B",

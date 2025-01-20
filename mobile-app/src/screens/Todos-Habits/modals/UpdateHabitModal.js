@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   useWindowDimensions,
-  ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
@@ -16,14 +15,19 @@ import {
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import ImagesModal from "./ImagesModal";
+import HabitNotificationsModal from "./HabitNotificationsModal";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
-import { Header } from "../../../components";
+import { getAccessToken } from "../../../user/keychain";
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
-import { SafeAreaView } from "react-native-safe-area-context";
-
-export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
+export default function UpdateHabitModal({
+  getRef,
+  closeModalHandler,
+  updateHabit,
+  deleteHabit,
+}) {
   const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
 
@@ -31,6 +35,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
     "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
   );
   const imagesRef = useRef(null);
+  const notificationsRef = useRef(null);
 
   const [habitID, setHabitID] = useState("");
 
@@ -39,25 +44,67 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
   const [tempThreshold, setTempThreshold] = useState("");
   const [tempTime, setTempTime] = useState(false);
 
+  const [scheduleCount, setScheduleCount] = useState(1);
+  const [times, setTimes] = useState([[12, 0]]);
+  const [isNotificationsOn, setIsNotificationsOn] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    const setNotificationData = async (itemID) => {
+      try {
+        token = await getAccessToken();
+        var notifications = await NotificationsHandler.getNotifications(
+          token,
+          `habit-${itemID}`
+        );
+
+        if (notifications.length == 1) {
+          if (notifications[0].preference == "on") {
+            setIsNotificationsOn(true);
+          } else {
+            setIsNotificationsOn(false);
+          }
+
+          var newTimes = makeTimeArray(notifications[0].triggers.length);
+          for (var i = 0; i < notifications[0].triggers.length; i++) {
+            newTimes[i][0] = notifications[0].triggers[i].hour;
+            newTimes[i][1] = notifications[0].triggers[i].minute;
+          }
+
+          setScheduleCount(notifications[0].triggers.length);
+          setTimes([...newTimes]);
+        } else {
+          setIsNotificationsOn(false);
+        }
+      } catch (e) {
+        console.log(e);
+        Toast.show("Something went wrong. Could not retrieve notifications.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      }
+    };
+
     let ref = {
       open(edit, props) {
-        setVisible(true);
-
         if (props) {
           if (props.isPositive) {
             setTempIsPositiveIndex(0);
           } else {
             setTempIsPositiveIndex(1);
           }
-
+          setIsNotificationsOn(true);
           setTempHabitName(props.habitName);
           setTempThreshold(props.threshold);
           setTempTime(new Date("1996-12-17T" + props.time + ":00"));
           setHabitID(props.habitID);
           setImage(props.pngURL);
+          setNotificationData(props.habitID);
+          setTimeout(() => {
+            setVisible(true);
+          }, 1000);
         }
       },
       close() {
@@ -91,6 +138,46 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
     }, 1051);
   };
 
+  const makeTimeArray = (length) => {
+    var arr = [];
+    for (let i = 0; i < length; i++) {
+      arr[i] = [];
+      for (let j = 0; j < 2; j++) {
+        arr[i][j] = 0;
+      }
+    }
+    return arr;
+  };
+
+  const reopenMainFromNotifications = (
+    newScheduleCount = 0,
+    newTimes,
+    newIsNotificationsOn
+  ) => {
+    if (newScheduleCount != 0) {
+      setScheduleCount(newScheduleCount);
+
+      var newNewTimes = makeTimeArray(newScheduleCount);
+
+      for (var i = 0; i < newScheduleCount; i++) {
+        var time = newTimes[i].toString().split(",");
+
+        newNewTimes[i][0] = parseInt(time[0]);
+        newNewTimes[i][1] = parseInt(time[1]);
+      }
+      setTimes([...newNewTimes]);
+      setIsNotificationsOn(newIsNotificationsOn);
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    setTimeout(() => {
+      setVisible(true);
+    }, 1051);
+  };
+
   const backDropPressed = () => {
     setTempHabitName(false);
     setTempIsPositiveIndex(false);
@@ -99,18 +186,13 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
 
     setVisible(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
+    closeModalHandler();
   };
 
   const MainModal = () => {
     const [habitName, setHabitName] = useState("");
     const [isPositiveIndex, setIsPositiveIndex] = useState("");
     const [threshold, setThreshold] = useState("");
-    const [time, setTime] = useState(new Date("1995-12-17T12:00:00"));
-    const [show, setShow] = useState(false);
-
-    const [timeIsSet, setTimeIsSet] = useState(false);
-
-    const items = ["Good", "Bad"];
 
     const onSave = async () => {
       Keyboard.dismiss();
@@ -136,21 +218,17 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
           name: habitName,
           threshold: threshold,
           pngURL: image,
-          time: time.toLocaleString("en-US", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: false,
-          }),
+          time: "",
         };
 
         habit.isPositive = true;
         backDropPressed();
-        updateHabit(habitID, habit);
+        updateHabit(habitID, habit, times, isNotificationsOn);
       } else {
         Toast.show("You must complete the form to update a habit.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
+          position: Toast.positions.BOTTOM,
         });
       }
     };
@@ -176,23 +254,29 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
       );
     };
 
-    const onChange = (event, selectedDate) => {
-      if (Platform.OS === "android") {
-        setShow(false);
-      }
-      setTime(selectedDate);
-      setTimeIsSet(true);
-    };
-
     const searchImage = () => {
       setTempHabitName(habitName);
       setTempIsPositiveIndex(isPositiveIndex);
       setTempThreshold(threshold);
-      setTempTime(time);
 
       setIsLoading(true);
       setVisible(false);
       imagesRef.current.open();
+    };
+
+    const viewNotificationsSchedule = () => {
+      setTempHabitName(habitName);
+      setTempIsPositiveIndex(isPositiveIndex);
+      setTempThreshold(threshold);
+
+      setIsLoading(true);
+      setVisible(false);
+
+      notificationsRef.current.open({
+        times: times,
+        scheduleCount: scheduleCount,
+        isNotificationsOn: isNotificationsOn,
+      });
     };
 
     useEffect(() => {
@@ -207,9 +291,6 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
       }
       if (tempThreshold && threshold === "") {
         setThreshold(tempThreshold);
-      }
-      if (tempTime && !timeIsSet) {
-        setTime(tempTime);
       }
     }, []);
 
@@ -233,7 +314,14 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
                   style={styles.title}
                   onChangeText={setHabitName}
                   value={habitName}
+                  blurOnSubmit={false}
                 />
+                <TouchableOpacity onPress={() => viewNotificationsSchedule()}>
+                  <Image
+                    style={styles.reminderBell}
+                    source={require("../../../assets/images/reminder.png")}
+                  />
+                </TouchableOpacity>
               </View>
               <View style={styles.row}>
                 <Text style={styles.key}>Image:</Text>
@@ -288,6 +376,10 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
         reopenMain={reopenMain}
         setIsLoading={setIsLoading}
         getRef={(ref) => (imagesRef.current = ref)}
+      />
+      <HabitNotificationsModal
+        reopenMain={reopenMainFromNotifications}
+        getRef={(ref) => (notificationsRef.current = ref)}
       />
       <MainModal />
     </>
@@ -396,6 +488,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 2,
     borderColor: "rgba(172, 197, 204, 0.75)",
+  },
+  reminderBell: {
+    width: 35,
+    height: 35,
+    paddingBottom: 2,
   },
   imageOption: {
     width: 50,

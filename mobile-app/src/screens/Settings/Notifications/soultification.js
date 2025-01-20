@@ -74,7 +74,7 @@ const Soultification = ({
   };
 
   const addNewSchedule = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     if (isToggled) {
       const token = await getAccessToken();
       await NotificationsHandler.turnOffGroupPreferenceNotifications(
@@ -107,7 +107,7 @@ const Soultification = ({
       ]);
     }
     onToggle(true);
-    setIsLoading(false)
+    setIsLoading(false);
   };
 
   const removeSchedule2 = async () => {
@@ -530,8 +530,7 @@ const Soultification = ({
             <View style={styles.timeContainer}>
               <View
                 style={[
-                  styles.habitTimeContainer,
-                  styles.itemContainer3,
+                  styles.timePickerContainer,
                   { backgroundColor: "#D7F6FF" },
                 ]}
               >
@@ -644,8 +643,7 @@ const Soultification = ({
             <View style={styles.timeContainer}>
               <View
                 style={[
-                  styles.habitTimeContainer,
-                  styles.itemContainer3,
+                  styles.timePickerContainer,
                   { backgroundColor: "#D7F6FF" },
                 ]}
               >
@@ -758,8 +756,7 @@ const Soultification = ({
             <View style={styles.timeContainer}>
               <View
                 style={[
-                  styles.habitTimeContainer,
-                  styles.itemContainer3,
+                  styles.timePickerContainer,
                   { backgroundColor: "#D7F6FF" },
                 ]}
               >
@@ -899,11 +896,12 @@ export const styles = StyleSheet.create({
   itemContainer2: {
     flexDirection: "column",
   },
-  itemContainer3: {
+  timePickerContainer: {
     borderRadius: 15,
-    paddingHorizontal: 10,
     paddingVertical: 5,
     marginBottom: 0,
+    paddingRight: 8,
+    alignItems: "center",
     backgroundColor: "#D7F6FF",
   },
   habitContainer3: {
@@ -916,14 +914,6 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 10,
-  },
-  habitTimeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderRadius: 30,
-    paddingHorizontal: 15,
-    paddingVertical: 20,
-    marginBottom: 10,
   },
   timeText: {
     fontSize: 17,

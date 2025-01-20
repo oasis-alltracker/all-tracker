@@ -131,11 +131,34 @@ const TodosHabits = ({ navigation }) => {
   };
 
   //Habit methods
-  const createHabit = async (habit) => {
+  const createHabit = async (habit, notificationTimes, isNotificationsOn) => {
     setIsLoading(true);
     try {
-      token = await getAccessToken();
-      await HabitsAPI.createHabit(token, habit);
+      var token = await getAccessToken();
+      const habitID = await HabitsAPI.createHabit(
+        token,
+        habit,
+        isNotificationsOn
+      );
+
+      if (isNotificationsOn) {
+        var triggers = [];
+        for (var notificationTime of notificationTimes) {
+          triggers.push({
+            hour: notificationTime[0],
+            minute: notificationTime[1],
+            repeats: true,
+          });
+        }
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `habit-${habitID}`,
+          habit.name,
+          "Don't forget to update your habit progress",
+          triggers,
+          true
+        );
+      }
 
       await getHabits();
       await createStatusList(day);
@@ -243,6 +266,25 @@ const TodosHabits = ({ navigation }) => {
     try {
       token = await getAccessToken();
       await HabitsAPI.deleteHabit(token, habitID);
+
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `task-${habitID}`
+      );
+
+      await NotificationsHandler.turnOffNotification(
+        token,
+        `task-${habitID}`,
+        prevNotification
+      );
+
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+      await NotificationsHandler.deleteNotification(
+        token,
+        `task-${habitID}`,
+        prevExpoIDs
+      );
+
       await getHabits();
       await createStatusList(day);
       setIsLoading(false);
@@ -255,16 +297,53 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const updateHabit = async (habitID, habit) => {
+  const updateHabit = async (
+    habitID,
+    habit,
+    notificationTimes,
+    isNotificationsOn
+  ) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
       await HabitsAPI.updateHabit(token, habitID, habit);
+
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `habit-${habitID}`
+      );
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+
+      if (isNotificationsOn) {
+        var triggers = [];
+        for (var notificationTime of notificationTimes) {
+          triggers.push({
+            hour: notificationTime[0],
+            minute: notificationTime[1],
+            repeats: true,
+          });
+        }
+
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `habit-${habitID}`,
+          habit.name,
+          "Don't forget to update your habit progress",
+          triggers,
+          true,
+          prevExpoIDs
+        );
+      } else {
+        await NotificationsHandler.turnOffNotification(
+          token,
+          `habit-${habitID}`,
+          prevExpoIDs
+        );
+      }
       await getHabits();
       await createStatusList(day);
-      setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
+      console.log(e);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -355,12 +434,14 @@ const TodosHabits = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await ToDosAPI.updateToDo(token, toDoSK, toDo);
+
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `task-${toDo.toDoID}`
+      );
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+
       if (isNotificationsOn) {
-        var prevNotification = await NotificationsHandler.getNotifications(
-          token,
-          `task-${toDo.toDoID}`
-        );
-        var prevExpoIDs = prevNotification[0]?.expoIDs;
         var month;
         if (Platform.OS == "android") {
           month = Number(toDo.dateStamp.substring(4, 6)) - 1;
@@ -385,7 +466,14 @@ const TodosHabits = ({ navigation }) => {
           true,
           prevExpoIDs
         );
+      } else {
+        await NotificationsHandler.turnOffNotification(
+          token,
+          `task-${toDo.toDoID}`,
+          prevExpoIDs
+        );
       }
+
       await getToDos(token);
       setIsLoading(false);
     } catch (e) {
@@ -550,12 +638,12 @@ const TodosHabits = ({ navigation }) => {
         token,
         `task-${toDoID}`
       );
-      var prevExpoIDs = prevNotification[0]?.expoIDs;
-      await NotificationsHandler.deleteNotification(
+      await NotificationsHandler.turnOffNotification(
         token,
         `task-${toDoID}`,
-        prevExpoIDs
+        prevNotification
       );
+      await NotificationsHandler.deleteNotification(token, `task-${toDoID}`);
 
       await getToDos(token);
       setIsLoading(false);
@@ -631,12 +719,13 @@ const TodosHabits = ({ navigation }) => {
       token = await getAccessToken();
       await TasksAPI.updateTask(token, taskSK, task);
 
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `task-${taskSK}`
+      );
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+
       if (isNotificationsOn) {
-        var prevNotification = await NotificationsHandler.getNotifications(
-          token,
-          `task-${taskSK}`
-        );
-        var prevExpoIDs = prevNotification[0]?.expoIDs;
         triggers = [];
         for (var day of task.schedule) {
           triggers.push({
@@ -654,6 +743,12 @@ const TodosHabits = ({ navigation }) => {
           task.name,
           triggers,
           true,
+          prevExpoIDs
+        );
+      } else {
+        await NotificationsHandler.turnOffNotification(
+          token,
+          `task-${taskSK}`,
           prevExpoIDs
         );
       }
@@ -868,6 +963,12 @@ const TodosHabits = ({ navigation }) => {
         `task-${taskID}`
       );
 
+      await NotificationsHandler.turnOffNotification(
+        token,
+        `task-${taskID}`,
+        prevNotification
+      );
+
       var prevExpoIDs = prevNotification[0]?.expoIDs;
       await NotificationsHandler.deleteNotification(
         token,
@@ -909,6 +1010,10 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
+  const closeModalHandler = () => {
+    setTimeout(() => setIsLoading(false), 500);
+  };
+
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "first":
@@ -934,6 +1039,7 @@ const TodosHabits = ({ navigation }) => {
         return (
           <MyHabits
             isLoading={isLoading}
+            setIsLoading={setIsLoading}
             habits={habits}
             createHabitRef={createHabitRef}
             updateHabitRef={updateHabitRef}
@@ -1004,6 +1110,7 @@ const TodosHabits = ({ navigation }) => {
       />
       <UpdateHabitModal
         getRef={(ref) => (updateHabitRef.current = ref)}
+        closeModalHandler={closeModalHandler}
         updateHabit={updateHabit}
         deleteHabit={deleteHabit}
       />
