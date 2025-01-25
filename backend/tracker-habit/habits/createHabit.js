@@ -40,7 +40,6 @@ class CreateHabit {
       isPositive: habit.isPositive,
       threshold: habit.threshold,
       pngURL: habit.pngURL,
-      time: habit.time,
     };
 
     await this.DB.putItem(data);

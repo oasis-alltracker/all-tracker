@@ -42,7 +42,6 @@ export default function UpdateHabitModal({
   const [tempHabitName, setTempHabitName] = useState("");
   const [tempIsPositiveIndex, setTempIsPositiveIndex] = useState("");
   const [tempThreshold, setTempThreshold] = useState("");
-  const [tempTime, setTempTime] = useState(false);
 
   const [scheduleCount, setScheduleCount] = useState(1);
   const [times, setTimes] = useState([[12, 0]]);
@@ -98,7 +97,6 @@ export default function UpdateHabitModal({
           setIsNotificationsOn(true);
           setTempHabitName(props.habitName);
           setTempThreshold(props.threshold);
-          setTempTime(new Date("1996-12-17T" + props.time + ":00"));
           setHabitID(props.habitID);
           setImage(props.pngURL);
           setNotificationData(props.habitID);
@@ -182,10 +180,12 @@ export default function UpdateHabitModal({
     setTempHabitName(false);
     setTempIsPositiveIndex(false);
     setTempThreshold(false);
-    setTempTime(false);
+    setTimes([[12, 0]]);
+    setScheduleCount(1);
 
     setVisible(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
+
     closeModalHandler();
   };
 
@@ -218,7 +218,6 @@ export default function UpdateHabitModal({
           name: habitName,
           threshold: threshold,
           pngURL: image,
-          time: "",
         };
 
         habit.isPositive = true;
