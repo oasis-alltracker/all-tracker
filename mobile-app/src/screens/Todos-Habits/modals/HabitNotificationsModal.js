@@ -62,13 +62,37 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
       if (systemNotificationsEnabled) {
         setScheduleCount(scheduleCount + 1);
       } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
+        var token = await getAccessToken();
+        var allNotificationsIsOn =
+          await NotificationsHandler.getAllNotificationsState(token);
+        var habitNotificationsIsOn =
+          await NotificationsHandler.getGroupPreferenceNotificationsState(
+            token,
+            "habitPreference"
+          );
+        var systemNotificationsStatus =
+          await NotificationsHandler.checkNotificationsStatus(token);
+
+        if (
+          allNotificationsIsOn == "on" &&
+          habitNotificationsIsOn == "on" &&
+          systemNotificationsStatus
+        ) {
+          setScheduleCount(scheduleCount + 1);
+          setSystemNotificationsEnabled(
+            allNotificationsIsOn == "on" &&
+              habitNotificationsIsOn == "on" &&
+              systemNotificationsStatus
+          );
+        } else {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+            }
+          );
+        }
       }
     }
   };
@@ -84,13 +108,38 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
       if (systemNotificationsEnabled) {
         setIsNotificationsOn(true);
       } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
+        var token = await getAccessToken();
+        var allNotificationsIsOn =
+          await NotificationsHandler.getAllNotificationsState(token);
+        var habitNotificationsIsOn =
+          await NotificationsHandler.getGroupPreferenceNotificationsState(
+            token,
+            "habitPreference"
+          );
+        var systemNotificationsStatus =
+          await NotificationsHandler.checkNotificationsStatus(token);
+
+        if (
+          allNotificationsIsOn == "on" &&
+          habitNotificationsIsOn == "on" &&
+          systemNotificationsStatus
+        ) {
+          setIsNotificationsOn(true);
+          setSystemNotificationsEnabled(
+            allNotificationsIsOn == "on" &&
+              habitNotificationsIsOn == "on" &&
+              systemNotificationsStatus
+          );
+        } else {
+          setIsNotificationsOn(false);
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+            }
+          );
+        }
       }
     } else {
       setIsNotificationsOn(false);
@@ -98,32 +147,8 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
   };
 
   useEffect(() => {
-    const getSystemNotificationPreference = async () => {
-      try {
-        var token = await getAccessToken();
-        var allNotificationsIsOn =
-          await NotificationsHandler.getAllNotificationsState(token);
-        var taskNotificationsIsOn =
-          await NotificationsHandler.getGroupPreferenceNotificationsState(
-            token,
-            "habitPreference"
-          );
-        var systemNotificationsStatus =
-          await NotificationsHandler.checkNotificationsStatus(token);
-      } catch (e) {
-        console.log(e);
-      }
-
-      setSystemNotificationsEnabled(
-        allNotificationsIsOn == "on" &&
-          taskNotificationsIsOn == "on" &&
-          systemNotificationsStatus
-      );
-    };
-
     let ref = {
       open(props) {
-        getSystemNotificationPreference();
         setScheduleCount(props.scheduleCount);
 
         var tempTimeSchedule = [...timeSchedule];

@@ -477,7 +477,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                     testID="dateTimePicker"
                     value={reminderTime}
                     mode={"time"}
-                    is24Hour={true}
+                    is24Hour={false}
                     onChange={onChange}
                   />
                 )}
