@@ -30,7 +30,7 @@ class UpdateHabit {
   async update(email, habitID, habit) {
     const key = { PK: `${email}-habit`, SK: habitID };
     const expression =
-      "SET #name = :name, #isPositive = :isPositive, #threshold = :threshold, #pngURL = :pngURL, #time = :time";
+      "SET #name = :name, #isPositive = :isPositive, #threshold = :threshold, #pngURL = :pngURL";
     const names = {
       "#name": "name",
       "#isPositive": "isPositive",
