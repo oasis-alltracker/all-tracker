@@ -9,14 +9,11 @@ const API = EXPO_PUBLIC_BASE_URL + "notifications/";
 
 class NotificationsHandler {
   static async getAllNotificationsState(token) {
-    notificationsState = await this.getNotificationsForGroup(
-      token,
-      "notifications"
-    );
+    notificationsState = await this.getNotifications(token, "notifications");
     return notificationsState[0].preference;
   }
   static async getGroupPreferenceNotificationsState(token, group) {
-    notificationsState = await this.getNotificationsForGroup(token, group);
+    notificationsState = await this.getNotifications(token, group);
     return notificationsState[0].preference;
   }
   static async turnOnAllNotifications(token) {
@@ -92,7 +89,7 @@ class NotificationsHandler {
       "on"
     );
     if (turnOnIndividuals) {
-      notifications = await this.getNotificationsForGroup(token, group);
+      notifications = await this.getNotifications(token, group);
       for (var notification of notifications) {
         if (notification.SK !== preferenceKey) {
           await this.turnOnNotification(
@@ -195,10 +192,7 @@ class NotificationsHandler {
     }
   }
   static async turnOffNotification(token, notificationID, expoIDs) {
-    var notifications = await this.getNotificationsForGroup(
-      token,
-      notificationID
-    );
+    var notifications = await this.getNotifications(token, notificationID);
 
     for (notification of notifications) {
       await this.updateNotification(
@@ -219,7 +213,7 @@ class NotificationsHandler {
   }
 
   static async turnOnGroupNotifications(token, group, isAllNotificationsOn) {
-    notifications = await this.getNotificationsForGroup(token, group);
+    notifications = await this.getNotifications(token, group);
     for (notification of notificaions) {
       await this.turnOnNotification(
         token,
@@ -234,7 +228,7 @@ class NotificationsHandler {
   }
 
   static async turnOffGroupNotifications(token, group, prevExpoIDs = false) {
-    notifications = await this.getNotificationsForGroup(token, group);
+    notifications = await this.getNotifications(token, group);
 
     for (notification of notifications) {
       if (notification.SK !== group + "Preference") {
@@ -307,7 +301,7 @@ class NotificationsHandler {
     }
   }
 
-  static async getNotificationsForGroup(token, notificationID) {
+  static async getNotifications(token, notificationID) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
