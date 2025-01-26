@@ -470,8 +470,8 @@ const Soultification = ({
             height={32}
             onValueChange={onToggle}
             value={isToggled}
-            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-            thumbColor={isToggled ? "#d7f6ff" : "#D5CBFF"}
+            trackColor={{ true: "#d7f6ff", false: "#CABDFF" }}
+            thumbColor={isToggled ? "#d7f6ff" : "#CABDFF"}
           />
         </View>
         {activeSchedule1 && (
@@ -911,9 +911,12 @@ export const styles = StyleSheet.create({
   timePickerContainer: {
     borderRadius: 15,
     paddingVertical: 5,
-    marginBottom: 0,
-    paddingRight: 8,
     alignItems: "center",
+    backgroundColor: "#D7F6FF",
+    borderWidth: 0.7,
+    width: 114,
+    borderColor: "#ccc",
+    paddingRight: 5,
     backgroundColor: "#D7F6FF",
   },
   habitContainer3: {

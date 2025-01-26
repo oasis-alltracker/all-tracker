@@ -633,13 +633,13 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   timeSelectContainer: {
-    flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
+    width: 114,
     borderColor: "#ccc",
-    paddingRight: 8,
     paddingVertical: 10,
     borderRadius: 15,
+    paddingRight: 5,
     backgroundColor: "#D7F6FF",
   },
   reminderTitle: {
