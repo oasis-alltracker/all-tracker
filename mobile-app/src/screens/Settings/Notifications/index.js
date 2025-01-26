@@ -816,8 +816,8 @@ const Notifications = () => {
             height={32}
             onValueChange={allNotificationsToggled}
             value={isNotificationsEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#ffd8f7"}
+            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+            thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#D5CBFF"}
           />
         </View>
 
@@ -833,8 +833,8 @@ const Notifications = () => {
                   height={32}
                   onValueChange={habitsToggled}
                   value={isHabitsEnabled}
-                  trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-                  thumbColor={isHabitsEnabled ? "#d7f6ff" : "#ffd8f7"}
+                  trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+                  thumbColor={isHabitsEnabled ? "#d7f6ff" : "#D5CBFF"}
                 />
                 <Text style={styles.itemTitle}>Habits</Text>
               </View>
@@ -846,8 +846,8 @@ const Notifications = () => {
                   height={32}
                   onValueChange={tasksToggled}
                   value={isTasksEnabled}
-                  trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-                  thumbColor={isTasksEnabled ? "#d7f6ff" : "#ffd8f7"}
+                  trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+                  thumbColor={isTasksEnabled ? "#d7f6ff" : "#D5CBFF"}
                 />
                 <Text style={styles.itemTitle}>To-dos</Text>
               </View>
@@ -867,8 +867,8 @@ const Notifications = () => {
                     height={32}
                     onValueChange={breakfastToggled}
                     value={isBreakfastEnabled}
-                    trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-                    thumbColor={isBreakfastEnabled ? "#d7f6ff" : "#ffd8f7"}
+                    trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+                    thumbColor={isBreakfastEnabled ? "#d7f6ff" : "#D5CBFF"}
                   />
                   <Text style={styles.itemTitle}>Breakfast</Text>
                   <View
@@ -926,8 +926,8 @@ const Notifications = () => {
                     height={32}
                     onValueChange={lunchToggled}
                     value={isLunchEnabled}
-                    trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-                    thumbColor={isLunchEnabled ? "#d7f6ff" : "#ffd8f7"}
+                    trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+                    thumbColor={isLunchEnabled ? "#d7f6ff" : "#D5CBFF"}
                   />
                   <Text style={styles.itemTitle}>Lunch</Text>
                   <View
@@ -985,8 +985,8 @@ const Notifications = () => {
                     height={32}
                     onValueChange={dinnerToggled}
                     value={isDinnerEnabled}
-                    trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-                    thumbColor={isDinnerEnabled ? "#d7f6ff" : "#ffd8f7"}
+                    trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+                    thumbColor={isDinnerEnabled ? "#d7f6ff" : "#D5CBFF"}
                   />
                   <Text style={styles.itemTitle}>Dinner</Text>
                   <View

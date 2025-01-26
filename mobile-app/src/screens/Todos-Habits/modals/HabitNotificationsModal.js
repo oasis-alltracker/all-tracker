@@ -320,8 +320,8 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
             height={32}
             onValueChange={onToggle}
             value={isNotificationsOn}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isNotificationsOn ? "#d7f6ff" : "#ffd8f7"}
+            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+            thumbColor={isNotificationsOn ? "#d7f6ff" : "#D5CBFF"}
           />
         </View>
         <View style={styles.scheduleContainer}>
@@ -639,12 +639,18 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
         </View>
 
         <View style={styles.buttonsRow}>
-          <Button onPress={() => onExit()} style={[styles.button, styles.back]}>
-            {"Cancel"}
-          </Button>
-          <Button onPress={() => onSave()} style={styles.button}>
-            Save
-          </Button>
+          <TouchableOpacity
+            onPress={() => onExit()}
+            style={styles.notificationButton}
+          >
+            <Text style={styles.notificationButtonText}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => onSave()}
+            style={styles.notificationButton}
+          >
+            <Text style={styles.notificationButtonText}>Done</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </RNModal>
@@ -663,7 +669,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 30,
     paddingHorizontal: 20,
-    height: 550,
+    height: 490,
     borderWidth: 1,
     borderBlockColor: "rgba(0,0,0,0.5)",
   },
@@ -675,11 +681,13 @@ const styles = StyleSheet.create({
     height: "60%",
   },
   buttonsRow: {
+    borderTopWidth: 1,
+    borderColor: "rgba(0,0,0,0.1)",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 5,
-    paddingTop: 40,
+    marginTop: 20,
   },
 
   titleRow: {
@@ -722,6 +730,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     marginBottom: 5,
+  },
+  notificationButton: {
+    width: "50%",
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  notificationButtonText: {
+    color: "#18A0FB",
+    fontSize: 18,
+    fontFamily: "Sego-Bold",
   },
   plusImage: {
     width: 22,

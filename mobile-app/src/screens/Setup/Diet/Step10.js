@@ -382,8 +382,8 @@ const DietStep10 = (props) => {
             height={32}
             onValueChange={breakfastToggled}
             value={isBreakfastEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isBreakfastEnabled ? "#d7f6ff" : "#ffd8f7"}
+            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+            thumbColor={isBreakfastEnabled ? "#d7f6ff" : "#D5CBFF"}
           />
           <Text style={styles.itemTitle}>Breakfast</Text>
           <View
@@ -439,8 +439,8 @@ const DietStep10 = (props) => {
             height={32}
             onValueChange={lunchToggled}
             value={isLunchEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isLunchEnabled ? "#d7f6ff" : "#ffd8f7"}
+            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+            thumbColor={isLunchEnabled ? "#d7f6ff" : "#D5CBFF"}
           />
           <Text style={styles.itemTitle}>Lunch</Text>
           <View
@@ -496,8 +496,8 @@ const DietStep10 = (props) => {
             height={32}
             onValueChange={dinnerToggled}
             value={isDinnerEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isDinnerEnabled ? "#d7f6ff" : "#ffd8f7"}
+            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+            thumbColor={isDinnerEnabled ? "#d7f6ff" : "#D5CBFF"}
           />
           <Text style={styles.itemTitle}>Dinner</Text>
           <View

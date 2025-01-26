@@ -237,8 +237,8 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           });
         }
         var indexes = [false, false, false, false, false, false, false];
-        if (props.schedule?.days) {
-          for (var scheduledDay of props.schedule.days) {
+        if (props.schedule) {
+          for (var scheduledDay of props.schedule) {
             indexes[scheduledDay] = true;
           }
         }
@@ -441,8 +441,8 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
             height={32}
             onValueChange={notificationsToggled}
             value={isReminderEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isReminderEnabled ? "#d7f6ff" : "#ffd8f7"}
+            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+            thumbColor={isReminderEnabled ? "#d7f6ff" : "#D5CBFF"}
           />
           <Text style={styles.reminderTitle}>Reminder</Text>
           <View style={styles.timeSelectContainer}>

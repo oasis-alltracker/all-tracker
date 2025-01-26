@@ -252,8 +252,8 @@ const HabitsNotifications = (props) => {
               height={32}
               onValueChange={toggleSwitch}
               value={isNotificationsEnabled}
-              trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-              thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#ffd8f7"}
+              trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+              thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#D5CBFF"}
             />
           </View>
         </View>

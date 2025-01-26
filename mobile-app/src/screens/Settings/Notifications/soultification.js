@@ -470,8 +470,8 @@ const Soultification = ({
             height={32}
             onValueChange={onToggle}
             value={isToggled}
-            trackColor={{ true: "#d7f6ff", false: "#ffd8f7" }}
-            thumbColor={isToggled ? "#d7f6ff" : "#ffd8f7"}
+            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
+            thumbColor={isToggled ? "#d7f6ff" : "#D5CBFF"}
           />
         </View>
         {activeSchedule1 && (
