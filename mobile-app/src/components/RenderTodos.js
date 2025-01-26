@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 const RenderTodos = ({
@@ -11,6 +18,8 @@ const RenderTodos = ({
 }) => {
   const [isCheck, setIsCheck] = useState(false);
   const [itemDate, setItemDate] = useState("noDueDate");
+
+  const { width, height } = useWindowDimensions();
 
   useEffect(() => {
     if (item.isComplete || item.selected) {
@@ -59,7 +68,7 @@ const RenderTodos = ({
             />
           )}
         </TouchableOpacity>
-        <View style={{ width: 250 }}>
+        <View style={{ width: width * 0.63 }}>
           {isCheck ? (
             <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
           ) : (
@@ -189,6 +198,6 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
-    paddingLeft: 3,
+    paddingRight: 3,
   },
 });

@@ -362,12 +362,12 @@ const styles = StyleSheet.create({
   searchImage: {
     width: 30,
     height: 30,
-    marginBottom: 2,
+    marginBottom: 6,
   },
   reminderBell: {
     width: 35,
     height: 35,
-    marginBottom: 2,
+    marginBottom: 6,
   },
   row: {
     flexDirection: "row",

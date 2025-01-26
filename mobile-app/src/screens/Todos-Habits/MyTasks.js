@@ -121,7 +121,7 @@ const MyTasks = ({
               />
             )}
           </TouchableOpacity>
-          <View style={{ width: 250 }}>
+          <View style={{ width: width * 0.63 }}>
             {isCheck ? (
               <Text style={styles.itemRenderTextMainStrikeThru}>
                 {item.name}
@@ -574,6 +574,6 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 13,
     fontFamily: "Sego",
-    paddingLeft: 3,
+    paddingRight: 3,
   },
 });

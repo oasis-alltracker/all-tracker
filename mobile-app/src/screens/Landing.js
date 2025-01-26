@@ -38,12 +38,14 @@ const Landing = () => {
             styles.btnContainer,
             {
               width: viewportWidth - viewportWidth * 0.1,
-              height: height * 0.065,
+              height: height * 0.08,
             },
           ]}
           onPress={() => navigationService.navigate("auth")}
         >
-          <Text style={styles.btnText}>Get Started</Text>
+          <Text style={[styles.btnText, { fontSize: height * 0.044 }]}>
+            Get Started
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -86,7 +88,6 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     justifyContent: "center",
     alignItems: "center",
-    fontSize: 35,
   },
 });
 
