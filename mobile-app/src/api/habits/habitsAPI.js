@@ -17,7 +17,8 @@ class HabitsAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    await axios.post(API, habit, { headers: headers });
+    response = await axios.post(API, habit, { headers: headers });
+    return response?.data?.ID;
   }
 
   static async updateHabit(token, habitID, habit) {
