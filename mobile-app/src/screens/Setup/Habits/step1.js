@@ -17,6 +17,7 @@ import HabitsAPI from "../../../api/habits/habitsAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
+import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
 const HabitsCreation = (props) => {
   const { width, height } = useWindowDimensions();
@@ -98,13 +99,41 @@ const HabitsCreation = (props) => {
     }
   };
 
-  const createHabit = async (habit) => {
+  const createHabit = async (habit, notificationTimes, isNotificationsOn) => {
     setIsLoading(true);
     try {
-      token = await getAccessToken();
-      await HabitsAPI.createHabit(token, habit);
+      var token = await getAccessToken();
+      const habitID = await HabitsAPI.createHabit(
+        token,
+        habit,
+        isNotificationsOn
+      );
+
+      console.log(habitID);
+
+      if (isNotificationsOn) {
+        var triggers = [];
+        for (var notificationTime of notificationTimes) {
+          triggers.push({
+            hour: notificationTime[0],
+            minute: notificationTime[1],
+            repeats: true,
+          });
+        }
+        console.log(triggers);
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `habit-${habitID}`,
+          habit.name,
+          "Don't forget to update your habit progress",
+          triggers,
+          true
+        );
+      }
+
       await getHabits();
     } catch (e) {
+      connsole.log(e);
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -112,13 +141,34 @@ const HabitsCreation = (props) => {
       });
     }
   };
+
   const deleteHabit = async (habitID) => {
     setIsLoading(true);
     try {
       token = await getAccessToken();
       await HabitsAPI.deleteHabit(token, habitID);
+
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `task-${habitID}`
+      );
+
+      await NotificationsHandler.turnOffNotification(
+        token,
+        `task-${habitID}`,
+        prevNotification
+      );
+
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+      await NotificationsHandler.deleteNotification(
+        token,
+        `task-${habitID}`,
+        prevExpoIDs
+      );
+
       await getHabits();
     } catch (e) {
+      console.log(e);
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -126,14 +176,53 @@ const HabitsCreation = (props) => {
       });
     }
   };
-  const updateHabit = async (habitID, habit) => {
+
+  const updateHabit = async (
+    habitID,
+    habit,
+    notificationTimes,
+    isNotificationsOn
+  ) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
       await HabitsAPI.updateHabit(token, habitID, habit);
+
+      var prevNotification = await NotificationsHandler.getNotifications(
+        token,
+        `habit-${habitID}`
+      );
+      var prevExpoIDs = prevNotification[0]?.expoIDs;
+
+      if (isNotificationsOn) {
+        var triggers = [];
+        for (var notificationTime of notificationTimes) {
+          triggers.push({
+            hour: notificationTime[0],
+            minute: notificationTime[1],
+            repeats: true,
+          });
+        }
+
+        expoIDs = await NotificationsHandler.turnOnNotification(
+          token,
+          `habit-${habitID}`,
+          habit.name,
+          "Don't forget to update your habit progress",
+          triggers,
+          true,
+          prevExpoIDs
+        );
+      } else {
+        await NotificationsHandler.turnOffNotification(
+          token,
+          `habit-${habitID}`,
+          prevExpoIDs
+        );
+      }
       await getHabits();
     } catch (e) {
-      setIsLoading(false);
+      console.log(e);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
@@ -145,8 +234,9 @@ const HabitsCreation = (props) => {
     setIsLoading(true);
     try {
       token = await getAccessToken();
-      userHabits = await HabitsAPI.getHabits(token);
+      var userHabits = await HabitsAPI.getHabits(token);
       setHabits(userHabits);
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
@@ -154,8 +244,10 @@ const HabitsCreation = (props) => {
         duration: Toast.durations.LONG,
       });
     }
+  };
 
-    setIsLoading(false);
+  const closeModalHandler = () => {
+    setTimeout(() => setIsLoading(false), 500);
   };
 
   useEffect(() => {
@@ -197,6 +289,7 @@ const HabitsCreation = (props) => {
               <TouchableOpacity
                 key={key.toString()}
                 onPress={() => {
+                  setIsLoading(true);
                   modalRef.update.open(true, {
                     isPositive: val.isPositive,
                     habitName: val.name,
@@ -286,6 +379,7 @@ const HabitsCreation = (props) => {
       />
       <UpdateHabitModal
         getRef={(ref) => (modalRef.update = ref)}
+        closeModalHandler={closeModalHandler}
         updateHabit={updateHabit}
         deleteHabit={deleteHabit}
       />

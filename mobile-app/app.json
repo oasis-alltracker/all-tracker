@@ -2,7 +2,7 @@
   "expo": {
     "name": "Oasis",
     "slug": "oasistracker",
-    "version": "2.4.3",
+    "version": "2.4.4",
     "orientation": "portrait",
     "icon": "./src/assets/images/app-icon.png",
     "userInterfaceStyle": "light",
@@ -67,6 +67,7 @@
         "expo-notifications",
         {
           "icon": "./src/assets/images/notification-icon.png",
+          "sounds": ["./src/assets/sounds/vibratone_e.wav"],
           "color": "#FFFCEE"
         }
       ]
