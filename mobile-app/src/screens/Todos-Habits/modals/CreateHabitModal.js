@@ -125,6 +125,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     setTempHabitName(false);
     setTempIsPositiveIndex(false);
     setTempThreshold(false);
+    setTimes([[12, 0]]);
+    setScheduleCount(1);
 
     setIsMainVisible(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");

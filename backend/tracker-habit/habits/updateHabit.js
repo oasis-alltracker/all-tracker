@@ -36,14 +36,12 @@ class UpdateHabit {
       "#isPositive": "isPositive",
       "#threshold": "threshold",
       "#pngURL": "pngURL",
-      "#time": "time",
     };
     const values = {
       ":name": habit.name,
       ":isPositive": habit.isPositive,
       ":threshold": habit.threshold,
       ":pngURL": habit.pngURL,
-      ":time": habit.time,
     };
 
     await this.DB.updateItem(expression, key, names, values);
