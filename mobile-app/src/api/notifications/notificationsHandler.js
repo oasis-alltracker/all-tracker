@@ -4,8 +4,7 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import axios from "axios";
 
-const EXPO_PUBLIC_BASE_URL =
-  "https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/";
+const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 const API = EXPO_PUBLIC_BASE_URL + "notifications/";
 
 class NotificationsHandler {
