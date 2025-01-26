@@ -320,6 +320,7 @@ class NotificationsHandler {
       content: {
         title: title,
         body: body,
+        sound: "vibratone_e.wav",
       },
       trigger: trigger,
     });
