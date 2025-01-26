@@ -137,7 +137,7 @@ const Soultification = ({
     setIsLoading(false);
   };
 
-  const onToggle = async (turnOn = false) => {
+  const onToggle = async (turnOn = false, scheduleIndex, selectedDate) => {
     setIsLoading(true);
     var notificationTriggers = [];
 
@@ -147,7 +147,11 @@ const Soultification = ({
         if (activeSchedule1[0]) {
           triggerDates = Array.from({ length: 8 }, (_) => true);
         }
-        timeArray = formatDateObjectBackend(timeSchedule1).split(":");
+        var newTimeSchedule = timeSchedule1;
+        if (scheduleIndex == 1) {
+          newTimeSchedule = selectedDate;
+        }
+        timeArray = formatDateObjectBackend(newTimeSchedule).split(":");
         hour = timeArray[0];
         minute = timeArray[1];
 
@@ -174,7 +178,11 @@ const Soultification = ({
         if (activeSchedule2[0]) {
           triggerDates = Array.from({ length: 8 }, (_) => true);
         }
-        timeArray = formatDateObjectBackend(timeSchedule2).split(":");
+        var newTimeSchedule = timeSchedule2;
+        if (scheduleIndex == 2) {
+          newTimeSchedule = selectedDate;
+        }
+        timeArray = formatDateObjectBackend(newTimeSchedule).split(":");
         hour = timeArray[0];
         minute = timeArray[1];
 
@@ -199,7 +207,11 @@ const Soultification = ({
         if (activeSchedule3[0]) {
           triggerDates = Array.from({ length: 8 }, (_) => true);
         }
-        timeArray = formatDateObjectBackend(timeSchedule3).split(":");
+        var newTimeSchedule = timeSchedule3;
+        if (scheduleIndex == 3) {
+          newTimeSchedule = selectedDate;
+        }
+        timeArray = formatDateObjectBackend(newTimeSchedule).split(":");
         hour = timeArray[0];
         minute = timeArray[1];
 
@@ -264,7 +276,7 @@ const Soultification = ({
       (Platform.OS === "ios" && event.type === "dismissed") ||
       (Platform.OS === "android" && event.type === "set")
     ) {
-      onToggle(true);
+      onToggle(true, 1, selectedDate);
     }
   };
 
@@ -288,7 +300,7 @@ const Soultification = ({
       (Platform.OS === "ios" && event.type === "dismissed") ||
       (Platform.OS === "android" && event.type === "set")
     ) {
-      onToggle(true);
+      onToggle(true, 2, selectedDate);
     }
   };
 
@@ -312,7 +324,7 @@ const Soultification = ({
       (Platform.OS === "ios" && event.type === "dismissed") ||
       (Platform.OS === "android" && event.type === "set")
     ) {
-      onToggle(true);
+      onToggle(true, 3, selectedDate);
     }
   };
 

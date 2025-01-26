@@ -275,7 +275,7 @@ const TodosHabits = ({ navigation }) => {
       await NotificationsHandler.turnOffNotification(
         token,
         `task-${habitID}`,
-        prevNotification
+        prevNotification.expoIDs
       );
 
       var prevExpoIDs = prevNotification[0]?.expoIDs;
@@ -641,7 +641,7 @@ const TodosHabits = ({ navigation }) => {
       await NotificationsHandler.turnOffNotification(
         token,
         `task-${toDoID}`,
-        prevNotification
+        prevNotification.expoIDs
       );
       await NotificationsHandler.deleteNotification(token, `task-${toDoID}`);
 
@@ -966,7 +966,7 @@ const TodosHabits = ({ navigation }) => {
       await NotificationsHandler.turnOffNotification(
         token,
         `task-${taskID}`,
-        prevNotification
+        prevNotification.expoIDs
       );
 
       var prevExpoIDs = prevNotification[0]?.expoIDs;
