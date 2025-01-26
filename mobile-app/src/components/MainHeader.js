@@ -3,17 +3,34 @@ import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 import NavigationService from "../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const MainHeader = (props) => {
+const MainHeader = ({
+  containerStyle = {},
+  style = {},
+  titleStyle = {},
+  leftStyle = {},
+  rightStyle = {},
+  title = "",
+  onLeftPressed = () => {
+    NavigationService.goBack();
+  },
+  rightComponent = null,
+  showLeft = true,
+  showRight = true,
+  showCenter = true,
+  leftComponent = null,
+  centerComponent = null,
+  numberOfLines = 1,
+}) => {
   return (
-    <SafeAreaView edges={["top"]} style={[styles.container, props.style]}>
+    <SafeAreaView edges={["top"]} style={[styles.container, style]}>
       <View style={styles.leftCon}>
-        {props.showLeft ? (
-          props.leftComponent ? (
-            props.leftComponent
+        {showLeft ? (
+          leftComponent ? (
+            leftComponent
           ) : (
             <TouchableOpacity
-              style={[styles.iconWrapper, props.leftStyle]}
-              onPress={props.onLeftPressed}
+              style={[styles.iconWrapper, leftStyle]}
+              onPress={onLeftPressed}
             >
               <Image
                 style={styles.leftImage}
@@ -23,9 +40,9 @@ const MainHeader = (props) => {
             </TouchableOpacity>
           )
         ) : null}
-        {props.showCenter ? (
-          props.centerComponent ? (
-            props.centerComponent
+        {showCenter ? (
+          centerComponent ? (
+            centerComponent
           ) : (
             <View style={styles.logoCon}>
               <Image
@@ -37,7 +54,7 @@ const MainHeader = (props) => {
           )
         ) : null}
       </View>
-      {props.rightComponent ? props.rightComponent : null}
+      {rightComponent ? rightComponent : null}
     </SafeAreaView>
   );
 };
@@ -101,22 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-MainHeader.defaultProps = {
-  containerStyle: {},
-  style: {},
-  titleStyle: {},
-  leftStyle: {},
-  rightStyle: {},
-  title: "",
-  onLeftPressed: () => {
-    NavigationService.goBack();
-  },
-  rightComponent: null,
-  showLeft: true,
-  showRight: true,
-  showCenter: true,
-  leftComponent: null,
-  centerComponent: null,
-  numberOfLines: 1,
-};
 export default memo(MainHeader);
