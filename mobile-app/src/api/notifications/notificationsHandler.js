@@ -4,7 +4,8 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import axios from "axios";
 
-const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+const EXPO_PUBLIC_BASE_URL =
+  "https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/";
 const API = EXPO_PUBLIC_BASE_URL + "notifications/";
 
 class NotificationsHandler {
@@ -151,9 +152,10 @@ class NotificationsHandler {
     var expoIDs = [];
     if (notifications) {
       for (var trigger of triggers) {
-        if (Platform.OS === "android" && trigger.month && trigger.day) {
+        if (Platform.OS === "android" && trigger.day) {
           trigger = {
             seconds: this.getSecondsUntilDate(trigger),
+            repeats: false,
           };
         }
         try {
