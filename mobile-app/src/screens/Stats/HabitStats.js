@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   useWindowDimensions,
+  Animated,
 } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
@@ -25,10 +26,9 @@ const HabitStats = ({ sunday, updateStats }) => {
     { value: 1, label: labels[5] },
     { value: 1, label: labels[6] },
   ]);
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(1);
   const [totalCompletions, setTotalCompletions] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     const getStatsOnLoad = async () => {
       try {
@@ -79,32 +79,16 @@ const HabitStats = ({ sunday, updateStats }) => {
         />
         <Text style={styles.text}>habits</Text>
       </View>
-      <View style={styles.chartContainer}>
-        <LineChart
-          thickness={2}
-          color="rgba(255, 207, 245, 1)"
-          maxValue={100}
-          areaChart
-          hideRules
-          yAxisTextNumberOfLines={1}
-          yAxisLabelWidth={0}
-          hideYAxisText
-          hideDataPoints
-          data={habitStats}
-          startFillColor1={"rgba(255, 207, 245, 1)"}
-          endFillColor1={"rgba(255, 207, 245, 1)"}
-          startOpacity={0.8}
-          labelTextStyle={{ fontFamily: "Sego", fontSize: 8 }}
-          endOpacity={0.1}
-          backgroundColor="transparent"
-          xAxisLength={0}
-          initialSpacing={0}
-          yAxisColor="#B3B3B3"
-          xAxisColor="#B3B3B3"
-          height={height * 0.15}
-          width={190}
-          spacing={40}
-        />
+      <View style={[styles.chartContainer, { height: height * 0.15 }]}>
+        <View style={[styles.barContainer, { marginTop: height * 0.035 }]}>
+          <Animated.View
+            style={[
+              styles.bar,
+              { width: ((totalCompletions * 1.0) / totalCount) * 210 },
+            ]}
+          />
+        </View>
+
         {totalCount > 0 ? (
           <>
             <Text style={styles.xLabel}>
@@ -123,6 +107,17 @@ const HabitStats = ({ sunday, updateStats }) => {
 };
 
 const styles = StyleSheet.create({
+  barContainer: {
+    backgroundColor: "#DED1DB",
+    borderRadius: 10,
+    height: 60,
+    width: "100%",
+  },
+  bar: {
+    height: 60,
+    backgroundColor: "#FFD9F7",
+    borderRadius: 10,
+  },
   chartBox: {
     width: "100%",
     flexDirection: "row",
@@ -158,6 +153,8 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: "center",
+    justifyContent: "center",
+    width: 210,
   },
   errorToast: { textColor: "#fff" },
 });
