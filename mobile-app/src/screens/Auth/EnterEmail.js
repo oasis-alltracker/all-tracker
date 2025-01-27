@@ -31,7 +31,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 GoogleSignin.configure({
   androidClientId:
-    "43771055341-19thc1stj86lcu6fg32mj9jkt1mnq10e.apps.googleusercontent.com",
+    "43771055341-4cm2hvtpuo1sdjrbddoduopuqpvgm77i.apps.googleusercontent.com",
   iosClientId:
     "43771055341-6ifjbjlqepa7e78etvbo1qre9008fetv.apps.googleusercontent.com",
   webClientId:
@@ -122,14 +122,12 @@ const EnterEmail = () => {
       const { status, data } = await LoginAPI.doesUserExist(email);
 
       if (status == 200 && data) {
-        if(data.isAccountSuspended){
+        if (data.isAccountSuspended) {
           setIsLoading(false);
           Alert.alert(
             "Oasis Account Suspended",
             "Your account has been suspended for security reasons. To unlock it, you must contact us",
-            [
-              { text: "Ok",},
-            ],
+            [{ text: "Ok" }],
             {
               cancelable: true,
             }
