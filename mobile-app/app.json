@@ -4,7 +4,6 @@
     "slug": "oasistracker",
     "version": "2.4.5",
     "orientation": "portrait",
-    "icon": "./src/assets/images/app-icon.png",
     "userInterfaceStyle": "light",
     "scheme": "com.oasistracker",
     "splash": {
@@ -14,6 +13,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "icon": "./src/assets/images/app-icon.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.oasistracker",
       "infoPlist": {
@@ -27,6 +27,7 @@
       }
     },
     "android": {
+      "icon": "./src/assets/images/app-icon.png",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/app-icon.png",
