@@ -61,8 +61,10 @@ const TaskStats = ({ sunday, updateStats }) => {
       }
     };
     if (updateStats > 0) {
-      setIsLoading(true);
-      getStatsOnLoad();
+      setTimeout(() => {
+        setIsLoading(true);
+        getStatsOnLoad();
+      }, 300);
     }
   }, [sunday, updateStats]);
 
