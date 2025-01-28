@@ -30,7 +30,7 @@
       "icon": "./src/assets/images/app-icon-logo-android.png",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/app-icon.png",
+        "foregroundImage": "./src/assets/images/app-icon-logo-apple.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.oasistracker"
