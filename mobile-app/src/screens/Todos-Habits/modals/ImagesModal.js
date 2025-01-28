@@ -19,7 +19,7 @@ export default function ImagesModal({
       open() {
         setTimeout(() => {
           setIsVisible(true);
-        }, 500);
+        }, 800);
       },
       close() {
         setIsLoading(false);
