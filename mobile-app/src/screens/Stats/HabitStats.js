@@ -17,15 +17,6 @@ const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
 const HabitStats = ({ sunday, updateStats }) => {
   const { width, height } = useWindowDimensions();
-  const [habitStats, setHabitStats] = useState([
-    { value: 1, label: labels[0] },
-    { value: 1, label: labels[1] },
-    { value: 1, label: labels[2] },
-    { value: 1, label: labels[3] },
-    { value: 1, label: labels[4] },
-    { value: 1, label: labels[5] },
-    { value: 1, label: labels[6] },
-  ]);
   const [totalCount, setTotalCount] = useState(1);
   const [totalCompletions, setTotalCompletions] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,7 +46,6 @@ const HabitStats = ({ sunday, updateStats }) => {
         }
         setTotalCount(count);
         setTotalCompletions(completions);
-        setHabitStats(data);
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -65,8 +55,10 @@ const HabitStats = ({ sunday, updateStats }) => {
         });
       }
     };
-    setIsLoading(true);
-    getStatsOnLoad();
+    if (updateStats > 0) {
+      setIsLoading(true);
+      getStatsOnLoad();
+    }
   }, [sunday, updateStats]);
 
   return (

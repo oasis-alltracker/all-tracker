@@ -7,7 +7,6 @@ import {
   Dimensions,
   Animated,
 } from "react-native";
-import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -20,15 +19,6 @@ const [width, height] = [
 ];
 
 const TaskStats = ({ sunday, updateStats }) => {
-  const [taskStats, setTaskStats] = useState([
-    { value: 1, label: labels[0] },
-    { value: 1, label: labels[1] },
-    { value: 1, label: labels[2] },
-    { value: 1, label: labels[3] },
-    { value: 1, label: labels[4] },
-    { value: 1, label: labels[5] },
-    { value: 1, label: labels[6] },
-  ]);
   const [totalCount, setTotalCount] = useState(1);
   const [totalCompletions, setTotalCompletions] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +50,6 @@ const TaskStats = ({ sunday, updateStats }) => {
 
         setTotalCount(count);
         setTotalCompletions(completions);
-        setTaskStats(data);
         setIsLoading(false);
       } catch (e) {
         console.log(e);
@@ -71,8 +60,10 @@ const TaskStats = ({ sunday, updateStats }) => {
         });
       }
     };
-    setIsLoading(true);
-    getStatsOnLoad();
+    if (updateStats > 0) {
+      setIsLoading(true);
+      getStatsOnLoad();
+    }
   }, [sunday, updateStats]);
 
   return (
