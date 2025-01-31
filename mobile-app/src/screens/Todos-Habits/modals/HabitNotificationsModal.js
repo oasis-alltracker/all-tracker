@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   Alert,
   Switch,
+  ActivityIndicator,
 } from "react-native";
-import { Button } from "../../../components";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import Toast from "react-native-root-toast";
@@ -29,6 +29,8 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
   const [show5, setShow5] = useState(false);
+
+  const [isMiniLoading, setIsMiniLoading] = useState(false);
 
   const [scheduleCount, setScheduleCount] = useState(1);
 
@@ -62,6 +64,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
       if (systemNotificationsEnabled) {
         setScheduleCount(scheduleCount + 1);
       } else {
+        setIsMiniLoading(true);
         var token = await getAccessToken();
         var allNotificationsIsOn =
           await NotificationsHandler.getAllNotificationsState(token);
@@ -93,6 +96,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
             }
           );
         }
+        setIsMiniLoading(false);
       }
     }
   };
@@ -582,58 +586,74 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           )}
           {scheduleCount == 1 && (
             <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  addNewSchedule();
-                }}
-              >
-                <Image
-                  source={require("../../../assets/images/plus.png")}
-                  resizeMode="contain"
-                  style={styles.plusImage}
-                />
-              </TouchableOpacity>
+              {isMiniLoading ? (
+                <ActivityIndicator size="small" color="#25436B" />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    addNewSchedule();
+                  }}
+                >
+                  <Image
+                    source={require("../../../assets/images/plus.png")}
+                    resizeMode="contain"
+                    style={styles.plusImage}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
           )}
           {scheduleCount > 1 && scheduleCount < 5 && (
             <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  removeSchedule();
-                }}
-              >
-                <Image
-                  source={require("../../../assets/images/trash.png")}
-                  resizeMode="contain"
-                  style={styles.trashImage}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  addNewSchedule();
-                }}
-              >
-                <Image
-                  source={require("../../../assets/images/plus.png")}
-                  resizeMode="contain"
-                  style={styles.plusImage}
-                />
-              </TouchableOpacity>
+              {isMiniLoading ? (
+                <ActivityIndicator size="small" color="#25436B" />
+              ) : (
+                <>
+                  <TouchableOpacity
+                    onPress={() => {
+                      removeSchedule();
+                    }}
+                  >
+                    <Image
+                      source={require("../../../assets/images/trash.png")}
+                      resizeMode="contain"
+                      style={styles.trashImage}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      addNewSchedule();
+                    }}
+                  >
+                    <Image
+                      source={require("../../../assets/images/plus.png")}
+                      resizeMode="contain"
+                      style={styles.plusImage}
+                    />
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
           )}
           {scheduleCount == 5 && (
             <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  removeSchedule();
-                }}
-              >
-                <Image
-                  source={require("../../../assets/images/trash.png")}
-                  resizeMode="contain"
-                  style={styles.trashImage}
-                />
-              </TouchableOpacity>
+              {isMiniLoading ? (
+                <ActivityIndicator size="small" color="#25436B" />
+              ) : (
+                <>
+                  <TouchableOpacity
+                    onPress={() => {
+                      removeSchedule();
+                    }}
+                  >
+                    <Image
+                      source={require("../../../assets/images/trash.png")}
+                      resizeMode="contain"
+                      style={styles.trashImage}
+                    />
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
           )}
         </View>
