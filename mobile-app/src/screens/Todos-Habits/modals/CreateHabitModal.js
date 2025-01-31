@@ -190,6 +190,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
 
       setIsLoading(true);
       setIsMainVisible(false);
+      setIsLoading(true);
       imagesRef.current.open();
     };
 
@@ -200,6 +201,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
 
       setIsLoading(true);
       setIsMainVisible(false);
+      setIsLoading(true);
       habitSearchRef.current.open();
     };
 
@@ -210,6 +212,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
 
       setIsLoading(true);
       setIsMainVisible(false);
+      setIsLoading(true);
 
       notificationsRef.current.open({
         times: times,

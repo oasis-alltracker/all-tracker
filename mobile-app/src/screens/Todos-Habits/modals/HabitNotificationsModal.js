@@ -175,7 +175,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
 
         setTimeout(() => {
           setIsVisible(true);
-        }, 800);
+        }, 1200);
       },
       close() {
         setIsVisible(false);
