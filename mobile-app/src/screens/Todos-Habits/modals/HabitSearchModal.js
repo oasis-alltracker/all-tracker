@@ -17,7 +17,7 @@ export default function HabitSearchModal({
       open() {
         setTimeout(() => {
           setIsVisible(true);
-        }, 1200);
+        }, 1700);
       },
       close() {
         setIsLoading(false);

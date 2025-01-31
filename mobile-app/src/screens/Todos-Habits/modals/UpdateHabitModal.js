@@ -102,7 +102,7 @@ export default function UpdateHabitModal({
           setNotificationData(props.habitID);
           setTimeout(() => {
             setVisible(true);
-          }, 1000);
+          }, 1700);
         }
       },
       close() {
