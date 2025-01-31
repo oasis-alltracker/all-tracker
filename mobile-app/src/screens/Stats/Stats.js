@@ -24,11 +24,14 @@ const Stats = ({ getRef }) => {
   const [visible, setVisible] = useState(false);
   const [trackingPreferences, setTrackingPreferences] = useState(false);
 
+  const [updateStats, setUpdateStats] = useState(1);
+
   var thisSunday = new Date();
   thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
 
   const [selectedSunday, setSelectedSunday] = useState(thisSunday);
   const updateWeek = (dateChange) => {
+    setUpdateStats(updateStats + 1);
     var newDate = new Date(
       selectedSunday.setDate(selectedSunday.getDate() + dateChange)
     );
@@ -81,7 +84,7 @@ const Stats = ({ getRef }) => {
         <TouchableOpacity
           style={[styles.statsImageCon, { width: width - 65 }]}
           onPress={() => {
-              setVisible(false);
+            setVisible(false);
           }}
         >
           <Image
@@ -144,10 +147,14 @@ const Stats = ({ getRef }) => {
               {trackingPreferences?.habitsSelected && (
                 <HabitStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
+                  updateStats={updateStats}
                 />
               )}
               {trackingPreferences?.toDosSelected && (
-                <TaskStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+                <TaskStats
+                  sunday={moment(selectedSunday).format("YYYYMMDD")}
+                  updateStats={updateStats}
+                />
               )}
             </View>
           )}

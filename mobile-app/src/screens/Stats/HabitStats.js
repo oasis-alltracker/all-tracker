@@ -17,9 +17,11 @@ const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
 const HabitStats = ({ sunday, updateStats }) => {
   const { width, height } = useWindowDimensions();
-  const [totalCount, setTotalCount] = useState(1);
-  const [totalCompletions, setTotalCompletions] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [totalCountMath, setTotalCountMath] = useState(1);
+  const [totalCompletionsMath, setTotalCompletionsMath] = useState(1);
+  const [totalCountDisplay, setTotalCountDisplay] = useState(0);
+  const [totalCompletionsDisplay, setTotalCompletionsDisplay] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const getStatsOnLoad = async () => {
       try {
@@ -44,8 +46,16 @@ const HabitStats = ({ sunday, updateStats }) => {
             };
           }
         }
-        setTotalCount(count);
-        setTotalCompletions(completions);
+        if (count <= 0) {
+          setTotalCountMath(1);
+          setTotalCompletionsMath(1);
+        } else {
+          setTotalCountMath(count);
+          setTotalCompletionsMath(completions);
+        }
+
+        setTotalCountDisplay(count);
+        setTotalCompletionsDisplay(completions);
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
@@ -56,10 +66,8 @@ const HabitStats = ({ sunday, updateStats }) => {
       }
     };
     if (updateStats > 0) {
-      setTimeout(() => {
-        setIsLoading(true);
-        getStatsOnLoad();
-      }, 300);
+      setIsLoading(true);
+      getStatsOnLoad();
     }
   }, [sunday, updateStats]);
 
@@ -78,21 +86,24 @@ const HabitStats = ({ sunday, updateStats }) => {
           <Animated.View
             style={[
               styles.bar,
-              { width: ((totalCompletions * 1.0) / totalCount) * 210 },
+              { width: ((totalCompletionsMath * 1.0) / totalCountMath) * 210 },
             ]}
           />
         </View>
 
-        {totalCount > 0 ? (
+        {totalCountDisplay > 0 ? (
           <>
             <Text style={styles.xLabel}>
-              Completed - {totalCompletions}/{totalCount} -{" "}
-              {Math.floor(((totalCompletions * 1.0) / totalCount) * 100)}%
+              Completed - {totalCompletionsDisplay}/{totalCountDisplay} -{" "}
+              {Math.floor(
+                ((totalCompletionsMath * 1.0) / totalCountMath) * 100
+              )}
+              %
             </Text>
           </>
         ) : (
           <Text style={styles.xLabel}>
-            Completed - {totalCompletions}/{totalCount} - 100%
+            Completed - {totalCompletionsDisplay}/{totalCountDisplay} - 100%
           </Text>
         )}
       </View>
