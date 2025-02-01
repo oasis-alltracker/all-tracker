@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
   },
   xLabel: {
     fontSize: 14,
+    paddingTop: 6,
     fontFamily: "Sego-Bold",
     color: "#25436B",
   },
