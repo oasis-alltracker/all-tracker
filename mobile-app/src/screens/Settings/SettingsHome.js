@@ -14,6 +14,7 @@ import { logout } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const dietSettings = {
   img: require("../../assets/images/person-profile.png"),
@@ -142,8 +143,8 @@ const SettingsHome = () => {
   }, []);
 
   return (
-    <View style={styles.cotainer}>
-      <Header />
+    <SafeAreaView style={styles.cotainer}>
+      <Header style={{ paddingTop: 0 }} />
       <Spinner visible={isLoading}></Spinner>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
@@ -247,7 +248,7 @@ const SettingsHome = () => {
           ))}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
