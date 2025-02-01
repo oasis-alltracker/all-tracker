@@ -234,7 +234,7 @@ const Main = ({
               <Text style={sharedStyles.dateText}>Today</Text>
             ) : (
               <Text style={sharedStyles.dateText}>
-                {day.toDateString().slice(4, -4)}
+                {day.toDateString().slice(4, -5)}
               </Text>
             )}
           </>

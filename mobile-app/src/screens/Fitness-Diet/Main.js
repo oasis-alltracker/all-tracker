@@ -48,7 +48,7 @@ export default function Main({ day, trackingPreferences, updateDate }) {
             <Text style={sharedStyles.dateText}>Today</Text>
           ) : (
             <Text style={sharedStyles.dateText}>
-              {day.toDateString().slice(4, -4)}
+              {day.toDateString().slice(4, -5)}
             </Text>
           )}
         </>

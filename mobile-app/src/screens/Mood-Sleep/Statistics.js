@@ -62,7 +62,7 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
             <Text style={styles.dateNameMain}>This week</Text>
           ) : (
             <Text style={styles.dateNameMain}>
-              Week of {selectedSunday.toDateString().slice(4, -4)}
+              Week of {selectedSunday.toDateString().slice(4, -5)}
             </Text>
           )}
         </>
