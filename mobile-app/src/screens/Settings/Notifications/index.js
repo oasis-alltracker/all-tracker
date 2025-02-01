@@ -17,6 +17,7 @@ import { getAccessToken } from "../../../user/keychain";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import UserAPI from "../../../api/user/userAPI";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Notifications = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -802,7 +803,7 @@ const Notifications = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Header showCenter={false} />
       <Spinner visible={isLoading}></Spinner>
       <ScrollView
@@ -1075,7 +1076,7 @@ const Notifications = () => {
           </>
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

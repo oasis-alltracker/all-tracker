@@ -120,7 +120,7 @@ const Main = ({ navigation }) => {
           ))}
         </View>
         <TouchableOpacity
-          style={[styles.downImageContainer, { marginTop: height * 0.065 }]}
+          style={[styles.downImageContainer, { marginTop: height * 0.058 }]}
           onPress={() => {
             statsRef.current.open({});
           }}
