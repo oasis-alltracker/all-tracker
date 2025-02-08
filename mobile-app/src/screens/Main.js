@@ -9,6 +9,7 @@ import {
 import MenuIcon from "../assets/icons/menu";
 import { Button, MainHeader } from "../components";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../navigators/navigationService";
 import SleepQuestionnaire from "./Mood-Sleep/questionnaires/sleepNavigator";
 import MoodQuestionnaire from "./Mood-Sleep/questionnaires/moodNavigator";
@@ -86,18 +87,19 @@ const Main = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <MainHeader
         leftComponent={
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             <MenuIcon />
           </TouchableOpacity>
         }
+        showCenter={false}
       />
       <>
         <View
           style={{
-            paddingTop: 100,
+            paddingTop: height * 0.15,
             justifyContent: "center",
             height: height * 0.6,
           }}
@@ -120,7 +122,7 @@ const Main = ({ navigation }) => {
           ))}
         </View>
         <TouchableOpacity
-          style={[styles.downImageContainer, { marginTop: height * 0.058 }]}
+          style={[styles.downImageContainer, { marginTop: height * 0.1 }]}
           onPress={() => {
             statsRef.current.open({});
           }}
@@ -132,7 +134,7 @@ const Main = ({ navigation }) => {
         </TouchableOpacity>
       </>
       <Stats getRef={(ref) => (statsRef.current = ref)} />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -158,6 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     alignItems: "center",
+    opacity: 0.9,
   },
   errorToast: { textColor: "#fff" },
 });
