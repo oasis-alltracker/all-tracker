@@ -233,7 +233,9 @@ const MoodSleep = ({ navigation }) => {
         numDots.push(i);
       }
       setDots(numDots);
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     };
 
     getPreferencesOnLoad();
