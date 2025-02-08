@@ -29,10 +29,10 @@ const dietSettings = {
 
 const generalSettings = {
   img: require("../../assets/images/tracking.png"),
-  title: "Tracking",
+  title: "Customization",
   childs: [
     {
-      title: "Tracking Preferences",
+      title: "Preferences",
       route: "setup",
       isUnits: true,
     },
