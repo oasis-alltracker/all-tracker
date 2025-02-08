@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignSelf: "center",
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default EnterPassword;

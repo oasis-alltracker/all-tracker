@@ -205,7 +205,7 @@ const EnterCode = (props) => {
                         Code[item] = nativeEvent.key;
                         setCode(Code);
                         try {
-                          codeRef.current[item+1].focus();
+                          codeRef.current[item + 1].focus();
                         } catch (e) {
                           console.log(e);
                         }
@@ -219,25 +219,24 @@ const EnterCode = (props) => {
                   }}
                   onChangeText={(text) => {
                     let Code = [...code];
-                    if(text.length == 4 && item == 0){
+                    if (text.length == 4 && item == 0) {
                       codeRef.current[0].blur();
-                      setCode([text[0], text[1], text[2], text[3]])
-                    }
-                    else {
+                      setCode([text[0], text[1], text[2], text[3]]);
+                    } else {
                       if (text.length <= 1) {
                         Code[item] = text;
                       }
-                      
+
                       if (text) {
-                        if (codeRef.current[item+1]) {
-                          codeRef.current[item+1].focus();
+                        if (codeRef.current[item + 1]) {
+                          codeRef.current[item + 1].focus();
                         }
                       }
                       if (text && item === 3) {
                         codeRef.current[3].blur();
                       }
                       setCode(Code);
-                    }                    
+                    }
                   }}
                 />
               ))}
@@ -319,7 +318,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     justifyContent: "center",
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   resendOTPText: {
     color: "#25436B",
     textDecorationLine: "underline",

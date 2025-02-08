@@ -723,7 +723,7 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
     marginVertical: 24,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   button: {
     width: "47%",
   },

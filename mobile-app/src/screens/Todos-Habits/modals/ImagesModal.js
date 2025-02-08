@@ -928,7 +928,7 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     paddingHorizontal: 5,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   text: {
     fontFamily: "Sego",
     fontSize: 18,

@@ -67,15 +67,12 @@ const EnterPassword = (props) => {
           setIsLoading(false);
           navigationService.navigate("enterCode", { email, password });
           setPassword("");
-
-        } else if (data.isAccountSuspended){
+        } else if (data.isAccountSuspended) {
           setIsLoading(false);
           Alert.alert(
             "Oasis Account Suspended",
             "Your account has been suspended for security reasons. To unlock it, you must contact us",
-            [
-              { text: "Ok",},
-            ],
+            [{ text: "Ok" }],
             {
               cancelable: true,
             }
@@ -240,7 +237,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignSelf: "center",
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   linkBtn: {
     marginTop: 155,
     paddingBottom: 10,

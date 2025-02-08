@@ -1151,7 +1151,7 @@ const styles = StyleSheet.create({
     left: 20,
     zIndex: 1,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default TodosHabits;
