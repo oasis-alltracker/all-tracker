@@ -22,19 +22,68 @@ const PrivacyPolicy = () => {
           disclosing your information.{" "}
         </Text>
         <Text style={styles.text}>
-          Users can access the app through our mobile device and tablet
-          application (“App”). In this Privacy Policy, the Site, the App, and
-          our related services are referred to collectively as the “Service” or
+          We provide information about our app on our website (“Site”) Users can
+          access the app through our mobile device and tablet
+          application(“App”). In this Privacy Policy, the Site, the App, and our
+          related services are referred to collectively as the “Service” or
           “Services.” This Privacy Policy governs your access of the Services,
           regardless of how you access them, and by using our Services you
-          consent to the collection, transfer, processing, storage, disclosure
-          and other uses described in this Privacy Policy. All of the different
-          forms of data, content, and information described below are
-          collectively referred to as “information.”
+          consent to the transfer, processing, storage and other uses described
+          in this Privacy Policy. All of the different forms of data, content,
+          and information described below are collectively referred to as
+          “information” or “data”.
+        </Text>
+
+        <Text style={styles.header}>1. OUR COMMITMENT</Text>
+        <Text style={styles.text}>
+          We prioritize your privacy and the confidentiality of your data. As a
+          personal journal and diary, we understand the importance of keeping
+          your entries private and secure.
+        </Text>
+        <Text style={styles.text}>
+          1.1 Confidential Treatment of Your Data - All data you enter into the
+          App is treated as strictly confidential. We do not access, review, or
+          share your data under any circumstances, including for troubleshooting
+          or service-related issues. Even in the event of broken functionality
+          or system errors where access to user data could assist in resolving
+          the issue, we will not access your personal entries.
+        </Text>
+        <Text style={styles.text}>
+          1.2 Privacy in Service Improvements - Your data may be used to enhance
+          your experience within the App, but it will never be linked to you in
+          any way when utilized for analytics or AI-driven improvements. Any
+          data used for these purposes will be anonymized and processed in
+          aggregate to ensure individual privacy. We are committed to
+          maintaining strict safeguards that prevent personal data from being
+          tied to any improvements or third-party systems.
+        </Text>
+        <Text style={styles.text}>
+          1.3 Third-Party Services and Data Protection - We may use third-party
+          services to improve the App, such as analytics or AI-driven
+          enhancements. However: (a)Your personal data is never shared with
+          third-party services. (b)Any data used to improve our services remains
+          fully anonymized and unlinked to your account. (c)Third-party services
+          we utilize do not have access to the data used for algorithm training,
+          ensuring your personal information remains private.
+        </Text>
+        <Text style={styles.text}>
+          1.4 Government Requests & Backdoors - We do not build backdoors or
+          provide any means for unauthorized access to your data. If we receive
+          a request from any government or authority to provide user data or
+          implement access mechanisms, we will not comply. Instead, upon receipt
+          of such a request, we will take immediate action to protect our users
+          by wiping all user data from our systems, regardless of whether a
+          specific user’s data was requested. Your privacy is our highest
+          priority, and we will not compromise on this principle.
+        </Text>
+        <Text style={styles.text}>
+          By using the App, you can trust that your journal remains a private
+          space for you. We are committed to upholding the highest standards of
+          confidentiality and security.
         </Text>
 
         <Text style={styles.header}>
-          1. THE INFORMATION WE COLLECT AND STORE
+          2. THE INFORMATION WE COLLECT AND STORE
         </Text>
         <Text style={styles.text}>
           We may collect and store the following information when you access the
@@ -43,49 +92,33 @@ const PrivacyPolicy = () => {
         <Text style={styles.text}>
           Information you provide. When you register an account, contact us with
           inquiries, or otherwise communicate with us (including through social
-          media), we collect some personal information such as your full name
-          and contact information such as your e-mail address, telephone number,
-          or address. You may also ask us to import your contacts by giving us
-          access to your third party services (for example, your email account,
-          or Facebook), access your location using global positioning
-          technology, and to use your social networking information if you give
-          us access to your account on social network connection services and
-          contacts. You may be able to turn some of these features off through
-          your App, browser, or settings menu on your device.{" "}
+          media), we collect some personal information such as your name and
+          contact information such as your e-mail address. You may also ask us
+          to import your contacts by giving us access to your third party
+          services (for example, your Google account, or Facebook), access your
+          location using global positioning technology, and to use your social
+          networking information if you give us access to your account on social
+          network connection services and contacts. If provided, you will be
+          able to turn off these features through your App, or settings menu on
+          your device.{" "}
         </Text>
         <Text style={styles.text}>
-          Additionally, we collect personal data that you input when you use the
-          App. The personal data collected may vary based on what you choose to
-          share with us, but it will generally include your year of birth,
-          height, weight, age, gender, mood, sleep patterns, dream journal
-          entries, habits, to-dos, workouts, dietary choices, and other
-          information relevant to helping us track your productivity, health,
-          and wellness goals. Information you provide may also include payment
-          and transaction information when you make purchases through the
-          Services, such as payment card information and transaction history.
+          Additionally, we store personal (private) data that you input when you
+          use the App. The personal data saved may vary based on what you choose
+          to input, but it will generally include your year of birth, height,
+          weight, age, gender, mood, sleep patterns, dream journal entries,
+          habits, to-dos, workouts, dietary choices, and other information you
+          regard relevant to your self improvement journey. Information you
+          provide may also include payment and transaction information when you
+          make purchases through the Services, such as transaction history.
         </Text>
         <Text style={styles.text}>
-          Cookies. Like many websites and applications, we use "cookies" to
-          enhance your experience and gather information about visitors and
-          visits to our website and App. Cookies are small files that a site or
-          its service provider transfers to your tablet, mobile device, or
-          computer's hard drive through your Web browser or application that
-          enables the site's or service provider's systems to recognize your
-          browser and capture and remember certain information. For instance, we
-          use cookies to help us remember and process items that you may order
-          or persons that you may connect with. They are also used to help us
-          understand your preferences based on previous or current site and App
-          activity, which enables us to provide you with improved services. We
-          also use cookies to help us compile aggregate data about site traffic,
-          site and App interaction so that we can offer better site and App
-          experiences and tools in the future. We may contract with third-party
-          service providers to assist us in better understanding our site
-          visitors. These service providers are not permitted to use the
-          information collected on our behalf except to help us conduct and
-          improve our business.
+          Cookies. We do not utilize cookies. When you login, we will store a
+          private authentication token or “key” on your device in a secure
+          manner so that you do not have to login every time you access the App.
         </Text>
 
-        <Text style={styles.header}>2. HOW WE USE PERSONAL INFORMATION</Text>
+        <Text style={styles.header}>3. HOW WE USE PERSONAL INFORMATION</Text>
         <Text style={styles.text}>
           Personal Information: In the course of using the Services, we may
           collect personal information that can be used to contact or identify
@@ -98,39 +131,16 @@ const PrivacyPolicy = () => {
           “unsubscribe” instructions provided in any of those communications, or
           update your account information.
         </Text>
-        <Text style={styles.text}>
-          Analytics: We also collect some information (ourselves or using third
-          party services) using logging and cookies, which can sometimes be
-          correlated with Personal Information. We use this information for the
-          above purposes and to monitor and analyze use of the Services, for the
-          Service’s technical administration, to increase our Service’s
-          functionality and user-friendliness, and to verify users have the
-          authorization needed for the Service to process their requests.
-        </Text>
 
-        <Text style={styles.header}>3. INFORMATION SHARING AND DISCLOSURE</Text>
+        <Text style={styles.header}>4. INFORMATION SHARING AND DISCLOSURE</Text>
         <Text style={styles.text}>
           Service Providers, Business Partners and Others. We may use certain
           trusted third-party companies and individuals to help us provide,
-          analyze, and improve the Service (including but not limited to web
-          analytics, Service usage, payment processing, and improvement of the
-          Service’s features). These third parties may have access to your
-          information only for purposes of performing these tasks on our behalf
-          and under obligations similar to those in this Privacy Policy. Other
-          users of the Service may also see certain non-private information
-          about you, including photographs, location, shared friends, and
-          ratings, as it is the nature of the Service to connect users with
-          other users based on shared preferences, shared friends, shared
-          experiences, and other similar personal traits which the Service
-          shares in order to help generate connections.
-        </Text>
-        <Text style={styles.text}>
-          Third-Party Applications. We may share your information with a
-          third-party application with your consent, for example when you choose
-          to access our Services through such an application. We are not
-          responsible for what those parties do with your information, so you
-          should make sure you trust the application and that it has a privacy
-          policy acceptable to you.
+          analyze, and improve the Service. These third parties may have access
+          to specific pieces of your personal information (such as height,
+          weight, gender, etc.) only for purposes of performing these tasks on
+          our behalf and under the obligations outlined in section 1, and in a
+          manner that will not be linked personally to you.
         </Text>
 
         <Text style={styles.text}>
@@ -143,46 +153,24 @@ const PrivacyPolicy = () => {
           collected and protected by this third party according to their privacy
           policy.
         </Text>
-        <Text style={styles.text}>
-          Compliance with Laws and Law Enforcement Requests; Protection of Our
-          Rights. We may disclose to outside parties files stored by us and
-          information about you that we collect when we have a good faith belief
-          that disclosure is reasonably necessary to (a) comply with a law,
-          regulation or compulsory legal request; (b) protect the safety of any
-          person from death or serious bodily injury; (c) prevent fraud or
-          abuse; or (d) to protect property rights.
-        </Text>
-        <Text style={styles.text}>
-          Business Transfers. If we are involved in a merger, acquisition, or
-          sale of all or a portion of our assets, your information may be
-          transferred as part of that transaction, but we will notify you (for
-          example, via email and/or a prominent notice on our website) of any
-          change in control or use of your Personal Information.{" "}
-        </Text>
-        <Text style={styles.text}>
-          Non-private or Non-Personal Information. We may disclose your
-          non-private, aggregated, or otherwise non-personal information, such
-          as usage statistics of the Services.
-        </Text>
 
         <Text style={styles.header}>
-          4. SOCIAL MEDIA AND OTHER COMMUNICATIONS
+          5. SOCIAL MEDIA AND OTHER COMMUNICATIONS
         </Text>
         <Text style={styles.text}>
           We advertise our Services on several social media platforms which may
           include, but are not necessarily limited to, Facebook, Instagram,
           Twitter, and LinkedIn. Our Services may also use third-party social
           networking features, such as allowing users to share certain
-          information on social media platforms. We may also receive or share
-          information about users via these platforms. Our Privacy Policy also
-          applies to this information. Additionally, the third-party social
-          media platforms we use may have their own privacy policies, and when
-          users utilize social features of our Services, users also agree to the
+          information on social media platforms. Our Privacy Policy also applies
+          to this information. Additionally, the third-party social media
+          platforms we use may have their own privacy policies, and when users
+          utilize social features of our Services, users also agree to the
           privacy policies and terms of use of the third parties.
         </Text>
 
         <Text style={styles.header}>
-          5. CHANGING OR DELETING YOUR INFORMATION
+          6. CHANGING OR DELETING YOUR INFORMATION
         </Text>
         <Text style={styles.text}>
           If you are a registered user, you may review, update, correct or
@@ -190,50 +178,28 @@ const PrivacyPolicy = () => {
           profile by changing your “account settings” through the App. If your
           information changes, or if you no longer desire to use the App, you
           may update or delete it by making the change on your account settings.
-          In some cases we may retain copies of your information if required by
-          law.
         </Text>
 
-        <Text style={styles.header}>6. DATA RETENTION</Text>
+        <Text style={styles.header}>7. DATA RETENTION</Text>
         <Text style={styles.text}>
           We will retain your information for as long as your account is active
           or as needed to provide you access to the App. If you wish to cancel
           your account or request that we no longer use your information to
-          provide you access to the App, you may delete your account by
-          following instructions on the App/website. We may retain and use your
-          information as necessary to comply with our legal obligations, resolve
-          disputes, and enforce our agreements. Consistent with these
-          requirements, we will try to delete your information quickly upon
-          request. Please note, however, that there may be a delay in deleting
-          information from our servers and backed-up versions may exist after
-          deletion.
+          provide you access to the App, you may delete your account through the
+          App’s settings. Please note, however, that there may be a delay in
+          deleting information from our servers and backed-up versions will not
+          exist after deletion.
         </Text>
 
-        <Text style={styles.header}>7. SECURITY</Text>
-        <Text style={styles.text}>
-          The security of your information is important to us. When you enter
-          sensitive information (such as a credit card number) on our order
-          forms, we encrypt the transmission of that information using secure
-          socket layer technology (SSL).
-        </Text>
+        <Text style={styles.header}>8. SECURITY</Text>
+
         <Text style={styles.text}>
           We follow generally accepted standards to protect the information
           submitted to us, both during transmission and once we receive it. No
           method of electronic transmission or storage is 100% secure, however.
           Therefore, we cannot guarantee its absolute security. If you have any
-          questions about security on our application, you can contact via our
-          email listed on our posting.
-        </Text>
-
-        <Text style={styles.header}>8. OUR POLICY REGARDING CHILDREN</Text>
-        <Text style={styles.text}>
-          The App is not directed to persons under the age of 18. We do not
-          knowingly collect information from persons under the age of 18. If a
-          parent or guardian becomes aware that their child has provided us with
-          information without the parent or guardian’s consent, they should
-          contact us via our email listed on our posting. If we become aware
-          that a person under the age of 18 has provided us with information, we
-          will take steps to delete such information from our files.
+          questions about security on our website, you can contact us at via our
+          email.
         </Text>
 
         <Text style={styles.header}>9. CONTACTING US</Text>

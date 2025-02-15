@@ -79,9 +79,7 @@ const TermsOfService = () => {
           required to ensure that all persons who access the App through a
           user’s internet connection are aware of these Terms and Conditions and
           comply with them. The App, including content or areas of the App, may
-          require user registration. It is a condition of your use of the App
-          that all the information you provide on the App is correct, current,
-          and complete.
+          require user registration.
         </Text>
         <Text style={styles.text}>
           Unfortunately, the transmission of information via the Internet is not
@@ -94,12 +92,9 @@ const TermsOfService = () => {
         </Text>
         <Text style={styles.text}>
           Your provision of registration information and any submissions you
-          make to the App through any functionality such as applications, chat
-          rooms, e-mail, message boards, personal, or interest group web pages,
-          profiles, forums, bulletin boards, and other such functions
-          (collectively, “Interactive Functions”) constitutes your consent to
-          all actions we take with respect to such information consistent with
-          our Privacy Policy.
+          make to the App through (“Interactive Functions”) constitutes your
+          consent to all actions we take with respect to such information
+          consistent with our Privacy Policy.
         </Text>
         <Text style={styles.text}>
           Any username, password, or any other piece of information chosen by
@@ -158,160 +153,74 @@ const TermsOfService = () => {
           other persons (collectively, “User Submissions”) and any and all
           Interactive Functions. Any and all User Submissions must comply with
           all applicable federal, provincial, local, and international laws,
-          regulations, and terms of service. User Submissions refer only to app
-          entries that you have saved, stored or shared to the App with the
-          explicit intention of allowing other users or us to view or access it
-          through the App (i.e public or semi-public). Any entries made to the
-          app that have not been expressly declared as such by you are not
-          considered User Submissions and will be treated as confidential.
+          regulations, and terms of service.
         </Text>
         <Text style={styles.text}>
-          Without limiting the foregoing, you warrant and agree that your use of
-          the App and any User Submissions shall not:
+          You agree that all User Submissions must comply with applicable
+          federal, provincial, local, and international laws, regulations, and
+          terms of service. You may not submit content that:
         </Text>
         <Text style={styles.text}>
-          (a)  In any manner violate any applicable federal, provincial, local,
-          or international law or regulation including, without limitation, any
-          laws regarding the export of data or software, patent, trademark,
-          trade secret, copyright, or other intellectual property, legal rights
-          (including the rights of publicity and privacy of others) or contain
-          any material that could give rise to any civil or criminal liability
-          under applicable laws or regulations or that otherwise may be in
-          conflict with these Terms and Conditions and our Privacy Policy.
+          (a)  Violates any applicable law or regulation.
         </Text>
         <Text style={styles.text}>
-          (b)  In any manner violate the terms of use of any third-party website
-          that is linked to the App, including but not limited to, any
-          third-party social media website.
+          (b)  Infringes on any intellectual property, privacy, or legal rights
+          of others.
         </Text>
         <Text style={styles.text}>
-          (c)  Include or contain any material that is exploitive, obscene,
-          harmful, threatening, abusive, harassing, hateful, defamatory,
-          sexually explicit or pornographic, violent, inflammatory, or
-          discriminatory based on race, sex, religion, nationality, disability,
-          sexual orientation, or age or other such legally prohibited ground or
-          be otherwise objectionable, such determination to be made in our sole
-          discretion.
+          (c)  Contains unlawful, defamatory, obscene, harassing, hateful, or
+          otherwise objectionable material.
         </Text>
         <Text style={styles.text}>
-          (d)  Involve stalking, attempting to exploit or harm any individual
-          (including minors) in any way by exposing them to inappropriate
-          content or otherwise or ask for personal information as prohibited
-          under applicable laws, regulations, or code.
+          (d)  Impersonates any person or misrepresents your identity or
+          affiliation.
         </Text>
         <Text style={styles.text}>
-          (e)  Involve, provide, or contribute any false, inaccurate, or
-          misleading information.
+          (e)  Encourages or facilitates illegal activity.
         </Text>
         <Text style={styles.text}>
-          (f)  Impersonate or attempt to impersonate us, our employees, another
-          user, or any other person or entity (including, without limitation, by
-          using email addresses, or screen names associated with any of the
-          foregoing).
-        </Text>
-        <Text style={styles.text}>
-          (g)  Transmit, or procure the sending of, any advertisements or
-          promotions without our prior written consent, sales, or encourage any
-          other commercial activities, including, without limitation, any
-          “spam”, “junk mail”, “chain letter”, contests, sweepstakes and other
-          sales promotions, barter, or advertising or any other similar
-          solicitation, that are not authorized hereunder.
-        </Text>
-        <Text style={styles.text}>
-          (h)  Encourage any other conduct that restricts or inhibits anyone’s
-          use or enjoyment of the App, or which, as determined by us, may harm
-          us or users of the App or expose them to liability.
-        </Text>
-        <Text style={styles.text}>
-          (j)  Cause annoyance, inconvenience, or needless anxiety or be likely
-          to upset, embarrass, or alarm any other person.
-        </Text>
-        <Text style={styles.text}>
-          (k)  Promote any illegal activity, or advocate, promote, or assist any
-          unlawful act.
-        </Text>
-        <Text style={styles.text}>
-          (l)  Give the impression that they originate from or are endorsed by
-          us or any other person or entity, if this is not the case.
+          We reserves the right to remove any content that violates these
+          standards, without notice, and to take any action deemed necessary to
+          protect the integrity of the platform.
         </Text>
 
         <Text style={styles.header}>User Submissions: Grant of Licence</Text>
         <Text style={styles.text}>
-          The App may contain Interactive Functions allowing User Submissions on
-          or through the App.
+          By submitting any content within the App, you retain full ownership of
+          your data and entries. We do not claim any ownership rights over your
+          personal journal or submissions. However, by using the platform, you
+          grant Us a limited, non-exclusive, revocable license to process and
+          store your User Submissions solely for the purpose of providing and
+          improving the service.
         </Text>
         <Text style={styles.text}>
-          None of the User Submissions you submit to the App will be subject to
-          any confidentiality by us. By providing any User Submission to the
-          App, you grant us and our affiliates and service providers, and each
-          of their and our respective licensees, successors, and assigns the
-          right to a world-wide, royalty free, perpetual, irrevocable,
-          non-exclusive licence to use, reproduce, modify, perform, display,
-          distribute, and otherwise disclose to third parties any such material
-          for any purpose and according to your account settings and/or
-          incorporate such material into any form, medium or technology
-          throughout the world without compensation to you. You further waive
-          any moral rights or other rights of authorship as a condition of
-          submitting any User Submission.
-        </Text>
-        <Text style={styles.text}>
-          By submitting the User Submissions, you declare and warrant that you
-          own or have the necessary rights to submit the User Submissions and
-          have the right to grant the licence hereof to us and our affiliates
-          and service providers, and each of their and our respective licensees,
-          successors, and assigns to the User Submissions and comply with these
-          Terms and Conditions. You represent and warrant that all User
-          Submissions comply with applicable laws and regulations.
-        </Text>
-        <Text style={styles.text}>
-          You understand and agree that you, and not us nor our parent,
-          subsidiaries, affiliates nor their respective directors, officers,
-          employees, agents, service providers, contractors, licensors,
-          suppliers, or successors, are fully responsible for any User
-          Submissions you submit or contribute, and you are fully responsible
-          and legally liable, including to any third party, for such content and
-          its accuracy. We are not responsible or legally liable to any third
-          party for the content or accuracy of any User Submissions submitted by
-          you or any other user of the App.{" "}
+          We will never use your personal submissions for marketing,
+          advertising, or data-sharing purposes, and your content will not be
+          linked to third-party analytics or AI models. All data used to enhance
+          the app's functionality is anonymized and processed in aggregate to
+          maintain user privacy.{" "}
         </Text>
 
         <Text style={styles.header}>
           Site Monitoring and Enforcement, Suspension, and Termination
         </Text>
         <Text style={styles.text}>
-          We have the right, without provision of notice to:
+          We are not obligated to monitor User Submissions or platform activity,
+          and we bear no legal responsibility to do so. However, we reserve the
+          right to:
         </Text>
         <Text style={styles.text}>
-          Remove or refuse to post on the App any User Submissions for any or no
-          reason in our sole discretion.
+          (a)  Remove or refuse to post any User Submission at our discretion.
         </Text>
         <Text style={styles.text}>
-          At all times, take such actions with respect to any User Submission
-          deemed necessary or appropriate in our sole discretion, including,
-          without limitation, for violating these Terms and Conditions or the
-          Privacy Policies or other policies.
+          (b)  Suspend or terminate any account at any time, for any reason,
+          without prior notice.
         </Text>
         <Text style={styles.text}>
-          Take appropriate legal action, including, without limitation, referral
-          to law enforcement or regulatory authority, or notifying the harmed
-          party of any illegal or unauthorized use of the App. Without limiting
-          the foregoing, we have the right to fully cooperate with any law
-          enforcement authorities or court order requesting or directing us to
-          disclose the identity or other information of anyone posting any
-          materials on or through the App.
-        </Text>
-        <Text style={styles.text}>
-          Terminate or suspend your access to all or part of the App for any or
-          no reason, including, without limitation, any violation of these Terms
-          and Conditions.
-        </Text>
-        <Text style={styles.text}>
-          YOU WAIVE AND HOLD US HARMLESS AND OUR AFFILIATES, AND THEIR
-          RESPECTIVE DIRECTORS, OFFICERS, EMPLOYEES, AGENTS, SERVICE PROVIDERS,
-          CONTRACTORS, LICENSORS, LICENSEES, SUPPLIERS, AND SUCCESSORS FROM ANY
-          AND ALL CLAIMS RESULTING FROM ANY ACTION TAKEN BY US AND ANY OF THE
-          FOREGOING PARTIES RELATING TO ANY INVESTIGATIONS BY US OR SUCH PARTIES
-          OR BY LAW ENFORCEMENT AUTHORITIES.
+          We reserve the right to remove access to the platform in cases of
+          violation of these Terms or for any other reason at our sole
+          discretion. Your continued use of the App signifies your agreement to
+          these Terms and the conditions outlined above.
         </Text>
         <Text style={styles.text}>
           We have no obligation, nor any responsibility to any party to monitor
@@ -356,20 +265,55 @@ const TermsOfService = () => {
 
         <Text style={styles.header}>Privacy</Text>
         <Text style={styles.text}>
-          By submitting your personal information and using our App, you consent
-          to the collection, use, reproduction, hosting, transmission, and
-          disclosure of any such user content submissions in compliance with our
-          Privacy Policy, as we deem necessary for use of the App and provision
-          of services.
+          We are committed to protecting your privacy and ensuring that your
+          personal data remains secure and confidential. By using the App, you
+          acknowledge and agree to the following privacy practices:
         </Text>
         <Text style={styles.text}>
-          By using this App you are consenting to the use of cookies which allow
-          a server to recall previous requests or registration and/or IP
-          addresses to analyze website use patterns. You can set your browser to
-          notify you before you receive a cookie, giving you the chance to
-          decide whether to accept it. You can also set your browser to turn off
-          cookies. If you do, however, some areas of the App may not function
-          adequately.{" "}
+          (1)  Confidentiality of User Data - Your journal entries and personal
+          data are treated as strictly confidential. We do not access, review,
+          or share your data under any circumstances, including for
+          troubleshooting or service-related issues. Even in the event of a
+          system error, your data will remain private.
+        </Text>
+        <Text style={styles.text}>
+          (2)  Use of Data for Service Improvements - Your data may be used to
+          improve your experience within the App. However, any data used for
+          analytics or AI-driven enhancements will be fully anonymized and
+          processed in aggregate. No personally identifiable information will be
+          linked to any algorithm, analysis, or third-party system.
+        </Text>
+        <Text style={styles.text}>
+          (3)  Third-Party Services - We may integrate third-party services to
+          enhance functionality. However: (a)No personal data will be shared
+          with third parties. (b)Any data used to improve the App will remain
+          unlinked to individual users. (c)Third-party services will not have
+          access to any data used in training AI models or analytics.
+        </Text>
+        <Text style={styles.text}>
+          (4)  Government Requests & Data Protection - We do not create or
+          provide backdoors for unauthorized access to user data. If we receive
+          any request from a government or other authority to provide user data
+          or implement access mechanisms, we will not comply. Instead, we will
+          take immediate action to protect our users by wiping all user data
+          from our systems, regardless of whether a specific user’s data was
+          requested.
+        </Text>
+        <Text style={styles.text}>
+          (5)  Data Retention & Deletion - We do not store your data beyond what
+          is necessary to provide the service. If you choose to delete your
+          account, all associated data will be permanently erased from our
+          systems.
+        </Text>
+        <Text style={styles.text}>
+          (6)  Security Measures - We implement appropriate security measures to
+          protect user data from unauthorized access, misuse, or loss. However,
+          you acknowledge that no system is entirely immune to risks, and you
+          use the App at your own discretion.
+        </Text>
+        <Text style={styles.text}>
+          By using the App, you agree to these privacy terms. For more details
+          on how your data is handled, please refer to our Privacy Policy.
         </Text>
 
         <Text style={styles.header}>Third-Party Websites</Text>
@@ -411,7 +355,7 @@ const TermsOfService = () => {
           through our App does not indicate an affiliation with or endorsement
           of any Contractors or Businesses (collectively “Clients”).
           Accordingly, we do not provide any conditions or warranties with
-          respect to Clients or Contractor Services.{" "}
+          respect to Clients or Contractor Services.
         </Text>
         <Text style={styles.text}>
           All orders, purchases or transactions for the sale of services or
@@ -548,16 +492,24 @@ const TermsOfService = () => {
           Intellectual Property Rights and Ownership
         </Text>
         <Text style={styles.text}>
-          Our name, our logo, and all related names, logos, product and service
-          names, designs, images, and slogans are trademarks of ours or our
-          affiliates or licensors. You must not use such marks without our prior
-          written permission. Other names, logos, product and service names,
-          designs, images, and slogans mentioned, or which appear on this App
-          are the trademarks of their respective owners. Use of any such
-          property, except as expressly authorized, shall constitute an
-          infringement or violation of the rights of the property owner and may
-          be a violation of federal or other laws and could subject the
-          infringer to legal action.
+          The App is built on open-source software, which is made available
+          under the terms of its respective software license agreement. Users
+          are free to access, modify, and distribute the software in accordance
+          with that license. For more details, please refer to the Software
+          License Agreement.
+        </Text>
+        <Text style={styles.text}>
+          However, all images, logos, branding elements, and proprietary
+          graphics used within the app, on the our website, and in app store
+          listings are not open source. These assets are the exclusive property
+          of us and are protected by copyright, trademark, and other
+          intellectual property laws. You may not copy, distribute, modify, or
+          use these materials for any purpose without explicit written
+          permission from us.
+        </Text>
+        <Text style={styles.text}>
+          By using the App, you acknowledge and agree to these intellectual
+          property terms.
         </Text>
 
         <Text style={styles.header}>Waiver</Text>

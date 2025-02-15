@@ -14,17 +14,19 @@ const UserAgreement = () => {
     <SafeAreaView style={styles.container}>
       <Header showCenter={false} />
       <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
-        <Text style={styles.title}>User Agreement</Text>
-        <Text style={styles.header}>Click-wrap Software Licence Agreement</Text>
+        <Text style={styles.title}>Licence Agreement</Text>
+        <Text style={styles.header}>Software Licence Agreement</Text>
         <Text style={styles.text}>
-          CAREFULLY READ THE FOLLOWING LICENCE AGREEMENT. IT CONTAINS VERY
-          IMPORTANT INFORMATION ABOUT YOUR RIGHTS AND OBLIGATIONS, AS WELL AS
-          LIMITATIONS AND EXCLUSIONS THAT MAY APPLY TO YOU. THIS DOCUMENT
-          CONTAINS A DISPUTE RESOLUTION CLAUSE. BY CLICKING ON THE “ACCEPT”
-          BUTTON, YOU ARE CONSENTING TO BE BOUND BY AND ARE BECOMING A PARTY TO
-          THIS AGREEMENT, AND ARE SUBJECT TO OUR PRIVACY POLICY AND TERMS AND
-          CONDITIONS OF USE. IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS
-          AGREEMENT, CLOSE AND DELETE THE APPLICATION.
+          THIS PROJECT IS OPEN-SOURCE AND IS NOT OWNED BY US. THE SOURCE CODE
+          FOR THIS APP CAN BE FOUND ONLINE. CAREFULLY READ THE FOLLOWING LICENCE
+          AGREEMENT. IT CONTAINS VERY IMPORTANT INFORMATION ABOUT YOUR RIGHTS
+          AND OBLIGATIONS, AS WELL AS LIMITATIONS AND EXCLUSIONS THAT MAY APPLY
+          TO YOU. THIS DOCUMENT CONTAINS A DISPUTE RESOLUTION CLAUSE. BY
+          CLICKING ON THE “ACCEPT” BUTTON, YOU ARE CONSENTING TO BE BOUND BY AND
+          ARE BECOMING A PARTY TO THIS AGREEMENT, AND ARE SUBJECT TO OUR PRIVACY
+          POLICY FOUND AND TERMS AND CONDITIONS OF USE PROVIDED IN THE APP. IF
+          YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, CLICK THE “DO
+          NOT ACCEPT” BUTTON OR DELETE THE APP.
         </Text>
 
         <Text style={styles.text}>
@@ -87,23 +89,15 @@ const UserAgreement = () => {
           party;
         </Text>
         <Text style={styles.text}>
-          (b) distribute, or sublicense or otherwise provide copies or any
-          rights in relation to the Licensed Software to any third party;
-        </Text>
-        <Text style={styles.text}>
-          (c) pledge, hypothecate, alienate or otherwise encumber the Licensed
+          (b) pledge, hypothecate, alienate or otherwise encumber the Licensed
           Software to any third party;
         </Text>
         <Text style={styles.text}>
-          (d) use the Licensed Software to rent, lease or otherwise provide
+          (c) use the Licensed Software to rent, lease or otherwise provide
           location-enabled telecommunication or information services to Your
           customers, including, without limitation, data processing, hosting,
           outsourcing, service bureau or online application services (ASP)
           offerings; or
-        </Text>
-        <Text style={styles.text}>
-          (e) modify, enhance, reverse-engineer, decompile, disassemble or
-          create substantially derived forms of the Licensed Software.
         </Text>
         <Text style={styles.text}>
           2.3 Enforcement of Restrictions. We will have the right to inspect and
@@ -119,24 +113,16 @@ const UserAgreement = () => {
           Licensed Software for Your use under this Agreement; and
         </Text>
         <Text style={styles.text}>
-          (b) provide You with ongoing updates to the Licensed Software as We
-          consider needed. In each such case, We will automatically provide and
-          install the necessary updates and will notify You when the update has
-          been installed.
+          (b) provide You with ongoing updates to the Licensed Software.
         </Text>
 
         <Text style={styles.header}>3. COPYRIGHT AND MARKS</Text>
         <Text style={styles.text}>
-          3.1 Copyright. The Licensed Software, including any documentation,
-          media, packaging and illustrations, is copyrighted and constitutes Our
-          valuable property. You agree that all physical manifestations of the
-          Licensed Software will display Our copyright notice in a conspicuous
-          manner. The Licensed Software is protected under Canadian copyright
-          laws and international treaty provisions. You Will have a right to
-          copy the materials, provided copyright notices and acknowledgement of
-          trade-marks are included, pursuant to the covenants herein. You will
-          include the following notice on any printed, electronic, online or
-          packaged version of the Licensed Software, in any form whatsoever:
+          3.1 Copyright. The Licensed Software, is open source and we do not own
+          it. The Licensed Software is protected under Canadian copyright laws
+          and international treaty provisions. You Will have a right to copy the
+          materials, provided copyright notices and acknowledgement of
+          trade-marks are included, pursuant to the covenants herein.
         </Text>
         <Text style={styles.text}>
           3.2 Trade-marks. Certain logos, product names and trade-marks owned by
@@ -150,15 +136,15 @@ const UserAgreement = () => {
         <Text style={styles.text}>
           4.1 Title. You acknowledge that the Licensed Software, including any
           associated written materials and other documentation provided under
-          this Agreement, belongs exclusively to Us. Unencumbered title to the
-          Licensed Software will, at all times, remain with Us. You agree to
-          protect the Licensed Software from unauthorized use, reproduction,
+          this Agreement, is open source. Unencumbered title to the Licensed
+          Software will, at all times, remain open source. You agree to protect
+          the Licensed Software from unauthorized use, reproduction,
           distribution or publication in electronic or physical form.
         </Text>
 
         <Text style={styles.header}>5. WARRANTY AND INDEMNITY</Text>
         <Text style={styles.text}>
-          5.1 Warranty. We warrant that We are the owner of the Licensed
+          5.1 Warranty. We warrant that We have rights to use the Licensed
           Software, and have the right and authority to grant the licence to the
           Licensed Software. We do not warrant, guarantee, accept any condition
           or make any representation that the Licensed Software will meet Your
@@ -288,79 +274,43 @@ const UserAgreement = () => {
           basis, at Our then current commercial rates.
         </Text>
 
-        <Text style={styles.header}>9. CONFIDENTIALITY</Text>
-        <Text style={styles.text}>
-          9.1 Confidentiality. You acknowledge that the existence of this
-          Agreement, the terms and conditions hereof, the transactions
-          contemplated hereby and other information, including, without
-          limitation, customer, technical and financial information that they
-          have received or will receive in connection with this Agreement, is
-          considered private and confidential (the “Confidential Information”).
-          You will use reasonable diligence and in no event less than the degree
-          of care which We use in respect to our own confidential and
-          proprietary information of like nature, to prevent the unauthorized
-          disclosure, reproduction or distribution of such Confidential
-          Information to any other individual, corporation or entity. Such
-          Confidential Information will exclude:
-        </Text>
-        <Text style={styles.text}>
-          (a) information that is already in the public domain;
-        </Text>
-        <Text style={styles.text}>
-          (b) information already known to the receiving party, as of the date
-          of the disclosure, unless the receiving party agreed to keep such
-          information in confidence at the time of its original receipt;
-        </Text>
-        <Text style={styles.text}>
-          (c) information hereafter obtained by the receiving party, from a
-          source not otherwise under an obligation of confidentiality with the
-          disclosing party;
-        </Text>
-        <Text style={styles.text}>
-          (d) information that the receiving party is obligated to produce under
-          order of a court of competent jurisdiction, provided that the
-          receiving party promptly notifies the disclosing party of such an
-          event so that the disclosing party may seek an appropriate protective
-          order.
-        </Text>
-
-        <Text style={styles.header}>10. TERM</Text>
+        <Text style={styles.header}>9. TERM</Text>
         <Text style={styles.text}>
           10.1 Term. The term of this Agreement will commence on the date of
           Your agreement to these terms and shall continue for the same term as
           the Usage Agreement.
         </Text>
 
-        <Text style={styles.header}>11. GENERAL</Text>
+        <Text style={styles.header}>10. GENERAL</Text>
         <Text style={styles.text}>
-          11.1 Consents. Any consent required under this Agreement will not be
+          10.1 Consents. Any consent required under this Agreement will not be
           unreasonably withheld.
         </Text>
         <Text style={styles.text}>
-          11.2 Captions. The Article and paragraph headings used herein are for
+          10.2 Captions. The Article and paragraph headings used herein are for
           convenience only and are not a part of this Agreement and will not be
           used in construing it.
         </Text>
         <Text style={styles.text}>
-          11.3 Entire Agreement. This Agreement, the Terms and Conditions, and
+          10.3 Entire Agreement. This Agreement, the Terms and Conditions, and
           the Privacy Policy encompass the entire agreement of the Parties, and
           no amendment to the terms of this Agreement will be effective unless
           in writing and signed by both parties hereto.
         </Text>
         <Text style={styles.text}>
-          11.4 Equitable Relief. You agree that any breach of this Agreement by
+          10.4 Equitable Relief. You agree that any breach of this Agreement by
           You would cause irreparable damage, and that, in event of such breach,
           in addition to any and all remedies at law, We will have the right to
           an injunction, specific performance or other equitable relief to
           prevent the continuous violations of the terms of this Agreement.
         </Text>
         <Text style={styles.text}>
-          11.5 Force Majeure. Notwithstanding anything herein to the contrary,
+          10.5 Force Majeure. Notwithstanding anything herein to the contrary,
           We shall not be liable for any delay or failure in performance caused
           by circumstances beyond Our reasonable control.
         </Text>
         <Text style={styles.text}>
-          11.6 Relationship of the Parties. This Agreement does not constitute a
+          10.6 Relationship of the Parties. This Agreement does not constitute a
           partnership or joint venture, and nothing herein contained is intended
           to constitute, nor will it be construed to constitute, such a
           partnership or joint venture. Except as expressly provided in this
@@ -369,19 +319,19 @@ const UserAgreement = () => {
           party to any legal agreement.
         </Text>
         <Text style={styles.text}>
-          11.7 Severability. The provisions of this Agreement are to be
+          10.7 Severability. The provisions of this Agreement are to be
           considered separately, and if any provision hereof should be found by
           any court or competent jurisdiction to be invalid or unenforceable,
           this Agreement will be deemed to have effect as if such provision were
           severed from this Agreement.
         </Text>
         <Text style={styles.text}>
-          11.8 Number and Gender. Where the context permits, the singular
+          10.8 Number and Gender. Where the context permits, the singular
           includes the plural, and the masculine includes the feminine and vice
           versa.
         </Text>
         <Text style={styles.text}>
-          11.9 Notices. All notices and communications required or permitted
+          10.9 Notices. All notices and communications required or permitted
           under this Agreement will be in writing and will be sent by registered
           or certified mail, postage prepaid, return receipt requested,
           facsimile transmission (the “Fax”), with confirmed answer back, or
@@ -396,12 +346,12 @@ const UserAgreement = () => {
           generated and maintained in printed form.
         </Text>
         <Text style={styles.text}>
-          11.10 JURISDICTION. THE PARTIES HEREBY IRREVOCABLY ATTORN TO THE
+          10.10 JURISDICTION. THE PARTIES HEREBY IRREVOCABLY ATTORN TO THE
           EXCLUSIVE JURISDICTION OF THE COURTS OF THE PROVINCE OF MANITOBA WITH
           RESPECT TO ANY DISPUTE ARISING HEREUNDER.
         </Text>
         <Text style={styles.text}>
-          11.11 GOVERNING LAW. THIS AGREEMENT AND ANY SALES THEREUNDER SHALL BE
+          10.11 GOVERNING LAW. THIS AGREEMENT AND ANY SALES THEREUNDER SHALL BE
           DEEMED TO HAVE BEEN MADE IN THE PROVINCE OF MANITOBA AND SHALL BE
           CONSTRUED AND INTERPRETED ACCORDING TO THE LAWS OF THE PROVINCE OF
           MANITOBA AND THE APPLICABLE LAWS OF CANADA. We and You expressly
@@ -410,7 +360,7 @@ const UserAgreement = () => {
           (Manitoba), as amended, replaced or re-enacted from time to time.
         </Text>
         <Text style={styles.text}>
-          11.12 Revisions to this Agreement. We may at any time revise the terms
+          10.12 Revisions to this Agreement. We may at any time revise the terms
           of this Agreement by updating these terms and by providing notice to
           you of that change.
         </Text>
