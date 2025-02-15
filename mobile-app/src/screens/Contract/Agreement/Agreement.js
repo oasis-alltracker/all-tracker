@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default Agreement;

@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginBottom: 20,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",

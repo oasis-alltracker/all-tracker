@@ -627,7 +627,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginRight: 5,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   quoteText: {
     fontFamily: "Sego",
     color: "#25436B",

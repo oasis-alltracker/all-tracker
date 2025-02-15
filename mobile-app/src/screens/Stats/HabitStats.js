@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 210,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default HabitStats;

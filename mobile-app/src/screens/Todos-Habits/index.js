@@ -96,7 +96,9 @@ const TodosHabits = ({ navigation }) => {
         numDots.push(i);
       }
       setDots(numDots);
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
     };
 
     if (!isPageLoaded) {
@@ -1151,7 +1153,7 @@ const styles = StyleSheet.create({
     left: 20,
     zIndex: 1,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default TodosHabits;

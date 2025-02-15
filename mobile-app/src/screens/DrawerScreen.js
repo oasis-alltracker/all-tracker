@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 120,
     height: 120,
-    opacity: 0.5,
+    opacity: 0.38,
   },
 });
 

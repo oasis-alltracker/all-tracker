@@ -144,7 +144,7 @@ const SelectTrackers = () => {
       <Spinner visible={isLoading}></Spinner>
       <Header />
       <Text style={[styles.subtitle, { marginTop: height * 0.05 }]}>
-        What would you like to track inside your journal?
+        Which areas of your daily life would you like to reflect on?
       </Text>
       <View style={styles.middleContainer}>
         <View style={styles.center}>
@@ -291,5 +291,5 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 8,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });

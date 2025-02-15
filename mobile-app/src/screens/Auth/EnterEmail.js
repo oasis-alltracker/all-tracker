@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     color: "#25436B",
     fontSize: 28,
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   emailInput: {
     color: "black",
     fontSize: 20,

@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   chartContainer: {
     alignItems: "center",
   },
-  errorToast: { textColor: "#fff" },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default MoodStats;

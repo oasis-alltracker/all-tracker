@@ -2,7 +2,7 @@
   "expo": {
     "name": "Oasis",
     "slug": "oasistracker",
-    "version": "2.4.7",
+    "version": "2.4.8",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "scheme": "com.oasistracker",
@@ -13,7 +13,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "icon": "./src/assets/images/app-icon-logo-apple.png",
+      "icon": "./src/assets/images/space-oasis-icon-logo.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.oasistracker",
       "infoPlist": {
@@ -27,10 +27,10 @@
       }
     },
     "android": {
-      "icon": "./src/assets/images/app-icon-logo-android.png",
+      "icon": "./src/assets/images/space-oasis-icon-logo.png",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/app-icon-logo-android.png",
+        "foregroundImage": "./src/assets/images/space-oasis-icon-logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.oasistracker"
@@ -67,7 +67,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./src/assets/images/notification-icon.png",
+          "icon": "./src/assets/images/space-oasis-notification-logo-icon.png",
           "sounds": ["./src/assets/sounds/vibratone_e.wav"],
           "color": "#FFFCEE"
         }
