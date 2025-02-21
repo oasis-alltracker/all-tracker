@@ -61,8 +61,12 @@ const SleepStats = ({ sunday, updateStats }) => {
         });
       }
     };
-    setIsLoading(true);
-    getStatsOnLoad();
+    if (updateStats > 0) {
+      setTimeout(() => {
+        setIsLoading(true);
+        getStatsOnLoad();
+      }, 300);
+    }
   }, [sunday, updateStats]);
 
   return (
