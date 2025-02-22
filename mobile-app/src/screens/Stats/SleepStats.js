@@ -27,7 +27,7 @@ const SleepStats = ({ sunday, updateStats }) => {
     { value: 0, label: labels[6] },
   ]);
   const [averageRating, setAveragerRating] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getStatsOnLoad = async () => {

@@ -241,6 +241,23 @@ const MoodSleep = ({ navigation }) => {
     getPreferencesOnLoad();
   }, []);
 
+  useEffect(() => {
+    if (trackingPreferences) {
+      if (
+        trackingPreferences.habitsSelected &&
+        trackingPreferences.toDosSelected &&
+        pageIndex == 3
+      ) {
+        setUpdateStats(updateStats + 1);
+      } else if (
+        (pageIndex == 2 && !trackingPreferences.habitsSelected) ||
+        (pageIndex == 2 && !trackingPreferences.toDosSelected)
+      ) {
+        setUpdateStats(updateStats + 1);
+      }
+    }
+  }, [pageIndex]);
+
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "first":
