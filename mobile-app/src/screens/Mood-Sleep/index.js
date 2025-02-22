@@ -244,14 +244,14 @@ const MoodSleep = ({ navigation }) => {
   useEffect(() => {
     if (trackingPreferences) {
       if (
-        trackingPreferences.habitsSelected &&
-        trackingPreferences.toDosSelected &&
+        trackingPreferences.moodSelected &&
+        trackingPreferences.sleepSelected &&
         pageIndex == 3
       ) {
         setUpdateStats(updateStats + 1);
       } else if (
-        (pageIndex == 2 && !trackingPreferences.habitsSelected) ||
-        (pageIndex == 2 && !trackingPreferences.toDosSelected)
+        (pageIndex == 2 && !trackingPreferences.moodSelected) ||
+        (pageIndex == 2 && !trackingPreferences.sleepSelected)
       ) {
         setUpdateStats(updateStats + 1);
       }
