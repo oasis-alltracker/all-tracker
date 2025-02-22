@@ -246,17 +246,17 @@ const MoodSleep = ({ navigation }) => {
       if (
         trackingPreferences.moodSelected &&
         trackingPreferences.sleepSelected &&
-        pageIndex == 3
+        index == 3
       ) {
         setUpdateStats(updateStats + 1);
       } else if (
-        (pageIndex == 2 && !trackingPreferences.moodSelected) ||
-        (pageIndex == 2 && !trackingPreferences.sleepSelected)
+        (index == 2 && !trackingPreferences.moodSelected) ||
+        (index == 2 && !trackingPreferences.sleepSelected)
       ) {
         setUpdateStats(updateStats + 1);
       }
     }
-  }, [pageIndex]);
+  }, [index]);
 
   const renderScene = ({ route }) => {
     switch (route.key) {
