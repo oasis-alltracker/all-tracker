@@ -21,28 +21,29 @@ class DbUtils {
   }
 
   deleteItems(pk, items) {
-    if (items.length > 0) {
+    if (items.length === 0) return Promise.resolve();
+
+    const MAX_BATCH_SIZE = 25;
+    const batches = [];
+
+    // Split items into batches of 25
+    for (let i = 0; i < items.length; i += MAX_BATCH_SIZE) {
+      batches.push(items.slice(i, i + MAX_BATCH_SIZE));
+    }
+
+    const deleteBatch = (batch) => {
       const params = {
         RequestItems: {
-          [this.tableName]: [],
+          [this.tableName]: batch.map((item) => ({
+            DeleteRequest: {
+              Key: { PK: pk, SK: item.SK },
+            },
+          })),
         },
       };
 
-      for (var item of items) {
-        const key = {
-          PK: pk,
-          SK: item.SK,
-        };
-
-        params.RequestItems[this.tableName].push({
-          DeleteRequest: {
-            Key: key,
-          },
-        });
-      }
-
       return new Promise((resolve, reject) => {
-        this.DB.batchWrite(params, function (err, data) {
+        this.DB.batchWrite(params, (err, data) => {
           if (err) {
             reject(err);
           } else {
@@ -50,7 +51,12 @@ class DbUtils {
           }
         });
       });
-    }
+    };
+
+    // Process all batches sequentially
+    return batches.reduce((promiseChain, batch) => {
+      return promiseChain.then(() => deleteBatch(batch));
+    }, Promise.resolve());
   }
 
   putItem(itemObject) {
