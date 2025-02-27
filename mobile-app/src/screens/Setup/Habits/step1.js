@@ -257,7 +257,10 @@ const HabitsCreation = (props) => {
         await getHabits();
       }
     };
-    getHabitsOnLoad();
+    if (!habitsIsLoaded) {
+      setIsLoading(true);
+      getHabitsOnLoad();
+    }
   }, []);
 
   const MyHabits = () => (
