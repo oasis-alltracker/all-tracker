@@ -57,6 +57,9 @@ class DeleteUser {
     const habitStatuses = await this.getAll(email, "habitStatus");
     await this.DB.deleteItems(`${email}-habitStatus`, habitStatuses);
 
+    const notifications = await this.getAll(email, "notification");
+    await this.DB.deleteItems(`${email}-notification`, notifications);
+
     const wellnessReports = await this.getAll(email, "wellnessReport");
     await this.DB.deleteItems(`${email}-wellnessReport`, wellnessReports);
 
@@ -68,9 +71,6 @@ class DeleteUser {
 
     const toDos = await this.getAll(email, "toDo");
     await this.DB.deleteItems(`${email}-toDo`, toDos);
-
-    const notifications = await this.getAll(email, "notification");
-    await this.DB.deleteItems(`${email}-notification`, notifications);
   }
 
   async getAll(user, pkSuffix) {
