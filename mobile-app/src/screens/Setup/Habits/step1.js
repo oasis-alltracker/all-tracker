@@ -26,7 +26,7 @@ const HabitsCreation = (props) => {
   const [habits, setHabits] = useState([]);
   const [habitsIsLoaded, setHabitsIsLoaded] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const modalRef = useRef(null);
 
@@ -108,8 +108,6 @@ const HabitsCreation = (props) => {
         habit,
         isNotificationsOn
       );
-
-      console.log(habitID);
 
       if (isNotificationsOn) {
         var triggers = [];
@@ -231,13 +229,13 @@ const HabitsCreation = (props) => {
   };
 
   const getHabits = async () => {
-    setIsLoading(true);
     try {
       token = await getAccessToken();
       var userHabits = await HabitsAPI.getHabits(token);
       setHabits(userHabits);
       setIsLoading(false);
     } catch (e) {
+      console.log(e);
       setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -252,14 +250,13 @@ const HabitsCreation = (props) => {
 
   useEffect(() => {
     const getHabitsOnLoad = async () => {
-      if (!habitsIsLoaded) {
-        setHabitsIsLoaded(true);
-        await getHabits();
-      }
+      setHabitsIsLoaded(true);
+      await getHabits();
     };
     if (!habitsIsLoaded) {
-      setIsLoading(true);
-      getHabitsOnLoad();
+      setTimeout(() => {
+        getHabitsOnLoad();
+      }, 400);
     }
   }, []);
 

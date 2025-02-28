@@ -13,7 +13,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Toast from "react-native-root-toast";
-import Spinner from "react-native-loading-spinner-overlay";
 
 const SelectTrackers = () => {
   const { width, height } = useWindowDimensions();
@@ -141,7 +140,6 @@ const SelectTrackers = () => {
 
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
-      <Spinner visible={isLoading}></Spinner>
       <Header />
       <Text style={[styles.subtitle, { marginTop: height * 0.05 }]}>
         Which areas of your daily life would you like to reflect on?
@@ -241,6 +239,7 @@ const SelectTrackers = () => {
       <Button
         onPress={() => setSelectedTrackers()}
         style={{ marginHorizontal: width * 0.05 }}
+        isLoading={isLoading}
       >
         Continue
       </Button>
