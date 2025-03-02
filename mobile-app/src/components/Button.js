@@ -15,7 +15,6 @@ const Button = (props) => {
           animating={true}
           size="small"
           style={styles.spinner}
-          color={props.activityIndicatorColor || "white"}
         />
       );
     }
@@ -34,13 +33,7 @@ const Button = (props) => {
 
   if (props.isDisabled === true || props.isLoading === true) {
     return (
-      <View
-        style={[
-          styles.button,
-          props.style,
-          props.disabledStyle || styles.opacity,
-        ]}
-      >
+      <View style={[styles.button, props.style, props.style || styles.opacity]}>
         {_renderInnerText()}
       </View>
     );

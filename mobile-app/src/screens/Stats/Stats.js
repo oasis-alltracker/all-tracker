@@ -204,11 +204,15 @@ const Stats = ({ getRef }) => {
                 <Text style={styles.entityTitle}>Spirit</Text>
               </View>
               {trackingPreferences?.moodSelected && (
-                <MoodStats sunday={moment(selectedSunday).format("YYYYMMDD")} />
+                <MoodStats
+                  sunday={moment(selectedSunday).format("YYYYMMDD")}
+                  updateStats={updateStats}
+                />
               )}
               {trackingPreferences?.sleepSelected && (
                 <SleepStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
+                  updateStats={updateStats}
                 />
               )}
             </View>
