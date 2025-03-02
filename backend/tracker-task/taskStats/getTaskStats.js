@@ -41,9 +41,16 @@ class GetTaskStats {
           dateSK.toString(),
           false
         );
+        const incompleteNoDueDateToDos = await this.getNoDueDateToDos(
+          user.email,
+          false
+        );
 
         var completionCount = completeToDos.length;
-        var taskCount = completeToDos.length + incompleteToDos.length;
+        var taskCount =
+          completeToDos.length +
+          incompleteToDos.length +
+          incompleteNoDueDateToDos.length;
 
         response.push({
           completionCount: completionCount,
@@ -105,6 +112,20 @@ class GetTaskStats {
     const values = {
       ":pk": `${user}-toDo`,
       ":sk": `${isComplete}-${dateStamp}`,
+    };
+
+    const response = await this.DB.queryItem(expression, names, values);
+    return response?.Items;
+  }
+  async getNoDueDateToDos(user, isComplete) {
+    const expression = "#pk = :pk AND begins_with(#sk, :sk)";
+    const names = {
+      "#pk": "PK",
+      "#sk": "SK",
+    };
+    const values = {
+      ":pk": `${user}-toDo`,
+      ":sk": `${isComplete}-noDueDate`,
     };
 
     const response = await this.DB.queryItem(expression, names, values);
