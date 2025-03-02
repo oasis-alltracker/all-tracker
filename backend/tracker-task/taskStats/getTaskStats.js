@@ -41,22 +41,22 @@ class GetTaskStats {
           dateSK.toString(),
           false
         );
-        const incompleteNoDueDateToDos = await this.getNoDueDateToDos(
-          user.email,
-          false
-        );
 
         var completionCount = completeToDos.length;
-        var taskCount =
-          completeToDos.length +
-          incompleteToDos.length +
-          incompleteNoDueDateToDos.length;
+        var taskCount = completeToDos.length + incompleteToDos.length;
 
         response.push({
           completionCount: completionCount,
           taskCount: taskCount,
         });
       }
+
+      const incompleteNoDueDateToDos = await this.getNoDueDateToDos(
+        user.email,
+        false
+      );
+
+      response[0].taskCount += incompleteNoDueDateToDos.length;
 
       var tasks = await this.getTasks(user.email);
       for (var task of tasks) {
