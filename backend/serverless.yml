@@ -104,6 +104,17 @@ functions:
           path: v1/authentication/loginOTP
           method: post
           cors: true
+  loginDevice:
+    handler: authentication/loginDevice/index.handler
+    role:
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/authentication/loginDevice
+          method: post
+          cors: true
   verifyTempPassword:
     handler: authentication/verifyTempPassword/index.handler
     role:
