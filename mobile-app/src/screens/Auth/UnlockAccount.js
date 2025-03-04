@@ -18,10 +18,12 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { getUniqueId } from "react-native-device-info";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
@@ -115,6 +117,7 @@ const UnlockAccount = (props) => {
 
   const onPressContinue = async () => {
     setIsLoading(true);
+    Keyboard.dismiss();
     if (password.length > 0) {
       const deviceID = await getUniqueId();
       const { status, data } = await LoginAPI.loginDevice(deviceID, password);
@@ -124,13 +127,12 @@ const UnlockAccount = (props) => {
           await saveToken("accessToken", data.accessToken);
           await saveToken("refreshToken", data.refreshToken);
           setIsLoading(false);
-          await navigationService.reset("contract", 0);
-          setPassword("");
+          navigationService.reset("main", 0);
         } else if (data.isAccountSuspended || data.isAccountLocked) {
           setIsLoading(false);
           Alert.alert(
-            "Oasis Account Suspended",
-            "Your account has been suspended for security reasons. To unlock it, you must contact us",
+            "Account Locked",
+            "Your account has been locked for security reasons. To unlock it, you must contact us",
             [{ text: "Ok" }],
             {
               cancelable: true,

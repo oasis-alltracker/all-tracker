@@ -116,29 +116,23 @@ const CreateAccountLock = (props) => {
   };
 
   const onPressContinue = async () => {
+    Keyboard.dismiss();
     setIsLoading(true);
     if (password.length > 0) {
       if (password === passwordCopy) {
         try {
-          console.log("getting deviceID");
           const deviceID = await getUniqueId();
-          console.log(deviceID);
 
           const { status, data } = await LoginAPI.loginDevice(
             deviceID,
             password
           );
 
-          console.log(status);
-          console.log(data);
-
           if (status == 200 && data?.accessToken && data?.refreshToken) {
             await saveToken("accessToken", data.accessToken);
             await saveToken("refreshToken", data.refreshToken);
             setIsLoading(false);
-            await navigationService.reset("contract", 0);
-            setPassword("");
-            setPasswordCopy("");
+            navigationService.reset("contract", 0);
           } else {
             setIsLoading(false);
             Toast.show("Something went wrong. Please try again.", {

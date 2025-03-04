@@ -29,7 +29,7 @@ const isTokenValid = (token) => {
 export async function saveToken(key, value) {
   try {
     await SecureStore.setItemAsync(key, value);
-    await SecureStore.setItemAsync("isAccountCreated", true);
+    await SecureStore.setItemAsync("isAccountCreated", "true");
   } catch (e) {
     console.log(e);
   }
