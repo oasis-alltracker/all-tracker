@@ -43,7 +43,7 @@ class LoginAPI {
 
     try {
       const response = await axios.post(url, body);
-      return response?.data;
+      return response;
     } catch (e) {
       console.log(e);
     }
