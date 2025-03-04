@@ -22,7 +22,7 @@ export default function App() {
   });
   const [loading, setLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
-  const [initialRoute, setInitialRoute] = useState("landing");
+  const [initialRoute, setInitialRoute] = useState("auth");
   const [initialMainRoute, setInitialMainRoute] = useState("mainscreen");
 
   const [notification, setNotification] = useState(false);
@@ -85,7 +85,7 @@ export default function App() {
             if (userData["isSetupComplete"]) {
               setInitialRoute("main");
             } else {
-              setInitialRoute("landing");
+              setInitialRoute("auth");
             }
           } else {
             logout();

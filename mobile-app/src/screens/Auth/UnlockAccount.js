@@ -9,7 +9,6 @@ import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
-import { isEmailValid } from "../../utils/commonUtils";
 import {
   View,
   Text,
@@ -22,12 +21,10 @@ import {
 } from "react-native";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
-import { logout } from "../../user/keychain";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
-
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 GoogleSignin.configure({
   androidClientId:
@@ -38,8 +35,9 @@ GoogleSignin.configure({
     "43771055341-4cm2hvtpuo1sdjrbddoduopuqpvgm77i.apps.googleusercontent.com",
 });
 
-const EnterEmail = () => {
-  const [email, setEmail] = useState("");
+const UnlockAccount = (props) => {
+  const [password, setPassword] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
 
   //--------------------- APPLE LOGIN
@@ -115,14 +113,20 @@ const EnterEmail = () => {
     }
   };
 
-  //--------------------- EMAIL LOGIN
   const onPressContinue = async () => {
     setIsLoading(true);
-    if (isEmailValid(email)) {
-      const { status, data } = await LoginAPI.doesUserExist(email);
+    if (password.length > 0) {
+      const deviceID = await getUniqueId();
+      const { status, data } = await LoginAPI.loginDevice(deviceID, password);
 
       if (status == 200 && data) {
-        if (data.isAccountSuspended) {
+        if (status == 200 && data?.accessToken && data?.refreshToken) {
+          await saveToken("accessToken", data.accessToken);
+          await saveToken("refreshToken", data.refreshToken);
+          setIsLoading(false);
+          await navigationService.reset("contract", 0);
+          setPassword("");
+        } else if (data.isAccountSuspended || data.isAccountLocked) {
           setIsLoading(false);
           Alert.alert(
             "Oasis Account Suspended",
@@ -132,49 +136,13 @@ const EnterEmail = () => {
               cancelable: true,
             }
           );
-        }
-        if (data.isAccountLocked) {
-          setIsLoading(false);
-          Alert.alert(
-            "Oasis Account Locked",
-            "Your account has been locked for security reasons. To unlock it, you must reset your password",
-            [
-              { text: "Cancel", style: "cancel" },
-              {
-                text: "Unlock",
-                isPreferred: true,
-                onPress: async () => {
-                  try {
-                    await LoginAPI.requestNewPassword(email);
-                    await navigationService.navigate("tempPassword", {
-                      email,
-                    });
-                    setEmail("");
-                  } catch (e) {
-                    logout();
-                    navigationService.reset("auth", 0);
-                  }
-                },
-              },
-            ],
-            {
-              cancelable: true,
-            }
-          );
-        } else if (data?.exists) {
-          setIsLoading(false);
-
-          await navigationService.navigate("enterPassword", {
-            email,
-          });
-          setEmail("");
         } else {
           setIsLoading(false);
-
-          await navigationService.navigate("createPassword", {
-            email,
+          Toast.show("Password is incorrect. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.CENTER,
           });
-          setEmail("");
         }
       } else {
         setIsLoading(false);
@@ -186,7 +154,7 @@ const EnterEmail = () => {
       }
     } else {
       setIsLoading(false);
-      Toast.show("Please enter a valid email address.", {
+      Toast.show("Please enter a password.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
         position: Toast.positions.CENTER,
@@ -196,26 +164,23 @@ const EnterEmail = () => {
 
   return (
     <View style={styles.container}>
-      <Spinner visible={isLoading}></Spinner>
       <Header />
+      <Spinner visible={isLoading}></Spinner>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.view}>
           <View style={styles.center}>
-            <Text style={styles.title}>What is your email address?</Text>
-            <View style={styles.emailInputContainer}>
+            <Text style={styles.title}>Enter your password</Text>
+            <View style={styles.passwordInputContainer}>
               <TextInput
-                style={styles.emailInput}
-                placeholder="Enter your email address"
+                style={styles.passwordInput}
+                placeholder="Enter your password"
+                secureTextEntry={true}
                 placeholderTextColor="#9c9eb9"
-                onChangeText={setEmail}
-                underlineColorAndroid="transparent"
-                spellCheck={false}
-                autoCorrect={false}
+                onChangeText={setPassword}
+                value={password}
                 autoCapitalize="none"
-                value={email}
               />
             </View>
-
             <Button onPress={() => onPressContinue()} style={styles.nextButton}>
               Continue
             </Button>
@@ -265,29 +230,31 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#25436B",
-    fontSize: 22,
+    fontSize: 24,
     fontFamily: "Sego-Bold",
-    marginVertical: 30,
-    textAlign: "center",
-    paddingHorizontal: 10,
+    marginVertical: 20,
   },
   input: {
     color: "#25436B",
+    fontSize: 20,
     fontFamily: "Sego",
   },
   button: {
     width: "100%",
     marginVertical: 20,
   },
+  buttonText: {
+    color: "#25436B",
+    fontSize: 28,
+  },
   center: {
     alignItems: "center",
   },
   view: {
     flex: 1,
-    paddingHorizantal: 10,
-    paddingVertical: 5,
+    padding: 20,
     justifyContent: "space-between",
-    paddingBottom: 100,
+    paddingBottom: 50,
   },
   seperator: {
     fontSize: 20,
@@ -303,24 +270,51 @@ const styles = StyleSheet.create({
     height: 80,
     marginHorizontal: 10,
   },
+  icon: {
+    width: "100%",
+    height: "100%",
+  },
+  passwordInput: {
+    color: "black",
+    fontSize: 20,
+    marginLeft: 10,
+    height: 40,
+    textAlign: "center",
+    fontFamily: "Sego",
+  },
+  nextButton: {
+    width: SCREEN_WIDTH - 50,
+  },
+  passwordInputContainer: {
+    margin: 10,
+    marginBottom: 40,
+    padding: 5,
+    width: SCREEN_WIDTH - 50,
+    borderRadius: 10,
+    borderColor: "lightgray",
+    borderWidth: 2,
+    backgroundColor: "white",
+    alignSelf: "center",
+  },
+  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  linkBtn: {
+    marginTop: 155,
+    paddingBottom: 10,
+  },
+  linkText: {
+    fontSize: 18,
+    fontFamily: "Sego",
+    marginVertical: 5,
+    color: "#25436B",
+  },
   signContainer: {
     marginBottom: 10,
     justifyContent: "center",
     alignSelf: "center",
   },
-  icon: {
-    marginLeft: 10,
-    marginRight: 10,
-    alignSelf: "center",
-    width: 20,
-    height: 20,
-  },
   rowContainer: {
     alignItems: "center",
     marginTop: 20,
-  },
-  nextButton: {
-    width: SCREEN_WIDTH - 50,
   },
   iconContainer: {
     backgroundColor: "white",
@@ -340,30 +334,6 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     textAlign: "center",
   },
-  buttonText: {
-    color: "#25436B",
-    fontSize: 28,
-  },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
-  emailInput: {
-    color: "black",
-    fontSize: 20,
-    marginLeft: 10,
-    height: 40,
-    textAlign: "center",
-    fontFamily: "Sego",
-  },
-  emailInputContainer: {
-    margin: 10,
-    marginBottom: 40,
-    padding: 5,
-    width: SCREEN_WIDTH - 50,
-    borderRadius: 10,
-    borderColor: "lightgray",
-    borderWidth: 2,
-    backgroundColor: "white",
-    alignSelf: "center",
-  },
 });
 
-export default EnterEmail;
+export default UnlockAccount;

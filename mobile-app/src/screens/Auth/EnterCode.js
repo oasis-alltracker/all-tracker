@@ -67,7 +67,7 @@ const EnterCode = (props) => {
                     await navigationService.navigate("tempPassword", { email });
                   } catch (e) {
                     logout();
-                    navigationService.reset("landing", 0);
+                    navigationService.reset("auth", 0);
                   }
                 },
               },

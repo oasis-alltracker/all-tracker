@@ -46,7 +46,7 @@ const EnterPassword = (props) => {
               });
             } catch (e) {
               logout();
-              navigationService.reset("landing", 0);
+              navigationService.reset("auth", 0);
             }
           },
         },
@@ -94,7 +94,7 @@ const EnterPassword = (props) => {
                     setPassword("");
                   } catch (e) {
                     logout();
-                    navigationService.reset("landing", 0);
+                    navigationService.reset("auth", 0);
                   }
                 },
               },

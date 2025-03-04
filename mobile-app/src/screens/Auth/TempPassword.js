@@ -68,7 +68,7 @@ const EnterPassword = (props) => {
                   } catch (e) {
                     console.log(e);
                     logout();
-                    navigationService.reset("landing", 0);
+                    navigationService.reset("auth", 0);
                   }
                 },
               },

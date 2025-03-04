@@ -29,6 +29,7 @@ const isTokenValid = (token) => {
 export async function saveToken(key, value) {
   try {
     await SecureStore.setItemAsync(key, value);
+    await SecureStore.setItemAsync("isAccountCreated", true);
   } catch (e) {
     console.log(e);
   }
@@ -46,12 +47,12 @@ export async function getAccessToken() {
     } catch (e) {
       await SecureStore.deleteItemAsync("refreshToken");
       await SecureStore.deleteItemAsync("accessToken");
-      navigationService.reset("landing", 0);
+      navigationService.reset("auth", 0);
     }
   } else {
     await SecureStore.deleteItemAsync("refreshToken");
     await SecureStore.deleteItemAsync("accessToken");
-    navigationService.reset("landing", 0);
+    navigationService.reset("auth", 0);
   }
 }
 
@@ -76,6 +77,15 @@ export async function isLoggedIn() {
     return false;
   }
   return true;
+}
+
+export async function isAccountCreated() {
+  const isAccountCreated = await SecureStore.getItemAsync("isAccountCreated");
+  if (isAccountCreated) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export async function logout() {

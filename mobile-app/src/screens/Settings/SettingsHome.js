@@ -15,6 +15,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as SecureStore from "expo-secure-store";
 
 const dietSettings = {
   img: require("../../assets/images/person-profile.png"),
@@ -84,6 +85,7 @@ const SettingsHome = () => {
     try {
       const token = await getAccessToken();
       await UserAPI.deleteUser(token);
+      await SecureStore.deleteItemAsync("isAccountCreated");
       logout();
       setIsLoading(false);
       navigationService.reset("auth", 0);

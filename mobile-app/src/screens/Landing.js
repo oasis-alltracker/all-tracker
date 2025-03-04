@@ -9,6 +9,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../navigators/navigationService";
+import { isAccountCreated } from "../user/keychain";
 
 const Landing = () => {
   const { width, height } = useWindowDimensions();
@@ -19,6 +20,16 @@ const Landing = () => {
   useEffect(() => {
     setViewPortWidth(width < height ? width : height);
   }, [width, height]);
+
+  const onPressGetStarted = async () => {
+    const accountCreated = await isAccountCreated();
+    if (accountCreated) {
+      navigationService.navigate("unlockAccount");
+    } else {
+      navigationService.navigate("createAccountLock");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Image
@@ -41,7 +52,7 @@ const Landing = () => {
               height: height * 0.08,
             },
           ]}
-          onPress={() => navigationService.navigate("auth")}
+          onPress={() => onPressGetStarted()}
         >
           <Text style={[styles.btnText, { fontSize: height * 0.044 }]}>
             Get Started
