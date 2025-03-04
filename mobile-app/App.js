@@ -8,7 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
 import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
-import { ActivityIndicator, StyleSheet, Platform } from "react-native";
+import { ActivityIndicator, StyleSheet, Platform, Alert } from "react-native";
 import { getAccessToken, isLoggedIn, logout } from "./src/user/keychain";
 import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
