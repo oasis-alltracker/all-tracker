@@ -75,15 +75,11 @@ module.exports.handler = async (event, context, callback) => {
             return;
           }
         }
-        const accessToken = jwt.sign(
-          { deviceID: deviceID },
-          ACCESS_TOKEN_SECRET,
-          {
-            expiresIn: "48h",
-          }
-        );
+        const accessToken = jwt.sign({ email: deviceID }, ACCESS_TOKEN_SECRET, {
+          expiresIn: "48h",
+        });
         const refreshToken = jwt.sign(
-          { deviceID: deviceID },
+          { email: deviceID },
           ACCESS_TOKEN_SECRET,
           {
             expiresIn: "100d",
