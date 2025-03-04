@@ -1,4 +1,3 @@
-import moment from "moment";
 class UpdateToDo {
   constructor(db) {
     this.DB = db;
@@ -6,9 +5,6 @@ class UpdateToDo {
 
   async updateToDo(user, toDoID, body) {
     try {
-      const today = new Date();
-      moment(today).format("YYYYMMDD");
-      body.completionDate = today;
       await this.updateStatus(user.email, toDoID, body);
 
       return {

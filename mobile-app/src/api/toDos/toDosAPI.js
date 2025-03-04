@@ -1,4 +1,6 @@
 import axios from "axios";
+import moment from "moment";
+
 const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 const API = EXPO_PUBLIC_BASE_URL + "toDos/";
 
@@ -35,6 +37,9 @@ class ToDosAPI {
   }
 
   static async updateToDo(token, toDoID, toDo) {
+    const today = new Date();
+    moment(today).format("YYYYMMDD");
+    toDo.completionDate = today;
     const headers = {
       Authorization: `Bearer ${token}`,
     };
