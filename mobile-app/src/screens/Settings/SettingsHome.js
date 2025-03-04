@@ -52,6 +52,11 @@ const helpSettings = {
       route: "contact",
       isContact: true,
     },
+    {
+      title: "Support",
+      route: "support",
+      isSupport: true,
+    },
   ],
 };
 
@@ -81,7 +86,7 @@ const SettingsHome = () => {
       await UserAPI.deleteUser(token);
       logout();
       setIsLoading(false);
-      navigationService.reset("landing", 0);
+      navigationService.reset("auth", 0);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
@@ -119,7 +124,7 @@ const SettingsHome = () => {
           isPreferred: true,
           onPress: () => {
             logout();
-            navigationService.reset("landing", 0);
+            navigationService.reset("auth", 0);
           },
         },
       ],
