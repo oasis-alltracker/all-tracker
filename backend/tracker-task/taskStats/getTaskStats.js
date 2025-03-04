@@ -55,8 +55,11 @@ class GetTaskStats {
         user.email,
         false
       );
+      const completeNoDuDateToDosThisWeekCount =
+        await this.getCompleteNoDueDateToDosThisWeekCount(user.email, dateSK);
 
       response[0].taskCount += incompleteNoDueDateToDos.length;
+      response[0].completionCount += completeNoDuDateToDosThisWeekCount;
 
       var tasks = await this.getTasks(user.email);
       for (var task of tasks) {
@@ -130,6 +133,17 @@ class GetTaskStats {
 
     const response = await this.DB.queryItem(expression, names, values);
     return response?.Items;
+  }
+
+  async getCompleteNoDueDateToDosThisWeekCount(user, sunday) {
+    var count = 0;
+    const completeToDosNoDueDate = await getNoDueDateToDos(user, true);
+    for (var toDo of completeToDosNoDueDate) {
+      if (toDo.completionDate >= sunday && toDo.completionDate < sunday + 7) {
+        count++;
+      }
+    }
+    return count;
   }
 }
 module.exports = GetTaskStats;
