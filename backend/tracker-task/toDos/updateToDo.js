@@ -5,7 +5,11 @@ class UpdateToDo {
 
   async updateToDo(user, toDoID, body) {
     try {
-      await this.updateStatus(user.email, toDoID, body);
+      var completionDate = "20240304";
+      if (body.completionDate) {
+        completionDate = body.completionDate;
+      }
+      await this.updateStatus(user.email, toDoID, body, completionDate);
 
       return {
         statusCode: 200,
@@ -27,7 +31,7 @@ class UpdateToDo {
     }
   }
 
-  async updateStatus(email, toDoID, toDo) {
+  async updateStatus(email, toDoID, toDo, completionDate) {
     const deleteKey = { PK: `${email}-toDo`, SK: `${toDoID}` };
     await this.DB.deleteItem(deleteKey);
 
@@ -39,7 +43,7 @@ class UpdateToDo {
       toDoID: toDo.toDoID,
       dateStamp: toDo.dateStamp,
       isComplete: toDo.isComplete,
-      completionDate: toDo.completionDate,
+      completionDate: completionDate,
     };
 
     await this.DB.putItem(data);

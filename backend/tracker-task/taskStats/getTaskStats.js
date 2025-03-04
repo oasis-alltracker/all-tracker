@@ -6,6 +6,7 @@ class GetTaskStats {
   async getTaskStats(user, day) {
     var response = [];
     var sunday = day.toString();
+    var saturday = sunday;
     var year = sunday.substring(0, 4);
     var month = sunday.substring(4, 6);
     var day = sunday.substring(6, 8);
@@ -49,6 +50,7 @@ class GetTaskStats {
           completionCount: completionCount,
           taskCount: taskCount,
         });
+        saturday = dateSK.toString();
       }
 
       const incompleteNoDueDateToDos = await this.getNoDueDateToDos(
@@ -56,9 +58,14 @@ class GetTaskStats {
         false
       );
       const completeNoDuDateToDosThisWeekCount =
-        await this.getCompleteNoDueDateToDosThisWeekCount(user.email, dateSK);
+        await this.getCompleteNoDueDateToDosThisWeekCount(
+          user.email,
+          sunday,
+          saturday
+        );
 
-      response[0].taskCount += incompleteNoDueDateToDos.length;
+      response[0].taskCount +=
+        incompleteNoDueDateToDos.length + completeNoDuDateToDosThisWeekCount;
       response[0].completionCount += completeNoDuDateToDosThisWeekCount;
 
       var tasks = await this.getTasks(user.email);
@@ -135,12 +142,15 @@ class GetTaskStats {
     return response?.Items;
   }
 
-  async getCompleteNoDueDateToDosThisWeekCount(user, sunday) {
+  async getCompleteNoDueDateToDosThisWeekCount(user, sunday, saturday) {
     var count = 0;
-    const completeToDosNoDueDate = await getNoDueDateToDos(user, true);
+    const completeToDosNoDueDate = await this.getNoDueDateToDos(user, true);
+
     for (var toDo of completeToDosNoDueDate) {
-      if (toDo.completionDate >= sunday && toDo.completionDate < sunday + 7) {
-        count++;
+      if (toDo.completionDate) {
+        if (toDo.completionDate >= sunday && toDo.completionDate <= saturday) {
+          count++;
+        }
       }
     }
     return count;
