@@ -22,6 +22,7 @@ import {
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { getUniqueId } from "react-native-device-info";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
@@ -118,17 +119,36 @@ const CreateAccountLock = (props) => {
     setIsLoading(true);
     if (password.length > 0) {
       if (password === passwordCopy) {
-        const deviceID = await getUniqueId();
-        const { status, data } = await LoginAPI.loginDevice(deviceID, password);
+        try {
+          console.log("getting deviceID");
+          const deviceID = await getUniqueId();
+          console.log(deviceID);
 
-        if (status == 200 && data?.accessToken && data?.refreshToken) {
-          await saveToken("accessToken", data.accessToken);
-          await saveToken("refreshToken", data.refreshToken);
-          setIsLoading(false);
-          await navigationService.reset("contract", 0);
-          setPassword("");
-          setPasswordCopy("");
-        } else {
+          const { status, data } = await LoginAPI.loginDevice(
+            deviceID,
+            password
+          );
+
+          console.log(status);
+          console.log(data);
+
+          if (status == 200 && data?.accessToken && data?.refreshToken) {
+            await saveToken("accessToken", data.accessToken);
+            await saveToken("refreshToken", data.refreshToken);
+            setIsLoading(false);
+            await navigationService.reset("contract", 0);
+            setPassword("");
+            setPasswordCopy("");
+          } else {
+            setIsLoading(false);
+            Toast.show("Something went wrong. Please try again.", {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.CENTER,
+            });
+          }
+        } catch (e) {
+          console.log(e);
           setIsLoading(false);
           Toast.show("Something went wrong. Please try again.", {
             ...styles.errorToast,

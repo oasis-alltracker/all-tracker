@@ -1,5 +1,6 @@
 import axios from "axios";
-const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+const EXPO_PUBLIC_BASE_URL =
+  "https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/";
 const API = EXPO_PUBLIC_BASE_URL + "user/";
 
 class UserAPI {
