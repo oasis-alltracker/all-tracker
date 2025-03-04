@@ -33,6 +33,22 @@ class LoginAPI {
     }
   }
 
+  static async loginDevice(deviceID, password) {
+    const url = API + "loginDevice";
+
+    const body = {
+      deviceID: deviceID,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post(url, body);
+      return response?.data;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   static async doesUserExist(email) {
     const url = API + "userExists";
 

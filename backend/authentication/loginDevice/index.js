@@ -10,6 +10,8 @@ const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 const DB = DynamoDBDocument.from(new DynamoDB());
 const dbService = new DbUtils(DB, tableName);
 
+const bcrypt = require("bcryptjs");
+
 const UserDB = require("../../utils/userDB");
 const userDB = new UserDB(dbService);
 
@@ -40,16 +42,16 @@ module.exports.handler = async (event, context, callback) => {
       existingUser.infractionCount === undefined ||
       existingUser.infractionCount < 2
     ) {
-      if (!existingUser || existingUser.failedAttempts < 3) {
+      if (!existingUser || existingUser.failedAttempts < 4) {
         if (existingUser) {
           if (
             !existingUser.hashedPassword ||
             !(await bcrypt.compare(
-              userCredentsals.password,
+              userCredentials.password,
               existingUser.hashedPassword
             ))
           ) {
-            if (existingUser.failedAttempts >= 2) {
+            if (existingUser.failedAttempts >= 3) {
               body = { isCorrectPassword: false, isAccountLocked: true };
               await userDB.updateInfractionCount(
                 deviceID,
