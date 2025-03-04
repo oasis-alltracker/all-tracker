@@ -18,23 +18,96 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 module.exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
   try {
-    const body = JSON.parse(event.body);
-    const deviceID = body.deviceID;
+    const userCredentials = JSON.parse(event.body);
+    const deviceID = userCredentials.deviceID;
 
-    await userDB.userExistsOrCreateUser(deviceID);
-    const accessToken = jwt.sign({ email: deviceID }, ACCESS_TOKEN_SECRET, {
-      expiresIn: "48h",
-    });
-    const refreshToken = jwt.sign({ email: deviceID }, ACCESS_TOKEN_SECRET, {
-      expiresIn: "100d",
-    });
+    const saltRounds = 10;
+
+    const hashedPassword = await bcrypt.hash(
+      userCredentials.password,
+      saltRounds
+    );
+    const existingUser = await userDB.userExistsOrCreateUser(
+      deviceID,
+      hashedPassword
+    );
+    var body;
+    if (existingUser && existingUser.infractionCount === undefined) {
+      await userDB.updateInfractionCount(deviceID, 0);
+    }
+    if (
+      !existingUser ||
+      existingUser.infractionCount === undefined ||
+      existingUser.infractionCount < 2
+    ) {
+      if (!existingUser || existingUser.failedAttempts < 3) {
+        if (existingUser) {
+          if (
+            !existingUser.hashedPassword ||
+            !(await bcrypt.compare(
+              userCredentsals.password,
+              existingUser.hashedPassword
+            ))
+          ) {
+            if (existingUser.failedAttempts >= 2) {
+              body = { isCorrectPassword: false, isAccountLocked: true };
+              await userDB.updateInfractionCount(
+                deviceID,
+                existingUser.infractionCount + 1
+              );
+            } else {
+              body = { isCorrectPassword: false, isAccountLocked: false };
+            }
+            await userDB.updateFailedAttemptsCount(
+              deviceID,
+              existingUser.failedAttempts + 1
+            );
+            callback(null, {
+              statusCode: 200,
+              body: JSON.stringify(body),
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": true,
+              },
+            });
+            return;
+          }
+        }
+        const accessToken = jwt.sign(
+          { deviceID: deviceID },
+          ACCESS_TOKEN_SECRET,
+          {
+            expiresIn: "48h",
+          }
+        );
+        const refreshToken = jwt.sign(
+          { deviceID: deviceID },
+          ACCESS_TOKEN_SECRET,
+          {
+            expiresIn: "100d",
+          }
+        );
+        body = {
+          isCorrectPassword: true,
+          isAccountLocked: false,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        };
+        await userDB.updateFailedAttemptsCount(deviceID, 0);
+      } else {
+        body = { isCorrectPassword: false, isAccountLocked: true };
+      }
+    } else {
+      body = {
+        isCorrectPassword: false,
+        isAccountLocked: true,
+        isAccountSuspended: true,
+      };
+    }
 
     callback(null, {
       statusCode: 200,
-      body: JSON.stringify({
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      }),
+      body: JSON.stringify(body),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
