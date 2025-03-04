@@ -35,7 +35,7 @@ import NotificationsHandler from "../../api/notifications/notificationsHandler";
 const TodosHabits = ({ navigation }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const { width } = useWindowDimensions();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }]);
@@ -63,7 +63,6 @@ const TodosHabits = ({ navigation }) => {
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
-      setIsLoading(true);
       token = await getAccessToken();
 
       const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
