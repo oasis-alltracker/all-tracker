@@ -264,9 +264,12 @@ const DietStep10 = (props) => {
         );
 
         if (userData && !userData["isSetupComplete"]) {
-          navigationService.navigate("explainsubscription", {
+          const { status, data } = await UserAPI.updateUser(
+            true,
             selectedTrackers,
-          });
+            accessToken
+          );
+          navigationService.reset("main", 0);
         } else {
           const { status, data } = await UserAPI.updateUser(
             true,

@@ -104,7 +104,12 @@ const SleepStep2 = (props) => {
       );
 
       if (userData && !userData["isSetupComplete"]) {
-        navigationService.navigate("explainsubscription", { selectedTrackers });
+        const { status, data } = await UserAPI.updateUser(
+          true,
+          selectedTrackers,
+          accessToken
+        );
+        navigationService.reset("main", 0);
       } else {
         setIsLoading(true);
         if (!selectedTrackers.toDosSelected) {
