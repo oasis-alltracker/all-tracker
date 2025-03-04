@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,7 +18,7 @@ import UserAPI from "../../../api/user/userAPI";
 
 const ExplainSubscription = (props) => {
   const { width, height } = useWindowDimensions();
-  const { selectedTrackers } = props.route.params;
+  //const { selectedTrackers } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
 
   const subscribe = async () => {
@@ -38,11 +38,11 @@ const ExplainSubscription = (props) => {
         if (monthly) {
           const purchaseMade = await Purchases.purchasePackage(monthly);
           const accessToken = await getAccessToken();
-          const { status, data } = await UserAPI.updateUser(
-            true,
-            selectedTrackers,
-            accessToken
-          );
+          // const { status, data } = await UserAPI.updateUser(
+          //   true,
+          //   selectedTrackers,
+          //   accessToken
+          // );
           navigationService.reset("main", 0);
         } else {
           Alert.alert("Error", "Monthly subscription not available.");
