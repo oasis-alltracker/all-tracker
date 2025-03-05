@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
@@ -52,11 +52,19 @@ const DietStep7 = (props) => {
         });
       }
     } else {
-      Toast.show("Please make a selection", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please make a selection", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please make a selection", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
   return (

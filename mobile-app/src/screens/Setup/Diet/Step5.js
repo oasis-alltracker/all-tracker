@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -30,18 +31,34 @@ const DietStep5 = (props) => {
           birthYear,
         });
       } else {
-        Toast.show("Please enter a valid birth year", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.CENTER,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Please enter a valid birth year", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Please enter a valid birth year", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     } else {
-      Toast.show("Please make a selection", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please make a selection", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please make a selection", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 

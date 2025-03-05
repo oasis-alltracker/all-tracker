@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -21,17 +22,39 @@ const DietStep2 = (props) => {
     if (goalWeight) {
       if (!isNaN(Number(goalWeight))) {
         if (goal == "gain" && goalWeight <= currentWeight.weight) {
-          Toast.show("Please enter a number greater than your current weight", {
-            ...styles.errorToast,
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.CENTER,
-          });
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "Please enter a number greater than your current weight",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "Please enter a number greater than your current weight",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
         } else if (goal == "lose" && goalWeight >= currentWeight.weight) {
-          Toast.show("Please enter a number less than your current weight", {
-            ...styles.errorToast,
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.CENTER,
-          });
+          if (Platform.OS === "ios") {
+            Toast.show("Please enter a number less than your current weight", {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            });
+          } else {
+            Toast.show("Please enter a number less than your current weight", {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            });
+          }
         } else {
           const weightGoal = { weight: goalWeight, units: currentWeight.units };
           navigationService.navigate("dietStep6", {
@@ -42,18 +65,34 @@ const DietStep2 = (props) => {
           });
         }
       } else {
-        Toast.show("Please enter a number", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.CENTER,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Please enter a number", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Please enter a number", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     } else {
-      Toast.show("Please make a selection", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please make a selection", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please make a selection", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 

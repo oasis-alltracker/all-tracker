@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -53,10 +54,19 @@ const WellnessStep1 = (props) => {
     moodReport.dateStamp = dateStamp;
     moodReport.title = dateString.slice(4, -4);
     if (active == 0) {
-      Toast.show("Please make a selection.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     } else {
       moodReport.feeling = 6 - active;
       navigationService.navigate("moodStep2", { moodReport });

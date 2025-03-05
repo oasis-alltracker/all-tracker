@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import MenuIcon from "../../assets/icons/menu";
 import Main from "./Main";
@@ -84,10 +85,19 @@ const MoodSleep = ({ navigation }) => {
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 
@@ -105,10 +115,19 @@ const MoodSleep = ({ navigation }) => {
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 
@@ -123,10 +142,19 @@ const MoodSleep = ({ navigation }) => {
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 
@@ -157,10 +185,19 @@ const MoodSleep = ({ navigation }) => {
       setAllSleepReports(allReports);
     } catch (e) {
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 
@@ -178,10 +215,19 @@ const MoodSleep = ({ navigation }) => {
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 
@@ -196,10 +242,19 @@ const MoodSleep = ({ navigation }) => {
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 

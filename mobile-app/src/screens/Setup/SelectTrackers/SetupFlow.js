@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Header, Button } from "../../../components";
@@ -31,10 +32,19 @@ const SetupFlow = (props) => {
 
   const onNext = async () => {
     if (active == 0) {
-      Toast.show("Please make a selection.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     } else {
       if (active == 1) {
         if (selectedTrackers.habitsSelected) {

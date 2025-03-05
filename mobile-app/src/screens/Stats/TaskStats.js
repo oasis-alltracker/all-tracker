@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   Animated,
+  Platform,
 } from "react-native";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
@@ -63,10 +64,19 @@ const TaskStats = ({ sunday, updateStats }) => {
       } catch (e) {
         console.log(e);
         setIsLoading(false);
-        Toast.show("Something went wrong. Please refresh the page.", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Something went wrong. Please refresh the page.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Something went wrong. Please refresh the page.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     };
     if (updateStats > 0) {

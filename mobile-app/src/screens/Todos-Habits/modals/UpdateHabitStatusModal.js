@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import RNModal from "react-native-modal";
-import { Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity, Platform } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 
@@ -84,28 +84,64 @@ export default function UpdateHabitStatusModal({
   const onPlusPressed = () => {
     if (threshold - count == 1) {
       if (isPositive) {
-        Toast.show("Habit complete. Great job!", {
-          ...styles.positiveToast,
-          duration: Toast.durations.LONG,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Habit complete. Great job!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Habit complete. Great job!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       } else {
-        Toast.show("You striked out. Try again tomorrow!", {
-          ...styles.negativeToast,
-          duration: Toast.durations.LONG,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("You striked out. Try again tomorrow!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("You striked out. Try again tomorrow!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     }
     if (count >= threshold) {
       if (isPositive) {
-        Toast.show("Habit complete. Great job!", {
-          ...styles.positiveToast,
-          duration: Toast.durations.LONG,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Habit complete. Great job!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Habit complete. Great job!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       } else {
-        Toast.show("You striked out. Try again tomorrow!", {
-          ...styles.negativeToast,
-          duration: Toast.durations.LONG,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("You striked out. Try again tomorrow!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("You striked out. Try again tomorrow!", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     } else {
       setCount(count + 1);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, Platform } from "react-native";
 import RNModal from "react-native-modal";
 import { Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Button } from "../../../components";
@@ -68,11 +68,19 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
       setVisible(false);
       setIsLoading(false);
     } else {
-      Toast.show("Please enter a number", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please enter a number", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please enter a number", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 

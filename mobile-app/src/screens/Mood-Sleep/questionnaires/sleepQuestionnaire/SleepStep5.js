@@ -5,6 +5,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
@@ -27,10 +28,19 @@ const SleepStep4 = (props) => {
 
   const onNext = async () => {
     if (active == 0) {
-      Toast.show("Please make a selection.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     } else {
       if (active == 1) {
         sleepReport.didRelaxation = true;

@@ -75,13 +75,25 @@ const Notifications = () => {
         await NotificationsHandler.turnOnAllNotifications(token);
         setIsNotificationsEnabled((previousState) => !previousState);
       } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
+        if (Platform.OS === "ios") {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            }
+          );
+        } else {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            }
+          );
+        }
       }
     }
 
@@ -117,13 +129,25 @@ const Notifications = () => {
               true
             );
           } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your phone's settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-              }
-            );
+            if (Platform.OS === "ios") {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.BOTTOM,
+                }
+              );
+            } else {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.TOP,
+                }
+              );
+            }
           }
         } catch (e) {
           console.log(e);
@@ -131,13 +155,25 @@ const Notifications = () => {
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -172,13 +208,25 @@ const Notifications = () => {
               true
             );
           } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your phone's settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-              }
-            );
+            if (Platform.OS === "ios") {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.BOTTOM,
+                }
+              );
+            } else {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.TOP,
+                }
+              );
+            }
           }
         } catch (e) {
           console.log(e);
@@ -186,13 +234,25 @@ const Notifications = () => {
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -232,23 +292,47 @@ const Notifications = () => {
             setBreakfastExpoIDs(expoIDs);
           }
         } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -288,23 +372,47 @@ const Notifications = () => {
             setLunchExpoIDs(expoIDs);
           }
         } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -344,23 +452,47 @@ const Notifications = () => {
             setDinnerExpoIDs(expoIDs);
           }
         } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your phone's settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -408,13 +540,25 @@ const Notifications = () => {
             setIsLoading(false);
             return listOfExpoIDs;
           } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your phone's settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-              }
-            );
+            if (Platform.OS === "ios") {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.BOTTOM,
+                }
+              );
+            } else {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.TOP,
+                }
+              );
+            }
           }
         } catch (e) {
           console.log(e);
@@ -422,13 +566,25 @@ const Notifications = () => {
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -480,13 +636,25 @@ const Notifications = () => {
             setIsLoading(false);
             return listOfExpoIDs;
           } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your phone's settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-              }
-            );
+            if (Platform.OS === "ios") {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.BOTTOM,
+                }
+              );
+            } else {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.TOP,
+                }
+              );
+            }
           }
         } catch (e) {
           console.log(e);
@@ -494,13 +662,25 @@ const Notifications = () => {
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -552,13 +732,25 @@ const Notifications = () => {
             setIsLoading(false);
             return listOfExpoIDs;
           } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your phone's settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-              }
-            );
+            if (Platform.OS === "ios") {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.BOTTOM,
+                }
+              );
+            } else {
+              Toast.show(
+                "To get reminders, you need to turn on notifications in your phone's settings.",
+                {
+                  ...styles.errorToast,
+                  duration: Toast.durations.LONG,
+                  position: Toast.positions.TOP,
+                }
+              );
+            }
           }
         } catch (e) {
           console.log(e);
@@ -566,13 +758,25 @@ const Notifications = () => {
         }
       }
     } else {
-      Toast.show(
-        "Notifications are disabled. To get reminders, you need to enable them.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          }
+        );
+      } else {
+        Toast.show(
+          "Notifications are disabled. To get reminders, you need to enable them.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
