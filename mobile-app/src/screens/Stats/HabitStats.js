@@ -6,8 +6,8 @@ import {
   Image,
   useWindowDimensions,
   Animated,
+  Platform,
 } from "react-native";
-import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -59,10 +59,19 @@ const HabitStats = ({ sunday, updateStats }) => {
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
-        Toast.show("Something went wrong. Please refresh the page.", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Something went wrong. Please refresh the page.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Something went wrong. Please refresh the page.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     };
     if (updateStats > 0) {

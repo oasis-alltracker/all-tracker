@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Header, Button } from "../../../components";
@@ -93,19 +94,35 @@ const SelectTrackers = () => {
         }
       } else {
         setIsLoading(false);
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.CENTER,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     } else {
       setIsLoading(false);
-      Toast.show("You must select at least one tracker to continue.", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("You must select at least one tracker to continue.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("You must select at least one tracker to continue.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
   useEffect(() => {
@@ -126,11 +143,19 @@ const SelectTrackers = () => {
         if (trackingPreferencesLoaded?.sleepSelected) setSleepSelected(true);
       } catch (e) {
         console.log(e);
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.CENTER,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       } finally {
         setIsLoading(false);
       }

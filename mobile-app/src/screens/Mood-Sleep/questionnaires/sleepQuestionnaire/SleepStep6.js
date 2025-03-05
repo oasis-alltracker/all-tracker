@@ -33,10 +33,19 @@ const SleepStep6 = (props) => {
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 
@@ -47,10 +56,19 @@ const SleepStep6 = (props) => {
       await createSleepReport(sleepReport);
     } catch (e) {
       setIsLoading(false);
-      Toast.show("Please make a selection.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Please make a selection.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 

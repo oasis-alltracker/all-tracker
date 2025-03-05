@@ -10,6 +10,7 @@ import {
   Alert,
   Switch,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
@@ -88,13 +89,25 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
               systemNotificationsStatus
           );
         } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
         }
         setIsMiniLoading(false);
       }
@@ -136,13 +149,25 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           );
         } else {
           setIsNotificationsOn(false);
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
         }
       }
     } else {

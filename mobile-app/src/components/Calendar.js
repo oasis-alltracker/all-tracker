@@ -90,22 +90,46 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         if (systemNotificationsStatus && systemNotificationsEnabled) {
           setIsReminderEnabled(true);
         } else {
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "To get reminders, you need to turn on notifications in your settings.",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
+        }
+      } else {
+        if (Platform.OS === "ios") {
           Toast.show(
-            "To get reminders, you need to turn on notifications in your settings.",
+            "To get reminders, you need to make a date selection first",
             {
               ...styles.errorToast,
               duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            }
+          );
+        } else {
+          Toast.show(
+            "To get reminders, you need to make a date selection first",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
             }
           );
         }
-      } else {
-        Toast.show(
-          "To get reminders, you need to make a date selection first",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
       }
     }
   };

@@ -133,13 +133,23 @@ const HabitsNotifications = (props) => {
         setIsLoading(false);
       }
     } else {
-      Toast.show(
-        "To get reminders, you need to turn on notifications in your phone's settings.",
-        {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        }
-      );
+      if (Platform.OS === "ios") {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      } else {
+        Toast.show(
+          "To get reminders, you need to turn on notifications in your phone's settings.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+          }
+        );
+      }
     }
 
     setIsLoading(false);
@@ -150,13 +160,23 @@ const HabitsNotifications = (props) => {
         setIsNotificationsEnabled(true);
       } else {
         setIsNotificationsEnabled(false);
-        Toast.show(
-          "Notifications are disabled. To get reminders, you need to enable them.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
+        if (Platform.OS === "ios") {
+          Toast.show(
+            "Notifications are disabled. To get reminders, you need to enable them.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+            }
+          );
+        } else {
+          Toast.show(
+            "Notifications are disabled. To get reminders, you need to enable them.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+            }
+          );
+        }
       }
     } else {
       setIsNotificationsEnabled(false);

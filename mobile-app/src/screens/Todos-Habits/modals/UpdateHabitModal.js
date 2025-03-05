@@ -78,11 +78,25 @@ export default function UpdateHabitModal({
         }
       } catch (e) {
         console.log(e);
-        Toast.show("Something went wrong. Could not retrieve notifications.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show(
+            "Something went wrong. Could not retrieve notifications.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            }
+          );
+        } else {
+          Toast.show(
+            "Something went wrong. Could not retrieve notifications.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            }
+          );
+        }
       }
     };
 
@@ -197,17 +211,33 @@ export default function UpdateHabitModal({
     const onSave = async () => {
       Keyboard.dismiss();
       if (threshold <= 0) {
-        Toast.show("Don't forget to set a goal for this habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Don't forget to set a goal for this habit.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Don't forget to set a goal for this habit.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       } else if (threshold > 99) {
-        Toast.show("Your goal must be less than 100.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Your goal must be less than 100.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Your goal must be less than 100.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       } else if (
         habitName &&
         isPositiveIndex !== "" &&
@@ -224,11 +254,19 @@ export default function UpdateHabitModal({
         backDropPressed();
         updateHabit(habitID, habit, times, isNotificationsOn);
       } else {
-        Toast.show("You must complete the form to update a habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("You must complete the form to update a habit.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("You must complete the form to update a habit.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     };
 

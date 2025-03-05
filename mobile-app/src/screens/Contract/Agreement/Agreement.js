@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
@@ -84,16 +85,38 @@ const Agreement = () => {
         navigationService.navigate("setup");
       } catch (e) {
         setIsLoading(false);
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        });
+        if (Platform.OS === "ios") {
+          "Something went wrong. Please try again.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            };
+        } else {
+          "Something went wrong. Please try again.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            };
+        }
       }
     } else {
-      Toast.show("You must sign the agreement to continue.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        "You must sign the agreement to continue.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          };
+      } else {
+        "You must sign the agreement to continue.",
+          {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          };
+      }
     }
   };
 

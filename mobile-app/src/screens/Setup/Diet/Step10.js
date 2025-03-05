@@ -91,13 +91,25 @@ const DietStep10 = (props) => {
           setBreakfastExpoIDs(expoIDs);
         }
       } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
+        if (Platform.OS === "ios") {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            }
+          );
+        } else {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            }
+          );
+        }
       }
     }
 
@@ -137,13 +149,25 @@ const DietStep10 = (props) => {
           setLunchExpoIDs(expoIDs);
         }
       } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
+        if (Platform.OS === "ios") {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            }
+          );
+        } else {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            }
+          );
+        }
       }
     }
 
@@ -183,13 +207,25 @@ const DietStep10 = (props) => {
           setDinnerExpoIDs(expoIDs);
         }
       } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
+        if (Platform.OS === "ios") {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            }
+          );
+        } else {
+          Toast.show(
+            "To get reminders, you need to turn on notifications in your phone's settings.",
+            {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            }
+          );
+        }
       }
     }
 
@@ -283,10 +319,19 @@ const DietStep10 = (props) => {
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     }
   };
 

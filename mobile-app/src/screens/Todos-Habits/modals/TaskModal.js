@@ -90,10 +90,19 @@ export default function TaskModal({
               } catch (e) {
                 setIsLoading(false);
                 console.log(e);
-                Toast.show("Something went wrong. Please try again.", {
-                  ...styles.errorToast,
-                  duration: Toast.durations.LONG,
-                });
+                if (Platform.OS === "ios") {
+                  Toast.show("Something went wrong. Please try again.", {
+                    ...styles.errorToast,
+                    duration: Toast.durations.LONG,
+                    position: Toast.positions.BOTTOM,
+                  });
+                } else {
+                  Toast.show("Something went wrong. Please try again.", {
+                    ...styles.errorToast,
+                    duration: Toast.durations.LONG,
+                    position: Toast.positions.TOP,
+                  });
+                }
               }
             },
           },
@@ -110,17 +119,33 @@ export default function TaskModal({
   const onSave = async () => {
     Keyboard.dismiss();
     if (title == "" && description == "") {
-      Toast.show("You must complete the form to create a task.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("You must complete the form to create a task.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("You must complete the form to create a task.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     } else if (title == "") {
-      Toast.show("Don't forget to give this task a name.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-      });
+      if (Platform.OS === "ios") {
+        Toast.show("Don't forget to give this task a name.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Don't forget to give this task a name.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
     } else {
       try {
         setIsLoading(true);
@@ -196,10 +221,19 @@ export default function TaskModal({
       } catch (e) {
         setIsLoading(false);
         console.log(e);
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Something went wrong. Please try again.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     }
   };

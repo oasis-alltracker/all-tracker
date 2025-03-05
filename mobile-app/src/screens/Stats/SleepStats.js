@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   useWindowDimensions,
+  Platform,
 } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
@@ -55,10 +56,19 @@ const SleepStats = ({ sunday, updateStats }) => {
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
-        Toast.show("Something went wrong. Please refresh the page.", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-        });
+        if (Platform.OS === "ios") {
+          Toast.show("Something went wrong. Please refresh the page.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Something went wrong. Please refresh the page.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
       }
     };
     if (updateStats > 0) {
