@@ -126,8 +126,7 @@ const UnlockAccount = (props) => {
         if (status == 200 && data?.accessToken && data?.refreshToken) {
           await saveToken("accessToken", data.accessToken);
           await saveToken("refreshToken", data.refreshToken);
-          setIsLoading(false);
-          navigationService.reset("main", 0);
+          await processUserAccessToken();
         } else if (data.isAccountSuspended || data.isAccountLocked) {
           setIsLoading(false);
           Alert.alert(

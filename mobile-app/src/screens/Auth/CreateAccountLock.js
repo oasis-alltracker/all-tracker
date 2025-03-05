@@ -131,8 +131,27 @@ const CreateAccountLock = (props) => {
           if (status == 200 && data?.accessToken && data?.refreshToken) {
             await saveToken("accessToken", data.accessToken);
             await saveToken("refreshToken", data.refreshToken);
+            await processUserAccessToken();
+          } else if (data.isAccountSuspended || data.isAccountLocked) {
             setIsLoading(false);
-            navigationService.reset("contract", 0);
+            Alert.alert(
+              "Account Locked",
+              "Your account has been locked for security reasons. To unlock it, you must contact us",
+              [{ text: "Ok" }],
+              {
+                cancelable: true,
+              }
+            );
+          } else if (!data.isCorrectPassword) {
+            navigationService.navigate("unlockAccount");
+            Toast.show(
+              "Password is incorrect. This decvice already has an account",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.CENTER,
+              }
+            );
           } else {
             setIsLoading(false);
             Toast.show("Something went wrong. Please try again.", {
