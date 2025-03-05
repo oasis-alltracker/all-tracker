@@ -38,8 +38,7 @@ class ToDosAPI {
 
   static async updateToDo(token, toDoID, toDo) {
     const today = new Date();
-    moment(today).format("YYYYMMDD");
-    toDo.completionDate = today;
+    toDo.completionDate = moment(today).format("YYYYMMDD");
     const headers = {
       Authorization: `Bearer ${token}`,
     };
