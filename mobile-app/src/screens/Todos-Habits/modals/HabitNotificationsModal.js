@@ -10,7 +10,6 @@ import {
   Alert,
   Switch,
   ActivityIndicator,
-  Platform,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
