@@ -52,7 +52,9 @@ export default function CreateHabitModal({
   useEffect(() => {
     let ref = {
       open() {
-        setIsMainVisible(true);
+        setTimeout(() => {
+          setIsMainVisible(true);
+        }, 1700);
       },
       close() {
         setIsMainVisible(false);
