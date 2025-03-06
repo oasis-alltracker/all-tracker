@@ -18,6 +18,7 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
@@ -132,6 +133,17 @@ const CreateAccountLock = (props) => {
             await saveToken("accessToken", data.accessToken);
             await saveToken("refreshToken", data.refreshToken);
             await processUserAccessToken();
+          } else if (!data.isCorrectPassword) {
+            setIsLoading(false);
+            Toast.show(
+              "Incorrect password. This decvice already has an account",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.CENTER,
+              }
+            );
+            navigationService.navigate("unlockAccount");
           } else if (data.isAccountSuspended || data.isAccountLocked) {
             setIsLoading(false);
             Alert.alert(
@@ -140,16 +152,6 @@ const CreateAccountLock = (props) => {
               [{ text: "Ok" }],
               {
                 cancelable: true,
-              }
-            );
-          } else if (!data.isCorrectPassword) {
-            navigationService.navigate("unlockAccount");
-            Toast.show(
-              "Password is incorrect. This decvice already has an account",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.CENTER,
               }
             );
           } else {
@@ -220,7 +222,9 @@ const CreateAccountLock = (props) => {
             <Button onPress={() => onPressContinue()} style={styles.nextButton}>
               Continue
             </Button>
-            <View style={styles.signContainer}>
+            <View
+              style={[styles.signContainer, { paddingTop: height * 0.0225 }]}
+            >
               <Text style={styles.txt}>--or--</Text>
               <View
                 style={[
@@ -346,7 +350,6 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 30,
-    paddingTop: 32,
     fontFamily: "Sego",
     textAlign: "center",
   },
