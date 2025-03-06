@@ -1296,6 +1296,7 @@ const TodosHabits = ({ navigation }) => {
       </View>
       <CreateHabitModal
         getRef={(ref) => (createHabitRef.current = ref)}
+        closeModalHandler={closeModalHandler}
         createHabit={createHabit}
       />
       <UpdateHabitModal

@@ -69,6 +69,7 @@ export default function MyHabits({
   const CreatHabits = () => (
     <TouchableOpacity
       onPress={() => {
+        setIsLoading(true);
         createHabitRef.current.open();
       }}
       style={[styles.addButton, { width: width - 30, height: height * 0.4 }]}
@@ -114,6 +115,7 @@ export default function MyHabits({
           <View style={styles.buttonItems}>
             <TouchableOpacity
               onPress={() => {
+                setIsLoading(true);
                 createHabitRef.current.open();
               }}
             >

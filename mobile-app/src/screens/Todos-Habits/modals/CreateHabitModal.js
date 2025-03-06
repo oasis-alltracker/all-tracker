@@ -23,7 +23,11 @@ import HabitsDB from "../../../api/DB/habitsDB";
 import HabitSearchModal from "./HabitSearchModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
 
-export default function CreateHabitModal({ getRef, createHabit }) {
+export default function CreateHabitModal({
+  getRef,
+  closeModalHandler,
+  createHabit,
+}) {
   const { width, height } = useWindowDimensions();
 
   const [isMainVisible, setIsMainVisible] = useState(false);
@@ -131,6 +135,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     setIsMainVisible(false);
     setIsNotificationsOn(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
+
+    closeModalHandler();
   };
 
   const MainModal = () => {

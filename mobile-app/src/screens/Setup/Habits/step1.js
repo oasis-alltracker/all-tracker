@@ -378,6 +378,7 @@ const HabitsCreation = (props) => {
       </Text>
       <TouchableOpacity
         onPress={() => {
+          setIsLoading(true);
           modalRef.create.open();
         }}
         style={[styles.addButton, { width: width - 30, height: height * 0.34 }]}
@@ -423,6 +424,7 @@ const HabitsCreation = (props) => {
       <CreateHabitModal
         getRef={(ref) => (modalRef.create = ref)}
         createHabit={createHabit}
+        closeModalHandler={closeModalHandler}
       />
       <UpdateHabitModal
         getRef={(ref) => (modalRef.update = ref)}

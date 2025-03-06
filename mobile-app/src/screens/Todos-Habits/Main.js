@@ -256,6 +256,7 @@ const Main = ({
               <View style={styles.buttonItems}>
                 <TouchableOpacity
                   onPress={() => {
+                    setIsLoading(true);
                     createHabitRef.current.open();
                   }}
                 >
@@ -446,6 +447,7 @@ const Main = ({
                         },
                       ]}
                       onPress={() => {
+                        setIsLoading(true);
                         createHabitRef.current.open();
                       }}
                     >
