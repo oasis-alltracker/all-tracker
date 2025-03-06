@@ -313,6 +313,7 @@ const HabitsCreation = (props) => {
         <Text style={styles.habitsTitle}>My habits</Text>
         <TouchableOpacity
           onPress={() => {
+            setIsLoading(true);
             modalRef.create.open();
           }}
         >
@@ -398,7 +399,10 @@ const HabitsCreation = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner visible={isLoading}></Spinner>
+      <Spinner
+        visible={isLoading}
+        overlayColor="rgba(215, 246, 255, 0.27)"
+      ></Spinner>
       <View style={styles.center}>
         <View style={styles.imageCon}>
           <Image

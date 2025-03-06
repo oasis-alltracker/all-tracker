@@ -22,6 +22,7 @@ const Main = ({
   dueTasks,
   trackingPreferences,
   isLoading,
+  setIsLoading,
   updateDate,
   createHabitRef,
   taskRef,
