@@ -34,13 +34,13 @@ export default function UpdateHabitStatusModal({
           if (props.isPositive) {
             if (Platform.OS === "ios") {
               Toast.show("Habit complete. Great job!", {
-                ...styles.errorToast,
+                ...styles.positiveToast,
                 duration: Toast.durations.LONG,
                 position: Toast.positions.BOTTOM,
               });
             } else {
               Toast.show("Habit complete. Great job!", {
-                ...styles.errorToast,
+                ...styles.positiveToast,
                 duration: Toast.durations.LONG,
                 position: Toast.positions.TOP,
               });
@@ -102,13 +102,13 @@ export default function UpdateHabitStatusModal({
       if (isPositive) {
         if (Platform.OS === "ios") {
           Toast.show("Habit complete. Great job!", {
-            ...styles.errorToast,
+            ...styles.positiveToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.BOTTOM,
           });
         } else {
           Toast.show("Habit complete. Great job!", {
-            ...styles.errorToast,
+            ...styles.positiveToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.TOP,
           });
@@ -133,13 +133,13 @@ export default function UpdateHabitStatusModal({
       if (isPositive) {
         if (Platform.OS === "ios") {
           Toast.show("Habit complete. Great job!", {
-            ...styles.errorToast,
+            ...styles.positiveToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.BOTTOM,
           });
         } else {
           Toast.show("Habit complete. Great job!", {
-            ...styles.errorToast,
+            ...styles.positiveToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.TOP,
           });
