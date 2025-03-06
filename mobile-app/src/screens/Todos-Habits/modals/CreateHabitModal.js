@@ -184,6 +184,22 @@ export default function CreateHabitModal({ getRef, createHabit }) {
           });
         }
       } else if (
+        image == "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
+      ) {
+        if (Platform.OS === "ios") {
+          Toast.show("Don't forget to select an image.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+          });
+        } else {
+          Toast.show("Don't forget to select an image.", {
+            ...styles.errorToast,
+            duration: Toast.durations.LONG,
+            position: Toast.positions.TOP,
+          });
+        }
+      } else if (
         habitName &&
         threshold &&
         image != "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"

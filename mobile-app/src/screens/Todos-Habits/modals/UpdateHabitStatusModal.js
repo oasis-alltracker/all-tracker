@@ -32,17 +32,33 @@ export default function UpdateHabitStatusModal({
         if (props.count >= props.threshold) {
           setCount(props.threshold);
           if (props.isPositive) {
-            Toast.show("Habit complete. Great job!", {
-              ...styles.positiveToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            });
+            if (Platform.OS === "ios") {
+              Toast.show("Habit complete. Great job!", {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              });
+            } else {
+              Toast.show("Habit complete. Great job!", {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              });
+            }
           } else {
-            Toast.show("You striked out. Try again tomorrow!", {
-              ...styles.negativeToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            });
+            if (Platform.OS === "ios") {
+              Toast.show("You striked out. Try again tomorrow!", {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              });
+            } else {
+              Toast.show("You striked out. Try again tomorrow!", {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              });
+            }
           }
         }
       },
