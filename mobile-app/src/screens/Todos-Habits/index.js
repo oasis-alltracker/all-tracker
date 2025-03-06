@@ -97,7 +97,7 @@ const TodosHabits = ({ navigation }) => {
       setDots(numDots);
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, 1200);
     };
 
     if (!isPageLoaded) {

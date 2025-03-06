@@ -129,6 +129,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     setScheduleCount(1);
 
     setIsMainVisible(false);
+    setIsNotificationsOn(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
   };
 
@@ -212,8 +213,9 @@ export default function CreateHabitModal({ getRef, createHabit }) {
 
         habit.isPositive = true;
 
+        var setNotifications = isNotificationsOn;
         backDropPressed();
-        createHabit(habit, times, isNotificationsOn);
+        createHabit(habit, times, setNotifications);
       }
     };
 
