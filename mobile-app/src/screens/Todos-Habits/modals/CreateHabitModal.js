@@ -285,7 +285,7 @@ export default function CreateHabitModal({
         isVisible={isMainVisible}
         onBackButtonPress={() => backDropPressed()}
         onBackdropPress={() => backDropPressed()}
-        backdropColor="rgba(215, 246, 255, 0.27)"
+        backdropOpacity={0}
         style={styles.modal}
       >
         <KeyboardAvoidingView

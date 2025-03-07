@@ -399,10 +399,7 @@ const HabitsCreation = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Spinner
-        visible={isLoading}
-        overlayColor="rgba(215, 246, 255, 0.27)"
-      ></Spinner>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.center}>
         <View style={styles.imageCon}>
           <Image

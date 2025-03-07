@@ -1263,10 +1263,7 @@ const TodosHabits = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container} removeClippedSubviews={false}>
       <View style={styles.container}>
-        <Spinner
-          visible={isLoading}
-          overlayColor="rgba(215, 246, 255, 0.27)"
-        ></Spinner>
+        <Spinner visible={isLoading}></Spinner>
         <TouchableOpacity
           style={styles.headerButton}
           onPress={() => navigation.openDrawer()}

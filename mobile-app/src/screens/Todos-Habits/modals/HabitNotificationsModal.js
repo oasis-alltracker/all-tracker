@@ -337,7 +337,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
       isVisible={isVisible}
       onBackButtonPress={() => onExit()}
       onBackdropPress={() => onExit()}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropOpacity={0}
       style={styles.modal}
     >
       <View style={styles.container}>

@@ -45,7 +45,7 @@ export default function ImagesModal({
         setIsVisible(false);
         backDropPressed();
       }}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropOpacity={0}
       style={[styles.scrollModal, { height: height * 0.7 }]}
     >
       <SafeAreaView style={[styles.safeAreaContainer, { width: width }]}>
