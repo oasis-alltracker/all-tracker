@@ -163,7 +163,7 @@ const TodosHabits = ({ navigation }) => {
 
       await getHabits();
       await createStatusList(day);
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
       setIsLoading(false);
       if (Platform.OS === "ios") {
@@ -321,10 +321,9 @@ const TodosHabits = ({ navigation }) => {
         `task-${habitID}`,
         prevExpoIDs
       );
-
       await getHabits();
       await createStatusList(day);
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
       setIsLoading(false);
       if (Platform.OS === "ios") {
@@ -388,6 +387,7 @@ const TodosHabits = ({ navigation }) => {
       }
       await getHabits();
       await createStatusList(day);
+      setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
       console.log(e);
       if (Platform.OS === "ios") {
@@ -1200,8 +1200,10 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const closeModalHandler = () => {
-    setTimeout(() => setIsLoading(false), 500);
+  const closeModalHandler = (doAsyncWork) => {
+    if (!doAsyncWork) {
+      setTimeout(() => setIsLoading(false), 500);
+    }
   };
 
   const renderScene = ({ route }) => {

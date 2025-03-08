@@ -190,7 +190,7 @@ export default function UpdateHabitModal({
     }, 1051);
   };
 
-  const backDropPressed = () => {
+  const backDropPressed = (doAsyncWork = false) => {
     setTempHabitName(false);
     setTempIsPositiveIndex(false);
     setTempThreshold(false);
@@ -200,7 +200,7 @@ export default function UpdateHabitModal({
     setVisible(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
 
-    closeModalHandler();
+    closeModalHandler(doAsyncWork);
   };
 
   const MainModal = () => {
@@ -251,7 +251,7 @@ export default function UpdateHabitModal({
         };
 
         habit.isPositive = true;
-        backDropPressed();
+        backDropPressed(true);
         updateHabit(habitID, habit, times, isNotificationsOn);
       } else {
         if (Platform.OS === "ios") {
@@ -280,7 +280,7 @@ export default function UpdateHabitModal({
             text: "Yes",
             isPreferred: true,
             onPress: () => {
-              backDropPressed();
+              backDropPressed(true);
               deleteHabit(habitID);
             },
           },

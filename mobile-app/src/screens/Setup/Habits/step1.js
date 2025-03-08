@@ -112,7 +112,6 @@ const HabitsCreation = (props) => {
   };
 
   const createHabit = async (habit, notificationTimes, isNotificationsOn) => {
-    setIsLoading(true);
     try {
       var token = await getAccessToken();
       const habitID = await HabitsAPI.createHabit(
@@ -130,7 +129,6 @@ const HabitsCreation = (props) => {
             repeats: true,
           });
         }
-        console.log(triggers);
         expoIDs = await NotificationsHandler.turnOnNotification(
           token,
           `habit-${habitID}`,
@@ -142,6 +140,7 @@ const HabitsCreation = (props) => {
       }
 
       await getHabits();
+      setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
       connsole.log(e);
       setIsLoading(false);
@@ -162,7 +161,6 @@ const HabitsCreation = (props) => {
   };
 
   const deleteHabit = async (habitID) => {
-    setIsLoading(true);
     try {
       token = await getAccessToken();
       await HabitsAPI.deleteHabit(token, habitID);
@@ -178,14 +176,15 @@ const HabitsCreation = (props) => {
         prevNotification
       );
 
+      await getHabits();
+      setTimeout(() => setIsLoading(false), 500);
+
       var prevExpoIDs = prevNotification[0]?.expoIDs;
       await NotificationsHandler.deleteNotification(
         token,
         `task-${habitID}`,
         prevExpoIDs
       );
-
-      await getHabits();
     } catch (e) {
       console.log(e);
       setIsLoading(false);
@@ -231,6 +230,8 @@ const HabitsCreation = (props) => {
             repeats: true,
           });
         }
+        await getHabits();
+        setTimeout(() => setIsLoading(false), 500);
 
         expoIDs = await NotificationsHandler.turnOnNotification(
           token,
@@ -248,7 +249,6 @@ const HabitsCreation = (props) => {
           prevExpoIDs
         );
       }
-      await getHabits();
     } catch (e) {
       if (Platform.OS === "ios") {
         Toast.show("Something went wrong. Please try again.", {
@@ -271,7 +271,6 @@ const HabitsCreation = (props) => {
       token = await getAccessToken();
       var userHabits = await HabitsAPI.getHabits(token);
       setHabits(userHabits);
-      setIsLoading(false);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
@@ -291,14 +290,17 @@ const HabitsCreation = (props) => {
     }
   };
 
-  const closeModalHandler = () => {
-    setTimeout(() => setIsLoading(false), 500);
+  const closeModalHandler = (doAsyncWork) => {
+    if (!doAsyncWork) {
+      setTimeout(() => setIsLoading(false), 500);
+    }
   };
 
   useEffect(() => {
     const getHabitsOnLoad = async () => {
       setHabitsIsLoaded(true);
       await getHabits();
+      setIsLoading(false);
     };
     if (!habitsIsLoaded) {
       setTimeout(() => {

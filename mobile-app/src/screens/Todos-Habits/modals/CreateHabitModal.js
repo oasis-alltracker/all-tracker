@@ -127,7 +127,7 @@ export default function CreateHabitModal({
     setImage(presetHabit.pngUrl);
   };
 
-  const backDropPressed = () => {
+  const backDropPressed = (doAsyncWork = false) => {
     setTempHabitName(false);
     setTempIsPositiveIndex(false);
     setTempThreshold(false);
@@ -138,7 +138,7 @@ export default function CreateHabitModal({
     setIsNotificationsOn(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
 
-    closeModalHandler();
+    closeModalHandler(doAsyncWork);
   };
 
   const MainModal = () => {
@@ -222,7 +222,7 @@ export default function CreateHabitModal({
         habit.isPositive = true;
 
         var setNotifications = isNotificationsOn;
-        backDropPressed();
+        backDropPressed(true);
         createHabit(habit, times, setNotifications);
       }
     };
