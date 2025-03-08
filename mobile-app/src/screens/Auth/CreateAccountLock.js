@@ -24,6 +24,7 @@ import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { getUniqueId } from "react-native-device-info";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
@@ -190,8 +191,8 @@ const CreateAccountLock = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Header />
+    <SafeAreaView style={styles.container}>
+      <Header showCenter={false} />
       <Spinner visible={isLoading}></Spinner>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.view}>
@@ -259,7 +260,7 @@ const CreateAccountLock = (props) => {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    </View>
+    </SafeAreaView>
   );
 };
 

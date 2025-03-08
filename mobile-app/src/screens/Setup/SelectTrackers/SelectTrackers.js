@@ -164,10 +164,10 @@ const SelectTrackers = () => {
   }, []);
 
   return (
-    <SafeAreaView edges={["bottom"]} style={styles.container}>
-      <Header />
-      <Text style={[styles.subtitle, { marginTop: height * 0.05 }]}>
-        Which areas of your daily life would you like to reflect on?
+    <SafeAreaView style={styles.container}>
+      <Header showCenter={false} />
+      <Text style={[styles.subtitle, { marginTop: height * 0.06 }]}>
+        Which areas of your life would you like to log?
       </Text>
       <View style={styles.middleContainer}>
         <View style={styles.center}>
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: "#25436B",
-    fontSize: 22,
+    fontSize: 23,
     fontFamily: "Sego-Bold",
     textAlign: "center",
     paddingHorizontal: 15,
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   middleContainer: {
     flex: 1,
     justifyContent: "space-evenly",
-    paddingVertical: 15,
+    paddingVertical: 12,
     paddingHorizontal: 8,
   },
   errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
