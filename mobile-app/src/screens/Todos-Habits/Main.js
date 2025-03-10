@@ -9,7 +9,6 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import Spinner from "react-native-loading-spinner-overlay";
 import { todoCompare } from "../../utils/commonUtils";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
@@ -202,8 +201,6 @@ const Main = ({
         scrollEnabled={false}
         removeClippedSubviews={false}
       >
-        <Spinner visible={isLoading}></Spinner>
-
         <View
           style={[
             sharedStyles.headerImageContainer,

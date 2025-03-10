@@ -9,7 +9,6 @@ import {
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import Spinner from "react-native-loading-spinner-overlay";
 import { sharedStyles } from "../styles";
 
 export default function MyHabits({
@@ -88,7 +87,6 @@ export default function MyHabits({
 
   return (
     <>
-      <Spinner visible={isLoading}></Spinner>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}

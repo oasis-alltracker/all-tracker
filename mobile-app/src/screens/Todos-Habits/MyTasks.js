@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import moment from "moment";
 
-import Spinner from "react-native-loading-spinner-overlay";
 import { sharedStyles } from "../styles";
 import { todoCompare } from "../../utils/commonUtils";
 
@@ -291,7 +290,6 @@ const MyTasks = ({
 
   return (
     <>
-      <Spinner visible={isLoading}></Spinner>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}

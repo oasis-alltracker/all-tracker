@@ -167,7 +167,7 @@ const SelectTrackers = () => {
     <SafeAreaView style={styles.container}>
       <Header showCenter={false} />
       <Text style={[styles.subtitle, { marginTop: height * 0.06 }]}>
-        Which areas of your life would you like to log?
+        Which areas of your daily life would you like to log?
       </Text>
       <View style={styles.middleContainer}>
         <View style={styles.center}>
@@ -300,10 +300,10 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     color: "#25436B",
-    fontSize: 23,
+    fontSize: 22,
     fontFamily: "Sego-Bold",
     textAlign: "center",
-    paddingHorizontal: 15,
+    paddingHorizontal: 12,
   },
   buttonText: {
     color: "#25436B",
