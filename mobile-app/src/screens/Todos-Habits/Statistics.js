@@ -11,6 +11,7 @@ import moment from "moment";
 import TaskStats from "../Stats/TaskStats";
 import HabitStats from "../Stats/HabitStats";
 import { sharedStyles } from "../styles";
+import { InAppReview } from "react-native-in-app-review";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();
@@ -25,7 +26,19 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
     setSelectedSunday(newDate);
   };
 
-  useEffect(() => {}, [updateStats]);
+  useEffect(() => {
+    const requestReview = async () => {
+      try {
+        const available = await InAppReview.isAvailable();
+        if (available) {
+          await InAppReview.RequestInAppReview();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    requestReview();
+  }, []);
 
   return (
     <ScrollView

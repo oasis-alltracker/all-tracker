@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -11,6 +11,7 @@ import moment from "moment";
 import MoodStats from "../Stats/MoodStats";
 import SleepStats from "../Stats/SleepStats";
 import { sharedStyles } from "../styles";
+import { InAppReview } from "react-native-in-app-review";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();
@@ -24,6 +25,20 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
     );
     setSelectedSunday(newDate);
   };
+
+  useEffect(() => {
+    const requestReview = async () => {
+      try {
+        const available = await InAppReview.isAvailable();
+        if (available) {
+          await InAppReview.RequestInAppReview();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    requestReview();
+  }, []);
 
   return (
     <ScrollView
