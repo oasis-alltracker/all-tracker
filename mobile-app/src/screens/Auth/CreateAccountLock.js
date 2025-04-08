@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 import * as AppleAuthentication from "expo-apple-authentication";
+import { AppEventsLogger } from "react-native-fbsdk-next";
 
 import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
@@ -113,6 +114,7 @@ const CreateAccountLock = (props) => {
     if (userData.isSetupComplete) {
       await navigationService.reset("main", 0);
     } else {
+      AppEventsLogger.logEvent(AppEventsLogger.AppEvents.StartTrial, []);
       await navigationService.navigate("contract");
     }
   };
