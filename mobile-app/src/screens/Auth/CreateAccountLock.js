@@ -114,7 +114,11 @@ const CreateAccountLock = (props) => {
     if (userData.isSetupComplete) {
       await navigationService.reset("main", 0);
     } else {
-      AppEventsLogger.logEvent(AppEventsLogger.AppEvents.StartTrial, []);
+      try {
+        AppEventsLogger.logEvent(AppEventsLogger.AppEvents.StartTrial);
+      } catch (e) {
+        console.log(e);
+      }
       await navigationService.navigate("contract");
     }
   };
