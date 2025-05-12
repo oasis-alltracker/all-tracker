@@ -226,6 +226,19 @@ functions:
           method: put
           cors: true 
 
+##Dev Task Diet Button##
+  dietButton:
+    handler: tracker-diet/dietButton/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/dietButton
+          method: post
+          cors: true 
+
 ##User Info##
   user:
     handler: userInfo/user/index.handler

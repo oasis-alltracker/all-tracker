@@ -80,7 +80,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 ###
 
 //Login with device.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginDevice
+POST https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginDevice
 
 {
    "deviceID": "asdjfa",
@@ -130,6 +130,22 @@ Authorization: Bearer token
 }
 ###
 
+//-----------D E V   T A S K  -  D I E T   B U T T O N-----------
+//-------------------------------------------
+//Get diet goals.
+# GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/dietGoals
+# Authorization: Bearer token
+###
+
+//Create button response entry.
+POST https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/dietButton
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGpmYSIsImlhdCI6MTc0NzA3NjExMiwiZXhwIjoxNzQ3MjQ4OTEyfQ.PbfqtFZQQhlYrqIG5KRfpZ5Hy6p7ne8tYFrP4Qr9Lok
+
+{
+    "meal": "breakfast",
+    "food": "eggs"
+}
+###
 
 
 //--------N O T I F I C A T I O N S----------
@@ -170,13 +186,13 @@ Authorization: Bearer token
 //----------------H A B I T S----------------
 //-------------------------------------------
 //Get all habits.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
-Authorization: Bearer token
+GET https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGpmYSIsImlhdCI6MTc0NzA3NjExMiwiZXhwIjoxNzQ3MjQ4OTEyfQ.PbfqtFZQQhlYrqIG5KRfpZ5Hy6p7ne8tYFrP4Qr9Lok
 ###
 
 //Create habit.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
-Authorization: Bearer token
+POST https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFzZGpmYSIsImlhdCI6MTc0NzA3NjExMiwiZXhwIjoxNzQ3MjQ4OTEyfQ.PbfqtFZQQhlYrqIG5KRfpZ5Hy6p7ne8tYFrP4Qr9Lok
 
 {
     "name": "Wash Shoes",

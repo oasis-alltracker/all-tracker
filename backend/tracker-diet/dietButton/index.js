@@ -10,23 +10,24 @@ const dbService = new DbUtils(DB, tableName);
 const CreateDietButtonResponse = require ("./createDietButtonResponse");
 const createDietButtonResponse = new CreateDietButtonResponse(dbService);
 
-const {authenicateToken} = require("../../utils/authenticateToken");
+const { authenticateToken } = require("../../utils/authenticateToken");
 
 module.exports.handler = async (event, context, callback) => {
-    context.callbackWaitsForEmptyEventLoop = false;
-    const user = authenicateToken(event.handler);
-    var response;
+  context.callbackWaitsForEmptyEventLoop = false;
+  const user = authenticateToken(event.headers);
+  var response;
 
-    if (!user?.email) {
-        callback(null, {
-            statusCode: 401, 
-            body: JSON.stringify("Unauthorized"),
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true,
-            },
-        });
-    }
+  if (!user?.email) {
+    callback(null, {
+      statusCode: 401,
+      body: JSON.stringify("Unauthorized"),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
+    });
+  }
+
 
     if (event.httpMethod == "POST") {
         response = await createDietButtonResponse.CreateDietButtonResponse(
