@@ -1,7 +1,7 @@
 import axios from "axios";
 import moment from "moment";
 
-const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+import { EXPO_PUBLIC_BASE_URL } from "../config";
 const API = EXPO_PUBLIC_BASE_URL + "toDos/";
 
 class ToDosAPI {

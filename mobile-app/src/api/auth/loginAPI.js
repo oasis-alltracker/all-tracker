@@ -1,5 +1,5 @@
 import axios from "axios";
-const EXPO_PUBLIC_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+import { EXPO_PUBLIC_BASE_URL } from "../config";
 const API = EXPO_PUBLIC_BASE_URL + "authentication/";
 
 class LoginAPI {
