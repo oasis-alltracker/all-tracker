@@ -236,6 +236,10 @@ functions:
     events:
       - http:
           path: v1/dietButton
+          method: get
+          cors: true
+      - http:
+          path: v1/dietButton
           method: post
           cors: true 
 

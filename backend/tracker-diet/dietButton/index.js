@@ -29,7 +29,10 @@ module.exports.handler = async (event, context, callback) => {
   }
 
 
-    if (event.httpMethod == "POST") {
+    if (event.httpMethod == "GET") {
+        response = await getDietButtonResponse.getDietButtonResponse(user);
+    }    
+    else if (event.httpMethod == "POST") {
         response = await createDietButtonResponse.CreateDietButtonResponse(
             user,
             JSON.parse(event.body),
