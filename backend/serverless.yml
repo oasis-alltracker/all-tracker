@@ -652,6 +652,23 @@ functions:
           method: delete
           cors: true
 
+##Fitness Button##
+  fitnessButtons:
+    handler: tracker-fitness/fitnessButtons/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/fitnessButtons
+          method: get
+          cors: true
+      - http:
+          path: v1/fitnessButtons
+          method: post
+          cors: true
+
 
 ############## R E S O U R C E S ##############
 resources:

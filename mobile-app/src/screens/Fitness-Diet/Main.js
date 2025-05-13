@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,9 +10,32 @@ import {
 import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
+import Toast from "react-native-root-toast";
+import FitnessButtonsAPI from "../../api/fitness/fitnessButtonsAPI";
+import { getAccessToken } from "../../user/keychain";
 
 export default function Main({ day, trackingPreferences, updateDate }) {
   const today = new Date();
+  async function getTestAPI(token){
+    //step 1: somehow call the api 
+    var results = await FitnessButtonsAPI.getFitnessButtonCalls(token); 
+
+    if (Platform.OS === "ios") {
+    Toast.show(JSON.stringify(results), {
+      ...styles.errorToast,
+      duration: Toast.durations.LONG,
+      position: Toast.positions.BOTTOM,
+    });
+  } else {
+    Toast.show(JSON.stringify(results), {
+      ...styles.errorToast,
+      duration: Toast.durations.LONG,
+      position: Toast.positions.TOP,
+    });
+  }
+
+
+  }
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -89,11 +113,24 @@ export default function Main({ day, trackingPreferences, updateDate }) {
             <Text style={sharedStyles.trackerTitle}>Fitness</Text>
           </View>
 
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity style={styles.addBtn}
+            onPress = {async ()=> {
+              token = await getAccessToken();
+              await FitnessButtonsAPI.createFitnessButtonClick(token, "meow");
+              
+            }}>
+            
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-excercise.png")}
             />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.addBtn}
+          onPress={async ()=>{
+            await getTestAPI(token);
+          }}>
+            <Text style={styles.Text}>Get</Text>
           </TouchableOpacity>
         </>
       )}
