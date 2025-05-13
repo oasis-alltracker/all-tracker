@@ -17,17 +17,17 @@ import { getAccessToken } from "../../user/keychain";
 export default function Main({ day, trackingPreferences, updateDate }) {
   const today = new Date();
   async function getTestAPI(token){
-    //step 1: somehow call the api 
     var results = await FitnessButtonsAPI.getFitnessButtonCalls(token); 
+    const names = results.map(item => item.name);
 
     if (Platform.OS === "ios") {
-    Toast.show(JSON.stringify(results), {
+    Toast.show(JSON.stringify(names), {
       ...styles.errorToast,
       duration: Toast.durations.LONG,
       position: Toast.positions.BOTTOM,
     });
   } else {
-    Toast.show(JSON.stringify(results), {
+    Toast.show(JSON.stringify(names), {
       ...styles.errorToast,
       duration: Toast.durations.LONG,
       position: Toast.positions.TOP,
