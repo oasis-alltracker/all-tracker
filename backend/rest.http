@@ -80,7 +80,7 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentica
 ###
 
 //Login with device.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginDevice
+POST https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/authentication/loginDevice
 
 {
    "deviceID": "asdjfa",
@@ -130,6 +130,22 @@ Authorization: Bearer token
 }
 ###
 
+//-----------D E V   T A S K  -  D I E T   B U T T O N-----------
+//-------------------------------------------
+//Get button repsonse entry.
+GET https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/dietButton
+Authorization: Bearer token
+###
+
+//Create button response entry.
+POST https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/dietButton
+Authorization: Bearer token
+
+{
+    "meal": "breakfast",
+    "food": "eggs"
+}
+###
 
 
 //--------N O T I F I C A T I O N S----------
@@ -170,12 +186,12 @@ Authorization: Bearer token
 //----------------H A B I T S----------------
 //-------------------------------------------
 //Get all habits.
-GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+GET https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
 Authorization: Bearer token
 ###
 
 //Create habit.
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+POST https://pv59ot6h7b.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
 Authorization: Bearer token
 
 {

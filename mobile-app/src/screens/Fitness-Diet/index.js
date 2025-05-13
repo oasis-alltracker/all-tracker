@@ -14,7 +14,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView } from "react-native-tab-view";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
+import DietButtonAPI from "../../api/diet/dietButtonAPI";
 import { sharedStyles } from "../styles";
+import Toast from "react-native-root-toast";
 
 const FitnessDiet = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -25,6 +27,8 @@ const FitnessDiet = ({ navigation }) => {
 
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }]);
   const [dots, setDots] = useState([]);
+
+  const [buttonResponses, setButtonResponses] = useState([]);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -71,6 +75,62 @@ const FitnessDiet = ({ navigation }) => {
     }
   }, []);
 
+  const createDietButtonResponse = async (input) => {
+    try {
+      var token = await getAccessToken();
+      const response = await DietButtonAPI.createDietButtonResponse(token, input);
+
+      await getDietButtonResponse();
+    }
+    catch (e){
+      setIsLoading(false);
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
+    }
+  };
+
+  const getDietButtonResponse = async () => {
+    try {
+      token = await getAccessToken();
+      const responses = DietButtonAPI.getDietButtonResponse(token);
+      setButtonResponses(responses);
+
+      Toast.show("Meal generated: \n" + JSON.stringify(buttonResponses), {
+          ...styles.Toast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+        });
+    }
+    catch (e) {
+      console.log(e);
+      setIsLoading(false);
+      if (Platform.OS === "ios") {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Something went wrong. Please try again.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+    }
+  }
+};
+
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "first":
@@ -79,6 +139,7 @@ const FitnessDiet = ({ navigation }) => {
             day={day}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
+            createDietButtonResponse={createDietButtonResponse}
           />
         );
       case "second":

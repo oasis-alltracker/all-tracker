@@ -10,8 +10,12 @@ import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 
-export default function Main({ day, trackingPreferences, updateDate }) {
+export default function Main({ day, trackingPreferences, updateDate, createDietButtonResponse }) {
   const today = new Date();
+  input = {
+    meal: "breakfast",
+    food: "eggs",
+  };
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -68,7 +72,8 @@ export default function Main({ day, trackingPreferences, updateDate }) {
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Diet</Text>
           </View>
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity style={styles.addBtn}
+            onPress={() => createDietButtonResponse(input)}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-food.png")}
