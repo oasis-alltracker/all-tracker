@@ -105,6 +105,12 @@ const FitnessDiet = ({ navigation }) => {
       token = await getAccessToken();
       const responses = DietButtonAPI.getDietButtonResponse(token);
       setButtonResponses(responses);
+
+      Toast.show("Meal generated: \n" + JSON.stringify(buttonResponses), {
+          ...styles.Toast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+        });
     }
     catch (e) {
       console.log(e);
@@ -133,6 +139,7 @@ const FitnessDiet = ({ navigation }) => {
             day={day}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
+            createDietButtonResponse={createDietButtonResponse}
           />
         );
       case "second":
