@@ -9,6 +9,8 @@ const dbService = new DbUtils(DB, tableName);
 
 const CreateDietButtonResponse = require ("./createDietButtonResponse");
 const createDietButtonResponse = new CreateDietButtonResponse(dbService);
+const GetDietButtonResponse = require ("./getDietButtonResponse");
+const getDietButtonResponse = new GetDietButtonResponse(dbService);
 
 const { authenticateToken } = require("../../utils/authenticateToken");
 
@@ -33,7 +35,7 @@ module.exports.handler = async (event, context, callback) => {
         response = await getDietButtonResponse.getDietButtonResponse(user);
     }    
     else if (event.httpMethod == "POST") {
-        response = await createDietButtonResponse.CreateDietButtonResponse(
+        response = await createDietButtonResponse.createDietButtonResponse(
             user,
             JSON.parse(event.body),
         );

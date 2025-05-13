@@ -35,7 +35,7 @@ class GetDietButtonResponse {
             "#pk": "PK",
         };
         const values = {
-            "#pk": `${user}-dietButton`
+            ":pk": `${user}-dietButton`
         };
 
         const response = await this.DB.queryItem(expression, names, values);
@@ -43,4 +43,4 @@ class GetDietButtonResponse {
     }
 }
 
-module.export = GetDietButtonResponse;
+module.exports = GetDietButtonResponse;

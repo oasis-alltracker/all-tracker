@@ -5,9 +5,9 @@ class CreateDietButtonResponse {
         this.DB = db;
     }
 
-    async CreateDietButtonResponse(user, body) {
+    async createDietButtonResponse(user, body) {
         try {
-            const response = await this.CreateButtonResponse(user.email, body);
+            const response = await this.createButtonResponse(user.email, body);
 
             return {
                 statusCode: 200,
@@ -31,7 +31,7 @@ class CreateDietButtonResponse {
         }
     }
 
-    async CreateButtonResponse(email, dietInfo){
+    async createButtonResponse(email, dietInfo){
         const buttonPressID = uuidv1();
 
         const data = {
