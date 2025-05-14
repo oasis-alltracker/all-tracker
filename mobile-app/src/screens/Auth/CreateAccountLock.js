@@ -143,7 +143,7 @@ const CreateAccountLock = (props) => {
           } else if (!data.isCorrectPassword) {
             setIsLoading(false);
             Toast.show(
-              "Incorrect password. This device already has an account",
+              "Incorrect password. This device already has an account.",
               {
                 ...styles.errorToast,
                 duration: Toast.durations.LONG,
@@ -155,7 +155,7 @@ const CreateAccountLock = (props) => {
             setIsLoading(false);
             Alert.alert(
               "Account Locked",
-              "Your account has been locked for security reasons. To unlock it, you must contact us",
+              "Your account has been locked for security reasons. To unlock it, you must contact us.",
               [{ text: "Ok" }],
               {
                 cancelable: true,
