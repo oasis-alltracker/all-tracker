@@ -143,7 +143,7 @@ const CreateAccountLock = (props) => {
           } else if (!data.isCorrectPassword) {
             setIsLoading(false);
             Toast.show(
-              "Incorrect password. This decvice already has an account",
+              "Incorrect password. This device already has an account",
               {
                 ...styles.errorToast,
                 duration: Toast.durations.LONG,
@@ -180,7 +180,7 @@ const CreateAccountLock = (props) => {
         }
       } else {
         setIsLoading(false);
-        Toast.show("Passwords do no match.", {
+        Toast.show("Passwords do not match.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
           position: Toast.positions.CENTER,
