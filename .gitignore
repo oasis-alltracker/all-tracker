@@ -8,3 +8,4 @@ config.yml
 eas.json
 app.json
 rest.http
+config.js
