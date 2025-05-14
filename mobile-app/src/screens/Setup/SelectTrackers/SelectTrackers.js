@@ -28,6 +28,8 @@ const SelectTrackers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
 
+  const displayPhysical = true;
+
   const setSelectedTrackers = async () => {
     setIsLoading(true);
     var selectedTrackers = {
@@ -163,12 +165,70 @@ const SelectTrackers = () => {
     fetchTrackingPreferences();
   }, []);
 
+  function PhysicalButtons(){
+    return (
+      <View style={styles.center}>
+          <TouchableOpacity 
+            style={[
+              styles.button,
+              {
+                backgroundColor: "rgba(202,189,255,1)",
+                borderColor: "rgba(181, 176, 202,1)",
+                width: height * 0.2,
+                height: height *0.2,
+              },
+              !dietSelected && { opacity: 0.5 },
+              dietSelected && { borderWidth: 1.5 },
+              dietSelected && { borderColor: "#25436B" },
+            ]}
+            onPress={()=> setDietSelected(!dietSelected)}
+            >
+              <Image
+                style={{
+                  width: height * 0.08,
+                  height: height * 0.08,
+                }}
+                source={require("../../../assets/images/diet512.png")}
+              />
+              <Text style={styles.title}>diet</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[
+              styles.button,
+              {
+                backgroundColor: "rgba(202,189,255,1)",
+                borderColor: "rgba(181, 176, 202,1)",
+                width: height * 0.2,
+                height: height *0.2,
+              },
+              !fitnessSelected && { opacity: 0.5 },
+              fitnessSelected && { borderWidth: 1.5 },
+              fitnessSelected && { borderColor: "#25436B" },
+            ]}
+            onPress={()=> setFitnessSelected(!fitnessSelected)}
+            >
+              <Image
+                style={{
+                  width: height * 0.08,
+                  height: height * 0.08,
+                }}
+                source={require("../../../assets/images/fitness512.png")}
+              />
+              <Text style={styles.title}>fitness</Text>
+          </TouchableOpacity>
+        </View>
+    );
+
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Header showCenter={false} />
-      <Text style={[styles.subtitle, { marginTop: height * 0.06 }]}>
-        Which areas of your daily life would you like to log?
-      </Text>
+      <Header showCenter={false} 
+      rightComponent={<Text style={[styles.subtitle]}>
+      Which areas of your daily life would you like to log?
+      </Text>}
+      />
+      
       <View style={styles.middleContainer}>
         <View style={styles.center}>
           <TouchableOpacity
@@ -180,7 +240,7 @@ const SelectTrackers = () => {
               { width: height * 0.2, height: height * 0.2 },
             ]}
             onPress={() => setHabitsSelected(!habitsSelected)}
-          >
+          > 
             <Image
               style={{
                 width: height * 0.08,
@@ -210,6 +270,7 @@ const SelectTrackers = () => {
             <Text style={styles.title}>to-dos</Text>
           </TouchableOpacity>
         </View>
+        {displayPhysical? <PhysicalButtons/> : null}
         <View style={styles.center}>
           <TouchableOpacity
             style={[
