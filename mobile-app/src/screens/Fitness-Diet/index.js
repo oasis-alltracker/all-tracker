@@ -103,7 +103,8 @@ const FitnessDiet = ({ navigation }) => {
       token = await getAccessToken();
       const responses = await DietButtonAPI.getDietButtonResponse(token);
 
-      Toast.show("Meal generated: \n" + JSON.stringify(responses), {
+      Toast.show("Meal generated: \n" + JSON.stringify(responses[0].food)
+          + " for " + JSON.stringify(responses[0].meal), {
           ...styles.Toast,
           duration: Toast.durations.LONG,
           position: Toast.positions.CENTER,
