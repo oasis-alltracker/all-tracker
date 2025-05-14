@@ -28,8 +28,6 @@ const FitnessDiet = ({ navigation }) => {
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }]);
   const [dots, setDots] = useState([]);
 
-  const [buttonResponses, setButtonResponses] = useState([]);
-
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
@@ -103,10 +101,9 @@ const FitnessDiet = ({ navigation }) => {
   const getDietButtonResponse = async () => {
     try {
       token = await getAccessToken();
-      const responses = DietButtonAPI.getDietButtonResponse(token);
-      setButtonResponses(responses);
+      const responses = await DietButtonAPI.getDietButtonResponse(token);
 
-      Toast.show("Meal generated: \n" + JSON.stringify(buttonResponses), {
+      Toast.show("Meal generated: \n" + JSON.stringify(responses), {
           ...styles.Toast,
           duration: Toast.durations.LONG,
           position: Toast.positions.CENTER,
