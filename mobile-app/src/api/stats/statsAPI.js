@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EXPO_PUBLIC_BASE_URL } from "../config";
+import { EXPO_PUBLIC_BASE_URL } from "../../../config";
 
 class StatsAPI {
   static async getHabitStats(token, sunday) {

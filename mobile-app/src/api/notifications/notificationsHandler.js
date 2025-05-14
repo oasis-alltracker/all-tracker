@@ -4,7 +4,7 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import axios from "axios";
 
-import { EXPO_PUBLIC_BASE_URL } from "../config";
+import { EXPO_PUBLIC_BASE_URL } from "../../../config";
 const API = EXPO_PUBLIC_BASE_URL + "notifications/";
 
 class NotificationsHandler {
