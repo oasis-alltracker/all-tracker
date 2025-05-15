@@ -1,0 +1,1 @@
+export const DISPLAY_PHYSICAL_SETUP_BUTTONS = false;

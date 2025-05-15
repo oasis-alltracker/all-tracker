@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Toast from "react-native-root-toast";
+import { DISPLAY_PHYSICAL_SETUP_BUTTONS } from "./experimentFlags";
 
 const SelectTrackers = () => {
   const { width, height } = useWindowDimensions();
@@ -27,6 +28,9 @@ const SelectTrackers = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
+
+  const buttonSize = DISPLAY_PHYSICAL_SETUP_BUTTONS? height*0.15 : height*0.2;
+  const buttonImageSize = DISPLAY_PHYSICAL_SETUP_BUTTONS? height*0.06 : height*0.08
 
   const setSelectedTrackers = async () => {
     setIsLoading(true);
@@ -163,12 +167,14 @@ const SelectTrackers = () => {
     fetchTrackingPreferences();
   }, []);
 
+
   return (
     <SafeAreaView style={styles.container}>
       <Header showCenter={false} />
-      <Text style={[styles.subtitle, { marginTop: height * 0.06 }]}>
-        Which areas of your daily life would you like to log?
+      <Text style={[styles.subtitle]}>
+      Which areas of your daily life would you like to log?
       </Text>
+      
       <View style={styles.middleContainer}>
         <View style={styles.center}>
           <TouchableOpacity
@@ -177,14 +183,14 @@ const SelectTrackers = () => {
               !habitsSelected && { opacity: 0.5 },
               habitsSelected && { borderWidth: 1.5 },
               habitsSelected && { borderColor: "#25436B" },
-              { width: height * 0.2, height: height * 0.2 },
+              { width: buttonSize, height: buttonSize },
             ]}
             onPress={() => setHabitsSelected(!habitsSelected)}
-          >
+          > 
             <Image
               style={{
-                width: height * 0.08,
-                height: height * 0.08,
+                width: buttonImageSize,
+                height: buttonImageSize,
               }}
               source={require("../../../assets/images/habits512.png")}
             />
@@ -196,20 +202,72 @@ const SelectTrackers = () => {
               !toDosSelected && { opacity: 0.5 },
               toDosSelected && { borderWidth: 1.5 },
               toDosSelected && { borderColor: "#25436B" },
-              { width: height * 0.2, height: height * 0.2 },
+              { width: buttonSize, height: buttonSize },
             ]}
             onPress={() => setToDosSelected(!toDosSelected)}
           >
             <Image
               style={{
-                width: height * 0.08,
-                height: height * 0.08,
+                width: buttonImageSize,
+                height: buttonImageSize,
               }}
               source={require("../../../assets/images/to-dos512.png")}
             />
             <Text style={styles.title}>to-dos</Text>
           </TouchableOpacity>
         </View>
+        {DISPLAY_PHYSICAL_SETUP_BUTTONS && 
+          <View style={styles.center}>
+            <TouchableOpacity 
+              style={[
+                styles.button,
+                {
+                  backgroundColor: "rgba(202,189,255,1)",
+                  borderColor: "rgba(181, 176, 202,1)",
+                  width: buttonSize,
+                  height: buttonSize,
+                },
+                !dietSelected && { opacity: 0.5 },
+                dietSelected && { borderWidth: 1.5 },
+                dietSelected && { borderColor: "#25436B" },
+              ]}
+              onPress={()=> setDietSelected(!dietSelected)}
+              >
+                <Image
+                  style={{
+                    width: buttonImageSize,
+                    height: buttonImageSize,
+                  }}
+                  source={require("../../../assets/images/diet512.png")}
+                />
+                <Text style={styles.title}>diet</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[
+                styles.button,
+                {
+                  backgroundColor: "rgba(202,189,255,1)",
+                  borderColor: "rgba(181, 176, 202,1)",
+                  width: buttonSize,
+                  height: buttonSize,
+                },
+                !fitnessSelected && { opacity: 0.5 },
+                fitnessSelected && { borderWidth: 1.5 },
+                fitnessSelected && { borderColor: "#25436B" },
+              ]}
+              onPress={()=> setFitnessSelected(!fitnessSelected)}
+              >
+                <Image
+                  style={{
+                    width: buttonImageSize,
+                    height: buttonImageSize,
+                  }}
+                  source={require("../../../assets/images/fitness512.png")}
+                />
+                <Text style={styles.title}>fitness</Text>
+            </TouchableOpacity>
+          </View>
+        }
         <View style={styles.center}>
           <TouchableOpacity
             style={[
@@ -217,8 +275,8 @@ const SelectTrackers = () => {
               {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
-                width: height * 0.2,
-                height: height * 0.2,
+                width: buttonSize,
+                height: buttonSize,
               },
               !moodSelected && { opacity: 0.5 },
               moodSelected && { borderWidth: 1.5 },
@@ -228,8 +286,8 @@ const SelectTrackers = () => {
           >
             <Image
               style={{
-                width: height * 0.08,
-                height: height * 0.08,
+                width: buttonImageSize,
+                height: buttonImageSize,
               }}
               source={require("../../../assets/images/mood512.png")}
             />
@@ -241,8 +299,8 @@ const SelectTrackers = () => {
               {
                 backgroundColor: "rgba(255, 239, 189, 1)",
                 borderColor: "rgba(204, 191, 152, 1)",
-                width: height * 0.2,
-                height: height * 0.2,
+                width: buttonSize,
+                height: buttonSize,
               },
               !sleepSelected && { opacity: 0.5 },
               sleepSelected && { borderWidth: 1.5 },
@@ -252,8 +310,8 @@ const SelectTrackers = () => {
           >
             <Image
               style={{
-                width: height * 0.08,
-                height: height * 0.08,
+                width: buttonImageSize,
+                height: buttonImageSize,
               }}
               source={require("../../../assets/images/sleep512.png")}
             />
