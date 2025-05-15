@@ -216,7 +216,7 @@ const SelectTrackers = () => {
             <Text style={styles.title}>to-dos</Text>
           </TouchableOpacity>
         </View>
-        {DISPLAY_PHYSICAL_SETUP_BUTTONS ? 
+        {DISPLAY_PHYSICAL_SETUP_BUTTONS && 
           <View style={styles.center}>
             <TouchableOpacity 
               style={[
@@ -267,7 +267,7 @@ const SelectTrackers = () => {
                 <Text style={styles.title}>fitness</Text>
             </TouchableOpacity>
           </View>
-        : null}
+        }
         <View style={styles.center}>
           <TouchableOpacity
             style={[
