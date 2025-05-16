@@ -53,7 +53,7 @@ const EnterCode = (props) => {
           setIsLoading(false);
           Alert.alert(
             "Account Locked",
-            "Your account has been locked for security reasons. To unlock it, you must reset your password",
+            "Your account has been locked for security reasons. To unlock it, you must reset your password.",
             [
               { text: "Cancel", style: "cancel" },
               {
