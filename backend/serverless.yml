@@ -299,6 +299,19 @@ functions:
           method: delete
           cors: true
 
+##Food Entries Macros##
+  foodEntriesMacros:
+    handler: tracker-diet/foodEntriesMacros/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/foodEntries/macros
+          method: get
+          cors: true
+
 ##FoodItems##
   foodItems:
     handler: tracker-diet/foodItems/index.handler
