@@ -53,7 +53,7 @@ const EnterCode = (props) => {
           setIsLoading(false);
           Alert.alert(
             "Account Locked",
-            "Your account has been locked for security reasons. To unlock it, you must reset your password",
+            "Your account has been locked for security reasons. To unlock it, you must reset your password.",
             [
               { text: "Cancel", style: "cancel" },
               {
@@ -79,14 +79,14 @@ const EnterCode = (props) => {
         } else if (data?.loginFailed == "incorrectOTP") {
           setIsLoading(false);
           setShowBottomText(true);
-          Toast.show("Invalid Code", {
+          Toast.show("Invalid Code.", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
           });
         } else if (data?.loginFailed == "expired") {
           setIsLoading(false);
           setShowBottomText(true);
-          Toast.show("Code has expired", {
+          Toast.show("Code has expired.", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
           });
@@ -137,7 +137,7 @@ const EnterCode = (props) => {
       }
     } else {
       setIsLoading(false);
-      Toast.show("Invalid Code", {
+      Toast.show("Invalid Code.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
       });
