@@ -42,6 +42,7 @@ class CreateFoodEntry {
       calorieCount: foodEntry.calorieCount,
       fatCount: foodEntry.fatCount,
       proteinCount: foodEntry.proteinCount,
+      carbCount: foodEntry.carbCount,
       quantity: foodEntry.quantity,
       measurement: foodEntry.measurement,
     };
