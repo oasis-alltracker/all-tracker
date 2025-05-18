@@ -5,7 +5,6 @@ class GetMealMacros {
 
     calcSums(response)
     {
-      console.log("calc sums input: "+ response);
       var result = {};
 
       response.forEach(item => {
@@ -25,7 +24,6 @@ class GetMealMacros {
           result[key]["proteinCount"] += item.proteinCount;
       });
 
-      console.log("calc sums output: " + result);
       return result;
     }
   
@@ -71,7 +69,6 @@ class GetMealMacros {
     }
   
     async getSumsForOneDay(user, dateStamp) {
-      console.log("get sums for one day function entered");
       const expression = "#pk = :pk AND begins_with(#sk, :sk) ";
       const names = {
         "#pk": "PK",
@@ -85,12 +82,10 @@ class GetMealMacros {
       const response = await this.DB.queryItem(expression, names, values);
       var sums = this.calcSums(response?.Items);
 
-      console.log([sums, response?.Items]);
       return [sums, response?.Items];
     }
   
     async getSumsForOneMeal(user, dateStamp, meal) {
-      console.log("get sums for one meal function entered");
       const expression = "#pk = :pk AND begins_with(#sk, :sk)";
       const filters = "#meal = :meal"
       const names = {
@@ -107,7 +102,6 @@ class GetMealMacros {
       const response = await this.DB.queryItem(expression, names, values, filters);
       const sums = this.calcSums(response?.Items);
 
-      console.log([sums, response?.Items]);
       return [sums, response?.Items];
     }
   }

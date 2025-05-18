@@ -16,7 +16,6 @@ const { authenticateToken } = require("../../utils/authenticateToken");
 module.exports.handler = async (event, context, callback) => {
   context.callbackWaitsForEmptyEventLoop = false;
   const user = authenticateToken(event.headers);
-  console.log("it reached the handler!");
 
   var response;
 
@@ -30,8 +29,6 @@ module.exports.handler = async (event, context, callback) => {
       },
     });
   }
-
-  console.log("point 1");
 
   if (event.httpMethod == "GET") {
     response = await getMealMacros.getMealMacros(
