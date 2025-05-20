@@ -96,7 +96,7 @@ const CreatePassword = (props) => {
         }
       } else {
         setIsLoading(false);
-        Toast.show("Passwords do no match.", {
+        Toast.show("Passwords do not match.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
           position: Toast.positions.CENTER,

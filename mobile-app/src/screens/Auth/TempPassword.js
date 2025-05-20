@@ -54,7 +54,7 @@ const EnterPassword = (props) => {
           setTempPassword("");
           Alert.alert(
             "Account Locked",
-            "Your account has been locked for security reasons. To unlock it, you must reset your password",
+            "Your account has been locked for security reasons. To unlock it, you must reset your password.",
             [
               { text: "Cancel", style: "cancel" },
               {
@@ -81,7 +81,7 @@ const EnterPassword = (props) => {
           setIsLoading(false);
           Alert.alert(
             "Oasis Account Suspended",
-            "Your account has been suspended for security reasons. To unlock it, you must contact us",
+            "Your account has been suspended for security reasons. To unlock it, you must contact us.",
             [{ text: "Ok" }],
             {
               cancelable: true,
@@ -96,7 +96,7 @@ const EnterPassword = (props) => {
         }
       } else {
         setIsLoading(false);
-        Toast.show("Something went wrong. Please try again", {
+        Toast.show("Something went wrong. Please try again.", {
           ...styles.errorToast,
           duration: Toast.durations.LONG,
         });
