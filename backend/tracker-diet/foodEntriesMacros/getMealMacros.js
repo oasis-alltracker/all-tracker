@@ -87,19 +87,16 @@ class GetMealMacros {
   
     async getSumsForOneMeal(user, dateStamp, meal) {
       const expression = "#pk = :pk AND begins_with(#sk, :sk)";
-      const filters = "#meal = :meal"
       const names = {
         "#pk": "PK",
         "#sk": "SK",
-        "#meal": "meal"
       };
       const values = {
         ":pk": `${user}-foodEntry`,
-        ":sk": dateStamp,
-        ":meal": meal,
+        ":sk": `${dateStamp}-${meal}`,
       };
       
-      const response = await this.DB.queryItem(expression, names, values, filters);
+      const response = await this.DB.queryItem(expression, names, values);
       const sums = this.calcSums(response?.Items);
 
       return [sums, response?.Items];
