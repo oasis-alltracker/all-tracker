@@ -35,13 +35,14 @@ class CreateFoodEntry {
 
     const data = {
       PK: `${email}-foodEntry`,
-      SK: `${foodEntry.dateStamp}-${foodEntryID}`,
+      SK: `${foodEntry.dateStamp}-${foodEntry.meal}-${foodEntryID}`,
       name: foodEntry.name,
       meal: foodEntry.meal,
       foodItemID: foodEntry.foodItemID,
       calorieCount: foodEntry.calorieCount,
       fatCount: foodEntry.fatCount,
       proteinCount: foodEntry.proteinCount,
+      carbCount: foodEntry.carbCount,
       quantity: foodEntry.quantity,
       measurement: foodEntry.measurement,
     };
