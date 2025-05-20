@@ -110,7 +110,7 @@ class DbUtils {
     });
   }
 
-  queryItem(expression, names, values, consistentRead = false) {
+  queryItem(expression, names, values, filters = null , consistentRead = false) {
     var params = {
       TableName: this.tableName,
       KeyConditionExpression: expression,
@@ -118,6 +118,10 @@ class DbUtils {
       ExpressionAttributeValues: values,
       ConsistentRead: consistentRead,
     };
+
+    if(filters) {
+      params["FilterExpression"] = filters;
+    }
     return new Promise((resolve, reject) => {
       this.DB.query(params, function (err, data) {
         if (err) {
