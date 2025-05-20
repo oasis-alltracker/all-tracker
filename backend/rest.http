@@ -201,7 +201,7 @@ Authorization: Bearer token
 ###
 
 //Delete habit.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/8eedc320-29ed-11f0-88bc-0d736b0ef0a6
 Authorization: Bearer token
 ###
 
@@ -437,40 +437,51 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntrie
 Authorization: Bearer token
 
 {
-    "name": "Eggs",
-    "meal": "breakfast",
-    "calorieCount": 30,
-    "fatCount": 34,
+    "name": "anitbiotics",
+    "meal": "dinner",
+    "calorieCount": 15,
+    "fatCount": 0,
     "foodItemID": "ehdfh",
-    "proteinCount": 34,
-    "quantity": 10,
-    "measurement": "grams",
+    "proteinCount": 0,
+    "carbCount": 5,
+    "quantity": 1,
+    "measurement": "pill",
     "dateStamp": "20230208"
 }
 ###
 
-//Update food entry.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
+//Update food entry, in this scenario the meal should not be updated
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-dinner-fe5439d0-3594-11f0-a1ce-af41f95f7cd5
 Authorization: Bearer token
 
 {
-    "name": "Eggs",
-    "meal": "breakfast",
-    "calorieCount": 50,
-    "fatCount": 34,
+    "name": "grass",
+    "meal": "lunch", 
+    "calorieCount": 55,
+    "fatCount": 5,
     "foodItemID": "ehdfh",
-    "proteinCount": 39,
+    "proteinCount": 3,
+    "carbCount": 1,
     "quantity": 1,
-    "measurement": "egg"
+    "measurement": "handfull"
 }
 ###
 
 //Delete food entry.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-62bf2b90-a763-11ed-b963-07de06ca3659
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/20230208-dinner-9ad3d150-3589-11f0-b73e-c99a276ed02f
 Authorization: Bearer token
 ###
 
+//----------M E A L   M A C R O S------------
+//-------------------------------------------
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/macros?dateStamp=20230208
+Authorization: Bearer token
+###
 
+//get 
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/macros?dateStamp=20230208&meal=lunch
+Authorization: Bearer token
+###
 
 //----------W O R K O U T   P L A N S----------
 //-------------------------------------------
@@ -636,7 +647,6 @@ Authorization: Bearer token
 GET https://www.googleapis.com/userinfo/v2/me
 Authorization: Bearer token
 ###
-
 
 
 //-------------------------------------------

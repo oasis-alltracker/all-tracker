@@ -7,4 +7,5 @@ config.yml
 .env
 eas.json
 app.json
+rest.http
 config.js
