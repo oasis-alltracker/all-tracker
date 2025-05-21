@@ -16,74 +16,15 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 
 //TODO: set up consts for the sections/button looking things for the macros
-// const data = [
-//   {
-//     image: require("../../../../assets/images/sleepRating/5.png"),
-//   },
-//   {
-//     image: require("../../../../assets/images/sleepRating/4.png"),
-//   },
-//   {
-//     image: require("../../../../assets/images/sleepRating/3.png"),
-//   },
-//   {
-//     image: require("../../../../assets/images/sleepRating/2.png"),
-//   },
-//   {
-//     image: require("../../../../assets/images/sleepRating/1.png"),
-//   },
-// ];
 
 const MealPage = (props) => {
     //TODO: determine state vars needed, if any 
     //TODO: determine props needed, if any
-//   const { width, height } = useWindowDimensions();
-//   const [active, setActive] = useState(0);
-//   const [isLoading, setIsLoading] = useState(0);
-//   var dateStamp, dateString;
-
-//   if (props.route.params) {
-//     dateStamp = props.route.params.dateStamp;
-//     dateString = props.route.params.dateString;
-//   } else if (props.dateStampNotif && props.dateStringNotif) {
-//     dateStamp = props.dateStampNotif;
-//     dateString = props.dateStringNotif;
-//   } else {
-//     const today = new Date();
-//     dateString = today.toDateString();
-//     dateStamp = moment(today).format("YYYYMMDD");
-//   }
 
   //TODO: configure async function for "add food" button --> just add a hardcoded food item for now
   //TODO: configure async function for trash icon on food item --> remove the food icon for now
   //TODO: configure async function for back button (< in top left of page)
   //no toasts needed?
-//   const onNext = async () => {
-//     var sleepReport = {};
-
-//     sleepReport.dateStamp = dateStamp;
-//     sleepReport.title = dateString.slice(4, -4);
-//     if (active == 0) {
-//       if (Platform.OS === "ios") {
-//         Toast.show("Please make a selection.", {
-//           ...styles.errorToast,
-//           duration: Toast.durations.LONG,
-//           position: Toast.positions.BOTTOM,
-//         });
-//       } else {
-//         Toast.show("Please make a selection.", {
-//           ...styles.errorToast,
-//           duration: Toast.durations.LONG,
-//           position: Toast.positions.TOP,
-//         });
-//       }
-//     } else {
-//       sleepReport.rating = 6 - active;
-//       navigationService.navigate("sleepStep2", {
-//         sleepReport,
-//       });
-//     }
-//   };
 
   //TODO: configure jsx for visuals
     //top blue area with meal name and date 
@@ -93,53 +34,25 @@ const MealPage = (props) => {
         <SafeAreaView style={styles.container}>
             <View style={styles.topArea}>
             </View>
-            <View style={styles.mainArea}>
-            </View>
+            <View style={styles.mainArea}> 
+                <TouchableOpacity style={styles.calories}>
+                <Text style={styles.textStyle}>Calories</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.macros}>
+                    <Text style={styles.textStyle}>Carbs</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.macros}>
+                    <Text style={styles.textStyle}>Protein</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.macros}>
+                    <Text style={styles.textStyle}>Fats</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.addFood}>
+                    <Text style={styles.textStyle}>Add Food</Text>
+                </TouchableOpacity>
+            </View>            
         </SafeAreaView>
     );
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <Spinner visible={isLoading}></Spinner>
-
-//       <View style={styles.center}>
-//         <Text style={styles.title}>
-//           Overall, how would you rate your sleep?
-//         </Text>
-
-//         {data.map((val, key) => (
-//           <TouchableOpacity
-//             key={key}
-//             onPress={() => {
-//               setActive(key + 1);
-//             }}
-//             style={[
-//               styles.imageCon,
-//               { height: height * 0.09, width: width * 0.9 },
-//               active === key + 1 && { backgroundColor: "#D7F6FF" },
-//             ]}
-//           >
-//             <Image
-//               style={{ width: height * 0.08, height: height * 0.08 }}
-//               source={val.image}
-//             />
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-
-//       <View style={styles.buttons}>
-//         <Button
-//           onPress={() => navigationService.reset("mood-sleep", 0)}
-//           style={[styles.button, styles.back]}
-//         >
-//           Back
-//         </Button>
-//         <Button onPress={() => onNext()} style={styles.button}>
-//           Next
-//         </Button>
-//       </View>
-//     </SafeAreaView>
-//   );
 };
 
 const styles = StyleSheet.create({
@@ -150,10 +63,38 @@ const styles = StyleSheet.create({
   },
   topArea: {
     backgroundColor: "#D7F6FF",
-    flex: 0.22,
+    flex: 0.5,
   },
   mainArea: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    flexGrow: 1,
+    justifyContent: "space-around"
+  },
+  calories: {
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+    borderColor: "rgba(172, 197, 204, 0.75)",
+  },
+  macros: {
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+    borderColor: "rgba(172, 197, 204, 0.75)",
+  },
+  addFood: {
+    borderRadius: 25,
+    borderWidth: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+    backgroundColor: "#D7F6FF",
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    width: "50%",
   },
   imageCon: {
     borderRadius: 25,
