@@ -33,6 +33,17 @@ const MealPage = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topArea}>
+                <TouchableOpacity>
+                    <Image style={styles.backArrow} source={require("../../../assets/images/back-arrow.png")}></Image>
+                </TouchableOpacity>
+                <View style={styles.topAreaBody}>
+                    <View style={styles.mealHeader}>
+                        <Image style={styles.mealIcon} source={require("../../../assets/images/breakfast.png")}></Image>
+                        <Text style={styles.title}>Meal</Text>
+                    </View>
+                    <Text style={styles.textStyle}>January 1, 2025</Text>
+                </View>
+                
             </View>
             <View style={styles.mainArea}> 
                 <TouchableOpacity style={styles.calories}>
@@ -96,6 +107,18 @@ const styles = StyleSheet.create({
     borderColor: "rgba(172, 197, 204, 0.75)",
     width: "50%",
   },
+  topAreaBody: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    marginBottom: 10,
+    marginTop: 10,
+    marginLeft: 30,
+  },
+  mealHeader: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   imageCon: {
     borderRadius: 25,
     borderWidth: 2,
@@ -110,11 +133,9 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
   },
   title: {
-    fontSize: 30,
+    fontSize: 45,
     color: "#25436B",
     fontFamily: "Sego-Bold",
-    marginTop: 40,
-    marginBottom: 35,
     textAlign: "center",
   },
   buttons: {
@@ -143,6 +164,21 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 20,
     fontFamily: "Sego",
+  },
+  backArrow: {
+    height: 35,
+    width: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    marginLeft: 10,
+  },
+  mealIcon: {
+    height: 50,
+    width: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
   },
   errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
