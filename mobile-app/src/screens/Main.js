@@ -13,7 +13,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../navigators/navigationService";
 import SleepQuestionnaire from "./Mood-Sleep/questionnaires/sleepNavigator";
 import MoodQuestionnaire from "./Mood-Sleep/questionnaires/moodNavigator";
-import MealNavigator from "./Fitness-Diet/mealPages/MealNavigator";
 import TodosHabits from "./Todos-Habits";
 import MoodSleep from "./Mood-Sleep";
 import FitnessDiet from "./Fitness-Diet";

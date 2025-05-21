@@ -92,12 +92,8 @@ const MealPage = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topArea}>
-
             </View>
             <View style={styles.mainArea}>
-                <TouchableOpacity style={styles.imageCon}>
-
-                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
@@ -150,11 +146,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 15,
     justifyContent: "space-between",
   },
   topArea: {
-    backgroundColor: "#CCCCCC"
+    backgroundColor: "#D7F6FF",
+    flex: 0.22,
   },
   mainArea: {
     backgroundColor: "#fff"
