@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../navigators/navigationService";
 import SleepQuestionnaire from "./Mood-Sleep/questionnaires/sleepNavigator";
 import MoodQuestionnaire from "./Mood-Sleep/questionnaires/moodNavigator";
+import MealNavigator from "./Fitness-Diet/mealPages/MealNavigator";
 import TodosHabits from "./Todos-Habits";
 import MoodSleep from "./Mood-Sleep";
 import FitnessDiet from "./Fitness-Diet";
@@ -23,6 +24,7 @@ import { getAccessToken } from "../user/keychain";
 
 import DrawerScreen from "./DrawerScreen";
 import Stats from "./Stats/Stats";
+import MealPage from "./Fitness-Diet/mealPages/MealPage";
 
 const Drawer = createDrawerNavigator();
 
@@ -198,6 +200,7 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
       <Drawer.Screen name="fitness-diet" component={FitnessDiet} />
       <Drawer.Screen name="sleepTest" component={SleepQuestionnaire} />
       <Drawer.Screen name="moodTest" component={MoodQuestionnaire} />
+      <Drawer.Screen name="mealPage" component={MealPage} />
     </Drawer.Navigator>
   );
 };

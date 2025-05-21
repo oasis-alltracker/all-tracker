@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import navigationService from "../../navigators/navigationService";
 
 const items = [
   {
@@ -90,7 +91,7 @@ export default function Diet() {
         ))}
       </View>
       {items.map((item, index) => (
-        <TouchableOpacity key={index} style={styles.addBtn}>
+        <TouchableOpacity key={index} style={styles.addBtn} onPress={() => {navigationService.navigate("mealPage")}}>
           <Text style={styles.itemText}>{item.name}</Text>
           <Image
             style={styles.plus}
