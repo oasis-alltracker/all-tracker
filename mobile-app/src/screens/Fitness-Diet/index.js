@@ -13,12 +13,18 @@ import Fitness from "./Fitness";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView } from "react-native-tab-view";
 import { getAccessToken } from "../../user/keychain";
+import moment from "moment";
+
+import FoodEntriesMacrosAPI from "../../api/diet/foodEntriesMacrosAPI";
+import FoodEntriesAPI from "../../api/diet/foodEntriesAPI"; 
+import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 
 const FitnessDiet = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const [day, setDay] = useState(new Date());
   const [trackingPreferences, setTrackingPreferences] = useState([]);
@@ -26,19 +32,48 @@ const FitnessDiet = ({ navigation }) => {
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }]);
   const [dots, setDots] = useState([]);
 
+  const defaultMacros = {
+    calorieCount: 0,
+    carbCount: 0,
+    fatCount: 0,
+    proteinCount: 0,
+    entries : []
+  };
+
+  const [breakfast, setBreakfast] = useState(defaultMacros);
+  const [lunch, setLunch] = useState(defaultMacros);
+  const [dinner, setDinner] = useState(defaultMacros);
+  const [snack, setSnack] = useState(defaultMacros);
+
+  var totalMacros = {
+    calorieCount: breakfast.calorieCount + lunch.calorieCount + dinner.calorieCount + snack.calorieCount,
+    carbCount: breakfast.carbCount + lunch.carbCount + dinner.carbCount + snack.carbCount,
+    fatCount: breakfast.fatCount + lunch.fatCount + dinner.fatCount + snack.fatCount,
+    proteinCount: breakfast.proteinCount + lunch.proteinCount + dinner.proteinCount + snack.proteinCount
+  };
+
+  const mealSetters = {breakfast: setBreakfast, lunch: setLunch, dinner: setDinner, snacks: setSnack };
+
+  const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150}); //idk if this should be a state variable
+
+  //add refresh meals
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
     setDay(newDate);
   };
 
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
-
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
       token = await getAccessToken();
       const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
         .trackingPreferences;
+
+      await Promise.all(
+        getAllMeals(token),
+        getGoals(token)
+      );
+
       setTrackingPreferences(trackingPreferencesLoaded);
 
       var routesPreference = routes;
@@ -71,6 +106,119 @@ const FitnessDiet = ({ navigation }) => {
     }
   }, []);
 
+  function errorResponse(error){
+    console.log(error);
+    setIsPageLoaded(true); //idk man 
+    if (Platform.OS === "ios") {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+      });
+    } else {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.TOP,
+      });
+    }
+  }
+
+  const getAllMeals = async (token) => {
+    try{
+      meals = await FoodEntriesMacrosAPI.getFoodMacrosForToday(
+        token,
+        moment(day).format("YYYYMMDD")
+      );
+      for(const key in meals)
+      {
+        mealSetters[key](meals[key]);
+      }
+
+    }catch (e) {
+      errorResponse(e);
+    }
+  };
+
+  const getMeal = async(token, meal) => {
+    try{
+      if(meal in ["breakfast", "lunch", "dinner", "snack"]){
+        result = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
+          token,
+          moment(day).format("YYYYMMDD"),
+          meal
+        );
+
+        mealSetters[meal](result[meal])
+      }
+
+    }catch (e) {
+      errorResponse(e);
+    }
+  };
+
+  const getGoals = async () => {
+    try{
+      token = await getAccessToken();
+      goals = await DietGoalsAPI.getDietGoals(token);
+
+      len = Object.keys(goals).length;
+
+      if(len==0)
+      {
+        console.log("this person has not set up goals"); //maybe throw an error
+      }else{
+        setDietGoals(goals);
+      }
+
+    }catch(e){
+      errorResponse(e);
+    }
+
+  };
+
+  //needs some sort of validation somewhere - especially for meal attribute
+  const addFoodEntry = async ( foodEntry ) => {
+    try{
+      setIsPageLoaded(false);
+      token = await getAccessToken();
+      await FoodEntriesAPI.createFoodEntry(token, foodEntry);
+      await getMeal(token, foodEntry["meal"]);
+      setIsPageLoaded(true);
+
+    }catch(e){
+      errorResponse(e);
+    }
+
+  }
+
+  //as it food entry's SK 
+  const deleteFoodEntry = async ( foodEntryID ) => {
+    try{
+      setIsPageLoaded(false);
+      token = await getAccessToken();
+      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+      await getMeal(token, foodEntry["meal"]);
+      setIsPageLoaded(true);
+    }catch(e){
+      errorResponse(e);
+    }
+  }
+
+  const updateFoodEntry = async ( foodEntryID, foodEntry ) => {
+    try{
+      setIsPageLoaded(false);
+      token = await getAccessToken();
+      await FoodEntriesAPI.updateFoodEntry(token, foodEntryID, foodEntry);
+      await getMeal(token, foodEntry["meal"]);
+      setIsPageLoaded(true);
+
+    }catch(e){
+      errorResponse(e);
+    }
+
+  }
+
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "first":
@@ -79,6 +227,12 @@ const FitnessDiet = ({ navigation }) => {
             day={day}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
+            breakfast={breakfast}
+            lunch={lunch}
+            dinner={dinner}
+            snacks={snack}
+            totalMacros={totalMacros}
+            dietGoals={dietGoals}
           />
         );
       case "second":

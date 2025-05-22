@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,8 +11,20 @@ import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 
-export default function Main({ day, trackingPreferences, updateDate }) {
+export default function Main({ day, trackingPreferences, updateDate, breakfast, lunch, dinner, snacks, totalMacros, dietGoals }) {
   const today = new Date();
+  async function testStateVars() {
+    console.log(breakfast);
+    console.log(lunch);
+    console.log(dinner);
+    console.log(snacks);
+    console.log("total macros");
+    console.log(JSON.stringify(totalMacros));
+    console.log("diet goals");
+    console.log(dietGoals);
+    console.log(day);
+  }
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -68,7 +81,8 @@ export default function Main({ day, trackingPreferences, updateDate }) {
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Diet</Text>
           </View>
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity style={styles.addBtn}
+            onPress={testStateVars}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-food.png")}
@@ -78,7 +92,7 @@ export default function Main({ day, trackingPreferences, updateDate }) {
             <View style={styles.filler} />
           </View>
           <Text style={styles.desc}>
-            <Text style={styles.boldText}>2200</Text> / 3354 kcal
+            <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> / {dietGoals["calorieGoal"]["value"]} {dietGoals["calorieGoal"]["units"]}
           </Text>
         </>
       )}
