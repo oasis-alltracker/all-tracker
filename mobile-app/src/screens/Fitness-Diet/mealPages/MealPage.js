@@ -5,12 +5,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  useWindowDimensions,
-  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
-//import navigationService from "../../../navigators/navigationService";
 
 //TODO: set up consts for the sections/button looking things for the macros
 
@@ -44,9 +41,13 @@ const MealPage = (props) => {
             <View style={styles.mainArea}> 
                 <TouchableOpacity style={styles.calories}>
                     <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
-                    <Text style={styles.caloriesLabel}>Calories</Text>
-                    <Text style={styles.caloriesAmount}>99999</Text>
-                    <Text style={styles.caloriesUnit}>kcal</Text>
+                    <View style={styles.calorieText}>
+                        <Text style={styles.caloriesLabel}>Calories</Text>
+                        <View style={styles.calorieInfo}>                        
+                            <Text style={styles.caloriesAmount}>99999</Text>
+                            <Text style={styles.caloriesUnit}>kcal</Text>
+                        </View>
+                    </View>
                 </TouchableOpacity>
                 <View style={styles.macroSection}>
                     <TouchableOpacity style={styles.macros}>
@@ -143,6 +144,10 @@ const styles = StyleSheet.create({
   macroSection: {
     marginTop: 30,
   },
+  calorieText: {
+    alignItems: "center",
+    width: "75%",
+  },
   title: {
     fontSize: 45,
     color: "#25436B",
@@ -169,22 +174,22 @@ const styles = StyleSheet.create({
     color: "#25436B",
   },
   caloriesLabel: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: "Sego",
     color: "#25436B",
+  },
+  calorieInfo: {
+    flexDirection: "row",
   },
   caloriesAmount: {
     fontSize: 25,
     fontFamily: "Sego-Bold",
-    position: "absolute", right: 0,
-    marginRight: 75,
     color: "#25436B",
+    marginRight: 15,
   },
   caloriesUnit: {
     fontSize: 25,
     fontFamily: "Sego-Bold",
-    position: "absolute", right: 0,
-    marginRight: 15,
     color: "#25436B",
   },
   backArrow: {
