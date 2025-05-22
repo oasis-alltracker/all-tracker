@@ -46,17 +46,28 @@ const MealPage = (props) => {
             </View>
             <View style={styles.mainArea}> 
                 <TouchableOpacity style={styles.calories}>
-                <Text style={styles.textStyle}>Calories</Text>
+                    <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
+                    <Text style={styles.textStyle}>Calories</Text>
+                    <Text style={styles.textStyle}>0 kcal</Text>
                 </TouchableOpacity>
                 <View style={styles.macroSection}>
                     <TouchableOpacity style={styles.macros}>
-                    <Text style={styles.textStyle}>Carbs</Text>
+                        <Image style={styles.macroIcon} source={require("../../../assets/images/carbs.png")}></Image>
+                        <Text style={styles.textStyle}>Carbs</Text>
+                        <Text style={styles.macroAmount}>0</Text>
+                        <Text style={styles.macroUnit}>g</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.macros}>
+                        <Image style={styles.macroIcon} source={require("../../../assets/images/protein.png")}></Image>
                         <Text style={styles.textStyle}>Protein</Text>
+                        <Text style={styles.macroAmount}>0</Text>
+                        <Text style={styles.macroUnit}>g</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.macros}>
+                        <Image style={styles.macroIcon} source={require("../../../assets/images/fats.png")}></Image>
                         <Text style={styles.textStyle}>Fats</Text>
+                        <Text style={styles.macroAmount}>0</Text>
+                        <Text style={styles.macroUnit}>g</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={styles.addFood}>
@@ -94,12 +105,14 @@ const styles = StyleSheet.create({
     height: 100,
   },
   macros: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
     marginBottom: 2,
     borderColor: "rgba(172, 197, 204, 0.75)",
+    padding: 10,
   },
   addFood: {
     borderRadius: 25,
@@ -172,6 +185,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Sego",
   },
+  macroAmount: {
+    fontSize: 20,
+    fontFamily: "Sego",
+    position: "absolute", right: 0,
+    marginRight: 35,
+  },
+  macroUnit: {
+    fontSize: 20,
+    fontFamily: "Sego",
+    position: "absolute", right: 0,
+    marginRight: 15,
+  },
   backArrow: {
     height: 35,
     width: 35,
@@ -186,6 +211,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginRight: 10,
+  },
+  macroIcon: {
+    height: 30,
+    width: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 5,
   },
   errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
