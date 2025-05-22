@@ -71,7 +71,7 @@ const MealPage = (props) => {
                 </View>
                 <View style={styles.buttonSection}>
                     <TouchableOpacity style={styles.addFood}>
-                        <Text style={styles.textStyle}>Add Food</Text>
+                        <Text style={styles.addFoodText}>Add Food</Text>
                     </TouchableOpacity>
                 </View>
             </View>            
@@ -127,7 +127,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#D7F6FF",
     borderColor: "rgba(172, 197, 204, 0.75)",
-    width: "50%",
+    width: "60%",
+    padding: 5,
   },
   topAreaBody: {
     justifyContent: "flex-start",
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
   },
   macroAmount: {
     fontSize: 20,
-    fontFamily: "Sego",
+    fontFamily: "Sego-Bold",
     position: "absolute", right: 0,
     marginRight: 35,
     color: "#25436B",
@@ -190,6 +191,11 @@ const styles = StyleSheet.create({
   caloriesUnit: {
     fontSize: 25,
     fontFamily: "Sego-Bold",
+    color: "#25436B",
+  },
+  addFoodText: {
+    fontSize: 25,
+    fontFamily: "Sego",
     color: "#25436B",
   },
   backArrow: {
