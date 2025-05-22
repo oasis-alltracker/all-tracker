@@ -10,10 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
-import { Button } from "../../../components";
 //import navigationService from "../../../navigators/navigationService";
-import Spinner from "react-native-loading-spinner-overlay";
-import Toast from "react-native-root-toast";
 
 //TODO: set up consts for the sections/button looking things for the macros
 
@@ -48,7 +45,8 @@ const MealPage = (props) => {
                 <TouchableOpacity style={styles.calories}>
                     <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
                     <Text style={styles.textStyle}>Calories</Text>
-                    <Text style={styles.textStyle}>0 kcal</Text>
+                    <Text style={styles.caloriesAmount}>9999</Text>
+                    <Text style={styles.caloriesUnit}>kcal</Text>
                 </TouchableOpacity>
                 <View style={styles.macroSection}>
                     <TouchableOpacity style={styles.macros}>
@@ -96,13 +94,15 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   calories: {
+    flexDirection: "row",
     borderRadius: 25,
     borderWidth: 2,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     marginTop: 30,
     borderColor: "rgba(172, 197, 204, 0.75)",
     height: 100,
+    padding: 10,
   },
   macros: {
     flexDirection: "row",
@@ -139,18 +139,10 @@ const styles = StyleSheet.create({
   macroSection: {
     marginTop: 30,
   },
-  imageCon: {
-    borderRadius: 25,
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 15,
-    borderColor: "#CCCCCC",
+  caloriesSection:  {
+    justifyContent: "space-between",
   },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+  caloriesInfo: {
   },
   title: {
     fontSize: 45,
@@ -158,44 +150,38 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
     textAlign: "center",
   },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  button: {
-    width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 60,
-    borderRadius: 20,
-    marginTop: 0,
-  },
-  center: {
-    alignItems: "center",
-  },
   textStyle: {
     fontSize: 20,
     fontFamily: "Sego",
+    color: "#25436B",
   },
   macroAmount: {
     fontSize: 20,
     fontFamily: "Sego",
     position: "absolute", right: 0,
     marginRight: 35,
+    color: "#25436B",
   },
   macroUnit: {
     fontSize: 20,
     fontFamily: "Sego",
     position: "absolute", right: 0,
     marginRight: 15,
+    color: "#25436B",
+  },
+  caloriesAmount: {
+    fontSize: 20,
+    fontFamily: "Sego",
+    position: "absolute", right: 0,
+    marginRight: 65,
+    color: "#25436B",
+  },
+  caloriesUnit: {
+    fontSize: 20,
+    fontFamily: "Sego",
+    position: "absolute", right: 0,
+    marginRight: 15,
+    color: "#25436B",
   },
   backArrow: {
     height: 35,
