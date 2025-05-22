@@ -44,7 +44,7 @@ const MealPage = (props) => {
             <View style={styles.mainArea}> 
                 <TouchableOpacity style={styles.calories}>
                     <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
-                    <Text style={styles.textStyle}>Calories</Text>
+                    <Text style={styles.caloriesLabel}>Calories</Text>
                     <Text style={styles.caloriesAmount}>9999</Text>
                     <Text style={styles.caloriesUnit}>kcal</Text>
                 </TouchableOpacity>
@@ -139,11 +139,6 @@ const styles = StyleSheet.create({
   macroSection: {
     marginTop: 30,
   },
-  caloriesSection:  {
-    justifyContent: "space-between",
-  },
-  caloriesInfo: {
-  },
   title: {
     fontSize: 45,
     color: "#25436B",
@@ -169,16 +164,21 @@ const styles = StyleSheet.create({
     marginRight: 15,
     color: "#25436B",
   },
-  caloriesAmount: {
-    fontSize: 20,
+  caloriesLabel: {
+    fontSize: 25,
     fontFamily: "Sego",
+    color: "#25436B",
+  },
+  caloriesAmount: {
+    fontSize: 25,
+    fontFamily: "Sego-Bold",
     position: "absolute", right: 0,
-    marginRight: 65,
+    marginRight: 75,
     color: "#25436B",
   },
   caloriesUnit: {
-    fontSize: 20,
-    fontFamily: "Sego",
+    fontSize: 25,
+    fontFamily: "Sego-Bold",
     position: "absolute", right: 0,
     marginRight: 15,
     color: "#25436B",
