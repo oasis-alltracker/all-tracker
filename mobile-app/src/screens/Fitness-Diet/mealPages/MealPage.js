@@ -45,7 +45,7 @@ const MealPage = (props) => {
                 <TouchableOpacity style={styles.calories}>
                     <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
                     <Text style={styles.caloriesLabel}>Calories</Text>
-                    <Text style={styles.caloriesAmount}>9999</Text>
+                    <Text style={styles.caloriesAmount}>99999</Text>
                     <Text style={styles.caloriesUnit}>kcal</Text>
                 </TouchableOpacity>
                 <View style={styles.macroSection}>
@@ -68,9 +68,11 @@ const MealPage = (props) => {
                         <Text style={styles.macroUnit}>g</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.addFood}>
-                    <Text style={styles.textStyle}>Add Food</Text>
-                </TouchableOpacity>
+                <View style={styles.buttonSection}>
+                    <TouchableOpacity style={styles.addFood}>
+                        <Text style={styles.textStyle}>Add Food</Text>
+                    </TouchableOpacity>
+                </View>
             </View>            
         </SafeAreaView>
     );
@@ -114,12 +116,14 @@ const styles = StyleSheet.create({
     borderColor: "rgba(172, 197, 204, 0.75)",
     padding: 10,
   },
+  buttonSection: {
+    alignItems: "center",
+    marginTop: 50,
+  },
   addFood: {
     borderRadius: 25,
     borderWidth: 2,
-    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
     backgroundColor: "#D7F6FF",
     borderColor: "rgba(172, 197, 204, 0.75)",
     width: "50%",
