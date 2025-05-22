@@ -43,21 +43,22 @@ const MealPage = (props) => {
                     </View>
                     <Text style={styles.textStyle}>January 1, 2025</Text>
                 </View>
-                
             </View>
             <View style={styles.mainArea}> 
                 <TouchableOpacity style={styles.calories}>
                 <Text style={styles.textStyle}>Calories</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.macros}>
+                <View style={styles.macroSection}>
+                    <TouchableOpacity style={styles.macros}>
                     <Text style={styles.textStyle}>Carbs</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.macros}>
-                    <Text style={styles.textStyle}>Protein</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.macros}>
-                    <Text style={styles.textStyle}>Fats</Text>
-                </TouchableOpacity>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.macros}>
+                        <Text style={styles.textStyle}>Protein</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.macros}>
+                        <Text style={styles.textStyle}>Fats</Text>
+                    </TouchableOpacity>
+                </View>
                 <TouchableOpacity style={styles.addFood}>
                     <Text style={styles.textStyle}>Add Food</Text>
                 </TouchableOpacity>
@@ -74,27 +75,30 @@ const styles = StyleSheet.create({
   },
   topArea: {
     backgroundColor: "#D7F6FF",
-    flex: 0.5,
+    flex: 1,
   },
   mainArea: {
     backgroundColor: "#fff",
-    flexGrow: 1,
-    justifyContent: "space-around"
+    flex: 3,
+    minWidth: 0,
+    justifyContent: "flex-start",
+    padding: 20,
   },
   calories: {
     borderRadius: 25,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
+    marginTop: 30,
     borderColor: "rgba(172, 197, 204, 0.75)",
+    height: 100,
   },
   macros: {
     borderRadius: 25,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: 2,
     borderColor: "rgba(172, 197, 204, 0.75)",
   },
   addFood: {
@@ -118,6 +122,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  macroSection: {
+    marginTop: 30,
   },
   imageCon: {
     borderRadius: 25,
