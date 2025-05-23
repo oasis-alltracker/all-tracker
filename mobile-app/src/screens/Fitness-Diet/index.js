@@ -53,10 +53,10 @@ const FitnessDiet = ({ navigation }) => {
   };
 
   const mealSetters = {breakfast: setBreakfast, lunch: setLunch, dinner: setDinner, snacks: setSnack };
+  const mealMacros = {breakfast: breakfast, lunch: lunch, dinner: dinner, snacks: snack };
 
-  const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150}); //idk if this should be a state variable
+  const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150});
 
-  //add refresh meals
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
@@ -109,7 +109,7 @@ const FitnessDiet = ({ navigation }) => {
 
   function errorResponse(error){
     console.log(error);
-    setIsPageLoaded(true); //idk man 
+    setIsPageLoaded(true); 
     if (Platform.OS === "ios") {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -193,7 +193,7 @@ const FitnessDiet = ({ navigation }) => {
 
       if(len==0)
       {
-        console.log("this person has not set up goals"); //maybe throw an error
+        console.log("this person has not set up goals"); 
       }else{
         setDietGoals(goals);
       }
@@ -204,7 +204,6 @@ const FitnessDiet = ({ navigation }) => {
 
   };
 
-  //needs some sort of validation somewhere - especially for meal attribute
   const addFoodEntry = async ( foodEntry ) => {
     try{
       setIsPageLoaded(false);
@@ -216,10 +215,8 @@ const FitnessDiet = ({ navigation }) => {
     }catch(e){
       errorResponse(e);
     }
-
   }
 
-  //as it food entry's SK 
   const deleteFoodEntry = async ( foodEntryID ) => {
     try{
       setIsPageLoaded(false);
@@ -254,10 +251,7 @@ const FitnessDiet = ({ navigation }) => {
             day={day}
             trackingPreferences={trackingPreferences}
             updateDate={updateDate}
-            breakfast={breakfast}
-            lunch={lunch}
-            dinner={dinner}
-            snacks={snack}
+            meals={mealMacros}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
           />

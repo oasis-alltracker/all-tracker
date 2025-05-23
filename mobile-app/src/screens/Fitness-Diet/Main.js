@@ -11,13 +11,20 @@ import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 
-export default function Main({ day, trackingPreferences, updateDate, breakfast, lunch, dinner, snacks, totalMacros, dietGoals }) {
+export default function Main({ 
+  day,
+  trackingPreferences, 
+  updateDate, 
+  meals,
+  totalMacros, 
+  dietGoals 
+}) {
   const today = new Date();
   async function testStateVars() {
-    console.log(breakfast);
-    console.log(lunch);
-    console.log(dinner);
-    console.log(snacks);
+    console.log(meals["breakfast"]);
+    console.log(meals["lunch"]);
+    console.log(meals["dinner"]);
+    console.log(meals["snacks"]);
     console.log("total macros");
     console.log(JSON.stringify(totalMacros));
     console.log("diet goals");
