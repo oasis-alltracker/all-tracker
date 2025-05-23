@@ -9,10 +9,12 @@ import {
 import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export default function Main({ 
   day,
   trackingPreferences, 
+  isLoading = false,
   updateDate, 
   meals,
   totalMacros, 
@@ -39,6 +41,7 @@ export default function Main({
           source={require("../../assets/images/body-white.png")}
         />
       </View>
+      <Spinner visible={isLoading}></Spinner>
 
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
