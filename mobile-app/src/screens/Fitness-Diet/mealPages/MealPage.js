@@ -9,20 +9,24 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 
-//TODO: set up consts for the sections/button looking things for the macros
-
 const MealPage = (props) => {
-    //TODO: determine state vars needed, if any 
-    //TODO: determine props needed, if any
+    const mealName = props.route.params.mealName;
 
-  //TODO: configure async function for "add food" button --> just add a hardcoded food item for now
+    var mealImage;
+    if (mealName === "Breakfast"){
+      mealImage = require("../../../assets/images/breakfast.png");
+    } else if (mealName === "Lunch"){
+      mealImage = require("../../../assets/images/lunch.png");
+    } else if (mealName === "Dinner"){
+      mealImage = require("../../../assets/images/dinner.png");
+    } else if (mealName === "Snack"){
+      mealImage = require("../../../assets/images/snack.png");
+    }
+
+  //TODO: configure async function for "add food" button --> start with a hardcoded food item for now
   //TODO: configure async function for trash icon on food item --> remove the food icon for now
   //TODO: configure async function for back button (< in top left of page)
   //no toasts needed?
-
-  //TODO: configure jsx for visuals
-    //top blue area with meal name and date 
-    //the rest with the white background beneath it
 
     return (
         <SafeAreaView style={styles.container}>
@@ -32,8 +36,8 @@ const MealPage = (props) => {
                 </TouchableOpacity>
                 <View style={styles.topAreaBody}>
                     <View style={styles.mealHeader}>
-                        <Image style={styles.mealIcon} source={require("../../../assets/images/breakfast.png")}></Image>
-                        <Text style={styles.title}>Meal</Text>
+                        <Image style={styles.mealIcon} source={mealImage}></Image>
+                        <Text style={styles.title}>{mealName}</Text>
                     </View>
                     <Text style={styles.textStyle}>January 1, 2025</Text>
                 </View>

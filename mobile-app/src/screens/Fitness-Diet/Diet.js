@@ -91,7 +91,7 @@ export default function Diet() {
         ))}
       </View>
       {items.map((item, index) => (
-        <TouchableOpacity key={index} style={styles.addBtn} onPress={() => {navigationService.navigate("mealPage")}}>
+        <TouchableOpacity key={index} style={styles.addBtn} onPress={() => {navigationService.navigate("mealPage", {mealName: item.name})}}>
           <Text style={styles.itemText}>{item.name}</Text>
           <Image
             style={styles.plus}
