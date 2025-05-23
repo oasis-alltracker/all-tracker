@@ -9,9 +9,19 @@ import {
 import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
+import Spinner from "react-native-loading-spinner-overlay";
 
-export default function Main({ day, trackingPreferences, updateDate }) {
+export default function Main({ 
+  day,
+  trackingPreferences, 
+  isLoading = false,
+  updateDate, 
+  meals,
+  totalMacros, 
+  dietGoals 
+}) {
   const today = new Date();
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -31,6 +41,7 @@ export default function Main({ day, trackingPreferences, updateDate }) {
           source={require("../../assets/images/body-white.png")}
         />
       </View>
+      <Spinner visible={isLoading}></Spinner>
 
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
@@ -78,7 +89,7 @@ export default function Main({ day, trackingPreferences, updateDate }) {
             <View style={styles.filler} />
           </View>
           <Text style={styles.desc}>
-            <Text style={styles.boldText}>2200</Text> / 3354 kcal
+            <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> / {dietGoals["calorieGoal"]["value"]} {dietGoals["calorieGoal"]["units"]}
           </Text>
         </>
       )}
