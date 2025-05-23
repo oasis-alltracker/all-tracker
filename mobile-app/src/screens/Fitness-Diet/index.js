@@ -257,7 +257,15 @@ const FitnessDiet = ({ navigation }) => {
           />
         );
       case "second":
-        return <Diet />;
+        return (
+          <Diet
+            day = {day}
+            updateDate={updateDate}
+            meals={mealMacros}
+            totalMacros={totalMacros}
+            dietGoal={dietGoals}
+          />
+        );
       case "third":
         return <Fitness />;
       case "fourth":

@@ -35,7 +35,13 @@ const foods = [
   },
 ];
 
-export default function Diet() {
+export default function Diet({
+  day, 
+  updateDate,
+  meals, 
+  dietGoals, 
+  totalMacros
+}) {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
