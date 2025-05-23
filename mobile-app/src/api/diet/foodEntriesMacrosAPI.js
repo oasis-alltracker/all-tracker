@@ -3,7 +3,7 @@ import { EXPO_PUBLIC_BASE_URL } from "../../../config";
 const API = EXPO_PUBLIC_BASE_URL + "foodEntries/macros";
 
 class FoodEntriesMacrosAPI {
-  static async getFoodMacrosForToday(token, dateStamp) {
+  static async getFoodMacrosForDay(token, dateStamp) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };

@@ -127,7 +127,7 @@ const FitnessDiet = ({ navigation }) => {
 
   const getAllMeals = async (token) => {
     try{
-      meals = await FoodEntriesMacrosAPI.getFoodMacrosForToday(
+      meals = await FoodEntriesMacrosAPI.getFoodMacrosForDay(
         token,
         moment(day).format("YYYYMMDD")
       );
@@ -165,7 +165,7 @@ const FitnessDiet = ({ navigation }) => {
         date = day;
       }
       token = await getAccessToken();
-      meals = await FoodEntriesMacrosAPI.getFoodMacrosForToday(
+      meals = await FoodEntriesMacrosAPI.getFoodMacrosForDay(
         token,
         moment(date).format("YYYYMMDD")
       );
