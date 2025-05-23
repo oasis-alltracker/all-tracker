@@ -33,7 +33,7 @@ const MealPage = (props) => {
                 <View style={styles.topAreaBody}>
                     <View style={styles.mealHeader}>
                         <Image style={styles.mealIcon} source={require("../../../assets/images/breakfast.png")}></Image>
-                        <Text style={styles.title}>Meal</Text>
+                        <Text style={styles.title}>{props.mealName}</Text>
                     </View>
                     <Text style={styles.textStyle}>January 1, 2025</Text>
                 </View>
