@@ -61,6 +61,7 @@ const FitnessDiet = ({ navigation }) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
     setDay(newDate);
+    refreshMeals(newDate);
   };
 
   useEffect(() => {
@@ -156,6 +157,32 @@ const FitnessDiet = ({ navigation }) => {
       errorResponse(e);
     }
   };
+
+  const refreshMeals = async(date = false) => {
+    try {
+      setIsPageLoaded(false);
+      if(!date) {
+        date = day;
+      }
+      token = await getAccessToken();
+      meals = await FoodEntriesMacrosAPI.getFoodMacrosForToday(
+        token,
+        moment(date).format("YYYYMMDD")
+      );
+      for(key in mealSetters)
+      {
+        if(key in meals){
+          mealSetters[key](meals[key]);
+        }else{
+          mealSetters[key](defaultMacros);
+        }
+      }
+      setIsPageLoaded(true);
+
+    } catch (e) {
+      errorResponse(e);
+    }
+  }
 
   const getGoals = async () => {
     try{
