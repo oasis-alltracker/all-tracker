@@ -1,6 +1,5 @@
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,17 +19,6 @@ export default function Main({
   dietGoals 
 }) {
   const today = new Date();
-  async function testStateVars() {
-    console.log(meals["breakfast"]);
-    console.log(meals["lunch"]);
-    console.log(meals["dinner"]);
-    console.log(meals["snacks"]);
-    console.log("total macros");
-    console.log(JSON.stringify(totalMacros));
-    console.log("diet goals");
-    console.log(dietGoals);
-    console.log(day);
-  }
 
   return (
     <ScrollView
@@ -88,8 +76,7 @@ export default function Main({
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Diet</Text>
           </View>
-          <TouchableOpacity style={styles.addBtn}
-            onPress={testStateVars}>
+          <TouchableOpacity style={styles.addBtn}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-food.png")}
