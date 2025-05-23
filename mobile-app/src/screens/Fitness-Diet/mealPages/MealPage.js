@@ -14,6 +14,7 @@ import { Image } from "react-native";
 const MealPage = (props) => {
     //TODO: determine state vars needed, if any 
     //TODO: determine props needed, if any
+    const mealName = props.route.params.mealName;
 
   //TODO: configure async function for "add food" button --> just add a hardcoded food item for now
   //TODO: configure async function for trash icon on food item --> remove the food icon for now
@@ -33,7 +34,7 @@ const MealPage = (props) => {
                 <View style={styles.topAreaBody}>
                     <View style={styles.mealHeader}>
                         <Image style={styles.mealIcon} source={require("../../../assets/images/breakfast.png")}></Image>
-                        <Text style={styles.title}>{props.mealName}</Text>
+                        <Text style={styles.title}>{mealName}</Text>
                     </View>
                     <Text style={styles.textStyle}>January 1, 2025</Text>
                 </View>
