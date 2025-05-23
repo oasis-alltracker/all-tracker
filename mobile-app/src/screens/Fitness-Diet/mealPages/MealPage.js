@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
+import navigationService from "../../../navigators/navigationService";
 
 const MealPage = (props) => {
     const mealName = props.route.params.mealName;
@@ -31,8 +32,10 @@ const MealPage = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topArea}>
-                <TouchableOpacity>
-                    <Image style={styles.backArrow} source={require("../../../assets/images/back-arrow.png")}></Image>
+                <TouchableOpacity onPress={() => {navigationService.reset("fitness-diet", 0)}}>
+                    <Image style={styles.backArrow} 
+                      source={require("../../../assets/images/back-arrow.png")}>
+                      </Image>
                 </TouchableOpacity>
                 <View style={styles.topAreaBody}>
                     <View style={styles.mealHeader}>
