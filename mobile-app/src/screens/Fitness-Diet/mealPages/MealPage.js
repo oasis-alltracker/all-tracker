@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -46,41 +47,46 @@ const MealPage = (props) => {
                 </View>
             </View>
             <View style={styles.mainArea}> 
-                <View style={styles.buttonSection}>
-                    <TouchableOpacity style={styles.addFood}>
-                        <Text style={styles.addFoodText}>Add Food</Text>
-                    </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={styles.calories}>
-                    <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
-                    <View style={styles.calorieText}>
-                        <Text style={styles.caloriesLabel}>Calories</Text>
-                        <View style={styles.calorieInfo}>                        
-                            <Text style={styles.caloriesAmount}>99999</Text>
-                            <Text style={styles.caloriesUnit}>kcal</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-                <View style={styles.macroSection}>
-                    <TouchableOpacity style={styles.macros}>
-                        <Image style={styles.macroIcon} source={require("../../../assets/images/carbs.png")}></Image>
-                        <Text style={styles.textStyle}>Carbs</Text>
-                        <Text style={styles.macroAmount}>0</Text>
-                        <Text style={styles.macroUnit}>g</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.macros}>
-                        <Image style={styles.macroIcon} source={require("../../../assets/images/protein.png")}></Image>
-                        <Text style={styles.textStyle}>Protein</Text>
-                        <Text style={styles.macroAmount}>0</Text>
-                        <Text style={styles.macroUnit}>g</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.macros}>
-                        <Image style={styles.macroIcon} source={require("../../../assets/images/fats.png")}></Image>
-                        <Text style={styles.textStyle}>Fats</Text>
-                        <Text style={styles.macroAmount}>0</Text>
-                        <Text style={styles.macroUnit}>g</Text>
-                    </TouchableOpacity>
-                </View>
+              <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContainer}
+                  >
+                  <View style={styles.buttonSection}>
+                      <TouchableOpacity style={styles.addFood}>
+                          <Text style={styles.addFoodText}>Add Food</Text>
+                      </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity style={styles.calories}>
+                      <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
+                      <View style={styles.calorieText}>
+                          <Text style={styles.caloriesLabel}>Calories</Text>
+                          <View style={styles.calorieInfo}>                        
+                              <Text style={styles.caloriesAmount}>99999</Text>
+                              <Text style={styles.caloriesUnit}>kcal</Text>
+                          </View>
+                      </View>
+                  </TouchableOpacity>
+                  <View style={styles.macroSection}>
+                      <TouchableOpacity style={styles.macros}>
+                          <Image style={styles.macroIcon} source={require("../../../assets/images/carbs.png")}></Image>
+                          <Text style={styles.textStyle}>Carbs</Text>
+                          <Text style={styles.macroAmount}>0</Text>
+                          <Text style={styles.macroUnit}>g</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.macros}>
+                          <Image style={styles.macroIcon} source={require("../../../assets/images/protein.png")}></Image>
+                          <Text style={styles.textStyle}>Protein</Text>
+                          <Text style={styles.macroAmount}>0</Text>
+                          <Text style={styles.macroUnit}>g</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.macros}>
+                          <Image style={styles.macroIcon} source={require("../../../assets/images/fats.png")}></Image>
+                          <Text style={styles.textStyle}>Fats</Text>
+                          <Text style={styles.macroAmount}>0</Text>
+                          <Text style={styles.macroUnit}>g</Text>
+                      </TouchableOpacity>
+                  </View>
+                </ScrollView>
             </View>            
         </SafeAreaView>
     );
@@ -91,6 +97,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     justifyContent: "space-between",
+  },
+  scrollContainer: {
+    overflow: "visible",
+    paddingBottom: 30,
   },
   topArea: {
     backgroundColor: "#D7F6FF",
