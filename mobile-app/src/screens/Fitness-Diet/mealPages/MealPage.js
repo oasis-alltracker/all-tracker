@@ -32,7 +32,7 @@ const MealPage = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topArea}>
-                <TouchableOpacity onPress={() => {navigationService.reset("fitness-diet", 0)}}>
+                <TouchableOpacity onPress={() => {navigationService.navigate("fitness-diet")}}>
                     <Image style={styles.backArrow} 
                       source={require("../../../assets/images/back-arrow.png")}>
                       </Image>
