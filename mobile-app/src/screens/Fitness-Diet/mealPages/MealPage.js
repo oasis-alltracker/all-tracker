@@ -51,15 +51,17 @@ const MealPage = (props) => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContainer}
                   >
-                  <View style={styles.mealItem}>
-                    <View style={styles.mealItemInfo}>
-                      <Text style={styles.textStyle}>Eggs and bacon</Text>
-                      <Text style={styles.macroUnit}>100 cal</Text>
+                  <View style={styles.mealItemSection}>
+                    <View style={styles.mealItem}>
+                      <View style={styles.mealItemInfo}>
+                        <Text style={styles.textStyle}>Eggs and bacon</Text>
+                        <Text style={styles.mealItemCalories}>100 cal</Text>
+                      </View>
+                      <TouchableOpacity>
+                        <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
+                      </TouchableOpacity>
                     </View>
-                    <TouchableOpacity>
-                      <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
-                    </TouchableOpacity>
-                  </View>
+                  </View>                  
                   <View style={styles.buttonSection}>
                       <TouchableOpacity style={styles.addFood}>
                           <Text style={styles.addFoodText}>Add Food</Text>
@@ -122,15 +124,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
+  mealItemSection: {
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
   mealItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    marginBottom: 2,
     borderColor: "rgba(172, 197, 204, 0.75)",
     padding: 10,
+    marginBottom: 5,
   },
   mealItemInfo: {
     justifyContent: "space-between",
@@ -238,6 +244,11 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     color: "#25436B",
   },
+  mealItemCalories: {
+    fontSize: 17.5,
+    fontFamily: "Sego",
+    color: "#25436B",
+  },
   backArrow: {
     height: 35,
     width: 35,
@@ -265,7 +276,7 @@ const styles = StyleSheet.create({
     width: 30,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 15,
+    marginRight: 10,
   },
   errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
