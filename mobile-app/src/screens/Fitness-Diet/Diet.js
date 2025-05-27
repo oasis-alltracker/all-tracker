@@ -149,7 +149,7 @@ export default function Diet({
 
       <View style={styles.borderedContainer}>
         <View style={styles.row}>
-          <Text style={styles.boldText}>Macros</Text>
+          <Text style={[styles.boldText, {marginBottom: 10 }]}>Macros</Text>
           <TouchableOpacity>
             <Image
               style={styles.plus}
@@ -184,7 +184,7 @@ export default function Diet({
                 <Text style={[
                     styles.boldText,
                     {
-                      fontSize: 26,
+                      fontSize: 24,
                     }
                   ]}
                 >
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     borderColor: "#ACC5CC",
     backgroundColor: "#E4CCFF",
     borderRadius: 5,
-    marginVertical: 20,
+    marginBottom: 50,
   },
   filler: {
     backgroundColor: "#D7F6FF",
