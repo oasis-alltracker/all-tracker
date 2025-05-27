@@ -12,8 +12,9 @@ import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
 const MealPage = (props) => {
-    const mealName = props.route.params.mealName;
+    const [mealItems, setMealItems] = useState([]);
 
+    const mealName = props.route.params.mealName;
     var mealImage;
     if (mealName === "Breakfast"){
       mealImage = require("../../../assets/images/breakfast.png");
@@ -29,6 +30,14 @@ const MealPage = (props) => {
   //TODO: configure async function for trash icon on food item --> remove the food icon for now
   //TODO: configure async function for back button (< in top left of page)
   //no toasts needed?
+
+  const addMealItem = () => {
+    const newFood = {
+      food: "Eggs and bacon",
+      calories: 100,
+    };
+    setMealItems([...mealItems, newFood]);
+  }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -52,18 +61,21 @@ const MealPage = (props) => {
                     contentContainerStyle={styles.scrollContainer}
                   >
                   <View style={styles.mealItemSection}>
-                    <View style={styles.mealItem}>
-                      <View style={styles.mealItemInfo}>
-                        <Text style={styles.textStyle}>Eggs and bacon</Text>
-                        <Text style={styles.mealItemCalories}>100 cal</Text>
+                    {mealItems.map((item, index) => (
+                      <View key={index} style={styles.mealItem}>
+                        <View style={styles.mealItemInfo}>
+                          <Text style={styles.textStyle}>{item.food}</Text>
+                          <Text style={styles.mealItemCalories}>{item.calories} cal</Text>
+                        </View>
+                        <TouchableOpacity>
+                          <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
+                        </TouchableOpacity>
                       </View>
-                      <TouchableOpacity>
-                        <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
-                      </TouchableOpacity>
-                    </View>
+                    ))}
+                    
                   </View>                  
                   <View style={styles.buttonSection}>
-                      <TouchableOpacity style={styles.addFood}>
+                      <TouchableOpacity style={styles.addFood} onPress={addMealItem}>
                           <Text style={styles.addFoodText}>Add Food</Text>
                       </TouchableOpacity>
                   </View>
