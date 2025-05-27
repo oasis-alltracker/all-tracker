@@ -53,7 +53,7 @@ const FitnessDiet = ({ navigation }) => {
   };
 
   const mealSetters = {breakfast: setBreakfast, lunch: setLunch, dinner: setDinner, snacks: setSnack };
-  const mealMacros = {breakfast: breakfast, lunch: lunch, dinner: dinner, snacks: snack };
+  const mealMacros = {Breakfast: breakfast, Lunch: lunch, Dinner: dinner, Snacks: snack };
 
   const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150});
 
@@ -263,7 +263,7 @@ const FitnessDiet = ({ navigation }) => {
             updateDate={updateDate}
             meals={mealMacros}
             totalMacros={totalMacros}
-            dietGoal={dietGoals}
+            dietGoals={dietGoals}
           />
         );
       case "third":

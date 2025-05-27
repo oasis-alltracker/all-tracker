@@ -7,8 +7,10 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import moment from "moment";
+import { sharedStyles } from "../styles";
 
-const items = [
+const mealTitles = [
   {
     name: "Breakfast",
   },
@@ -19,21 +21,30 @@ const items = [
     name: "Dinner",
   },
   {
-    name: "Snack",
+    name: "Snacks",
   },
 ];
 
-const foods = [
+const macroKeys = [
   {
     title: "Carbs",
+    goal: "carbGoal",
+    consumed: "carbCount",
   },
   {
     title: "Protein",
+    goal: "proteinGoal",
+    consumed: "proteinCount",
   },
   {
     title: "Fats",
+    goal: "fatGoal",
+    consumed: "fatCount",
   },
 ];
+
+const today = new Date();
+
 
 export default function Diet({
   day, 
@@ -42,67 +53,157 @@ export default function Diet({
   dietGoals, 
   totalMacros
 }) {
+  const consumedPercent = `${(totalMacros.calorieCount/dietGoals.calorieGoal.value*100).toFixed(0)}%`;
+
+  const EmptyMeal = ({item}) => (
+    <TouchableOpacity style={styles.borderedContainer}>
+      <View style={styles.row}>
+        <Text style={styles.itemText}>{item?.name}</Text>
+        <TouchableOpacity>
+          <Image
+            style={styles.plus}
+            source={require("../../assets/images/plus512.png")}
+          />
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const MealWithEntries = ({item}) => (
+    <TouchableOpacity style={styles.borderedContainer}>
+      <View style={styles.row}>
+        <Text style={styles.itemText}>{item.name}</Text>
+        <TouchableOpacity>
+          <Image
+            style={styles.plus}
+            source={require("../../assets/images/edit.png")}
+          />
+        </TouchableOpacity>
+      </View>
+      {meals[item.name].entries.map((item, index) => (
+        <View style={styles.row} key={index}>
+          <Text style={styles.subItemText} >{item.name}</Text>
+          <Text style={styles.subItemText}>{item.calorieCount} {dietGoals.calorieGoal.units}</Text>
+        </View>
+        
+      ))}
+      <View style={styles.line} />
+      <Text style={[styles.subItemText, {textAlign: "right",}]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
+    </TouchableOpacity>
+
+  );
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
-      <View style={styles.imageCon}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/diet.png")}
-        />
-      </View>
-      <View style={styles.dateLine}>
-        <TouchableOpacity style={styles.button}>
+      <View style={{alignItems:"center"}}>
+        <View
+          style={[
+            sharedStyles.headerImageContainer,
+            {
+              backgroundColor: "rgba(202, 189, 255, 65)",
+              borderColor: "rgba(162, 151, 204, 0.7)",
+            },
+          ]}
+        >
           <Image
-            style={styles.preButton}
+            style={sharedStyles.headerImage}
+            source={require("../../assets/images/diet.png")}
+          />
+        </View>
+      </View>
+      
+
+      <View style={sharedStyles.datePickerView}>
+        <TouchableOpacity
+          style={sharedStyles.changeDateButton}
+          onPress={() => updateDate(-1)}
+        >
+          <Image
+            style={[sharedStyles.decreaseDateImage]}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
-        <Text style={styles.dateName}>Today</Text>
-        <TouchableOpacity style={styles.button}>
+        <>
+          {moment(day).format("YYYYMMDD") ==
+          moment(today).format("YYYYMMDD") ? (
+            <Text style={sharedStyles.dateText}>Today</Text>
+          ) : (
+            <Text style={sharedStyles.dateText}>
+              {day.toDateString().slice(4, -5)}
+            </Text>
+          )}
+        </>
+        <TouchableOpacity
+          style={sharedStyles.changeDateButton}
+          onPress={() => updateDate(1)}
+        >
           <Image
-            style={[styles.preButton, styles.nextButton]}
+            style={sharedStyles.increaseDateImage}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.progressCon}>
+      <View style={styles.borderedContainer}>
+        <View style={styles.row}>
+          <Text style={styles.boldText}>Macros</Text>
+          <TouchableOpacity>
+            <Image
+              style={styles.plus}
+              source={require("../../assets/images/edit.png")}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.row}>
           <Text style={styles.miniText}>Eaten</Text>
           <Text style={styles.miniText}>Remaining</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.desc}>
-            <Text style={styles.boldText}>0</Text> kcal
+            <Text style={styles.boldText}>{totalMacros.calorieCount}</Text> kcal
           </Text>
-          <Text style={styles.boldText}>3452</Text>
+          <Text style={styles.boldText}>{dietGoals.calorieGoal.value - totalMacros.calorieCount}</Text>
         </View>
+
         <View style={styles.progress}>
-          <View style={styles.filler} />
+          <View style={[
+              styles.filler,
+              { 
+                width: consumedPercent,
+              },
+            ]} 
+          />
+        </View>
+        <View style={styles.row}>
+          {macroKeys.map((item, index) => (
+            <View style={styles.item} key={index}>
+              <View style={styles.round}>
+                <Text style={[
+                    styles.boldText,
+                    {
+                      fontSize: 26,
+                    }
+                  ]}
+                >
+                  {totalMacros[item.consumed]}g
+                </Text>
+                <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+              </View>
+              <Text style={styles.desc}>{item.title}</Text>
+            </View>
+          ))}
         </View>
       </View>
-      <View style={styles.items}>
-        {foods.map((item, index) => (
-          <View style={styles.item} key={index}>
-            <View style={styles.round}>
-              <Text style={styles.boldText}>0</Text>
-              <Text style={styles.miniText}>/100g</Text>
-            </View>
-            <Text style={styles.desc}>{item.title}</Text>
-          </View>
-        ))}
-      </View>
-      {items.map((item, index) => (
-        <TouchableOpacity key={index} style={styles.addBtn}>
-          <Text style={styles.itemText}>{item.name}</Text>
-          <Image
-            style={styles.plus}
-            source={require("../../assets/images/plus512.png")}
-          />
-        </TouchableOpacity>
+      
+      {mealTitles.map((item, index) => (
+        meals[item.name].entries.length >0 ? (
+          <MealWithEntries item={item} key={index}/>
+        ) : (
+          <EmptyMeal item={item} key={index}/>
+        )
       ))}
     </ScrollView>
   );
@@ -182,16 +283,18 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   desc: {
-    fontSize: 24,
+    fontSize: 20,
     color: "#25436B",
     fontFamily: "Sego",
   },
   boldText: {
     fontFamily: "Sego-Bold",
     fontSize: 30,
+    color: "#25436B",
   },
   miniText: {
     fontFamily: "Sego",
+    color: "#25436B",
   },
   addBtn: {
     borderWidth: 2,
@@ -200,12 +303,12 @@ const styles = StyleSheet.create({
     height: 80,
     alignItems: "center",
     marginHorizontal: 20,
-    marginBottom: 10,
+    marginTop:10,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
   },
-  progressCon: {
+  borderedContainer: {
     borderWidth: 2,
     borderColor: "#CCCCCC",
     borderRadius: 40,
@@ -234,6 +337,12 @@ const styles = StyleSheet.create({
   itemText: {
     fontFamily: "Sego",
     fontSize: 32,
+    color: "#25436B",
+  },
+  subItemText: {
+    fontFamily: "Sego",
+    fontSize: 22,
+    color: "#25436B",
   },
   items: {
     flexDirection: "row",
@@ -247,12 +356,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   round: {
-    width: "80%",
+    width: "90%",
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 8,
     borderColor: "#B3B3B3",
     borderRadius: 100,
+  },
+  line: {
+    borderBottomColor: '#ccc', 
+    borderBottomWidth: 1, 
+    marginVertical: 10,
   },
 });
