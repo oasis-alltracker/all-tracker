@@ -13,6 +13,7 @@ import navigationService from "../../../navigators/navigationService";
 
 const MealPage = (props) => {
     const [mealItems, setMealItems] = useState([]);
+    const [mealItemCount, setMealItemCount] = useState(0);
 
     const mealName = props.route.params.mealName;
     var mealImage;
@@ -26,18 +27,20 @@ const MealPage = (props) => {
       mealImage = require("../../../assets/images/snack.png");
     }
 
-  //TODO: configure async function for "add food" button --> start with a hardcoded food item for now
-  //TODO: configure async function for trash icon on food item --> remove the food icon for now
-  //TODO: configure async function for back button (< in top left of page)
-  //no toasts needed?
-
   const addMealItem = () => {
     const newFood = {
+      id: mealItemCount,
       food: "Eggs and bacon",
       calories: 100,
     };
     setMealItems([...mealItems, newFood]);
-  }
+    setMealItemCount(mealItemCount+1);
+  };
+
+  const deleteMealItem = (id) => {
+    const updatedMealItems = mealItems.filter((item) => item.id !== id);
+    setMealItems(updatedMealItems);
+  };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -67,7 +70,7 @@ const MealPage = (props) => {
                           <Text style={styles.textStyle}>{item.food}</Text>
                           <Text style={styles.mealItemCalories}>{item.calories} cal</Text>
                         </View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => deleteMealItem(item.id)}>
                           <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
                         </TouchableOpacity>
                       </View>
