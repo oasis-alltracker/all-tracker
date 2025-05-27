@@ -19,6 +19,7 @@ export default function Main({
   dietGoals 
 }) {
   const today = new Date();
+  const consumedPercent = `${(totalMacros.calorieCount/dietGoals.calorieGoal.value*100).toFixed(0)}%`;
 
   return (
     <ScrollView
@@ -83,7 +84,13 @@ export default function Main({
             />
           </TouchableOpacity>
           <View style={styles.progress}>
-            <View style={styles.filler} />
+            <View style={[
+                styles.filler,
+                { 
+                  width: consumedPercent,
+                },
+              ]} 
+            />
           </View>
           <Text style={styles.desc}>
             <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> / {dietGoals["calorieGoal"]["value"]} {dietGoals["calorieGoal"]["units"]}
