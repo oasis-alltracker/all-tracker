@@ -51,6 +51,15 @@ const MealPage = (props) => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContainer}
                   >
+                  <View style={styles.mealItem}>
+                    <View style={styles.mealItemInfo}>
+                      <Text style={styles.textStyle}>Eggs and bacon</Text>
+                      <Text style={styles.macroUnit}>100 cal</Text>
+                    </View>
+                    <TouchableOpacity>
+                      <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
+                    </TouchableOpacity>
+                  </View>
                   <View style={styles.buttonSection}>
                       <TouchableOpacity style={styles.addFood}>
                           <Text style={styles.addFoodText}>Add Food</Text>
@@ -113,6 +122,33 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
+  mealItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 25,
+    borderWidth: 2,
+    marginBottom: 2,
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    padding: 10,
+  },
+  mealItemInfo: {
+    justifyContent: "space-between",
+  },
+  buttonSection: {
+    alignItems: "center",
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  addFood: {
+    borderRadius: 25,
+    borderWidth: 2,
+    alignItems: "center",
+    backgroundColor: "#D7F6FF",
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    width: "60%",
+    padding: 5,
+  },
   calories: {
     flexDirection: "row",
     borderRadius: 25,
@@ -133,20 +169,6 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     borderColor: "rgba(172, 197, 204, 0.75)",
     padding: 10,
-  },
-  buttonSection: {
-    alignItems: "center",
-    marginTop: 30,
-    marginBottom: 30,
-  },
-  addFood: {
-    borderRadius: 25,
-    borderWidth: 2,
-    alignItems: "center",
-    backgroundColor: "#D7F6FF",
-    borderColor: "rgba(172, 197, 204, 0.75)",
-    width: "60%",
-    padding: 5,
   },
   topAreaBody: {
     justifyContent: "flex-start",
@@ -237,6 +259,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginRight: 5,
+  },
+  deleteIcon: {
+    height: 30,
+    width: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 15,
   },
   errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
