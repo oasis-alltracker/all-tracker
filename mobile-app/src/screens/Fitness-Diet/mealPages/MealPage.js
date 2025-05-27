@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -38,8 +39,24 @@ const MealPage = (props) => {
   };
 
   const deleteMealItem = (id) => {
-    const updatedMealItems = mealItems.filter((item) => item.id !== id);
-    setMealItems(updatedMealItems);
+    Alert.alert(
+      "Delete Meal Item",
+      "Are you sure you want to delete this meal item?",
+      [
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes",
+          isPreferred: true,
+          onPress: () => {
+            const updatedMealItems = mealItems.filter((item) => item.id !== id);
+            setMealItems(updatedMealItems);
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
   };
 
     return (
