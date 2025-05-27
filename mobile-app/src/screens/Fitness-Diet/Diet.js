@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 
@@ -56,7 +57,7 @@ export default function Diet({
   const consumedPercent = `${(totalMacros.calorieCount/dietGoals.calorieGoal.value*100).toFixed(0)}%`;
 
   const EmptyMeal = ({item}) => (
-    <TouchableOpacity style={styles.borderedContainer}>
+    <TouchableOpacity style={styles.borderedContainer} onPress={()=>{navigationService.navigate("mealPage", {mealName: item.name})}}>
       <View style={styles.row}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
@@ -70,7 +71,7 @@ export default function Diet({
   );
 
   const MealWithEntries = ({item}) => (
-    <TouchableOpacity style={styles.borderedContainer}>
+    <TouchableOpacity style={styles.borderedContainer} onPress={()=>{navigationService.navigate("mealPage", {mealName: item.name})}}>
       <View style={styles.row}>
         <Text style={styles.itemText}>{item.name}</Text>
         <TouchableOpacity>
@@ -85,7 +86,6 @@ export default function Diet({
           <Text style={styles.subItemText} >{item.name}</Text>
           <Text style={styles.subItemText}>{item.calorieCount} {dietGoals.calorieGoal.units}</Text>
         </View>
-        
       ))}
       <View style={styles.line} />
       <Text style={[styles.subItemText, {textAlign: "right",}]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>

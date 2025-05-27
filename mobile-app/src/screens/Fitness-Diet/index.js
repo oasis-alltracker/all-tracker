@@ -24,6 +24,7 @@ import { sharedStyles } from "../styles";
 const FitnessDiet = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
+  const [isLoading, setIsLoading] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   const [day, setDay] = useState(new Date());
@@ -109,7 +110,7 @@ const FitnessDiet = ({ navigation }) => {
 
   function errorResponse(error){
     console.log(error);
-    setIsPageLoaded(true); 
+    setIsLoading(false); 
     if (Platform.OS === "ios") {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -127,6 +128,7 @@ const FitnessDiet = ({ navigation }) => {
 
   const getAllMeals = async (token) => {
     try{
+      setIsLoading(true);
       meals = await FoodEntriesMacrosAPI.getFoodMacrosForDay(
         token,
         moment(day).format("YYYYMMDD")
@@ -135,7 +137,7 @@ const FitnessDiet = ({ navigation }) => {
       {
         mealSetters[key](meals[key]);
       }
-
+      setIsLoading(false);
     }catch (e) {
       errorResponse(e);
     }
@@ -143,6 +145,7 @@ const FitnessDiet = ({ navigation }) => {
 
   const getMeal = async(token, meal) => {
     try{
+      setIsLoading(true);
       if(meal in ["breakfast", "lunch", "dinner", "snack"]){
         result = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
           token,
@@ -152,6 +155,7 @@ const FitnessDiet = ({ navigation }) => {
 
         mealSetters[meal](result[meal])
       }
+      setIsLoading(false);
 
     }catch (e) {
       errorResponse(e);
@@ -160,7 +164,7 @@ const FitnessDiet = ({ navigation }) => {
 
   const refreshMeals = async(date = false) => {
     try {
-      setIsPageLoaded(false);
+      setIsLoading(true);
       if(!date) {
         date = day;
       }
@@ -177,8 +181,8 @@ const FitnessDiet = ({ navigation }) => {
           mealSetters[key](defaultMacros);
         }
       }
-      setIsPageLoaded(true);
 
+      setIsLoading(false);
     } catch (e) {
       errorResponse(e);
     }
@@ -186,6 +190,7 @@ const FitnessDiet = ({ navigation }) => {
 
   const getGoals = async () => {
     try{
+      setIsLoading(true);
       token = await getAccessToken();
       goals = await DietGoalsAPI.getDietGoals(token);
 
@@ -198,6 +203,7 @@ const FitnessDiet = ({ navigation }) => {
         setDietGoals(goals);
       }
 
+      setIsLoading(false);
     }catch(e){
       errorResponse(e);
     }
@@ -206,11 +212,11 @@ const FitnessDiet = ({ navigation }) => {
 
   const addFoodEntry = async ( foodEntry ) => {
     try{
-      setIsPageLoaded(false);
+      setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.createFoodEntry(token, foodEntry);
       await getMeal(token, foodEntry["meal"]);
-      setIsPageLoaded(true);
+      setIsLoading(false);
 
     }catch(e){
       errorResponse(e);
@@ -219,11 +225,11 @@ const FitnessDiet = ({ navigation }) => {
 
   const deleteFoodEntry = async ( foodEntryID ) => {
     try{
-      setIsPageLoaded(false);
+      setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
       await getMeal(token, foodEntry["meal"]);
-      setIsPageLoaded(true);
+      setIsLoading(false);
     }catch(e){
       errorResponse(e);
     }
@@ -231,11 +237,11 @@ const FitnessDiet = ({ navigation }) => {
 
   const updateFoodEntry = async ( foodEntryID, foodEntry ) => {
     try{
-      setIsPageLoaded(false);
+      setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.updateFoodEntry(token, foodEntryID, foodEntry);
       await getMeal(token, foodEntry["meal"]);
-      setIsPageLoaded(true);
+      setIsLoading(false);
 
     }catch(e){
       errorResponse(e);
@@ -254,6 +260,7 @@ const FitnessDiet = ({ navigation }) => {
             meals={mealMacros}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
+            isLoading={isLoading}
           />
         );
       case "second":
