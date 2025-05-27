@@ -88,7 +88,7 @@ export default function Diet({
         </View>
       ))}
       <View style={styles.line} />
-      <Text style={[styles.subItemText, { textAlign: "right", }]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
+      <Text style={[styles.subItemText, { textAlign: "center", }]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
     </TouchableOpacity>
 
   );
