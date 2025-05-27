@@ -48,16 +48,16 @@ const today = new Date();
 
 
 export default function Diet({
-  day, 
+  day,
   updateDate,
-  meals, 
-  dietGoals, 
+  meals,
+  dietGoals,
   totalMacros
 }) {
-  const consumedPercent = `${(totalMacros.calorieCount/dietGoals.calorieGoal.value*100).toFixed(0)}%`;
+  const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
 
-  const EmptyMeal = ({item}) => (
-    <TouchableOpacity style={styles.borderedContainer} onPress={()=>{navigationService.navigate("mealPage", {mealName: item.name})}}>
+  const EmptyMeal = ({ item }) => (
+    <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
       <View style={styles.row}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
@@ -70,8 +70,8 @@ export default function Diet({
     </TouchableOpacity>
   );
 
-  const MealWithEntries = ({item}) => (
-    <TouchableOpacity style={styles.borderedContainer} onPress={()=>{navigationService.navigate("mealPage", {mealName: item.name})}}>
+  const MealWithEntries = ({ item }) => (
+    <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
       <View style={styles.row}>
         <Text style={styles.itemText}>{item.name}</Text>
         <TouchableOpacity>
@@ -88,7 +88,7 @@ export default function Diet({
         </View>
       ))}
       <View style={styles.line} />
-      <Text style={[styles.subItemText, {textAlign: "right",}]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
+      <Text style={[styles.subItemText, { textAlign: "right", }]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
     </TouchableOpacity>
 
   );
@@ -98,7 +98,7 @@ export default function Diet({
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
-      <View style={{alignItems:"center"}}>
+      <View style={{ alignItems: "center" }}>
         <View
           style={[
             sharedStyles.headerImageContainer,
@@ -114,7 +114,7 @@ export default function Diet({
           />
         </View>
       </View>
-      
+
 
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
@@ -128,7 +128,7 @@ export default function Diet({
         </TouchableOpacity>
         <>
           {moment(day).format("YYYYMMDD") ==
-          moment(today).format("YYYYMMDD") ? (
+            moment(today).format("YYYYMMDD") ? (
             <Text style={sharedStyles.dateText}>Today</Text>
           ) : (
             <Text style={sharedStyles.dateText}>
@@ -149,7 +149,7 @@ export default function Diet({
 
       <View style={styles.borderedContainer}>
         <View style={styles.row}>
-          <Text style={[styles.boldText, {marginBottom: 10 }]}>Macros</Text>
+          <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
           <TouchableOpacity>
             <Image
               style={styles.plus}
@@ -170,23 +170,23 @@ export default function Diet({
 
         <View style={styles.progress}>
           <View style={[
-              styles.filler,
-              { 
-                width: consumedPercent,
-              },
-            ]} 
+            styles.filler,
+            {
+              width: consumedPercent,
+            },
+          ]}
           />
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, { gap: 10 }]}>
           {macroKeys.map((item, index) => (
             <View style={styles.item} key={index}>
               <View style={styles.round}>
                 <Text style={[
-                    styles.boldText,
-                    {
-                      fontSize: 24,
-                    }
-                  ]}
+                  styles.boldText,
+                  {
+                    fontSize: 24,
+                  }
+                ]}
                 >
                   {totalMacros[item.consumed]}g
                 </Text>
@@ -197,12 +197,12 @@ export default function Diet({
           ))}
         </View>
       </View>
-      
+
       {mealTitles.map((item, index) => (
-        meals[item.name].entries.length >0 ? (
-          <MealWithEntries item={item} key={index}/>
+        meals[item.name].entries.length > 0 ? (
+          <MealWithEntries item={item} key={index} />
         ) : (
-          <EmptyMeal item={item} key={index}/>
+          <EmptyMeal item={item} key={index} />
         )
       ))}
     </ScrollView>
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     height: 80,
     alignItems: "center",
     marginHorizontal: 20,
-    marginTop:10,
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   round: {
-    width: "90%",
+    width: "100%",
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -365,8 +365,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   line: {
-    borderBottomColor: '#ccc', 
-    borderBottomWidth: 1, 
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
     marginVertical: 10,
   },
 });
