@@ -10,6 +10,7 @@ import React from "react";
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import MealPage from "./mealPages/MealPage";
 
 const mealTitles = [
   {
@@ -52,12 +53,31 @@ export default function Diet({
   updateDate,
   meals,
   dietGoals,
-  totalMacros
+  totalMacros,
+  mealItems,
+  setMealItems,
+  mealItemCount,
+  setMealItemCount, 
+  deleteFoodEntry
 }) {
   const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
 
   const EmptyMeal = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
+    <TouchableOpacity style={styles.borderedContainer} 
+      onPress={() => { 
+        console.log("passing into meal page:\n mealItems= " + mealItems +
+          "\nmealItemCount= " + mealItemCount +
+          "\nsetMealItems= " + setMealItems +
+          "\nsetMealItemCount= " + setMealItemCount +
+          "\ndeleteFoodEntry= " + deleteFoodEntry);
+        navigationService.navigate("mealPage", { 
+          mealName: item.name,
+          mealItems: mealItems,
+          setMealItems: setMealItems,
+          mealItemCount: mealItemCount,
+          setMealItemCount: setMealItemCount,
+          deleteFoodEntry: deleteFoodEntry, }) }}
+      >
       <View style={[styles.row, {marginBottom: 0}]}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
@@ -71,7 +91,21 @@ export default function Diet({
   );
 
   const MealWithEntries = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
+    <TouchableOpacity style={styles.borderedContainer} 
+      onPress={() => { 
+        console.log("passing into meal page:\n mealItems= " + mealItems +
+          "\nmealItemCount= " + mealItemCount +
+          "\nsetMealItems= " + setMealItems +
+          "\nsetMealItemCount= " + setMealItemCount +
+          "\ndeleteFoodEntry= " + deleteFoodEntry);
+        navigationService.navigate("mealPage", { 
+          mealName: item.name,
+          mealItems: mealItems,
+          setMealItems: setMealItems,
+          mealItemCount: mealItemCount,
+          setMealItemCount: setMealItemCount,
+          deleteFoodEntry: deleteFoodEntry, }) }}
+      >
       <View style={styles.row}>
         <Text style={styles.itemText}>{item.name}</Text>
         <TouchableOpacity>
