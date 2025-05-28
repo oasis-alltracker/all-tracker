@@ -5,15 +5,18 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
 const MealPage = (props) => {
-    const mealName = props.route.params.mealName;
+    const [mealItems, setMealItems] = useState([]);
+    const [mealItemCount, setMealItemCount] = useState(0);
 
+    const mealName = props.route.params.mealName;
     var mealImage;
     if (mealName === "Breakfast"){
       mealImage = require("../../../assets/images/breakfast.png");
@@ -25,10 +28,36 @@ const MealPage = (props) => {
       mealImage = require("../../../assets/images/snack.png");
     }
 
-  //TODO: configure async function for "add food" button --> start with a hardcoded food item for now
-  //TODO: configure async function for trash icon on food item --> remove the food icon for now
-  //TODO: configure async function for back button (< in top left of page)
-  //no toasts needed?
+  const addMealItem = () => {
+    const newFood = {
+      id: mealItemCount,
+      food: "Eggs and bacon",
+      calories: 100,
+    };
+    setMealItems([...mealItems, newFood]);
+    setMealItemCount(mealItemCount+1);
+  };
+
+  const deleteMealItem = (id) => {
+    Alert.alert(
+      "Delete Meal Item",
+      "Are you sure you want to delete this meal item?",
+      [
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes",
+          isPreferred: true,
+          onPress: () => {
+            const updatedMealItems = mealItems.filter((item) => item.id !== id);
+            setMealItems(updatedMealItems);
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -51,8 +80,22 @@ const MealPage = (props) => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={styles.scrollContainer}
                   >
+                  <View style={styles.mealItemSection}>
+                    {mealItems.map((item, index) => (
+                      <View key={index} style={styles.mealItem}>
+                        <View style={styles.mealItemInfo}>
+                          <Text style={styles.textStyle}>{item.food}</Text>
+                          <Text style={styles.mealItemCalories}>{item.calories} cal</Text>
+                        </View>
+                        <TouchableOpacity onPress={() => deleteMealItem(item.id)}>
+                          <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                    
+                  </View>                  
                   <View style={styles.buttonSection}>
-                      <TouchableOpacity style={styles.addFood}>
+                      <TouchableOpacity style={styles.addFood} onPress={addMealItem}>
                           <Text style={styles.addFoodText}>Add Food</Text>
                       </TouchableOpacity>
                   </View>
@@ -113,6 +156,37 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
+  mealItemSection: {
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+  mealItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    padding: 10,
+    marginBottom: 5,
+  },
+  mealItemInfo: {
+    justifyContent: "space-between",
+  },
+  buttonSection: {
+    alignItems: "center",
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  addFood: {
+    borderRadius: 25,
+    borderWidth: 2,
+    alignItems: "center",
+    backgroundColor: "#D7F6FF",
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    width: "60%",
+    padding: 5,
+  },
   calories: {
     flexDirection: "row",
     borderRadius: 25,
@@ -133,20 +207,6 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     borderColor: "rgba(172, 197, 204, 0.75)",
     padding: 10,
-  },
-  buttonSection: {
-    alignItems: "center",
-    marginTop: 30,
-    marginBottom: 30,
-  },
-  addFood: {
-    borderRadius: 25,
-    borderWidth: 2,
-    alignItems: "center",
-    backgroundColor: "#D7F6FF",
-    borderColor: "rgba(172, 197, 204, 0.75)",
-    width: "60%",
-    padding: 5,
   },
   topAreaBody: {
     justifyContent: "flex-start",
@@ -216,6 +276,11 @@ const styles = StyleSheet.create({
     fontFamily: "Sego",
     color: "#25436B",
   },
+  mealItemCalories: {
+    fontSize: 17.5,
+    fontFamily: "Sego",
+    color: "#25436B",
+  },
   backArrow: {
     height: 35,
     width: 35,
@@ -237,6 +302,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginRight: 5,
+  },
+  deleteIcon: {
+    height: 30,
+    width: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
   },
   errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
