@@ -58,7 +58,7 @@ export default function Diet({
 
   const EmptyMeal = ({ item }) => (
     <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
-      <View style={styles.row}>
+      <View style={[styles.row, {marginBottom: 0}]}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
           <Image
@@ -82,7 +82,7 @@ export default function Diet({
         </TouchableOpacity>
       </View>
       {meals[item.name].entries.map((item, index) => (
-        <View style={styles.row} key={index}>
+        <View style={[styles.row, {marginBottom: 4}]} key={index}>
           <Text style={styles.subItemText} >{item.name}</Text>
           <Text style={styles.subItemText}>{item.calorieCount} {dietGoals.calorieGoal.units}</Text>
         </View>
@@ -90,7 +90,6 @@ export default function Diet({
       <View style={styles.line} />
       <Text style={[styles.subItemText, { textAlign: "center", }]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
     </TouchableOpacity>
-
   );
 
   return (
@@ -169,13 +168,7 @@ export default function Diet({
         </View>
 
         <View style={styles.progress}>
-          <View style={[
-            styles.filler,
-            {
-              width: consumedPercent,
-            },
-          ]}
-          />
+          <View style={[styles.filler, {width: consumedPercent,},]}/>
         </View>
         <View style={[styles.row, { gap: 10 }]}>
           {macroKeys.map((item, index) => (
