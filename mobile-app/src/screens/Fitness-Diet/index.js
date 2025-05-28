@@ -33,6 +33,9 @@ const FitnessDiet = ({ navigation }) => {
   const [routes, setRoutes] = useState([{ key: "first", title: "First" }]);
   const [dots, setDots] = useState([]);
 
+  const [mealItems, setMealItems] = useState([]);
+  const [mealItemCount, setMealItemCount] = useState(0);
+
   const defaultMacros = {
     calorieCount: 0,
     carbCount: 0,
@@ -227,7 +230,20 @@ const FitnessDiet = ({ navigation }) => {
     try{
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+
+      try{
+        const updatedMealItems = mealItems.filter((item) => item.id !== foodEntryID);
+        setMealItems(updatedMealItems);
+        await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+      }catch(error){
+        console.error("Error deleting food entry: " + error);
+        const oldItem = mealItems.find((item) => item.id === foodEntryID);
+        if (oldItem){
+          setMealItems((prevItems) => [...prevItems, oldItem]);
+        }
+        throw new error;
+      }
+      //await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
       await getMeal(token, foodEntry["meal"]);
       setIsLoading(false);
     }catch(e){
@@ -271,6 +287,11 @@ const FitnessDiet = ({ navigation }) => {
             meals={mealMacros}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
+            mealItems={mealItems}
+            setMealItems={setMealItems}
+            mealItemCount={mealItemCount}
+            setMealItemCount={setMealItemCount}
+            deleteFoodEntry={deleteFoodEntry}
           />
         );
       case "third":

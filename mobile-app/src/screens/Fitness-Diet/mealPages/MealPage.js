@@ -12,9 +12,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
-const MealPage = (props) => {
-    const [mealItems, setMealItems] = useState([]);
-    const [mealItemCount, setMealItemCount] = useState(0);
+const MealPage = (
+    props, 
+     
+  ) => {
+    // const [mealItems, setMealItems] = useState([]);
+    // const [mealItemCount, setMealItemCount] = useState(0);
 
     const mealName = props.route.params.mealName;
     var mealImage;
@@ -28,6 +31,12 @@ const MealPage = (props) => {
       mealImage = require("../../../assets/images/snack.png");
     }
 
+    const mealItems = props.route.params.mealItems;
+    const setMealItems = props.route.params.setMealItems;
+    const mealItemCount = props.route.params.mealItemCount;
+    const setMealItemCount = props.route.params.setMealItemCount;
+    const deleteFoodEntry = props.route.params.deleteFoodEntry;
+    
   const addMealItem = () => {
     const newFood = {
       id: mealItemCount,
@@ -48,8 +57,7 @@ const MealPage = (props) => {
           text: "Yes",
           isPreferred: true,
           onPress: () => {
-            const updatedMealItems = mealItems.filter((item) => item.id !== id);
-            setMealItems(updatedMealItems);
+            deleteFoodEntry(id);
           },
         },
       ],
