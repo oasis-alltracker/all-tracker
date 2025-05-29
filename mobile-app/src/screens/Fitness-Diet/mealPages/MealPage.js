@@ -33,10 +33,10 @@ const MealPage = ({navigation, route}) => {
   const addMealItem = () => {
     const newFood = {
       id: mealItemCount,
-      food: "Eggs and bacon",
-      calories: 100,
+      name: "Eggs and bacon",
+      calorieCount: 100,
     };
-    setMealItems([...mealItems, newFood]);
+    mealSetter([...meal.entries, newFood]);
     setMealItemCount(mealItemCount+1);
   };
 
