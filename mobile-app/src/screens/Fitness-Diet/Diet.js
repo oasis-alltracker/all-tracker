@@ -101,9 +101,8 @@ export default function Diet({
         size={93} 
         thickness={9}
         unfilledColor="#B3B3B3"
-        color="#D7F6FF"
-        borderWidth={1}
-        borderColor="#B3B3B3"
+        color="#25436B"
+        borderWidth={0}
       />
       <View style = {styles.progressCirlceContent}>
         <Text style={[ styles.boldText, {fontSize: 22,}]}>
