@@ -10,6 +10,7 @@ import React from "react";
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import * as Progress from 'react-native-progress';
 
 const mealTitles = [
   {
@@ -90,6 +91,28 @@ export default function Diet({
       <View style={styles.line} />
       <Text style={[styles.subItemText, { textAlign: "center", }]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
     </TouchableOpacity>
+  );
+
+  const MacroProgressCircle = ({item}) => (
+    <View >
+      <Progress.Circle 
+        progress={totalMacros[item.consumed]/dietGoals[item.goal]} 
+        strokeCap="round" 
+        size={93} 
+        thickness={9}
+        unfilledColor="#B3B3B3"
+        color="#D7F6FF"
+        borderWidth={1}
+        borderColor="#B3B3B3"
+      />
+      <View style = {styles.progressCirlceContent}>
+        <Text style={[ styles.boldText, {fontSize: 22,}]}>
+          {totalMacros[item.consumed]}g
+        </Text>
+        <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+      </View>
+      
+    </View>
   );
 
   return (
@@ -173,23 +196,13 @@ export default function Diet({
         <View style={[styles.row, { gap: 10 }]}>
           {macroKeys.map((item, index) => (
             <View style={styles.item} key={index}>
-              <View style={styles.round}>
-                <Text style={[
-                  styles.boldText,
-                  {
-                    fontSize: 24,
-                  }
-                ]}
-                >
-                  {totalMacros[item.consumed]}g
-                </Text>
-                <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
-              </View>
+              <MacroProgressCircle item={item} />
               <Text style={styles.desc}>{item.title}</Text>
             </View>
           ))}
         </View>
-      </View>
+      </View> 
+      
 
       {mealTitles.map((item, index) => (
         meals[item.name].entries.length > 0 ? (
@@ -348,14 +361,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  round: {
-    width: "100%",
-    aspectRatio: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 8,
-    borderColor: "#B3B3B3",
-    borderRadius: 100,
+  progressCirlceContent: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   line: {
     borderBottomColor: '#ccc',
