@@ -12,11 +12,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
-const MealPage = (props) => {
+const MealPage = ({navigation, route}) => {
     const [mealItems, setMealItems] = useState([]);
     const [mealItemCount, setMealItemCount] = useState(0);
 
-    const mealName = props.route.params.mealName;
+    const {mealName, meal} = route.params;
+    console.log("meal: " + JSON.stringify(meal));
+
     var mealImage;
     if (mealName === "Breakfast"){
       mealImage = require("../../../assets/images/breakfast.png");
@@ -81,13 +83,13 @@ const MealPage = (props) => {
                     contentContainerStyle={styles.scrollContainer}
                   >
                   <View style={styles.mealItemSection}>
-                    {mealItems.map((item, index) => (
+                    {meal.entries.map((item, index) => (
                       <View key={index} style={styles.mealItem}>
                         <View style={styles.mealItemInfo}>
-                          <Text style={styles.textStyle}>{item.food}</Text>
-                          <Text style={styles.mealItemCalories}>{item.calories} cal</Text>
+                          <Text style={styles.textStyle}>{item.name}</Text>
+                          <Text style={styles.mealItemCalories}>{item.calorieCount} cal</Text>
                         </View>
-                        <TouchableOpacity onPress={() => deleteMealItem(item.id)}>
+                        <TouchableOpacity onPress={() => deleteMealItem(item.SK)}>
                           <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
                         </TouchableOpacity>
                       </View>
@@ -104,7 +106,7 @@ const MealPage = (props) => {
                       <View style={styles.calorieText}>
                           <Text style={styles.caloriesLabel}>Calories</Text>
                           <View style={styles.calorieInfo}>                        
-                              <Text style={styles.caloriesAmount}>99999</Text>
+                              <Text style={styles.caloriesAmount}>{meal.calorieCount}</Text>
                               <Text style={styles.caloriesUnit}>kcal</Text>
                           </View>
                       </View>
@@ -113,19 +115,19 @@ const MealPage = (props) => {
                       <TouchableOpacity style={styles.macros}>
                           <Image style={styles.macroIcon} source={require("../../../assets/images/carbs.png")}></Image>
                           <Text style={styles.textStyle}>Carbs</Text>
-                          <Text style={styles.macroAmount}>0</Text>
+                          <Text style={styles.macroAmount}>{meal.carbCount}</Text>
                           <Text style={styles.macroUnit}>g</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.macros}>
                           <Image style={styles.macroIcon} source={require("../../../assets/images/protein.png")}></Image>
                           <Text style={styles.textStyle}>Protein</Text>
-                          <Text style={styles.macroAmount}>0</Text>
+                          <Text style={styles.macroAmount}>{meal.proteinCount}</Text>
                           <Text style={styles.macroUnit}>g</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.macros}>
                           <Image style={styles.macroIcon} source={require("../../../assets/images/fats.png")}></Image>
                           <Text style={styles.textStyle}>Fats</Text>
-                          <Text style={styles.macroAmount}>0</Text>
+                          <Text style={styles.macroAmount}>{meal.fatCount}</Text>
                           <Text style={styles.macroUnit}>g</Text>
                       </TouchableOpacity>
                   </View>
