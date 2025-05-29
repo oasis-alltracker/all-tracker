@@ -11,6 +11,7 @@ import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import * as Progress from 'react-native-progress';
+import Svg, { Circle } from 'react-native-svg';
 
 const mealTitles = [
   {
@@ -100,15 +101,28 @@ export default function Diet({
         strokeCap="round" 
         size={93} 
         thickness={9}
-        unfilledColor="#B3B3B3"
-        color="#25436B"
-        borderWidth={0}
+        unfilledColor="#DEDEDE"
+        color="#D7F6FF"
+        borderWidth={2}
+        borderColor="#B3B3B3"
       />
       <View style = {styles.progressCirlceContent}>
         <Text style={[ styles.boldText, {fontSize: 22,}]}>
           {totalMacros[item.consumed]}g
         </Text>
         <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+      </View>
+      <View style={styles.progressCirlceContent}>
+        <Svg>
+          <Circle
+            cx="48.2%"
+            cy="50%"
+            r="37"
+            stroke="#B3B3B3"
+            strokeWidth="2"
+            fill="transparent"
+          />
+        </Svg>
       </View>
       
     </View>
