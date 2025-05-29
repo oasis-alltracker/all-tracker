@@ -16,7 +16,7 @@ const MealPage = ({navigation, route}) => {
     const [mealItems, setMealItems] = useState([]);
     const [mealItemCount, setMealItemCount] = useState(0);
 
-    const {mealName, meal} = route.params;
+    const {mealName, meal, deleteFoodEntry} = route.params;
     console.log("meal: " + JSON.stringify(meal));
 
     var mealImage;
@@ -50,8 +50,9 @@ const MealPage = ({navigation, route}) => {
           text: "Yes",
           isPreferred: true,
           onPress: () => {
-            const updatedMealItems = mealItems.filter((item) => item.id !== id);
-            setMealItems(updatedMealItems);
+            // const updatedMealItems = mealItems.filter((item) => item.id !== id);
+            // setMealItems(updatedMealItems);
+            deleteFoodEntry(id);
           },
         },
       ],

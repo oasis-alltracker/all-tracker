@@ -227,13 +227,26 @@ const FitnessDiet = ({ navigation }) => {
     try{
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+
+      try{
+        const updatedMealItems = mealItems.filter((item) => item.id !== foodEntryID);
+        setMealItems(updatedMealItems);
+        await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+      }catch(error){
+        console.error("Error deleting food entry: " + error);
+        const oldItem = mealItems.find((item) => item.id === foodEntryID);
+        if (oldItem){
+          setMealItems((prevItems) => [...prevItems, oldItem]);
+        }
+        throw new error;
+      }
+      //await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
       await getMeal(token, foodEntry["meal"]);
       setIsLoading(false);
     }catch(e){
       errorResponse(e);
     }
-  }
+}
 
   const updateFoodEntry = async ( foodEntryID, foodEntry ) => {
     try{
@@ -271,6 +284,7 @@ const FitnessDiet = ({ navigation }) => {
             meals={mealMacros}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
+            deleteFoodEntry={deleteFoodEntry}
           />
         );
       case "third":
