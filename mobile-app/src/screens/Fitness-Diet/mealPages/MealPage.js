@@ -17,7 +17,6 @@ const MealPage = ({navigation, route}) => {
     const [mealItemCount, setMealItemCount] = useState(0);
 
     const {mealName, meal, deleteFoodEntry} = route.params;
-    console.log("meal: " + JSON.stringify(meal));
 
     var mealImage;
     if (mealName === "Breakfast"){
@@ -90,7 +89,7 @@ const MealPage = ({navigation, route}) => {
                           <Text style={styles.textStyle}>{item.name}</Text>
                           <Text style={styles.mealItemCalories}>{item.calorieCount} cal</Text>
                         </View>
-                        <TouchableOpacity onPress={() => deleteMealItem(item.SK)}>
+                        <TouchableOpacity onPress={() => deleteMealItem(item)}>
                           <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
                         </TouchableOpacity>
                       </View>

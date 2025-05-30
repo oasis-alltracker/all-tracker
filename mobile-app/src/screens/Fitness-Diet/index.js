@@ -223,56 +223,103 @@ const FitnessDiet = ({ navigation }) => {
     }
   }
 
-  const deleteFoodEntry = async ( foodEntryID ) => {
+  const deleteFoodEntry = async ( foodEntry ) => {
     //food entry ID is sk of food entry in table - entries have this
     //sk includes the meal name 
     console.log("deleteFoodEntry is getting triggered");
-    // try{
-    //   setIsLoading(true);
-    //   token = await getAccessToken();
-
-    //     var mealWithEntry, deletedEntry;
-    //     var mealFound = false;
-    //     for (mealName of mealMacros){
-    //       deletedEntry = mealMacros[mealName].entries.find((item) => item.id === foodEntryID);
-    //       if(!mealFound && deletedEntry){
-    //         mealWithEntry = mealName;
-    //         mealFound = true;
-    //       }
-    //     }
-    //   try{
-    //     //use FIND in all 4 meals --> note down meal it was found in
-    //     //then filter out of the meal's array specifically (updatedMealItems)
-    //     //then use ther matching meal's setter to update it with the updated entries array
-
-    //     if (mealFound){
-    //       const updatedMealEntries = mealMacros[mealWithEntry].entries.filter((item) => item.id !== foodEntryID);
-    //       mealSetters[mealWithEntry](updatedMealEntries);
-    //       await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
-    //     }
-    //     // const updatedMealItems = mealItems.filter((item) => item.id !== foodEntryID);
-    //     // setMealItems(updatedMealItems);
-    //     // await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
-    //   }catch(error){
-    //     console.error("Error deleting food entry: " + error);
-    //     //const oldItem = mealMacros[mealWithEntry].entries.find((item) => item.id === foodEntryID))
-    //     if (deletedEntry){
-    //       //this doesn't quite look right yet
-    //       mealSetters[mealWithEntry]((prevItems) => [...prevItems, deletedEntry]);
-    //     }
-    //     // const oldItem = mealItems.find((item) => item.id === foodEntryID);
-    //     // if (oldItem){
-    //     //   setMealItems((prevItems) => [...prevItems, oldItem]);
-    //     // }
-    //     throw new error;
-    //   }
-    //   //await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
-    //   await getMeal(token, foodEntry["meal"]);
-    //   setIsLoading(false);
-    // }catch(e){
-    //   errorResponse(e);
-    // }
+    try{
+      setIsLoading(true);
+      token = await getAccessToken();
+      try{
+          await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
+      }catch(error){
+        console.log("deletion with API failed :(");
+        console.error("Error deleting food entry: " + error);
+        throw new error;
+      }
+      await getMeal(token, foodEntry["meal"]);
+      setIsLoading(false);
+    }catch(e){
+      errorResponse(e);
+    }
   }
+
+  // const deleteFoodEntry = async ( foodEntryID ) => {
+  //   //food entry ID is sk of food entry in table - entries have this
+  //   //sk includes the meal name 
+  //   console.log("deleteFoodEntry is getting triggered");
+  //   try{
+  //     setIsLoading(true);
+  //     token = await getAccessToken();
+
+  //     var mealWithEntry, deletedEntry;
+  //     var mealFound = false;
+  //     // for (mealName in mealMacros){
+  //     //   console.log("inside iterator");
+  //     //   deletedEntry = mealMacros[mealName].entries.find((item) => item.id === foodEntryID);
+  //     //   if(!mealFound && deletedEntry){
+  //     //     mealWithEntry = mealName;
+  //     //     mealFound = true;
+  //     //   }
+  //     // }
+
+  //     if (mealMacros.breakfast.entries.find((item) => item.id === foodEntryID)){
+  //       console.log("found");
+  //     }
+  //     else {
+  //       console.log("not found but checked");
+  //     }
+  //     if (mealMacros.breakfast.entries.find((item) => item.id === foodEntryID)){
+  //       mealWithEntry = "breakfast";
+  //       mealFound = true; 
+  //     }
+  //     if (!mealFound && mealMacros.lunch.entries.find((item) => item.id === foodEntryID)){
+  //       mealWithEntry = "lunch";
+  //       mealFound = true; 
+  //     }
+  //     if (!mealFound && mealMacros.dinner.entries.find((item) => item.id === foodEntryID)){
+  //       mealWithEntry = "dinner";
+  //       mealFound = true; 
+  //     }
+  //     if (!mealFound && mealMacros.snack.entries.find((item) => item.id === foodEntryID)){
+  //       mealWithEntry = "snack";
+  //       mealFound = true; 
+  //     }
+  //     try{
+  //       //use FIND in all 4 meals --> note down meal it was found in
+  //       //then filter out of the meal's array specifically (updatedMealItems)
+  //       //then use ther matching meal's setter to update it with the updated entries array
+
+  //       if (mealFound){
+  //         console.log("meal entry was found in " + mealWithEntry + " entries array");
+  //         const updatedMealEntries = mealMacros.mealWithEntry.entries.filter((item) => item.id !== foodEntryID);
+  //         mealSetters[mealWithEntry](updatedMealEntries);
+  //         await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+  //       }
+  //       // const updatedMealItems = mealItems.filter((item) => item.id !== foodEntryID);
+  //       // setMealItems(updatedMealItems);
+  //       // await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+  //     }catch(error){
+  //       console.log("deletion with API failed :(");
+  //       console.error("Error deleting food entry: " + error);
+  //       //const oldItem = mealMacros[mealWithEntry].entries.find((item) => item.id === foodEntryID))
+  //       if (deletedEntry){
+  //         //this doesn't quite look right yet
+  //         mealSetters.mealWithEntry((prevItems) => [...prevItems, deletedEntry]);
+  //       }
+  //       // const oldItem = mealItems.find((item) => item.id === foodEntryID);
+  //       // if (oldItem){
+  //       //   setMealItems((prevItems) => [...prevItems, oldItem]);
+  //       // }
+  //       throw new error;
+  //     }
+  //     //await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+  //     await getMeal(token, foodEntry["meal"]);
+  //     setIsLoading(false);
+  //   }catch(e){
+  //     errorResponse(e);
+  //   }
+  // }
 
   const updateFoodEntry = async ( foodEntryID, foodEntry ) => {
     try{
