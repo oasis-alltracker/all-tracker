@@ -11,7 +11,6 @@ import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import * as Progress from 'react-native-progress';
-import Svg, { Circle } from 'react-native-svg';
 
 const mealTitles = [
   {
