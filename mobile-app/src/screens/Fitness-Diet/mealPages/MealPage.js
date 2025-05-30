@@ -17,7 +17,6 @@ const MealPage = ({navigation, route}) => {
     const [mealItemCount, setMealItemCount] = useState(0);
 
     const {mealName, meal, deleteFoodEntry} = route.params;
-    console.log("meal: " + JSON.stringify(meal));
 
     var mealImage;
     if (mealName === "Breakfast"){

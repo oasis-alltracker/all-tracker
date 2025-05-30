@@ -250,7 +250,9 @@ const FitnessDiet = ({ navigation }) => {
       setIsLoading(true);
       token = await getAccessToken();
       try{
-        const updatedFoodEntries = mealMacros[mealName].entries.filter((item) => item.id !== foodEntry.SK);
+        console.log("food entry's id: " + foodEntry.SK);
+        const updatedFoodEntries = mealMacros[mealName].entries.filter((item) => item.SK !== foodEntry.SK);
+        console.log("updated food entries:\n" + JSON.stringify(updatedFoodEntries));
         mealSetters[entryMeal]({entries: updatedFoodEntries});
         console.log("updated list of food entries:\n" + updatedFoodEntries);
         await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
