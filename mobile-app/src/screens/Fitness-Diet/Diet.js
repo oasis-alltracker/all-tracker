@@ -101,28 +101,16 @@ export default function Diet({
         strokeCap="round" 
         size={93} 
         thickness={9}
-        unfilledColor="#DEDEDE"
+        unfilledColor="#ACC5CC"
         color="#D7F6FF"
-        borderWidth={2}
-        borderColor="#B3B3B3"
+        borderWidth={1}
+        borderColor="#ACC5CC"
       />
       <View style = {styles.progressCirlceContent}>
         <Text style={[ styles.boldText, {fontSize: 22,}]}>
           {totalMacros[item.consumed]}g
         </Text>
         <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
-      </View>
-      <View style={styles.progressCirlceContent}>
-        <Svg>
-          <Circle
-            cx="48.2%"
-            cy="50%"
-            r="37"
-            stroke="#B3B3B3"
-            strokeWidth="2"
-            fill="transparent"
-          />
-        </Svg>
       </View>
       
     </View>
@@ -339,7 +327,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderWidth: 2,
     borderColor: "#ACC5CC",
-    backgroundColor: "#E4CCFF",
+    backgroundColor: "#ACC5CC",
     borderRadius: 5,
     marginBottom: 50,
   },
