@@ -100,9 +100,10 @@ export default function Diet({
         strokeCap="round" 
         size={93} 
         thickness={9}
-        unfilledColor="#B3B3B3"
-        color="#25436B"
-        borderWidth={0}
+        unfilledColor="#ACC5CC"
+        color="#D7F6FF"
+        borderWidth={1}
+        borderColor="#ACC5CC"
       />
       <View style = {styles.progressCirlceContent}>
         <Text style={[ styles.boldText, {fontSize: 22,}]}>
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderWidth: 2,
     borderColor: "#ACC5CC",
-    backgroundColor: "#E4CCFF",
+    backgroundColor: "#ACC5CC",
     borderRadius: 5,
     marginBottom: 50,
   },
