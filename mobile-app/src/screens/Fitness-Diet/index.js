@@ -223,12 +223,47 @@ const FitnessDiet = ({ navigation }) => {
     }
   }
 
-  const deleteFoodEntry = async ( foodEntryID ) => {
+  const deleteFoodEntry = async (foodEntry) => {
+    console.log("deleteFoodEntry is getting triggered");
+    console.log("meal name from foodentry: " + foodEntry.meal);
+    var entryMeal = foodEntry.meal;
+    var mealName;
+    if (entryMeal === "breakfast"){
+      mealName = "Breakfast";
+    }
+    else if (entryMeal === "lunch"){
+      mealName = "Lunch";
+    }
+    else if (entryMeal === "dinner"){
+      mealName = "Dinner";
+    }
+    else if (entryMeal === "snack"){
+      mealName = "Snacks";
+    }
+
+    console.log("identified meal to access: " + mealName);
+    console.log("meal's contents:\n" + mealMacros[mealName]);
+    const initialFoodEntries = [...mealMacros[mealName].entries];
+    console.log("initial food entries list:\n" + initialFoodEntries);
+    
     try{
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
-      await getMeal(token, foodEntry["meal"]);
+      try{
+        console.log("food entry's id: " + foodEntry.SK);
+        const updatedFoodEntries = mealMacros[mealName].entries.filter((item) => item.SK !== foodEntry.SK);
+        console.log("updated food entries:\n" + JSON.stringify(updatedFoodEntries));
+        mealSetters[entryMeal]({entries: updatedFoodEntries});
+        console.log("updated list of food entries:\n" + updatedFoodEntries);
+        await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
+      }catch(error){
+        console.error("Error deleting food entry: " + error);
+        mealSetters[entryMeal]({entries: initialFoodEntries});
+        console.log("contents of clicked meal after restoring:\n" + mealMacros[mealName].entries);
+        throw new error;
+      }
+      //await getMeal(token, foodEntry["meal"]);
+      await getAllMeals(token);
       setIsLoading(false);
     }catch(e){
       errorResponse(e);
@@ -269,8 +304,10 @@ const FitnessDiet = ({ navigation }) => {
             day = {day}
             updateDate={updateDate}
             meals={mealMacros}
+            mealSetters={mealSetters}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
+            deleteFoodEntry={deleteFoodEntry}
           />
         );
       case "third":
