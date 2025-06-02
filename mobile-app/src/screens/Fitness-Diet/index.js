@@ -59,7 +59,7 @@ const FitnessDiet = ({ navigation }) => {
 
   const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150});
 
-  const [dietModalVisible, setDietVisible] = useState(true);
+  const [dietModalVisible, setDietVisible] = useState(false);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -226,11 +226,11 @@ const FitnessDiet = ({ navigation }) => {
     }
   }
 
-  const deleteFoodEntry = async ( foodEntryID ) => {
+  const deleteFoodEntry = async ( foodEntry ) => {
     try{
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
+      await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
       await getMeal(token, foodEntry["meal"]);
       setIsLoading(false);
     }catch(e){
@@ -264,6 +264,7 @@ const FitnessDiet = ({ navigation }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             isLoading={isLoading}
+            setDietModalVisible={setDietVisible}
           />
         );
       case "second":
@@ -319,7 +320,11 @@ const FitnessDiet = ({ navigation }) => {
           })}
         </View>
       </View>
-      <AddEntryModal isVisible={dietModalVisible} setVisible={setDietVisible} />
+      <AddEntryModal 
+        isVisible={dietModalVisible} 
+        setVisible={setDietVisible} 
+        dayString={day.toLocaleDateString(undefined, { year: "numeric",  month: "long", day: "numeric"})}
+        />
       
     </SafeAreaView>
   );
