@@ -136,7 +136,6 @@ const FitnessDiet = ({ navigation }) => {
       for(const key in meals)
       {
         mealSetters[key](meals[key]);
-        console.log("meal " + key + ":\n" + JSON.stringify(mealMacros["Dinner"]));
       }
       setIsLoading(false);
       return meals;
@@ -226,48 +225,18 @@ const FitnessDiet = ({ navigation }) => {
   }
 
   const deleteFoodEntry = async (foodEntry) => {
-    // console.log("deleteFoodEntry is getting triggered");
-    // console.log("meal name from foodentry: " + foodEntry.meal);
-    var entryMeal = foodEntry.meal;
-    var mealName;
-    if (entryMeal === "breakfast"){
-      mealName = "Breakfast";
-    }
-    else if (entryMeal === "lunch"){
-      mealName = "Lunch";
-    }
-    else if (entryMeal === "dinner"){
-      mealName = "Dinner";
-    }
-    else if (entryMeal === "snack"){
-      mealName = "Snacks";
-    }
-
-    console.log("identified meal to access: " + mealName);
-    console.log("meal's contents BEFORE delete flow:\n" + JSON.stringify(mealMacros[mealName]));
-    // const initialFoodEntries = [...mealMacros[mealName].entries];
-    // console.log("initial food entries list:\n" + initialFoodEntries);
-    
     try{
       setIsLoading(true);
       token = await getAccessToken();
       try{
-        console.log("food entry's id: " + foodEntry.SK);
-        // const updatedFoodEntries = mealMacros[mealName].entries.filter((item) => item.SK !== foodEntry.SK);
-        // console.log("updated food entries:\n" + JSON.stringify(updatedFoodEntries));
-        // mealSetters[entryMeal]({entries: updatedFoodEntries}); // remove
-        // console.log("updated list of food entries:\n" + updatedFoodEntries);
         await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
       }catch(error){
         console.error("Error deleting food entry: " + error);
-        // mealSetters[entryMeal]({entries: initialFoodEntries}); //remove
-        // console.log("contents of clicked meal after restoring:\n" + mealMacros[mealName].entries);
         throw new error;
       }
       meals = await getAllMeals(token);
-      console.log("meal entries AFTER delete flow, to be returned to caller:\n" + JSON.stringify(mealMacros[mealName].entries));
       setIsLoading(false);
-      return meals[mealName.toLowerCase()];
+      return meals[foodEntry.meal];
     }catch(e){
       errorResponse(e);
     }

@@ -29,7 +29,6 @@ const MealPage = ({navigation, route}) => {
 
     useEffect(() => {
       setMealItems(meal.entries);
-      console.log("***meal page useEffect triggered - meal contents:***\n" + JSON.stringify(mealItems));
     }, [meal]);
 
   const addMealItem = () => {
@@ -52,9 +51,7 @@ const MealPage = ({navigation, route}) => {
           isPreferred: true,
           onPress: async () => {
             const updatedMeal = await deleteFoodEntry(id);
-            console.log("returned meal in deleteMealItem:\n" + JSON.stringify(updatedMeal));
             setMealItems(updatedMeal.entries);
-            console.log("meal items now: \n" +  JSON.stringify(mealItems));
           },
         },
       ],
