@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 
@@ -28,14 +22,12 @@ const mealTitles = [
   },
 ];
 
-export default function AddEntryModal({ isVisible, setVisible, dayString}) {
+export default function AddEntryModal({ isVisible, setVisible, dayString }) {
   const [selectedIndex, setSelected] = useState(-1);
 
   const updateSelected = (currIndex) => {
-    if(selectedIndex == currIndex)
-      setSelected(-1);
-    else
-      setSelected(currIndex);
+    if (selectedIndex == currIndex) setSelected(-1);
+    else setSelected(currIndex);
   };
 
   return (
@@ -51,23 +43,48 @@ export default function AddEntryModal({ isVisible, setVisible, dayString}) {
         {mealTitles.map((item, index) => (
           <View key={index}>
             <View style={styles.line} />
-            <TouchableOpacity style={[selectedIndex==index && {backgroundColor: "rgba(179,179,179,0.2)"}]}onPress={()=>updateSelected(index)}>
-              <View style={styles.row} >
+            <TouchableOpacity
+              style={[
+                selectedIndex == index && {
+                  backgroundColor: "rgba(179,179,179,0.2)",
+                },
+              ]}
+              onPress={() => updateSelected(index)}
+            >
+              <View style={styles.row}>
                 <Image style={styles.icon} source={item.icon}></Image>
                 <Text style={styles.rowText}>{item.name}</Text>
               </View>
             </TouchableOpacity>
-            
           </View>
         ))}
         <View style={styles.line} />
 
-        <TouchableOpacity style={styles.button} onPress={()=>{
-          navigationService.navigate("searchFood", {mealName: mealTitles[selectedIndex].name, dayString: dayString});
-          setVisible(false);
-          setSelected(-1);
-        }}>
-          <Text style={[styles.rowText]}>Continue</Text>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            selectedIndex == -1
+              ? { backgroundColor: "#D3D3D3", borderColor: "#B3B3B3" }
+              : { backgroundColor: "#D7F6FF", borderColor: "rgba(172, 197, 204, 0.75)"},
+          ]}
+          disabled={selectedIndex == -1}
+          onPress={() => {
+            navigationService.navigate("searchFood", {
+              mealName: mealTitles[selectedIndex].name,
+              dayString: dayString,
+            });
+            setVisible(false);
+            setSelected(-1);
+          }}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              selectedIndex == -1 && { color: "#666666" },
+            ]}
+          >
+            Continue
+          </Text>
         </TouchableOpacity>
       </View>
     </RNModal>
@@ -91,7 +108,6 @@ const styles = StyleSheet.create({
   line: {
     borderBottomColor: "#ccc",
     borderBottomWidth: 2,
-    //marginVertical: 10,
   },
   titleText: {
     fontFamily: "Sego",
@@ -107,25 +123,29 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    width: "100%",
+    alignItems: "center",
+    paddingVertical: 7,
   },
   icon: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     marginRight: 10,
-    marginLeft: 60,
+    marginLeft: 50,
   },
   button: {
     borderRadius: 25,
     borderWidth: 2,
     alignItems: "center",
-    backgroundColor: "#D7F6FF",
-    borderColor: "rgba(172, 197, 204, 0.75)",
     width: "60%",
     padding: 5,
     alignSelf: "center",
     alignContent: "center",
-    marginTop: 20,
+    marginTop: 30,
+    marginBottom: 15,
   },
-  
+  buttonText: {
+    fontSize: 24,
+    fontFamily: "Sego",
+    color: "#25436B",
+  },
 });
