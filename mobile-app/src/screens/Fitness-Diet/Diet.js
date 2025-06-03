@@ -95,21 +95,18 @@ export default function Diet({
   );
 
   const MacroProgressCircle = ({item}) => {
-    var percentage= totalMacros[item.consumed]/dietGoals[item.goal];
+    var percentage= (totalMacros[item.consumed]/dietGoals[item.goal]).toFixed(1);
     var index= Math.floor(percentage);
     var innerColor;
     var outerColor;
-    if(percentage>=3){
-      innerColor = circleColours[2];
+    if(percentage>3){
+      innerColor = circleColours[3];
       outerColor = circleColours[3];
     }else{
 
       innerColor = circleColours[index];
       outerColor = circleColours[index+1]
     }
-
-    if(percentage>=4)
-      percentage=4;
     return (
     <View >
       <Progress.Circle 
@@ -348,7 +345,7 @@ const styles = StyleSheet.create({
   },
   filler: {
     backgroundColor: "#D7F6FF",
-    width: "70%",
+    maxWidth: "100%",
     height: "100%",
   },
   row: {
