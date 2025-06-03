@@ -20,6 +20,7 @@ import FoodEntriesAPI from "../../api/diet/foodEntriesAPI";
 import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
+import AddEntryModal from "./modals/AddEntryModal";
 
 const FitnessDiet = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -57,6 +58,8 @@ const FitnessDiet = ({ navigation }) => {
   const mealMacros = {Breakfast: breakfast, Lunch: lunch, Dinner: dinner, Snacks: snack };
 
   const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150});
+
+  const [dietModalVisible, setDietVisible] = useState(false);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -261,6 +264,7 @@ const FitnessDiet = ({ navigation }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             isLoading={isLoading}
+            setDietModalVisible={setDietVisible}
           />
         );
       case "second":
@@ -316,6 +320,12 @@ const FitnessDiet = ({ navigation }) => {
           })}
         </View>
       </View>
+      <AddEntryModal 
+        isVisible={dietModalVisible} 
+        setVisible={setDietVisible} 
+        dayString={day.toLocaleDateString(undefined, { year: "numeric",  month: "long", day: "numeric"})}
+        />
+      
     </SafeAreaView>
   );
 };

@@ -18,7 +18,8 @@ export default function Main({
   updateDate, 
   meals,
   totalMacros, 
-  dietGoals 
+  dietGoals,
+  setDietModalVisible,
 }) {
   const today = new Date();
   const consumedPercent = `${(totalMacros.calorieCount/dietGoals.calorieGoal.value*100).toFixed(0)}%`;
@@ -80,7 +81,7 @@ export default function Main({
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Diet</Text>
           </View>
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity style={styles.addBtn} onPress={()=>{setDietModalVisible(true)}}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-food.png")}
