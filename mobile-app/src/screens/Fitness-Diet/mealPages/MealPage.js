@@ -13,8 +13,8 @@ import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
 const MealPage = ({navigation, route}) => {
-    const [mealItems, setMealItems] = useState([]);    
     const {mealName, meal, deleteFoodEntry} = route.params;
+    const [currentMeal, setCurrentMeal] = useState(meal);    
     
     var mealImage;
     if (mealName === "Breakfast"){
@@ -26,10 +26,6 @@ const MealPage = ({navigation, route}) => {
     } else if (mealName === "Snacks"){
       mealImage = require("../../../assets/images/snack.png");
     }
-
-    useEffect(() => {
-      setMealItems(meal.entries);
-    }, [meal]);
 
   const addMealItem = () => {
     const newFood = {
@@ -51,7 +47,7 @@ const MealPage = ({navigation, route}) => {
           isPreferred: true,
           onPress: async () => {
             const updatedMeal = await deleteFoodEntry(id);
-            setMealItems(updatedMeal.entries);
+            setCurrentMeal(updatedMeal);
           },
         },
       ],
@@ -83,7 +79,7 @@ const MealPage = ({navigation, route}) => {
                     contentContainerStyle={styles.scrollContainer}
                   >
                   <View style={styles.mealItemSection}>
-                    {mealItems.map((item, index) => (
+                    {currentMeal.entries.map((item, index) => (
                       <View key={index} style={styles.mealItem}>
                         <View style={styles.mealItemInfo}>
                           <Text style={styles.textStyle}>{item.name}</Text>
@@ -106,7 +102,7 @@ const MealPage = ({navigation, route}) => {
                       <View style={styles.calorieText}>
                           <Text style={styles.caloriesLabel}>Calories</Text>
                           <View style={styles.calorieInfo}>                        
-                              <Text style={styles.caloriesAmount}>{meal.calorieCount}</Text>
+                              <Text style={styles.caloriesAmount}>{currentMeal.calorieCount}</Text>
                               <Text style={styles.caloriesUnit}>kcal</Text>
                           </View>
                       </View>
@@ -115,19 +111,19 @@ const MealPage = ({navigation, route}) => {
                       <TouchableOpacity style={styles.macros}>
                           <Image style={styles.macroIcon} source={require("../../../assets/images/carbs.png")}></Image>
                           <Text style={styles.textStyle}>Carbs</Text>
-                          <Text style={styles.macroAmount}>{meal.carbCount}</Text>
+                          <Text style={styles.macroAmount}>{currentMeal.carbCount}</Text>
                           <Text style={styles.macroUnit}>g</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.macros}>
                           <Image style={styles.macroIcon} source={require("../../../assets/images/protein.png")}></Image>
                           <Text style={styles.textStyle}>Protein</Text>
-                          <Text style={styles.macroAmount}>{meal.proteinCount}</Text>
+                          <Text style={styles.macroAmount}>{currentMeal.proteinCount}</Text>
                           <Text style={styles.macroUnit}>g</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.macros}>
                           <Image style={styles.macroIcon} source={require("../../../assets/images/fats.png")}></Image>
                           <Text style={styles.textStyle}>Fats</Text>
-                          <Text style={styles.macroAmount}>{meal.fatCount}</Text>
+                          <Text style={styles.macroAmount}>{currentMeal.fatCount}</Text>
                           <Text style={styles.macroUnit}>g</Text>
                       </TouchableOpacity>
                   </View>
