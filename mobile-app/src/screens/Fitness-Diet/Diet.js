@@ -62,7 +62,7 @@ export default function Diet({
       onPress={() => { navigationService.navigate("mealPage", { 
         mealName: item.name, 
         meal: meals[item.name],
-        deleteFoodEntry: (foodEntryID) => deleteFoodEntry(foodEntryID)}) }}>
+        deleteFoodEntry: deleteFoodEntry}) }}>
       <View style={[styles.row, {marginBottom: 0}]}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
@@ -80,7 +80,7 @@ export default function Diet({
       onPress={() => { navigationService.navigate("mealPage", { 
         mealName: item.name, 
         meal: meals[item.name],
-        deleteFoodEntry: (foodEntryID) => deleteFoodEntry(foodEntryID)}) }}>      
+        deleteFoodEntry: deleteFoodEntry}) }}>      
       <View style={styles.row}>
         <Text style={styles.itemText}>{item.name}</Text>
         <TouchableOpacity>
