@@ -111,6 +111,16 @@ export default function Diet({
         </Text>
         <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
       </View>
+      <View style={styles.progressCirlceContent}>
+        <Progress.Circle
+          progress={(totalMacros[item.consumed]/dietGoals[item.goal])-1} 
+          strokeCap="round" 
+          size={93} 
+          thickness={9}
+          color={(totalMacros[item.consumed]/dietGoals[item.goal])-1 >0 ? "#76BBCF" : "rgba(0,0,0,0)"}
+          borderWidth={0}
+        />
+      </View>
       
     </View>
   );
