@@ -1,5 +1,5 @@
 //TOFO: figure out which imports are needed and which are redundant
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,11 +13,9 @@ import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
 const MealPage = ({navigation, route}) => {
-    const [mealItems, setMealItems] = useState([]);
-    const [mealItemCount, setMealItemCount] = useState(0);
-
+    const [mealItems, setMealItems] = useState([]);    
     const {mealName, meal, deleteFoodEntry} = route.params;
-
+    
     var mealImage;
     if (mealName === "Breakfast"){
       mealImage = require("../../../assets/images/breakfast.png");
@@ -25,9 +23,14 @@ const MealPage = ({navigation, route}) => {
       mealImage = require("../../../assets/images/lunch.png");
     } else if (mealName === "Dinner"){
       mealImage = require("../../../assets/images/dinner.png");
-    } else if (mealName === "Snack"){
+    } else if (mealName === "Snacks"){
       mealImage = require("../../../assets/images/snack.png");
     }
+
+    useEffect(() => {
+      setMealItems(meal.entries);
+      console.log("***meal page useEffect triggered - meal contents:***\n" + JSON.stringify(mealItems));
+    }, [meal]);
 
   const addMealItem = () => {
     const newFood = {
@@ -36,10 +39,9 @@ const MealPage = ({navigation, route}) => {
       calorieCount: 100,
     };
     mealSetter([...meal.entries, newFood]);
-    setMealItemCount(mealItemCount+1);
   };
 
-  const deleteMealItem = (id) => {
+  const deleteMealItem = async (id) => {
     Alert.alert(
       "Delete Meal Item",
       "Are you sure you want to delete this meal item?",
@@ -48,10 +50,11 @@ const MealPage = ({navigation, route}) => {
         {
           text: "Yes",
           isPreferred: true,
-          onPress: () => {
-            // const updatedMealItems = mealItems.filter((item) => item.id !== id);
-            // setMealItems(updatedMealItems);
-            deleteFoodEntry(id);
+          onPress: async () => {
+            const updatedMeal = await deleteFoodEntry(id);
+            console.log("returned meal in deleteMealItem:\n" + JSON.stringify(updatedMeal));
+            setMealItems(updatedMeal.entries);
+            console.log("meal items now: \n" +  JSON.stringify(mealItems));
           },
         },
       ],
@@ -83,7 +86,7 @@ const MealPage = ({navigation, route}) => {
                     contentContainerStyle={styles.scrollContainer}
                   >
                   <View style={styles.mealItemSection}>
-                    {meal.entries.map((item, index) => (
+                    {mealItems.map((item, index) => (
                       <View key={index} style={styles.mealItem}>
                         <View style={styles.mealItemInfo}>
                           <Text style={styles.textStyle}>{item.name}</Text>
