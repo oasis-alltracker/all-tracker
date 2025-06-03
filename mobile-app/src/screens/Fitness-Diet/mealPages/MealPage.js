@@ -27,6 +27,10 @@ const MealPage = ({navigation, route}) => {
       mealImage = require("../../../assets/images/snack.png");
     }
 
+    useEffect(() => {
+      setCurrentMeal(meal);
+    }, [meal]);
+
   const addMealItem = () => {
     const newFood = {
       id: mealItemCount,
