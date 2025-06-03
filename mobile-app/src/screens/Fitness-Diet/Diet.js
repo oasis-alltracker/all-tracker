@@ -56,6 +56,7 @@ export default function Diet({
   totalMacros
 }) {
   const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
+  const circleColours = ["#ACC5CC","#D7F6FF","#76BBCF","#008ab3"];
 
   const EmptyMeal = ({ item }) => (
     <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
@@ -93,15 +94,31 @@ export default function Diet({
     </TouchableOpacity>
   );
 
-  const MacroProgressCircle = ({item}) => (
+  const MacroProgressCircle = ({item}) => {
+    var percentage= totalMacros[item.consumed]/dietGoals[item.goal];
+    var index= Math.floor(percentage);
+    var innerColor;
+    var outerColor;
+    if(percentage>=3){
+      innerColor = circleColours[2];
+      outerColor = circleColours[3];
+    }else{
+
+      innerColor = circleColours[index];
+      outerColor = circleColours[index+1]
+    }
+
+    if(percentage>=4)
+      percentage=4;
+    return (
     <View >
       <Progress.Circle 
-        progress={totalMacros[item.consumed]/dietGoals[item.goal]} 
+        progress={percentage%1} 
         strokeCap="round" 
         size={93} 
         thickness={9}
-        unfilledColor="#ACC5CC"
-        color="#D7F6FF"
+        unfilledColor={innerColor}
+        color={outerColor}
         borderWidth={1}
         borderColor="#ACC5CC"
       />
@@ -111,19 +128,8 @@ export default function Diet({
         </Text>
         <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
       </View>
-      <View style={styles.progressCirlceContent}>
-        <Progress.Circle
-          progress={(totalMacros[item.consumed]/dietGoals[item.goal])-1} 
-          strokeCap="round" 
-          size={93} 
-          thickness={9}
-          color={(totalMacros[item.consumed]/dietGoals[item.goal])-1 >0 ? "#76BBCF" : "rgba(0,0,0,0)"}
-          borderWidth={0}
-        />
-      </View>
-      
     </View>
-  );
+  )};
 
   return (
     <ScrollView
