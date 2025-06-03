@@ -226,11 +226,11 @@ const FitnessDiet = ({ navigation }) => {
     }
   }
 
-  const deleteFoodEntry = async ( foodEntry ) => {
+  const deleteFoodEntry = async ( foodEntryID ) => {
     try{
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
+      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
       await getMeal(token, foodEntry["meal"]);
       setIsLoading(false);
     }catch(e){
