@@ -13,8 +13,9 @@ import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
 const MealPage = ({navigation, route}) => {
-    const {mealName, meal, deleteFoodEntry} = route.params;
-    const [currentMeal, setCurrentMeal] = useState(meal);    
+    const {date, mealName, meal, deleteFoodEntry} = route.params;
+    const [currentMeal, setCurrentMeal] = useState(meal);  
+    const [currentDate, setCurrentDate] = useState(date);
     
     var mealImage;
     if (mealName === "Breakfast"){
@@ -27,9 +28,12 @@ const MealPage = ({navigation, route}) => {
       mealImage = require("../../../assets/images/snack.png");
     }
 
+    const dateString = currentDate.toLocaleDateString(undefined, { year: "numeric",  month: "long", day: "numeric"});
+
     useEffect(() => {
       setCurrentMeal(meal);
-    }, [meal]);
+      setCurrentDate(date);
+    }, [meal, date]);
 
   const addMealItem = () => {
     const newFood = {
@@ -74,7 +78,7 @@ const MealPage = ({navigation, route}) => {
                         <Image style={styles.mealIcon} source={mealImage}></Image>
                         <Text style={styles.title}>{mealName}</Text>
                     </View>
-                    <Text style={styles.textStyle}>January 1, 2025</Text>
+                    <Text style={styles.textStyle}>{dateString}</Text>
                 </View>
             </View>
             <View style={styles.mainArea}> 
