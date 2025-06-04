@@ -1,4 +1,3 @@
-//TOFO: figure out which imports are needed and which are redundant
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -13,9 +12,9 @@ import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
 const MealPage = ({navigation, route}) => {
-    const {dateString, mealName, meal, deleteFoodEntry} = route.params; //get a string 
+    const {dateString, mealName, meal, deleteFoodEntry} = route.params;  
     const [currentMeal, setCurrentMeal] = useState(meal);  
-    const [currentDate, setCurrentDate] = useState(new Date()); //holds date object --> allows component display code to just call toLocaleDateString on it easily
+    const [currentDate, setCurrentDate] = useState(new Date()); 
 
     var mealImage;
     if (mealName === "Breakfast"){
