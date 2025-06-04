@@ -24,6 +24,7 @@ import { getAccessToken } from "../user/keychain";
 import DrawerScreen from "./DrawerScreen";
 import Stats from "./Stats/Stats";
 import MealPage from "./Fitness-Diet/mealPages/MealPage";
+import SearchFood from "./Fitness-Diet/mealPages/SearchFood";
 
 const Drawer = createDrawerNavigator();
 
@@ -200,6 +201,7 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
       <Drawer.Screen name="sleepTest" component={SleepQuestionnaire} />
       <Drawer.Screen name="moodTest" component={MoodQuestionnaire} />
       <Drawer.Screen name="mealPage" component={MealPage} />
+      <Drawer.Screen name="searchFood" component={SearchFood} />
     </Drawer.Navigator>
   );
 };

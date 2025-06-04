@@ -20,6 +20,7 @@ import FoodEntriesAPI from "../../api/diet/foodEntriesAPI";
 import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
+import AddEntryModal from "./modals/AddEntryModal";
 
 const FitnessDiet = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -57,6 +58,8 @@ const FitnessDiet = ({ navigation }) => {
   const mealMacros = {Breakfast: breakfast, Lunch: lunch, Dinner: dinner, Snacks: snack };
 
   const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150});
+
+  const [dietModalVisible, setDietVisible] = useState(false);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -138,6 +141,7 @@ const FitnessDiet = ({ navigation }) => {
         mealSetters[key](meals[key]);
       }
       setIsLoading(false);
+      return meals;
     }catch (e) {
       errorResponse(e);
     }
@@ -223,13 +227,19 @@ const FitnessDiet = ({ navigation }) => {
     }
   }
 
-  const deleteFoodEntry = async ( foodEntryID ) => {
+  const deleteFoodEntry = async (foodEntry) => {
     try{
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
-      await getMeal(token, foodEntry["meal"]);
+      try{
+        await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
+      }catch(error){
+        console.error("Error deleting food entry: " + error);
+        throw new error;
+      }
+      meals = await getAllMeals(token);
       setIsLoading(false);
+      return meals[foodEntry.meal];
     }catch(e){
       errorResponse(e);
     }
@@ -261,6 +271,7 @@ const FitnessDiet = ({ navigation }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             isLoading={isLoading}
+            setDietModalVisible={setDietVisible}
           />
         );
       case "second":
@@ -269,8 +280,10 @@ const FitnessDiet = ({ navigation }) => {
             day = {day}
             updateDate={updateDate}
             meals={mealMacros}
+            mealSetters={mealSetters}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
+            deleteFoodEntry={deleteFoodEntry}
           />
         );
       case "third":
@@ -316,6 +329,12 @@ const FitnessDiet = ({ navigation }) => {
           })}
         </View>
       </View>
+      <AddEntryModal 
+        isVisible={dietModalVisible} 
+        setVisible={setDietVisible} 
+        dayString={day.toLocaleDateString(undefined, { year: "numeric",  month: "long", day: "numeric"})}
+        />
+      
     </SafeAreaView>
   );
 };
