@@ -13,10 +13,10 @@ import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 
 const MealPage = ({navigation, route}) => {
-    const {date, mealName, meal, deleteFoodEntry} = route.params;
+    const {dateString, mealName, meal, deleteFoodEntry} = route.params; //get a string 
     const [currentMeal, setCurrentMeal] = useState(meal);  
-    const [currentDate, setCurrentDate] = useState(date);
-    
+    const [currentDate, setCurrentDate] = useState(new Date()); //holds date object --> allows component display code to just call toLocaleDateString on it easily
+
     var mealImage;
     if (mealName === "Breakfast"){
       mealImage = require("../../../assets/images/breakfast.png");
@@ -28,42 +28,49 @@ const MealPage = ({navigation, route}) => {
       mealImage = require("../../../assets/images/snack.png");
     }
 
-    const dateString = currentDate.toLocaleDateString(undefined, { year: "numeric",  month: "long", day: "numeric"});
-
     useEffect(() => {
       setCurrentMeal(meal);
-      setCurrentDate(date);
-    }, [meal, date]);
+      extractDate();
+    }, [meal, dateString]);
 
-  const addMealItem = () => {
-    const newFood = {
-      id: mealItemCount,
-      name: "Eggs and bacon",
-      calorieCount: 100,
+    const extractDate = () => {
+      //format of the prop dateString is given as YYYY-MM-DD
+      //Date can take in a year, month and day as constructor arguments - but month index ranges from 0 (Jan) to 11 (Dec)
+      var year = dateString.substring(0, 4);
+      var month = dateString.substring(5, 7);
+      var day = dateString.substring(8);
+      setCurrentDate(new Date(parseInt(year), parseInt(month)-1, parseInt(day)));
+    }
+
+    const addMealItem = () => {
+      const newFood = {
+        id: mealItemCount,
+        name: "Eggs and bacon",
+        calorieCount: 100,
+      };
+      mealSetter([...meal.entries, newFood]);
     };
-    mealSetter([...meal.entries, newFood]);
-  };
 
-  const deleteMealItem = async (id) => {
-    Alert.alert(
-      "Delete Meal Item",
-      "Are you sure you want to delete this meal item?",
-      [
-        { text: "No", style: "cancel" },
-        {
-          text: "Yes",
-          isPreferred: true,
-          onPress: async () => {
-            const updatedMeal = await deleteFoodEntry(id);
-            setCurrentMeal(updatedMeal);
+    const deleteMealItem = async (id) => {
+      Alert.alert(
+        "Delete Meal Item",
+        "Are you sure you want to delete this meal item?",
+        [
+          { text: "No", style: "cancel" },
+          {
+            text: "Yes",
+            isPreferred: true,
+            onPress: async () => {
+              const updatedMeal = await deleteFoodEntry(id);
+              setCurrentMeal(updatedMeal);
+            },
           },
-        },
-      ],
-      {
-        cancelable: true,
-      }
-    );
-  };
+        ],
+        {
+          cancelable: true,
+        }
+      );
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -78,7 +85,9 @@ const MealPage = ({navigation, route}) => {
                         <Image style={styles.mealIcon} source={mealImage}></Image>
                         <Text style={styles.title}>{mealName}</Text>
                     </View>
-                    <Text style={styles.textStyle}>{dateString}</Text>
+                    <Text style={styles.textStyle}>
+                      {currentDate.toLocaleDateString(undefined, {year: "numeric",  month: "long", day: "numeric"})}
+                    </Text>
                 </View>
             </View>
             <View style={styles.mainArea}> 
