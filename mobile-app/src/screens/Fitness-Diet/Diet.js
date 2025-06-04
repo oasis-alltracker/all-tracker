@@ -53,12 +53,17 @@ export default function Diet({
   updateDate,
   meals,
   dietGoals,
-  totalMacros
+  totalMacros,
+  deleteFoodEntry
 }) {
   const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
 
   const EmptyMeal = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
+    <TouchableOpacity style={styles.borderedContainer} 
+      onPress={() => { navigationService.navigate("mealPage", { 
+        mealName: item.name, 
+        meal: meals[item.name],
+        deleteFoodEntry: deleteFoodEntry}) }}>
       <View style={[styles.row, {marginBottom: 0}]}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
@@ -72,7 +77,11 @@ export default function Diet({
   );
 
   const MealWithEntries = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} onPress={() => { navigationService.navigate("mealPage", { mealName: item.name }) }}>
+    <TouchableOpacity style={styles.borderedContainer} 
+      onPress={() => { navigationService.navigate("mealPage", { 
+        mealName: item.name, 
+        meal: meals[item.name],
+        deleteFoodEntry: deleteFoodEntry}) }}>      
       <View style={styles.row}>
         <Text style={styles.itemText}>{item.name}</Text>
         <TouchableOpacity>

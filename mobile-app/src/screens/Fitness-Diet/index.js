@@ -141,6 +141,7 @@ const FitnessDiet = ({ navigation }) => {
         mealSetters[key](meals[key]);
       }
       setIsLoading(false);
+      return meals;
     }catch (e) {
       errorResponse(e);
     }
@@ -226,13 +227,19 @@ const FitnessDiet = ({ navigation }) => {
     }
   }
 
-  const deleteFoodEntry = async ( foodEntryID ) => {
+  const deleteFoodEntry = async (foodEntry) => {
     try{
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.deleteFoodEntry(token, foodEntryID);
-      await getMeal(token, foodEntry["meal"]);
+      try{
+        await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
+      }catch(error){
+        console.error("Error deleting food entry: " + error);
+        throw new error;
+      }
+      meals = await getAllMeals(token);
       setIsLoading(false);
+      return meals[foodEntry.meal];
     }catch(e){
       errorResponse(e);
     }
@@ -273,8 +280,10 @@ const FitnessDiet = ({ navigation }) => {
             day = {day}
             updateDate={updateDate}
             meals={mealMacros}
+            mealSetters={mealSetters}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
+            deleteFoodEntry={deleteFoodEntry}
           />
         );
       case "third":
