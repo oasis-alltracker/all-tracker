@@ -3,26 +3,8 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 
-const mealTitles = [
-  {
-    name: "Breakfast",
-    icon: require("../../../assets/images/breakfast.png"),
-  },
-  {
-    name: "Lunch",
-    icon: require("../../../assets/images/lunch.png"),
-  },
-  {
-    name: "Dinner",
-    icon: require("../../../assets/images/dinner.png"),
-  },
-  {
-    name: "Snacks",
-    icon: require("../../../assets/images/snack.png"),
-  },
-];
 
-export default function AddEntryModal({ isVisible, setVisible, dayString }) {
+export default function EditMacroGoalsModal({ isVisible, setVisible }) {
   const [selectedIndex, setSelected] = useState(-1);
 
   const updateSelected = (currIndex) => {
@@ -38,55 +20,10 @@ export default function AddEntryModal({ isVisible, setVisible, dayString }) {
       backdropOpacity={0}
       style={styles.modal}
     >
-      <View style={styles.container}>
-        <Text style={styles.titleText}>Select Meal </Text>
-        {mealTitles.map((item, index) => (
-          <View key={index}>
-            <View style={styles.line} />
-            <TouchableOpacity
-              style={[
-                selectedIndex == index && {
-                  backgroundColor: "rgba(179,179,179,0.2)",
-                },
-              ]}
-              onPress={() => updateSelected(index)}
-            >
-              <View style={styles.row}>
-                <Image style={styles.icon} source={item.icon}></Image>
-                <Text style={styles.rowText}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        ))}
-        <View style={styles.line} />
-
-        <TouchableOpacity
-          style={[
-            styles.button,
-            selectedIndex == -1
-              ? { backgroundColor: "#D3D3D3", borderColor: "#B3B3B3" }
-              : { backgroundColor: "#D7F6FF", borderColor: "rgba(172, 197, 204, 0.75)"},
-          ]}
-          disabled={selectedIndex == -1}
-          onPress={() => {
-            navigationService.navigate("searchFood", {
-              mealName: mealTitles[selectedIndex].name,
-              dayString: dayString,
-            });
-            setVisible(false);
-            setSelected(-1);
-          }}
-        >
-          <Text
-            style={[
-              styles.buttonText,
-              selectedIndex == -1 && { color: "#666666" },
-            ]}
-          >
-            Continue
-          </Text>
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
+        <Text>test</Text>
+    </View>
+      
     </RNModal>
   );
 }

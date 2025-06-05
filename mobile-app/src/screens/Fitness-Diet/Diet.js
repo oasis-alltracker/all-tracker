@@ -54,7 +54,8 @@ export default function Diet({
   meals,
   dietGoals,
   totalMacros,
-  deleteFoodEntry
+  deleteFoodEntry,
+  setMacroModalVisible
 }) {
   const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
 
@@ -181,7 +182,7 @@ export default function Diet({
       <View style={styles.borderedContainer}>
         <View style={styles.row}>
           <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{setMacroModalVisible(true)}}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/edit.png")}
