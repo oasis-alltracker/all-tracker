@@ -11,7 +11,6 @@ import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import * as Progress from 'react-native-progress';
-import * as Progress from 'react-native-progress';
 
 const mealTitles = [
   {
@@ -57,6 +56,7 @@ export default function Diet({
   totalMacros,
   deleteFoodEntry
 }) {
+  const calorieDif = dietGoals.calorieGoal.value- totalMacros.calorieCount ;
   const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
   const circleColours = ["#ACC5CC","#D7F6FF","#76BBCF","#008ab3"];
 
@@ -204,13 +204,13 @@ export default function Diet({
         </View>
         <View style={styles.row}>
           <Text style={styles.miniText}>Eaten</Text>
-          <Text style={styles.miniText}>Remaining</Text>
+          <Text style={styles.miniText}>{calorieDif>0? "Remaining" : "Exceeded"}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.desc}>
             <Text style={styles.boldText}>{totalMacros.calorieCount}</Text> kcal
           </Text>
-          <Text style={styles.boldText}>{dietGoals.calorieGoal.value - totalMacros.calorieCount}</Text>
+          <Text style={styles.boldText}>{Math.abs(calorieDif)}</Text>
         </View>
 
         <View style={styles.progress}>

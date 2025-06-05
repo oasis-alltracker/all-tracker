@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   },
   filler: {
     backgroundColor: "#D7F6FF",
-    width: "70%",
+    maxWidth: "100%",
     height: "100%",
   },
 });
