@@ -181,15 +181,17 @@ const onUpdateMacroValue = async (title, value, units) => {
           ))}
         </View>
         <View>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Recalculate Goals</Text>
+            <TouchableOpacity style={[styles.button, styles.recalculateButton]}>
+                <Text style={styles.buttonText}>Recalculate goals</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Close</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Save</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={[styles.button, styles.closeButton]}>
+                    <Text style={styles.buttonText}>Close</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.saveButton]}>
+                    <Text style={styles.buttonText}>Save</Text>
+                </TouchableOpacity>
+            </View>            
         </View>
       <UpdateMacrosModal
         getRef={(ref) => (updateMacrosRef.current = ref)}
@@ -297,6 +299,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   button: {
     borderRadius: 25,
     borderWidth: 1,
@@ -305,11 +312,27 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "center",
     alignContent: "center",
-    marginBottom: 10,
+    marginVertical: 5,
+  },
+  recalculateButton: {
+    width: "70%",
+    backgroundColor: "#CABDFF",
+    borderColor: "rgba(172, 197, 204, 0.75)"
+  },
+  closeButton: {
+    width: "35%",
+    marginHorizontal: 2,
+    borderColor: "rgba(172, 197, 204, 0.75)",
+  },
+  saveButton: {
+    width: "35%",
+    marginHorizontal: 2,
+    backgroundColor: "#D7F6FF", 
+    borderColor: "rgba(172, 197, 204, 0.75)",
   },
   buttonText: {
-    fontSize: 16,
-    fontFamily: "Sego",
+    fontSize: 18,
+    fontFamily: "Sego-Bold",
     color: "#25436B",
   },
 });
