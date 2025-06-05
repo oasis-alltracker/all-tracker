@@ -57,8 +57,7 @@ export default function Diet({
   deleteFoodEntry
 }) {
   const calorieDif = dietGoals.calorieGoal.value- totalMacros.calorieCount ;
-  const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
-  const circleColours = ["#ACC5CC","#D7F6FF","#76BBCF","#008ab3"];
+  const colours = ["#ACC5CC","#D7F6FF","#76BBCF","#008ab3"];
 
   const EmptyMeal = ({ item }) => (
     <TouchableOpacity style={styles.borderedContainer} 
@@ -110,12 +109,11 @@ export default function Diet({
     var innerColor;
     var outerColor;
     if(percentage>3){
-      innerColor = circleColours[3];
-      outerColor = circleColours[3];
+      innerColor = colours[3];
+      outerColor = colours[3];
     }else{
-
-      innerColor = circleColours[index];
-      outerColor = circleColours[index+1]
+      innerColor = colours[index];
+      outerColor = colours[index+1]
     }
     return (
     <View >
@@ -137,6 +135,27 @@ export default function Diet({
       </View>
     </View>
   )};
+
+  const CalorieBar = () => {
+    var percentage= totalMacros.calorieCount / dietGoals.calorieGoal.value;
+    var consumedPercent = `${( (percentage%1)* 100).toFixed(0)}%`;
+    var index= Math.floor(percentage);
+    var innerColor;
+    var outerColor;
+    if(percentage>3){
+      innerColor = colours[3];
+      outerColor = colours[3];
+    }else{
+      innerColor = colours[index];
+      outerColor = colours[index+1]
+    }
+
+    return (
+      <View style={[styles.progress, {backgroundColor: innerColor, borderColor: innerColor}]}>
+        <View style={[styles.filler, {width: consumedPercent, backgroundColor: outerColor},]}/>
+      </View>
+    )
+  }
 
   return (
     <ScrollView
@@ -212,10 +231,7 @@ export default function Diet({
           </Text>
           <Text style={styles.boldText}>{Math.abs(calorieDif)}</Text>
         </View>
-
-        <View style={styles.progress}>
-          <View style={[styles.filler, {width: consumedPercent,},]}/>
-        </View>
+        <CalorieBar />
         <View style={[styles.row, { gap: 10 }]}>
           {macroKeys.map((item, index) => (
             <View style={styles.item} key={index}>
@@ -348,8 +364,6 @@ const styles = StyleSheet.create({
   progress: {
     height: 20,
     borderWidth: 2,
-    borderColor: "#ACC5CC",
-    backgroundColor: "#ACC5CC",
     borderRadius: 5,
     marginBottom: 50,
   },

@@ -22,7 +22,28 @@ export default function Main({
   setDietModalVisible,
 }) {
   const today = new Date();
-  const consumedPercent = `${(totalMacros.calorieCount/dietGoals.calorieGoal.value*100).toFixed(0)}%`;
+  const colours = ["#ACC5CC","#D7F6FF","#76BBCF","#008ab3"];
+
+    const CalorieBar = () => {
+      var percentage= totalMacros.calorieCount / dietGoals.calorieGoal.value;
+      var consumedPercent = `${( (percentage%1)* 100).toFixed(0)}%`;
+      var index= Math.floor(percentage);
+      var innerColor;
+      var outerColor;
+      if(percentage>3){
+        innerColor = colours[3];
+        outerColor = colours[3];
+      }else{
+        innerColor = colours[index];
+        outerColor = colours[index+1]
+      }
+  
+      return (
+        <View style={[styles.progress, {backgroundColor: innerColor, borderColor: innerColor}]}>
+          <View style={[styles.filler, {width: consumedPercent, backgroundColor: outerColor},]}/>
+        </View>
+      )
+    }
 
   return (
     <ScrollView
@@ -87,15 +108,7 @@ export default function Main({
               source={require("../../assets/images/add-food.png")}
             />
           </TouchableOpacity>
-          <View style={styles.progress}>
-            <View style={[
-                styles.filler,
-                { 
-                  width: consumedPercent,
-                },
-              ]} 
-            />
-          </View>
+          <CalorieBar/>
           <Text style={styles.desc}>
             <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> / {dietGoals["calorieGoal"]["value"]} {dietGoals["calorieGoal"]["units"]}
           </Text>
