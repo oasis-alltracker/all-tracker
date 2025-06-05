@@ -125,10 +125,7 @@ const onUpdateMacroValue = async (title, value, units) => {
       style={styles.modal}
     >
     <View style={styles.container}>
-      <Header showCenter={false} />
       <Spinner visible={isLoading}></Spinner>
-      <View style={styles.contentContainerStyle}>
-        <Text style={styles.title}>Goals</Text>
         <View style={styles.macroContainerStyle}>
           <View style={[styles.item, styles.head]}>
             <View style={[styles.item, styles.headItem]}>
@@ -174,8 +171,7 @@ const onUpdateMacroValue = async (title, value, units) => {
                     units: "g",
                     value: item.title,
                   });
-                }}
-              >
+                }} >
                 <Image
                   style={styles.editImg}
                   source={require("../../../assets/images/edit.png")}
@@ -184,7 +180,17 @@ const onUpdateMacroValue = async (title, value, units) => {
             </View>
           ))}
         </View>
-      </View>
+        <View>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Recalculate Goals</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Close</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
+        </View>
       <UpdateMacrosModal
         getRef={(ref) => (updateMacrosRef.current = ref)}
         onUpdateMacroValue={onUpdateMacroValue}
@@ -196,15 +202,21 @@ const onUpdateMacroValue = async (title, value, units) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
+    modal: {
+    margin: 0,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  contentContainerStyle: {
-    paddingTop: 20,
+  container: {
+    width: "90%",
+    paddingVertical: 15,
+    backgroundColor: "white",
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#CCCCCC",
   },
   macroContainerStyle: {
-    paddingTop: 50,
+    paddingTop: 20,
   },
   title: {
     fontFamily: "Sego-Bold",
@@ -232,7 +244,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 15,
     padding: 10,
-    paddingVertical: 15,
+    paddingVertical: 5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -270,6 +282,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 5,
   },
   editImg: {
     width: 24,
@@ -284,9 +297,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-
-  minitext: {
+  button: {
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+    alignItems: "center",
+    padding: 10,
+    alignSelf: "center",
+    alignContent: "center",
+    marginBottom: 10,
+  },
+  buttonText: {
     fontSize: 16,
-    marginTop: 10,
+    fontFamily: "Sego",
+    color: "#25436B",
   },
 });
