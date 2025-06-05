@@ -110,7 +110,7 @@ class DbUtils {
     });
   }
 
-  queryItem(expression, names, values, filters = null , consistentRead = false) {
+  queryItem(expression, names, values, limit = null, filters = null , consistentRead = false) {
     var params = {
       TableName: this.tableName,
       KeyConditionExpression: expression,
@@ -121,6 +121,9 @@ class DbUtils {
 
     if(filters) {
       params["FilterExpression"] = filters;
+    }
+    if(limit) {
+      params["Limit"] = limit;
     }
     return new Promise((resolve, reject) => {
       this.DB.query(params, function (err, data) {

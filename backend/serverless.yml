@@ -342,6 +342,19 @@ functions:
           method: delete
           cors: true
 
+  ##RecentEntries##
+  foodEntriesMacros:
+    handler: tracker-diet/recentEntries/index.handler
+    role: 
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/foodItems/recent
+          method: get
+          cors: true
+
 
 ##### H A B I T S #####
 ##Habits##
