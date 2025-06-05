@@ -116,6 +116,10 @@ const onUpdateMacroValue = async (title, value, units) => {
     getDataOnLoad();
   }, []);
 
+  const closeModal = async () => {
+    setVisible(false);
+  };
+
   return (
     <RNModal
       isVisible={isVisible}
@@ -181,14 +185,14 @@ const onUpdateMacroValue = async (title, value, units) => {
           ))}
         </View>
         <View>
-            <TouchableOpacity style={[styles.button, styles.recalculateButton]}>
+            <TouchableOpacity style={[styles.button, styles.recalculateButton]} onPress={() => closeModal()}>
                 <Text style={styles.buttonText}>Recalculate goals</Text>
             </TouchableOpacity>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={[styles.button, styles.closeButton]}>
+                <TouchableOpacity style={[styles.button, styles.closeButton]} onPress={() => closeModal()}>
                     <Text style={styles.buttonText}>Close</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.saveButton]}>
+                <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={() => closeModal()}>
                     <Text style={styles.buttonText}>Save</Text>
                 </TouchableOpacity>
             </View>            
