@@ -21,7 +21,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       text: "Protein:",
     },
     {
-      title: "0 g",
+      title: "0",
       img: require("../../../assets/images/fats.png"),
       text: "Fats:",
     },
