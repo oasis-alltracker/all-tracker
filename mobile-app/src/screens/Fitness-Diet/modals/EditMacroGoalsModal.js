@@ -70,14 +70,20 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       });
       setDatas(newDatas);
     }
+  };
+
+  const onSave = async () => {
+    setIsLoading(true);
     const token = await getAccessToken();
     await DietGoalsAPI.updateDietGoals(token, {
-      carbGoal: newCarbs,
-      proteinGoal: newProteins,
-      fatGoal: newFats,
-      calorieGoal: newCalories,
+      carbGoal: carbGoalValue,
+      proteinGoal: proteinGoalValue,
+      fatGoal: fatGoalValue,
+      calorieGoal: calorieGoalValue,
     });
     setMacros();
+    setVisible(false);
+    setIsLoading(false);
   };
 
   const setMacros = async () => {
@@ -204,7 +210,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.saveButton]}
-              onPress={() => closeModal()}
+              onPress={() => onSave()}
             >
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
