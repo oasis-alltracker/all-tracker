@@ -176,20 +176,20 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
     }
   };
 
-  const macroDisplayText = (text) => {
-    var value = "0";
+  const macroDisplayText = (macroLabel) => {
+    var displayText = "0";
     macroData.map((item) => {
-      if (text === "Carbs:") {
-        text = carbGoalValue;
+      if (macroLabel === "Carbs:") {
+        displayText = carbGoalValue;
       }
-      if (text === "Protein:") {
-        text = proteinGoalValue;
+      if (macroLabel === "Protein:") {
+        displayText = proteinGoalValue;
       }
-      if (text === "Fats:") {
-        text = fatGoalValue;
+      if (macroLabel === "Fats:") {
+        displayText = fatGoalValue;
       }
     });
-    return text + macroUnitText;
+    return displayText + macroUnitText;
   };
 
   const onSave = async () => {
