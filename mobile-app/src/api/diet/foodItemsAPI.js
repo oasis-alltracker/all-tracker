@@ -4,8 +4,6 @@ const API = EXPO_PUBLIC_BASE_URL + "foodItems/";
 
 class FoodItemsAPI {
   static async getFoodItems(token) {
-    token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhvZGdlcnRhQGdtYWlsLmNvbSIsImlhdCI6MTY5MzUyMDM3NCwiZXhwIjoxNjkzNjkzMTc0fQ._lmRXvecf-X_1zunfHqr0ldoTrejIyVthcEo1zpkWss";
     const headers = {
       Authorization: `Bearer ${token}`,
     };

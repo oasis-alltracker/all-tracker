@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,13 +9,19 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
+import { getAccessToken } from "../../../user/keychain";
 import navigationService from "../../../navigators/navigationService";
+import FoodItemsAPI from "../../../api/diet/foodItemsAPI";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const SearchFood = ({ naviagtion, route }) => {
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const [searchInput, setSearchInput] = useState('');
-  const [searchResults, setResults] = useState([{name: "Beef", calorieCount: 100},{name: "Shawarma", calorieCount: 50}])
+  const [searchResults, setResults] = useState([{name: "Beef", caloriesPerMeasure: 100},{name: "Shawarma", caloriesPerMeasure: 50}]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+
   var mealImage;
   if (mealName === "Breakfast") {
     mealImage = require("../../../assets/images/breakfast.png");
@@ -27,9 +33,47 @@ const SearchFood = ({ naviagtion, route }) => {
     mealImage = require("../../../assets/images/snack.png");
   }
 
+  useEffect(()=>{
+    console.log("entered use effect");
+    getFoodItems(token);
+  },[]);
+
+  function errorResponse(error){
+    console.log(error);
+    setIsLoading(false); 
+    if (Platform.OS === "ios") {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+      });
+    } else {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.TOP,
+      });
+    }
+  }
+
+  const getFoodItems = async()=>{
+    try{
+      token = await getAccessToken();
+      setIsLoading(true);
+      console.log("entered get food");
+      foodItems = await FoodItemsAPI.getFoodItems(token);
+      console.log(foodItems);
+      setResults(foodItems);
+      setIsLoading(false);
+    }catch(e){
+      errorResponse(e);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topArea}>
+        <Spinner visible={isLoading}></Spinner>
         <TouchableOpacity
           onPress={() => {
             navigationService.navigate("fitness-diet");
@@ -82,7 +126,7 @@ const SearchFood = ({ naviagtion, route }) => {
                   {item.name}
                 </Text>
                 <Text style={[styles.textStyle, {fontSize: 12}]}>
-                  {item.calorieCount} cals
+                  {item.caloriesPerMeasure} cals
                 </Text>
               </View>
               
