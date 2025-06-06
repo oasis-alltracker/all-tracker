@@ -63,6 +63,7 @@ export default function Diet({
       style={styles.borderedContainer}
       onPress={() => {
         navigationService.navigate("mealPage", {
+          dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
           deleteFoodEntry: deleteFoodEntry,
@@ -86,6 +87,7 @@ export default function Diet({
       style={styles.borderedContainer}
       onPress={() => {
         navigationService.navigate("mealPage", {
+          dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
           deleteFoodEntry: deleteFoodEntry,
