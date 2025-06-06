@@ -72,7 +72,6 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
         }
         return item;
       });
-      setMacroData(newMacroData);
       setIsMacroDataChanged(true);
     }
   };
@@ -94,23 +93,44 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       setCalories(dietGoals.calorieGoal.value);
     }
 
-    setMacroData([
-      {
-        title: `${Math.round(dietGoals.carbGoal)} g`,
-        img: require("../../../assets/images/carbs.png"),
-        text: "Carbs:",
-      },
-      {
-        title: `${Math.round(dietGoals.proteinGoal)} g`,
-        img: require("../../../assets/images/protein.png"),
-        text: "Protein:",
-      },
-      {
-        title: `${Math.round(dietGoals.fatGoal)} g`,
-        img: require("../../../assets/images/fats.png"),
-        text: "Fats:",
-      },
-    ]);
+    if (isMacroDataChanged) {
+      setMacroData([
+        {
+          title: `${Math.round(carbGoalValue)} g`,
+          img: require("../../../assets/images/carbs.png"),
+          text: "Carbs:",
+        },
+        {
+          title: `${Math.round(proteinGoalValue)} g`,
+          img: require("../../../assets/images/protein.png"),
+          text: "Protein:",
+        },
+        {
+          title: `${Math.round(fatgoalValue)} g`,
+          img: require("../../../assets/images/fats.png"),
+          text: "Fats:",
+        },
+      ]);
+      setIsMacroDataChanged(false);
+    } else {
+      setMacroData([
+        {
+          title: `${Math.round(dietGoals.carbGoal)} g`,
+          img: require("../../../assets/images/carbs.png"),
+          text: "Carbs:",
+        },
+        {
+          title: `${Math.round(dietGoals.proteinGoal)} g`,
+          img: require("../../../assets/images/protein.png"),
+          text: "Protein:",
+        },
+        {
+          title: `${Math.round(dietGoals.fatGoal)} g`,
+          img: require("../../../assets/images/fats.png"),
+          text: "Fats:",
+        },
+      ]);
+    }
   };
 
   const resetGoals = () => {
@@ -122,6 +142,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       macroData.map((item) => {
         if (item.text === "Carbs:") {
           setCarbGoalValue(item.title);
+          console.log("carb goal var holds: " + carbGoalValue);
         }
         if (item.text === "Protein:") {
           setProteinGoalValue(item.title);
@@ -132,6 +153,22 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       });
       setIsMacroDataChanged(false);
     }
+  };
+
+  const macroDisplayText = (text) => {
+    var value = 0;
+    macroData.map((item) => {
+      if (text === "Carbs:") {
+        text = carbGoalValue;
+      }
+      if (text === "Protein:") {
+        text = proteinGoalValue;
+      }
+      if (text === "Fats:") {
+        text = fatGoalValue;
+      }
+    });
+    return text + " g";
   };
 
   const onSave = async () => {
@@ -201,7 +238,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
             </View>
             <Text style={styles.calorieTitle}>
               {isCaloriesChanged
-                ? calorieGoalValue.value + "!" + calorieGoalValue.units
+                ? calorieGoalValue.value + " " + calorieGoalValue.units
                 : calories + " " + calorieUnit}
             </Text>
           </View>
@@ -210,7 +247,11 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
               <View style={styles.row}>
                 <Image source={item.img} style={styles.itemImg} />
                 <Text style={styles.text}>{item.text}</Text>
-                <Text style={styles.itemTitle}>{item.title}</Text>
+                <Text style={styles.itemTitle}>
+                  {isMacroDataChanged
+                    ? macroDisplayText(item.text)
+                    : item.title}
+                </Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
