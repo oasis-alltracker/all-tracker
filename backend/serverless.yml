@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: ca-central-1
-  environment: 
+  environment:
     ALL_TRACKER_TABLE_NAME: ${opt:stage, 'dev'}-all-tracker-table
     ACCESS_TOKEN_SECRET: ${file(./config.yml):ACCESS_TOKEN_SECRET}
     NOTION_CLIENT_ID: ${file(./config.yml):NOTION_CLIENT_ID}
@@ -15,14 +15,12 @@ provider:
     TEMP_PASSWAORD_TEMPLATE_NAME: all-tracker-tempPassword-template
     CONFIGURATION_SET_NAME: all-tracker-configurationSet
 
-
 ############## F U N C T I O N S ##############
 functions:
-
-##### N O T I O N #####
+  ##### N O T I O N #####
   initiateIntegration:
     handler: notion/initiateIntegration/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - initiateIntegrationRole
         - Arn
@@ -35,7 +33,7 @@ functions:
   integrate:
     handler: notion/integrate/index.handler
     timeout: 150
-    role: 
+    role:
       Fn::GetAtt:
         - integrateRole
         - Arn
@@ -45,10 +43,10 @@ functions:
             Fn::GetAtt:
               - integrationQueue
               - Arn
-    
+
   checkIntegration:
     handler: notion/checkIntegration/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -60,7 +58,7 @@ functions:
 
   createEntry:
     handler: notion/createEntry/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -70,10 +68,10 @@ functions:
           method: post
           cors: true
 
-##### A U T H #####
+  ##### A U T H #####
   loginApple:
     handler: authentication/loginApple/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -84,7 +82,7 @@ functions:
           cors: true
   loginGoogle:
     handler: authentication/loginGoogle/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -139,7 +137,7 @@ functions:
           cors: true
   requestOTP:
     handler: authentication/requestOTP/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - requestOTPRole
         - Arn
@@ -150,7 +148,7 @@ functions:
           cors: true
   requestNewPassword:
     handler: authentication/requestNewPassword/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - requestOTPRole
         - Arn
@@ -161,7 +159,7 @@ functions:
           cors: true
   userExists:
     handler: authentication/userExists/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -172,7 +170,7 @@ functions:
           cors: true
   refreshToken:
     handler: authentication/refreshToken/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -183,7 +181,7 @@ functions:
           cors: true
   sendOTPEmail:
     handler: authentication/sendOTPEmail/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - sendOTPEmailRole
         - Arn
@@ -196,7 +194,7 @@ functions:
 
   processFailedOTPEmail:
     handler: authentication/processFailedEmail/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - processFailedOTPEmailRole
         - Arn
@@ -207,12 +205,11 @@ functions:
               - failedOtpQueue
               - Arn
 
-
-##### U S E R - I N F O #####
-##Diet Goals##
+  ##### U S E R - I N F O #####
+  ##Diet Goals##
   dietGoals:
     handler: tracker-diet/dietGoals/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -224,12 +221,12 @@ functions:
       - http:
           path: v1/dietGoals
           method: put
-          cors: true 
+          cors: true
 
-##User Info##
+  ##User Info##
   user:
     handler: userInfo/user/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -247,11 +244,10 @@ functions:
           method: delete
           cors: true
 
-
-##### N O T I F I C A T I O N S #####
+  ##### N O T I F I C A T I O N S #####
   notifications:
     handler: notifications/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -267,17 +263,17 @@ functions:
       - http:
           path: v1/notifications/{notificationID}
           method: put
-          cors: true 
+          cors: true
       - http:
           path: v1/notifications/{notificationID}
           method: delete
           cors: true
 
-##### F O O D #####
-##Food Entries##
+  ##### F O O D #####
+  ##Food Entries##
   foodEntries:
     handler: tracker-diet/foodEntries/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -293,16 +289,16 @@ functions:
       - http:
           path: v1/foodEntries/{foodEntryID}
           method: put
-          cors: true 
+          cors: true
       - http:
           path: v1/foodEntries/{foodEntryID}
           method: delete
           cors: true
 
-##Food Entries Macros##
+  ##Food Entries Macros##
   foodEntriesMacros:
     handler: tracker-diet/foodEntriesMacros/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -312,11 +308,10 @@ functions:
           method: get
           cors: true
 
-
-##FoodItems##
+  ##FoodItems##
   foodItems:
     handler: tracker-diet/foodItems/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -343,9 +338,9 @@ functions:
           cors: true
 
   ##RecentEntries##
-  foodEntriesMacros:
+  recentEntries:
     handler: tracker-diet/recentEntries/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -355,12 +350,11 @@ functions:
           method: get
           cors: true
 
-
-##### H A B I T S #####
-##Habits##
+  ##### H A B I T S #####
+  ##Habits##
   habits:
     handler: tracker-habit/habits/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -382,10 +376,10 @@ functions:
           method: delete
           cors: true
 
-##HabitStatuses##
+  ##HabitStatuses##
   habitStatuses:
     handler: tracker-habit/habitStatuses/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -407,10 +401,10 @@ functions:
           method: delete
           cors: true
 
-##HabitStatusList
+  ##HabitStatusList
   habitStatusList:
     handler: tracker-habit/habitStatusList/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -420,10 +414,10 @@ functions:
           method: get
           cors: true
 
-##HabitStats
+  ##HabitStats
   habitStats:
     handler: tracker-habit/habitStats/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -433,12 +427,11 @@ functions:
           method: get
           cors: true
 
-
-##### W E L L N E S S #####
-##SleepReports##
+  ##### W E L L N E S S #####
+  ##SleepReports##
   sleepReports:
     handler: tracker-wellness/sleepReports/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -460,10 +453,10 @@ functions:
           method: delete
           cors: true
 
-##SleepStats##
+  ##SleepStats##
   sleepStats:
     handler: tracker-wellness/sleepStats/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -473,10 +466,10 @@ functions:
           method: get
           cors: true
 
-##WellnessReports##
+  ##WellnessReports##
   wellnessReports:
     handler: tracker-wellness/wellnessReports/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -498,10 +491,10 @@ functions:
           method: delete
           cors: true
 
-##MoodStats##
+  ##MoodStats##
   moodStats:
     handler: tracker-wellness/wellnessStats/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -511,12 +504,11 @@ functions:
           method: get
           cors: true
 
-
-##### T A S K S #####
-##tasks##
+  ##### T A S K S #####
+  ##tasks##
   tasks:
     handler: tracker-task/tasks/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -536,12 +528,12 @@ functions:
       - http:
           path: v1/tasks/{taskID}
           method: delete
-          cors: true    
+          cors: true
 
-##to-dos##
+  ##to-dos##
   toDos:
     handler: tracker-task/toDos/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -563,10 +555,10 @@ functions:
           method: delete
           cors: true
 
-##TaskStats
+  ##TaskStats
   taskStats:
     handler: tracker-task/taskStats/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -576,12 +568,11 @@ functions:
           method: get
           cors: true
 
-
-##### F I T N E S S #####
-##Exercise Entries##
+  ##### F I T N E S S #####
+  ##Exercise Entries##
   exerciseEntries:
     handler: tracker-fitness/exerciseEntries/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -601,12 +592,12 @@ functions:
       - http:
           path: v1/exerciseEntries/{exerciseEntryID}
           method: delete
-          cors: true 
+          cors: true
 
-##Exercises##
+  ##Exercises##
   exercises:
     handler: tracker-fitness/exercises/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -628,11 +619,10 @@ functions:
           method: delete
           cors: true
 
-
-##Workout Entries##
+  ##Workout Entries##
   workoutEntries:
     handler: tracker-fitness/workoutEntries/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -654,10 +644,10 @@ functions:
           method: delete
           cors: true
 
-##Workout Plans##
+  ##Workout Plans##
   workoutPlans:
     handler: tracker-fitness/workoutPlans/index.handler
-    role: 
+    role:
       Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
@@ -678,50 +668,48 @@ functions:
           path: v1/workoutPlans/{workoutPlanID}
           method: delete
           cors: true
-
 
 ############## R E S O U R C E S ##############
 resources:
   Resources:
-    
     trackerTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
         TableName: ${self:provider.environment.ALL_TRACKER_TABLE_NAME}
         AttributeDefinitions:
-        - AttributeName: "PK"
-          AttributeType: "S"
-        - AttributeName: "SK"
-          AttributeType: "S"
+          - AttributeName: "PK"
+            AttributeType: "S"
+          - AttributeName: "SK"
+            AttributeType: "S"
         KeySchema:
-        - AttributeName: "PK"
-          KeyType: "HASH"
-        - AttributeName: "SK"
-          KeyType: "RANGE"
+          - AttributeName: "PK"
+            KeyType: "HASH"
+          - AttributeName: "SK"
+            KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: 20
           WriteCapacityUnits: 20
-  
+
     LambdaExecutionRole:
-      Type: 'AWS::IAM::Role'
+      Type: "AWS::IAM::Role"
       Properties:
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
-            - Effect: 'Allow'
+            - Effect: "Allow"
               Principal:
                 Service:
-                  - 'lambda.amazonaws.com'
+                  - "lambda.amazonaws.com"
               Action:
-                - 'sts:AssumeRole'
+                - "sts:AssumeRole"
         Policies:
-          - PolicyName: 'DynamoDBAccess'
+          - PolicyName: "DynamoDBAccess"
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
-                - Effect: 'Allow'
+                - Effect: "Allow"
                   Action:
-                    - 'dynamodb:*'
+                    - "dynamodb:*"
                   Resource:
                     Fn::GetAtt:
                       - trackerTable
@@ -732,12 +720,12 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
+                    - "Fn::Join":
+                        - ":"
+                        - - "arn:aws:logs"
+                          - Ref: "AWS::Region"
+                          - Ref: "AWS::AccountId"
+                          - "log-group:/aws/lambda/*:*:*"
 
     sendOTPEmailQueue:
       Type: AWS::SQS::Queue
@@ -746,14 +734,14 @@ resources:
         RedrivePolicy:
           deadLetterTargetArn:
             Fn::GetAtt:
-              - 'OTPEmailDLQ'
-              - 'Arn'
+              - "OTPEmailDLQ"
+              - "Arn"
           maxReceiveCount: 5
     OTPEmailDLQ:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: OTPEmailDLQ-${opt:stage, 'dev'}
-    
+
     integrationQueue:
       Type: AWS::SQS::Queue
       Properties:
@@ -762,14 +750,14 @@ resources:
         RedrivePolicy:
           deadLetterTargetArn:
             Fn::GetAtt:
-              - 'integrationDLQ'
-              - 'Arn'
+              - "integrationDLQ"
+              - "Arn"
           maxReceiveCount: 5
     integrationDLQ:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: integrationDLQ-${opt:stage, 'dev'}
-    
+
     failedOtpQueue:
       Type: AWS::SQS::Queue
       Properties:
@@ -777,8 +765,8 @@ resources:
         RedrivePolicy:
           deadLetterTargetArn:
             Fn::GetAtt:
-              - 'failedOtpDLQ'
-              - 'Arn'
+              - "failedOtpDLQ"
+              - "Arn"
           maxReceiveCount: 5
     failedOtpDLQ:
       Type: AWS::SQS::Queue
@@ -791,18 +779,16 @@ resources:
         TopicName: bouncesAndComplaintsTopicOTP-${opt:stage, 'dev'}
         Subscription:
           - Protocol: sqs
-            Endpoint: !GetAtt failedOtpQueue.Arn                         
+            Endpoint: !GetAtt failedOtpQueue.Arn
 
-
-
-##IAM ROLES AND POLICIES
-############################################
+    ##IAM ROLES AND POLICIES
+    ############################################
     sendOTPEmailRole:
       Type: AWS::IAM::Role
       Properties:
         RoleName: sendOTPEmailRole-${opt:stage, 'dev'}
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -813,20 +799,20 @@ resources:
         Policies:
           - PolicyName: Policy-sendOTPEmailRole-${opt:stage, 'dev'}
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
                     - sqs:*
-                  Resource: 
+                  Resource:
                     Fn::GetAtt:
                       - sendOTPEmailQueue
                       - Arn
-                - Effect: 'Allow'
+                - Effect: "Allow"
                   Action:
                     - ses:SendTemplatedEmail
                   Resource: arn:aws:ses:ca-central-1:815127904764:*
-                - Effect: 'Allow'
+                - Effect: "Allow"
                   Action:
                     - dynamodb:Query
                   Resource:
@@ -839,19 +825,19 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
+                    - "Fn::Join":
+                        - ":"
+                        - - "arn:aws:logs"
+                          - Ref: "AWS::Region"
+                          - Ref: "AWS::AccountId"
+                          - "log-group:/aws/lambda/*:*:*"
 
     processFailedOTPEmailRole:
       Type: AWS::IAM::Role
       Properties:
         RoleName: processFailedOTPEmailRole-${opt:stage, 'dev'}
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -862,16 +848,16 @@ resources:
         Policies:
           - PolicyName: Policy-processFailedOTPEmailRole-${opt:stage, 'dev'}
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
                     - sqs:*
-                  Resource: 
+                  Resource:
                     Fn::GetAtt:
                       - failedOtpQueue
                       - Arn
-                - Effect: 'Allow'
+                - Effect: "Allow"
                   Action:
                     - dynamodb:PutItem
                   Resource:
@@ -884,19 +870,19 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
+                    - "Fn::Join":
+                        - ":"
+                        - - "arn:aws:logs"
+                          - Ref: "AWS::Region"
+                          - Ref: "AWS::AccountId"
+                          - "log-group:/aws/lambda/*:*:*"
 
     requestOTPRole:
       Type: AWS::IAM::Role
       Properties:
         RoleName: requestOTPRole-${opt:stage, 'dev'}
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -907,16 +893,16 @@ resources:
         Policies:
           - PolicyName: Policy-requestOTPRole-${opt:stage, 'dev'}
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
                     - sqs:SendMessage
-                  Resource: 
+                  Resource:
                     Fn::GetAtt:
                       - sendOTPEmailQueue
                       - Arn
-                - Effect: 'Allow'
+                - Effect: "Allow"
                   Action:
                     - dynamodb:UpdateItem
                     - dynamodb:PutItem
@@ -932,12 +918,12 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
+                    - "Fn::Join":
+                        - ":"
+                        - - "arn:aws:logs"
+                          - Ref: "AWS::Region"
+                          - Ref: "AWS::AccountId"
+                          - "log-group:/aws/lambda/*:*:*"
 
     sqsFailedOTPEmailPolicy:
       Type: AWS::SQS::QueuePolicy
@@ -945,23 +931,23 @@ resources:
         Queues:
           - !Ref failedOtpQueue
         PolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
-            - Action: 'sqs:SendMessage'
+            - Action: "sqs:SendMessage"
               Resource: !GetAtt failedOtpQueue.Arn
-              Effect: 'Allow'
+              Effect: "Allow"
               Condition:
                 ArnEquals:
                   aws:SourceArn: !Ref bouncesAndComplaintsTopicOTP
               Principal:
-                Service: 'sns.amazonaws.com'
+                Service: "sns.amazonaws.com"
 
     initiateIntegrationRole:
       Type: AWS::IAM::Role
       Properties:
         RoleName: initiateIntegrationRole-${opt:stage, 'dev'}
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -972,16 +958,16 @@ resources:
         Policies:
           - PolicyName: Policy-initiateIntegrationRole-${opt:stage, 'dev'}
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
                     - sqs:*
-                  Resource: 
+                  Resource:
                     Fn::GetAtt:
                       - integrationQueue
                       - Arn
-                - Effect: 'Allow'
+                - Effect: "Allow"
                   Action:
                     - dynamodb:*
                   Resource:
@@ -994,19 +980,19 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
-                        
+                    - "Fn::Join":
+                        - ":"
+                        - - "arn:aws:logs"
+                          - Ref: "AWS::Region"
+                          - Ref: "AWS::AccountId"
+                          - "log-group:/aws/lambda/*:*:*"
+
     integrateRole:
       Type: AWS::IAM::Role
       Properties:
         RoleName: integrateRole-${opt:stage, 'dev'}
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -1017,16 +1003,16 @@ resources:
         Policies:
           - PolicyName: Policy-integrateRole-${opt:stage, 'dev'}
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
                     - sqs:*
-                  Resource: 
+                  Resource:
                     Fn::GetAtt:
                       - integrationQueue
                       - Arn
-                - Effect: 'Allow'
+                - Effect: "Allow"
                   Action:
                     - dynamodb:*
                   Resource:
@@ -1039,11 +1025,11 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
+                    - "Fn::Join":
+                        - ":"
+                        - - "arn:aws:logs"
+                          - Ref: "AWS::Region"
+                          - Ref: "AWS::AccountId"
+                          - "log-group:/aws/lambda/*:*:*"
 plugins:
   - serverless-prune-plugin
