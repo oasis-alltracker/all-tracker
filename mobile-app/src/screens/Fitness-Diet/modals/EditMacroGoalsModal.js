@@ -26,12 +26,17 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       text: "Fats:",
     },
   ]);
-  const [calorieGoalValue, setCalorieGoalValue] = useState(0);
+  const [calorieGoalValue, setCalorieGoalValue] = useState({
+    value: 0,
+    units: "kcal",
+  });
   const [calories, setCalories] = useState(0);
   const [calorieUnit, setCalorieUnit] = useState("kcal");
   const [carbGoalValue, setCarbGoalValue] = useState(0);
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
+  const [isCaloriesChanged, setIsCaloriesChanged] = useState(false);
+  const [isMacroDataChanged, setIsMacroDataChanged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const updateMacrosRef = useRef(null);
@@ -42,10 +47,9 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
     var newProteins = proteinGoalValue;
     var newCarbs = carbGoalValue;
     if (title === "Calories") {
-      setCalories(value);
-      setCalorieUnit(units);
       newCalories = { value: value, units: units };
       setCalorieGoalValue(newCalories);
+      setIsCaloriesChanged(true);
     } else {
       let newMacroData = macroData.map((item) => {
         if (item.text === title) {
@@ -69,32 +73,26 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
         return item;
       });
       setMacroData(newMacroData);
+      setIsMacroDataChanged(true);
     }
-  };
-
-  const onSave = async () => {
-    setIsLoading(true);
-    const token = await getAccessToken();
-    await DietGoalsAPI.updateDietGoals(token, {
-      carbGoal: carbGoalValue,
-      proteinGoal: proteinGoalValue,
-      fatGoal: fatGoalValue,
-      calorieGoal: calorieGoalValue,
-    });
-    setMacros();
-    setVisible(false);
-    setIsLoading(false);
   };
 
   const setMacros = async () => {
     const dietGoals = await DietGoalsAPI.getDietGoals(token);
 
     setCalorieGoalValue(dietGoals.calorieGoal);
-    setCalorieUnit(dietGoals.calorieGoal.units);
-    setCalories(dietGoals.calorieGoal.value);
     setCarbGoalValue(dietGoals.carbGoal);
     setProteinGoalValue(dietGoals.proteinGoal);
     setFatGoalValue(dietGoals.fatGoal);
+
+    if (isCaloriesChanged) {
+      setCalorieUnit(calorieGoalValue.units);
+      setCalories(calorieGoalValue.value);
+      setIsCaloriesChanged(false);
+    } else {
+      setCalorieUnit(dietGoals.calorieGoal.units);
+      setCalories(dietGoals.calorieGoal.value);
+    }
 
     setMacroData([
       {
@@ -115,6 +113,46 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
     ]);
   };
 
+  const resetGoals = () => {
+    if (isCaloriesChanged) {
+      setCalorieGoalValue({ value: calories, units: calorieUnit });
+      setIsCaloriesChanged(false);
+    }
+    if (isMacroDataChanged) {
+      macroData.map((item) => {
+        if (item.text === "Carbs:") {
+          setCarbGoalValue(item.title);
+        }
+        if (item.text === "Protein:") {
+          setProteinGoalValue(item.title);
+        }
+        if (item.text === "Fats:") {
+          setFatGoalValue(item.title);
+        }
+      });
+      setIsMacroDataChanged(false);
+    }
+  };
+
+  const onSave = async () => {
+    setIsLoading(true);
+    const token = await getAccessToken();
+    await DietGoalsAPI.updateDietGoals(token, {
+      carbGoal: carbGoalValue,
+      proteinGoal: proteinGoalValue,
+      fatGoal: fatGoalValue,
+      calorieGoal: calorieGoalValue,
+    });
+    setMacros();
+    setVisible(false);
+    setIsLoading(false);
+  };
+
+  const closeModal = async () => {
+    resetGoals();
+    setVisible(false);
+  };
+
   useEffect(() => {
     const getDataOnLoad = async () => {
       setIsLoading(true);
@@ -124,10 +162,6 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
 
     getDataOnLoad();
   }, []);
-
-  const closeModal = async () => {
-    setVisible(false);
-  };
 
   return (
     <RNModal
@@ -166,7 +200,9 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
               </TouchableOpacity>
             </View>
             <Text style={styles.calorieTitle}>
-              {calories} {calorieUnit}
+              {isCaloriesChanged
+                ? calorieGoalValue.value + "!" + calorieGoalValue.units
+                : calories + " " + calorieUnit}
             </Text>
           </View>
           {macroData.map((item, index) => (
