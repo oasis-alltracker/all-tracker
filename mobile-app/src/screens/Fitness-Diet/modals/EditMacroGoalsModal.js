@@ -8,36 +8,35 @@ import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
-
 export default function EditMacroGoalsModal({ isVisible, setVisible }) {
   const [datas, setDatas] = useState([
-      {
-        title: "0 g",
-        img: require("../../../assets/images/carbs.png"),
-        text: "Carbs:",
-      },
-      {
-        title: "0 g",
-        img: require("../../../assets/images/protein.png"),
-        text: "Protein:",
-      },
-      {
-        title: "0 g",
-        img: require("../../../assets/images/fats.png"),
-        text: "Fats:",
-      },
-    ]);
-    const [calorieGoalValue, setCalorieGoalValue] = useState(0);
-    const [calories, setCalories] = useState(0);
-    const [calorieUnit, setCalorieUnit] = useState("kcal");
-    const [carbGoalValue, setCarbGoalValue] = useState(0);
-    const [proteinGoalValue, setProteinGoalValue] = useState(0);
-    const [fatGoalValue, setFatGoalValue] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-  
-    const updateMacrosRef = useRef(null);
+    {
+      title: "0 g",
+      img: require("../../../assets/images/carbs.png"),
+      text: "Carbs:",
+    },
+    {
+      title: "0 g",
+      img: require("../../../assets/images/protein.png"),
+      text: "Protein:",
+    },
+    {
+      title: "0 g",
+      img: require("../../../assets/images/fats.png"),
+      text: "Fats:",
+    },
+  ]);
+  const [calorieGoalValue, setCalorieGoalValue] = useState(0);
+  const [calories, setCalories] = useState(0);
+  const [calorieUnit, setCalorieUnit] = useState("kcal");
+  const [carbGoalValue, setCarbGoalValue] = useState(0);
+  const [proteinGoalValue, setProteinGoalValue] = useState(0);
+  const [fatGoalValue, setFatGoalValue] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
-const onUpdateMacroValue = async (title, value, units) => {
+  const updateMacrosRef = useRef(null);
+
+  const onUpdateMacroValue = async (title, value, units) => {
     var newCalories = calorieGoalValue;
     var newFats = fatGoalValue;
     var newProteins = proteinGoalValue;
@@ -71,45 +70,49 @@ const onUpdateMacroValue = async (title, value, units) => {
       });
       setDatas(newDatas);
       const token = await getAccessToken();
-      DietGoalsAPI.updateDietGoals(token, {
+      await DietGoalsAPI.updateDietGoals(token, {
         carbGoal: newCarbs,
         proteinGoal: newProteins,
         fatGoal: newFats,
         calorieGoal: newCalories,
       });
+      setMacros();
     }
+  };
+
+  const setMacros = async () => {
+    const dietGoals = await DietGoalsAPI.getDietGoals(token);
+
+    setCalorieGoalValue(dietGoals.calorieGoal);
+    setCalorieUnit(dietGoals.calorieGoal.units);
+    setCalories(dietGoals.calorieGoal.value);
+    setCarbGoalValue(dietGoals.carbGoal);
+    setProteinGoalValue(dietGoals.proteinGoal);
+    setFatGoalValue(dietGoals.fatGoal);
+
+    setDatas([
+      {
+        title: `${Math.round(dietGoals.carbGoal)} g`,
+        img: require("../../../assets/images/carbs.png"),
+        text: "Carbs:",
+      },
+      {
+        title: `${Math.round(dietGoals.proteinGoal)} g`,
+        img: require("../../../assets/images/protein.png"),
+        text: "Protein:",
+      },
+      {
+        title: `${Math.round(dietGoals.fatGoal)} g`,
+        img: require("../../../assets/images/fats.png"),
+        text: "Fats:",
+      },
+    ]);
   };
 
   useEffect(() => {
     const getDataOnLoad = async () => {
       setIsLoading(true);
-      const token = await getAccessToken();
-      const dietGoals = await DietGoalsAPI.getDietGoals(token);
-
-      setCalorieGoalValue(dietGoals.calorieGoal);
-      setCalorieUnit(dietGoals.calorieGoal.units);
-      setCalories(dietGoals.calorieGoal.value);
-      setCarbGoalValue(dietGoals.carbGoal);
-      setProteinGoalValue(dietGoals.proteinGoal);
-      setFatGoalValue(dietGoals.fatGoal);
-
-      setDatas([
-        {
-          title: `${Math.round(dietGoals.carbGoal)} g`,
-          img: require("../../../assets/images/carbs.png"),
-          text: "Carbs:",
-        },
-        {
-          title: `${Math.round(dietGoals.proteinGoal)} g`,
-          img: require("../../../assets/images/protein.png"),
-          text: "Protein:",
-        },
-        {
-          title: `${Math.round(dietGoals.fatGoal)} g`,
-          img: require("../../../assets/images/fats.png"),
-          text: "Fats:",
-        },
-      ]);
+      setMacros();
       setIsLoading(false);
     };
 
@@ -128,8 +131,8 @@ const onUpdateMacroValue = async (title, value, units) => {
       backdropOpacity={0}
       style={styles.modal}
     >
-    <View style={styles.container}>
-      <Spinner visible={isLoading}></Spinner>
+      <View style={styles.container}>
+        <Spinner visible={isLoading}></Spinner>
         <View style={styles.macroContainerStyle}>
           <View style={[styles.item, styles.head]}>
             <View style={[styles.item, styles.headItem]}>
@@ -175,7 +178,8 @@ const onUpdateMacroValue = async (title, value, units) => {
                     units: "g",
                     value: item.title,
                   });
-                }} >
+                }}
+              >
                 <Image
                   style={styles.editImg}
                   source={require("../../../assets/images/edit.png")}
@@ -185,30 +189,38 @@ const onUpdateMacroValue = async (title, value, units) => {
           ))}
         </View>
         <View>
-            <TouchableOpacity style={[styles.button, styles.recalculateButton]} onPress={() => closeModal()}>
-                <Text style={styles.buttonText}>Recalculate goals</Text>
+          <TouchableOpacity
+            style={[styles.button, styles.recalculateButton]}
+            onPress={() => closeModal()}
+          >
+            <Text style={styles.buttonText}>Recalculate goals</Text>
+          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.closeButton]}
+              onPress={() => closeModal()}
+            >
+              <Text style={styles.buttonText}>Close</Text>
             </TouchableOpacity>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={[styles.button, styles.closeButton]} onPress={() => closeModal()}>
-                    <Text style={styles.buttonText}>Close</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.saveButton]} onPress={() => closeModal()}>
-                    <Text style={styles.buttonText}>Save</Text>
-                </TouchableOpacity>
-            </View>            
+            <TouchableOpacity
+              style={[styles.button, styles.saveButton]}
+              onPress={() => closeModal()}
+            >
+              <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      <UpdateMacrosModal
-        getRef={(ref) => (updateMacrosRef.current = ref)}
-        onUpdateMacroValue={onUpdateMacroValue}
-      />
-    </View>
-      
+        <UpdateMacrosModal
+          getRef={(ref) => (updateMacrosRef.current = ref)}
+          onUpdateMacroValue={onUpdateMacroValue}
+        />
+      </View>
     </RNModal>
   );
 }
 
 const styles = StyleSheet.create({
-    modal: {
+  modal: {
     margin: 0,
     alignItems: "center",
     justifyContent: "center",
@@ -321,7 +333,7 @@ const styles = StyleSheet.create({
   recalculateButton: {
     width: "70%",
     backgroundColor: "#CABDFF",
-    borderColor: "rgba(172, 197, 204, 0.75)"
+    borderColor: "rgba(172, 197, 204, 0.75)",
   },
   closeButton: {
     width: "35%",
@@ -331,7 +343,7 @@ const styles = StyleSheet.create({
   saveButton: {
     width: "35%",
     marginHorizontal: 2,
-    backgroundColor: "#D7F6FF", 
+    backgroundColor: "#D7F6FF",
     borderColor: "rgba(172, 197, 204, 0.75)",
   },
   buttonText: {

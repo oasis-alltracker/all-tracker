@@ -10,7 +10,7 @@ import React from "react";
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
-import * as Progress from 'react-native-progress';
+import * as Progress from "react-native-progress";
 
 const mealTitles = [
   {
@@ -47,7 +47,6 @@ const macroKeys = [
 
 const today = new Date();
 
-
 export default function Diet({
   day,
   updateDate,
@@ -55,18 +54,26 @@ export default function Diet({
   dietGoals,
   totalMacros,
   deleteFoodEntry,
-  setMacroModalVisible
+  setMacroModalVisible,
 }) {
-  const consumedPercent = `${(totalMacros.calorieCount / dietGoals.calorieGoal.value * 100).toFixed(0)}%`;
+  const consumedPercent = `${(
+    (totalMacros.calorieCount / dietGoals.calorieGoal.value) *
+    100
+  ).toFixed(0)}%`;
 
   const EmptyMeal = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} 
-      onPress={() => { navigationService.navigate("mealPage", {
-        dateString: day.toLocaleDateString(), 
-        mealName: item.name, 
-        meal: meals[item.name],
-        deleteFoodEntry: deleteFoodEntry}) }}>
-      <View style={[styles.row, {marginBottom: 0}]}>
+    <TouchableOpacity
+      style={styles.borderedContainer}
+      onPress={() => {
+        navigationService.navigate("mealPage", {
+          dateString: day.toLocaleDateString(),
+          mealName: item.name,
+          meal: meals[item.name],
+          deleteFoodEntry: deleteFoodEntry,
+        });
+      }}
+    >
+      <View style={[styles.row, { marginBottom: 0 }]}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
           <Image
@@ -79,12 +86,17 @@ export default function Diet({
   );
 
   const MealWithEntries = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} 
-      onPress={() => { navigationService.navigate("mealPage", { 
-        dateString: day.toLocaleDateString(), 
-        mealName: item.name, 
-        meal: meals[item.name],
-        deleteFoodEntry: deleteFoodEntry}) }}>      
+    <TouchableOpacity
+      style={styles.borderedContainer}
+      onPress={() => {
+        navigationService.navigate("mealPage", {
+          dateString: day.toLocaleDateString(),
+          mealName: item.name,
+          meal: meals[item.name],
+          deleteFoodEntry: deleteFoodEntry,
+        });
+      }}
+    >
       <View style={styles.row}>
         <Text style={styles.itemText}>{item.name}</Text>
         <TouchableOpacity>
@@ -95,35 +107,38 @@ export default function Diet({
         </TouchableOpacity>
       </View>
       {meals[item.name].entries.map((item, index) => (
-        <View style={[styles.row, {marginBottom: 4}]} key={index}>
-          <Text style={styles.subItemText} >{item.name}</Text>
-          <Text style={styles.subItemText}>{item.calorieCount} {dietGoals.calorieGoal.units}</Text>
+        <View style={[styles.row, { marginBottom: 4 }]} key={index}>
+          <Text style={styles.subItemText}>{item.name}</Text>
+          <Text style={styles.subItemText}>
+            {item.calorieCount} {dietGoals.calorieGoal.units}
+          </Text>
         </View>
       ))}
       <View style={styles.line} />
-      <Text style={[styles.subItemText, { textAlign: "center", }]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
+      <Text style={[styles.subItemText, { textAlign: "center" }]}>
+        {meals[item.name].calorieCount} {dietGoals.calorieGoal.units}
+      </Text>
     </TouchableOpacity>
   );
 
-  const MacroProgressCircle = ({item}) => (
-    <View >
-      <Progress.Circle 
-        progress={totalMacros[item.consumed]/dietGoals[item.goal]} 
-        strokeCap="round" 
-        size={93} 
+  const MacroProgressCircle = ({ item }) => (
+    <View>
+      <Progress.Circle
+        progress={totalMacros[item.consumed] / dietGoals[item.goal]}
+        strokeCap="round"
+        size={93}
         thickness={9}
         unfilledColor="#ACC5CC"
         color="#D7F6FF"
         borderWidth={1}
         borderColor="#ACC5CC"
       />
-      <View style = {styles.progressCirlceContent}>
-        <Text style={[ styles.boldText, {fontSize: 22,}]}>
+      <View style={styles.progressCirlceContent}>
+        <Text style={[styles.boldText, { fontSize: 22 }]}>
           {totalMacros[item.consumed]}g
         </Text>
         <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
       </View>
-      
     </View>
   );
 
@@ -149,7 +164,6 @@ export default function Diet({
         </View>
       </View>
 
-
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
           style={sharedStyles.changeDateButton}
@@ -162,7 +176,7 @@ export default function Diet({
         </TouchableOpacity>
         <>
           {moment(day).format("YYYYMMDD") ==
-            moment(today).format("YYYYMMDD") ? (
+          moment(today).format("YYYYMMDD") ? (
             <Text style={sharedStyles.dateText}>Today</Text>
           ) : (
             <Text style={sharedStyles.dateText}>
@@ -184,7 +198,11 @@ export default function Diet({
       <View style={styles.borderedContainer}>
         <View style={styles.row}>
           <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
-          <TouchableOpacity onPress={()=>{setMacroModalVisible(true)}}>
+          <TouchableOpacity
+            onPress={() => {
+              setMacroModalVisible(true);
+            }}
+          >
             <Image
               style={styles.plus}
               source={require("../../assets/images/edit.png")}
@@ -199,11 +217,13 @@ export default function Diet({
           <Text style={styles.desc}>
             <Text style={styles.boldText}>{totalMacros.calorieCount}</Text> kcal
           </Text>
-          <Text style={styles.boldText}>{dietGoals.calorieGoal.value - totalMacros.calorieCount}</Text>
+          <Text style={styles.boldText}>
+            {dietGoals.calorieGoal.value - totalMacros.calorieCount}
+          </Text>
         </View>
 
         <View style={styles.progress}>
-          <View style={[styles.filler, {width: consumedPercent,},]}/>
+          <View style={[styles.filler, { width: consumedPercent }]} />
         </View>
         <View style={[styles.row, { gap: 10 }]}>
           {macroKeys.map((item, index) => (
@@ -213,16 +233,15 @@ export default function Diet({
             </View>
           ))}
         </View>
-      </View> 
-      
+      </View>
 
-      {mealTitles.map((item, index) => (
+      {mealTitles.map((item, index) =>
         meals[item.name].entries.length > 0 ? (
           <MealWithEntries item={item} key={index} />
         ) : (
           <EmptyMeal item={item} key={index} />
         )
-      ))}
+      )}
     </ScrollView>
   );
 }
@@ -374,16 +393,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   progressCirlceContent: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   line: {
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
     borderBottomWidth: 1,
     marginVertical: 10,
   },
