@@ -11,12 +11,12 @@ import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 export default function EditMacroGoalsModal({ isVisible, setVisible }) {
   const [macroData, setMacroData] = useState([
     {
-      title: "0 g",
+      title: "0",
       img: require("../../../assets/images/carbs.png"),
       text: "Carbs:",
     },
     {
-      title: "0 g",
+      title: "0",
       img: require("../../../assets/images/protein.png"),
       text: "Protein:",
     },
@@ -40,6 +40,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const updateMacrosRef = useRef(null);
+  const macroUnitText = " g";
 
   const onUpdateMacroValue = async (title, value, units) => {
     var newCalories = calorieGoalValue;
@@ -84,53 +85,74 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
     setProteinGoalValue(dietGoals.proteinGoal);
     setFatGoalValue(dietGoals.fatGoal);
 
-    if (isCaloriesChanged) {
-      setCalorieUnit(calorieGoalValue.units);
-      setCalories(calorieGoalValue.value);
-      setIsCaloriesChanged(false);
-    } else {
-      setCalorieUnit(dietGoals.calorieGoal.units);
-      setCalories(dietGoals.calorieGoal.value);
-    }
+    setCalorieUnit(dietGoals.calorieGoal.units);
+    setCalories(dietGoals.calorieGoal.value);
 
-    if (isMacroDataChanged) {
-      setMacroData([
-        {
-          title: `${Math.round(carbGoalValue)} g`,
-          img: require("../../../assets/images/carbs.png"),
-          text: "Carbs:",
-        },
-        {
-          title: `${Math.round(proteinGoalValue)} g`,
-          img: require("../../../assets/images/protein.png"),
-          text: "Protein:",
-        },
-        {
-          title: `${Math.round(fatgoalValue)} g`,
-          img: require("../../../assets/images/fats.png"),
-          text: "Fats:",
-        },
-      ]);
-      setIsMacroDataChanged(false);
-    } else {
-      setMacroData([
-        {
-          title: `${Math.round(dietGoals.carbGoal)} g`,
-          img: require("../../../assets/images/carbs.png"),
-          text: "Carbs:",
-        },
-        {
-          title: `${Math.round(dietGoals.proteinGoal)} g`,
-          img: require("../../../assets/images/protein.png"),
-          text: "Protein:",
-        },
-        {
-          title: `${Math.round(dietGoals.fatGoal)} g`,
-          img: require("../../../assets/images/fats.png"),
-          text: "Fats:",
-        },
-      ]);
-    }
+    setMacroData([
+      {
+        title: `${Math.round(dietGoals.carbGoal)}` + macroUnitText,
+        img: require("../../../assets/images/carbs.png"),
+        text: "Carbs:",
+      },
+      {
+        title: `${Math.round(dietGoals.proteinGoal)}` + macroUnitText,
+        img: require("../../../assets/images/protein.png"),
+        text: "Protein:",
+      },
+      {
+        title: `${Math.round(dietGoals.fatGoal)}` + macroUnitText,
+        img: require("../../../assets/images/fats.png"),
+        text: "Fats:",
+      },
+    ]);
+
+    // if (isCaloriesChanged) {
+    //   setCalorieUnit(calorieGoalValue.units);
+    //   setCalories(calorieGoalValue.value);
+    //   setIsCaloriesChanged(false);
+    // } else {
+    //   setCalorieUnit(dietGoals.calorieGoal.units);
+    //   setCalories(dietGoals.calorieGoal.value);
+    // }
+
+    // if (isMacroDataChanged) {
+    //   setMacroData([
+    //     {
+    //       title: `${Math.round(carbGoalValue)} g`,
+    //       img: require("../../../assets/images/carbs.png"),
+    //       text: "Carbs:",
+    //     },
+    //     {
+    //       title: `${Math.round(proteinGoalValue)} g`,
+    //       img: require("../../../assets/images/protein.png"),
+    //       text: "Protein:",
+    //     },
+    //     {
+    //       title: `${Math.round(fatgoalValue)} g`,
+    //       img: require("../../../assets/images/fats.png"),
+    //       text: "Fats:",
+    //     },
+    //   ]);
+    //   setIsMacroDataChanged(false);
+    // } else {
+    //   setMacroData([
+    //     {
+    //       title: `${Math.round(dietGoals.carbGoal)} g`,
+    //       img: require("../../../assets/images/carbs.png"),
+    //       text: "Carbs:",
+    //     },
+    //     {
+    //       title: `${Math.round(dietGoals.proteinGoal)} g`,
+    //       img: require("../../../assets/images/protein.png"),
+    //       text: "Protein:",
+    //     },
+    //     {
+    //       title: `${Math.round(dietGoals.fatGoal)} g`,
+    //       img: require("../../../assets/images/fats.png"),
+    //       text: "Fats:",
+    //     },
+    //   ]);
+    // }
   };
 
   const resetGoals = () => {
@@ -142,7 +164,6 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       macroData.map((item) => {
         if (item.text === "Carbs:") {
           setCarbGoalValue(item.title);
-          console.log("carb goal var holds: " + carbGoalValue);
         }
         if (item.text === "Protein:") {
           setProteinGoalValue(item.title);
@@ -156,7 +177,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
   };
 
   const macroDisplayText = (text) => {
-    var value = 0;
+    var value = "0";
     macroData.map((item) => {
       if (text === "Carbs:") {
         text = carbGoalValue;
@@ -168,7 +189,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
         text = fatGoalValue;
       }
     });
-    return text + " g";
+    return text + macroUnitText;
   };
 
   const onSave = async () => {
