@@ -21,6 +21,7 @@ import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 import AddEntryModal from "./modals/AddEntryModal";
+import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 
 const FitnessDiet = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -60,6 +61,7 @@ const FitnessDiet = ({ navigation }) => {
   const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150});
 
   const [dietModalVisible, setDietVisible] = useState(false);
+  const [editMacroModalVisible, setEditVisible] = useState(false);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -284,6 +286,7 @@ const FitnessDiet = ({ navigation }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             deleteFoodEntry={deleteFoodEntry}
+            setMacroModalVisible={setEditVisible}
           />
         );
       case "third":
@@ -333,6 +336,10 @@ const FitnessDiet = ({ navigation }) => {
         isVisible={dietModalVisible} 
         setVisible={setDietVisible} 
         dayString={day.toLocaleDateString(undefined, { year: "numeric",  month: "long", day: "numeric"})}
+      />
+      <EditMacroGoalsModal 
+        isVisible={editMacroModalVisible} 
+        setVisible={setEditVisible} 
         />
       
     </SafeAreaView>
