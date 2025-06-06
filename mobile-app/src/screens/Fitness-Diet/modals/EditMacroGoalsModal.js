@@ -9,7 +9,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
 export default function EditMacroGoalsModal({ isVisible, setVisible }) {
-  const [datas, setDatas] = useState([
+  const [macroData, setMacroData] = useState([
     {
       title: "0 g",
       img: require("../../../assets/images/carbs.png"),
@@ -47,7 +47,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
       newCalories = { value: value, units: units };
       setCalorieGoalValue(newCalories);
     } else {
-      let newDatas = datas.map((item) => {
+      let newMacroData = macroData.map((item) => {
         if (item.text === title) {
           if (title === "Carbs:") {
             newCarbs = value;
@@ -68,7 +68,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
         }
         return item;
       });
-      setDatas(newDatas);
+      setMacroData(newMacroData);
     }
   };
 
@@ -96,7 +96,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
     setProteinGoalValue(dietGoals.proteinGoal);
     setFatGoalValue(dietGoals.fatGoal);
 
-    setDatas([
+    setMacroData([
       {
         title: `${Math.round(dietGoals.carbGoal)} g`,
         img: require("../../../assets/images/carbs.png"),
@@ -169,7 +169,7 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
               {calories} {calorieUnit}
             </Text>
           </View>
-          {datas.map((item, index) => (
+          {macroData.map((item, index) => (
             <View style={styles.item} key={index}>
               <View style={styles.row}>
                 <Image source={item.img} style={styles.itemImg} />
