@@ -11,39 +11,49 @@ import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 
-export default function Main({ 
+export default function Main({
   day,
-  trackingPreferences, 
+  trackingPreferences,
   isLoading = false,
-  updateDate, 
+  updateDate,
   meals,
-  totalMacros, 
+  totalMacros,
   dietGoals,
   setDietModalVisible,
 }) {
   const today = new Date();
-  const colours = ["#ACC5CC","#D7F6FF","#76BBCF","#008ab3"];
+  const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
 
-    const CalorieBar = () => {
-      var percentage= totalMacros.calorieCount / dietGoals.calorieGoal.value;
-      var consumedPercent = `${( (percentage%1)* 100).toFixed(0)}%`;
-      var index= Math.floor(percentage);
-      var innerColor;
-      var outerColor;
-      if(percentage>3){
-        innerColor = colours[3];
-        outerColor = colours[3];
-      }else{
-        innerColor = colours[index];
-        outerColor = colours[index+1]
-      }
-  
-      return (
-        <View style={[styles.progress, {backgroundColor: innerColor, borderColor: innerColor}]}>
-          <View style={[styles.filler, {width: consumedPercent, backgroundColor: outerColor},]}/>
-        </View>
-      )
+  const CalorieBar = () => {
+    var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
+    var consumedPercent = `${((percentage % 1) * 100).toFixed(0)}%`;
+    var index = Math.floor(percentage);
+    var innerColor;
+    var outerColor;
+    if (percentage > 3) {
+      innerColor = colours[3];
+      outerColor = colours[3];
+    } else {
+      innerColor = colours[index];
+      outerColor = colours[index + 1];
     }
+
+    return (
+      <View
+        style={[
+          styles.progress,
+          { backgroundColor: innerColor, borderColor: innerColor },
+        ]}
+      >
+        <View
+          style={[
+            styles.filler,
+            { width: consumedPercent, backgroundColor: outerColor },
+          ]}
+        />
+      </View>
+    );
+  };
 
   return (
     <ScrollView
@@ -102,15 +112,22 @@ export default function Main({
           <View style={[sharedStyles.trackerDashView]}>
             <Text style={sharedStyles.trackerTitle}>Diet</Text>
           </View>
-          <TouchableOpacity style={styles.addBtn} onPress={()=>{setDietModalVisible(true)}}>
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={() => {
+              setDietModalVisible(true);
+            }}
+          >
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-food.png")}
             />
           </TouchableOpacity>
-          <CalorieBar/>
+          <CalorieBar />
           <Text style={styles.desc}>
-            <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> / {dietGoals["calorieGoal"]["value"]} {dietGoals["calorieGoal"]["units"]}
+            <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> /{" "}
+            {dietGoals["calorieGoal"]["value"]}{" "}
+            {dietGoals["calorieGoal"]["units"]}
           </Text>
         </>
       )}

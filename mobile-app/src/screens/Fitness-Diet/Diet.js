@@ -10,7 +10,7 @@ import React from "react";
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
-import * as Progress from 'react-native-progress';
+import * as Progress from "react-native-progress";
 
 const mealTitles = [
   {
@@ -47,25 +47,29 @@ const macroKeys = [
 
 const today = new Date();
 
-
 export default function Diet({
   day,
   updateDate,
   meals,
   dietGoals,
   totalMacros,
-  deleteFoodEntry
+  deleteFoodEntry,
 }) {
-  const calorieDif = dietGoals.calorieGoal.value- totalMacros.calorieCount ;
-  const colours = ["#ACC5CC","#D7F6FF","#76BBCF","#008ab3"];
+  const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
+  const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
 
   const EmptyMeal = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} 
-      onPress={() => { navigationService.navigate("mealPage", { 
-        mealName: item.name, 
-        meal: meals[item.name],
-        deleteFoodEntry: deleteFoodEntry}) }}>
-      <View style={[styles.row, {marginBottom: 0}]}>
+    <TouchableOpacity
+      style={styles.borderedContainer}
+      onPress={() => {
+        navigationService.navigate("mealPage", {
+          mealName: item.name,
+          meal: meals[item.name],
+          deleteFoodEntry: deleteFoodEntry,
+        });
+      }}
+    >
+      <View style={[styles.row, { marginBottom: 0 }]}>
         <Text style={styles.itemText}>{item?.name}</Text>
         <TouchableOpacity>
           <Image
@@ -78,11 +82,16 @@ export default function Diet({
   );
 
   const MealWithEntries = ({ item }) => (
-    <TouchableOpacity style={styles.borderedContainer} 
-      onPress={() => { navigationService.navigate("mealPage", { 
-        mealName: item.name, 
-        meal: meals[item.name],
-        deleteFoodEntry: deleteFoodEntry}) }}>      
+    <TouchableOpacity
+      style={styles.borderedContainer}
+      onPress={() => {
+        navigationService.navigate("mealPage", {
+          mealName: item.name,
+          meal: meals[item.name],
+          deleteFoodEntry: deleteFoodEntry,
+        });
+      }}
+    >
       <View style={styles.row}>
         <Text style={styles.itemText}>{item.name}</Text>
         <TouchableOpacity>
@@ -93,69 +102,86 @@ export default function Diet({
         </TouchableOpacity>
       </View>
       {meals[item.name].entries.map((item, index) => (
-        <View style={[styles.row, {marginBottom: 4}]} key={index}>
-          <Text style={styles.subItemText} >{item.name}</Text>
-          <Text style={styles.subItemText}>{item.calorieCount} {dietGoals.calorieGoal.units}</Text>
+        <View style={[styles.row, { marginBottom: 4 }]} key={index}>
+          <Text style={styles.subItemText}>{item.name}</Text>
+          <Text style={styles.subItemText}>
+            {item.calorieCount} {dietGoals.calorieGoal.units}
+          </Text>
         </View>
       ))}
       <View style={styles.line} />
-      <Text style={[styles.subItemText, { textAlign: "center", }]}>{meals[item.name].calorieCount} {dietGoals.calorieGoal.units}</Text>
+      <Text style={[styles.subItemText, { textAlign: "center" }]}>
+        {meals[item.name].calorieCount} {dietGoals.calorieGoal.units}
+      </Text>
     </TouchableOpacity>
   );
 
-  const MacroProgressCircle = ({item}) => {
-    var percentage= (totalMacros[item.consumed]/dietGoals[item.goal]).toFixed(1);
-    var index= Math.floor(percentage);
+  const MacroProgressCircle = ({ item }) => {
+    var percentage = (
+      totalMacros[item.consumed] / dietGoals[item.goal]
+    ).toFixed(1);
+    var index = Math.floor(percentage);
     var innerColor;
     var outerColor;
-    if(percentage>3){
+    if (percentage > 3) {
       innerColor = colours[3];
       outerColor = colours[3];
-    }else{
+    } else {
       innerColor = colours[index];
-      outerColor = colours[index+1]
+      outerColor = colours[index + 1];
     }
     return (
-    <View >
-      <Progress.Circle 
-        progress={percentage%1} 
-        strokeCap="round" 
-        size={93} 
-        thickness={9}
-        unfilledColor={innerColor}
-        color={outerColor}
-        borderWidth={1}
-        borderColor="#ACC5CC"
-      />
-      <View style = {styles.progressCirlceContent}>
-        <Text style={[ styles.boldText, {fontSize: 22,}]}>
-          {totalMacros[item.consumed]}g
-        </Text>
-        <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+      <View>
+        <Progress.Circle
+          progress={percentage % 1}
+          strokeCap="round"
+          size={93}
+          thickness={9}
+          unfilledColor={innerColor}
+          color={outerColor}
+          borderWidth={1}
+          borderColor="#ACC5CC"
+        />
+        <View style={styles.progressCirlceContent}>
+          <Text style={[styles.boldText, { fontSize: 22 }]}>
+            {totalMacros[item.consumed]}g
+          </Text>
+          <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+        </View>
       </View>
-    </View>
-  )};
+    );
+  };
 
   const CalorieBar = () => {
-    var percentage= totalMacros.calorieCount / dietGoals.calorieGoal.value;
-    var consumedPercent = `${( (percentage%1)* 100).toFixed(0)}%`;
-    var index= Math.floor(percentage);
+    var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
+    var consumedPercent = `${((percentage % 1) * 100).toFixed(0)}%`;
+    var index = Math.floor(percentage);
     var innerColor;
     var outerColor;
-    if(percentage>3){
+    if (percentage > 3) {
       innerColor = colours[3];
       outerColor = colours[3];
-    }else{
+    } else {
       innerColor = colours[index];
-      outerColor = colours[index+1]
+      outerColor = colours[index + 1];
     }
 
     return (
-      <View style={[styles.progress, {backgroundColor: innerColor, borderColor: innerColor}]}>
-        <View style={[styles.filler, {width: consumedPercent, backgroundColor: outerColor},]}/>
+      <View
+        style={[
+          styles.progress,
+          { backgroundColor: innerColor, borderColor: innerColor },
+        ]}
+      >
+        <View
+          style={[
+            styles.filler,
+            { width: consumedPercent, backgroundColor: outerColor },
+          ]}
+        />
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <ScrollView
@@ -179,7 +205,6 @@ export default function Diet({
         </View>
       </View>
 
-
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
           style={sharedStyles.changeDateButton}
@@ -192,7 +217,7 @@ export default function Diet({
         </TouchableOpacity>
         <>
           {moment(day).format("YYYYMMDD") ==
-            moment(today).format("YYYYMMDD") ? (
+          moment(today).format("YYYYMMDD") ? (
             <Text style={sharedStyles.dateText}>Today</Text>
           ) : (
             <Text style={sharedStyles.dateText}>
@@ -223,7 +248,9 @@ export default function Diet({
         </View>
         <View style={styles.row}>
           <Text style={styles.miniText}>Eaten</Text>
-          <Text style={styles.miniText}>{calorieDif>0? "Remaining" : "Exceeded"}</Text>
+          <Text style={styles.miniText}>
+            {calorieDif > 0 ? "Remaining" : "Exceeded"}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.desc}>
@@ -240,16 +267,15 @@ export default function Diet({
             </View>
           ))}
         </View>
-      </View> 
-      
+      </View>
 
-      {mealTitles.map((item, index) => (
+      {mealTitles.map((item, index) =>
         meals[item.name].entries.length > 0 ? (
           <MealWithEntries item={item} key={index} />
         ) : (
           <EmptyMeal item={item} key={index} />
         )
-      ))}
+      )}
     </ScrollView>
   );
 }
@@ -399,16 +425,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   progressCirlceContent: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
   line: {
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
     borderBottomWidth: 1,
     marginVertical: 10,
   },
