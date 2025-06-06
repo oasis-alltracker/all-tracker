@@ -69,15 +69,15 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
         return item;
       });
       setDatas(newDatas);
-      const token = await getAccessToken();
-      await DietGoalsAPI.updateDietGoals(token, {
-        carbGoal: newCarbs,
-        proteinGoal: newProteins,
-        fatGoal: newFats,
-        calorieGoal: newCalories,
-      });
-      setMacros();
     }
+    const token = await getAccessToken();
+    await DietGoalsAPI.updateDietGoals(token, {
+      carbGoal: newCarbs,
+      proteinGoal: newProteins,
+      fatGoal: newFats,
+      calorieGoal: newCalories,
+    });
+    setMacros();
   };
 
   const setMacros = async () => {
