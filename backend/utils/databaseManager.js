@@ -110,19 +110,28 @@ class DbUtils {
     });
   }
 
-  queryItem(expression, names, values, limit = null, filters = null , consistentRead = false) {
+  queryItem(
+    expression,
+    names,
+    values,
+    limit = null,
+    descending = false,
+    filters = null,
+    consistentRead = false
+  ) {
     var params = {
       TableName: this.tableName,
       KeyConditionExpression: expression,
       ExpressionAttributeNames: names,
       ExpressionAttributeValues: values,
       ConsistentRead: consistentRead,
+      ScanIndexForward: !descending,
     };
 
-    if(filters) {
+    if (filters) {
       params["FilterExpression"] = filters;
     }
-    if(limit) {
+    if (limit) {
       params["Limit"] = limit;
     }
     return new Promise((resolve, reject) => {

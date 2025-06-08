@@ -53,7 +53,13 @@ class GetRecentEntries {
       ":pk": `${user}-foodEntry`,
     };
 
-    const response = await this.DB.queryItem(expression, names, values, 30);
+    const response = await this.DB.queryItem(
+      expression,
+      names,
+      values,
+      30,
+      true
+    );
     var foodItems = this.findUniqueEntries(response?.Items);
     return foodItems;
   }
