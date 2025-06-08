@@ -54,6 +54,7 @@ export default function Diet({
   dietGoals,
   totalMacros,
   deleteFoodEntry,
+  setMacroModalVisible,
 }) {
   const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
   const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
@@ -241,7 +242,11 @@ export default function Diet({
       <View style={styles.borderedContainer}>
         <View style={styles.row}>
           <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setMacroModalVisible(true);
+            }}
+          >
             <Image
               style={styles.plus}
               source={require("../../assets/images/edit.png")}
