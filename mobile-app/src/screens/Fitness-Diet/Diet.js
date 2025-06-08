@@ -56,10 +56,8 @@ export default function Diet({
   deleteFoodEntry,
   setMacroModalVisible,
 }) {
-  const consumedPercent = `${(
-    (totalMacros.calorieCount / dietGoals.calorieGoal.value) *
-    100
-  ).toFixed(0)}%`;
+  const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
+  const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
 
   const EmptyMeal = ({ item }) => (
     <TouchableOpacity
@@ -121,26 +119,72 @@ export default function Diet({
     </TouchableOpacity>
   );
 
-  const MacroProgressCircle = ({ item }) => (
-    <View>
-      <Progress.Circle
-        progress={totalMacros[item.consumed] / dietGoals[item.goal]}
-        strokeCap="round"
-        size={93}
-        thickness={9}
-        unfilledColor="#ACC5CC"
-        color="#D7F6FF"
-        borderWidth={1}
-        borderColor="#ACC5CC"
-      />
-      <View style={styles.progressCirlceContent}>
-        <Text style={[styles.boldText, { fontSize: 22 }]}>
-          {totalMacros[item.consumed]}g
-        </Text>
-        <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+  const MacroProgressCircle = ({ item }) => {
+    var percentage = (
+      totalMacros[item.consumed] / dietGoals[item.goal]
+    ).toFixed(1);
+    var index = Math.floor(percentage);
+    var innerColor;
+    var outerColor;
+    if (percentage > 3) {
+      innerColor = colours[3];
+      outerColor = colours[3];
+    } else {
+      innerColor = colours[index];
+      outerColor = colours[index + 1];
+    }
+    return (
+      <View>
+        <Progress.Circle
+          progress={percentage % 1}
+          strokeCap="round"
+          size={93}
+          thickness={9}
+          unfilledColor={innerColor}
+          color={outerColor}
+          borderWidth={1}
+          borderColor="#ACC5CC"
+        />
+        <View style={styles.progressCirlceContent}>
+          <Text style={[styles.boldText, { fontSize: 22 }]}>
+            {totalMacros[item.consumed]}g
+          </Text>
+          <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
+
+  const CalorieBar = () => {
+    var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
+    var consumedPercent = `${((percentage % 1) * 100).toFixed(0)}%`;
+    var index = Math.floor(percentage);
+    var innerColor;
+    var outerColor;
+    if (percentage > 3) {
+      innerColor = colours[3];
+      outerColor = colours[3];
+    } else {
+      innerColor = colours[index];
+      outerColor = colours[index + 1];
+    }
+
+    return (
+      <View
+        style={[
+          styles.progress,
+          { backgroundColor: innerColor, borderColor: innerColor },
+        ]}
+      >
+        <View
+          style={[
+            styles.filler,
+            { width: consumedPercent, backgroundColor: outerColor },
+          ]}
+        />
+      </View>
+    );
+  };
 
   return (
     <ScrollView
@@ -211,20 +255,17 @@ export default function Diet({
         </View>
         <View style={styles.row}>
           <Text style={styles.miniText}>Eaten</Text>
-          <Text style={styles.miniText}>Remaining</Text>
+          <Text style={styles.miniText}>
+            {calorieDif > 0 ? "Remaining" : "Exceeded"}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.desc}>
             <Text style={styles.boldText}>{totalMacros.calorieCount}</Text> kcal
           </Text>
-          <Text style={styles.boldText}>
-            {dietGoals.calorieGoal.value - totalMacros.calorieCount}
-          </Text>
+          <Text style={styles.boldText}>{Math.abs(calorieDif)}</Text>
         </View>
-
-        <View style={styles.progress}>
-          <View style={[styles.filler, { width: consumedPercent }]} />
-        </View>
+        <CalorieBar />
         <View style={[styles.row, { gap: 10 }]}>
           {macroKeys.map((item, index) => (
             <View style={styles.item} key={index}>
@@ -356,14 +397,12 @@ const styles = StyleSheet.create({
   progress: {
     height: 20,
     borderWidth: 2,
-    borderColor: "#ACC5CC",
-    backgroundColor: "#ACC5CC",
     borderRadius: 5,
     marginBottom: 50,
   },
   filler: {
     backgroundColor: "#D7F6FF",
-    width: "70%",
+    maxWidth: "100%",
     height: "100%",
   },
   row: {
