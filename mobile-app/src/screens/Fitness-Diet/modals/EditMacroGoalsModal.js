@@ -2,27 +2,25 @@ import { useState, useEffect, useRef } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
-import DietGoalsAPI from "../../../api/diet/dietGoalsAPI";
-import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
 export default function EditMacroGoalsModal({ getRef, updateGoals }) {
   const [datas, setDatas] = useState([
     {
-      title: "0 g",
+      value: "0 g",
       img: require("../../../assets/images/carbs.png"),
-      text: "Carbs:",
+      label: "Carbs:",
     },
     {
-      title: "0 g",
+      value: "0 g",
       img: require("../../../assets/images/protein.png"),
-      text: "Protein:",
+      label: "Protein:",
     },
     {
-      title: "0 g",
+      value: "0 g",
       img: require("../../../assets/images/fats.png"),
-      text: "Fats:",
+      label: "Fats:",
     },
   ]);
   const [calorieGoalValue, setCalorieGoalValue] = useState(0);
@@ -36,34 +34,34 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
   const [isVisible, setVisible] = useState(false);
   const updateMacrosRef = useRef(null);
 
-  const onUpdateMacroValue = async (title, value, units) => {
+  const onUpdateMacroValue = async (macroLabel, macroValue, units) => {
     var newCalories = calorieGoalValue;
     var newFats = fatGoalValue;
     var newProteins = proteinGoalValue;
     var newCarbs = carbGoalValue;
-    if (title === "Calories") {
-      setCalories(value);
+    if (macroLabel === "Calories") {
+      setCalories(macroValue);
       setCalorieUnit(units);
-      newCalories = { value: value, units: units };
+      newCalories = { value: macroValue, units: units };
       setCalorieGoalValue(newCalories);
     } else {
       let newDatas = datas.map((item) => {
-        if (item.text === title) {
-          if (title === "Carbs:") {
-            newCarbs = value;
-            setCarbGoalValue(value);
+        if (item.label === macroLabel) {
+          if (macroLabel === "Carbs:") {
+            newCarbs = macroValue;
+            setCarbGoalValue(macroValue);
           }
-          if (title === "Protein:") {
-            newProteins = value;
-            setProteinGoalValue(value);
+          if (macroLabel === "Protein:") {
+            newProteins = macroValue;
+            setProteinGoalValue(macroValue);
           }
-          if (title === "Fats:") {
-            newFats = value;
-            setFatGoalValue(value);
+          if (macroLabel === "Fats:") {
+            newFats = macroValue;
+            setFatGoalValue(macroValue);
           }
           return {
             ...item,
-            title: value + " " + units,
+            value: macroValue + " " + units,
           };
         }
         return item;
@@ -104,19 +102,19 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
 
         setDatas([
           {
-            title: `${Math.round(props.carbGoal)} g`,
+            value: `${Math.round(props.carbGoal)} g`,
             img: require("../../../assets/images/carbs.png"),
-            text: "Carbs:",
+            label: "Carbs:",
           },
           {
-            title: `${Math.round(props.proteinGoal)} g`,
+            value: `${Math.round(props.proteinGoal)} g`,
             img: require("../../../assets/images/protein.png"),
-            text: "Protein:",
+            label: "Protein:",
           },
           {
-            title: `${Math.round(props.fatGoal)} g`,
+            value: `${Math.round(props.fatGoal)} g`,
             img: require("../../../assets/images/fats.png"),
-            text: "Fats:",
+            label: "Fats:",
           },
         ]);
       },
@@ -164,7 +162,7 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.calorieTitle}>
+            <Text style={styles.calorieValue}>
               {calories} {calorieUnit}
             </Text>
           </View>
@@ -172,16 +170,16 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
             <View style={styles.item} key={index}>
               <View style={styles.row}>
                 <Image source={item.img} style={styles.itemImg} />
-                <Text style={styles.text}>{item.text}</Text>
-                <Text style={styles.itemTitle}>{item.title}</Text>
+                <Text style={styles.text}>{item.label}</Text>
+                <Text style={styles.itemValue}>{item.value}</Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
                   updateMacrosRef.current.open({
-                    title: item.text,
+                    title: item.label,
                     isCal: false,
                     units: "g",
-                    value: item.title,
+                    value: item.value,
                   });
                 }}
               >
@@ -272,13 +270,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  itemTitle: {
+  itemValue: {
     fontSize: 16,
     fontFamily: "Sego-Bold",
     color: "#25436B",
     marginLeft: 15,
   },
-  calorieTitle: {
+  calorieValue: {
     fontFamily: "Sego-Bold",
     color: "#25436B",
     fontSize: 22,
