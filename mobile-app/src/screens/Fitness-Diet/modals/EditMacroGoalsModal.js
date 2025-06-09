@@ -4,7 +4,6 @@ import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 import DietGoalsAPI from "../../../api/diet/dietGoalsAPI";
 import { getAccessToken } from "../../../user/keychain";
-import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
 export default function EditMacroGoalsModal({ getRef, getGoals }) {
@@ -31,13 +30,11 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
   const [carbGoalValue, setCarbGoalValue] = useState(0);
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [isVisible, setVisible] = useState(false);
   const updateMacrosRef = useRef(null);
 
   const onUpdateMacroValue = async (title, value, units) => {
-    //gets sent into update macro modal
     var newCalories = calorieGoalValue;
     var newFats = fatGoalValue;
     var newProteins = proteinGoalValue;
@@ -70,14 +67,6 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
         return item;
       });
       setDatas(newDatas);
-      const token = await getAccessToken();
-      await DietGoalsAPI.updateDietGoals(token, {
-        carbGoal: newCarbs,
-        proteinGoal: newProteins,
-        fatGoal: newFats,
-        calorieGoal: newCalories,
-      });
-      setMacros();
     }
   };
 
@@ -108,6 +97,17 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
         text: "Fats:",
       },
     ]);
+  };
+
+  const onSave = async () => {
+    const token = await getAccessToken();
+    await DietGoalsAPI.updateDietGoals(token, {
+      carbGoal: carbGoalValue,
+      proteinGoal: proteinGoalValue,
+      fatGoal: fatGoalValue,
+      calorieGoal: calorieGoalValue,
+    });
+    setVisible(false);
   };
 
   const closeModal = () => {
@@ -164,7 +164,6 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
       style={styles.modal}
     >
       <View style={styles.container}>
-        <Spinner visible={isLoading}></Spinner>
         <View style={styles.macroContainerStyle}>
           <View style={[styles.item, styles.head]}>
             <View style={[styles.item, styles.headItem]}>
@@ -236,7 +235,7 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.saveButton]}
-              onPress={() => closeModal()}
+              onPress={() => onSave()}
             >
               <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
