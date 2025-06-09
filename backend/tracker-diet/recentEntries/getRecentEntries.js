@@ -5,11 +5,13 @@ class GetRecentEntries {
 
   async getRecentEntries(user) {
     try {
-      const foodEntries = await this.get(user.email);
+      const response = await this.getFoodEntries(user.email);
+      //const foodItems = findUniqueEntries(response);
+      const foodItems = GetRecentEntries.findUniqueEntries(response);
 
       return {
         statusCode: 200,
-        body: JSON.stringify(foodEntries),
+        body: JSON.stringify(foodItems),
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": true,
@@ -28,7 +30,7 @@ class GetRecentEntries {
     }
   }
 
-  findUniqueEntries(entries) {
+  static findUniqueEntries(entries) {
     var resultNames = {};
     var result = [];
     var count = 0;
@@ -44,7 +46,7 @@ class GetRecentEntries {
     return result;
   }
 
-  async get(user) {
+  async getFoodEntries(user) {
     const expression = "#pk = :pk";
     const names = {
       "#pk": "PK",
@@ -58,10 +60,12 @@ class GetRecentEntries {
       names,
       values,
       30,
-      true
+      false
     );
-    var foodItems = this.findUniqueEntries(response?.Items);
-    return foodItems;
+    return response.Items;
   }
 }
-module.exports = GetRecentEntries;
+module.exports = {
+  GetRecentEntries: GetRecentEntries,
+  findUniqueEntries: GetRecentEntries.findUniqueEntries,
+};

@@ -7,9 +7,8 @@ const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 const DB = DynamoDBDocument.from(new DynamoDB());
 const dbService = new DbUtils(DB, tableName);
 
-const GetRecentEntries = require("./getRecentEntries");
+const { GetRecentEntries } = require("./getRecentEntries");
 const getRecentEntries = new GetRecentEntries(dbService);
-
 
 const { authenticateToken } = require("../../utils/authenticateToken");
 
@@ -31,10 +30,8 @@ module.exports.handler = async (event, context, callback) => {
   }
 
   if (event.httpMethod == "GET") {
-    response = await getRecentEntries.getRecentEntries(
-      user
-    );
-  } 
+    response = await getRecentEntries.getRecentEntries(user);
+  }
 
   callback(null, response);
 };
