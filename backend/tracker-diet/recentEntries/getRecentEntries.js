@@ -6,12 +6,11 @@ class GetRecentEntries {
   async getRecentEntries(user) {
     try {
       const response = await this.getFoodEntries(user.email);
-      //const foodItems = findUniqueEntries(response);
-      const foodItems = GetRecentEntries.findUniqueEntries(response);
+      const uniqueEntries = GetRecentEntries.findUniqueEntries(response);
 
       return {
         statusCode: 200,
-        body: JSON.stringify(foodItems),
+        body: JSON.stringify(uniqueEntries),
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": true,
