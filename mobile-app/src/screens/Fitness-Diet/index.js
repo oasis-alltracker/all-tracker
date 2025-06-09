@@ -16,11 +16,11 @@ import { getAccessToken } from "../../user/keychain";
 import moment from "moment";
 
 import FoodEntriesMacrosAPI from "../../api/diet/foodEntriesMacrosAPI";
-import FoodEntriesAPI from "../../api/diet/foodEntriesAPI"; 
+import FoodEntriesAPI from "../../api/diet/foodEntriesAPI";
 import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
-import AddEntryModal from "./modals/AddEntryModal";
+import SelectMealModal from "./modals/SelectMealModal";
 import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 
 const FitnessDiet = ({ navigation }) => {
@@ -40,7 +40,7 @@ const FitnessDiet = ({ navigation }) => {
     carbCount: 0,
     fatCount: 0,
     proteinCount: 0,
-    entries : []
+    entries: [],
   };
 
   const [breakfast, setBreakfast] = useState(defaultMacros);
@@ -49,16 +49,44 @@ const FitnessDiet = ({ navigation }) => {
   const [snack, setSnack] = useState(defaultMacros);
 
   var totalMacros = {
-    calorieCount: breakfast.calorieCount + lunch.calorieCount + dinner.calorieCount + snack.calorieCount,
-    carbCount: breakfast.carbCount + lunch.carbCount + dinner.carbCount + snack.carbCount,
-    fatCount: breakfast.fatCount + lunch.fatCount + dinner.fatCount + snack.fatCount,
-    proteinCount: breakfast.proteinCount + lunch.proteinCount + dinner.proteinCount + snack.proteinCount
+    calorieCount:
+      breakfast.calorieCount +
+      lunch.calorieCount +
+      dinner.calorieCount +
+      snack.calorieCount,
+    carbCount:
+      breakfast.carbCount +
+      lunch.carbCount +
+      dinner.carbCount +
+      snack.carbCount,
+    fatCount:
+      breakfast.fatCount + lunch.fatCount + dinner.fatCount + snack.fatCount,
+    proteinCount:
+      breakfast.proteinCount +
+      lunch.proteinCount +
+      dinner.proteinCount +
+      snack.proteinCount,
   };
 
-  const mealSetters = {breakfast: setBreakfast, lunch: setLunch, dinner: setDinner, snacks: setSnack };
-  const mealMacros = {Breakfast: breakfast, Lunch: lunch, Dinner: dinner, Snacks: snack };
+  const mealSetters = {
+    breakfast: setBreakfast,
+    lunch: setLunch,
+    dinner: setDinner,
+    snacks: setSnack,
+  };
+  const mealMacros = {
+    Breakfast: breakfast,
+    Lunch: lunch,
+    Dinner: dinner,
+    Snacks: snack,
+  };
 
-  const [dietGoals, setDietGoals] = useState({"calorieGoal": {"units": "kcal", "value": 2000}, "carbGoal": 200, "fatGoal": 67 , "proteinGoal": 150});
+  const [dietGoals, setDietGoals] = useState({
+    calorieGoal: { units: "kcal", value: 2000 },
+    carbGoal: 200,
+    fatGoal: 67,
+    proteinGoal: 150,
+  });
 
   const [dietModalVisible, setDietVisible] = useState(false);
   const [editMacroModalVisible, setEditVisible] = useState(false);
@@ -76,10 +104,7 @@ const FitnessDiet = ({ navigation }) => {
       const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data
         .trackingPreferences;
 
-      await Promise.all(
-        getAllMeals(token),
-        getGoals(token)
-      );
+      await Promise.all(getAllMeals(token), getGoals(token));
 
       setTrackingPreferences(trackingPreferencesLoaded);
 
@@ -113,9 +138,9 @@ const FitnessDiet = ({ navigation }) => {
     }
   }, []);
 
-  function errorResponse(error){
+  function errorResponse(error) {
     console.log(error);
-    setIsLoading(false); 
+    setIsLoading(false);
     if (Platform.OS === "ios") {
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
@@ -132,46 +157,44 @@ const FitnessDiet = ({ navigation }) => {
   }
 
   const getAllMeals = async (token) => {
-    try{
+    try {
       setIsLoading(true);
       meals = await FoodEntriesMacrosAPI.getFoodMacrosForDay(
         token,
         moment(day).format("YYYYMMDD")
       );
-      for(const key in meals)
-      {
+      for (const key in meals) {
         mealSetters[key](meals[key]);
       }
       setIsLoading(false);
       return meals;
-    }catch (e) {
+    } catch (e) {
       errorResponse(e);
     }
   };
 
-  const getMeal = async(token, meal) => {
-    try{
+  const getMeal = async (token, meal) => {
+    try {
       setIsLoading(true);
-      if(meal in ["breakfast", "lunch", "dinner", "snack"]){
+      if (meal in ["breakfast", "lunch", "dinner", "snack"]) {
         result = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
           token,
           moment(day).format("YYYYMMDD"),
           meal
         );
 
-        mealSetters[meal](result[meal])
+        mealSetters[meal](result[meal]);
       }
       setIsLoading(false);
-
-    }catch (e) {
+    } catch (e) {
       errorResponse(e);
     }
   };
 
-  const refreshMeals = async(date = false) => {
+  const refreshMeals = async (date = false) => {
     try {
       setIsLoading(true);
-      if(!date) {
+      if (!date) {
         date = day;
       }
       token = await getAccessToken();
@@ -179,11 +202,10 @@ const FitnessDiet = ({ navigation }) => {
         token,
         moment(date).format("YYYYMMDD")
       );
-      for(key in mealSetters)
-      {
-        if(key in meals){
+      for (key in mealSetters) {
+        if (key in meals) {
           mealSetters[key](meals[key]);
-        }else{
+        } else {
           mealSetters[key](defaultMacros);
         }
       }
@@ -192,74 +214,69 @@ const FitnessDiet = ({ navigation }) => {
     } catch (e) {
       errorResponse(e);
     }
-  }
+  };
 
   const getGoals = async () => {
-    try{
+    try {
       setIsLoading(true);
       token = await getAccessToken();
       goals = await DietGoalsAPI.getDietGoals(token);
 
       len = Object.keys(goals).length;
 
-      if(len==0)
-      {
-        console.log("this person has not set up goals"); 
-      }else{
+      if (len == 0) {
+        console.log("this person has not set up goals");
+      } else {
         setDietGoals(goals);
       }
 
       setIsLoading(false);
-    }catch(e){
+    } catch (e) {
       errorResponse(e);
     }
-
   };
 
-  const addFoodEntry = async ( foodEntry ) => {
-    try{
+  const addFoodEntry = async (foodEntry) => {
+    try {
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.createFoodEntry(token, foodEntry);
       await getMeal(token, foodEntry["meal"]);
       setIsLoading(false);
-
-    }catch(e){
+    } catch (e) {
       errorResponse(e);
     }
-  }
+  };
 
   const deleteFoodEntry = async (foodEntry) => {
-    try{
+    try {
       setIsLoading(true);
       token = await getAccessToken();
-      try{
+      try {
         await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
-      }catch(error){
+      } catch (error) {
         console.error("Error deleting food entry: " + error);
-        throw new error;
+        throw new error();
       }
       meals = await getAllMeals(token);
       setIsLoading(false);
       return meals[foodEntry.meal];
-    }catch(e){
+    } catch (e) {
       errorResponse(e);
     }
-  }
+  };
 
-  const updateFoodEntry = async ( foodEntryID, foodEntry ) => {
-    try{
+  const updateFoodEntry = async (foodEntryID, foodEntry) => {
+    try {
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.updateFoodEntry(token, foodEntryID, foodEntry);
       await getMeal(token, foodEntry["meal"]);
       setIsLoading(false);
-
-    }catch(e){
+    } catch (e) {
       errorResponse(e);
     }
-
-  }
+  };
 
   const renderScene = ({ route }) => {
     switch (route.key) {
@@ -279,7 +296,7 @@ const FitnessDiet = ({ navigation }) => {
       case "second":
         return (
           <Diet
-            day = {day}
+            day={day}
             updateDate={updateDate}
             meals={mealMacros}
             mealSetters={mealSetters}
@@ -332,16 +349,19 @@ const FitnessDiet = ({ navigation }) => {
           })}
         </View>
       </View>
-      <AddEntryModal 
-        isVisible={dietModalVisible} 
-        setVisible={setDietVisible} 
-        dayString={day.toLocaleDateString(undefined, { year: "numeric",  month: "long", day: "numeric"})}
+      <SelectMealModal
+        isVisible={dietModalVisible}
+        setVisible={setDietVisible}
+        dayString={day.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
       />
-      <EditMacroGoalsModal 
-        isVisible={editMacroModalVisible} 
-        setVisible={setEditVisible} 
-        />
-      
+      <EditMacroGoalsModal
+        isVisible={editMacroModalVisible}
+        setVisible={setEditVisible}
+      />
     </SafeAreaView>
   );
 };

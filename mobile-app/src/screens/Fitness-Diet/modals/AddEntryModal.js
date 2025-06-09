@@ -2,89 +2,87 @@ import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
+import { TextInput } from "react-native-gesture-handler";
 
-const mealTitles = [
+const macroTitles = [
   {
-    name: "Breakfast",
-    icon: require("../../../assets/images/breakfast.png"),
+    name: "Calories",
+    icon: require("../../../assets/images/calories.png"),
+    measurement: "cal",
+    slay: "calorieCount",
   },
   {
-    name: "Lunch",
-    icon: require("../../../assets/images/lunch.png"),
+    name: "Carbs",
+    icon: require("../../../assets/images/carbs.png"),
+    measurement: "g",
+    slay: "carbCount",
   },
   {
-    name: "Dinner",
-    icon: require("../../../assets/images/dinner.png"),
+    name: "Protein",
+    icon: require("../../../assets/images/protein.png"),
+    measurement: "g",
+    slay: "proteinCount",
   },
   {
-    name: "Snacks",
-    icon: require("../../../assets/images/snack.png"),
+    name: "Fats",
+    icon: require("../../../assets/images/fats.png"),
+    measurement: "g",
+    slay: "fatCount",
   },
 ];
 
-export default function AddEntryModal({ isVisible, setVisible, dayString }) {
-  const [selectedIndex, setSelected] = useState(-1);
-
-  const updateSelected = (currIndex) => {
-    if (selectedIndex == currIndex) setSelected(-1);
-    else setSelected(currIndex);
+export default function AddEntryModal({ isVisible, setVisible, foodItem2 }) {
+  const foodItem = {
+    PK: "basmabdlrzq@gmail.com-foodEntry",
+    SK: "20250522-dinner-63902880-358d-11f0-bd82-ddda49483cae",
+    calorieCount: 300,
+    carbCount: 60,
+    fatCount: 0,
+    foodItemID: "bcbcbcbc",
+    meal: "dinner",
+    measurement: "cup",
+    name: "sandy",
+    proteinCount: 10,
+    quantity: 1,
   };
-
   return (
     <RNModal
-      isVisible={isVisible}
-      onBackButtonPress={() => setVisible(false)}
-      onBackdropPress={() => setVisible(false)}
+      isVisible={true}
+      //onBackButtonPress={() => setVisible(false)}
+      //onBackdropPress={() => setVisible(false)}
       backdropOpacity={0}
       style={styles.modal}
     >
       <View style={styles.container}>
-        <Text style={styles.titleText}>Select Meal </Text>
-        {mealTitles.map((item, index) => (
-          <View key={index}>
-            <View style={styles.line} />
-            <TouchableOpacity
-              style={[
-                selectedIndex == index && {
-                  backgroundColor: "rgba(179,179,179,0.2)",
-                },
-              ]}
-              onPress={() => updateSelected(index)}
-            >
-              <View style={styles.row}>
-                <Image style={styles.icon} source={item.icon}></Image>
-                <Text style={styles.rowText}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
+        <Text style={styles.titleText}>{foodItem.name} </Text>
+        <View style={styles.row}>
+          <Text style={styles.titleText}>Serving: </Text>
+          <TextInput
+            style={{
+              width: "30%",
+              fontSize: 18,
+              borderWidth: 2,
+            }}
+          />
+        </View>
+
+        <Text style={styles.titleText}>Quantity: </Text>
+
+        {macroTitles.map((item, index) => (
+          <View key={index} style={styles.macroContainer}>
+            <View style={styles.row}>
+              <Image style={styles.icon} source={item.icon} />
+              <Text style={styles.buttonText}>{item.name}</Text>
+            </View>
+
+            <Text style={styles.rowText}>
+              {foodItem[item.slay]} {item.measurement}
+            </Text>
           </View>
         ))}
-        <View style={styles.line} />
 
-        <TouchableOpacity
-          style={[
-            styles.button,
-            selectedIndex == -1
-              ? { backgroundColor: "#D3D3D3", borderColor: "#B3B3B3" }
-              : { backgroundColor: "#D7F6FF", borderColor: "rgba(172, 197, 204, 0.75)"},
-          ]}
-          disabled={selectedIndex == -1}
-          onPress={() => {
-            navigationService.navigate("searchFood", {
-              mealName: mealTitles[selectedIndex].name,
-              dayString: dayString,
-            });
-            setVisible(false);
-            setSelected(-1);
-          }}
-        >
-          <Text
-            style={[
-              styles.buttonText,
-              selectedIndex == -1 && { color: "#666666" },
-            ]}
-          >
-            Continue
-          </Text>
+        <TouchableOpacity style={[styles.button]}>
+          <Text style={[styles.buttonText]}>Continue</Text>
         </TouchableOpacity>
       </View>
     </RNModal>
@@ -99,21 +97,16 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    paddingVertical: 15,
+    padding: 15,
     backgroundColor: "white",
     borderRadius: 30,
     borderWidth: 1,
     borderBlockColor: "rgba(0,0,0,0.5)",
   },
-  line: {
-    borderBottomColor: "#ccc",
-    borderBottomWidth: 2,
-  },
   titleText: {
     fontFamily: "Sego",
     fontSize: 33,
     color: "#25436B",
-    marginVertical: 20,
     alignSelf: "center",
   },
   rowText: {
@@ -129,8 +122,6 @@ const styles = StyleSheet.create({
   icon: {
     height: 30,
     width: 30,
-    marginRight: 10,
-    marginLeft: 50,
   },
   button: {
     borderRadius: 25,
@@ -147,5 +138,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "Sego",
     color: "#25436B",
+  },
+  macroContainer: {
+    flexDirection: "row",
+    gap: 20,
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    padding: 10,
   },
 });

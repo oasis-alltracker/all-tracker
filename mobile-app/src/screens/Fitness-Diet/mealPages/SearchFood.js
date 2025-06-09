@@ -13,6 +13,7 @@ import { getAccessToken } from "../../../user/keychain";
 import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
+import AddEntryModal from "../modals/AddEntryModal";
 
 const SearchFood = ({ naviagtion, route }) => {
   const mealName = route.params.mealName;
@@ -20,6 +21,20 @@ const SearchFood = ({ naviagtion, route }) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [addEntryVisible, setAddEntryVisble] = useState(true);
+  const [selectedEntry, setSelectedEntry] = useState({
+    PK: "basmabdlrzq@gmail.com-foodEntry",
+    SK: "20250522-dinner-63902880-358d-11f0-bd82-ddda49483cae",
+    calorieCount: 300,
+    carbCount: 60,
+    fatCount: 0,
+    foodItemID: "bcbcbcbc",
+    meal: "dinner",
+    measurement: "cup",
+    name: "sandy",
+    proteinCount: 10,
+    quantity: 1,
+  });
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -133,6 +148,11 @@ const SearchFood = ({ naviagtion, route }) => {
             </View>
           ))}
         </ScrollView>
+        <AddEntryModal
+          isVisible={addEntryVisible}
+          setVisible={setAddEntryVisble}
+          foodItem2={selectedEntry}
+        />
       </View>
     </SafeAreaView>
   );
