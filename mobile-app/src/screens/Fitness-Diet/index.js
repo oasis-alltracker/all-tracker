@@ -21,7 +21,6 @@ import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 import AddEntryModal from "./modals/AddEntryModal";
-import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 
 const FitnessDiet = ({ navigation }) => {
   const [index, setIndex] = useState(0);
