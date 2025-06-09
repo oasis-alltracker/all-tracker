@@ -249,21 +249,6 @@ export default function Diet({
             <TouchableOpacity
               onPress={() => {
                 getGoals();
-                console.log(
-                  "diet goals object: " +
-                    JSON.stringify(dietGoals) +
-                    "\ndiet goals contents in diet.js:" +
-                    "\ncalories goal: " +
-                    dietGoals.calorieGoal.value +
-                    " " +
-                    dietGoals.calorieGoal.units +
-                    "\ncarb goal: " +
-                    dietGoals.carbGoal +
-                    "\nfat goal: " +
-                    dietGoals.fatGoal +
-                    "\nprotein goal: " +
-                    dietGoals.proteinGoal
-                );
                 editMacroGoalsRef.current.open({
                   calorieGoalUnits: dietGoals.calorieGoal.units,
                   calorieGoalValue: dietGoals.calorieGoal.value,

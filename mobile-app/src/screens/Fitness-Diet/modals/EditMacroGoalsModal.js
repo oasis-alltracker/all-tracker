@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
-import { Header } from "../../../components";
 import DietGoalsAPI from "../../../api/diet/dietGoalsAPI";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -111,35 +110,14 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
     ]);
   };
 
-  //   useEffect(() => {
-  //     const getDataOnLoad = async () => {
-  //       setIsLoading(true);
-  //       setMacros();
-  //       setIsLoading(false);
-  //     };
-
-  //     getDataOnLoad();
-  //   }, []);
+  const closeModal = () => {
+    setVisible(false);
+  };
 
   useEffect(() => {
     let ref = {
       open(props) {
         setVisible(true);
-
-        console.log(
-          "diet goals contents in modal file:" +
-            "\ncalories goal: " +
-            props.calorieGoalValue +
-            " " +
-            props.calorieGoalUnits +
-            "\ncarb goal: " +
-            props.carbGoal +
-            "\nfat goal: " +
-            props.fatGoal +
-            "\nprotein goal: " +
-            props.proteinGoal +
-            "\n****************"
-        );
 
         setCalorieUnit(props.calorieGoalUnits);
         setCalories(props.calorieGoalValue);
@@ -176,10 +154,6 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
 
     getRef(ref);
   }, []);
-
-  const closeModal = async () => {
-    setVisible(false);
-  };
 
   return (
     <RNModal
