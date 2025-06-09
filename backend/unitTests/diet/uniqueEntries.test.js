@@ -1,6 +1,3 @@
-// utils.test.js
-//const RecentFoodEntriesAPI = require("../../../mobile-app/src/api/diet/recentFoodEntriesAPI");
-
 const {
   findUniqueEntries,
 } = require("../../tracker-diet/recentEntries/getRecentEntries");
