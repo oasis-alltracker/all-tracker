@@ -236,6 +236,18 @@ const FitnessDiet = ({ navigation }) => {
     }
   };
 
+  const updateGoals = async (newGoals) => {
+    try {
+      setIsLoading(true);
+      const token = await getAccessToken();
+      await DietGoalsAPI.updateDietGoals(token, newGoals);
+      await getGoals();
+      setIsLoading(false);
+    } catch (e) {
+      errorResponse(e);
+    }
+  };
+
   const addFoodEntry = async (foodEntry) => {
     try {
       setIsLoading(true);
@@ -305,6 +317,7 @@ const FitnessDiet = ({ navigation }) => {
             deleteFoodEntry={deleteFoodEntry}
             setMacroModalVisible={setEditVisible}
             getGoals={getGoals}
+            updateGoals={updateGoals}
           />
         );
       case "third":

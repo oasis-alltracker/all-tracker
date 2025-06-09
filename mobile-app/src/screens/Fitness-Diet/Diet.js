@@ -57,6 +57,7 @@ export default function Diet({
   deleteFoodEntry,
   setMacroModalVisible,
   getGoals,
+  updateGoals,
 }) {
   const editMacroGoalsRef = useRef(null);
   const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
@@ -298,7 +299,7 @@ export default function Diet({
       </ScrollView>
       <EditMacroGoalsModal
         getRef={(ref) => (editMacroGoalsRef.current = ref)}
-        getGoals={getGoals}
+        updateGoals={updateGoals}
       />
     </>
   );

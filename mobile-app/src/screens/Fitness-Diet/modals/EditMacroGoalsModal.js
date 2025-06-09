@@ -4,9 +4,10 @@ import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 import DietGoalsAPI from "../../../api/diet/dietGoalsAPI";
 import { getAccessToken } from "../../../user/keychain";
+import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
-export default function EditMacroGoalsModal({ getRef, getGoals }) {
+export default function EditMacroGoalsModal({ getRef, updateGoals }) {
   const [datas, setDatas] = useState([
     {
       title: "0 g",
@@ -31,6 +32,7 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setVisible] = useState(false);
   const updateMacrosRef = useRef(null);
 
@@ -70,43 +72,14 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
     }
   };
 
-  const setMacros = async () => {
-    const dietGoals = await DietGoalsAPI.getDietGoals(token);
-
-    setCalorieGoalValue(dietGoals.calorieGoal);
-    setCalorieUnit(dietGoals.calorieGoal.units);
-    setCalories(dietGoals.calorieGoal.value);
-    setCarbGoalValue(dietGoals.carbGoal);
-    setProteinGoalValue(dietGoals.proteinGoal);
-    setFatGoalValue(dietGoals.fatGoal);
-
-    setDatas([
-      {
-        title: `${Math.round(dietGoals.carbGoal)} g`,
-        img: require("../../../assets/images/carbs.png"),
-        text: "Carbs:",
-      },
-      {
-        title: `${Math.round(dietGoals.proteinGoal)} g`,
-        img: require("../../../assets/images/protein.png"),
-        text: "Protein:",
-      },
-      {
-        title: `${Math.round(dietGoals.fatGoal)} g`,
-        img: require("../../../assets/images/fats.png"),
-        text: "Fats:",
-      },
-    ]);
-  };
-
   const onSave = async () => {
-    const token = await getAccessToken();
-    await DietGoalsAPI.updateDietGoals(token, {
+    const newGoals = {
       carbGoal: carbGoalValue,
       proteinGoal: proteinGoalValue,
       fatGoal: fatGoalValue,
       calorieGoal: calorieGoalValue,
-    });
+    };
+    updateGoals(newGoals);
     setVisible(false);
   };
 
@@ -164,6 +137,7 @@ export default function EditMacroGoalsModal({ getRef, getGoals }) {
       style={styles.modal}
     >
       <View style={styles.container}>
+        <Spinner visible={isLoading}></Spinner>
         <View style={styles.macroContainerStyle}>
           <View style={[styles.item, styles.head]}>
             <View style={[styles.item, styles.headItem]}>
