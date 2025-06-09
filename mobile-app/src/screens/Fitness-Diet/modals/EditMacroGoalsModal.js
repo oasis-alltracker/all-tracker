@@ -8,7 +8,7 @@ import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
-export default function EditMacroGoalsModal({ isVisible, setVisible }) {
+export default function EditMacroGoalsModal({ getRef, getGoals }) {
   const [datas, setDatas] = useState([
     {
       title: "0 g",
@@ -34,9 +34,11 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
   const [fatGoalValue, setFatGoalValue] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isVisible, setVisible] = useState(false);
   const updateMacrosRef = useRef(null);
 
   const onUpdateMacroValue = async (title, value, units) => {
+    //gets sent into update macro modal
     var newCalories = calorieGoalValue;
     var newFats = fatGoalValue;
     var newProteins = proteinGoalValue;
@@ -109,14 +111,70 @@ export default function EditMacroGoalsModal({ isVisible, setVisible }) {
     ]);
   };
 
+  //   useEffect(() => {
+  //     const getDataOnLoad = async () => {
+  //       setIsLoading(true);
+  //       setMacros();
+  //       setIsLoading(false);
+  //     };
+
+  //     getDataOnLoad();
+  //   }, []);
+
   useEffect(() => {
-    const getDataOnLoad = async () => {
-      setIsLoading(true);
-      setMacros();
-      setIsLoading(false);
+    let ref = {
+      open(props) {
+        setVisible(true);
+
+        console.log(
+          "diet goals contents in modal file:" +
+            "\ncalories goal: " +
+            props.calorieGoalValue +
+            " " +
+            props.calorieGoalUnits +
+            "\ncarb goal: " +
+            props.carbGoal +
+            "\nfat goal: " +
+            props.fatGoal +
+            "\nprotein goal: " +
+            props.proteinGoal +
+            "\n****************"
+        );
+
+        setCalorieUnit(props.calorieGoalUnits);
+        setCalories(props.calorieGoalValue);
+        setCalorieGoalValue({
+          value: props.calorieGoalValue,
+          units: props.calorieGoalUnits,
+        });
+        setCarbGoalValue(props.carbGoal);
+        setProteinGoalValue(props.proteinGoal);
+        setFatGoalValue(props.fatGoal);
+
+        setDatas([
+          {
+            title: `${Math.round(props.carbGoal)} g`,
+            img: require("../../../assets/images/carbs.png"),
+            text: "Carbs:",
+          },
+          {
+            title: `${Math.round(props.proteinGoal)} g`,
+            img: require("../../../assets/images/protein.png"),
+            text: "Protein:",
+          },
+          {
+            title: `${Math.round(props.fatGoal)} g`,
+            img: require("../../../assets/images/fats.png"),
+            text: "Fats:",
+          },
+        ]);
+      },
+      close() {
+        setVisible(false);
+      },
     };
 
-    getDataOnLoad();
+    getRef(ref);
   }, []);
 
   const closeModal = async () => {
