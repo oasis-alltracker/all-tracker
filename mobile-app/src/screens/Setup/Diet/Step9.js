@@ -20,6 +20,7 @@ const activityLevelValues = {
 const DietStep9 = (props) => {
   const {
     selectedTrackers,
+    isEditingMacros,
     goal,
     weightGoal,
     currentWeight,
@@ -247,7 +248,10 @@ const DietStep9 = (props) => {
           </Button>
           <Button
             onPress={() =>
-              navigationService.navigate("dietStep10", { selectedTrackers })
+              navigationService.navigate("dietStep10", {
+                selectedTrackers,
+                isEditingMacros,
+              })
             }
             style={styles.button}
           >

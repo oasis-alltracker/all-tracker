@@ -20,7 +20,7 @@ import NotificationsHandler from "../../../api/notifications/notificationsHandle
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const DietStep10 = (props) => {
-  const { selectedTrackers } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
   const [isBreakfastEnabled, setIsBreakfastEnabled] = useState(false);
   const [breakfastTime, setBreakfastTime] = useState(
     new Date("1995-12-17T12:00:00")

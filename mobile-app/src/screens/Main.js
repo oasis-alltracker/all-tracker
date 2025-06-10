@@ -204,15 +204,7 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
       <Drawer.Screen name="moodTest" component={MoodQuestionnaire} />
       <Drawer.Screen name="mealPage" component={MealPage} />
       <Drawer.Screen name="searchFood" component={SearchFood} />
-      <Drawer.Screen
-        name="setup"
-        component={SetupNavigator}
-        screenOptions={{
-          headerShown: false,
-          drawerType: "front",
-          drawerStyle: { width: 210 },
-        }}
-      />
+      <Drawer.Screen name="setup" component={SetupNavigator} />
     </Drawer.Navigator>
   );
 };
