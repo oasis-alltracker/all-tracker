@@ -87,17 +87,6 @@ export default function EditMacroGoalsModal({
         },
       });
     }
-    //toast code idea - currently appears beneath the modal, not above it like I intended
-    //would get triggered if for some reason selectedTrackers didn't include dietSelectec = true
-    // setIsLoading(false);
-    // Toast.show(
-    //   "Something went wrong, please ensure your settings align with what you wish to track.",
-    //   {
-    //     ...styles.errorToast,
-    //     duration: Toast.durations.LONG,
-    //     position: Toast.positions.CENTER,
-    //   }
-    // );
   };
 
   const onSave = async () => {

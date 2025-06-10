@@ -257,7 +257,7 @@ const DietStep9 = (props) => {
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
-            Next
+            {isEditingMacros ? "Save" : "Next"}
           </Button>
         </View>
       </>
