@@ -49,6 +49,7 @@ const macroKeys = [
 const today = new Date();
 
 export default function Diet({
+  trackingPreferences,
   day,
   updateDate,
   meals,

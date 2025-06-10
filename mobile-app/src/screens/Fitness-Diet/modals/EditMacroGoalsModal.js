@@ -5,7 +5,11 @@ import navigationService from "../../../navigators/navigationService";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
-export default function EditMacroGoalsModal({ getRef, updateGoals }) {
+export default function EditMacroGoalsModal({
+  getRef,
+  updateGoals,
+  trackingPreferences,
+}) {
   const [datas, setDatas] = useState([
     {
       value: "0 g",

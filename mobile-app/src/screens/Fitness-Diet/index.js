@@ -307,6 +307,7 @@ const FitnessDiet = ({ navigation }) => {
       case "second":
         return (
           <Diet
+            trackingPreferences={trackingPreferences}
             day={day}
             updateDate={updateDate}
             meals={mealMacros}
