@@ -100,6 +100,16 @@ const DietStep9 = (props) => {
     }
   };
 
+  const onNext = () => {
+    if (isEditingMacros) {
+      navigationService.reset("fitness-diet", 0);
+    } else {
+      navigationService.navigate("dietStep10", {
+        selectedTrackers,
+      });
+    }
+  };
+
   useEffect(() => {
     const getDataOnLoad = async () => {
       setIsLoading(true);
@@ -246,15 +256,7 @@ const DietStep9 = (props) => {
           >
             Back
           </Button>
-          <Button
-            onPress={() =>
-              navigationService.navigate("dietStep10", {
-                selectedTrackers,
-                isEditingMacros,
-              })
-            }
-            style={styles.button}
-          >
+          <Button onPress={() => onNext()} style={styles.button}>
             Next
           </Button>
         </View>
