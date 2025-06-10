@@ -1,21 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  TextInput
+  TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
+import { getAccessToken } from "../../../user/keychain";
 import navigationService from "../../../navigators/navigationService";
+import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const SearchFood = ({ naviagtion, route }) => {
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
-  const [searchInput, setSearchInput] = useState('');
-  const [searchResults, setResults] = useState([{name: "Beef", calorieCount: 100},{name: "Shawarma", calorieCount: 50}])
+  const [searchInput, setSearchInput] = useState("");
+  const [searchResults, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   var mealImage;
   if (mealName === "Breakfast") {
     mealImage = require("../../../assets/images/breakfast.png");
@@ -27,9 +32,44 @@ const SearchFood = ({ naviagtion, route }) => {
     mealImage = require("../../../assets/images/snack.png");
   }
 
+  useEffect(() => {
+    getFoodItems(token);
+  }, []);
+
+  function errorResponse(error) {
+    console.log(error);
+    setIsLoading(false);
+    if (Platform.OS === "ios") {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+      });
+    } else {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.TOP,
+      });
+    }
+  }
+
+  const getFoodItems = async () => {
+    try {
+      token = await getAccessToken();
+      setIsLoading(true);
+      foodItems = await RecentFoodEntriesAPI.getRecentFoodEntries(token);
+      setResults(foodItems);
+      setIsLoading(false);
+    } catch (e) {
+      errorResponse(e);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topArea}>
+        <Spinner visible={isLoading}></Spinner>
         <TouchableOpacity
           onPress={() => {
             navigationService.navigate("fitness-diet");
@@ -53,14 +93,14 @@ const SearchFood = ({ naviagtion, route }) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
         >
-          <View style={[styles.row, {marginBottom:20,}]}>
+          <View style={[styles.row, { marginBottom: 20 }]}>
             <View style={styles.searchContainer}>
-              <Image 
+              <Image
                 source={require("../../../assets/images/search2.png")}
-                style={{width: 30, height: 30}}
+                style={{ width: 30, height: 30 }}
               />
               <TextInput
-                style={[styles.textStyle, styles.input ]}
+                style={[styles.textStyle, styles.input]}
                 onChangeText={setSearchInput}
                 value={searchInput}
                 placeholder="Food, meal or brand"
@@ -68,24 +108,22 @@ const SearchFood = ({ naviagtion, route }) => {
             </View>
 
             <TouchableOpacity>
-              <Image 
+              <Image
                 source={require("../../../assets/images/search2.png")}
                 style={styles.smallImage}
               />
             </TouchableOpacity>
           </View>
 
-          {searchResults.map((item, index)=>(
+          {searchResults.map((item, index) => (
             <View key={index} style={styles.reusltContainer}>
-              <View style={{flexDirection: "vertical", }}>
-                <Text style={styles.textStyle}>
-                  {item.name}
-                </Text>
-                <Text style={[styles.textStyle, {fontSize: 12}]}>
+              <View style={{ flexDirection: "vertical" }}>
+                <Text style={styles.textStyle}>{item.name}</Text>
+                <Text style={[styles.textStyle, { fontSize: 12 }]}>
                   {item.calorieCount} cals
                 </Text>
               </View>
-              
+
               <TouchableOpacity>
                 <Image
                   style={styles.smallImage}
@@ -94,7 +132,6 @@ const SearchFood = ({ naviagtion, route }) => {
               </TouchableOpacity>
             </View>
           ))}
-
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -122,7 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
-  reusltContainer:{
+  reusltContainer: {
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
@@ -192,7 +229,7 @@ const styles = StyleSheet.create({
   input: {
     width: "70%",
     fontSize: 18,
-  }
+  },
 });
 
 export default SearchFood;
