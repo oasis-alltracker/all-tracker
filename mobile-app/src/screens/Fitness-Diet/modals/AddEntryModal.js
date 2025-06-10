@@ -1,8 +1,19 @@
 import { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Modal,
+} from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 import { TextInput } from "react-native-gesture-handler";
+
+//TO DOs:
+//1. replace serving from textinput to dropdown - requires an import :D
+//2. make a call to the api to get further details like serving options (?) or just use the measurement given
 
 const macroTitles = [
   {
@@ -45,9 +56,11 @@ export default function AddEntryModal({ isVisible, setVisible, foodItem2 }) {
     proteinCount: 10,
     quantity: 1,
   };
+  const [quantity, setQuantity] = useState();
+  const [serving, setServing] = useState("cup");
   return (
-    <RNModal
-      isVisible={true}
+    <Modal
+      visible={true}
       //onBackButtonPress={() => setVisible(false)}
       //onBackdropPress={() => setVisible(false)}
       backdropOpacity={0}
@@ -55,37 +68,60 @@ export default function AddEntryModal({ isVisible, setVisible, foodItem2 }) {
     >
       <View style={styles.container}>
         <Text style={styles.titleText}>{foodItem.name} </Text>
-        <View style={styles.row}>
-          <Text style={styles.titleText}>Serving: </Text>
-          <TextInput
-            style={{
-              width: "30%",
-              fontSize: 18,
-              borderWidth: 2,
-            }}
-          />
+        <View style={styles.serving}>
+          <View style={styles.row}>
+            <Text style={styles.rowText}>Serving Size: </Text>
+            <TextInput
+              style={[styles.borderedContainer, styles.input]}
+              onChangeText={setServing}
+              value={serving}
+            />
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.rowText}>Quantity: </Text>
+            <TextInput
+              style={[styles.borderedContainer, styles.input]}
+              inputMode="numeric"
+              onChangeText={setQuantity}
+              value={quantity}
+              placeholder={quantity}
+            />
+          </View>
         </View>
 
-        <Text style={styles.titleText}>Quantity: </Text>
-
         {macroTitles.map((item, index) => (
-          <View key={index} style={styles.macroContainer}>
+          <View
+            key={index}
+            style={[styles.borderedContainer, styles.macroContainer]}
+          >
             <View style={styles.row}>
               <Image style={styles.icon} source={item.icon} />
               <Text style={styles.buttonText}>{item.name}</Text>
             </View>
 
-            <Text style={styles.rowText}>
+            <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
               {foodItem[item.slay]} {item.measurement}
             </Text>
           </View>
         ))}
 
-        <TouchableOpacity style={[styles.button]}>
-          <Text style={[styles.buttonText]}>Continue</Text>
-        </TouchableOpacity>
+        <View style={styles.row}>
+          <TouchableOpacity style={[styles.button, styles.borderedContainer]}>
+            <Text style={[styles.buttonText]}>Continue</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              styles.borderedContainer,
+              { backgroundColor: "#D7F6FF" },
+            ]}
+          >
+            <Text style={[styles.buttonText]}>Save</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </RNModal>
+    </Modal>
   );
 }
 
@@ -94,6 +130,13 @@ const styles = StyleSheet.create({
     margin: 0,
     alignItems: "center",
     justifyContent: "center",
+  },
+  borderedContainer: {
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    alignItems: "center",
+    padding: 5,
   },
   container: {
     width: "90%",
@@ -104,35 +147,30 @@ const styles = StyleSheet.create({
     borderBlockColor: "rgba(0,0,0,0.5)",
   },
   titleText: {
-    fontFamily: "Sego",
+    fontFamily: "Sego-Bold",
     fontSize: 33,
     color: "#25436B",
     alignSelf: "center",
   },
   rowText: {
     fontSize: 24,
-    fontFamily: "Sego-Bold",
     color: "#25436B",
+    fontFamily: "Sego",
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 7,
+    justifyContent: "space-between",
   },
   icon: {
     height: 30,
     width: 30,
   },
   button: {
-    borderRadius: 25,
-    borderWidth: 2,
-    alignItems: "center",
-    width: "60%",
-    padding: 5,
-    alignSelf: "center",
+    width: "45%",
     alignContent: "center",
     marginTop: 30,
-    marginBottom: 15,
   },
   buttonText: {
     fontSize: 24,
@@ -142,11 +180,17 @@ const styles = StyleSheet.create({
   macroContainer: {
     flexDirection: "row",
     gap: 20,
-    alignItems: "center",
     justifyContent: "space-between",
-    borderRadius: 25,
-    borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
     padding: 10,
+    marginVertical: 5,
+  },
+  input: {
+    width: "40%",
+    fontSize: 18,
+    fontFamily: "Sego-Bold",
+    color: "#25436B",
+  },
+  serving: {
+    marginBottom: 20,
   },
 });
