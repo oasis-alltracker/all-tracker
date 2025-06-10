@@ -78,11 +78,13 @@ export default function EditMacroGoalsModal({
 
   const onRecalculate = () => {
     if (selectedTrackers.dietSelected) {
-      console.log("would trigger navigate to diet step");
       setVisible(false);
-      navigationService.navigate("dietStep1", {
-        selectedTrackers,
-        isEditingMacros,
+      navigationService.navigate("setup", {
+        screen: "dietStep1",
+        params: {
+          selectedTrackers: selectedTrackers,
+          isEditingMacros: isEditingMacros,
+        },
       });
     }
     //toast code idea - currently appears beneath the modal, not above it like I intended

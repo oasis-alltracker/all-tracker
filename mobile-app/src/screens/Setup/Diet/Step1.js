@@ -8,7 +8,8 @@ import navigationService from "../../../navigators/navigationService";
 
 const DietStep1 = (props) => {
   const [goal, setGoal] = useState("none");
-  const { selectedTrackers } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  console.log("Entered diet step 1; isEditingMacros = " + isEditingMacros);
 
   const onNext = () => {
     if (goal != "none") {

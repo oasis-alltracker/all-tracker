@@ -25,6 +25,7 @@ import DrawerScreen from "./DrawerScreen";
 import Stats from "./Stats/Stats";
 import MealPage from "./Fitness-Diet/mealPages/MealPage";
 import SearchFood from "./Fitness-Diet/mealPages/SearchFood";
+import SetupNavigator from "./Setup/navigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -184,6 +185,7 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
       navigation.navigate("main", { screen: initialMainRoute });
     }
   }, [initialMainRoute]);
+
   return (
     <Drawer.Navigator
       initialRouteName={initialMainRoute}
@@ -202,6 +204,15 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
       <Drawer.Screen name="moodTest" component={MoodQuestionnaire} />
       <Drawer.Screen name="mealPage" component={MealPage} />
       <Drawer.Screen name="searchFood" component={SearchFood} />
+      <Drawer.Screen
+        name="setup"
+        component={SetupNavigator}
+        screenOptions={{
+          headerShown: false,
+          drawerType: "front",
+          drawerStyle: { width: 210 },
+        }}
+      />
     </Drawer.Navigator>
   );
 };
