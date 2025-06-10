@@ -115,7 +115,7 @@ class DbUtils {
     names,
     values,
     limit = null,
-    descending = false,
+    ascending = true,
     filters = null,
     consistentRead = false
   ) {
@@ -125,7 +125,7 @@ class DbUtils {
       ExpressionAttributeNames: names,
       ExpressionAttributeValues: values,
       ConsistentRead: consistentRead,
-      ScanIndexForward: !descending,
+      ScanIndexForward: ascending,
     };
 
     if (filters) {
