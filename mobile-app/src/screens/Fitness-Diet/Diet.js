@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import * as Progress from "react-native-progress";
+import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 
 const mealTitles = [
   {
@@ -55,7 +56,10 @@ export default function Diet({
   totalMacros,
   deleteFoodEntry,
   setMacroModalVisible,
+  getGoals,
+  updateGoals,
 }) {
+  const editMacroGoalsRef = useRef(null);
   const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
   const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
 
@@ -187,103 +191,117 @@ export default function Diet({
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
-      <View style={{ alignItems: "center" }}>
-        <View
-          style={[
-            sharedStyles.headerImageContainer,
-            {
-              backgroundColor: "rgba(202, 189, 255, 65)",
-              borderColor: "rgba(162, 151, 204, 0.7)",
-            },
-          ]}
-        >
-          <Image
-            style={sharedStyles.headerImage}
-            source={require("../../assets/images/diet.png")}
-          />
-        </View>
-      </View>
-
-      <View style={sharedStyles.datePickerView}>
-        <TouchableOpacity
-          style={sharedStyles.changeDateButton}
-          onPress={() => updateDate(-1)}
-        >
-          <Image
-            style={[sharedStyles.decreaseDateImage]}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
-        <>
-          {moment(day).format("YYYYMMDD") ==
-          moment(today).format("YYYYMMDD") ? (
-            <Text style={sharedStyles.dateText}>Today</Text>
-          ) : (
-            <Text style={sharedStyles.dateText}>
-              {day.toDateString().slice(4, -5)}
-            </Text>
-          )}
-        </>
-        <TouchableOpacity
-          style={sharedStyles.changeDateButton}
-          onPress={() => updateDate(1)}
-        >
-          <Image
-            style={sharedStyles.increaseDateImage}
-            source={require("../../assets/images/left.png")}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.borderedContainer}>
-        <View style={styles.row}>
-          <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
-          <TouchableOpacity
-            onPress={() => {
-              setMacroModalVisible(true);
-            }}
+    <>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
+        <View style={{ alignItems: "center" }}>
+          <View
+            style={[
+              sharedStyles.headerImageContainer,
+              {
+                backgroundColor: "rgba(202, 189, 255, 65)",
+                borderColor: "rgba(162, 151, 204, 0.7)",
+              },
+            ]}
           >
             <Image
-              style={styles.plus}
-              source={require("../../assets/images/edit.png")}
+              style={sharedStyles.headerImage}
+              source={require("../../assets/images/diet.png")}
+            />
+          </View>
+        </View>
+
+        <View style={sharedStyles.datePickerView}>
+          <TouchableOpacity
+            style={sharedStyles.changeDateButton}
+            onPress={() => updateDate(-1)}
+          >
+            <Image
+              style={[sharedStyles.decreaseDateImage]}
+              source={require("../../assets/images/left.png")}
+            />
+          </TouchableOpacity>
+          <>
+            {moment(day).format("YYYYMMDD") ==
+            moment(today).format("YYYYMMDD") ? (
+              <Text style={sharedStyles.dateText}>Today</Text>
+            ) : (
+              <Text style={sharedStyles.dateText}>
+                {day.toDateString().slice(4, -5)}
+              </Text>
+            )}
+          </>
+          <TouchableOpacity
+            style={sharedStyles.changeDateButton}
+            onPress={() => updateDate(1)}
+          >
+            <Image
+              style={sharedStyles.increaseDateImage}
+              source={require("../../assets/images/left.png")}
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.miniText}>Eaten</Text>
-          <Text style={styles.miniText}>
-            {calorieDif > 0 ? "Remaining" : "Exceeded"}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.desc}>
-            <Text style={styles.boldText}>{totalMacros.calorieCount}</Text> kcal
-          </Text>
-          <Text style={styles.boldText}>{Math.abs(calorieDif)}</Text>
-        </View>
-        <CalorieBar />
-        <View style={[styles.row, { gap: 10 }]}>
-          {macroKeys.map((item, index) => (
-            <View style={styles.item} key={index}>
-              <MacroProgressCircle item={item} />
-              <Text style={styles.desc}>{item.title}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
 
-      {mealTitles.map((item, index) =>
-        meals[item.name].entries.length > 0 ? (
-          <MealWithEntries item={item} key={index} />
-        ) : (
-          <EmptyMeal item={item} key={index} />
-        )
-      )}
-    </ScrollView>
+        <View style={styles.borderedContainer}>
+          <View style={styles.row}>
+            <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
+            <TouchableOpacity
+              onPress={() => {
+                getGoals();
+                editMacroGoalsRef.current.open({
+                  calorieGoalUnits: dietGoals.calorieGoal.units,
+                  calorieGoalValue: dietGoals.calorieGoal.value,
+                  carbGoal: dietGoals.carbGoal,
+                  fatGoal: dietGoals.fatGoal,
+                  proteinGoal: dietGoals.proteinGoal,
+                });
+              }}
+            >
+              <Image
+                style={styles.plus}
+                source={require("../../assets/images/edit.png")}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.miniText}>Eaten</Text>
+            <Text style={styles.miniText}>
+              {calorieDif > 0 ? "Remaining" : "Exceeded"}
+            </Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.desc}>
+              <Text style={styles.boldText}>{totalMacros.calorieCount}</Text>{" "}
+              kcal
+            </Text>
+            <Text style={styles.boldText}>{Math.abs(calorieDif)}</Text>
+          </View>
+          <CalorieBar />
+          <View style={[styles.row, { gap: 10 }]}>
+            {macroKeys.map((item, index) => (
+              <View style={styles.item} key={index}>
+                <MacroProgressCircle item={item} />
+                <Text style={styles.desc}>{item.title}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        {mealTitles.map((item, index) =>
+          meals[item.name].entries.length > 0 ? (
+            <MealWithEntries item={item} key={index} />
+          ) : (
+            <EmptyMeal item={item} key={index} />
+          )
+        )}
+      </ScrollView>
+      <EditMacroGoalsModal
+        getRef={(ref) => (editMacroGoalsRef.current = ref)}
+        updateGoals={updateGoals}
+      />
+    </>
   );
 }
 
