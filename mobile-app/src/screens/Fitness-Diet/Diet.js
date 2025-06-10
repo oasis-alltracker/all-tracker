@@ -301,6 +301,7 @@ export default function Diet({
       <EditMacroGoalsModal
         getRef={(ref) => (editMacroGoalsRef.current = ref)}
         updateGoals={updateGoals}
+        selectedTrackers={trackingPreferences}
       />
     </>
   );

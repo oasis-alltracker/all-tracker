@@ -4,11 +4,12 @@ import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
+import Toast from "react-native-root-toast";
 
 export default function EditMacroGoalsModal({
   getRef,
   updateGoals,
-  trackingPreferences,
+  selectedTrackers,
 }) {
   const [datas, setDatas] = useState([
     {
@@ -37,6 +38,7 @@ export default function EditMacroGoalsModal({
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setVisible] = useState(false);
   const updateMacrosRef = useRef(null);
+  const isEditingMacros = true;
 
   const onUpdateMacroValue = async (macroLabel, macroValue, units) => {
     var newCalories = calorieGoalValue;
@@ -72,6 +74,28 @@ export default function EditMacroGoalsModal({
       });
       setDatas(newDatas);
     }
+  };
+
+  const onRecalculate = () => {
+    if (selectedTrackers.dietSelected) {
+      console.log("would trigger navigate to diet step");
+      setVisible(false);
+      navigationService.navigate("dietStep1", {
+        selectedTrackers,
+        isEditingMacros,
+      });
+    }
+    //toast code idea - currently appears beneath the modal, not above it like I intended
+    //would get triggered if for some reason selectedTrackers didn't include dietSelectec = true
+    // setIsLoading(false);
+    // Toast.show(
+    //   "Something went wrong, please ensure your settings align with what you wish to track.",
+    //   {
+    //     ...styles.errorToast,
+    //     duration: Toast.durations.LONG,
+    //     position: Toast.positions.CENTER,
+    //   }
+    // );
   };
 
   const onSave = async () => {
@@ -198,7 +222,7 @@ export default function EditMacroGoalsModal({
         <View>
           <TouchableOpacity
             style={[styles.button, styles.recalculateButton]}
-            onPress={() => closeModal()}
+            onPress={() => onRecalculate()}
           >
             <Text style={styles.buttonText}>Recalculate goals</Text>
           </TouchableOpacity>
