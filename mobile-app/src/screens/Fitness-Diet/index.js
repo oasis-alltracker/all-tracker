@@ -3,6 +3,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
+  Text,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import MenuIcon from "../../assets/icons/menu";
@@ -22,7 +23,8 @@ import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 import AddEntryModal from "./modals/AddEntryModal";
 
-const FitnessDiet = ({ navigation }) => {
+const FitnessDiet = ({ navigation, route }) => {
+  var { refreshGoals } = route.params || false;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +90,6 @@ const FitnessDiet = ({ navigation }) => {
   });
 
   const [dietModalVisible, setDietVisible] = useState(false);
-  const [editMacroModalVisible, setEditVisible] = useState(false);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -136,6 +137,23 @@ const FitnessDiet = ({ navigation }) => {
       getDataOnLoad();
     }
   }, []);
+
+  useEffect(() => {
+    refreshGoals = route.params;
+    if (refreshGoals) {
+      refreshDietGoals();
+    }
+  }, [route]);
+
+  const refreshDietGoals = async () => {
+    try {
+      setIsLoading(true);
+      await getGoals();
+      setIsLoading(false);
+    } catch (e) {
+      errorResponse(e);
+    }
+  };
 
   function errorResponse(error) {
     console.log(error);
@@ -315,7 +333,6 @@ const FitnessDiet = ({ navigation }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             deleteFoodEntry={deleteFoodEntry}
-            setMacroModalVisible={setEditVisible}
             getGoals={getGoals}
             updateGoals={updateGoals}
           />

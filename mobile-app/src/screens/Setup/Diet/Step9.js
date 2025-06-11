@@ -102,7 +102,9 @@ const DietStep9 = (props) => {
 
   const onNext = () => {
     if (isEditingMacros) {
-      navigationService.reset("fitness-diet", 0);
+      navigationService.navigate("fitness-diet", {
+        isEditingGoals: isEditingMacros,
+      });
     } else {
       navigationService.navigate("dietStep10", {
         selectedTrackers,
