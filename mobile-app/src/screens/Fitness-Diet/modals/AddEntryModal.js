@@ -13,9 +13,9 @@ import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 
 //TO DOs:
-//1. replace serving from textinput to dropdown - requires an import :D
-//2. make a call to the api to get further details like serving options (?) or just use the measurement given
-//3. recalculate
+//1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
+//2. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
+//3. send api call to save entry that when "add" is pressed
 
 const macroTitles = [
   {
@@ -85,7 +85,7 @@ export default function AddEntryModal({ getRef }) {
 
   return (
     <RNModal
-      visible={isVisible}
+      isVisible={isVisible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
       backdropOpacity={0}
@@ -147,7 +147,8 @@ export default function AddEntryModal({ getRef }) {
                 { backgroundColor: "#D7F6FF" },
               ]}
               onPress={() => {
-                console.log(foodEntry);
+                setVisible(false);
+                navigationService.navigate("fitness-diet");
               }}
             >
               <Text style={[styles.buttonText]}>Add</Text>
