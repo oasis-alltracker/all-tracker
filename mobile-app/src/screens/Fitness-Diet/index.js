@@ -315,7 +315,6 @@ const FitnessDiet = ({ navigation }) => {
             dietGoals={dietGoals}
             deleteFoodEntry={deleteFoodEntry}
             setMacroModalVisible={setEditVisible}
-            getGoals={getGoals}
             updateGoals={updateGoals}
           />
         );
