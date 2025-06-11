@@ -140,19 +140,9 @@ const FitnessDiet = ({ navigation, route }) => {
   useEffect(() => {
     refreshGoals = route.params?.isEditingGoals;
     if (refreshGoals) {
-      refreshDietGoals();
+      getGoals();
     }
   }, [route]);
-
-  const refreshDietGoals = async () => {
-    try {
-      setIsLoading(true);
-      await getGoals();
-      setIsLoading(false);
-    } catch (e) {
-      errorResponse(e);
-    }
-  };
 
   function errorResponse(error) {
     console.log(error);
