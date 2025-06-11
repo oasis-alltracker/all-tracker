@@ -6,10 +6,14 @@ import {
   TouchableOpacity,
   View,
   Modal,
+  Keyboard,
 } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
-import { TextInput } from "react-native-gesture-handler";
+import {
+  TextInput,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 
 //TO DOs:
 //1. replace serving from textinput to dropdown - requires an import :D
@@ -42,86 +46,81 @@ const macroTitles = [
   },
 ];
 
-export default function AddEntryModal({ isVisible, setVisible, foodItem2 }) {
-  const foodItem = {
-    PK: "basmabdlrzq@gmail.com-foodEntry",
-    SK: "20250522-dinner-63902880-358d-11f0-bd82-ddda49483cae",
-    calorieCount: 300,
-    carbCount: 60,
-    fatCount: 0,
-    foodItemID: "bcbcbcbc",
-    meal: "dinner",
-    measurement: "cup",
-    name: "sandy",
-    proteinCount: 10,
-    quantity: 1,
-  };
-  const [quantity, setQuantity] = useState();
-  const [serving, setServing] = useState("cup");
+export default function AddEntryModal({ isVisible, setVisible, foodItem }) {
+  const [quantity, setQuantity] = useState(`${foodItem.quantity}`);
+  const [serving, setServing] = useState(`${foodItem.measurement}`);
   return (
-    <Modal
-      visible={true}
-      //onBackButtonPress={() => setVisible(false)}
-      //onBackdropPress={() => setVisible(false)}
+    <RNModal
+      visible={isVisible}
+      onBackButtonPress={() => setVisible(false)}
+      onBackdropPress={() => setVisible(false)}
       backdropOpacity={0}
       style={styles.modal}
     >
-      <View style={styles.container}>
-        <Text style={styles.titleText}>{foodItem.name} </Text>
-        <View style={styles.serving}>
-          <View style={styles.row}>
-            <Text style={styles.rowText}>Serving Size: </Text>
-            <TextInput
-              style={[styles.borderedContainer, styles.input]}
-              onChangeText={setServing}
-              value={serving}
-            />
-          </View>
-
-          <View style={styles.row}>
-            <Text style={styles.rowText}>Quantity: </Text>
-            <TextInput
-              style={[styles.borderedContainer, styles.input]}
-              inputMode="numeric"
-              onChangeText={setQuantity}
-              value={quantity}
-              placeholder={quantity}
-            />
-          </View>
-        </View>
-
-        {macroTitles.map((item, index) => (
-          <View
-            key={index}
-            style={[styles.borderedContainer, styles.macroContainer]}
-          >
+      <TouchableWithoutFeedback
+        style={styles.container}
+        onPress={Keyboard.dismiss}
+      >
+        <View>
+          <Text style={styles.titleText}>{foodItem.name} </Text>
+          <View style={styles.serving}>
             <View style={styles.row}>
-              <Image style={styles.icon} source={item.icon} />
-              <Text style={styles.buttonText}>{item.name}</Text>
+              <Text style={styles.rowText}>Serving Size: </Text>
+              <TextInput
+                style={[styles.borderedContainer, styles.input]}
+                onChangeText={setServing}
+                value={serving}
+              />
             </View>
 
-            <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
-              {foodItem[item.slay]} {item.measurement}
-            </Text>
+            <View style={styles.row}>
+              <Text style={styles.rowText}>Quantity: </Text>
+              <TextInput
+                style={[styles.borderedContainer, styles.input]}
+                inputMode="numeric"
+                onChangeText={setQuantity}
+                value={quantity}
+                placeholder={quantity}
+              />
+            </View>
           </View>
-        ))}
 
-        <View style={styles.row}>
-          <TouchableOpacity style={[styles.button, styles.borderedContainer]}>
-            <Text style={[styles.buttonText]}>Continue</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.button,
-              styles.borderedContainer,
-              { backgroundColor: "#D7F6FF" },
-            ]}
-          >
-            <Text style={[styles.buttonText]}>Save</Text>
-          </TouchableOpacity>
+          {macroTitles.map((item, index) => (
+            <View
+              key={index}
+              style={[styles.borderedContainer, styles.macroContainer]}
+            >
+              <View style={styles.row}>
+                <Image style={styles.icon} source={item.icon} />
+                <Text style={styles.buttonText}>{item.name}</Text>
+              </View>
+
+              <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
+                {foodItem[item.slay]} {item.measurement}
+              </Text>
+            </View>
+          ))}
+
+          <View style={styles.row}>
+            <TouchableOpacity style={[styles.button, styles.borderedContainer]}>
+              <Text style={[styles.buttonText]}>Continue</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                styles.borderedContainer,
+                { backgroundColor: "#D7F6FF" },
+              ]}
+              onPress={() => {
+                console.log("Hello");
+              }}
+            >
+              <Text style={[styles.buttonText]}>Save</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </Modal>
+      </TouchableWithoutFeedback>
+    </RNModal>
   );
 }
 

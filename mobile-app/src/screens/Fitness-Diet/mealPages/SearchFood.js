@@ -21,18 +21,15 @@ const SearchFood = ({ naviagtion, route }) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [addEntryVisible, setAddEntryVisble] = useState(true);
+  const [addEntryVisible, setAddEntryVisble] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState({
-    PK: "basmabdlrzq@gmail.com-foodEntry",
-    SK: "20250522-dinner-63902880-358d-11f0-bd82-ddda49483cae",
-    calorieCount: 300,
-    carbCount: 60,
+    calorieCount: 0,
+    carbCount: -0,
     fatCount: 0,
-    foodItemID: "bcbcbcbc",
     meal: "dinner",
     measurement: "cup",
-    name: "sandy",
-    proteinCount: 10,
+    name: "",
+    proteinCount: 0,
     quantity: 1,
   });
 
@@ -139,7 +136,12 @@ const SearchFood = ({ naviagtion, route }) => {
                 </Text>
               </View>
 
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedEntry(item);
+                  setAddEntryVisble(true);
+                }}
+              >
                 <Image
                   style={styles.smallImage}
                   source={require("../../../assets/images/plus512.png")}
@@ -151,7 +153,7 @@ const SearchFood = ({ naviagtion, route }) => {
         <AddEntryModal
           isVisible={addEntryVisible}
           setVisible={setAddEntryVisble}
-          foodItem2={selectedEntry}
+          foodItem={selectedEntry}
         />
       </View>
     </SafeAreaView>
