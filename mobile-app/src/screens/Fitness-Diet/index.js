@@ -3,7 +3,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
-  Text,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import MenuIcon from "../../assets/icons/menu";
@@ -24,7 +23,7 @@ import { sharedStyles } from "../styles";
 import AddEntryModal from "./modals/AddEntryModal";
 
 const FitnessDiet = ({ navigation, route }) => {
-  var { refreshGoals } = route.params || false;
+  var { refreshGoals } = route.params?.isEditingGoals || false;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -139,7 +138,7 @@ const FitnessDiet = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    refreshGoals = route.params;
+    refreshGoals = route.params?.isEditingGoals;
     if (refreshGoals) {
       refreshDietGoals();
     }
