@@ -14,27 +14,14 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
-import AddEntryModal2 from "../modals/AddEntryModal2";
 
-const SearchFood = ({ naviagtion, route }) => {
+const SearchFood = ({ navigation, route }) => {
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [addEntryVisible, setAddEntryVisble] = useState(false);
-  const [selectedEntry, setSelectedEntry] = useState({
-    calorieCount: 0,
-    carbCount: -0,
-    fatCount: 0,
-    meal: "dinner",
-    measurement: "cup",
-    name: "",
-    proteinCount: 0,
-    quantity: 1,
-  });
 
-  //changing to ref
   const addEntryRef = useRef(null);
 
   var mealImage;
@@ -142,8 +129,6 @@ const SearchFood = ({ naviagtion, route }) => {
 
               <TouchableOpacity
                 onPress={() => {
-                  // setSelectedEntry(item);
-                  // setAddEntryVisble(true);
                   addEntryRef.current.open(item);
                 }}
               >
@@ -155,12 +140,7 @@ const SearchFood = ({ naviagtion, route }) => {
             </View>
           ))}
         </ScrollView>
-        <AddEntryModal2
-          getRef={(ref) => (addEntryRef.current = ref)}
-          // isVisible={addEntryVisible}
-          // setVisible={setAddEntryVisble}
-          // foodItem={selectedEntry}
-        />
+        <AddEntryModal getRef={(ref) => (addEntryRef.current = ref)} />
       </View>
     </SafeAreaView>
   );
