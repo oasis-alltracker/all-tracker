@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
+import AddEntryModal2 from "../modals/AddEntryModal2";
 
 const SearchFood = ({ naviagtion, route }) => {
   const mealName = route.params.mealName;
@@ -32,6 +33,9 @@ const SearchFood = ({ naviagtion, route }) => {
     proteinCount: 0,
     quantity: 1,
   });
+
+  //changing to ref
+  const addEntryRef = useRef(null);
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -138,8 +142,9 @@ const SearchFood = ({ naviagtion, route }) => {
 
               <TouchableOpacity
                 onPress={() => {
-                  setSelectedEntry(item);
-                  setAddEntryVisble(true);
+                  // setSelectedEntry(item);
+                  // setAddEntryVisble(true);
+                  addEntryRef.current.open(item);
                 }}
               >
                 <Image
@@ -150,10 +155,11 @@ const SearchFood = ({ naviagtion, route }) => {
             </View>
           ))}
         </ScrollView>
-        <AddEntryModal
-          isVisible={addEntryVisible}
-          setVisible={setAddEntryVisble}
-          foodItem={selectedEntry}
+        <AddEntryModal2
+          getRef={(ref) => (addEntryRef.current = ref)}
+          // isVisible={addEntryVisible}
+          // setVisible={setAddEntryVisble}
+          // foodItem={selectedEntry}
         />
       </View>
     </SafeAreaView>
