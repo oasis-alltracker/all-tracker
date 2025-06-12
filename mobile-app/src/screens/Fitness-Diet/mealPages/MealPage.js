@@ -5,148 +5,218 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
+import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
+import FoodEntriesMacrosAPI from "../../../api/diet/foodEntriesMacrosAPI";
+import { getAccessToken } from "../../../user/keychain";
+import moment from "moment";
 
-const MealPage = ({navigation, route}) => {
-    const {dateString, mealName, meal, deleteFoodEntry} = route.params;  
-    const [currentMeal, setCurrentMeal] = useState(meal);  
-    const [currentDate, setCurrentDate] = useState(new Date()); 
+const MealPage = ({ navigation, route }) => {
+  const { dateString, mealName, meal, deleteFoodEntry } = route.params;
+  const [currentMeal, setCurrentMeal] = useState(meal);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(false);
 
-    var mealImage;
-    if (mealName === "Breakfast"){
-      mealImage = require("../../../assets/images/breakfast.png");
-    } else if (mealName === "Lunch"){
-      mealImage = require("../../../assets/images/lunch.png");
-    } else if (mealName === "Dinner"){
-      mealImage = require("../../../assets/images/dinner.png");
-    } else if (mealName === "Snacks"){
-      mealImage = require("../../../assets/images/snack.png");
-    }
+  var mealImage;
+  if (mealName === "Breakfast") {
+    mealImage = require("../../../assets/images/breakfast.png");
+  } else if (mealName === "Lunch") {
+    mealImage = require("../../../assets/images/lunch.png");
+  } else if (mealName === "Dinner") {
+    mealImage = require("../../../assets/images/dinner.png");
+  } else if (mealName === "Snacks") {
+    mealImage = require("../../../assets/images/snack.png");
+  }
 
-    useEffect(() => {
-      setCurrentMeal(meal);
-      extractDate();
-    }, [meal, dateString]);
+  useEffect(() => {
+    setCurrentMeal(meal);
+    extractDate();
+  }, [meal, dateString]);
 
-    const extractDate = () => {
-      //format of the prop dateString is given as YYYY-MM-DD
-      //Date can take in a year, month and day as constructor arguments - but month index ranges from 0 (Jan) to 11 (Dec)
-      var year = dateString.substring(0, 4);
-      var month = dateString.substring(5, 7);
-      var day = dateString.substring(8);
-      setCurrentDate(new Date(parseInt(year), parseInt(month)-1, parseInt(day)));
-    }
-
-    const addMealItem = () => {
-      const newFood = {
-        id: mealItemCount,
-        name: "Eggs and bacon",
-        calorieCount: 100,
-      };
-      mealSetter([...meal.entries, newFood]);
-    };
-
-    const deleteMealItem = async (id) => {
-      Alert.alert(
-        "Delete Meal Item",
-        "Are you sure you want to delete this meal item?",
-        [
-          { text: "No", style: "cancel" },
-          {
-            text: "Yes",
-            isPreferred: true,
-            onPress: async () => {
-              const updatedMeal = await deleteFoodEntry(id);
-              setCurrentMeal(updatedMeal);
-            },
-          },
-        ],
-        {
-          cancelable: true,
-        }
-      );
-    };
-
-    return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.topArea}>
-                <TouchableOpacity onPress={() => {navigationService.navigate("fitness-diet")}}>
-                    <Image style={styles.backArrow} 
-                      source={require("../../../assets/images/back-arrow.png")}>
-                      </Image>
-                </TouchableOpacity>
-                <View style={styles.topAreaBody}>
-                    <View style={styles.mealHeader}>
-                        <Image style={styles.mealIcon} source={mealImage}></Image>
-                        <Text style={styles.title}>{mealName}</Text>
-                    </View>
-                    <Text style={styles.textStyle}>
-                      {currentDate.toLocaleDateString(undefined, {year: "numeric",  month: "long", day: "numeric"})}
-                    </Text>
-                </View>
-            </View>
-            <View style={styles.mainArea}> 
-              <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.scrollContainer}
-                  >
-                  <View style={styles.mealItemSection}>
-                    {currentMeal.entries.map((item, index) => (
-                      <View key={index} style={styles.mealItem}>
-                        <View style={styles.mealItemInfo}>
-                          <Text style={styles.textStyle}>{item.name}</Text>
-                          <Text style={styles.mealItemCalories}>{item.calorieCount} cal</Text>
-                        </View>
-                        <TouchableOpacity onPress={() => deleteMealItem(item)}>
-                          <Image style={styles.deleteIcon} source={require("../../../assets/images/trash.png")}></Image>
-                        </TouchableOpacity>
-                      </View>
-                    ))}
-                    
-                  </View>                  
-                  <View style={styles.buttonSection}>
-                      <TouchableOpacity style={styles.addFood} onPress={addMealItem}>
-                          <Text style={styles.addFoodText}>Add Food</Text>
-                      </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity style={styles.calories}>
-                      <Image style={styles.mealIcon} source={require("../../../assets/images/calories.png")}></Image>
-                      <View style={styles.calorieText}>
-                          <Text style={styles.caloriesLabel}>Calories</Text>
-                          <View style={styles.calorieInfo}>                        
-                              <Text style={styles.caloriesAmount}>{currentMeal.calorieCount}</Text>
-                              <Text style={styles.caloriesUnit}>kcal</Text>
-                          </View>
-                      </View>
-                  </TouchableOpacity>
-                  <View style={styles.macroSection}>
-                      <TouchableOpacity style={styles.macros}>
-                          <Image style={styles.macroIcon} source={require("../../../assets/images/carbs.png")}></Image>
-                          <Text style={styles.textStyle}>Carbs</Text>
-                          <Text style={styles.macroAmount}>{currentMeal.carbCount}</Text>
-                          <Text style={styles.macroUnit}>g</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.macros}>
-                          <Image style={styles.macroIcon} source={require("../../../assets/images/protein.png")}></Image>
-                          <Text style={styles.textStyle}>Protein</Text>
-                          <Text style={styles.macroAmount}>{currentMeal.proteinCount}</Text>
-                          <Text style={styles.macroUnit}>g</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.macros}>
-                          <Image style={styles.macroIcon} source={require("../../../assets/images/fats.png")}></Image>
-                          <Text style={styles.textStyle}>Fats</Text>
-                          <Text style={styles.macroAmount}>{currentMeal.fatCount}</Text>
-                          <Text style={styles.macroUnit}>g</Text>
-                      </TouchableOpacity>
-                  </View>
-                </ScrollView>
-            </View>            
-        </SafeAreaView>
+  const extractDate = () => {
+    //format of the prop dateString is given as YYYY-MM-DD
+    //Date can take in a year, month and day as constructor arguments - but month index ranges from 0 (Jan) to 11 (Dec)
+    var year = dateString.substring(0, 4);
+    var month = dateString.substring(5, 7);
+    var day = dateString.substring(8);
+    setCurrentDate(
+      new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
     );
+  };
+
+  const addMealItem = () => {
+    const newFood = {
+      id: mealItemCount,
+      name: "Eggs and bacon",
+      calorieCount: 100,
+    };
+    mealSetter([...meal.entries, newFood]);
+  };
+
+  const deleteMealItem = async (id) => {
+    Alert.alert(
+      "Delete Meal Item",
+      "Are you sure you want to delete this meal item?",
+      [
+        { text: "No", style: "cancel" },
+        {
+          text: "Yes",
+          isPreferred: true,
+          onPress: async () => {
+            const updatedMeal = await deleteFoodItem(id);
+            console.log("updated meal is:\n" + JSON.stringify(updatedMeal));
+            setCurrentMeal(updatedMeal);
+            console.log(
+              "current meal is set to:\n" + JSON.stringify(updatedMeal)
+            );
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
+
+  const deleteFoodItem = async (foodEntry) => {
+    console.log("in deleteFoodItem");
+    try {
+      setIsLoading(true);
+      token = await getAccessToken();
+      console.log("got token");
+      try {
+        await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
+        console.log("");
+      } catch (error) {
+        console.error("Error deleting food entry: " + error);
+        throw new error();
+      }
+      var meal = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
+        token,
+        moment(currentDate).format("YYYYMMDD"),
+        foodEntry["meal"]
+      );
+      console.log("returned meal = " + JSON.stringify(meal));
+      //setCurrentMeal(meal);
+      //meals = await getAllMeals(token);
+      setIsLoading(false);
+      return meal;
+    } catch (e) {
+      Toast.show("Something went wrong. Please try again.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.TOP,
+      });
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.topArea}>
+        <TouchableOpacity
+          onPress={() => {
+            navigationService.navigate("fitness-diet");
+          }}
+        >
+          <Image
+            style={styles.backArrow}
+            source={require("../../../assets/images/back-arrow.png")}
+          ></Image>
+        </TouchableOpacity>
+        <View style={styles.topAreaBody}>
+          <View style={styles.mealHeader}>
+            <Image style={styles.mealIcon} source={mealImage}></Image>
+            <Text style={styles.title}>{mealName}</Text>
+          </View>
+          <Text style={styles.textStyle}>
+            {currentDate.toLocaleDateString(undefined, {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.mainArea}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.mealItemSection}>
+            {currentMeal.entries.map((item, index) => (
+              <View key={index} style={styles.mealItem}>
+                <View style={styles.mealItemInfo}>
+                  <Text style={styles.textStyle}>{item.name}</Text>
+                  <Text style={styles.mealItemCalories}>
+                    {item.calorieCount} cal
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={() => deleteMealItem(item)}>
+                  <Image
+                    style={styles.deleteIcon}
+                    source={require("../../../assets/images/trash.png")}
+                  ></Image>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+          <View style={styles.buttonSection}>
+            <TouchableOpacity style={styles.addFood} onPress={addMealItem}>
+              <Text style={styles.addFoodText}>Add Food</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.calories}>
+            <Image
+              style={styles.mealIcon}
+              source={require("../../../assets/images/calories.png")}
+            ></Image>
+            <View style={styles.calorieText}>
+              <Text style={styles.caloriesLabel}>Calories</Text>
+              <View style={styles.calorieInfo}>
+                <Text style={styles.caloriesAmount}>
+                  {currentMeal.calorieCount}
+                </Text>
+                <Text style={styles.caloriesUnit}>kcal</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.macroSection}>
+            <TouchableOpacity style={styles.macros}>
+              <Image
+                style={styles.macroIcon}
+                source={require("../../../assets/images/carbs.png")}
+              ></Image>
+              <Text style={styles.textStyle}>Carbs</Text>
+              <Text style={styles.macroAmount}>{currentMeal.carbCount}</Text>
+              <Text style={styles.macroUnit}>g</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.macros}>
+              <Image
+                style={styles.macroIcon}
+                source={require("../../../assets/images/protein.png")}
+              ></Image>
+              <Text style={styles.textStyle}>Protein</Text>
+              <Text style={styles.macroAmount}>{currentMeal.proteinCount}</Text>
+              <Text style={styles.macroUnit}>g</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.macros}>
+              <Image
+                style={styles.macroIcon}
+                source={require("../../../assets/images/fats.png")}
+              ></Image>
+              <Text style={styles.textStyle}>Fats</Text>
+              <Text style={styles.macroAmount}>{currentMeal.fatCount}</Text>
+              <Text style={styles.macroUnit}>g</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -255,14 +325,16 @@ const styles = StyleSheet.create({
   macroAmount: {
     fontSize: 20,
     fontFamily: "Sego-Bold",
-    position: "absolute", right: 0,
+    position: "absolute",
+    right: 0,
     marginRight: 35,
     color: "#25436B",
   },
   macroUnit: {
     fontSize: 20,
     fontFamily: "Sego",
-    position: "absolute", right: 0,
+    position: "absolute",
+    right: 0,
     marginRight: 15,
     color: "#25436B",
   },
