@@ -322,11 +322,7 @@ const FitnessDiet = ({ navigation, route }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             deleteFoodEntry={deleteFoodEntry}
-<<<<<<< karin/remove-excess-api-call
-            setMacroModalVisible={setEditVisible}
-=======
             getGoals={getGoals}
->>>>>>> main
             updateGoals={updateGoals}
           />
         );
