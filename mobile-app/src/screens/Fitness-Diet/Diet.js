@@ -49,6 +49,7 @@ const macroKeys = [
 const today = new Date();
 
 export default function Diet({
+  trackingPreferences,
   day,
   updateDate,
   meals,
@@ -298,6 +299,7 @@ export default function Diet({
       <EditMacroGoalsModal
         getRef={(ref) => (editMacroGoalsRef.current = ref)}
         updateGoals={updateGoals}
+        selectedTrackers={trackingPreferences}
       />
     </>
   );

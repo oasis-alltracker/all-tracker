@@ -22,7 +22,8 @@ import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 import AddEntryModal from "./modals/AddEntryModal";
 
-const FitnessDiet = ({ navigation }) => {
+const FitnessDiet = ({ navigation, route }) => {
+  var { refreshGoals } = route.params?.isEditingGoals || false;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +89,6 @@ const FitnessDiet = ({ navigation }) => {
   });
 
   const [dietModalVisible, setDietVisible] = useState(false);
-  const [editMacroModalVisible, setEditVisible] = useState(false);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -136,6 +136,13 @@ const FitnessDiet = ({ navigation }) => {
       getDataOnLoad();
     }
   }, []);
+
+  useEffect(() => {
+    refreshGoals = route.params?.isEditingGoals;
+    if (refreshGoals) {
+      getGoals();
+    }
+  }, [route]);
 
   function errorResponse(error) {
     console.log(error);
@@ -307,6 +314,7 @@ const FitnessDiet = ({ navigation }) => {
       case "second":
         return (
           <Diet
+            trackingPreferences={trackingPreferences}
             day={day}
             updateDate={updateDate}
             meals={mealMacros}
@@ -314,7 +322,11 @@ const FitnessDiet = ({ navigation }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             deleteFoodEntry={deleteFoodEntry}
+<<<<<<< karin/remove-excess-api-call
             setMacroModalVisible={setEditVisible}
+=======
+            getGoals={getGoals}
+>>>>>>> main
             updateGoals={updateGoals}
           />
         );
