@@ -20,6 +20,7 @@ const MealPage = ({ navigation, route }) => {
   const [currentMeal, setCurrentMeal] = useState(meal);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
+  const [deletedFoodItems, setDeletedFoodItems] = useState(false);
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -67,9 +68,9 @@ const MealPage = ({ navigation, route }) => {
           text: "Yes",
           isPreferred: true,
           onPress: async () => {
-            console.log("initial meal is:\n" + JSON.stringify(currentMeal));
             const updatedMeal = await deleteFoodItem(id);
             updateCurrentMeal(updatedMeal);
+            setDeletedFoodItems(true);
           },
         },
       ],
@@ -85,7 +86,6 @@ const MealPage = ({ navigation, route }) => {
       token = await getAccessToken();
       try {
         await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
-        console.log("");
       } catch (error) {
         console.error("Error deleting food entry: " + error);
         throw new error();
@@ -109,7 +109,6 @@ const MealPage = ({ navigation, route }) => {
   const updateCurrentMeal = (meal) => {
     if (meal) {
       setCurrentMeal(meal[mealName.toLowerCase()]);
-      console.log("current meal is set to:\n" + JSON.stringify(currentMeal));
     }
   };
 
@@ -118,7 +117,11 @@ const MealPage = ({ navigation, route }) => {
       <View style={styles.topArea}>
         <TouchableOpacity
           onPress={() => {
-            navigationService.navigate("fitness-diet");
+            const status = deletedFoodItems;
+            setDeletedFoodItems(false);
+            navigationService.navigate("fitness-diet", {
+              foodItemsChanged: status,
+            });
           }}
         >
           <Image
