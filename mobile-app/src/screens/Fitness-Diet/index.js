@@ -322,7 +322,6 @@ const FitnessDiet = ({ navigation, route }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             deleteFoodEntry={deleteFoodEntry}
-            getGoals={getGoals}
             updateGoals={updateGoals}
           />
         );

@@ -56,7 +56,6 @@ export default function Diet({
   dietGoals,
   totalMacros,
   deleteFoodEntry,
-  setMacroModalVisible,
   updateGoals,
 }) {
   const editMacroGoalsRef = useRef(null);
