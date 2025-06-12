@@ -4,8 +4,13 @@ import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
+import Toast from "react-native-root-toast";
 
-export default function EditMacroGoalsModal({ getRef, updateGoals }) {
+export default function EditMacroGoalsModal({
+  getRef,
+  updateGoals,
+  selectedTrackers,
+}) {
   const [datas, setDatas] = useState([
     {
       value: "0 g",
@@ -33,6 +38,7 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setVisible] = useState(false);
   const updateMacrosRef = useRef(null);
+  const isEditingMacros = true;
 
   const onUpdateMacroValue = async (macroLabel, macroValue, units) => {
     var newCalories = calorieGoalValue;
@@ -67,6 +73,19 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
         return item;
       });
       setDatas(newDatas);
+    }
+  };
+
+  const onRecalculate = () => {
+    if (selectedTrackers.dietSelected) {
+      setVisible(false);
+      navigationService.navigate("setup", {
+        screen: "dietStep1",
+        params: {
+          selectedTrackers: selectedTrackers,
+          isEditingMacros: isEditingMacros,
+        },
+      });
     }
   };
 
@@ -135,7 +154,6 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
       style={styles.modal}
     >
       <View style={styles.container}>
-        <Spinner visible={isLoading}></Spinner>
         <View style={styles.macroContainerStyle}>
           <View style={[styles.item, styles.head]}>
             <View style={[styles.item, styles.headItem]}>
@@ -194,7 +212,7 @@ export default function EditMacroGoalsModal({ getRef, updateGoals }) {
         <View>
           <TouchableOpacity
             style={[styles.button, styles.recalculateButton]}
-            onPress={() => closeModal()}
+            onPress={() => onRecalculate()}
           >
             <Text style={styles.buttonText}>Recalculate goals</Text>
           </TouchableOpacity>

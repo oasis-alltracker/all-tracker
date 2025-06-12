@@ -15,8 +15,14 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 
 const DietStep5 = (props) => {
-  const { selectedTrackers, goal, weightGoal, currentWeight, currentHeight } =
-    props.route.params;
+  const {
+    selectedTrackers,
+    isEditingMacros,
+    goal,
+    weightGoal,
+    currentWeight,
+    currentHeight,
+  } = props.route.params;
   const [birthYear, setBirthYear] = useState(null);
 
   const onNext = () => {
@@ -24,6 +30,7 @@ const DietStep5 = (props) => {
       if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
         navigationService.navigate("dietStep7", {
           selectedTrackers,
+          isEditingMacros,
           goal,
           weightGoal,
           currentWeight,

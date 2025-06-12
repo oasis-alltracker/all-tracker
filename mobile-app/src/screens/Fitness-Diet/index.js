@@ -23,7 +23,8 @@ import { sharedStyles } from "../styles";
 import SelectMealModal from "./modals/SelectMealModal";
 import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 
-const FitnessDiet = ({ navigation }) => {
+const FitnessDiet = ({ navigation, route }) => {
+  var { refreshGoals } = route.params?.isEditingGoals || false;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +90,6 @@ const FitnessDiet = ({ navigation }) => {
   });
 
   const [dietModalVisible, setDietVisible] = useState(false);
-  const [editMacroModalVisible, setEditVisible] = useState(false);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -137,6 +137,13 @@ const FitnessDiet = ({ navigation }) => {
       getDataOnLoad();
     }
   }, []);
+
+  useEffect(() => {
+    refreshGoals = route.params?.isEditingGoals;
+    if (refreshGoals) {
+      getGoals();
+    }
+  }, [route]);
 
   function errorResponse(error) {
     console.log(error);
@@ -308,6 +315,7 @@ const FitnessDiet = ({ navigation }) => {
       case "second":
         return (
           <Diet
+            trackingPreferences={trackingPreferences}
             day={day}
             updateDate={updateDate}
             meals={mealMacros}
@@ -315,8 +323,6 @@ const FitnessDiet = ({ navigation }) => {
             totalMacros={totalMacros}
             dietGoals={dietGoals}
             deleteFoodEntry={deleteFoodEntry}
-            setMacroModalVisible={setEditVisible}
-            getGoals={getGoals}
             updateGoals={updateGoals}
           />
         );

@@ -49,14 +49,13 @@ const macroKeys = [
 const today = new Date();
 
 export default function Diet({
+  trackingPreferences,
   day,
   updateDate,
   meals,
   dietGoals,
   totalMacros,
   deleteFoodEntry,
-  setMacroModalVisible,
-  getGoals,
   updateGoals,
 }) {
   const editMacroGoalsRef = useRef(null);
@@ -249,7 +248,6 @@ export default function Diet({
             <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
             <TouchableOpacity
               onPress={() => {
-                getGoals();
                 editMacroGoalsRef.current.open({
                   calorieGoalUnits: dietGoals.calorieGoal.units,
                   calorieGoalValue: dietGoals.calorieGoal.value,
@@ -300,6 +298,7 @@ export default function Diet({
       <EditMacroGoalsModal
         getRef={(ref) => (editMacroGoalsRef.current = ref)}
         updateGoals={updateGoals}
+        selectedTrackers={trackingPreferences}
       />
     </>
   );
