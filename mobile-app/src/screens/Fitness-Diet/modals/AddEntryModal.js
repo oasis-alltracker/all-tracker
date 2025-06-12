@@ -56,15 +56,15 @@ export default function AddEntryModal({ getRef }) {
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
   var currentMacros = {
-    Fats: ((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(1),
-    Protein: ((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(1),
+    Fats: ((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(0),
+    Protein: ((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(0),
     Carbs: ((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
-      1
+      0
     ),
     Calories: (
       (foodEntry.calorieCount / foodEntry.quantity) *
       quantity
-    ).toFixed(1),
+    ).toFixed(0),
   };
 
   useEffect(() => {
@@ -101,6 +101,7 @@ export default function AddEntryModal({ getRef }) {
                 style={[styles.borderedContainer, styles.input]}
                 onChangeText={setServing}
                 value={serving}
+                textAlign={"center"}
               />
             </View>
 
@@ -111,6 +112,7 @@ export default function AddEntryModal({ getRef }) {
                 inputMode="numeric"
                 onChangeText={setQuantity}
                 value={quantity}
+                textAlign={"center"}
               />
             </View>
           </View>
