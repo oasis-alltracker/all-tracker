@@ -16,7 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 
 const MealPage = ({ navigation, route }) => {
-  const { dateString, mealName, meal, deleteFoodEntry } = route.params;
+  const { dateString, mealName, meal } = route.params;
   const [currentMeal, setCurrentMeal] = useState(meal);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +58,7 @@ const MealPage = ({ navigation, route }) => {
     mealSetter([...meal.entries, newFood]);
   };
 
-  const deleteMealItem = async (id) => {
+  const deleteMealItem = async (mealItem) => {
     Alert.alert(
       "Delete Meal Item",
       "Are you sure you want to delete this meal item?",
@@ -68,7 +68,7 @@ const MealPage = ({ navigation, route }) => {
           text: "Yes",
           isPreferred: true,
           onPress: async () => {
-            const updatedMeal = await deleteFoodItem(id);
+            const updatedMeal = await deleteFoodEntry(mealItem);
             updateCurrentMeal(updatedMeal);
             setDeletedFoodItems(true);
           },
@@ -80,7 +80,7 @@ const MealPage = ({ navigation, route }) => {
     );
   };
 
-  const deleteFoodItem = async (foodEntry) => {
+  const deleteFoodEntry = async (foodEntry) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
