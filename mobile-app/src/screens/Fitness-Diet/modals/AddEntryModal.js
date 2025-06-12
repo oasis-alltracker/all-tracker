@@ -105,7 +105,9 @@ export default function AddEntryModal({ getRef, mealName, day }) {
       await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
       setIsLoading(false);
       setVisible(false);
-      navigationService.navigate("fitness-diet");
+      navigationService.navigate("fitness-diet", {
+        refreshMeal: mealName.toLowerCase(),
+      });
     } catch (e) {
       console.log(e);
       setIsLoading(false);

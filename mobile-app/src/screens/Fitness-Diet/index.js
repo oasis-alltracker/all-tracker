@@ -21,10 +21,10 @@ import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 import SelectMealModal from "./modals/SelectMealModal";
-import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 
 const FitnessDiet = ({ navigation, route }) => {
   var { refreshGoals } = route.params?.isEditingGoals || false;
+  var refreshMeal = route.params?.refreshMeal || null;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -143,6 +143,10 @@ const FitnessDiet = ({ navigation, route }) => {
     if (refreshGoals) {
       getGoals();
     }
+
+    if (refreshMeal != null) {
+      getMeal(refreshMeal);
+    }
   }, [route]);
 
   function errorResponse(error) {
@@ -180,18 +184,18 @@ const FitnessDiet = ({ navigation, route }) => {
     }
   };
 
-  const getMeal = async (token, meal) => {
+  const getMeal = async (meal) => {
     try {
       setIsLoading(true);
-      if (meal in ["breakfast", "lunch", "dinner", "snack"]) {
-        result = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
-          token,
-          moment(day).format("YYYYMMDD"),
-          meal
-        );
 
-        mealSetters[meal](result[meal]);
-      }
+      token = await getAccessToken();
+      result = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
+        token,
+        moment(day).format("YYYYMMDD"),
+        meal
+      );
+
+      mealSetters[meal](result[meal]);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -260,7 +264,7 @@ const FitnessDiet = ({ navigation, route }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.createFoodEntry(token, foodEntry);
-      await getMeal(token, foodEntry["meal"]);
+      await getMeal(foodEntry["meal"]);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -290,7 +294,7 @@ const FitnessDiet = ({ navigation, route }) => {
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.updateFoodEntry(token, foodEntryID, foodEntry);
-      await getMeal(token, foodEntry["meal"]);
+      await getMeal(foodEntry["meal"]);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
