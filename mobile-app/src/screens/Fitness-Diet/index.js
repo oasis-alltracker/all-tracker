@@ -25,8 +25,6 @@ import AddEntryModal from "./modals/AddEntryModal";
 const FitnessDiet = ({ navigation, route }) => {
   var { refreshGoals } = route.params?.isEditingGoals || false;
   var { foodEntriesChanged } = route.params?.foodItemsChanged || false;
-  const [refreshFoodEntries, setRefreshFoodEntries] = useState(false);
-  //console.log("foodEntriesChanged = " + foodEntriesChanged);
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -143,33 +141,11 @@ const FitnessDiet = ({ navigation, route }) => {
   useEffect(() => {
     refreshGoals = route.params?.isEditingGoals;
     foodEntriesChanged = route.params?.foodItemsChanged;
-    if (foodEntriesChanged) {
-      setRefreshFoodEntries(foodEntriesChanged); //true
-    } else {
-      setRefreshFoodEntries(false);
-    }
-    console.log(
-      "in useEffect; foodEntriesChanged now = " +
-        foodEntriesChanged + //false/undefined OR true
-        ", refreshFoodEntries = " +
-        refreshFoodEntries //false OR true
-    );
     if (refreshGoals) {
       getGoals();
     }
     if (foodEntriesChanged) {
-      console.log(
-        "refreshFoodEntries was updated to = " +
-          refreshFoodEntries +
-          " and triggers getAllMeals"
-      );
       refreshMeals();
-      setRefreshFoodEntries(false);
-      console.log(
-        "getAllMeals has been called and refreshFoodEntries has been reset to " +
-          refreshFoodEntries +
-          "\n***********************************\n"
-      );
     }
   }, [route]);
 
