@@ -67,12 +67,9 @@ const MealPage = ({ navigation, route }) => {
           text: "Yes",
           isPreferred: true,
           onPress: async () => {
+            console.log("initial meal is:\n" + JSON.stringify(currentMeal));
             const updatedMeal = await deleteFoodItem(id);
-            console.log("updated meal is:\n" + JSON.stringify(updatedMeal));
-            setCurrentMeal(updatedMeal);
-            console.log(
-              "current meal is set to:\n" + JSON.stringify(updatedMeal)
-            );
+            updateCurrentMeal(updatedMeal);
           },
         },
       ],
@@ -83,11 +80,9 @@ const MealPage = ({ navigation, route }) => {
   };
 
   const deleteFoodItem = async (foodEntry) => {
-    console.log("in deleteFoodItem");
     try {
       setIsLoading(true);
       token = await getAccessToken();
-      console.log("got token");
       try {
         await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
         console.log("");
@@ -100,9 +95,6 @@ const MealPage = ({ navigation, route }) => {
         moment(currentDate).format("YYYYMMDD"),
         foodEntry["meal"]
       );
-      console.log("returned meal = " + JSON.stringify(meal));
-      //setCurrentMeal(meal);
-      //meals = await getAllMeals(token);
       setIsLoading(false);
       return meal;
     } catch (e) {
@@ -111,6 +103,13 @@ const MealPage = ({ navigation, route }) => {
         duration: Toast.durations.LONG,
         position: Toast.positions.TOP,
       });
+    }
+  };
+
+  const updateCurrentMeal = (meal) => {
+    if (meal) {
+      setCurrentMeal(meal[mealName.toLowerCase()]);
+      console.log("current meal is set to:\n" + JSON.stringify(currentMeal));
     }
   };
 
