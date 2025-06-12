@@ -57,7 +57,6 @@ export default function Diet({
   totalMacros,
   deleteFoodEntry,
   setMacroModalVisible,
-  getGoals,
   updateGoals,
 }) {
   const editMacroGoalsRef = useRef(null);
@@ -250,7 +249,6 @@ export default function Diet({
             <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
             <TouchableOpacity
               onPress={() => {
-                getGoals();
                 editMacroGoalsRef.current.open({
                   calorieGoalUnits: dietGoals.calorieGoal.units,
                   calorieGoalValue: dietGoals.calorieGoal.value,

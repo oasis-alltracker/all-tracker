@@ -154,7 +154,6 @@ export default function EditMacroGoalsModal({
       style={styles.modal}
     >
       <View style={styles.container}>
-        <Spinner visible={isLoading}></Spinner>
         <View style={styles.macroContainerStyle}>
           <View style={[styles.item, styles.head]}>
             <View style={[styles.item, styles.headItem]}>
