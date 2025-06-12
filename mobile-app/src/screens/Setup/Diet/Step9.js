@@ -20,6 +20,7 @@ const activityLevelValues = {
 const DietStep9 = (props) => {
   const {
     selectedTrackers,
+    isEditingMacros,
     goal,
     weightGoal,
     currentWeight,
@@ -95,6 +96,18 @@ const DietStep9 = (props) => {
         proteinGoal: newProteins,
         fatGoal: newFats,
         calorieGoal: newCalories,
+      });
+    }
+  };
+
+  const onNext = () => {
+    if (isEditingMacros) {
+      navigationService.navigate("fitness-diet", {
+        isEditingGoals: isEditingMacros,
+      });
+    } else {
+      navigationService.navigate("dietStep10", {
+        selectedTrackers,
       });
     }
   };
@@ -245,13 +258,8 @@ const DietStep9 = (props) => {
           >
             Back
           </Button>
-          <Button
-            onPress={() =>
-              navigationService.navigate("dietStep10", { selectedTrackers })
-            }
-            style={styles.button}
-          >
-            Next
+          <Button onPress={() => onNext()} style={styles.button}>
+            {isEditingMacros ? "Save" : "Next"}
           </Button>
         </View>
       </>

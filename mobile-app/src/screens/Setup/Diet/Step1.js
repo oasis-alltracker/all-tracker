@@ -8,11 +8,15 @@ import navigationService from "../../../navigators/navigationService";
 
 const DietStep1 = (props) => {
   const [goal, setGoal] = useState("none");
-  const { selectedTrackers } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
 
   const onNext = () => {
     if (goal != "none") {
-      navigationService.navigate("dietStep3", { selectedTrackers, goal });
+      navigationService.navigate("dietStep3", {
+        selectedTrackers,
+        isEditingMacros,
+        goal,
+      });
     } else {
       if (Platform.OS === "ios") {
         Toast.show("Please make a selection", {

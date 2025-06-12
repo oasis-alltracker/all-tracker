@@ -9,6 +9,7 @@ import Toast from "react-native-root-toast";
 const DietStep7 = (props) => {
   const {
     selectedTrackers,
+    isEditingMacros,
     goal,
     weightGoal,
     currentWeight,
@@ -32,6 +33,7 @@ const DietStep7 = (props) => {
         const weightChangePerWeek = 0;
         navigationService.navigate("dietStep9", {
           selectedTrackers,
+          isEditingMacros,
           goal,
           weightGoal,
           currentWeight,
@@ -43,6 +45,7 @@ const DietStep7 = (props) => {
       } else {
         navigationService.navigate("dietStep8", {
           selectedTrackers,
+          isEditingMacros,
           goal,
           weightGoal,
           currentWeight,

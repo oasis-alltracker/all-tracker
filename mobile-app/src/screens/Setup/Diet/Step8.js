@@ -25,6 +25,7 @@ const weightChangeValues = {
 const DietStep8 = (props) => {
   const {
     selectedTrackers,
+    isEditingMacros,
     goal,
     weightGoal,
     currentWeight,
@@ -54,6 +55,7 @@ const DietStep8 = (props) => {
         weightChangeValues[currentWeight.units][intensity];
       navigationService.navigate("dietStep9", {
         selectedTrackers,
+        isEditingMacros,
         goal,
         weightGoal,
         currentWeight,

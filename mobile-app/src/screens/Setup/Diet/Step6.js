@@ -15,7 +15,7 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 
 const DietStep6 = (props) => {
-  const { selectedTrackers, goal, weightGoal, currentWeight } =
+  const { selectedTrackers, isEditingMacros, goal, weightGoal, currentWeight } =
     props.route.params;
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
@@ -27,6 +27,7 @@ const DietStep6 = (props) => {
 
         navigationService.navigate("dietStep5", {
           selectedTrackers,
+          isEditingMacros,
           goal,
           weightGoal,
           currentWeight,
