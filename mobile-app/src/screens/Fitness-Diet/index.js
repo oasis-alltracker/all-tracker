@@ -366,11 +366,7 @@ const FitnessDiet = ({ navigation }) => {
       <SelectMealModal
         isVisible={dietModalVisible}
         setVisible={setDietVisible}
-        dayString={day.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        dayString={day.toISOString()}
       />
     </SafeAreaView>
   );

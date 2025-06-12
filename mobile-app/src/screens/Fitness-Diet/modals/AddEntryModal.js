@@ -11,6 +11,10 @@ import {
 } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
+import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
+import { getAccessToken } from "../../../user/keychain";
+import moment from "moment";
+import Spinner from "react-native-loading-spinner-overlay";
 
 //TO DOs:
 //1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
@@ -40,8 +44,9 @@ const macroTitles = [
   },
 ];
 
-export default function AddEntryModal({ getRef }) {
+export default function AddEntryModal({ getRef, mealName, day }) {
   const [isVisible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [foodEntry, setFoodEntry] = useState({
     calorieCount: 0,
     carbCount: 0,
@@ -56,15 +61,12 @@ export default function AddEntryModal({ getRef }) {
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
   var currentMacros = {
-    Fats: ((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(0),
-    Protein: ((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(0),
-    Carbs: ((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
-      0
+    Fats: Math.round((foodEntry.fatCount / foodEntry.quantity) * quantity),
+    Protein: Math.round((foodEntry.carbCount / foodEntry.quantity) * quantity),
+    Carbs: Math.round((foodEntry.proteinCount / foodEntry.quantity) * quantity),
+    Calories: Math.round(
+      (foodEntry.calorieCount / foodEntry.quantity) * quantity
     ),
-    Calories: (
-      (foodEntry.calorieCount / foodEntry.quantity) *
-      quantity
-    ).toFixed(0),
   };
 
   useEffect(() => {
@@ -83,6 +85,33 @@ export default function AddEntryModal({ getRef }) {
     getRef(ref);
   }, []);
 
+  const addFoodEntry = async () => {
+    try {
+      var newFoodEntry = {
+        name: foodEntry.name,
+        meal: mealName.toLowerCase(),
+        calorieCount: currentMacros.Calories,
+        fatCount: currentMacros.Fats,
+        foodItemID: foodEntry.foodItemID,
+        proteinCount: currentMacros.Protein,
+        carbCount: currentMacros.Carbs,
+        quantity: +quantity,
+        measurement: serving,
+        dateStamp: moment(day).format("YYYYMMDD"),
+      };
+      console.log(JSON.stringify(newFoodEntry));
+      setIsLoading(true);
+      token = await getAccessToken();
+      await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
+      setIsLoading(false);
+      setVisible(false);
+      navigationService.navigate("fitness-diet");
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <RNModal
       isVisible={isVisible}
@@ -94,6 +123,7 @@ export default function AddEntryModal({ getRef }) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <Text style={styles.titleText}>{foodEntry.name} </Text>
+          <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
             <View style={styles.row}>
               <Text style={styles.rowText}>Serving Size: </Text>
@@ -149,8 +179,7 @@ export default function AddEntryModal({ getRef }) {
                 { backgroundColor: "#D7F6FF" },
               ]}
               onPress={() => {
-                setVisible(false);
-                navigationService.navigate("fitness-diet");
+                addFoodEntry();
               }}
             >
               <Text style={[styles.buttonText]}>Add</Text>
