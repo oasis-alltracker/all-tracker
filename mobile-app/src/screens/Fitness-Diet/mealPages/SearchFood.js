@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -13,13 +13,16 @@ import { getAccessToken } from "../../../user/keychain";
 import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
+import AddEntryModal from "../modals/AddEntryModal";
 
-const SearchFood = ({ naviagtion, route }) => {
+const SearchFood = ({ navigation, route }) => {
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const addEntryRef = useRef(null);
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -124,7 +127,11 @@ const SearchFood = ({ naviagtion, route }) => {
                 </Text>
               </View>
 
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  addEntryRef.current.open(item);
+                }}
+              >
                 <Image
                   style={styles.smallImage}
                   source={require("../../../assets/images/plus512.png")}
@@ -133,6 +140,7 @@ const SearchFood = ({ naviagtion, route }) => {
             </View>
           ))}
         </ScrollView>
+        <AddEntryModal getRef={(ref) => (addEntryRef.current = ref)} />
       </View>
     </SafeAreaView>
   );

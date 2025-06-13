@@ -21,7 +21,8 @@ import FoodEntriesAPI from "../../api/diet/foodEntriesAPI";
 import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
-import AddEntryModal from "./modals/AddEntryModal";
+import SelectMealModal from "./modals/SelectMealModal";
+import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 
 const FitnessDiet = ({ navigation, route }) => {
   var { refreshGoals } = route.params?.isEditingGoals || false;
@@ -373,7 +374,7 @@ const FitnessDiet = ({ navigation, route }) => {
           })}
         </View>
       </View>
-      <AddEntryModal
+      <SelectMealModal
         isVisible={dietModalVisible}
         setVisible={setDietVisible}
         dayString={day.toLocaleDateString(undefined, {
