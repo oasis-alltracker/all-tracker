@@ -98,7 +98,6 @@ export default function AddEntryModal({ getRef, mealName, day }) {
         measurement: serving,
         dateStamp: moment(day).format("YYYYMMDD"),
       };
-      console.log(JSON.stringify(newFoodEntry));
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
