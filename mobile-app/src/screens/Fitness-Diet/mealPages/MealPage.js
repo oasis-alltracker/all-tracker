@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Image,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image } from "react-native";
 import navigationService from "../../../navigators/navigationService";
 import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import FoodEntriesMacrosAPI from "../../../api/diet/foodEntriesMacrosAPI";
@@ -21,7 +22,7 @@ const MealPage = ({ navigation, route }) => {
   const [currentMeal, setCurrentMeal] = useState(meal);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
-  const [deletedFoodItems, setDeletedFoodItems] = useState(false);
+  const foodEntriesChangedRef = useRef(false);
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -38,6 +39,12 @@ const MealPage = ({ navigation, route }) => {
     setCurrentMeal(meal);
     extractDate();
   }, [meal, dateString]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      foodEntriesChangedRef.current = false;
+    }, [])
+  );
 
   const extractDate = () => {
     //format of the prop dateString is given as YYYY-MM-DD
@@ -71,7 +78,7 @@ const MealPage = ({ navigation, route }) => {
           onPress: async () => {
             const updatedMeal = await deleteFoodEntry(mealItem);
             updateCurrentMeal(updatedMeal);
-            setDeletedFoodItems(true);
+            foodEntriesChangedRef.current = true;
           },
         },
       ],
@@ -113,10 +120,8 @@ const MealPage = ({ navigation, route }) => {
       <View style={styles.topArea}>
         <TouchableOpacity
           onPress={() => {
-            const status = deletedFoodItems;
-            setDeletedFoodItems(false);
             navigationService.navigate("fitness-diet", {
-              foodItemsChanged: status,
+              foodItemsChanged: foodEntriesChangedRef.current,
             });
           }}
         >
