@@ -19,7 +19,6 @@ import Spinner from "react-native-loading-spinner-overlay";
 //TO DOs:
 //1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
 //2. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
-//3. send api call to save entry that when "add" is pressed
 
 const macroTitles = [
   {
@@ -208,7 +207,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "90%",
-    padding: 15,
+    padding: 20,
     backgroundColor: "white",
     borderRadius: 30,
     borderWidth: 1,
@@ -218,10 +217,11 @@ const styles = StyleSheet.create({
     fontFamily: "Sego-Bold",
     fontSize: 33,
     color: "#25436B",
-    alignSelf: "center",
+    alignSelf: "left",
+    marginBottom: 15,
   },
   rowText: {
-    fontSize: 24,
+    fontSize: 22,
     color: "#25436B",
     fontFamily: "Sego",
   },
@@ -238,10 +238,10 @@ const styles = StyleSheet.create({
   button: {
     width: "45%",
     alignContent: "center",
-    marginTop: 30,
+    marginTop: 20,
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 22,
     fontFamily: "Sego",
     color: "#25436B",
   },
@@ -249,10 +249,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 5,
+    paddingHorizontal: 15,
   },
   input: {
     width: "40%",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Sego-Bold",
     color: "#25436B",
   },
