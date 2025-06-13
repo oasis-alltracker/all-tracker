@@ -14,6 +14,7 @@ import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import FoodEntriesMacrosAPI from "../../../api/diet/foodEntriesMacrosAPI";
 import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -143,6 +144,7 @@ const MealPage = ({ navigation, route }) => {
           </Text>
         </View>
       </View>
+      <Spinner visible={isLoading}></Spinner>
       <View style={styles.mainArea}>
         <ScrollView
           showsVerticalScrollIndicator={false}
