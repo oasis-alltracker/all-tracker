@@ -12,10 +12,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../../../navigators/navigationService";
 import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
-import FoodEntriesMacrosAPI from "../../../api/diet/foodEntriesMacrosAPI";
 import { getAccessToken } from "../../../user/keychain";
-import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
+import Toast from "react-native-root-toast";
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -76,9 +75,7 @@ const MealPage = ({ navigation, route }) => {
           text: "Yes",
           isPreferred: true,
           onPress: async () => {
-            const updatedMeal = await deleteFoodEntry(mealItem);
-            updateCurrentMeal(updatedMeal);
-            foodEntriesChangedRef.current = true;
+            await deleteFoodEntry(mealItem);
           },
         },
       ],
@@ -91,27 +88,25 @@ const MealPage = ({ navigation, route }) => {
   const deleteFoodEntry = async (foodEntry) => {
     try {
       setIsLoading(true);
+      var updatedMeal = JSON.parse(JSON.stringify(currentMeal));
+      updatedMeal.entries = updatedMeal.entries.filter(
+        (item) => item.SK !== foodEntry.SK
+      );
+
       token = await getAccessToken();
       await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
-      var meal = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
-        token,
-        moment(currentDate).format("YYYYMMDD"),
-        foodEntry["meal"]
-      );
+
+      setCurrentMeal(updatedMeal);
+      foodEntriesChangedRef.current = true;
       setIsLoading(false);
-      return meal;
     } catch (e) {
+      console.log(e);
+      setIsLoading(false);
       Toast.show("Something went wrong. Please try again.", {
         ...styles.errorToast,
         duration: Toast.durations.LONG,
         position: Toast.positions.TOP,
       });
-    }
-  };
-
-  const updateCurrentMeal = (meal) => {
-    if (meal) {
-      setCurrentMeal(meal[mealName.toLowerCase()]);
     }
   };
 
