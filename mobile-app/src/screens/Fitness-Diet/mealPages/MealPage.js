@@ -85,12 +85,7 @@ const MealPage = ({ navigation, route }) => {
     try {
       setIsLoading(true);
       token = await getAccessToken();
-      try {
-        await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
-      } catch (error) {
-        console.error("Error deleting food entry: " + error);
-        throw new error();
-      }
+      await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
       var meal = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
         token,
         moment(currentDate).format("YYYYMMDD"),
