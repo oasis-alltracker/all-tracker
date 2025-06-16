@@ -16,6 +16,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
 
 const SearchFood = ({ navigation, route }) => {
+  var prevPage = route.params?.prevPage || "fitness-diet";
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
@@ -81,7 +82,7 @@ const SearchFood = ({ navigation, route }) => {
         <Spinner visible={isLoading}></Spinner>
         <TouchableOpacity
           onPress={() => {
-            navigationService.navigate("fitness-diet");
+            navigationService.navigate(prevPage);
           }}
         >
           <Image
@@ -150,6 +151,7 @@ const SearchFood = ({ navigation, route }) => {
           getRef={(ref) => (addEntryRef.current = ref)}
           mealName={mealName}
           day={day}
+          prevPage={prevPage}
         />
       </View>
     </SafeAreaView>

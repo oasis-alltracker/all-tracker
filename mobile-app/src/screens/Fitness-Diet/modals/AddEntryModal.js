@@ -43,7 +43,8 @@ const macroTitles = [
   },
 ];
 
-export default function AddEntryModal({ getRef, mealName, day }) {
+export default function AddEntryModal({ getRef, mealName, day, prevPage }) {
+  var prev = prevPage;
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [foodEntry, setFoodEntry] = useState({
@@ -103,7 +104,7 @@ export default function AddEntryModal({ getRef, mealName, day }) {
       await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
       setIsLoading(false);
       setVisible(false);
-      navigationService.navigate("fitness-diet", {
+      navigationService.navigate(prev, {
         refreshMeal: mealName.toLowerCase(),
       });
     } catch (e) {

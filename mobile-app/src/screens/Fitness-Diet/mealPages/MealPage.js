@@ -57,12 +57,11 @@ const MealPage = ({ navigation, route }) => {
   };
 
   const addMealItem = () => {
-    const newFood = {
-      id: mealItemCount,
-      name: "Eggs and bacon",
-      calorieCount: 100,
-    };
-    mealSetter([...meal.entries, newFood]);
+    navigationService.navigate("searchFood", {
+      mealName: mealName,
+      dayString: currentDate.toISOString(),
+      prevPage: "mealPage",
+    });
   };
 
   const deleteMealItem = async (mealItem) => {
