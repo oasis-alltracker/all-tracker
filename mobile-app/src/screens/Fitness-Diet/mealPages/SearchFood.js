@@ -17,6 +17,7 @@ import AddEntryModal from "../modals/AddEntryModal";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
+  var mealMacros = route.params?.meal || null;
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
@@ -82,7 +83,13 @@ const SearchFood = ({ navigation, route }) => {
         <Spinner visible={isLoading}></Spinner>
         <TouchableOpacity
           onPress={() => {
-            navigationService.navigate(prevPage);
+            var params = {};
+            if (prevPage == "mealPage") {
+              params["dateString"] = day.toLocaleDateString();
+              params["mealName"] = mealName;
+              params["meal"] = mealMacros;
+            }
+            navigationService.navigate(prevPage, params);
           }}
         >
           <Image
@@ -152,6 +159,7 @@ const SearchFood = ({ navigation, route }) => {
           mealName={mealName}
           day={day}
           prevPage={prevPage}
+          meal={mealMacros}
         />
       </View>
     </SafeAreaView>

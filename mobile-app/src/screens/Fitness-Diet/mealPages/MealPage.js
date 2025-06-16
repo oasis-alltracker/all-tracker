@@ -22,6 +22,7 @@ const MealPage = ({ navigation, route }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const foodEntriesChangedRef = useRef(false);
+  var refreshMeal = route.params?.refreshMeal || null;
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -61,6 +62,7 @@ const MealPage = ({ navigation, route }) => {
       mealName: mealName,
       dayString: currentDate.toISOString(),
       prevPage: "mealPage",
+      meal: currentMeal,
     });
   };
 
@@ -114,9 +116,14 @@ const MealPage = ({ navigation, route }) => {
       <View style={styles.topArea}>
         <TouchableOpacity
           onPress={() => {
-            navigationService.navigate("fitness-diet", {
+            var params = {
               foodItemsChanged: foodEntriesChangedRef.current,
-            });
+            };
+
+            if (refreshMeal != null) {
+              params["refreshMeal"] = refreshMeal;
+            }
+            navigationService.navigate("fitness-diet", params);
           }}
         >
           <Image
