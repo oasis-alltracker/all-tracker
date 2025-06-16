@@ -55,7 +55,6 @@ export default function Diet({
   meals,
   dietGoals,
   totalMacros,
-  deleteFoodEntry,
   updateGoals,
 }) {
   const editMacroGoalsRef = useRef(null);
@@ -70,7 +69,6 @@ export default function Diet({
           dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
-          deleteFoodEntry: deleteFoodEntry,
         });
       }}
     >
@@ -94,7 +92,6 @@ export default function Diet({
           dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
-          deleteFoodEntry: deleteFoodEntry,
         });
       }}
     >
