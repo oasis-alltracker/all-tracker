@@ -120,10 +120,7 @@ export default function AddEntryModal({
         meal.proteinCount += newFoodEntry.proteinCount;
         meal.carbCount += newFoodEntry.carbCount;
         meal.fatCount += newFoodEntry.fatCount;
-        meal.entries.push({
-          name: foodEntry.name,
-          calorieCount: newFoodEntry.calorieCount,
-        });
+        meal.entries.push(newFoodEntry);
 
         params["dateString"] = day.toLocaleDateString();
         params["mealName"] = mealName;
