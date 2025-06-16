@@ -93,6 +93,10 @@ const MealPage = ({ navigation, route }) => {
       updatedMeal.entries = updatedMeal.entries.filter(
         (item) => item.SK !== foodEntry.SK
       );
+      updatedMeal.calorieCount -= foodEntry.calorieCount;
+      updatedMeal.carbCount -= foodEntry.carbCount;
+      updatedMeal.proteinCount -= foodEntry.proteinCount;
+      updatedMeal.fatCount -= foodEntry.fatCount;
 
       token = await getAccessToken();
       await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
