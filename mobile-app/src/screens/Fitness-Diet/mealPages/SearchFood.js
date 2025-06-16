@@ -116,7 +116,11 @@ const SearchFood = ({ navigation, route }) => {
               />
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigationService.navigate("cameraPage");
+              }}
+            >
               <Image
                 source={require("../../../assets/images/search2.png")}
                 style={styles.smallImage}
@@ -125,7 +129,7 @@ const SearchFood = ({ navigation, route }) => {
           </View>
 
           {searchResults.map((item, index) => (
-            <View key={index} style={styles.reusltContainer}>
+            <View key={index} style={styles.resultContainer}>
               <View style={{ flexDirection: "vertical" }}>
                 <Text style={styles.textStyle}>{item.name}</Text>
                 <Text style={[styles.textStyle, { fontSize: 12 }]}>
@@ -177,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
-  reusltContainer: {
+  resultContainer: {
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
