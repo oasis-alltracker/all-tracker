@@ -18,6 +18,12 @@ import AddEntryModal from "../modals/AddEntryModal";
 const SearchFood = ({ navigation, route }) => {
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
+  const day = new Date(dayString);
+  const formattedDate = day.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +94,7 @@ const SearchFood = ({ navigation, route }) => {
             <Image style={styles.mealIcon} source={mealImage}></Image>
             <Text style={styles.title}>{mealName}</Text>
           </View>
-          <Text style={styles.textStyle}>{dayString}</Text>
+          <Text style={styles.textStyle}>{formattedDate}</Text>
         </View>
       </View>
       <View style={styles.mainArea}>
@@ -140,7 +146,11 @@ const SearchFood = ({ navigation, route }) => {
             </View>
           ))}
         </ScrollView>
-        <AddEntryModal getRef={(ref) => (addEntryRef.current = ref)} />
+        <AddEntryModal
+          getRef={(ref) => (addEntryRef.current = ref)}
+          mealName={mealName}
+          day={day}
+        />
       </View>
     </SafeAreaView>
   );
