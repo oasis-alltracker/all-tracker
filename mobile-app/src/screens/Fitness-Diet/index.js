@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView } from "react-native-tab-view";
 import { getAccessToken } from "../../user/keychain";
 import moment from "moment";
+import Toast from "react-native-root-toast";
 
 import FoodEntriesMacrosAPI from "../../api/diet/foodEntriesMacrosAPI";
 import FoodEntriesAPI from "../../api/diet/foodEntriesAPI";
@@ -24,6 +25,7 @@ import SelectMealModal from "./modals/SelectMealModal";
 
 const FitnessDiet = ({ navigation, route }) => {
   var { refreshGoals } = route.params?.isEditingGoals || false;
+  var { foodEntriesChanged } = route.params?.foodItemsChanged || false;
   var refreshMeal = route.params?.refreshMeal || null;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
@@ -140,12 +142,16 @@ const FitnessDiet = ({ navigation, route }) => {
 
   useEffect(() => {
     refreshGoals = route.params?.isEditingGoals;
+    foodEntriesChanged = route.params?.foodItemsChanged;
     if (refreshGoals) {
       getGoals();
     }
 
     if (refreshMeal != null) {
       getMeal(refreshMeal);
+    }
+    if (foodEntriesChanged) {
+      refreshMeals();
     }
   }, [route]);
 
@@ -326,7 +332,6 @@ const FitnessDiet = ({ navigation, route }) => {
             mealSetters={mealSetters}
             totalMacros={totalMacros}
             dietGoals={dietGoals}
-            deleteFoodEntry={deleteFoodEntry}
             updateGoals={updateGoals}
           />
         );
