@@ -1,6 +1,13 @@
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 
 const BarcodeCamera = () => {
   const [facing, setFacing] = useState("back");
@@ -29,6 +36,20 @@ const BarcodeCamera = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.topArea}>
+        <TouchableOpacity>
+          <Image
+            style={styles.backArrow}
+            source={require("../../../assets/images/back-arrow.png")}
+          ></Image>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            style={styles.backArrow}
+            source={require("../../../assets/images/flash.png")}
+          ></Image>
+        </TouchableOpacity>
+      </View>
       <CameraView style={styles.camera} facing={facing}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
@@ -36,6 +57,14 @@ const BarcodeCamera = () => {
           </TouchableOpacity>
         </View>
       </CameraView>
+      <View style={styles.topArea}>
+        <TouchableOpacity>
+          <Image
+            style={styles.backArrow}
+            source={require("../../../assets/images/scan-photo.png")}
+          ></Image>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -44,6 +73,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+  },
+  topArea: {
+    backgroundColor: "#D7F6FF",
+    flex: 1,
   },
   message: {
     textAlign: "center",
