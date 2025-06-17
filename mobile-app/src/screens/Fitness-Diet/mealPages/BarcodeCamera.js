@@ -1,4 +1,4 @@
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import {
   Button,
@@ -36,7 +36,7 @@ const BarcodeCamera = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topArea}>
+      <View style={[styles.banner, styles.topArea]}>
         <TouchableOpacity>
           <Image
             style={styles.backArrow}
@@ -45,7 +45,7 @@ const BarcodeCamera = () => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Image
-            style={styles.backArrow}
+            style={styles.flashIcon}
             source={require("../../../assets/images/flash.png")}
           ></Image>
         </TouchableOpacity>
@@ -57,11 +57,11 @@ const BarcodeCamera = () => {
           </TouchableOpacity>
         </View>
       </CameraView>
-      <View style={styles.topArea}>
+      <View style={styles.banner}>
         <TouchableOpacity>
           <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/scan-photo.png")}
+            style={styles.scanIcon}
+            source={require("../../../assets/images/barcode.png")}
           ></Image>
         </TouchableOpacity>
       </View>
@@ -74,9 +74,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  topArea: {
+  banner: {
     backgroundColor: "#D7F6FF",
-    flex: 1,
+    alignItems: "center",
+  },
+  topArea: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  backArrow: {
+    height: 50,
+    width: 50,
+    marginTop: 60,
+    marginBottom: 20,
+    marginLeft: 20,
+  },
+  flashIcon: {
+    height: 50,
+    width: 50,
+    marginTop: 60,
+    marginBottom: 20,
+    marginRight: 20,
+  },
+  scanIcon: {
+    height: 80,
+    width: 80,
+    marginBottom: 50,
+    marginTop: 10,
   },
   message: {
     textAlign: "center",
