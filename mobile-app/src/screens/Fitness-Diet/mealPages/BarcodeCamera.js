@@ -1,9 +1,11 @@
-import { CameraView, useCameraPermissions } from "expo-camera";
+import { Camera, CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
+import Toast from "react-native-root-toast";
 
 const BarcodeCamera = () => {
   const [permission, requestPermission] = useCameraPermissions();
+  const [flash, setFlash] = useState("off");
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -31,6 +33,19 @@ const BarcodeCamera = () => {
     );
   }
 
+  const toggleFlash = () => {
+    if (flash === "off") {
+      setFlash("on");
+    } else {
+      setFlash("off");
+    }
+    Toast.show("Flash is " + flash, {
+      ...styles.errorToast,
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={[styles.banner, styles.topArea]}>
@@ -40,14 +55,14 @@ const BarcodeCamera = () => {
             source={require("../../../assets/images/back-arrow.png")}
           ></Image>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => toggleFlash()}>
           <Image
             style={styles.flashIcon}
             source={require("../../../assets/images/flash.png")}
           ></Image>
         </TouchableOpacity>
       </View>
-      <CameraView style={styles.camera}></CameraView>
+      <CameraView style={styles.camera} flash={flash}></CameraView>
       <View style={styles.banner}>
         <TouchableOpacity>
           <Image
