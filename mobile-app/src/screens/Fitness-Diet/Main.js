@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
+import { getFatSecretToken } from "../../api/diet/search/fatSecretToken";
 
 export default function Main({
   day,
@@ -53,6 +54,27 @@ export default function Main({
         />
       </View>
     );
+  };
+
+  const displayToken = async () => {
+    try {
+      token = await getFatSecretToken();
+      if (Platform.OS === "ios") {
+        Toast.show(token, {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show(token, {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -138,7 +160,10 @@ export default function Main({
             <Text style={sharedStyles.trackerTitle}>Fitness</Text>
           </View>
 
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={() => displayToken()}
+          >
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-excercise.png")}
