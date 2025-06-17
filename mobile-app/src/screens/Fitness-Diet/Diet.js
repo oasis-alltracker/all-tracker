@@ -74,7 +74,14 @@ export default function Diet({
     >
       <View style={[styles.row, { marginBottom: 0 }]}>
         <Text style={styles.itemText}>{item?.name}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigationService.navigate("searchFood", {
+              mealName: item?.name,
+              dayString: day.toISOString(),
+            });
+          }}
+        >
           <Image
             style={styles.plus}
             source={require("../../assets/images/plus512.png")}
