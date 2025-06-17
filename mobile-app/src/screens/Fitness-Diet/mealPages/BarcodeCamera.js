@@ -1,13 +1,6 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
 
 const BarcodeCamera = () => {
   const [permission, requestPermission] = useCameraPermissions();
@@ -18,14 +11,23 @@ const BarcodeCamera = () => {
   }
 
   if (!permission.granted) {
-    // Camera permissions are not granted yet.
-    return (
-      <View style={styles.container}>
-        <Text style={styles.message}>
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={requestPermission} title="grant permission" />
-      </View>
+    //Camera permissions are not granted yet.
+    Alert.alert(
+      "Camera Permission Needed",
+      "Barcode scanning requires camera access.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Grant Permission",
+          isPreferred: true,
+          onPress: () => {
+            requestPermission();
+          },
+        },
+      ],
+      {
+        cancelable: true,
+      }
     );
   }
 
