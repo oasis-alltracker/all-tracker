@@ -43,7 +43,13 @@ const macroTitles = [
   },
 ];
 
-export default function AddEntryModal({ getRef, mealName, day }) {
+export default function AddEntryModal({
+  getRef,
+  mealName,
+  day,
+  prevPage,
+  meal,
+}) {
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [foodEntry, setFoodEntry] = useState({
@@ -101,11 +107,27 @@ export default function AddEntryModal({ getRef, mealName, day }) {
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
+
       setIsLoading(false);
       setVisible(false);
-      navigationService.navigate("fitness-diet", {
+
+      var params = {
         refreshMeal: mealName.toLowerCase(),
-      });
+      };
+
+      if (prevPage == "mealPage") {
+        meal.calorieCount += newFoodEntry.calorieCount;
+        meal.proteinCount += newFoodEntry.proteinCount;
+        meal.carbCount += newFoodEntry.carbCount;
+        meal.fatCount += newFoodEntry.fatCount;
+        meal.entries.push(newFoodEntry);
+
+        params["dateString"] = day.toLocaleDateString();
+        params["mealName"] = mealName;
+        params["meal"] = meal;
+      }
+
+      navigationService.navigate(prevPage, params);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
