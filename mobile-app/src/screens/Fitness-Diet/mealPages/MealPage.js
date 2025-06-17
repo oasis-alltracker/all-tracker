@@ -22,6 +22,7 @@ const MealPage = ({ navigation, route }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const foodEntriesChangedRef = useRef(false);
+  var refreshMeal = route.params?.refreshMeal || null;
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -57,12 +58,12 @@ const MealPage = ({ navigation, route }) => {
   };
 
   const addMealItem = () => {
-    const newFood = {
-      id: mealItemCount,
-      name: "Eggs and bacon",
-      calorieCount: 100,
-    };
-    mealSetter([...meal.entries, newFood]);
+    navigationService.navigate("searchFood", {
+      mealName: mealName,
+      dayString: currentDate.toISOString(),
+      prevPage: "mealPage",
+      meal: currentMeal,
+    });
   };
 
   const deleteMealItem = async (mealItem) => {
@@ -92,6 +93,10 @@ const MealPage = ({ navigation, route }) => {
       updatedMeal.entries = updatedMeal.entries.filter(
         (item) => item.SK !== foodEntry.SK
       );
+      updatedMeal.calorieCount -= foodEntry.calorieCount;
+      updatedMeal.carbCount -= foodEntry.carbCount;
+      updatedMeal.proteinCount -= foodEntry.proteinCount;
+      updatedMeal.fatCount -= foodEntry.fatCount;
 
       token = await getAccessToken();
       await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);
@@ -115,9 +120,14 @@ const MealPage = ({ navigation, route }) => {
       <View style={styles.topArea}>
         <TouchableOpacity
           onPress={() => {
-            navigationService.navigate("fitness-diet", {
+            var params = {
               foodItemsChanged: foodEntriesChangedRef.current,
-            });
+            };
+
+            if (refreshMeal != null) {
+              params["refreshMeal"] = refreshMeal;
+            }
+            navigationService.navigate("fitness-diet", params);
           }}
         >
           <Image
