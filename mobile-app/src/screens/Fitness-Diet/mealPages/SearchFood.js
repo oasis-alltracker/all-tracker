@@ -122,7 +122,7 @@ const SearchFood = ({ navigation, route }) => {
               }}
             >
               <Image
-                source={require("../../../assets/images/search2.png")}
+                source={require("../../../assets/images/barcode.png")}
                 style={styles.smallImage}
               />
             </TouchableOpacity>
