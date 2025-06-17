@@ -39,7 +39,7 @@ const SearchFood = ({ navigation, route }) => {
     mealImage = require("../../../assets/images/lunch.png");
   } else if (mealName === "Dinner") {
     mealImage = require("../../../assets/images/dinner.png");
-  } else if (mealName === "Snack") {
+  } else if (mealName === "Snacks") {
     mealImage = require("../../../assets/images/snack.png");
   }
 
@@ -126,7 +126,12 @@ const SearchFood = ({ navigation, route }) => {
 
             <TouchableOpacity
               onPress={() => {
-                navigationService.navigate("cameraPage");
+                navigationService.navigate("cameraPage", {
+                  mealName: mealName,
+                  dayString: dayString,
+                  prevPage: prevPage,
+                  meal: mealMacros,
+                });
               }}
             >
               <Image

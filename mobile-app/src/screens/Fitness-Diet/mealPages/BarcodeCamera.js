@@ -1,9 +1,10 @@
 import { Camera, CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
+import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 
-const BarcodeCamera = () => {
+const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [flash, setFlash] = useState("off");
 
@@ -46,10 +47,19 @@ const BarcodeCamera = () => {
     });
   };
 
+  const exitPage = () => {
+    navigationService.navigate("searchFood", {
+      prevPage: route.params.prevPage,
+      meal: route.params.meal,
+      mealName: route.params.mealName,
+      dayString: route.params.dayString,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={[styles.banner, styles.topArea]}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => exitPage()}>
           <Image
             style={styles.backArrow}
             source={require("../../../assets/images/back-arrow.png")}
