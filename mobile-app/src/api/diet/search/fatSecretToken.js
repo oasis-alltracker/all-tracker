@@ -3,6 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import { Buffer } from "buffer";
 import { jwtDecode } from "jwt-decode";
 import { FATSECRET_BASE_URL, FATSECRET_KEYS } from "./fatSecretBase";
+import { head } from "lodash";
 const API = FATSECRET_BASE_URL + "foods/search/v3";
 const tokenURL = "https://oauth.fatsecret.com/connect/token";
 
@@ -32,6 +33,25 @@ export async function retrieveFatScecretToken() {
     accessToken = newToken;
   }
   return accessToken;
+}
+
+export async function searchFatSecret(searchInput, page = 0) {
+  const token = await retrieveFatScecretToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const params = {
+    search_expression: searchInput,
+    format: "json",
+    flag_default_serving: true,
+    max_results: 1,
+    page_number: page,
+    language: "en",
+    region: "US",
+  };
+  const response = await axios.get(API, { headers: headers, params: params });
+  console.log(response?.data);
+  return response?.data.foods_search.results.food;
 }
 
 //helper functions
