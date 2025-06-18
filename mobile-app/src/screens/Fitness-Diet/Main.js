@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Toast from "react-native-root-toast";
 import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
-import { getFatSecretToken } from "../../api/diet/search/fatSecretToken";
+import { retrieveFatScecretToken } from "../../api/diet/search/fatSecretToken";
 
 export default function Main({
   day,
@@ -58,20 +59,12 @@ export default function Main({
 
   const displayToken = async () => {
     try {
-      token = await getFatSecretToken();
-      if (Platform.OS === "ios") {
-        Toast.show(token, {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show(token, {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      token = await retrieveFatScecretToken();
+      Toast.show(token, {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+      });
     } catch (e) {
       console.log(e);
     }
