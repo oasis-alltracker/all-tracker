@@ -39,7 +39,7 @@ const SearchFood = ({ navigation, route }) => {
     mealImage = require("../../../assets/images/lunch.png");
   } else if (mealName === "Dinner") {
     mealImage = require("../../../assets/images/dinner.png");
-  } else if (mealName === "Snack") {
+  } else if (mealName === "Snacks") {
     mealImage = require("../../../assets/images/snack.png");
   }
 
@@ -124,16 +124,25 @@ const SearchFood = ({ navigation, route }) => {
               />
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigationService.navigate("cameraPage", {
+                  mealName: mealName,
+                  dayString: dayString,
+                  prevPage: prevPage,
+                  meal: mealMacros,
+                });
+              }}
+            >
               <Image
-                source={require("../../../assets/images/search2.png")}
+                source={require("../../../assets/images/barcode.png")}
                 style={styles.smallImage}
               />
             </TouchableOpacity>
           </View>
 
           {searchResults.map((item, index) => (
-            <View key={index} style={styles.reusltContainer}>
+            <View key={index} style={styles.resultContainer}>
               <View style={{ flexDirection: "vertical" }}>
                 <Text style={styles.textStyle}>{item.name}</Text>
                 <Text style={[styles.textStyle, { fontSize: 12 }]}>
@@ -187,7 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
-  reusltContainer: {
+  resultContainer: {
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
