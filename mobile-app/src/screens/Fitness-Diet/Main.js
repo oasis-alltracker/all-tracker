@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Toast from "react-native-root-toast";
 import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
-import { retrieveFatScecretToken } from "../../api/diet/search/fatSecretToken";
+import { searchFatSecret } from "../../api/diet/search/fatSecretAPI";
 
 export default function Main({
   day,
@@ -57,14 +56,11 @@ export default function Main({
     );
   };
 
-  const displayToken = async () => {
+  const testSearch = async () => {
     try {
-      token = await retrieveFatScecretToken();
-      Toast.show(token, {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-      });
+      results = await searchFatSecret("corn");
+      console.log("in main");
+      console.log(results);
     } catch (e) {
       console.log(e);
     }
@@ -153,10 +149,7 @@ export default function Main({
             <Text style={sharedStyles.trackerTitle}>Fitness</Text>
           </View>
 
-          <TouchableOpacity
-            style={styles.addBtn}
-            onPress={() => displayToken()}
-          >
+          <TouchableOpacity style={styles.addBtn} onPress={() => testSearch()}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-excercise.png")}
