@@ -18,6 +18,8 @@ import AddEntryModal from "../modals/AddEntryModal";
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
+  var barcodeData = route.params?.barcodeData || null;
+  console.log("In search page, barcodeData = " + JSON.stringify(barcodeData));
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
@@ -46,6 +48,19 @@ const SearchFood = ({ navigation, route }) => {
   useEffect(() => {
     getFoodItems(token);
   }, []);
+
+  useEffect(() => {
+    console.log(
+      "In useEffect, sensed change; value now = " +
+        JSON.stringify(route.params?.barcodeData)
+    );
+    barcodeData = route.params?.barcodeData;
+    if (barcodeData != null) {
+      console.log(
+        "Sensed change to barcodeData; now = " + JSON.stringify(barcodeData)
+      );
+    }
+  }, [route]);
 
   function errorResponse(error) {
     console.log(error);

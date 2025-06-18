@@ -8,7 +8,7 @@ import navigationService from "../../../navigators/navigationService";
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [flash, setFlash] = useState("off");
-  const [barcodeData, setBarcodeData] = useState(null);
+  // const [barcodeData, setBarcodeData] = useState(null);
   if (!permission) {
     // Camera permissions are still loading.
     return <View />;
@@ -49,22 +49,19 @@ const BarcodeCamera = ({ route }) => {
   };
 
   const handleScannedResult = (barcodeScanningResult) => {
-    //version 1: update state var + console.log + set timeout
-    if (barcodeData === null) {
-      console.log("Result =\n" + JSON.stringify(barcodeScanningResult));
-      setBarcodeData({
+    navigationService.navigate("searchFood", {
+      prevPage: route.params.prevPage,
+      meal: route.params.meal,
+      mealName: route.params.mealName,
+      dayString: route.params.dayString,
+      barcodeData: {
         type: barcodeScanningResult.type,
         data: barcodeScanningResult.data,
-      });
+      },
+    });
 
-      console.log("Barcode data =\n" + JSON.stringify(barcodeData));
-      setTimeout(() => setBarcodeData(null), 3000);
-      console.log("Ready to scan again");
-    }
-
-    //version 2: navigate using code in this function
-    //version 3: navigate using exitPage
-    //version 4: navigate without a state var, just passing in the result?
+    setTimeout(() => 3000);
+    console.log("Ready to scan again");
   };
 
   const exitPage = () => {
