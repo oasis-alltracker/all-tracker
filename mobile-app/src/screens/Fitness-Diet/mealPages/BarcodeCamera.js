@@ -1,12 +1,14 @@
 import { Camera, CameraView, useCameraPermissions } from "expo-camera";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
-import navigationService from "../../../navigators/navigationService";
+import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
+import navigationService from "../../../navigators/navigationService";
 
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [flash, setFlash] = useState("off");
+  const [barcodeData, setBarcodeData] = useState(null);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -33,6 +35,13 @@ const BarcodeCamera = ({ route }) => {
       }
     );
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      //Reset stored barcode data when the screen re-opens
+      setBarcodeData(null);
+    }, [])
+  );
 
   const toggleFlash = () => {
     if (flash === "off") {
