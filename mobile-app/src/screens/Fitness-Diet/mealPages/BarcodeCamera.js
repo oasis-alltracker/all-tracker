@@ -51,33 +51,31 @@ const BarcodeCamera = ({ route }) => {
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
       setScanned(true);
-      navigationService.navigate("searchFood", {
-        prevPage: route.params.prevPage,
-        meal: route.params.meal,
-        mealName: route.params.mealName,
-        dayString: route.params.dayString,
-        barcodeData: {
-          type: barcodeScanningResult.type,
-          data: barcodeScanningResult.data,
-        },
-      });
+      exitPage(barcodeScanningResult);
       setTimeout(() => setScanned(false), 3000);
     }
   };
 
-  const exitPage = () => {
-    navigationService.navigate("searchFood", {
+  const exitPage = (barcodeScanningResult) => {
+    var params = {
       prevPage: route.params.prevPage,
       meal: route.params.meal,
       mealName: route.params.mealName,
       dayString: route.params.dayString,
-    });
+    };
+    if (barcodeScanningResult != null) {
+      params["barcodeData"] = {
+        type: barcodeScanningResult.type,
+        data: barcodeScanningResult.data,
+      };
+    }
+    navigationService.navigate("searchFood", params);
   };
 
   return (
     <View style={styles.container}>
       <View style={[styles.banner, styles.topArea]}>
-        <TouchableOpacity onPress={() => exitPage()}>
+        <TouchableOpacity onPress={() => exitPage(null)}>
           <Image
             style={styles.backArrow}
             source={require("../../../assets/images/back-arrow.png")}
