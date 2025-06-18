@@ -14,6 +14,7 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
+import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -77,6 +78,17 @@ const SearchFood = ({ navigation, route }) => {
     }
   };
 
+  const searchFood = async (input) => {
+    try {
+      setIsLoading(true);
+      response = await searchFatSecret(input);
+      setResults(response);
+      setIsLoading(false);
+    } catch (e) {
+      errorResponse(e);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topArea}>
@@ -124,7 +136,7 @@ const SearchFood = ({ navigation, route }) => {
               />
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => searchFood(searchInput)}>
               <Image
                 source={require("../../../assets/images/search2.png")}
                 style={styles.smallImage}

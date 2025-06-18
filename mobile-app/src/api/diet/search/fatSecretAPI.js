@@ -5,7 +5,6 @@ const API = FATSECRET_BASE_URL + "foods/search/v3";
 
 export async function searchFatSecret(searchInput, page = 0) {
   const token = await getFatSecretToken();
-  console.log(token);
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -13,14 +12,47 @@ export async function searchFatSecret(searchInput, page = 0) {
     search_expression: searchInput,
     format: "json",
     flag_default_serving: true,
-    max_results: 1,
+    max_results: 10,
     page_number: page,
     language: "en",
     region: "US",
   };
   const response = await axios.get(API, { headers: headers, params: params });
-  console.log(response?.data);
-  return response?.data.foods_search.results.food;
+  return convertResults(response?.data.foods_search.results.food);
 }
 
-const convertResults = (results) => {};
+const convertResults = (results) => {
+  var yes = [];
+  results.forEach((item) => {
+    var defaultServing;
+    var servings = item.servings.serving.map((serving) => {
+      var entry = {
+        servingID: serving.serving_id,
+        measurement: serving.serving_description,
+        calorieCount: serving.calories,
+        carbCount: serving.carnohydrate,
+        proteinCount: serving.protein,
+        fatCount: serving.fat,
+        quantity: serving.number_of_units,
+      };
+      if (serving.is_default == "1") {
+        defaultServing = entry;
+      }
+      return entry;
+    });
+
+    yes.push({
+      name: item.food_name,
+      foodItemID: item.food_id,
+      calorieCount: defaultServing.calorieCount,
+      carbCount: defaultServing.carbCount,
+      fatCount: defaultServing.fatCount,
+      proteinCount: defaultServing.proteinCount,
+      measurement: defaultServing.measurement,
+      quantity: defaultServing.quantity,
+      altServings: servings,
+    });
+  });
+
+  return yes;
+};
