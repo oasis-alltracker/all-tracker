@@ -1,14 +1,14 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
 
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [flash, setFlash] = useState("off");
-  // const [barcodeData, setBarcodeData] = useState(null);
+  const [scanned, setScanned] = useState(false);
+
   if (!permission) {
     // Camera permissions are still loading.
     return <View />;
@@ -49,19 +49,20 @@ const BarcodeCamera = ({ route }) => {
   };
 
   const handleScannedResult = (barcodeScanningResult) => {
-    navigationService.navigate("searchFood", {
-      prevPage: route.params.prevPage,
-      meal: route.params.meal,
-      mealName: route.params.mealName,
-      dayString: route.params.dayString,
-      barcodeData: {
-        type: barcodeScanningResult.type,
-        data: barcodeScanningResult.data,
-      },
-    });
-
-    setTimeout(() => 3000);
-    console.log("Ready to scan again");
+    if (!scanned) {
+      setScanned(true);
+      navigationService.navigate("searchFood", {
+        prevPage: route.params.prevPage,
+        meal: route.params.meal,
+        mealName: route.params.mealName,
+        dayString: route.params.dayString,
+        barcodeData: {
+          type: barcodeScanningResult.type,
+          data: barcodeScanningResult.data,
+        },
+      });
+      setTimeout(() => setScanned(false), 3000);
+    }
   };
 
   const exitPage = () => {
