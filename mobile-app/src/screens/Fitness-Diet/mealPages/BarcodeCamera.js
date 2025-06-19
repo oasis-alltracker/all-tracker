@@ -6,7 +6,6 @@ import navigationService from "../../../navigators/navigationService";
 
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
-  const [flash, setFlash] = useState("off");
   const [scanned, setScanned] = useState(false);
 
   if (!permission) {
@@ -34,19 +33,6 @@ const BarcodeCamera = ({ route }) => {
       }
     );
   }
-
-  const toggleFlash = () => {
-    if (flash === "off") {
-      setFlash("on");
-    } else {
-      setFlash("off");
-    }
-    Toast.show("Flash is " + flash, {
-      ...styles.errorToast,
-      duration: Toast.durations.SHORT,
-      position: Toast.positions.CENTER,
-    });
-  };
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
@@ -81,16 +67,9 @@ const BarcodeCamera = ({ route }) => {
             source={require("../../../assets/images/back-arrow.png")}
           ></Image>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => toggleFlash()}>
-          <Image
-            style={styles.flashIcon}
-            source={require("../../../assets/images/flash.png")}
-          ></Image>
-        </TouchableOpacity>
       </View>
       <CameraView
         style={styles.camera}
-        flash={flash}
         barcodeScannerSettings={{
           barcodetypes: ["ean13", "ean8", "upc_e", "upc_a"],
         }}
@@ -127,13 +106,6 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginBottom: 20,
     marginLeft: 20,
-  },
-  flashIcon: {
-    height: 50,
-    width: 50,
-    marginTop: 60,
-    marginBottom: 20,
-    marginRight: 20,
   },
   scanIcon: {
     height: 80,
