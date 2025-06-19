@@ -2,11 +2,13 @@ import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
 import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
 
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -37,10 +39,12 @@ const BarcodeCamera = ({ route }) => {
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
       setScanned(true);
-      setTimeout(() => 2000);
-      console.log(JSON.stringify(barcodeScanningResult));
-      exitPage(barcodeScanningResult);
-      setTimeout(() => setScanned(false), 3000);
+      setIsLoading(true);
+      setTimeout(() => {
+        setScanned(false);
+        setIsLoading(false);
+        exitPage(barcodeScanningResult);
+      }, 1500);
     }
   };
 
@@ -62,6 +66,7 @@ const BarcodeCamera = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <Spinner visible={isLoading}></Spinner>
       <View style={[styles.banner, styles.topArea]}>
         <TouchableOpacity onPress={() => exitPage(null)}>
           <Image
