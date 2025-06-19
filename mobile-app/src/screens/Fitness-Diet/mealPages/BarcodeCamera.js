@@ -28,23 +28,7 @@ const BarcodeCamera = ({ route }) => {
 
   if (!permission.granted) {
     //Camera permissions are not granted yet.
-    Alert.alert(
-      "Camera Permission Needed",
-      "Barcode scanning requires camera access.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Grant Permission",
-          isPreferred: true,
-          onPress: () => {
-            requestPermission();
-          },
-        },
-      ],
-      {
-        cancelable: true,
-      }
-    );
+    requestPermission();
   }
 
   const handleScannedResult = (barcodeScanningResult) => {
