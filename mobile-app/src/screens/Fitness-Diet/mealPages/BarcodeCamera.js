@@ -1,12 +1,13 @@
-import { Camera, CameraView, useCameraPermissions } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
-import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
+import navigationService from "../../../navigators/navigationService";
 
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [flash, setFlash] = useState("off");
+  const [scanned, setScanned] = useState(false);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -47,19 +48,34 @@ const BarcodeCamera = ({ route }) => {
     });
   };
 
-  const exitPage = () => {
-    navigationService.navigate("searchFood", {
+  const handleScannedResult = (barcodeScanningResult) => {
+    if (!scanned) {
+      setScanned(true);
+      exitPage(barcodeScanningResult);
+      setTimeout(() => setScanned(false), 3000);
+    }
+  };
+
+  const exitPage = (barcodeScanningResult) => {
+    var params = {
       prevPage: route.params.prevPage,
       meal: route.params.meal,
       mealName: route.params.mealName,
       dayString: route.params.dayString,
-    });
+    };
+    if (barcodeScanningResult != null) {
+      params["barcodeData"] = {
+        type: barcodeScanningResult.type,
+        data: barcodeScanningResult.data,
+      };
+    }
+    navigationService.navigate("searchFood", params);
   };
 
   return (
     <View style={styles.container}>
       <View style={[styles.banner, styles.topArea]}>
-        <TouchableOpacity onPress={() => exitPage()}>
+        <TouchableOpacity onPress={() => exitPage(null)}>
           <Image
             style={styles.backArrow}
             source={require("../../../assets/images/back-arrow.png")}
@@ -72,7 +88,14 @@ const BarcodeCamera = ({ route }) => {
           ></Image>
         </TouchableOpacity>
       </View>
-      <CameraView style={styles.camera} flash={flash}></CameraView>
+      <CameraView
+        style={styles.camera}
+        flash={flash}
+        barcodeScannerSettings={{
+          barcodetypes: ["ean13", "ean8", "upc_e", "upc_a"],
+        }}
+        onBarcodeScanned={handleScannedResult}
+      ></CameraView>
       <View style={styles.banner}>
         <TouchableOpacity>
           <Image

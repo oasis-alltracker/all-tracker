@@ -18,6 +18,7 @@ import AddEntryModal from "../modals/AddEntryModal";
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
+  var barcodeData = route.params?.barcodeData || null;
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
