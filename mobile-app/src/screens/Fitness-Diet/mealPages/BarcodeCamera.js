@@ -37,6 +37,8 @@ const BarcodeCamera = ({ route }) => {
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
       setScanned(true);
+      setTimeout(() => 2000);
+      console.log(JSON.stringify(barcodeScanningResult));
       exitPage(barcodeScanningResult);
       setTimeout(() => setScanned(false), 3000);
     }
