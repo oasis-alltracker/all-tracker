@@ -72,7 +72,7 @@ const BarcodeCamera = ({ route }) => {
         <TouchableOpacity onPress={() => exitPage(null)}>
           <Image
             style={styles.backArrow}
-            source={require("../../../assets/images/white-back-arrow.png")}
+            source={require("../../../assets/images/back-arrow.png")}
           ></Image>
         </TouchableOpacity>
         <View style={styles.viewfinderContainer}>
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     width: 50,
     marginTop: 60,
     marginLeft: 20,
+    tintColor: "white",
   },
   viewfinderContainer: {
     flex: 1,
