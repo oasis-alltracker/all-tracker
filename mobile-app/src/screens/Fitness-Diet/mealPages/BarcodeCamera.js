@@ -1,14 +1,25 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
+import { useFocusEffect } from "@react-navigation/native";
 
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      Toast.show("Please place food barcode\nin view of the camera.", {
+        ...styles.errorToast,
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+      });
+    }, [])
+  );
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -89,14 +100,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-  },
-  banner: {
-    backgroundColor: "#D7F6FF",
-    alignItems: "center",
-  },
-  topArea: {
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   backArrow: {
     height: 50,
