@@ -91,6 +91,12 @@ const BarcodeCamera = ({ route }) => {
             source={require("../../../assets/images/white-back-arrow.png")}
           ></Image>
         </TouchableOpacity>
+        <View style={styles.viewfinderContainer}>
+          <Image
+            style={styles.viewfinder}
+            source={require("../../../assets/images/barcode-viewfinder.png")}
+          ></Image>
+        </View>
       </CameraView>
     </View>
   );
@@ -105,8 +111,17 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     marginTop: 60,
-    marginBottom: 20,
     marginLeft: 20,
+  },
+  viewfinderContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  viewfinder: {
+    height: "45%",
+    width: "95%",
+    marginTop: 160,
+    tintColor: "white",
   },
   camera: {
     flex: 1,
