@@ -67,29 +67,20 @@ const BarcodeCamera = ({ route }) => {
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
-      <View style={[styles.banner, styles.topArea]}>
-        <TouchableOpacity onPress={() => exitPage(null)}>
-          <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/back-arrow.png")}
-          ></Image>
-        </TouchableOpacity>
-      </View>
       <CameraView
         style={styles.camera}
         barcodeScannerSettings={{
           barcodetypes: ["ean13", "ean8", "upc_e", "upc_a"],
         }}
         onBarcodeScanned={handleScannedResult}
-      ></CameraView>
-      <View style={styles.banner}>
-        <TouchableOpacity>
+      >
+        <TouchableOpacity onPress={() => exitPage(null)}>
           <Image
-            style={styles.scanIcon}
-            source={require("../../../assets/images/barcode.png")}
+            style={styles.backArrow}
+            source={require("../../../assets/images/white-back-arrow.png")}
           ></Image>
         </TouchableOpacity>
-      </View>
+      </CameraView>
     </View>
   );
 };
@@ -113,16 +104,6 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginBottom: 20,
     marginLeft: 20,
-  },
-  scanIcon: {
-    height: 80,
-    width: 80,
-    marginBottom: 50,
-    marginTop: 10,
-  },
-  message: {
-    textAlign: "center",
-    paddingBottom: 10,
   },
   camera: {
     flex: 1,
