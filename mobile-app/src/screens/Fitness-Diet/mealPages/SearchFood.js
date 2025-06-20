@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -15,6 +16,7 @@ import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
 import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
+import { useFocusEffect } from "@react-navigation/native";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -44,9 +46,12 @@ const SearchFood = ({ navigation, route }) => {
     mealImage = require("../../../assets/images/snack.png");
   }
 
-  useEffect(() => {
-    getFoodItems(token);
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getFoodItems(token);
+      setSearchInput("");
+    }, [])
+  );
 
   function errorResponse(error) {
     console.log(error);
@@ -80,6 +85,7 @@ const SearchFood = ({ navigation, route }) => {
 
   const searchFood = async (input) => {
     try {
+      Keyboard.dismiss();
       setIsLoading(true);
       response = await searchFatSecret(input);
       setResults(response);
@@ -118,36 +124,43 @@ const SearchFood = ({ navigation, route }) => {
         </View>
       </View>
       <View style={styles.mainArea}>
+        <View style={[styles.row, { marginBottom: 20 }]}>
+          <View style={styles.searchContainer}>
+            <Image
+              source={require("../../../assets/images/search2.png")}
+              style={{ width: 30, height: 30 }}
+            />
+            <TextInput
+              style={[styles.textStyle, styles.input]}
+              onChangeText={setSearchInput}
+              value={searchInput}
+              placeholder="Food, meal or brand"
+              onSubmitEditing={() => searchFood(searchInput)}
+            />
+          </View>
+
+          <TouchableOpacity>
+            <Image
+              source={require("../../../assets/images/search2.png")}
+              style={styles.smallImage}
+            />
+          </TouchableOpacity>
+        </View>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
         >
-          <View style={[styles.row, { marginBottom: 20 }]}>
-            <View style={styles.searchContainer}>
-              <Image
-                source={require("../../../assets/images/search2.png")}
-                style={{ width: 30, height: 30 }}
-              />
-              <TextInput
-                style={[styles.textStyle, styles.input]}
-                onChangeText={setSearchInput}
-                value={searchInput}
-                placeholder="Food, meal or brand"
-              />
-            </View>
-
-            <TouchableOpacity onPress={() => searchFood(searchInput)}>
-              <Image
-                source={require("../../../assets/images/search2.png")}
-                style={styles.smallImage}
-              />
-            </TouchableOpacity>
-          </View>
-
           {searchResults.map((item, index) => (
             <View key={index} style={styles.reusltContainer}>
-              <View style={{ flexDirection: "vertical" }}>
-                <Text style={styles.textStyle}>{item.name}</Text>
+              <View style={{ flexDirection: "vertical", flex: 1 }}>
+                <Text
+                  style={[
+                    styles.textStyle,
+                    { flexShrink: 1, flexWrap: "wrap" },
+                  ]}
+                >
+                  {item.name}
+                </Text>
                 <Text style={[styles.textStyle, { fontSize: 12 }]}>
                   {item.calorieCount} cals
                 </Text>
@@ -209,6 +222,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 5,
     flexDirection: "row",
+    gap: 10,
   },
   row: {
     flexDirection: "row",

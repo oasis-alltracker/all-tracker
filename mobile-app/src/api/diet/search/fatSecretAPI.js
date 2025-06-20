@@ -22,7 +22,8 @@ export async function searchFatSecret(searchInput, page = 0) {
 }
 
 const convertResults = (results) => {
-  var yes = [];
+  var transformedResults = [];
+
   results.forEach((item) => {
     var defaultServing;
     var servings = item.servings.serving.map((serving) => {
@@ -30,7 +31,7 @@ const convertResults = (results) => {
         servingID: serving.serving_id,
         measurement: serving.serving_description,
         calorieCount: serving.calories,
-        carbCount: serving.carnohydrate,
+        carbCount: serving.carbohydrate,
         proteinCount: serving.protein,
         fatCount: serving.fat,
         quantity: serving.number_of_units,
@@ -41,7 +42,7 @@ const convertResults = (results) => {
       return entry;
     });
 
-    yes.push({
+    transformedResults.push({
       name: item.food_name,
       foodItemID: item.food_id,
       calorieCount: defaultServing.calorieCount,
@@ -54,5 +55,5 @@ const convertResults = (results) => {
     });
   });
 
-  return yes;
+  return transformedResults;
 };

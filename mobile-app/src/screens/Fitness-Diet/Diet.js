@@ -112,8 +112,17 @@ export default function Diet({
         </TouchableOpacity>
       </View>
       {meals[item.name].entries.map((item, index) => (
-        <View style={[styles.row, { marginBottom: 4 }]} key={index}>
-          <Text style={styles.subItemText}>{item.name}</Text>
+        <View
+          style={[styles.row, { marginBottom: 4, gap: 5, flex: 1 }]}
+          key={index}
+        >
+          <Text
+            ellipsizeMode="tail"
+            numberOfLines={1}
+            style={[styles.subItemText, { flexShrink: 1 }]}
+          >
+            {item.name}
+          </Text>
           <Text style={styles.subItemText}>
             {item.calorieCount} {dietGoals.calorieGoal.units}
           </Text>
