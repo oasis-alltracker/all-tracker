@@ -103,9 +103,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   viewfinder: {
-    height: "45%",
-    width: "95%",
-    marginTop: 160,
+    height: "37.5%",
+    width: "80%",
+    marginTop: 190,
     tintColor: "white",
   },
   camera: {
