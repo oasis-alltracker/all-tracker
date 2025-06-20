@@ -151,13 +151,14 @@ export default function Diet({
           color={outerColor}
           borderWidth={1}
           borderColor="#ACC5CC"
-        />
-        <View style={styles.progressCirlceContent}>
-          <Text style={[styles.boldText, { fontSize: 22 }]}>
-            {totalMacros[item.consumed]}g
-          </Text>
-          <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
-        </View>
+        >
+          <View style={styles.progressCircleContent}>
+            <Text style={[styles.boldText, { fontSize: 22 }]}>
+              {totalMacros[item.consumed]}g
+            </Text>
+            <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+          </View>
+        </Progress.Circle>
       </View>
     );
   };
@@ -452,7 +453,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  progressCirlceContent: {
+  progressCircleContent: {
     position: "absolute",
     width: "100%",
     height: "100%",
