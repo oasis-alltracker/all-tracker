@@ -66,12 +66,15 @@ export default function AddEntryModal({
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
   var currentMacros = {
-    Fats: Math.round((foodEntry.fatCount / foodEntry.quantity) * quantity),
-    Protein: Math.round((foodEntry.carbCount / foodEntry.quantity) * quantity),
-    Carbs: Math.round((foodEntry.proteinCount / foodEntry.quantity) * quantity),
-    Calories: Math.round(
-      (foodEntry.calorieCount / foodEntry.quantity) * quantity
+    Fats: ((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
+    Protein: ((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(2),
+    Carbs: ((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
+      2
     ),
+    Calories: (
+      (foodEntry.calorieCount / foodEntry.quantity) *
+      quantity
+    ).toFixed(2),
   };
 
   useEffect(() => {
@@ -95,11 +98,11 @@ export default function AddEntryModal({
       var newFoodEntry = {
         name: foodEntry.name,
         meal: mealName.toLowerCase(),
-        calorieCount: currentMacros.Calories,
-        fatCount: currentMacros.Fats,
-        foodItemID: foodEntry.foodItemID,
-        proteinCount: currentMacros.Protein,
-        carbCount: currentMacros.Carbs,
+        calorieCount: +currentMacros.Calories,
+        fatCount: +currentMacros.Fats,
+        foodItemID: +foodEntry.foodItemID,
+        proteinCount: +currentMacros.Protein,
+        carbCount: +currentMacros.Carbs,
         quantity: +quantity,
         measurement: serving,
         dateStamp: moment(day).format("YYYYMMDD"),
