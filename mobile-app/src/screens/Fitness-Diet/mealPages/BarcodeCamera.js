@@ -1,13 +1,26 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
 import Toast from "react-native-root-toast";
+import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
+import { useFocusEffect } from "@react-navigation/native";
 
 const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
-  const [flash, setFlash] = useState("off");
   const [scanned, setScanned] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      setScanned(false);
+      Toast.show("Please place food barcode\nin view of the camera.", {
+        ...styles.errorToast,
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+      });
+    }, [])
+  );
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -16,43 +29,18 @@ const BarcodeCamera = ({ route }) => {
 
   if (!permission.granted) {
     //Camera permissions are not granted yet.
-    Alert.alert(
-      "Camera Permission Needed",
-      "Barcode scanning requires camera access.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Grant Permission",
-          isPreferred: true,
-          onPress: () => {
-            requestPermission();
-          },
-        },
-      ],
-      {
-        cancelable: true,
-      }
-    );
+    requestPermission();
   }
-
-  const toggleFlash = () => {
-    if (flash === "off") {
-      setFlash("on");
-    } else {
-      setFlash("off");
-    }
-    Toast.show("Flash is " + flash, {
-      ...styles.errorToast,
-      duration: Toast.durations.SHORT,
-      position: Toast.positions.CENTER,
-    });
-  };
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
       setScanned(true);
-      exitPage(barcodeScanningResult);
-      setTimeout(() => setScanned(false), 3000);
+      setIsLoading(true);
+      setTimeout(() => {
+        setScanned(false);
+        setIsLoading(false);
+        exitPage(barcodeScanningResult);
+      }, 1500);
     }
   };
 
@@ -74,36 +62,27 @@ const BarcodeCamera = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.banner, styles.topArea]}>
+      <Spinner visible={isLoading}></Spinner>
+      <CameraView
+        style={styles.camera}
+        barcodeScannerSettings={{
+          barcodetypes: ["ean13", "ean8", "upc_e", "upc_a"],
+        }}
+        onBarcodeScanned={handleScannedResult}
+      >
         <TouchableOpacity onPress={() => exitPage(null)}>
           <Image
             style={styles.backArrow}
             source={require("../../../assets/images/back-arrow.png")}
           ></Image>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => toggleFlash()}>
+        <View style={styles.viewfinderContainer}>
           <Image
-            style={styles.flashIcon}
-            source={require("../../../assets/images/flash.png")}
+            style={styles.viewfinder}
+            source={require("../../../assets/images/barcode-viewfinder.png")}
           ></Image>
-        </TouchableOpacity>
-      </View>
-      <CameraView
-        style={styles.camera}
-        flash={flash}
-        barcodeScannerSettings={{
-          barcodetypes: ["ean13", "ean8", "upc_e", "upc_a"],
-        }}
-        onBarcodeScanned={handleScannedResult}
-      ></CameraView>
-      <View style={styles.banner}>
-        <TouchableOpacity>
-          <Image
-            style={styles.scanIcon}
-            source={require("../../../assets/images/barcode.png")}
-          ></Image>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </CameraView>
     </View>
   );
 };
@@ -113,37 +92,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  banner: {
-    backgroundColor: "#D7F6FF",
-    alignItems: "center",
-  },
-  topArea: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   backArrow: {
     height: 50,
     width: 50,
     marginTop: 60,
-    marginBottom: 20,
     marginLeft: 20,
+    tintColor: "white",
   },
-  flashIcon: {
-    height: 50,
-    width: 50,
-    marginTop: 60,
-    marginBottom: 20,
-    marginRight: 20,
+  viewfinderContainer: {
+    flex: 1,
+    alignItems: "center",
   },
-  scanIcon: {
-    height: 80,
-    width: 80,
-    marginBottom: 50,
-    marginTop: 10,
-  },
-  message: {
-    textAlign: "center",
-    paddingBottom: 10,
+  viewfinder: {
+    height: "37.5%",
+    width: "80%",
+    marginTop: 190,
+    tintColor: "white",
   },
   camera: {
     flex: 1,
