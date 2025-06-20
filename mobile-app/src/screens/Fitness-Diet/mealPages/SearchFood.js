@@ -21,6 +21,7 @@ import { useFocusEffect } from "@react-navigation/native";
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
+  var barcodeData = route.params?.barcodeData || null;
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
@@ -42,7 +43,7 @@ const SearchFood = ({ navigation, route }) => {
     mealImage = require("../../../assets/images/lunch.png");
   } else if (mealName === "Dinner") {
     mealImage = require("../../../assets/images/dinner.png");
-  } else if (mealName === "Snack") {
+  } else if (mealName === "Snacks") {
     mealImage = require("../../../assets/images/snack.png");
   }
 
@@ -139,9 +140,18 @@ const SearchFood = ({ navigation, route }) => {
             />
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigationService.navigate("cameraPage", {
+                mealName: mealName,
+                dayString: dayString,
+                prevPage: prevPage,
+                meal: mealMacros,
+              });
+            }}
+          >
             <Image
-              source={require("../../../assets/images/search2.png")}
+              source={require("../../../assets/images/barcode.png")}
               style={styles.smallImage}
             />
           </TouchableOpacity>
@@ -151,7 +161,7 @@ const SearchFood = ({ navigation, route }) => {
           contentContainerStyle={styles.scrollContainer}
         >
           {searchResults.map((item, index) => (
-            <View key={index} style={styles.reusltContainer}>
+            <View key={index} style={styles.resultContainer}>
               <View style={{ flexDirection: "vertical", flex: 1 }}>
                 <Text
                   style={[
@@ -212,7 +222,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
-  reusltContainer: {
+  resultContainer: {
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
