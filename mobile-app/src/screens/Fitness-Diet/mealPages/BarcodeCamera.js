@@ -13,6 +13,7 @@ const BarcodeCamera = ({ route }) => {
 
   useFocusEffect(
     useCallback(() => {
+      setScanned(false);
       Toast.show("Please place food barcode\nin view of the camera.", {
         ...styles.errorToast,
         duration: Toast.durations.SHORT,
