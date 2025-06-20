@@ -10,7 +10,6 @@ import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
-import { searchFatSecret } from "../../api/diet/search/fatSecretAPI";
 
 export default function Main({
   day,
@@ -54,16 +53,6 @@ export default function Main({
         />
       </View>
     );
-  };
-
-  const testSearch = async () => {
-    try {
-      results = await searchFatSecret("corn");
-      console.log("in main");
-      console.log(results);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   return (
@@ -149,7 +138,7 @@ export default function Main({
             <Text style={sharedStyles.trackerTitle}>Fitness</Text>
           </View>
 
-          <TouchableOpacity style={styles.addBtn} onPress={() => testSearch()}>
+          <TouchableOpacity style={styles.addBtn}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-excercise.png")}
