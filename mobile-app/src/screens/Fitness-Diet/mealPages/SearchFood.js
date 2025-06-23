@@ -17,11 +17,12 @@ import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
 import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
 import { useFocusEffect } from "@react-navigation/native";
+import { CameraView, useCameraPermissions } from "expo-camera";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
-  var barcodeData = route.params?.barcodeData || null;
+  //var barcodeData = route.params?.barcodeData || null;
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
@@ -33,6 +34,9 @@ const SearchFood = ({ navigation, route }) => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [scanned, setScanned] = useState(false);
+  const [barcodeData, setBarcodeData] = useState();
+  const [permission, requestPermission] = useCameraPermissions();
 
   const addEntryRef = useRef(null);
 
@@ -51,6 +55,7 @@ const SearchFood = ({ navigation, route }) => {
     React.useCallback(() => {
       getFoodItems(token);
       setSearchInput("");
+      setScanned(false);
     }, [])
   );
 
@@ -94,6 +99,47 @@ const SearchFood = ({ navigation, route }) => {
     } catch (e) {
       errorResponse(e);
     }
+  };
+
+  const getScannedValues = (barcodeScanningResult) => {
+    if (!scanned) {
+      setScanned(true);
+      console.log(barcodeScanningResult);
+      setBarcodeData(barcodeScanningResult.data);
+      CameraView.dismissScanner();
+    }
+  };
+
+  const scan = async () => {
+    // if (!permission) {
+    //   //idk
+    //   if (!permission.granted) {
+    //     requestPermission();
+    //   } else {
+    //     var scanningOptions = {
+    //       barcodetypes: [
+    //         "ean13",
+    //         "ean8",
+    //         "upc_e",
+    //         "upc_a",
+    //         "org.iso.QRCode",
+    //         "qr",
+    //       ],
+    //       isHighlightingEnabled: true,
+    //     };
+
+    //     CameraView.onModernBarcodeScanned(getScannedValues);
+    //     CameraView.launchScanner(scanningOptions);
+    //   }
+    // }
+
+    var scanningOptions = {
+      barcodetypes: ["ean13", "ean8", "upc_e", "upc_a", "org.iso.QRCode", "qr"],
+      isHighlightingEnabled: true,
+    };
+
+    CameraView.onModernBarcodeScanned(getScannedValues);
+    CameraView.launchScanner(scanningOptions);
   };
 
   return (
@@ -142,12 +188,13 @@ const SearchFood = ({ navigation, route }) => {
 
           <TouchableOpacity
             onPress={() => {
-              navigationService.navigate("cameraPage", {
-                mealName: mealName,
-                dayString: dayString,
-                prevPage: prevPage,
-                meal: mealMacros,
-              });
+              // navigationService.navigate("cameraPage", {
+              //   mealName: mealName,
+              //   dayString: dayString,
+              //   prevPage: prevPage,
+              //   meal: mealMacros,
+              // });
+              scan();
             }}
           >
             <Image
