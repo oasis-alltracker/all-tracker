@@ -1,11 +1,10 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
   View,
   Image,
-  Alert,
   Platform,
 } from "react-native";
 import Toast from "react-native-root-toast";
@@ -48,15 +47,13 @@ const BarcodeCamera = ({ route }) => {
     }, [])
   );
 
-  if (!permission) {
-    // Camera permissions are still loading.
-    return <View />;
-  }
-
-  if (!permission.granted) {
-    //Camera permissions are not granted yet.
-    requestPermission();
-  }
+  useEffect(() => {
+    if (permission && !permission.granted) {
+      setIsLoading(true);
+      requestPermission();
+      setIsLoading(false);
+    }
+  }, [permission]);
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
