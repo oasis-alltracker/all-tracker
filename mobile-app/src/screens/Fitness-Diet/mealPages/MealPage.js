@@ -62,7 +62,7 @@ const MealPage = ({ navigation, route }) => {
       mealName: mealName,
       dayString: currentDate.toISOString(),
       prevPage: "mealPage",
-      meal: currentMeal,
+      meal: JSON.parse(JSON.stringify(currentMeal)),
     });
   };
 
