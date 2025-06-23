@@ -1,5 +1,5 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -13,7 +13,21 @@ const BarcodeCamera = ({ route }) => {
 
   useFocusEffect(
     useCallback(() => {
-      setScanned(false);
+      var scanningOptions = {
+        barcodeTypes: [
+          "ean13",
+          "ean8",
+          "upc_e",
+          "upc_a",
+          "org.iso.QRCode",
+          "qr",
+        ],
+        isHighlightingEnabled: true,
+      };
+      CameraView.launchScanner(scanningOptions);
+      CameraView.onModernBarcodeScanned((data) => {
+        handleScannedResult(data);
+      });
       Toast.show("Please place food barcode\nin view of the camera.", {
         ...styles.errorToast,
         duration: Toast.durations.SHORT,
@@ -21,21 +35,26 @@ const BarcodeCamera = ({ route }) => {
       });
     }, [])
   );
-  useEffect(() => {
-    if (permission && !permission.granted) {
-      setIsLoading(true);
-      requestPermission();
-      setIsLoading(false);
-    }
-  }, [permission]);
+
+  if (!permission) {
+    // Camera permissions are still loading.
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    //Camera permissions are not granted yet.
+    requestPermission();
+  }
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
+      console.log(barcodeScanningResult);
       setScanned(true);
       setIsLoading(true);
       setTimeout(() => {
         setScanned(false);
         setIsLoading(false);
+        CameraView.dismissScanner();
         exitPage(barcodeScanningResult);
       }, 1500);
     }
@@ -63,7 +82,14 @@ const BarcodeCamera = ({ route }) => {
       <CameraView
         style={styles.camera}
         barcodeScannerSettings={{
-          barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
+          barcodeTypes: [
+            "ean13",
+            "ean8",
+            "upc_e",
+            "upc_a",
+            "org.iso.QRCode",
+            "qr",
+          ],
         }}
         onBarcodeScanned={handleScannedResult}
       >
