@@ -29,13 +29,13 @@ const BarcodeCamera = ({ route }) => {
         duration: Toast.durations.SHORT,
         position: Toast.positions.CENTER,
       });
-      if (Platform.OS === "ios") {
+      if (permission && permission.granted && Platform.OS === "ios") {
         CameraView.launchScanner(scanningOptions);
         CameraView.onModernBarcodeScanned((data) => {
           handleScannedResult(data);
         });
       }
-    }, [])
+    }, [permission])
   );
 
   useEffect(() => {
