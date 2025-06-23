@@ -92,7 +92,7 @@ const BarcodeCamera = ({ route }) => {
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
       <CameraView
-        style={Platform.OS === "ios" ? { display: "none" } : styles.camera}
+        style={styles.camera}
         barcodeScannerSettings={{
           barcodeTypes: [
             "ean13",
