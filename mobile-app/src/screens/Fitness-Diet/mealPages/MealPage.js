@@ -62,7 +62,7 @@ const MealPage = ({ navigation, route }) => {
       mealName: mealName,
       dayString: currentDate.toISOString(),
       prevPage: "mealPage",
-      meal: currentMeal,
+      meal: JSON.parse(JSON.stringify(currentMeal)),
     });
   };
 
@@ -158,8 +158,10 @@ const MealPage = ({ navigation, route }) => {
           <View style={styles.mealItemSection}>
             {currentMeal.entries.map((item, index) => (
               <View key={index} style={styles.mealItem}>
-                <View style={styles.mealItemInfo}>
-                  <Text style={styles.textStyle}>{item.name}</Text>
+                <View style={[styles.mealItemInfo, { flex: 1 }]}>
+                  <Text style={[styles.textStyle, { flexShrink: 1 }]}>
+                    {item.name}
+                  </Text>
                   <Text style={styles.mealItemCalories}>
                     {item.calorieCount} cal
                   </Text>
