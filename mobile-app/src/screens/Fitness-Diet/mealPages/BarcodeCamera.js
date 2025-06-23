@@ -37,13 +37,11 @@ const BarcodeCamera = ({ route }) => {
         position: Toast.positions.CENTER,
       });
       if (Platform.OS === "ios") {
-        console.log("in ios block");
         CameraView.launchScanner(scanningOptions);
         CameraView.onModernBarcodeScanned((data) => {
           handleScannedResult(data);
         });
       }
-      console.log("out of ios block");
     }, [])
   );
 
@@ -57,7 +55,6 @@ const BarcodeCamera = ({ route }) => {
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
-      console.log(barcodeScanningResult);
       setScanned(true);
       setIsLoading(true);
       setTimeout(() => {
