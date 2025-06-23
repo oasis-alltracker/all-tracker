@@ -21,14 +21,7 @@ const BarcodeCamera = ({ route }) => {
     useCallback(() => {
       setScanned(false);
       var scanningOptions = {
-        barcodeTypes: [
-          "ean13",
-          "ean8",
-          "upc_e",
-          "upc_a",
-          "org.iso.QRCode",
-          "qr",
-        ],
+        barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
         isHighlightingEnabled: true,
       };
       Toast.show("Please place food barcode\nin view of the camera.", {
@@ -88,14 +81,7 @@ const BarcodeCamera = ({ route }) => {
       <CameraView
         style={styles.camera}
         barcodeScannerSettings={{
-          barcodeTypes: [
-            "ean13",
-            "ean8",
-            "upc_e",
-            "upc_a",
-            "org.iso.QRCode",
-            "qr",
-          ],
+          barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
         }}
         onBarcodeScanned={handleScannedResult}
       >
