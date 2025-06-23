@@ -63,7 +63,7 @@ const BarcodeCamera = ({ route }) => {
       <CameraView
         style={styles.camera}
         barcodeScannerSettings={{
-          barcodetypes: ["ean13", "ean8", "upc_e", "upc_a"],
+          barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
         }}
         onBarcodeScanned={handleScannedResult}
       >
