@@ -16,7 +16,7 @@ const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [permissionStatus, setPermissionStatus] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -40,23 +40,13 @@ const BarcodeCamera = ({ route }) => {
   );
 
   useEffect(() => {
-    handlePermissions();
-  }, [permission]);
-
-  const handlePermissions = () => {
     if (permission && !permission.granted) {
       requestPermission();
-      if (permission.granted) {
-        setPermissionGranted(true);
-        console.log("permissions have been granted");
-      }
+      setPermissionStatus(false);
+    } else if (permission && permission.granted) {
+      setPermissionStatus(true);
     }
-    if (!permissionGranted) {
-      return <View />;
-    } else {
-      return <CameraView />;
-    }
-  };
+  }, [permission]);
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
@@ -90,26 +80,30 @@ const BarcodeCamera = ({ route }) => {
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
-      <CameraView
-        style={styles.camera}
-        barcodeScannerSettings={{
-          barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
-        }}
-        onBarcodeScanned={handleScannedResult}
-      >
-        <TouchableOpacity onPress={() => exitPage(null)}>
-          <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/back-arrow.png")}
-          ></Image>
-        </TouchableOpacity>
-        <View style={styles.viewfinderContainer}>
-          <Image
-            style={styles.viewfinder}
-            source={require("../../../assets/images/barcode-viewfinder.png")}
-          ></Image>
-        </View>
-      </CameraView>
+      {!permissionStatus ? (
+        <View />
+      ) : (
+        <CameraView
+          style={styles.camera}
+          barcodeScannerSettings={{
+            barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
+          }}
+          onBarcodeScanned={handleScannedResult}
+        >
+          <TouchableOpacity onPress={() => exitPage(null)}>
+            <Image
+              style={styles.backArrow}
+              source={require("../../../assets/images/back-arrow.png")}
+            ></Image>
+          </TouchableOpacity>
+          <View style={styles.viewfinderContainer}>
+            <Image
+              style={styles.viewfinder}
+              source={require("../../../assets/images/barcode-viewfinder.png")}
+            ></Image>
+          </View>
+        </CameraView>
+      )}
     </View>
   );
 };
