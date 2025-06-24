@@ -45,7 +45,6 @@ const BarcodeCamera = ({ route }) => {
   useEffect(() => {
     if (permission && !permission.granted) {
       requestPermission();
-      setPermissionStatus(false);
     } else if (permission && permission.granted) {
       setPermissionStatus(true);
     }
