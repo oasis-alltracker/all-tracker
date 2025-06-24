@@ -86,6 +86,10 @@ const MealPage = ({ navigation, route }) => {
     );
   };
 
+  const sub2Decimals = (num1, num2) => {
+    return Math.round(num1 * 100 - num2 * 100) / 100;
+  };
+
   const deleteFoodEntry = async (foodEntry) => {
     try {
       setIsLoading(true);
@@ -93,10 +97,23 @@ const MealPage = ({ navigation, route }) => {
       updatedMeal.entries = updatedMeal.entries.filter(
         (item) => item.SK !== foodEntry.SK
       );
-      updatedMeal.calorieCount -= foodEntry.calorieCount;
-      updatedMeal.carbCount -= foodEntry.carbCount;
-      updatedMeal.proteinCount -= foodEntry.proteinCount;
-      updatedMeal.fatCount -= foodEntry.fatCount;
+
+      updatedMeal.calorieCount = sub2Decimals(
+        updatedMeal.calorieCount,
+        foodEntry.calorieCount
+      );
+      updatedMeal.carbCount = sub2Decimals(
+        updatedMeal.carbCount,
+        foodEntry.carbCount
+      );
+      updatedMeal.proteinCount = sub2Decimals(
+        updatedMeal.proteinCount,
+        foodEntry.proteinCount
+      );
+      updatedMeal.fatCount = sub2Decimals(
+        updatedMeal.fatCount,
+        foodEntry.fatCount
+      );
 
       token = await getAccessToken();
       await FoodEntriesAPI.deleteFoodEntry(token, foodEntry.SK);

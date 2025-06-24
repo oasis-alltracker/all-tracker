@@ -220,7 +220,6 @@ const FitnessDiet = ({ navigation, route }) => {
         token,
         moment(date).format("YYYYMMDD")
       );
-      console.log(JSON.stringify(meals));
       for (key in mealSetters) {
         if (key in meals) {
           mealSetters[key](meals[key]);
