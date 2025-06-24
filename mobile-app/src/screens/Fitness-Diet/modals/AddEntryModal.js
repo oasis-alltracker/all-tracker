@@ -66,12 +66,14 @@ export default function AddEntryModal({
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
   var currentMacros = {
-    Fats: ((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
-    Protein: ((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(2),
-    Carbs: ((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
+    Fats: +((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
+    Protein: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(
       2
     ),
-    Calories: (
+    Carbs: +((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
+      2
+    ),
+    Calories: +(
       (foodEntry.calorieCount / foodEntry.quantity) *
       quantity
     ).toFixed(2),
@@ -80,7 +82,7 @@ export default function AddEntryModal({
   useEffect(() => {
     let ref = {
       open(foodEntry) {
-        setQuantity(`${foodEntry.quantity}`);
+        setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
         setFoodEntry(foodEntry);
         setVisible(true);
@@ -98,11 +100,11 @@ export default function AddEntryModal({
       var newFoodEntry = {
         name: foodEntry.name,
         meal: mealName.toLowerCase(),
-        calorieCount: +currentMacros.Calories,
-        fatCount: +currentMacros.Fats,
-        foodItemID: +foodEntry.foodItemID,
-        proteinCount: +currentMacros.Protein,
-        carbCount: +currentMacros.Carbs,
+        calorieCount: currentMacros.Calories,
+        fatCount: currentMacros.Fats,
+        foodItemID: foodEntry.foodItemID,
+        proteinCount: currentMacros.Protein,
+        carbCount: currentMacros.Carbs,
         quantity: +quantity,
         measurement: serving,
         dateStamp: moment(day).format("YYYYMMDD"),
