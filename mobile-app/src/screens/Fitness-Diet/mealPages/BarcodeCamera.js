@@ -6,6 +6,7 @@ import {
   View,
   Image,
   Platform,
+  Text,
 } from "react-native";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -25,16 +26,18 @@ const BarcodeCamera = ({ route }) => {
         barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
         isHighlightingEnabled: true,
       };
-      Toast.show("Please place food barcode\nin view of the camera.", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
-      if (permission && permission.granted && Platform.OS === "ios") {
-        CameraView.launchScanner(scanningOptions);
-        CameraView.onModernBarcodeScanned((data) => {
-          handleScannedResult(data);
+      if (permission && permission.granted) {
+        Toast.show("Please place food barcode\nin view of the camera.", {
+          ...styles.errorToast,
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.CENTER,
         });
+        if (Platform.OS === "ios") {
+          CameraView.launchScanner(scanningOptions);
+          CameraView.onModernBarcodeScanned((data) => {
+            handleScannedResult(data);
+          });
+        }
       }
     }, [permission])
   );
@@ -81,7 +84,22 @@ const BarcodeCamera = ({ route }) => {
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
       {!permissionStatus ? (
-        <View />
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => exitPage(null)}>
+            <Image
+              style={styles.backArrow}
+              source={require("../../../assets/images/back-arrow.png")}
+            ></Image>
+          </TouchableOpacity>
+          <View style={styles.deniedPermissionsText}>
+            <Text style={styles.textStyle}>
+              Camera permissions are required to use this barcode scanner.
+            </Text>
+            <Text style={styles.textStyle}>
+              Please allow camera permissions in your settings.
+            </Text>
+          </View>
+        </View>
       ) : (
         <CameraView
           style={styles.camera}
@@ -92,7 +110,7 @@ const BarcodeCamera = ({ route }) => {
         >
           <TouchableOpacity onPress={() => exitPage(null)}>
             <Image
-              style={styles.backArrow}
+              style={[styles.backArrow, styles.backArrowCameraActive]}
               source={require("../../../assets/images/back-arrow.png")}
             ></Image>
           </TouchableOpacity>
@@ -118,6 +136,8 @@ const styles = StyleSheet.create({
     width: 50,
     marginTop: 60,
     marginLeft: 20,
+  },
+  backArrowCameraActive: {
     tintColor: "white",
   },
   viewfinderContainer: {
@@ -132,6 +152,16 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+  },
+  deniedPermissionsText: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textStyle: {
+    fontSize: 20,
+    fontFamily: "Sego",
+    color: "#25436B",
   },
 });
 
