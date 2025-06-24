@@ -15,6 +15,7 @@ import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
+import SelectDropdown from "react-native-select-dropdown";
 
 //TO DOs:
 //1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
@@ -81,6 +82,11 @@ export default function AddEntryModal({
         setServing(`${foodEntry.measurement}`);
         setFoodEntry(foodEntry);
         setVisible(true);
+        //serving work!
+        //step 1: identify if this is a search result - by seeing if the altServings field is populated
+        //step 2: IF it is -> create a dropdown
+
+        //real step 1: try to make a dropdown
       },
       close() {
         setVisible(false);
@@ -156,6 +162,16 @@ export default function AddEntryModal({
                 textAlign={"center"}
               />
             </View>
+
+            <SelectDropdown
+              data={[
+                { title: "option 1", data: "other info" },
+                { title: "option 2", data: "part 2" },
+              ]}
+              onSelect={(selectedItem, index) => {
+                console.log(selectedItem);
+              }}
+            />
 
             <View style={styles.row}>
               <Text style={styles.rowText}>Quantity: </Text>
