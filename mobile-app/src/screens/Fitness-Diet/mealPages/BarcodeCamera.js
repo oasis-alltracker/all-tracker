@@ -96,7 +96,8 @@ const BarcodeCamera = ({ route }) => {
               Camera permissions are required to use this barcode scanner.
             </Text>
             <Text style={styles.textStyle}>
-              Please allow camera permissions in your settings.
+              Please close the app and allow camera permissions in your
+              settings, then return to this page.
             </Text>
           </View>
         </View>
