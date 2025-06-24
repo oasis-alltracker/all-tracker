@@ -16,6 +16,7 @@ const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [permissionGranted, setPermissionGranted] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -39,12 +40,23 @@ const BarcodeCamera = ({ route }) => {
   );
 
   useEffect(() => {
-    if (permission && !permission.granted) {
-      setIsLoading(true);
-      requestPermission();
-      setIsLoading(false);
-    }
+    handlePermissions();
   }, [permission]);
+
+  const handlePermissions = () => {
+    if (permission && !permission.granted) {
+      requestPermission();
+      if (permission.granted) {
+        setPermissionGranted(true);
+        console.log("permissions have been granted");
+      }
+    }
+    if (!permissionGranted) {
+      return <View />;
+    } else {
+      return <CameraView />;
+    }
+  };
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
