@@ -6,7 +6,7 @@ import {
   useCameraPermission,
 } from "react-native-vision-camera";
 import { useState, useCallback, useEffect } from "react";
-import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
@@ -68,6 +68,7 @@ const BarcodeScanner = ({ route }) => {
 
   const CameraComponent = () => {
     if (!hasPermission) {
+      console.log("no permissions");
       return (
         <Text>
           Denied permissions, go into settings to change camera permissions to
@@ -76,9 +77,11 @@ const BarcodeScanner = ({ route }) => {
       );
     }
     if (device == null) {
+      console.log("no device");
       return <NoCameraErrorView />;
     }
-    return <Camera style={styles.camera} device={device} isActive={false} />;
+    console.log("Trying to show camera; permissions granted and device exists");
+    return <Camera style={styles.camera} device={device} isActive={true} />;
   };
 
   return (
