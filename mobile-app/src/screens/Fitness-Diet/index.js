@@ -52,23 +52,24 @@ const FitnessDiet = ({ navigation, route }) => {
   const [snack, setSnack] = useState(defaultMacros);
 
   var totalMacros = {
-    calorieCount:
+    calorieCount: Math.round(
       breakfast.calorieCount +
-      lunch.calorieCount +
-      dinner.calorieCount +
-      snack.calorieCount,
-    carbCount:
-      breakfast.carbCount +
-      lunch.carbCount +
-      dinner.carbCount +
-      snack.carbCount,
-    fatCount:
-      breakfast.fatCount + lunch.fatCount + dinner.fatCount + snack.fatCount,
-    proteinCount:
+        lunch.calorieCount +
+        dinner.calorieCount +
+        snack.calorieCount
+    ),
+    carbCount: Math.round(
+      breakfast.carbCount + lunch.carbCount + dinner.carbCount + snack.carbCount
+    ),
+    fatCount: Math.round(
+      breakfast.fatCount + lunch.fatCount + dinner.fatCount + snack.fatCount
+    ),
+    proteinCount: Math.round(
       breakfast.proteinCount +
-      lunch.proteinCount +
-      dinner.proteinCount +
-      snack.proteinCount,
+        lunch.proteinCount +
+        dinner.proteinCount +
+        snack.proteinCount
+    ),
   };
 
   const mealSetters = {

@@ -124,13 +124,14 @@ export default function Diet({
             {item.name}
           </Text>
           <Text style={styles.subItemText}>
-            {item.calorieCount} {dietGoals.calorieGoal.units}
+            {Math.round(item.calorieCount)} {dietGoals.calorieGoal.units}
           </Text>
         </View>
       ))}
       <View style={styles.line} />
       <Text style={[styles.subItemText, { textAlign: "center" }]}>
-        {meals[item.name].calorieCount} {dietGoals.calorieGoal.units}
+        {Math.round(meals[item.name].calorieCount)}{" "}
+        {dietGoals.calorieGoal.units}
       </Text>
     </TouchableOpacity>
   );
