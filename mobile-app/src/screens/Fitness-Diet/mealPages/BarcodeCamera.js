@@ -1,6 +1,13 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState, useCallback, useEffect } from "react";
-import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+  Platform,
+  Text,
+} from "react-native";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
@@ -10,22 +17,36 @@ const BarcodeCamera = ({ route }) => {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [permissionStatus, setPermissionStatus] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
       setScanned(false);
-      Toast.show("Please place food barcode\nin view of the camera.", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
-    }, [])
+      var scanningOptions = {
+        barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
+        isHighlightingEnabled: true,
+      };
+      if (permission && permission.granted && permissionStatus) {
+        Toast.show("Please place food barcode\nin view of the camera.", {
+          ...styles.errorToast,
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.CENTER,
+        });
+        if (Platform.OS === "ios") {
+          CameraView.launchScanner(scanningOptions);
+          CameraView.onModernBarcodeScanned((data) => {
+            handleScannedResultIOS(data);
+          });
+        }
+      }
+    }, [permission, permissionStatus])
   );
+
   useEffect(() => {
     if (permission && !permission.granted) {
-      setIsLoading(true);
       requestPermission();
-      setIsLoading(false);
+    } else if (permission && permission.granted) {
+      setPermissionStatus(true);
     }
   }, [permission]);
 
@@ -36,8 +57,17 @@ const BarcodeCamera = ({ route }) => {
       setTimeout(() => {
         setScanned(false);
         setIsLoading(false);
+        CameraView.dismissScanner();
         exitPage(barcodeScanningResult);
       }, 1500);
+    }
+  };
+
+  const handleScannedResultIOS = (barcodeScanningResult) => {
+    if (!scanned) {
+      setScanned(true);
+      CameraView.dismissScanner();
+      exitPage(barcodeScanningResult);
     }
   };
 
@@ -60,26 +90,46 @@ const BarcodeCamera = ({ route }) => {
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
-      <CameraView
-        style={styles.camera}
-        barcodeScannerSettings={{
-          barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
-        }}
-        onBarcodeScanned={handleScannedResult}
-      >
-        <TouchableOpacity onPress={() => exitPage(null)}>
-          <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/back-arrow.png")}
-          ></Image>
-        </TouchableOpacity>
-        <View style={styles.viewfinderContainer}>
-          <Image
-            style={styles.viewfinder}
-            source={require("../../../assets/images/barcode-viewfinder.png")}
-          ></Image>
+      {!permissionStatus || Platform.OS == "ios" ? (
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => exitPage(null)}>
+            <Image
+              style={styles.backArrow}
+              source={require("../../../assets/images/back-arrow.png")}
+            ></Image>
+          </TouchableOpacity>
+          <View style={styles.deniedPermissionsText}>
+            <Text style={styles.textStyle}>
+              Camera permissions are required to use this barcode scanner.
+            </Text>
+            <Text style={styles.textStyle}>
+              Please close the app and allow camera permissions in your
+              settings, then return to this page.
+            </Text>
+          </View>
         </View>
-      </CameraView>
+      ) : (
+        <CameraView
+          style={styles.camera}
+          barcodeScannerSettings={{
+            barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
+          }}
+          onBarcodeScanned={handleScannedResult}
+        >
+          <TouchableOpacity onPress={() => exitPage(null)}>
+            <Image
+              style={[styles.backArrow, styles.backArrowCameraActive]}
+              source={require("../../../assets/images/back-arrow.png")}
+            ></Image>
+          </TouchableOpacity>
+          <View style={styles.viewfinderContainer}>
+            <Image
+              style={styles.viewfinder}
+              source={require("../../../assets/images/barcode-viewfinder.png")}
+            ></Image>
+          </View>
+        </CameraView>
+      )}
     </View>
   );
 };
@@ -94,6 +144,8 @@ const styles = StyleSheet.create({
     width: 50,
     marginTop: 60,
     marginLeft: 20,
+  },
+  backArrowCameraActive: {
     tintColor: "white",
   },
   viewfinderContainer: {
@@ -108,6 +160,16 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+  },
+  deniedPermissionsText: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textStyle: {
+    fontSize: 20,
+    fontFamily: "Sego",
+    color: "#25436B",
   },
 });
 
