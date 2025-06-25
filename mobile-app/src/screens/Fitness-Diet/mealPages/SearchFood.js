@@ -142,7 +142,7 @@ const SearchFood = ({ navigation, route }) => {
 
           <TouchableOpacity
             onPress={() => {
-              navigationService.navigate("cameraPage", {
+              navigationService.navigate("barcodeScanner", {
                 mealName: mealName,
                 dayString: dayString,
                 prevPage: prevPage,
