@@ -1,4 +1,10 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
+import {
+  Camera,
+  CodeScanner,
+  useCameraDevice,
+  useCameraPermission,
+} from "react-native-vision-camera";
 import { useState, useCallback, useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Alert } from "react-native";
 import Toast from "react-native-root-toast";
@@ -7,9 +13,11 @@ import navigationService from "../../../navigators/navigationService";
 import { useFocusEffect } from "@react-navigation/native";
 
 const BarcodeScanner = ({ route }) => {
-  const [permission, requestPermission] = useCameraPermissions();
+  //const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const device = useCameraDevice("back");
+  const { hasPermission, requestPermission } = useCameraPermission();
 
   useFocusEffect(
     useCallback(() => {
@@ -21,13 +29,14 @@ const BarcodeScanner = ({ route }) => {
       });
     }, [])
   );
+
   useEffect(() => {
-    if (permission && !permission.granted) {
+    if (!hasPermission) {
       setIsLoading(true);
       requestPermission();
       setIsLoading(false);
     }
-  }, [permission]);
+  }, [hasPermission]);
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
@@ -57,29 +66,25 @@ const BarcodeScanner = ({ route }) => {
     navigationService.navigate("searchFood", params);
   };
 
+  const CameraComponent = () => {
+    if (!hasPermission) {
+      return (
+        <Text>
+          Denied permissions, go into settings to change camera permissions to
+          allowed.
+        </Text>
+      );
+    }
+    if (device == null) {
+      return <NoCameraErrorView />;
+    }
+    return <Camera style={styles.camera} device={device} isActive={false} />;
+  };
+
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
-      <CameraView
-        style={styles.camera}
-        barcodeScannerSettings={{
-          barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
-        }}
-        onBarcodeScanned={handleScannedResult}
-      >
-        <TouchableOpacity onPress={() => exitPage(null)}>
-          <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/back-arrow.png")}
-          ></Image>
-        </TouchableOpacity>
-        <View style={styles.viewfinderContainer}>
-          <Image
-            style={styles.viewfinder}
-            source={require("../../../assets/images/barcode-viewfinder.png")}
-          ></Image>
-        </View>
-      </CameraView>
+      <CameraComponent />
     </View>
   );
 };
