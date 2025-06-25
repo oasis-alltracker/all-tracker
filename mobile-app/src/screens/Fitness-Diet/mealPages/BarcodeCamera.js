@@ -26,7 +26,7 @@ const BarcodeCamera = ({ route }) => {
         barcodeTypes: ["ean13", "ean8", "upc_e", "upc_a"],
         isHighlightingEnabled: true,
       };
-      if (permission && permission.granted) {
+      if (permission && permission.granted && permissionStatus) {
         Toast.show("Please place food barcode\nin view of the camera.", {
           ...styles.errorToast,
           duration: Toast.durations.SHORT,
@@ -39,7 +39,7 @@ const BarcodeCamera = ({ route }) => {
           });
         }
       }
-    }, [permission])
+    }, [permission, permissionStatus])
   );
 
   useEffect(() => {
