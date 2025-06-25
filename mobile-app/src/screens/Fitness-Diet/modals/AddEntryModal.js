@@ -15,7 +15,7 @@ import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
-import SelectDropdown from "react-native-select-dropdown";
+import DropDownPicker from "react-native-dropdown-picker";
 
 //TO DOs:
 //1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
@@ -64,8 +64,6 @@ export default function AddEntryModal({
     quantity: 1,
   });
 
-  const [quantity, setQuantity] = useState();
-  const [serving, setServing] = useState();
   var currentMacros = {
     Fats: Math.round((foodEntry.fatCount / foodEntry.quantity) * quantity),
     Protein: Math.round((foodEntry.carbCount / foodEntry.quantity) * quantity),
@@ -75,11 +73,18 @@ export default function AddEntryModal({
     ),
   };
 
+  const [quantity, setQuantity] = useState();
+  const [serving, setServing] = useState();
+  const [servingOptions, setOptions] = useState();
+  const [selectOpen, setSelectOpen] = useState(false);
+  const [selectedServing, setSelected] = useState(null);
+
   useEffect(() => {
     let ref = {
       open(foodEntry) {
         setQuantity(`${foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
+        setOptions([{ label: foodEntry.measurement, value: null }]);
         setFoodEntry(foodEntry);
         setVisible(true);
         //serving work!
@@ -162,17 +167,18 @@ export default function AddEntryModal({
                 textAlign={"center"}
               />
             </View>
-
-            <SelectDropdown
-              data={[
-                { title: "option 1", data: "other info" },
-                { title: "option 2", data: "part 2" },
-              ]}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem);
+            <DropDownPicker
+              open={selectOpen}
+              value={selectedServing}
+              items={servingOptions}
+              setOpen={setSelectOpen}
+              setValue={setSelected}
+              setItems={setOptions}
+              onSelectItem={(value) => {
+                console.log(value);
               }}
+              placeholder={selectedServing}
             />
-
             <View style={styles.row}>
               <Text style={styles.rowText}>Quantity: </Text>
               <TextInput
