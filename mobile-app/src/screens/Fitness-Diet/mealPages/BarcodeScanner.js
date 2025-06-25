@@ -95,6 +95,8 @@ const BarcodeScanner = ({ route }) => {
           " and contents " +
           codes[0].value
       );
+      const result = [{ type: codes[0].type, data: codes[0].value }];
+      exitPage({ result });
     },
   });
 
