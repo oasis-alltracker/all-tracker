@@ -35,7 +35,7 @@ const BarcodeCamera = ({ route }) => {
         if (Platform.OS === "ios") {
           CameraView.launchScanner(scanningOptions);
           CameraView.onModernBarcodeScanned((data) => {
-            handleScannedResult(data);
+            handleScannedResultIOS(data);
           });
         }
       }
@@ -63,6 +63,14 @@ const BarcodeCamera = ({ route }) => {
     }
   };
 
+  const handleScannedResultIOS = (barcodeScanningResult) => {
+    if (!scanned) {
+      setScanned(true);
+      CameraView.dismissScanner();
+      exitPage(barcodeScanningResult);
+    }
+  };
+
   const exitPage = (barcodeScanningResult) => {
     var params = {
       prevPage: route.params.prevPage,
@@ -82,7 +90,7 @@ const BarcodeCamera = ({ route }) => {
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
-      {!permissionStatus ? (
+      {!permissionStatus || Platform.OS == "ios" ? (
         <View style={styles.container}>
           <TouchableOpacity onPress={() => exitPage(null)}>
             <Image
