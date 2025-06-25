@@ -69,12 +69,7 @@ const BarcodeScanner = ({ route }) => {
   const CameraComponent = () => {
     if (!hasPermission) {
       console.log("no permissions");
-      return (
-        <Text>
-          Denied permissions, go into settings to change camera permissions to
-          allowed.
-        </Text>
-      );
+      return <PermissionNotice />;
     }
     if (device == null) {
       console.log("no device");
@@ -103,6 +98,28 @@ const BarcodeScanner = ({ route }) => {
     },
   });
 
+  const PermissionNotice = () => {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity onPress={() => exitPage(null)}>
+          <Image
+            style={styles.backArrow}
+            source={require("../../../assets/images/back-arrow.png")}
+          ></Image>
+        </TouchableOpacity>
+        <View style={styles.deniedPermissionsText}>
+          <Text style={styles.textStyle}>
+            Camera permissions are required to use this barcode scanner.
+          </Text>
+          <Text style={styles.textStyle}>
+            Please close the app and allow camera permissions in your settings,
+            then return to this page.
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
@@ -121,6 +138,8 @@ const styles = StyleSheet.create({
     width: 50,
     marginTop: 60,
     marginLeft: 20,
+  },
+  backArrowCameraActive: {
     tintColor: "white",
   },
   viewfinderContainer: {
@@ -135,6 +154,16 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+  },
+  deniedPermissionsText: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  textStyle: {
+    fontSize: 20,
+    fontFamily: "Sego",
+    color: "#25436B",
   },
 });
 
