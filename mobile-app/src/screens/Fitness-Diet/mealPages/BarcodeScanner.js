@@ -1,7 +1,7 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import {
   Camera,
-  CodeScanner,
+  useCodeScanner,
   useCameraDevice,
   useCameraPermission,
 } from "react-native-vision-camera";
@@ -81,8 +81,27 @@ const BarcodeScanner = ({ route }) => {
       return <NoCameraErrorView />;
     }
     console.log("Trying to show camera; permissions granted and device exists");
-    return <Camera style={styles.camera} device={device} isActive={true} />;
+    return (
+      <Camera
+        style={styles.camera}
+        device={device}
+        isActive={true}
+        codeScanner={codeScanner}
+      />
+    );
   };
+
+  const codeScanner = useCodeScanner({
+    codeTypes: ["qr", "ean-13", "ean-8", "upc-e", "upc-a"],
+    onCodeScanned: (codes) => {
+      console.log(
+        "Scanned code of type " +
+          codes[0].type +
+          " and contents " +
+          codes[0].value
+      );
+    },
+  });
 
   return (
     <View style={styles.container}>
