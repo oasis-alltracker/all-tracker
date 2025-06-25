@@ -65,12 +65,17 @@ export default function AddEntryModal({
   });
 
   var currentMacros = {
-    Fats: Math.round((foodEntry.fatCount / foodEntry.quantity) * quantity),
-    Protein: Math.round((foodEntry.carbCount / foodEntry.quantity) * quantity),
-    Carbs: Math.round((foodEntry.proteinCount / foodEntry.quantity) * quantity),
-    Calories: Math.round(
-      (foodEntry.calorieCount / foodEntry.quantity) * quantity
+    Fats: +((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
+    Protein: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(
+      2
     ),
+    Carbs: +((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
+      2
+    ),
+    Calories: +(
+      (foodEntry.calorieCount / foodEntry.quantity) *
+      quantity
+    ).toFixed(2),
   };
 
   const [quantity, setQuantity] = useState();
@@ -82,7 +87,7 @@ export default function AddEntryModal({
   useEffect(() => {
     let ref = {
       open(foodEntry) {
-        setQuantity(`${foodEntry.quantity}`);
+        setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
         setOptions([{ label: foodEntry.measurement, value: null }]);
         setFoodEntry(foodEntry);
@@ -100,6 +105,10 @@ export default function AddEntryModal({
 
     getRef(ref);
   }, []);
+
+  const add2Decimals = (num1, num2) => {
+    return (num1 * 100 + num2 * 100) / 100;
+  };
 
   const addFoodEntry = async () => {
     try {
@@ -127,10 +136,16 @@ export default function AddEntryModal({
       };
 
       if (prevPage == "mealPage") {
-        meal.calorieCount += newFoodEntry.calorieCount;
-        meal.proteinCount += newFoodEntry.proteinCount;
-        meal.carbCount += newFoodEntry.carbCount;
-        meal.fatCount += newFoodEntry.fatCount;
+        meal.calorieCount = add2Decimals(
+          meal.calorieCount,
+          newFoodEntry.calorieCount
+        );
+        meal.proteinCount = add2Decimals(
+          meal.proteinCount,
+          newFoodEntry.proteinCount
+        );
+        meal.carbCount = add2Decimals(meal.carbCount, newFoodEntry.carbCount);
+        meal.fatCount = add2Decimals(meal.fatCount, newFoodEntry.fatCount);
         meal.entries.push(newFoodEntry);
 
         params["dateString"] = day.toLocaleDateString();
