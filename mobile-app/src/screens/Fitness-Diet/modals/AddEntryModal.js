@@ -16,6 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
+import { SelectList } from "react-native-dropdown-select-list";
 
 //TO DOs:
 //1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
@@ -89,7 +90,9 @@ export default function AddEntryModal({
       open(foodEntry) {
         setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
-        setOptions([{ label: foodEntry.measurement, value: foodEntry }]);
+        setOptions([
+          { label: foodEntry.measurement, value: foodEntry.measurement },
+        ]);
         setFoodEntry(foodEntry);
         setVisible(true);
         //serving work!
@@ -173,7 +176,7 @@ export default function AddEntryModal({
           <Text style={styles.titleText}>{foodEntry.name} </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
-            <View style={[styles.row, { gap: 30 }]}>
+            <View style={[styles.row]}>
               <Text style={[styles.rowText]}>Serving Size: </Text>
               {/* <TextInput
                 style={[styles.borderedContainer, styles.input]}
@@ -181,31 +184,36 @@ export default function AddEntryModal({
                 value={serving}
                 textAlign={"center"}
               /> */}
-              <DropDownPicker
-                open={selectOpen}
-                value={selectedServing}
-                items={servingOptions}
-                setOpen={setSelectOpen}
-                setValue={setSelected}
-                setItems={setOptions}
-                onSelectItem={(value) => {
-                  console.log(value);
-                }}
-                mode="BADGE"
-                listMode="SCROLLVIEW"
-                placeholder="select a serving"
-                style={[styles.borderedContainer, { width: "40%" }]}
-                dropDownContainerStyle={{
-                  width: "40%",
-                  backgroundColor: "red",
-                  borderColor: "rgba(172, 197, 204, 0.75)",
-                  borderWidth: 2,
-                }}
-                multiple={false}
+              <SelectList
+                setSelected={setSelected}
+                data={servingOptions}
+                search={false}
+                save="value"
+                maxHeight={100}
+                boxStyles={styles.borderedContainer}
               />
             </View>
+            {/* <View style={{ width: "40%" }}>
+              <SelectList
+                setSelected={setSelected}
+                data={servingOptions}
+                search={false}
+                save="value"
+                maxHeight={100}
+                boxStyles={{width: "40%"}}
+              />
+            </View> */}
+            <SelectList
+              setSelected={setSelected}
+              data={servingOptions}
+              search={false}
+              save="value"
+              maxHeight={100}
+              boxStyles={{ width: "40%" }}
+              dropdownStyles={{ width: "40%" }}
+            />
 
-            {/* <Text>selected: {JSON.stringify(selectedServing)} </Text> */}
+            <Text>selected: {JSON.stringify(selectedServing)} </Text>
             <View style={styles.row}>
               <Text style={styles.rowText}>Quantity: </Text>
               <TextInput
