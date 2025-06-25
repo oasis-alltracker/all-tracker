@@ -82,14 +82,14 @@ export default function AddEntryModal({
   const [serving, setServing] = useState();
   const [servingOptions, setOptions] = useState();
   const [selectOpen, setSelectOpen] = useState(false);
-  const [selectedServing, setSelected] = useState(null);
+  const [selectedServing, setSelected] = useState();
 
   useEffect(() => {
     let ref = {
       open(foodEntry) {
         setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
-        setOptions([{ label: foodEntry.measurement, value: null }]);
+        setOptions([{ label: foodEntry.measurement, value: foodEntry }]);
         setFoodEntry(foodEntry);
         setVisible(true);
         //serving work!
@@ -173,27 +173,39 @@ export default function AddEntryModal({
           <Text style={styles.titleText}>{foodEntry.name} </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
-            <View style={styles.row}>
-              <Text style={styles.rowText}>Serving Size: </Text>
-              <TextInput
+            <View style={[styles.row, { gap: 30 }]}>
+              <Text style={[styles.rowText]}>Serving Size: </Text>
+              {/* <TextInput
                 style={[styles.borderedContainer, styles.input]}
                 onChangeText={setServing}
                 value={serving}
                 textAlign={"center"}
+              /> */}
+              <DropDownPicker
+                open={selectOpen}
+                value={selectedServing}
+                items={servingOptions}
+                setOpen={setSelectOpen}
+                setValue={setSelected}
+                setItems={setOptions}
+                onSelectItem={(value) => {
+                  console.log(value);
+                }}
+                mode="BADGE"
+                listMode="SCROLLVIEW"
+                placeholder="select a serving"
+                style={[styles.borderedContainer, { width: "40%" }]}
+                dropDownContainerStyle={{
+                  width: "40%",
+                  backgroundColor: "red",
+                  borderColor: "rgba(172, 197, 204, 0.75)",
+                  borderWidth: 2,
+                }}
+                multiple={false}
               />
             </View>
-            <DropDownPicker
-              open={selectOpen}
-              value={selectedServing}
-              items={servingOptions}
-              setOpen={setSelectOpen}
-              setValue={setSelected}
-              setItems={setOptions}
-              onSelectItem={(value) => {
-                console.log(value);
-              }}
-              placeholder={selectedServing}
-            />
+
+            {/* <Text>selected: {JSON.stringify(selectedServing)} </Text> */}
             <View style={styles.row}>
               <Text style={styles.rowText}>Quantity: </Text>
               <TextInput
