@@ -77,33 +77,30 @@ export default function AddEntryModal({
   const [servingOptions, setOptions] = useState();
   const [selectOpen, setSelectOpen] = useState(false);
   const [selectedServing, setSelected] = useState();
+  const [servingsDetails, setServingsDetails] = useState();
+
   useEffect(() => {
     let ref = {
       open(foodEntry) {
         setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
-        var array = [];
+        var servingDetails = [];
         var options =
           foodEntry?.altServings == null ? [foodEntry] : foodEntry.altServings;
+
         console.log("options before map:");
         console.log(options);
-
         options = options.map((item, index) => {
-          //array.push(item);
-          console.log(item);
-          return { label: item.measurement, value: JSON.stringify(item) };
+          servingDetails.push(item);
+          return { label: item.measurement, value: index };
         });
         console.log("after map");
         console.log(options);
-        console.log([{ label: foodEntry.measurement, value: foodEntry }]);
-        //setOptions([{ label: foodEntry.measurement, value: foodEntry }]);
+
         setOptions(options);
-        // setOptions([
-        //   { label: "option 1", value: "value 1" },
-        //   { label: "option 2", value: "value 2" },
-        //   { label: "option 3", value: "value 3" },
-        // ]);
         setSelected(options[0].value);
+        setServingsDetails(servingDetails);
+
         setFoodEntry(foodEntry);
         setVisible(true);
         console.log(foodEntry);
@@ -186,20 +183,19 @@ export default function AddEntryModal({
                   setValue={setSelected}
                   setItems={setOptions}
                   onSelectItem={(value) => {
-                    console.log(value);
-                    console.log(selectedServing);
+                    console.log(servingsDetails[value.value]);
                   }}
                   placeholder="Select a Serving"
                   style={[styles.borderedContainer]}
                   dropDownContainerStyle={{
                     borderColor: "rgba(172, 197, 204, 0.75)",
                     borderWidth: 2,
-                    maxHeight: 80,
+                    maxHeight: 70,
                   }}
                   textStyle={{
                     fontFamily: "Sego-Bold",
                     color: "#25436B",
-                    fontSize: 10,
+                    fontSize: 12,
                   }}
                   listMode="SCROLLVIEW"
                 />
