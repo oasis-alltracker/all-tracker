@@ -1,4 +1,3 @@
-import { CameraView, useCameraPermissions } from "expo-camera";
 import {
   Camera,
   useCodeScanner,
@@ -11,6 +10,7 @@ import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
 import { useFocusEffect } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const BarcodeScanner = ({ route }) => {
   const device = useCameraDevice("back");
@@ -71,7 +71,7 @@ const BarcodeScanner = ({ route }) => {
 
   const PermissionNotice = () => {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <TouchableOpacity onPress={() => exitPage(null)}>
           <Image
             style={styles.backArrow}
@@ -87,7 +87,7 @@ const BarcodeScanner = ({ route }) => {
             then return to this page.
           </Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   };
 
@@ -98,7 +98,7 @@ const BarcodeScanner = ({ route }) => {
     return <NoCameraErrorView />;
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
         <Camera
@@ -120,7 +120,7 @@ const BarcodeScanner = ({ route }) => {
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: 50,
     width: 50,
-    marginTop: 60,
+    marginTop: 30,
     marginLeft: 20,
   },
   backArrowCameraActive: {
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     position: "relative",
     height: 300,
     width: 375,
-    top: 300,
+    top: 260,
     left: 20,
     tintColor: "white",
   },
