@@ -39,18 +39,6 @@ const BarcodeScanner = ({ route }) => {
     }
   }, [hasPermission]);
 
-  const handleScannedResult = (barcodeScanningResult) => {
-    if (!scanned) {
-      setIsScanning(true);
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsScanning(false);
-        setIsLoading(false);
-        exitPage(barcodeScanningResult);
-      }, 1500);
-    }
-  };
-
   const exitPage = (barcodeScanningResult) => {
     var params = {
       prevPage: route.params.prevPage,
@@ -67,37 +55,11 @@ const BarcodeScanner = ({ route }) => {
     navigationService.navigate("searchFood", params);
   };
 
-  const CameraComponent = () => {
-    if (!hasPermission) {
-      console.log("no permissions");
-      return <PermissionNotice />;
-    }
-    if (device == null) {
-      console.log("no device");
-      return <NoCameraErrorView />;
-    }
-    console.log("Trying to show camera; permissions granted and device exists");
-    return (
-      <Camera
-        style={styles.camera}
-        device={device}
-        isActive={true}
-        codeScanner={codeScanner}
-      />
-    );
-  };
-
   const codeScanner = useCodeScanner({
     codeTypes: ["qr", "ean-13", "ean-8", "upc-e", "upc-a"],
     onCodeScanned: (codes) => {
       setIsScanning(true);
       setIsLoading(true);
-      console.log(
-        "Scanned code of type " +
-          codes[0].type +
-          " and contents " +
-          codes[0].value
-      );
       const result = [{ type: codes[0].type, data: codes[0].value }];
       setTimeout(() => {
         setIsScanning(false);
@@ -130,11 +92,9 @@ const BarcodeScanner = ({ route }) => {
   };
 
   if (!hasPermission) {
-    console.log("no permissions");
     return <PermissionNotice />;
   }
   if (device == null) {
-    console.log("no device");
     return <NoCameraErrorView />;
   }
   return (
