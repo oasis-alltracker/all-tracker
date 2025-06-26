@@ -91,7 +91,7 @@ const BarcodeScanner = ({ route }) => {
       <SafeAreaView style={styles.container}>
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">
           <TouchableOpacity
-            style={styles.backArrowInactiveContainer}
+            style={styles.backArrowContainer}
             onPress={() => exitPage(null)}
           >
             <Image
@@ -120,7 +120,7 @@ const BarcodeScanner = ({ route }) => {
     return <NoCameraErrorView />;
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
         <Camera
@@ -134,7 +134,7 @@ const BarcodeScanner = ({ route }) => {
         />
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">
           <TouchableOpacity
-            style={styles.backArrowActiveContainer}
+            style={styles.backArrowContainer}
             onPress={() => exitPage(null)}
           >
             <Image
@@ -156,7 +156,7 @@ const BarcodeScanner = ({ route }) => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -171,20 +171,13 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
   },
-  backArrowActiveContainer: {
-    position: "absolute",
-    height: 75,
-    width: 75,
-    marginTop: 0,
-    padding: 10,
-    zIndex: 100,
-  },
-  backArrowInactiveContainer: {
+  backArrowContainer: {
     position: "absolute",
     height: 75,
     width: 75,
     marginTop: 35,
     padding: 10,
+    zIndex: 100,
   },
   backArrow: {
     position: "absolute",
