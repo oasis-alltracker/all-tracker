@@ -122,10 +122,39 @@ const BarcodeScanner = ({ route }) => {
     );
   };
 
+  if (!hasPermission) {
+    console.log("no permissions");
+    return <PermissionNotice />;
+  }
+  if (device == null) {
+    console.log("no device");
+    return <NoCameraErrorView />;
+  }
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
-      <CameraComponent />
+      <View style={styles.container}>
+        <Camera
+          style={styles.camera}
+          device={device}
+          isActive={true}
+          codeScanner={codeScanner}
+        />
+        <View style={styles.cameraElementsContainer}>
+          <TouchableOpacity onPress={() => exitPage(null)}>
+            <Image
+              style={[styles.backArrow, styles.backArrowCameraActive]}
+              source={require("../../../assets/images/back-arrow.png")}
+            />
+          </TouchableOpacity>
+          <View style={styles.viewfinderContainer}>
+            <Image
+              style={styles.viewfinder}
+              source={require("../../../assets/images/barcode-viewfinder.png")}
+            />
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
@@ -135,7 +164,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  cameraElementsContainer: {
+    flex: 1,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+  },
   backArrow: {
+    position: "absolute",
     height: 50,
     width: 50,
     marginTop: 60,
@@ -146,6 +183,7 @@ const styles = StyleSheet.create({
   },
   viewfinderContainer: {
     flex: 1,
+
     alignItems: "center",
   },
   viewfinder: {
@@ -156,6 +194,7 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+    zIndex: 1,
   },
   deniedPermissionsText: {
     flex: 1,
