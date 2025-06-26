@@ -39,17 +39,17 @@ const BarcodeScanner = ({ route }) => {
     }
   }, [hasPermission]);
 
-  const exitPage = (barcodeScanningResult) => {
+  const exitPage = (barcode) => {
     var params = {
       prevPage: route.params.prevPage,
       meal: route.params.meal,
       mealName: route.params.mealName,
       dayString: route.params.dayString,
     };
-    if (barcodeScanningResult != null) {
+    if (barcode != null) {
       params["barcodeData"] = {
-        type: barcodeScanningResult.type,
-        data: barcodeScanningResult.data,
+        type: barcode.type,
+        data: barcode.data,
       };
     }
     navigationService.navigate("searchFood", params);
