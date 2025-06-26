@@ -16,12 +16,8 @@ import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
-import { SelectList } from "react-native-dropdown-select-list";
-
 //TO DOs:
-//1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
-//2. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
-
+//1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
 const macroTitles = [
   {
     name: "Calories",
@@ -44,7 +40,6 @@ const macroTitles = [
     measurement: "g",
   },
 ];
-
 export default function AddEntryModal({
   getRef,
   mealName,
@@ -64,7 +59,6 @@ export default function AddEntryModal({
     proteinCount: 0,
     quantity: 1,
   });
-
   var currentMacros = {
     Fats: +((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
     Protein: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(
@@ -78,41 +72,31 @@ export default function AddEntryModal({
       quantity
     ).toFixed(2),
   };
-
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
   const [servingOptions, setOptions] = useState();
   const [selectOpen, setSelectOpen] = useState(false);
   const [selectedServing, setSelected] = useState();
-
   useEffect(() => {
     let ref = {
       open(foodEntry) {
         setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
-        setOptions([
-          { label: foodEntry.measurement, value: foodEntry.measurement },
-        ]);
+        setOptions([{ label: foodEntry.measurement, value: foodEntry }]);
+        setSelected(foodEntry);
         setFoodEntry(foodEntry);
         setVisible(true);
-        //serving work!
-        //step 1: identify if this is a search result - by seeing if the altServings field is populated
-        //step 2: IF it is -> create a dropdown
-
-        //real step 1: try to make a dropdown
+        console.log(foodEntry);
       },
       close() {
         setVisible(false);
       },
     };
-
     getRef(ref);
   }, []);
-
   const add2Decimals = (num1, num2) => {
     return (num1 * 100 + num2 * 100) / 100;
   };
-
   const addFoodEntry = async () => {
     try {
       var newFoodEntry = {
@@ -130,14 +114,11 @@ export default function AddEntryModal({
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
-
       setIsLoading(false);
       setVisible(false);
-
       var params = {
         refreshMeal: mealName.toLowerCase(),
       };
-
       if (prevPage == "mealPage") {
         meal.calorieCount = add2Decimals(
           meal.calorieCount,
@@ -150,19 +131,16 @@ export default function AddEntryModal({
         meal.carbCount = add2Decimals(meal.carbCount, newFoodEntry.carbCount);
         meal.fatCount = add2Decimals(meal.fatCount, newFoodEntry.fatCount);
         meal.entries.push(newFoodEntry);
-
         params["dateString"] = day.toLocaleDateString();
         params["mealName"] = mealName;
         params["meal"] = meal;
       }
-
       navigationService.navigate(prevPage, params);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
     }
   };
-
   return (
     <RNModal
       isVisible={isVisible}
@@ -176,44 +154,33 @@ export default function AddEntryModal({
           <Text style={styles.titleText}>{foodEntry.name} </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
-            <View style={[styles.row]}>
+            <View style={[styles.row, { zIndex: 1000 }]}>
               <Text style={[styles.rowText]}>Serving Size: </Text>
-              {/* <TextInput
-                style={[styles.borderedContainer, styles.input]}
-                onChangeText={setServing}
-                value={serving}
-                textAlign={"center"}
-              /> */}
-              <SelectList
-                setSelected={setSelected}
-                data={servingOptions}
-                search={false}
-                save="value"
-                maxHeight={100}
-                boxStyles={styles.borderedContainer}
-              />
+              <View style={{ width: "40%" }}>
+                <DropDownPicker
+                  open={selectOpen}
+                  value={selectedServing}
+                  items={servingOptions}
+                  setOpen={setSelectOpen}
+                  setValue={setSelected}
+                  setItems={setOptions}
+                  onSelectItem={(value) => {
+                    console.log(value);
+                    console.log(selectedServing);
+                  }}
+                  placeholder="Select a Serving"
+                  style={[styles.borderedContainer]}
+                  dropDownContainerStyle={{
+                    borderColor: "rgba(172, 197, 204, 0.75)",
+                    borderWidth: 2,
+                  }}
+                  textStyle={{
+                    fontFamily: "Sego-Bold",
+                    color: "#25436B",
+                  }}
+                />
+              </View>
             </View>
-            {/* <View style={{ width: "40%" }}>
-              <SelectList
-                setSelected={setSelected}
-                data={servingOptions}
-                search={false}
-                save="value"
-                maxHeight={100}
-                boxStyles={{width: "40%"}}
-              />
-            </View> */}
-            <SelectList
-              setSelected={setSelected}
-              data={servingOptions}
-              search={false}
-              save="value"
-              maxHeight={100}
-              boxStyles={{ width: "40%" }}
-              dropdownStyles={{ width: "40%" }}
-            />
-
-            <Text>selected: {JSON.stringify(selectedServing)} </Text>
             <View style={styles.row}>
               <Text style={styles.rowText}>Quantity: </Text>
               <TextInput
@@ -225,7 +192,6 @@ export default function AddEntryModal({
               />
             </View>
           </View>
-
           {macroTitles.map((item, index) => (
             <View
               key={index}
@@ -235,13 +201,11 @@ export default function AddEntryModal({
                 <Image style={styles.icon} source={item.icon} />
                 <Text style={styles.buttonText}>{item.name}</Text>
               </View>
-
               <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
                 {currentMacros[item.name]} {item.measurement}
               </Text>
             </View>
           ))}
-
           <View style={styles.row}>
             <TouchableOpacity
               style={[styles.button, styles.borderedContainer]}
@@ -269,7 +233,6 @@ export default function AddEntryModal({
     </RNModal>
   );
 }
-
 const styles = StyleSheet.create({
   modal: {
     margin: 0,
