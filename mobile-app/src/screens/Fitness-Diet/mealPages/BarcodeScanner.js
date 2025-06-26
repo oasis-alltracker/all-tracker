@@ -114,12 +114,10 @@ const BarcodeScanner = ({ route }) => {
               source={require("../../../assets/images/back-arrow.png")}
             />
           </TouchableOpacity>
-          <View style={styles.viewfinderContainer}>
-            <Image
-              style={styles.viewfinder}
-              source={require("../../../assets/images/barcode-viewfinder.png")}
-            />
-          </View>
+          <Image
+            style={styles.viewfinder}
+            source={require("../../../assets/images/barcode-viewfinder.png")}
+          />
         </View>
       </View>
     </View>
@@ -149,14 +147,15 @@ const styles = StyleSheet.create({
     tintColor: "white",
   },
   viewfinderContainer: {
-    flex: 1,
-
     alignItems: "center",
   },
   viewfinder: {
-    height: "37.5%",
-    width: "80%",
-    marginTop: 190,
+    flex: 1,
+    position: "relative",
+    height: 300,
+    width: 375,
+    top: 300,
+    left: 20,
     tintColor: "white",
   },
   camera: {
