@@ -82,8 +82,28 @@ export default function AddEntryModal({
       open(foodEntry) {
         setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
-        setOptions([{ label: foodEntry.measurement, value: foodEntry }]);
-        setSelected(foodEntry);
+        var array = [];
+        var options =
+          foodEntry?.altServings == null ? [foodEntry] : foodEntry.altServings;
+        console.log("options before map:");
+        console.log(options);
+
+        options = options.map((item, index) => {
+          //array.push(item);
+          console.log(item);
+          return { label: item.measurement, value: JSON.stringify(item) };
+        });
+        console.log("after map");
+        console.log(options);
+        console.log([{ label: foodEntry.measurement, value: foodEntry }]);
+        //setOptions([{ label: foodEntry.measurement, value: foodEntry }]);
+        setOptions(options);
+        // setOptions([
+        //   { label: "option 1", value: "value 1" },
+        //   { label: "option 2", value: "value 2" },
+        //   { label: "option 3", value: "value 3" },
+        // ]);
+        setSelected(options[0].value);
         setFoodEntry(foodEntry);
         setVisible(true);
         console.log(foodEntry);
@@ -153,6 +173,7 @@ export default function AddEntryModal({
         <View style={styles.container}>
           <Text style={styles.titleText}>{foodEntry.name} </Text>
           <Spinner visible={isLoading}></Spinner>
+
           <View style={styles.serving}>
             <View style={[styles.row, { zIndex: 1000 }]}>
               <Text style={[styles.rowText]}>Serving Size: </Text>
@@ -173,11 +194,14 @@ export default function AddEntryModal({
                   dropDownContainerStyle={{
                     borderColor: "rgba(172, 197, 204, 0.75)",
                     borderWidth: 2,
+                    maxHeight: 80,
                   }}
                   textStyle={{
                     fontFamily: "Sego-Bold",
                     color: "#25436B",
+                    fontSize: 10,
                   }}
+                  listMode="SCROLLVIEW"
                 />
               </View>
             </View>
@@ -195,7 +219,11 @@ export default function AddEntryModal({
           {macroTitles.map((item, index) => (
             <View
               key={index}
-              style={[styles.borderedContainer, styles.macroContainer]}
+              style={[
+                styles.borderedContainer,
+                styles.macroContainer,
+                { zIndex: 0 },
+              ]}
             >
               <View style={styles.row}>
                 <Image style={styles.icon} source={item.icon} />
