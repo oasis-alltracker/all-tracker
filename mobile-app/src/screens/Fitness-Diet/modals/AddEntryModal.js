@@ -59,6 +59,13 @@ export default function AddEntryModal({
     proteinCount: 0,
     quantity: 1,
   });
+  const [baseMacros, setBaseMacros] = useState({
+    calorieCount: 0,
+    carbCount: 0,
+    fatCount: 0,
+    proteinCount: 0,
+    quantity: 1,
+  });
   var currentMacros = {
     Fats: +((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
     Protein: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(
@@ -74,10 +81,10 @@ export default function AddEntryModal({
   };
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
-  const [servingOptions, setOptions] = useState();
+  const [servingLabels, setServingLabels] = useState();
   const [selectOpen, setSelectOpen] = useState(false);
   const [selectedServing, setSelected] = useState();
-  const [servingsDetails, setServingsDetails] = useState();
+  const [servingsDetails, setServingsDetails] = useState(); //idk man fml
 
   useEffect(() => {
     let ref = {
@@ -97,7 +104,7 @@ export default function AddEntryModal({
         console.log("after map");
         console.log(options);
 
-        setOptions(options);
+        setServingLabels(options);
         setSelected(options[0].value);
         setServingsDetails(servingDetails);
 
@@ -178,12 +185,13 @@ export default function AddEntryModal({
                 <DropDownPicker
                   open={selectOpen}
                   value={selectedServing}
-                  items={servingOptions}
+                  items={servingLabels}
                   setOpen={setSelectOpen}
                   setValue={setSelected}
-                  setItems={setOptions}
+                  setItems={setServingLabels}
                   onSelectItem={(value) => {
                     console.log(servingsDetails[value.value]);
+                    //setFoodEntry(servingsDetails[value.value]);
                   }}
                   placeholder="Select a Serving"
                   style={[styles.borderedContainer]}
