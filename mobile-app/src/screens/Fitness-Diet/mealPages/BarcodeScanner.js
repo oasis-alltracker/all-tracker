@@ -13,21 +13,22 @@ import navigationService from "../../../navigators/navigationService";
 import { useFocusEffect } from "@react-navigation/native";
 
 const BarcodeScanner = ({ route }) => {
-  //const [permission, requestPermission] = useCameraPermissions();
-  const [scanned, setScanned] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const device = useCameraDevice("back");
   const { hasPermission, requestPermission } = useCameraPermission();
+  const [isScanning, setIsScanning] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
-      setScanned(false);
-      Toast.show("Please place food barcode\nin view of the camera.", {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      });
-    }, [])
+      setIsScanning(false);
+      if (hasPermission) {
+        Toast.show("Please place food barcode\nin view of the camera.", {
+          ...styles.errorToast,
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.CENTER,
+        });
+      }
+    }, [hasPermission])
   );
 
   useEffect(() => {
@@ -40,10 +41,10 @@ const BarcodeScanner = ({ route }) => {
 
   const handleScannedResult = (barcodeScanningResult) => {
     if (!scanned) {
-      setScanned(true);
+      setIsScanning(true);
       setIsLoading(true);
       setTimeout(() => {
-        setScanned(false);
+        setIsScanning(false);
         setIsLoading(false);
         exitPage(barcodeScanningResult);
       }, 1500);
@@ -89,6 +90,8 @@ const BarcodeScanner = ({ route }) => {
   const codeScanner = useCodeScanner({
     codeTypes: ["qr", "ean-13", "ean-8", "upc-e", "upc-a"],
     onCodeScanned: (codes) => {
+      setIsScanning(true);
+      setIsLoading(true);
       console.log(
         "Scanned code of type " +
           codes[0].type +
@@ -96,7 +99,11 @@ const BarcodeScanner = ({ route }) => {
           codes[0].value
       );
       const result = [{ type: codes[0].type, data: codes[0].value }];
-      exitPage({ result });
+      setTimeout(() => {
+        setIsScanning(false);
+        setIsLoading(false);
+        exitPage(result);
+      }, 1000);
     },
   });
 
@@ -138,7 +145,7 @@ const BarcodeScanner = ({ route }) => {
           style={styles.camera}
           device={device}
           isActive={true}
-          codeScanner={codeScanner}
+          codeScanner={isScanning ? undefined : codeScanner}
         />
         <View style={styles.cameraElementsContainer}>
           <TouchableOpacity onPress={() => exitPage(null)}>
