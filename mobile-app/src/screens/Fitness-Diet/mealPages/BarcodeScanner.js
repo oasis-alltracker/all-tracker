@@ -6,7 +6,14 @@ import {
   useCameraFormat,
 } from "react-native-vision-camera";
 import { useState, useCallback, useEffect } from "react";
-import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+  Text,
+  useWindowDimensions,
+} from "react-native";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
@@ -22,6 +29,11 @@ const BarcodeScanner = ({ route }) => {
   const { hasPermission, requestPermission } = useCameraPermission();
   const [isScanning, setIsScanning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const windowWidth = useWindowDimensions().width;
+  const windowHeight = useWindowDimensions().height;
+  const viewfinderWidth = 375;
+  const viewfinderHeight = 300;
 
   useFocusEffect(
     useCallback(() => {
@@ -131,7 +143,15 @@ const BarcodeScanner = ({ route }) => {
             />
           </TouchableOpacity>
           <Image
-            style={styles.viewfinder}
+            style={[
+              styles.viewfinder,
+              {
+                top: windowHeight / 2 - viewfinderHeight / 2,
+                left: windowWidth / 2 - viewfinderWidth / 2,
+                height: viewfinderHeight,
+                width: viewfinderWidth,
+              },
+            ]}
             source={require("../../../assets/images/barcode-viewfinder.png")}
           />
         </View>
@@ -176,16 +196,9 @@ const styles = StyleSheet.create({
   backArrowCameraActive: {
     tintColor: "white",
   },
-  viewfinderContainer: {
-    alignItems: "center",
-  },
   viewfinder: {
     flex: 1,
-    position: "relative",
-    height: 300,
-    width: 375,
-    top: 260,
-    left: 20,
+    position: "absolute",
     tintColor: "white",
   },
   camera: {
