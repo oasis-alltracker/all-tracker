@@ -77,12 +77,17 @@ const BarcodeScanner = ({ route }) => {
   const PermissionNotice = () => {
     return (
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => exitPage(null)}>
-          <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/back-arrow.png")}
-          ></Image>
-        </TouchableOpacity>
+        <View style={styles.cameraElementsContainer} pointerEvents="box-none">
+          <TouchableOpacity
+            style={styles.backArrowInactiveContainer}
+            onPress={() => exitPage(null)}
+          >
+            <Image
+              style={styles.backArrow}
+              source={require("../../../assets/images/back-arrow.png")}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.deniedPermissionsText}>
           <Text style={styles.textStyle}>
             Camera permissions are required to use this barcode scanner.
@@ -117,11 +122,8 @@ const BarcodeScanner = ({ route }) => {
         />
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">
           <TouchableOpacity
-            style={styles.backArrowContainer}
-            onPress={() => {
-              console.log("back button firing");
-              exitPage(null);
-            }}
+            style={styles.backArrowActiveContainer}
+            onPress={() => exitPage(null)}
           >
             <Image
               style={[styles.backArrow, styles.backArrowCameraActive]}
@@ -148,26 +150,28 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    zIndex: 2,
   },
-  backArrowContainer: {
+  backArrowActiveContainer: {
     position: "absolute",
-    height: 50,
-    width: 50,
-    marginTop: 30,
-    marginLeft: 20,
-    zIndex: 100,
+    height: 75,
+    width: 75,
+    marginTop: 0,
     padding: 10,
-    borderWidth: 2,
-    borderColor: "red",
-    backgroundColor: "rgba(255, 0, 0, 0.2)",
+    zIndex: 100,
+  },
+  backArrowInactiveContainer: {
+    position: "absolute",
+    height: 75,
+    width: 75,
+    marginTop: 35,
+    padding: 10,
   },
   backArrow: {
     position: "absolute",
-    height: 50,
-    width: 50,
-    marginTop: 30,
-    marginLeft: 20,
+    height: 35,
+    width: 35,
+    marginTop: 20,
+    marginLeft: 10,
   },
   backArrowCameraActive: {
     tintColor: "white",
@@ -186,7 +190,6 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    zIndex: 1,
   },
   deniedPermissionsText: {
     flex: 1,
