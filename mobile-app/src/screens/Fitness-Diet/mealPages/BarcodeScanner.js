@@ -3,6 +3,7 @@ import {
   useCodeScanner,
   useCameraDevice,
   useCameraPermission,
+  useCameraFormat,
 } from "react-native-vision-camera";
 import { useState, useCallback, useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View, Image, Text } from "react-native";
@@ -14,6 +15,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const BarcodeScanner = ({ route }) => {
   const device = useCameraDevice("back");
+  const format = useCameraFormat(device, [
+    { videoResolution: "max" },
+    { photoResolution: "max" },
+  ]);
   const { hasPermission, requestPermission } = useCameraPermission();
   const [isScanning, setIsScanning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,10 +110,19 @@ const BarcodeScanner = ({ route }) => {
           style={styles.camera}
           device={device}
           isActive={true}
+          format={format}
+          fps={30}
+          photoQualityBalance="speed"
           codeScanner={isScanning ? undefined : codeScanner}
         />
-        <View style={styles.cameraElementsContainer}>
-          <TouchableOpacity onPress={() => exitPage(null)}>
+        <View style={styles.cameraElementsContainer} pointerEvents="box-none">
+          <TouchableOpacity
+            style={styles.backArrowContainer}
+            onPress={() => {
+              console.log("back button firing");
+              exitPage(null);
+            }}
+          >
             <Image
               style={[styles.backArrow, styles.backArrowCameraActive]}
               source={require("../../../assets/images/back-arrow.png")}
@@ -135,6 +149,18 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     zIndex: 2,
+  },
+  backArrowContainer: {
+    position: "absolute",
+    height: 50,
+    width: 50,
+    marginTop: 30,
+    marginLeft: 20,
+    zIndex: 100,
+    padding: 10,
+    borderWidth: 2,
+    borderColor: "red",
+    backgroundColor: "rgba(255, 0, 0, 0.2)",
   },
   backArrow: {
     position: "absolute",
