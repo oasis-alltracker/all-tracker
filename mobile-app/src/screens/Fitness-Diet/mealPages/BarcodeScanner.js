@@ -73,7 +73,7 @@ const BarcodeScanner = ({ route }) => {
   };
 
   const codeScanner = useCodeScanner({
-    codeTypes: ["qr", "ean-13", "ean-8", "upc-e", "upc-a"],
+    codeTypes: ["ean-13", "ean-8", "upc-e", "upc-a"],
     onCodeScanned: (codes) => {
       setIsScanning(true);
       setIsLoading(true);
