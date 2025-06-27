@@ -15,6 +15,7 @@ import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
+import AddEntryModal from "../modals/AddEntryModal";
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -22,6 +23,7 @@ const MealPage = ({ navigation, route }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
   const foodEntriesChangedRef = useRef(false);
+  const editEntryRef = useRef(null);
   var refreshMeal = route.params?.refreshMeal || null;
 
   var mealImage;
@@ -174,7 +176,13 @@ const MealPage = ({ navigation, route }) => {
         >
           <View style={styles.mealItemSection}>
             {currentMeal.entries.map((item, index) => (
-              <View key={index} style={styles.mealItem}>
+              <TouchableOpacity
+                key={index}
+                style={styles.mealItem}
+                onPress={() => {
+                  editEntryRef.current.open(item);
+                }}
+              >
                 <View style={[styles.mealItemInfo, { flex: 1 }]}>
                   <Text style={[styles.textStyle, { flexShrink: 1 }]}>
                     {item.name}
@@ -189,7 +197,7 @@ const MealPage = ({ navigation, route }) => {
                     source={require("../../../assets/images/trash.png")}
                   ></Image>
                 </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
           <View style={styles.buttonSection}>
@@ -242,6 +250,16 @@ const MealPage = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        <AddEntryModal
+          getRef={(ref) => (editEntryRef.current = ref)}
+          mealName={mealName}
+          day={currentDate}
+          prevPage={null}
+          meal={meal}
+          editing={true}
+          foodEntriesChangedRef={foodEntriesChangedRef}
+          setMeal={setCurrentMeal}
+        />
       </View>
     </SafeAreaView>
   );
