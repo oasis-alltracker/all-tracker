@@ -152,12 +152,7 @@ export default function AddEntryModal({
   };
 
   const updateMacro = (origTotal, orig, newVal) => {
-    var num1 = origTotal * 100;
-    var num2 = orig * 100;
-    var num3 = newVal * 100;
-    var num = num1 - num2;
-    num = num + num3;
-    return Math.round(num) / 100;
+    return Math.round((origTotal - orig + newVal) * 100) / 100;
   };
 
   const editEntry = async () => {
