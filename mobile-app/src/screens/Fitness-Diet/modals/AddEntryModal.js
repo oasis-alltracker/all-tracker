@@ -157,53 +157,57 @@ export default function AddEntryModal({
 
   const editEntry = async () => {
     try {
-      var updatedEntry = {
-        name: foodEntry.name,
-        calorieCount: currentMacros.Calories,
-        fatCount: currentMacros.Fats,
-        foodItemID: foodEntry.foodItemID,
-        proteinCount: currentMacros.Protein,
-        carbCount: currentMacros.Carbs,
-        quantity: +quantity,
-        measurement: serving,
-      };
-      setIsLoading(true);
-      token = await getAccessToken();
-      await FoodEntriesAPI.updateFoodEntry(token, foodEntry.SK, updatedEntry);
+      if (foodEntry.quantity != quantity) {
+        var updatedEntry = {
+          name: foodEntry.name,
+          calorieCount: currentMacros.Calories,
+          fatCount: currentMacros.Fats,
+          foodItemID: foodEntry.foodItemID,
+          proteinCount: currentMacros.Protein,
+          carbCount: currentMacros.Carbs,
+          quantity: +quantity,
+          measurement: serving,
+        };
+        setIsLoading(true);
+        token = await getAccessToken();
+        await FoodEntriesAPI.updateFoodEntry(token, foodEntry.SK, updatedEntry);
 
-      var updatedMeal = { ...meal };
-      updatedEntry.SK = foodEntry.SK;
-      updatedEntry.PK = foodEntry.PK;
+        var updatedMeal = { ...meal };
+        updatedEntry.SK = foodEntry.SK;
+        updatedEntry.PK = foodEntry.PK;
 
-      var index = updatedMeal.entries.indexOf(foodEntry);
-      updatedMeal.entries[index] = updatedEntry;
+        var index = updatedMeal.entries.indexOf(foodEntry);
+        updatedMeal.entries[index] = updatedEntry;
 
-      updatedMeal.calorieCount = updateMacro(
-        meal.calorieCount,
-        foodEntry.calorieCount,
-        updatedEntry.calorieCount
-      );
-      updatedMeal.proteinCount = updateMacro(
-        meal.proteinCount,
-        foodEntry.proteinCount,
-        updatedEntry.proteinCount
-      );
-      updatedMeal.fatCount = updateMacro(
-        meal.fatCount,
-        foodEntry.fatCount,
-        updatedEntry.fatCount
-      );
-      updatedMeal.carbCount = updateMacro(
-        meal.carbCount,
-        foodEntry.carbCount,
-        updatedEntry.carbCount
-      );
+        updatedMeal.calorieCount = updateMacro(
+          meal.calorieCount,
+          foodEntry.calorieCount,
+          updatedEntry.calorieCount
+        );
+        updatedMeal.proteinCount = updateMacro(
+          meal.proteinCount,
+          foodEntry.proteinCount,
+          updatedEntry.proteinCount
+        );
+        updatedMeal.fatCount = updateMacro(
+          meal.fatCount,
+          foodEntry.fatCount,
+          updatedEntry.fatCount
+        );
+        updatedMeal.carbCount = updateMacro(
+          meal.carbCount,
+          foodEntry.carbCount,
+          updatedEntry.carbCount
+        );
 
-      setMeal(updatedMeal);
-      foodEntriesChangedRef.current = true;
+        setMeal(updatedMeal);
+        foodEntriesChangedRef.current = true;
 
-      setIsLoading(false);
-      setVisible(false);
+        setIsLoading(false);
+        setVisible(false);
+      } else {
+        setVisible(false);
+      }
     } catch (e) {
       console.log(e);
       setIsLoading(false);
