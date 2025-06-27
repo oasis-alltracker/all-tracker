@@ -64,6 +64,7 @@
     "react-native-svg": "15.8.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-toast-message": "^2.1.8",
+    "react-native-vision-camera": "^4.7.0",
     "react-navigation-drawer": "react-navigation/drawer",
     "react-redux": "^8.1.1",
     "redux-persist": "^6.0.0",

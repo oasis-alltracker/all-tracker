@@ -27,6 +27,7 @@ import MealPage from "./Fitness-Diet/mealPages/MealPage";
 import SearchFood from "./Fitness-Diet/mealPages/SearchFood";
 import SetupNavigator from "./Setup/navigator";
 import BarcodeCamera from "./Fitness-Diet/mealPages/BarcodeCamera";
+import BarcodeScanner from "./Fitness-Diet/mealPages/BarcodeScanner";
 
 const Drawer = createDrawerNavigator();
 
@@ -206,6 +207,7 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
       <Drawer.Screen name="mealPage" component={MealPage} />
       <Drawer.Screen name="searchFood" component={SearchFood} />
       <Drawer.Screen name="cameraPage" component={BarcodeCamera} />
+      <Drawer.Screen name="barcodeScanner" component={BarcodeScanner} />
       <Drawer.Screen name="setup" component={SetupNavigator} />
     </Drawer.Navigator>
   );

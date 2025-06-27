@@ -71,6 +71,12 @@
           "sounds": ["./src/assets/sounds/vibratone_e.wav"],
           "color": "#FFFCEE"
         }
+      ],
+      [
+        "react-native-vision-camera",
+        {
+          "enableCodeScanner": true
+        }
       ]
     ],
     "extra": {
