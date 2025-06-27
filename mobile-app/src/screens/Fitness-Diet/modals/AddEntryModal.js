@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Image,
   StyleSheet,
@@ -49,6 +49,9 @@ export default function AddEntryModal({
   day,
   prevPage,
   meal,
+  editing = false,
+  foodEntriesChangedRef,
+  setMeal,
 }) {
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,12 +70,11 @@ export default function AddEntryModal({
   const [serving, setServing] = useState();
   var currentMacros = {
     Fats: +((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
-    Protein: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(
-      2
-    ),
-    Carbs: +((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
-      2
-    ),
+    Protein: +(
+      (foodEntry.proteinCount / foodEntry.quantity) *
+      quantity
+    ).toFixed(2),
+    Carbs: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(2),
     Calories: +(
       (foodEntry.calorieCount / foodEntry.quantity) *
       quantity
@@ -149,6 +151,70 @@ export default function AddEntryModal({
     }
   };
 
+  const updateMacro = (origTotal, orig, newVal) => {
+    var num1 = origTotal * 100;
+    var num2 = orig * 100;
+    var num3 = newVal * 100;
+    var num = num1 - num2;
+    num = num + num3;
+    return Math.round(num) / 100;
+  };
+
+  const editEntry = async () => {
+    try {
+      var updatedEntry = {
+        name: foodEntry.name,
+        calorieCount: currentMacros.Calories,
+        fatCount: currentMacros.Fats,
+        foodItemID: foodEntry.foodItemID,
+        proteinCount: currentMacros.Protein,
+        carbCount: currentMacros.Carbs,
+        quantity: +quantity,
+        measurement: serving,
+      };
+      setIsLoading(true);
+      token = await getAccessToken();
+      await FoodEntriesAPI.updateFoodEntry(token, foodEntry.SK, updatedEntry);
+
+      var updatedMeal = { ...meal };
+      updatedEntry.SK = foodEntry.SK;
+      updatedEntry.PK = foodEntry.PK;
+
+      var index = updatedMeal.entries.indexOf(foodEntry);
+      updatedMeal.entries[index] = updatedEntry;
+
+      updatedMeal.calorieCount = updateMacro(
+        meal.calorieCount,
+        foodEntry.calorieCount,
+        updatedEntry.calorieCount
+      );
+      updatedMeal.proteinCount = updateMacro(
+        meal.proteinCount,
+        foodEntry.proteinCount,
+        updatedEntry.proteinCount
+      );
+      updatedMeal.fatCount = updateMacro(
+        meal.fatCount,
+        foodEntry.fatCount,
+        updatedEntry.fatCount
+      );
+      updatedMeal.carbCount = updateMacro(
+        meal.carbCount,
+        foodEntry.carbCount,
+        updatedEntry.carbCount
+      );
+
+      setMeal(updatedMeal);
+      foodEntriesChangedRef.current = true;
+
+      setIsLoading(false);
+      setVisible(false);
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <RNModal
       isVisible={isVisible}
@@ -216,10 +282,12 @@ export default function AddEntryModal({
                 { backgroundColor: "#D7F6FF" },
               ]}
               onPress={() => {
-                addFoodEntry();
+                editing == false ? addFoodEntry() : editEntry();
               }}
             >
-              <Text style={[styles.buttonText]}>Add</Text>
+              <Text style={[styles.buttonText]}>
+                {editing == true ? "Save" : "Add"}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
