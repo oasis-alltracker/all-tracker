@@ -58,16 +58,18 @@ const BarcodeScanner = ({ route }) => {
 
   const codeScanner = useCodeScanner({
     codeTypes: ["ean-13", "ean-8", "upc-e", "upc-a"],
-    onCodeScanned: (codes) => {
-      setIsScanning(true);
-      setIsLoading(true);
-      const type = codes[0].type;
-      const data = codes[0].value;
-      setTimeout(() => {
-        setIsScanning(false);
-        setIsLoading(false);
-        exitPage(type, data);
-      }, 1000);
+    onCodeScanned: async (codes) => {
+      if (!isScanning) {
+        setIsScanning(true);
+        setIsLoading(true);
+        const type = codes[0].type;
+        const data = codes[0].value;
+        setTimeout(() => {
+          setIsLoading(false);
+          setIsScanning(false);
+          exitPage(type, data);
+        }, 1000);
+      }
     },
   });
 
@@ -131,7 +133,7 @@ const BarcodeScanner = ({ route }) => {
           format={format}
           fps={30}
           photoQualityBalance="speed"
-          codeScanner={isScanning ? undefined : codeScanner}
+          codeScanner={codeScanner}
         />
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">
           <TouchableOpacity
