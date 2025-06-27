@@ -29,6 +29,7 @@ const BarcodeScanner = ({ route }) => {
   const { hasPermission, requestPermission } = useCameraPermission();
   const [isScanning, setIsScanning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [cameraStatus, setCameraStatus] = useState(false);
 
   const windowWidth = useWindowDimensions().width;
   const windowHeight = useWindowDimensions().height;
@@ -39,6 +40,7 @@ const BarcodeScanner = ({ route }) => {
     useCallback(() => {
       setIsScanning(false);
       if (hasPermission) {
+        setCameraStatus(true);
         Toast.show("Please place food barcode\nin view of the camera.", {
           ...styles.errorToast,
           duration: Toast.durations.SHORT,
@@ -50,9 +52,7 @@ const BarcodeScanner = ({ route }) => {
 
   useEffect(() => {
     if (!hasPermission) {
-      setIsLoading(true);
       requestPermission();
-      setIsLoading(false);
     }
   }, [hasPermission]);
 
@@ -86,6 +86,7 @@ const BarcodeScanner = ({ route }) => {
         data: barcodeData,
       };
     }
+    setCameraStatus(false);
     navigationService.navigate("searchFood", params);
   };
 
@@ -129,7 +130,7 @@ const BarcodeScanner = ({ route }) => {
         <Camera
           style={styles.camera}
           device={device}
-          isActive={true}
+          isActive={cameraStatus}
           format={format}
           codeScanner={codeScanner}
         />
