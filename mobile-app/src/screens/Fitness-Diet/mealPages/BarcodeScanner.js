@@ -131,8 +131,6 @@ const BarcodeScanner = ({ route }) => {
           device={device}
           isActive={true}
           format={format}
-          fps={30}
-          photoQualityBalance="speed"
           codeScanner={codeScanner}
         />
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">

@@ -23,6 +23,16 @@ const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
   var barcodeInfo = route.params?.barcodeInfo || null;
+  if (barcodeInfo) {
+    Toast.show(
+      "Barcode: type = " + barcodeInfo.type + " data = " + barcodeInfo.data,
+      {
+        ...styles.errorToast,
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.CENTER,
+      }
+    );
+  }
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
