@@ -22,17 +22,7 @@ import Toast from "react-native-root-toast";
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
-  var barcodeData = route.params?.barcodeData || null;
-  if (barcodeData) {
-    Toast.show(
-      "Barcode: type = " + barcodeData.type + " data = " + barcodeData.data,
-      {
-        ...styles.errorToast,
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.CENTER,
-      }
-    );
-  }
+  var barcodeInfo = route.params?.barcodeInfo || null;
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);

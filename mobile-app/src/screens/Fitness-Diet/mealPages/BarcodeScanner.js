@@ -56,35 +56,36 @@ const BarcodeScanner = ({ route }) => {
     }
   }, [hasPermission]);
 
-  const exitPage = (barcode) => {
+  const codeScanner = useCodeScanner({
+    codeTypes: ["ean-13", "ean-8", "upc-e", "upc-a"],
+    onCodeScanned: (codes) => {
+      setIsScanning(true);
+      setIsLoading(true);
+      const type = codes[0].type;
+      const data = codes[0].value;
+      setTimeout(() => {
+        setIsScanning(false);
+        setIsLoading(false);
+        exitPage(type, data);
+      }, 1000);
+    },
+  });
+
+  const exitPage = (barcodeType, barcodeData) => {
     var params = {
       prevPage: route.params.prevPage,
       meal: route.params.meal,
       mealName: route.params.mealName,
       dayString: route.params.dayString,
     };
-    if (barcode != null) {
-      params["barcodeData"] = {
-        type: barcode.type,
-        data: barcode.data,
+    if (barcodeType && barcodeData) {
+      params["barcodeInfo"] = {
+        type: barcodeType,
+        data: barcodeData,
       };
     }
     navigationService.navigate("searchFood", params);
   };
-
-  const codeScanner = useCodeScanner({
-    codeTypes: ["ean-13", "ean-8", "upc-e", "upc-a"],
-    onCodeScanned: (codes) => {
-      setIsScanning(true);
-      setIsLoading(true);
-      const result = [{ type: codes[0].type, data: codes[0].value }];
-      setTimeout(() => {
-        setIsScanning(false);
-        setIsLoading(false);
-        exitPage(result);
-      }, 1000);
-    },
-  });
 
   const PermissionNotice = () => {
     return (
@@ -92,7 +93,7 @@ const BarcodeScanner = ({ route }) => {
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">
           <TouchableOpacity
             style={styles.backArrowContainer}
-            onPress={() => exitPage(null)}
+            onPress={() => exitPage(null, null)}
           >
             <Image
               style={styles.backArrow}
@@ -135,7 +136,7 @@ const BarcodeScanner = ({ route }) => {
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">
           <TouchableOpacity
             style={styles.backArrowContainer}
-            onPress={() => exitPage(null)}
+            onPress={() => exitPage(null, null)}
           >
             <Image
               style={[styles.backArrow, styles.backArrowCameraActive]}
