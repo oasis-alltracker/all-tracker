@@ -58,15 +58,15 @@ const BarcodeScanner = ({ route }) => {
 
   const codeScanner = useCodeScanner({
     codeTypes: ["ean-13", "ean-8", "upc-e", "upc-a"],
-    onCodeScanned: async (codes) => {
+    onCodeScanned: (codes) => {
       if (!isScanning) {
         setIsScanning(true);
         setIsLoading(true);
+        setCameraStatus(false);
         const type = codes[0].type;
         const data = codes[0].value;
         setTimeout(() => {
           setIsLoading(false);
-          setIsScanning(false);
           exitPage(type, data);
         }, 1000);
       }
@@ -86,7 +86,7 @@ const BarcodeScanner = ({ route }) => {
         data: barcodeData,
       };
     }
-    setCameraStatus(false);
+
     navigationService.navigate("searchFood", params);
   };
 
