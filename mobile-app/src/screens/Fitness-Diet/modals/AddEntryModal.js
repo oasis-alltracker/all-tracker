@@ -15,6 +15,7 @@ import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
+import DropDownPicker from "react-native-dropdown-picker";
 
 //TO DOs:
 //1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
@@ -79,13 +80,43 @@ export default function AddEntryModal({
     ).toFixed(2),
   };
 
+  const [selectOpen, setSelectOpen] = useState(false);
+  const [selectedServing, setSelectedServing] = useState();
+  const [servingLabels, setLabels] = useState();
+  const [servingsDetails, setDetails] = useState();
+  const [baseMacros, setBaseMacros] = useState({
+    calorieCount: 0,
+    carbCount: 0,
+    fatCount: 0,
+    meal: "dinner",
+    measurement: "cup",
+    name: "",
+    proteinCount: 0,
+    quantity: 1,
+  }); //i dont think this needs to exist - but we will see
+
   useEffect(() => {
     let ref = {
       open(foodEntry) {
         setQuantity(`${+foodEntry.quantity}`);
         setServing(`${foodEntry.measurement}`);
         setFoodEntry(foodEntry);
+        setBaseMacros(foodEntry);
         setVisible(true);
+        setSelectOpen(false);
+
+        //serving options
+        var details = [];
+        var options =
+          foodEntry?.altServings == null ? [foodEntry] : foodEntry.altServings;
+        options = options.map((item, index) => {
+          details.push(item);
+          return { label: item.measurement, value: index };
+        });
+
+        setLabels(options);
+        setSelectedServing(options[0].value);
+        setDetails(details);
       },
       close() {
         setVisible(false);
@@ -157,19 +188,47 @@ export default function AddEntryModal({
       backdropOpacity={0}
       style={styles.modal}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+          setSelectOpen(false);
+        }}
+      >
         <View style={styles.container}>
           <Text style={styles.titleText}>{foodEntry.name} </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
-            <View style={styles.row}>
-              <Text style={styles.rowText}>Serving Size: </Text>
-              <TextInput
-                style={[styles.borderedContainer, styles.input]}
-                onChangeText={setServing}
-                value={serving}
-                textAlign={"center"}
-              />
+            <View style={[styles.row, { zIndex: 1000 }]}>
+              <Text style={styles.rowText}>Serving: </Text>
+              <View style={{ width: "60%" }}>
+                <DropDownPicker
+                  open={selectOpen}
+                  setOpen={setSelectOpen}
+                  value={selectedServing}
+                  setValue={setSelectedServing}
+                  items={servingLabels}
+                  setItems={setLabels}
+                  onSelectItem={(item) => {
+                    console.log(servingsDetails[item.value]);
+                    setBaseMacros(servingsDetails[item.value]);
+                  }}
+                  style={[styles.borderedContainer]}
+                  dropDownContainerStyle={{
+                    borderColor: "rgba(172, 197, 204, 0.75)",
+                    borderWidth: 2,
+                    maxHeight: 80,
+                  }}
+                  textStyle={{
+                    fontFamily: "Sego-Bold",
+                    color: "#25436B",
+                    fontSize: 12,
+                  }}
+                  itemSeparator={true}
+                  itemSeparatorStyle={{
+                    backgroundColor: "rgba(172, 197, 204, 0.75)",
+                  }}
+                />
+              </View>
             </View>
 
             <View style={styles.row}>
