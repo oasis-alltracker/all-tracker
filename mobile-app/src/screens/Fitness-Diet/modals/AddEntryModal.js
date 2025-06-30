@@ -18,8 +18,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 
 //TO DOs:
-//1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
-//2. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
+//1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
 
 const macroTitles = [
   {
@@ -66,19 +65,6 @@ export default function AddEntryModal({
 
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
-  var currentMacros = {
-    Fats: +((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
-    Protein: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(
-      2
-    ),
-    Carbs: +((foodEntry.proteinCount / foodEntry.quantity) * quantity).toFixed(
-      2
-    ),
-    Calories: +(
-      (foodEntry.calorieCount / foodEntry.quantity) *
-      quantity
-    ).toFixed(2),
-  };
 
   const [selectOpen, setSelectOpen] = useState(false);
   const [selectedServing, setSelectedServing] = useState();
@@ -93,19 +79,31 @@ export default function AddEntryModal({
     name: "",
     proteinCount: 0,
     quantity: 1,
-  }); //i dont think this needs to exist - but we will see
+  });
+
+  var currentMacros = {
+    Fats: +((baseMacros.fatCount / baseMacros.quantity) * quantity).toFixed(2),
+    Protein: +(
+      (baseMacros.proteinCount / baseMacros.quantity) *
+      quantity
+    ).toFixed(2),
+    Carbs: +((baseMacros.carbCount / baseMacros.quantity) * quantity).toFixed(
+      2
+    ),
+    Calories: +(
+      (baseMacros.calorieCount / baseMacros.quantity) *
+      quantity
+    ).toFixed(2),
+  };
 
   useEffect(() => {
     let ref = {
       open(foodEntry) {
-        setQuantity(`${+foodEntry.quantity}`);
-        setServing(`${foodEntry.measurement}`);
         setFoodEntry(foodEntry);
-        setBaseMacros(foodEntry);
         setVisible(true);
         setSelectOpen(false);
 
-        //serving options
+        //serving options related
         var details = [];
         var options =
           foodEntry?.altServings == null ? [foodEntry] : foodEntry.altServings;
@@ -116,6 +114,9 @@ export default function AddEntryModal({
 
         setLabels(options);
         setSelectedServing(options[0].value);
+        setBaseMacros(details[0]);
+        setQuantity(`${+details[0].quantity}`);
+        setServing(`${details[0].measurement}`);
         setDetails(details);
       },
       close() {
@@ -207,22 +208,15 @@ export default function AddEntryModal({
                   value={selectedServing}
                   setValue={setSelectedServing}
                   items={servingLabels}
-                  setItems={setLabels}
                   onSelectItem={(item) => {
-                    console.log(servingsDetails[item.value]);
+                    setServing(item.label);
                     setBaseMacros(servingsDetails[item.value]);
+                    setQuantity(`${+servingsDetails[item.value].quantity}`);
                   }}
+                  onOpen={() => Keyboard.dismiss()}
                   style={[styles.borderedContainer]}
-                  dropDownContainerStyle={{
-                    borderColor: "rgba(172, 197, 204, 0.75)",
-                    borderWidth: 2,
-                    maxHeight: 80,
-                  }}
-                  textStyle={{
-                    fontFamily: "Sego-Bold",
-                    color: "#25436B",
-                    fontSize: 12,
-                  }}
+                  dropDownContainerStyle={styles.dropdownContainer}
+                  textStyle={styles.selectText}
                   itemSeparator={true}
                   itemSeparatorStyle={{
                     backgroundColor: "rgba(172, 197, 204, 0.75)",
@@ -235,7 +229,7 @@ export default function AddEntryModal({
               <Text style={styles.rowText}>Quantity: </Text>
               <TextInput
                 style={[styles.borderedContainer, styles.input]}
-                inputMode="numeric"
+                inputMode="decimal"
                 onChangeText={setQuantity}
                 value={quantity}
                 textAlign={"center"}
@@ -250,7 +244,7 @@ export default function AddEntryModal({
             >
               <View style={styles.row}>
                 <Image style={styles.icon} source={item.icon} />
-                <Text style={styles.buttonText}>{item.name}</Text>
+                <Text style={styles.rowText}>{item.name}</Text>
               </View>
 
               <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
@@ -266,7 +260,7 @@ export default function AddEntryModal({
                 setVisible(false);
               }}
             >
-              <Text style={[styles.buttonText]}>Cancel</Text>
+              <Text style={[styles.rowText]}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -278,7 +272,7 @@ export default function AddEntryModal({
                 addFoodEntry();
               }}
             >
-              <Text style={[styles.buttonText]}>Add</Text>
+              <Text style={[styles.rowText]}>Add</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -335,11 +329,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginTop: 20,
   },
-  buttonText: {
-    fontSize: 22,
-    fontFamily: "Sego",
-    color: "#25436B",
-  },
   macroContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -347,12 +336,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   input: {
-    width: "40%",
+    width: "60%",
     fontSize: 20,
     fontFamily: "Sego-Bold",
     color: "#25436B",
   },
   serving: {
     marginBottom: 20,
+  },
+  selectText: {
+    color: "#25436B",
+    fontSize: 12,
+    textAlign: "center",
+    fontFamily: "Sego-Bold",
+  },
+  dropdownContainer: {
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderWidth: 2,
+    maxHeight: 80,
   },
 });
