@@ -180,8 +180,8 @@ export default function AddEntryModal({
 
           <View style={styles.serving}>
             <View style={[styles.row, { zIndex: 1000 }]}>
-              <Text style={[styles.rowText]}>Serving Size: </Text>
-              <View style={{ width: "40%" }}>
+              <Text style={[styles.rowText]}>Serving: </Text>
+              <View style={{ width: "60%" }}>
                 <DropDownPicker
                   open={selectOpen}
                   value={selectedServing}
@@ -210,7 +210,7 @@ export default function AddEntryModal({
               </View>
             </View>
             <View style={styles.row}>
-              <Text style={styles.rowText}>Quantity: </Text>
+              <Text style={styles.rowText}>Quantity:</Text>
               <TextInput
                 style={[styles.borderedContainer, styles.input]}
                 inputMode="numeric"
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   input: {
-    width: "40%",
+    width: "60%",
     fontSize: 20,
     fontFamily: "Sego-Bold",
     color: "#25436B",
