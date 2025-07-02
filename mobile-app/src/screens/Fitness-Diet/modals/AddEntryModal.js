@@ -15,10 +15,10 @@ import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
+import DropDownPicker from "react-native-dropdown-picker";
 
 //TO DOs:
-//1. replace serving from textinput to dropdown - requires an import as select component isnt built into react
-//2. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
+//1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
 
 const macroTitles = [
   {
@@ -68,15 +68,33 @@ export default function AddEntryModal({
 
   const [quantity, setQuantity] = useState();
   const [serving, setServing] = useState();
+
+  const [selectOpen, setSelectOpen] = useState(false);
+  const [selectedServing, setSelectedServing] = useState();
+  const [servingLabels, setLabels] = useState();
+  const [servingsDetails, setDetails] = useState();
+  const [baseMacros, setBaseMacros] = useState({
+    calorieCount: 0,
+    carbCount: 0,
+    fatCount: 0,
+    meal: "dinner",
+    measurement: "cup",
+    name: "",
+    proteinCount: 0,
+    quantity: 1,
+  });
+
   var currentMacros = {
-    Fats: +((foodEntry.fatCount / foodEntry.quantity) * quantity).toFixed(2),
+    Fats: +((baseMacros.fatCount / baseMacros.quantity) * quantity).toFixed(2),
     Protein: +(
-      (foodEntry.proteinCount / foodEntry.quantity) *
+      (baseMacros.proteinCount / baseMacros.quantity) *
       quantity
     ).toFixed(2),
-    Carbs: +((foodEntry.carbCount / foodEntry.quantity) * quantity).toFixed(2),
+    Carbs: +((baseMacros.carbCount / baseMacros.quantity) * quantity).toFixed(
+      2
+    ),
     Calories: +(
-      (foodEntry.calorieCount / foodEntry.quantity) *
+      (baseMacros.calorieCount / baseMacros.quantity) *
       quantity
     ).toFixed(2),
   };
@@ -84,10 +102,25 @@ export default function AddEntryModal({
   useEffect(() => {
     let ref = {
       open(foodEntry) {
-        setQuantity(`${+foodEntry.quantity}`);
-        setServing(`${foodEntry.measurement}`);
         setFoodEntry(foodEntry);
         setVisible(true);
+        setSelectOpen(false);
+
+        //serving options related
+        var details = [];
+        var options =
+          foodEntry?.altServings == null ? [foodEntry] : foodEntry.altServings;
+        options = options.map((item, index) => {
+          details.push(item);
+          return { label: item.measurement, value: index };
+        });
+
+        setLabels(options);
+        setSelectedServing(options[0].value);
+        setBaseMacros(details[0]);
+        setQuantity(`${+details[0].quantity}`);
+        setServing(`${details[0].measurement}`);
+        setDetails(details);
       },
       close() {
         setVisible(false);
@@ -222,7 +255,12 @@ export default function AddEntryModal({
       backdropOpacity={0}
       style={styles.modal}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          Keyboard.dismiss();
+          setSelectOpen(false);
+        }}
+      >
         <View style={styles.container}>
           <Text
             style={styles.titleText}
@@ -233,21 +271,37 @@ export default function AddEntryModal({
           </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
-            <View style={styles.row}>
-              <Text style={styles.rowText}>Serving Size: </Text>
-              <TextInput
-                style={[styles.borderedContainer, styles.input]}
-                onChangeText={setServing}
-                value={serving}
-                textAlign={"center"}
-              />
+            <View style={[styles.row, { zIndex: 1000 }]}>
+              <Text style={styles.rowText}>Serving: </Text>
+              <View style={{ width: "60%" }}>
+                <DropDownPicker
+                  open={selectOpen}
+                  setOpen={setSelectOpen}
+                  value={selectedServing}
+                  setValue={setSelectedServing}
+                  items={servingLabels}
+                  onSelectItem={(item) => {
+                    setServing(item.label);
+                    setBaseMacros(servingsDetails[item.value]);
+                    setQuantity(`${+servingsDetails[item.value].quantity}`);
+                  }}
+                  onOpen={() => Keyboard.dismiss()}
+                  style={[styles.borderedContainer]}
+                  dropDownContainerStyle={styles.dropdownContainer}
+                  textStyle={styles.selectText}
+                  itemSeparator={true}
+                  itemSeparatorStyle={{
+                    backgroundColor: "rgba(172, 197, 204, 0.75)",
+                  }}
+                />
+              </View>
             </View>
 
             <View style={styles.row}>
               <Text style={styles.rowText}>Quantity: </Text>
               <TextInput
                 style={[styles.borderedContainer, styles.input]}
-                inputMode="numeric"
+                inputMode="decimal"
                 onChangeText={setQuantity}
                 value={quantity}
                 textAlign={"center"}
@@ -262,7 +316,7 @@ export default function AddEntryModal({
             >
               <View style={styles.row}>
                 <Image style={styles.icon} source={item.icon} />
-                <Text style={styles.buttonText}>{item.name}</Text>
+                <Text style={styles.rowText}>{item.name}</Text>
               </View>
 
               <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
@@ -278,7 +332,7 @@ export default function AddEntryModal({
                 setVisible(false);
               }}
             >
-              <Text style={[styles.buttonText]}>Cancel</Text>
+              <Text style={[styles.rowText]}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -290,7 +344,7 @@ export default function AddEntryModal({
                 editing == false ? addFoodEntry() : editEntry();
               }}
             >
-              <Text style={[styles.buttonText]}>
+              <Text style={[styles.rowText]}>
                 {editing == true ? "Save" : "Add"}
               </Text>
             </TouchableOpacity>
@@ -349,11 +403,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginTop: 20,
   },
-  buttonText: {
-    fontSize: 22,
-    fontFamily: "Sego",
-    color: "#25436B",
-  },
   macroContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -361,12 +410,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   input: {
-    width: "40%",
+    width: "60%",
     fontSize: 20,
     fontFamily: "Sego-Bold",
     color: "#25436B",
   },
   serving: {
     marginBottom: 20,
+  },
+  selectText: {
+    color: "#25436B",
+    fontSize: 12,
+    textAlign: "center",
+    fontFamily: "Sego-Bold",
+  },
+  dropdownContainer: {
+    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderWidth: 2,
+    maxHeight: 80,
   },
 });
