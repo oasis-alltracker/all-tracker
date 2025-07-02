@@ -17,7 +17,6 @@ import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
 import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
 import { useFocusEffect } from "@react-navigation/native";
-import Toast from "react-native-root-toast";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
