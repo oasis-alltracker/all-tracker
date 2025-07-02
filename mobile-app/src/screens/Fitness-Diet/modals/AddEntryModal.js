@@ -78,7 +78,6 @@ export default function AddEntryModal({
     carbCount: 0,
     fatCount: 0,
     measurement: "cup",
-    name: "",
     proteinCount: 0,
     quantity: 1,
   });
@@ -107,14 +106,12 @@ export default function AddEntryModal({
 
         //serving options related
         var details = [];
-        var options =
-          foodEntry?.altServings == null ? [foodEntry] : foodEntry.altServings;
+        var options = foodEntry.altServings;
         options = options.map((item, index) => {
           details.push(item);
           return { label: item.measurement, value: index };
         });
 
-        //i dont know whether to set to previous entry's macros or to first serving option-
         if (editing) {
           setLabels(options);
           setSelectedServing(
@@ -216,7 +213,6 @@ export default function AddEntryModal({
           carbCount: currentMacros.Carbs,
           quantity: +quantity,
           measurement: serving,
-          altServings: servingsDetails,
         };
         setIsLoading(true);
         token = await getAccessToken();
@@ -225,6 +221,7 @@ export default function AddEntryModal({
         var updatedMeal = { ...meal };
         updatedEntry.SK = foodEntry.SK;
         updatedEntry.PK = foodEntry.PK;
+        updatedEntry.altServings = servingsDetails;
 
         var index = updatedMeal.entries.indexOf(foodEntry);
         updatedMeal.entries[index] = updatedEntry;
