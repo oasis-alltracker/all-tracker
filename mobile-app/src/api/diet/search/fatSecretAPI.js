@@ -21,8 +21,6 @@ export async function searchFatSecret(searchInput, page = 0) {
   return convertResults(response?.data.foods_search.results.food);
 }
 
-export async function getByID() {}
-
 const convertResults = (results) => {
   var transformedResults = [];
 
