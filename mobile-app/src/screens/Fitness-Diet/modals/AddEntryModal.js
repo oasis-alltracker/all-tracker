@@ -281,7 +281,7 @@ export default function AddEntryModal({
             adjustsFontSizeToFit={true}
             numberOfLines={2}
           >
-            {foodEntry.name}{" "}
+            {foodEntry.name}
           </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
