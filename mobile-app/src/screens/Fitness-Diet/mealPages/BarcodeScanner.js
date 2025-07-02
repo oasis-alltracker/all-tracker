@@ -60,9 +60,9 @@ const BarcodeScanner = ({ route }) => {
     codeTypes: ["ean-13", "ean-8", "upc-e", "upc-a"],
     onCodeScanned: (codes) => {
       if (!isScanning) {
+        setCameraStatus(false);
         setIsScanning(true);
         setIsLoading(true);
-        setCameraStatus(false);
         const type = codes[0].type;
         const data = codes[0].value;
         setTimeout(() => {
