@@ -115,12 +115,28 @@ export default function AddEntryModal({
           return { label: item.measurement, value: index };
         });
 
-        setLabels(options);
-        setSelectedServing(options[0].value);
-        setBaseMacros(details[0]);
-        setQuantity(`${+details[0].quantity}`);
-        setServing(`${details[0].measurement}`);
-        setDetails(details);
+        //i dont know whether to set to previous entry's macros or to first serving option-
+        if (editing) {
+          setLabels(options);
+          setSelectedServing(
+            options.find((element) => element.label == foodEntry.measurement)
+              ?.value
+          );
+          setBaseMacros(foodEntry);
+          setQuantity(`${+foodEntry.quantity}`);
+          setServing(`${foodEntry.measurement}`);
+          setDetails(details);
+        } else {
+          var index = options.findIndex(
+            (element) => element.label == foodEntry.measurement
+          );
+          setLabels(options);
+          setSelectedServing(options[index].value);
+          setBaseMacros(details[index]);
+          setQuantity(`${+details[index].quantity}`);
+          setServing(`${details[index].measurement}`);
+          setDetails(details);
+        }
       },
       close() {
         setVisible(false);
@@ -147,6 +163,7 @@ export default function AddEntryModal({
         quantity: +quantity,
         measurement: serving,
         dateStamp: moment(day).format("YYYYMMDD"),
+        altServings: servingsDetails,
       };
       setIsLoading(true);
       token = await getAccessToken();
@@ -200,6 +217,7 @@ export default function AddEntryModal({
           carbCount: currentMacros.Carbs,
           quantity: +quantity,
           measurement: serving,
+          altServings: servingsDetails,
         };
         setIsLoading(true);
         token = await getAccessToken();
