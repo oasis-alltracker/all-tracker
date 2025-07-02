@@ -77,7 +77,6 @@ export default function AddEntryModal({
     calorieCount: 0,
     carbCount: 0,
     fatCount: 0,
-    meal: "dinner",
     measurement: "cup",
     name: "",
     proteinCount: 0,
@@ -207,7 +206,7 @@ export default function AddEntryModal({
 
   const editEntry = async () => {
     try {
-      if (foodEntry.quantity != quantity) {
+      if (foodEntry.measurement != serving || foodEntry.quantity != quantity) {
         var updatedEntry = {
           name: foodEntry.name,
           calorieCount: currentMacros.Calories,
