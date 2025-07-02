@@ -224,7 +224,13 @@ export default function AddEntryModal({
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Text style={styles.titleText}>{foodEntry.name} </Text>
+          <Text
+            style={styles.titleText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={2}
+          >
+            {foodEntry.name}{" "}
+          </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
             <View style={styles.row}>
