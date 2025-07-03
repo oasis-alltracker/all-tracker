@@ -16,6 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
+import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
 //TO DOs:
 //1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
@@ -55,6 +56,7 @@ export default function AddEntryModal({
 }) {
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const updateMacrosRef = useRef(null);
   const [foodEntry, setFoodEntry] = useState({
     calorieCount: 0,
     carbCount: 0,
@@ -247,6 +249,27 @@ export default function AddEntryModal({
     }
   };
 
+  const editMacro = (title, value) => {
+    var index;
+    if (title == "Calories") index = "calorieCount";
+    else if (title == "Carbs") index = "carbCount";
+    else if (title == "Protein") index = "proteinCount";
+    else if (title == "Fats") index = "fatCount";
+    var newBaseMacros = { ...baseMacros };
+    //option 1:
+    // newBaseMacros[index] = (value / quantity).toFixed(2);
+    // setBaseMacros(newBaseMacros);
+
+    //option 2:
+    newBaseMacros["calorieCount"] = currentMacros["Calories"];
+    newBaseMacros["carbCount"] = currentMacros["Carbs"];
+    newBaseMacros["proteinCount"] = currentMacros["Protein"];
+    newBaseMacros["fatCount"] = currentMacros["Fats"];
+    newBaseMacros[index] = (value / 1).toFixed(2);
+    newBaseMacros["quantity"] = quantity;
+    setBaseMacros(newBaseMacros);
+  };
+
   return (
     <RNModal
       isVisible={isVisible}
@@ -313,9 +336,28 @@ export default function AddEntryModal({
                 <Text style={styles.rowText}>{item.name}</Text>
               </View>
 
-              <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
-                {currentMacros[item.name]} {item.measurement}
-              </Text>
+              <View style={styles.row}>
+                <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
+                  {currentMacros[item.name]} {item.measurement}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    updateMacrosRef.current.open({
+                      title: item.name,
+                      isCal: false,
+                      units: item.measurement,
+                      value: `${currentMacros[item.name]}`,
+                      isEntry: true,
+                      icon: item.icon,
+                    });
+                  }}
+                >
+                  <Image
+                    style={styles.icon}
+                    source={require("../../../assets/images/edit.png")}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           ))}
 
@@ -343,6 +385,12 @@ export default function AddEntryModal({
               </Text>
             </TouchableOpacity>
           </View>
+          <UpdateMacrosModal
+            getRef={(ref) => (updateMacrosRef.current = ref)}
+            onUpdateMacroValue={(title, value, units) => {
+              editMacro(title, value);
+            }}
+          />
         </View>
       </TouchableWithoutFeedback>
     </RNModal>
