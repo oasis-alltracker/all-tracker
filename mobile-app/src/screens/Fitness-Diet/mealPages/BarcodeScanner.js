@@ -104,11 +104,11 @@ const BarcodeScanner = ({ route }) => {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.deniedPermissionsText}>
-          <Text style={styles.textStyle}>
-            Camera permissions are required to use this barcode scanner.
+        <View style={styles.deniedPermissionsMessage}>
+          <Text style={styles.deniedPermissionsHeader}>
+            Camera Permissions Required
           </Text>
-          <Text style={styles.textStyle}>
+          <Text style={styles.deniedPermissionsText}>
             Please close the app and allow camera permissions in your settings,
             then return to this page.
           </Text>
@@ -199,15 +199,26 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  deniedPermissionsText: {
+  deniedPermissionsMessage: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  textStyle: {
-    fontSize: 20,
+  deniedPermissionsHeader: {
+    fontSize: 35,
+    fontFamily: "Sego-Bold",
+    color: "#25436B",
+    alignSelf: "center",
+    textAlign: "center",
+    marginBottom: 100,
+  },
+  deniedPermissionsText: {
+    fontSize: 25,
     fontFamily: "Sego",
     color: "#25436B",
+    alignSelf: "center",
+    textAlign: "center",
+    margin: 10,
   },
 });
 
