@@ -79,9 +79,7 @@ export default function AddEntryModal({
     calorieCount: 0,
     carbCount: 0,
     fatCount: 0,
-    meal: "dinner",
     measurement: "cup",
-    name: "",
     proteinCount: 0,
     quantity: 1,
   });
@@ -110,19 +108,33 @@ export default function AddEntryModal({
 
         //serving options related
         var details = [];
-        var options =
-          foodEntry?.altServings == null ? [foodEntry] : foodEntry.altServings;
+        var options = foodEntry.altServings;
         options = options.map((item, index) => {
           details.push(item);
           return { label: item.measurement, value: index };
         });
 
-        setLabels(options);
-        setSelectedServing(options[0].value);
-        setBaseMacros(details[0]);
-        setQuantity(`${+details[0].quantity}`);
-        setServing(`${details[0].measurement}`);
-        setDetails(details);
+        if (editing) {
+          setLabels(options);
+          setSelectedServing(
+            options.find((element) => element.label == foodEntry.measurement)
+              ?.value
+          );
+          setBaseMacros(foodEntry);
+          setQuantity(`${+foodEntry.quantity}`);
+          setServing(`${foodEntry.measurement}`);
+          setDetails(details);
+        } else {
+          var index = options.findIndex(
+            (element) => element.label == foodEntry.measurement
+          );
+          setLabels(options);
+          setSelectedServing(options[index].value);
+          setBaseMacros(details[index]);
+          setQuantity(`${+details[index].quantity}`);
+          setServing(`${details[index].measurement}`);
+          setDetails(details);
+        }
       },
       close() {
         setVisible(false);
@@ -149,6 +161,7 @@ export default function AddEntryModal({
         quantity: +quantity,
         measurement: serving,
         dateStamp: moment(day).format("YYYYMMDD"),
+        altServings: servingsDetails,
       };
       setIsLoading(true);
       token = await getAccessToken();
@@ -192,7 +205,7 @@ export default function AddEntryModal({
 
   const editEntry = async () => {
     try {
-      if (foodEntry.quantity != quantity) {
+      if (foodEntry.measurement != serving || foodEntry.quantity != quantity) {
         var updatedEntry = {
           name: foodEntry.name,
           calorieCount: currentMacros.Calories,
@@ -210,6 +223,7 @@ export default function AddEntryModal({
         var updatedMeal = { ...meal };
         updatedEntry.SK = foodEntry.SK;
         updatedEntry.PK = foodEntry.PK;
+        updatedEntry.altServings = servingsDetails;
 
         var index = updatedMeal.entries.indexOf(foodEntry);
         updatedMeal.entries[index] = updatedEntry;
@@ -285,7 +299,13 @@ export default function AddEntryModal({
         }}
       >
         <View style={styles.container}>
-          <Text style={styles.titleText}>{foodEntry.name} </Text>
+          <Text
+            style={styles.titleText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={2}
+          >
+            {foodEntry.name}
+          </Text>
           <Spinner visible={isLoading}></Spinner>
           <View style={styles.serving}>
             <View style={[styles.row, { zIndex: 1000 }]}>
