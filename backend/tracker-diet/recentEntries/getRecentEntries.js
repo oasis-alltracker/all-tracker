@@ -35,7 +35,7 @@ class GetRecentEntries {
     var count = 0;
     var i;
     for (i = 0; i < entries.length && count < 10; i++) {
-      const key = entries[i].name;
+      const key = entries[i].foodItemID;
       if (!resultNames[key]) {
         resultNames[key] = 1;
         result.push(entries[i]);
