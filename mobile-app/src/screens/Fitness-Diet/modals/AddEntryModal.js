@@ -106,7 +106,7 @@ export default function AddEntryModal({
 
         //serving options related
         var details = [];
-        var options = foodEntry.altServings;
+        var options = foodEntry.servingsDetails;
         options = options.map((item, index) => {
           details.push(item);
           return { label: item.measurement, value: index };
@@ -159,7 +159,7 @@ export default function AddEntryModal({
         quantity: +quantity,
         measurement: serving,
         dateStamp: moment(day).format("YYYYMMDD"),
-        altServings: servingsDetails,
+        servingsDetails: servingsDetails,
       };
       setIsLoading(true);
       token = await getAccessToken();
@@ -221,7 +221,7 @@ export default function AddEntryModal({
         var updatedMeal = { ...meal };
         updatedEntry.SK = foodEntry.SK;
         updatedEntry.PK = foodEntry.PK;
-        updatedEntry.altServings = servingsDetails;
+        updatedEntry.servingsDetails = servingsDetails;
 
         var index = updatedMeal.entries.indexOf(foodEntry);
         updatedMeal.entries[index] = updatedEntry;
