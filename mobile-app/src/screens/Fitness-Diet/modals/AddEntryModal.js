@@ -17,6 +17,7 @@ import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
+import { current } from "@reduxjs/toolkit";
 
 //TO DOs:
 //1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
@@ -270,25 +271,23 @@ export default function AddEntryModal({
   };
 
   const editMacro = (title, value) => {
-    editedMacros.current = true;
-    var index;
-    if (title == "Calories") index = "calorieCount";
-    else if (title == "Carbs") index = "carbCount";
-    else if (title == "Protein") index = "proteinCount";
-    else if (title == "Fats") index = "fatCount";
-    var newBaseMacros = { ...baseMacros };
-    //option 1:
-    // newBaseMacros[index] = (value / quantity).toFixed(2);
-    // setBaseMacros(newBaseMacros);
+    if (currentMacros[title] != value) {
+      editedMacros.current = true;
+      var index;
+      if (title == "Calories") index = "calorieCount";
+      else if (title == "Carbs") index = "carbCount";
+      else if (title == "Protein") index = "proteinCount";
+      else if (title == "Fats") index = "fatCount";
 
-    //option 2:
-    newBaseMacros["calorieCount"] = currentMacros["Calories"];
-    newBaseMacros["carbCount"] = currentMacros["Carbs"];
-    newBaseMacros["proteinCount"] = currentMacros["Protein"];
-    newBaseMacros["fatCount"] = currentMacros["Fats"];
-    newBaseMacros[index] = (value / 1).toFixed(2);
-    newBaseMacros["quantity"] = quantity;
-    setBaseMacros(newBaseMacros);
+      var newBaseMacros = { ...baseMacros };
+      newBaseMacros["calorieCount"] = currentMacros["Calories"];
+      newBaseMacros["carbCount"] = currentMacros["Carbs"];
+      newBaseMacros["proteinCount"] = currentMacros["Protein"];
+      newBaseMacros["fatCount"] = currentMacros["Fats"];
+      newBaseMacros[index] = (value / 1).toFixed(2);
+      newBaseMacros["quantity"] = quantity;
+      setBaseMacros(newBaseMacros);
+    }
   };
 
   return (
