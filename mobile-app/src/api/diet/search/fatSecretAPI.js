@@ -54,7 +54,7 @@ const convertResults = (results) => {
       proteinCount: defaultServing.proteinCount,
       measurement: defaultServing.measurement,
       quantity: defaultServing.quantity,
-      altServings: servings,
+      servingsDetails: servings,
     });
   });
 
