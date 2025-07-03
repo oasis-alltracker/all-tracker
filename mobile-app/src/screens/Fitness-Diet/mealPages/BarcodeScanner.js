@@ -203,9 +203,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 10,
   },
   deniedPermissionsHeader: {
-    fontSize: 35,
+    fontSize: 32,
     fontFamily: "Sego-Bold",
     color: "#25436B",
     alignSelf: "center",
@@ -213,12 +214,11 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
   deniedPermissionsText: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: "Sego",
     color: "#25436B",
     alignSelf: "center",
     textAlign: "center",
-    margin: 10,
   },
 });
 
