@@ -83,6 +83,7 @@ export default function AddEntryModal({
     proteinCount: 0,
     quantity: 1,
   });
+  const editedMacros = useRef(false);
 
   var currentMacros = {
     Fats: +((baseMacros.fatCount / baseMacros.quantity) * quantity).toFixed(2),
@@ -115,6 +116,7 @@ export default function AddEntryModal({
         });
 
         if (editing) {
+          editedMacros.current = false;
           setLabels(options);
           setSelectedServing(
             options.find((element) => element.label == foodEntry.measurement)
@@ -205,7 +207,11 @@ export default function AddEntryModal({
 
   const editEntry = async () => {
     try {
-      if (foodEntry.measurement != serving || foodEntry.quantity != quantity) {
+      if (
+        editedMacros.current == true ||
+        foodEntry.measurement != serving ||
+        foodEntry.quantity != quantity
+      ) {
         var updatedEntry = {
           name: foodEntry.name,
           calorieCount: currentMacros.Calories,
@@ -264,6 +270,7 @@ export default function AddEntryModal({
   };
 
   const editMacro = (title, value) => {
+    editedMacros.current = true;
     var index;
     if (title == "Calories") index = "calorieCount";
     else if (title == "Carbs") index = "carbCount";
