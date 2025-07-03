@@ -17,7 +17,6 @@ import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
-import { current } from "@reduxjs/toolkit";
 
 //TO DOs:
 //1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
