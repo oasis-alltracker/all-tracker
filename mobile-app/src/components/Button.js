@@ -6,6 +6,7 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
+import { ValueSheet } from "../ValueSheet";
 
 const Button = (props) => {
   const _renderInnerText = () => {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(215, 246, 255, 0.65)",
+    backgroundColor: ValueSheet.colours.secondaryColour65,
     borderRadius: 20,
     marginBottom: 20,
     justifyContent: "center",
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 26,
     fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
 });
 

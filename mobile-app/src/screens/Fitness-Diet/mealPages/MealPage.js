@@ -16,6 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import AddEntryModal from "../modals/AddEntryModal";
+import { ValueSheet } from "../../../ValueSheet";
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   topArea: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     flex: 1,
   },
   mainArea: {
@@ -312,7 +313,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     alignItems: "center",
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderColor: "rgba(172, 197, 204, 0.75)",
     width: "60%",
     padding: 5,
@@ -359,59 +360,59 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   macroAmount: {
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 20,
-    fontFamily: "Sego-Bold",
     position: "absolute",
     right: 0,
     marginRight: 35,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   macroUnit: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    fontFamily: "Sego",
     position: "absolute",
     right: 0,
     marginRight: 15,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   caloriesLabel: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   calorieInfo: {
     flexDirection: "row",
   },
   caloriesAmount: {
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     marginRight: 15,
   },
   caloriesUnit: {
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   addFoodText: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 25,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   mealItemCalories: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 17.5,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   backArrow: {
     height: 35,
