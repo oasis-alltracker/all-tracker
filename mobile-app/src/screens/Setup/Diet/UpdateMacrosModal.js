@@ -19,6 +19,8 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("0");
 
+  const [isEntry, setIsEntry] = useState(false);
+
   useEffect(() => {
     let ref = {
       open(props) {
@@ -28,21 +30,28 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
         setUnits(props.units);
         setTitle(props.title);
 
-        if (props.title == "Calories") {
+        if (props?.isEntry == true) {
+          setIsEntry(true);
+          setText(props.title);
+          setImageUri(props.icon);
           setValue(props.value.toString());
-          setText("Daily calorie intake");
-          setImageUri(require("../../../assets/images/calories.png"));
         } else {
-          setValue(props.value.split(" ")[0]);
-          if (props.title == "Carbs:") {
-            setText("Daily carb intake (g)");
-            setImageUri(require("../../../assets/images/carbs.png"));
-          } else if (props.title == "Protein:") {
-            setText("Daily protein intake (g)");
-            setImageUri(require("../../../assets/images/protein.png"));
-          } else if (props.title == "Fats:") {
-            setText("Daily fat intake (g)");
-            setImageUri(require("../../../assets/images/fats.png"));
+          if (props.title == "Calories") {
+            setValue(props.value.toString());
+            setText("Daily calorie intake");
+            setImageUri(require("../../../assets/images/calories.png"));
+          } else {
+            setValue(props.value.split(" ")[0]);
+            if (props.title == "Carbs:") {
+              setText("Daily carb intake (g)");
+              setImageUri(require("../../../assets/images/carbs.png"));
+            } else if (props.title == "Protein:") {
+              setText("Daily protein intake (g)");
+              setImageUri(require("../../../assets/images/protein.png"));
+            } else if (props.title == "Fats:") {
+              setText("Daily fat intake (g)");
+              setImageUri(require("../../../assets/images/fats.png"));
+            }
           }
         }
       },
@@ -105,7 +114,7 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
             <TextInput
               style={styles.countText}
               placeholder="0"
-              keyboardType="number-pad"
+              keyboardType={isEntry ? "decimal-pad" : "number-pad"}
               onChangeText={setValue}
               value={value}
             />
@@ -190,6 +199,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     marginTop: 5,
+    textAlign: "center",
   },
   text: {
     color: "#25436B",

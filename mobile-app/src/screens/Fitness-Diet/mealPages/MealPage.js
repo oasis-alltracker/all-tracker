@@ -255,7 +255,7 @@ const MealPage = ({ navigation, route }) => {
           mealName={mealName}
           day={currentDate}
           prevPage={null}
-          meal={meal}
+          meal={currentMeal}
           editing={true}
           foodEntriesChangedRef={foodEntriesChangedRef}
           setMeal={setCurrentMeal}

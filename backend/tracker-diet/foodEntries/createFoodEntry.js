@@ -45,6 +45,7 @@ class CreateFoodEntry {
       carbCount: foodEntry.carbCount,
       quantity: foodEntry.quantity,
       measurement: foodEntry.measurement,
+      servingsDetails: foodEntry.servingsDetails,
     };
 
     await this.DB.putItem(data);
