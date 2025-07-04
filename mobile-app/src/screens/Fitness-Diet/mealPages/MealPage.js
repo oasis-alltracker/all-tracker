@@ -361,14 +361,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
     fontFamily: theme.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
     fontFamily: theme.fonts.primaryFont,
     fontSize: 20,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
   },
   macroAmount: {
     fontFamily: theme.fonts.primaryBold,
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     marginRight: 35,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
   },
   macroUnit: {
     fontFamily: theme.fonts.primaryFont,
@@ -384,12 +384,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     marginRight: 15,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
   },
   caloriesLabel: {
     fontFamily: theme.fonts.primaryFont,
     fontSize: 20,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
   },
   calorieInfo: {
     flexDirection: "row",
@@ -397,23 +397,23 @@ const styles = StyleSheet.create({
   caloriesAmount: {
     fontFamily: theme.fonts.primaryBold,
     fontSize: 25,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
     marginRight: 15,
   },
   caloriesUnit: {
     fontFamily: theme.fonts.primaryBold,
     fontSize: 25,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
   },
   addFoodText: {
     fontFamily: theme.fonts.primaryFont,
     fontSize: 25,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
   },
   mealItemCalories: {
     fontFamily: theme.fonts.primaryFont,
     fontSize: 17.5,
-    color: "#25436B",
+    color: theme.colours.primaryColour,
   },
   backArrow: {
     height: 35,
