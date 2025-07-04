@@ -193,7 +193,7 @@ export default function AddEntryModal({
   };
 
   const updateMacro = (origTotal, orig, newVal) => {
-    return Math.round((origTotal - orig + newVal) * 100) / 100;
+    return +(origTotal - orig + newVal).toFixed(2);
   };
 
   const editEntry = async () => {
@@ -262,6 +262,7 @@ export default function AddEntryModal({
 
   const editMacro = (title, value) => {
     var index;
+    value = +value;
     if (title == "Calories") index = "calorieCount";
     else if (title == "Carbs") index = "carbCount";
     else if (title == "Protein") index = "proteinCount";
