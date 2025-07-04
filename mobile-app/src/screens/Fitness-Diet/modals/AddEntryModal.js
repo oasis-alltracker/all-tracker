@@ -26,21 +26,25 @@ const macroTitles = [
     name: "Calories",
     icon: require("../../../assets/images/calories.png"),
     measurement: "cal",
+    macro: "calorieCount",
   },
   {
     name: "Carbs",
     icon: require("../../../assets/images/carbs.png"),
     measurement: "g",
+    macro: "carbCount",
   },
   {
     name: "Protein",
     icon: require("../../../assets/images/protein.png"),
     measurement: "g",
+    macro: "proteinCount",
   },
   {
     name: "Fats",
     icon: require("../../../assets/images/fats.png"),
     measurement: "g",
+    macro: "fatCount",
   },
 ];
 
@@ -75,30 +79,15 @@ export default function AddEntryModal({
   const [selectedServing, setSelectedServing] = useState();
   const [servingLabels, setLabels] = useState();
   const [servingsDetails, setDetails] = useState();
-  const [baseMacros, setBaseMacros] = useState({
+
+  const [macros, setMacros] = useState({
     calorieCount: 0,
     carbCount: 0,
     fatCount: 0,
-    measurement: "cup",
     proteinCount: 0,
-    quantity: 1,
   });
+  const [prevQuantity, setPrevQuantity] = useState(0);
   const editedMacros = useRef(false);
-
-  var currentMacros = {
-    Fats: +((baseMacros.fatCount / baseMacros.quantity) * quantity).toFixed(2),
-    Protein: +(
-      (baseMacros.proteinCount / baseMacros.quantity) *
-      quantity
-    ).toFixed(2),
-    Carbs: +((baseMacros.carbCount / baseMacros.quantity) * quantity).toFixed(
-      2
-    ),
-    Calories: +(
-      (baseMacros.calorieCount / baseMacros.quantity) *
-      quantity
-    ).toFixed(2),
-  };
 
   useEffect(() => {
     let ref = {
@@ -122,8 +111,9 @@ export default function AddEntryModal({
             options.find((element) => element.label == foodEntry.measurement)
               ?.value
           );
-          setBaseMacros(foodEntry);
+          setMacros(foodEntry);
           setQuantity(`${+foodEntry.quantity}`);
+          setPrevQuantity(`${+foodEntry.quantity}`);
           setServing(`${foodEntry.measurement}`);
           setDetails(details);
         } else {
@@ -132,8 +122,9 @@ export default function AddEntryModal({
           );
           setLabels(options);
           setSelectedServing(options[index].value);
-          setBaseMacros(details[index]);
-          setQuantity(`${+details[index].quantity}`);
+          setMacros(details[index]);
+          setQuantity("1");
+          setPrevQuantity("1");
           setServing(`${details[index].measurement}`);
           setDetails(details);
         }
@@ -155,11 +146,11 @@ export default function AddEntryModal({
       var newFoodEntry = {
         name: foodEntry.name,
         meal: mealName.toLowerCase(),
-        calorieCount: currentMacros.Calories,
-        fatCount: currentMacros.Fats,
+        calorieCount: macros.calorieCount,
+        fatCount: macros.fatCount,
         foodItemID: foodEntry.foodItemID,
-        proteinCount: currentMacros.Protein,
-        carbCount: currentMacros.Carbs,
+        proteinCount: macros.proteinCount,
+        carbCount: macros.carbCount,
         quantity: +quantity,
         measurement: serving,
         dateStamp: moment(day).format("YYYYMMDD"),
@@ -214,11 +205,11 @@ export default function AddEntryModal({
       ) {
         var updatedEntry = {
           name: foodEntry.name,
-          calorieCount: currentMacros.Calories,
-          fatCount: currentMacros.Fats,
+          calorieCount: macros.calorieCount,
+          fatCount: macros.fatCount,
           foodItemID: foodEntry.foodItemID,
-          proteinCount: currentMacros.Protein,
-          carbCount: currentMacros.Carbs,
+          proteinCount: macros.proteinCount,
+          carbCount: macros.carbCount,
           quantity: +quantity,
           measurement: serving,
         };
@@ -270,23 +261,33 @@ export default function AddEntryModal({
   };
 
   const editMacro = (title, value) => {
-    if (currentMacros[title] != value) {
+    var index;
+    if (title == "Calories") index = "calorieCount";
+    else if (title == "Carbs") index = "carbCount";
+    else if (title == "Protein") index = "proteinCount";
+    else if (title == "Fats") index = "fatCount";
+    if (macros[index] != value) {
       editedMacros.current = true;
-      var index;
-      if (title == "Calories") index = "calorieCount";
-      else if (title == "Carbs") index = "carbCount";
-      else if (title == "Protein") index = "proteinCount";
-      else if (title == "Fats") index = "fatCount";
 
-      var newBaseMacros = { ...baseMacros };
-      newBaseMacros["calorieCount"] = currentMacros["Calories"];
-      newBaseMacros["carbCount"] = currentMacros["Carbs"];
-      newBaseMacros["proteinCount"] = currentMacros["Protein"];
-      newBaseMacros["fatCount"] = currentMacros["Fats"];
-      newBaseMacros[index] = (value / 1).toFixed(2);
-      newBaseMacros["quantity"] = quantity;
-      setBaseMacros(newBaseMacros);
+      var newMacros = { ...macros };
+      newMacros[index] = value;
+      setMacros(newMacros);
     }
+  };
+
+  const recalMacrosByQuantity = () => {
+    var newMacros = {
+      calorieCount: +((macros.calorieCount / prevQuantity) * quantity).toFixed(
+        2
+      ),
+      carbCount: +((macros.carbCount / prevQuantity) * quantity).toFixed(2),
+      fatCount: +((macros.fatCount / prevQuantity) * quantity).toFixed(2),
+      proteinCount: +((macros.proteinCount / prevQuantity) * quantity).toFixed(
+        2
+      ),
+    };
+    setMacros(newMacros);
+    setPrevQuantity(quantity);
   };
 
   return (
@@ -324,8 +325,9 @@ export default function AddEntryModal({
                   items={servingLabels}
                   onSelectItem={(item) => {
                     setServing(item.label);
-                    setBaseMacros(servingsDetails[item.value]);
-                    setQuantity(`${+servingsDetails[item.value].quantity}`);
+                    setMacros(servingsDetails[item.value]);
+                    setQuantity("1");
+                    setPrevQuantity("1");
                   }}
                   onOpen={() => Keyboard.dismiss()}
                   style={[styles.borderedContainer]}
@@ -347,6 +349,7 @@ export default function AddEntryModal({
                 onChangeText={setQuantity}
                 value={quantity}
                 textAlign={"center"}
+                onEndEditing={recalMacrosByQuantity}
               />
             </View>
           </View>
@@ -363,7 +366,7 @@ export default function AddEntryModal({
 
               <View style={styles.row}>
                 <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
-                  {currentMacros[item.name]} {item.measurement}
+                  {macros[item.macro]} {item.measurement}
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
@@ -371,7 +374,7 @@ export default function AddEntryModal({
                       title: item.name,
                       isCal: false,
                       units: item.measurement,
-                      value: `${currentMacros[item.name]}`,
+                      value: `${macros[item.macro]}`,
                       isEntry: true,
                       icon: item.icon,
                     });
