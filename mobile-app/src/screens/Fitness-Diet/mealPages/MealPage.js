@@ -17,6 +17,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import AddEntryModal from "../modals/AddEntryModal";
 import { ValueSheet } from "../../ValueSheet";
+import { theme } from "../../theme";
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -158,11 +159,9 @@ const MealPage = ({ navigation, route }) => {
         <View style={styles.topAreaBody}>
           <View style={styles.mealHeader}>
             <Image style={styles.mealIcon} source={mealImage}></Image>
-            <Text style={[ValueSheet.primaryBold, styles.title]}>
-              {mealName}
-            </Text>
+            <Text style={styles.title}>{mealName}</Text>
           </View>
-          <Text style={[ValueSheet.primaryFont, styles.textStyle]}>
+          <Text style={styles.textStyle}>
             {currentDate.toLocaleDateString(undefined, {
               year: "numeric",
               month: "long",
@@ -187,18 +186,10 @@ const MealPage = ({ navigation, route }) => {
                 }}
               >
                 <View style={[styles.mealItemInfo, { flex: 1 }]}>
-                  <Text
-                    style={[
-                      ValueSheet.primaryFont,
-                      styles.textStyle,
-                      { flexShrink: 1 },
-                    ]}
-                  >
+                  <Text style={[styles.textStyle, { flexShrink: 1 }]}>
                     {item.name}
                   </Text>
-                  <Text
-                    style={[ValueSheet.primaryFont, styles.mealItemCalories]}
-                  >
+                  <Text style={styles.mealItemCalories}>
                     {item.calorieCount} cal
                   </Text>
                 </View>
@@ -213,9 +204,7 @@ const MealPage = ({ navigation, route }) => {
           </View>
           <View style={styles.buttonSection}>
             <TouchableOpacity style={styles.addFood} onPress={addMealItem}>
-              <Text style={[ValueSheet.primaryFont, styles.addFoodText]}>
-                Add Food
-              </Text>
+              <Text style={styles.addFoodText}>Add Food</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.calories}>
@@ -224,16 +213,12 @@ const MealPage = ({ navigation, route }) => {
               source={require("../../../assets/images/calories.png")}
             ></Image>
             <View style={styles.calorieText}>
-              <Text style={[ValueSheet.primaryFont, styles.caloriesLabel]}>
-                Calories
-              </Text>
+              <Text style={styles.caloriesLabel}>Calories</Text>
               <View style={styles.calorieInfo}>
-                <Text style={[ValueSheet.primaryBold, styles.caloriesAmount]}>
+                <Text style={styles.caloriesAmount}>
                   {currentMeal.calorieCount}
                 </Text>
-                <Text style={[ValueSheet.primaryBold, styles.caloriesUnit]}>
-                  kcal
-                </Text>
+                <Text style={styles.caloriesUnit}>kcal</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -243,39 +228,27 @@ const MealPage = ({ navigation, route }) => {
                 style={styles.macroIcon}
                 source={require("../../../assets/images/carbs.png")}
               ></Image>
-              <Text style={[ValueSheet.primaryFont, styles.textStyle]}>
-                Carbs
-              </Text>
-              <Text style={[ValueSheet.primaryBold, styles.macroAmount]}>
-                {currentMeal.carbCount}
-              </Text>
-              <Text style={[ValueSheet.primaryFont, styles.macroUnit]}>g</Text>
+              <Text style={styles.textStyle}>Carbs</Text>
+              <Text style={styles.macroAmount}>{currentMeal.carbCount}</Text>
+              <Text style={styles.macroUnit}>g</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.macros}>
               <Image
                 style={styles.macroIcon}
                 source={require("../../../assets/images/protein.png")}
               ></Image>
-              <Text style={[ValueSheet.primaryFont, styles.textStyle]}>
-                Protein
-              </Text>
-              <Text style={[ValueSheet.primaryBold, styles.macroAmount]}>
-                {currentMeal.proteinCount}
-              </Text>
-              <Text style={[ValueSheet.primaryFont, styles.macroUnit]}>g</Text>
+              <Text style={styles.textStyle}>Protein</Text>
+              <Text style={styles.macroAmount}>{currentMeal.proteinCount}</Text>
+              <Text style={styles.macroUnit}>g</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.macros}>
               <Image
                 style={styles.macroIcon}
                 source={require("../../../assets/images/fats.png")}
               ></Image>
-              <Text style={[ValueSheet.primaryFont, styles.textStyle]}>
-                Fats
-              </Text>
-              <Text style={[ValueSheet.primaryBold, styles.macroAmount]}>
-                {currentMeal.fatCount}
-              </Text>
-              <Text style={[ValueSheet.primaryFont, styles.macroUnit]}>g</Text>
+              <Text style={styles.textStyle}>Fats</Text>
+              <Text style={styles.macroAmount}>{currentMeal.fatCount}</Text>
+              <Text style={styles.macroUnit}>g</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -305,7 +278,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   topArea: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: theme.colours.secondaryColour,
     flex: 1,
   },
   mainArea: {
@@ -341,7 +314,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     alignItems: "center",
-    backgroundColor: "#D7F6FF",
+    backgroundColor: theme.colours.secondaryColour,
     borderColor: "rgba(172, 197, 204, 0.75)",
     width: "60%",
     padding: 5,
@@ -389,13 +362,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 45,
     color: "#25436B",
+    fontFamily: theme.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
+    fontFamily: theme.fonts.primaryFont,
     fontSize: 20,
     color: "#25436B",
   },
   macroAmount: {
+    fontFamily: theme.fonts.primaryBold,
     fontSize: 20,
     position: "absolute",
     right: 0,
@@ -403,6 +379,7 @@ const styles = StyleSheet.create({
     color: "#25436B",
   },
   macroUnit: {
+    fontFamily: theme.fonts.primaryFont,
     fontSize: 20,
     position: "absolute",
     right: 0,
@@ -410,6 +387,7 @@ const styles = StyleSheet.create({
     color: "#25436B",
   },
   caloriesLabel: {
+    fontFamily: theme.fonts.primaryFont,
     fontSize: 20,
     color: "#25436B",
   },
@@ -417,19 +395,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   caloriesAmount: {
+    fontFamily: theme.fonts.primaryBold,
     fontSize: 25,
     color: "#25436B",
     marginRight: 15,
   },
   caloriesUnit: {
+    fontFamily: theme.fonts.primaryBold,
     fontSize: 25,
     color: "#25436B",
   },
   addFoodText: {
+    fontFamily: theme.fonts.primaryFont,
     fontSize: 25,
     color: "#25436B",
   },
   mealItemCalories: {
+    fontFamily: theme.fonts.primaryFont,
     fontSize: 17.5,
     color: "#25436B",
   },
