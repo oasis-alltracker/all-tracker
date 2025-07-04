@@ -16,8 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import AddEntryModal from "../modals/AddEntryModal";
-import { ValueSheet } from "../../ValueSheet";
-import { theme } from "../../theme";
+import { ValueSheet } from "../../../ValueSheet";
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -278,7 +277,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   topArea: {
-    backgroundColor: theme.colours.secondaryColour,
+    backgroundColor: ValueSheet.colours.secondaryColour,
     flex: 1,
   },
   mainArea: {
@@ -314,7 +313,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     alignItems: "center",
-    backgroundColor: theme.colours.secondaryColour,
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderColor: "rgba(172, 197, 204, 0.75)",
     width: "60%",
     padding: 5,
@@ -361,59 +360,59 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: theme.colours.primaryColour,
-    fontFamily: theme.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
-    fontFamily: theme.fonts.primaryFont,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
   },
   macroAmount: {
-    fontFamily: theme.fonts.primaryBold,
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 20,
     position: "absolute",
     right: 0,
     marginRight: 35,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
   },
   macroUnit: {
-    fontFamily: theme.fonts.primaryFont,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
     position: "absolute",
     right: 0,
     marginRight: 15,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
   },
   caloriesLabel: {
-    fontFamily: theme.fonts.primaryFont,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
   },
   calorieInfo: {
     flexDirection: "row",
   },
   caloriesAmount: {
-    fontFamily: theme.fonts.primaryBold,
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
     marginRight: 15,
   },
   caloriesUnit: {
-    fontFamily: theme.fonts.primaryBold,
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
   },
   addFoodText: {
-    fontFamily: theme.fonts.primaryFont,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 25,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
   },
   mealItemCalories: {
-    fontFamily: theme.fonts.primaryFont,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 17.5,
-    color: theme.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
   },
   backArrow: {
     height: 35,
