@@ -269,7 +269,7 @@ const MealPage = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     justifyContent: "space-between",
   },
   scrollContainer: {
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainArea: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 3,
     minWidth: 0,
     justifyContent: "flex-start",
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
     marginBottom: 5,
   },
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     backgroundColor: ValueSheet.colours.secondaryColour,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     width: "60%",
     padding: 5,
   },
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     marginTop: 30,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     height: 100,
     padding: 10,
   },
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     marginBottom: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
   },
   topAreaBody: {
@@ -443,7 +443,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 10,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default MealPage;

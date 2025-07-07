@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "hidden",
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     paddingHorizontal: 10,
   },
   spinner: {
