@@ -5,6 +5,7 @@ import MenuIcon from "../assets/icons/menu";
 import navigationService from "../navigators/navigationService";
 import { getAccessToken } from "../user/keychain";
 import UserAPI from "../api/user/userAPI";
+import { ValueSheet } from "../ValueSheet";
 
 const DrawerScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -106,7 +107,7 @@ const DrawerScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   menuBtn: {
@@ -115,14 +116,14 @@ const styles = StyleSheet.create({
   },
   button: {
     borderTopWidth: 2,
-    borderTopColor: "#CCCCCC",
+    borderTopColor: ValueSheet.colours.grey,
     height: 80,
     alignItems: "center",
     justifyContent: "center",
   },
   logoContainer: {
     borderTopWidth: 2,
-    borderTopColor: "#CCCCCC",
+    borderTopColor: ValueSheet.colours.grey,
     height: 300,
     alignItems: "center",
     justifyContent: "center",
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    tintColor: "#25436B",
+    tintColor: ValueSheet.colours.primaryColour,
   },
   logoImage: {
     width: 120,
