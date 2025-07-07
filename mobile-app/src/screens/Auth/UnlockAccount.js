@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../ValueSheet";
 import React, { useEffect, useState } from "react";
 
 import { TouchableHighlight } from "react-native-gesture-handler";
@@ -177,7 +178,7 @@ const UnlockAccount = (props) => {
                 style={styles.passwordInput}
                 placeholder="Enter your password"
                 secureTextEntry={true}
-                placeholderTextColor="#9c9eb9"
+                placeholderTextColor={ValueSheet.colours.black25}
                 onChangeText={setPassword}
                 value={password}
                 autoCapitalize="none"
@@ -198,7 +199,7 @@ const UnlockAccount = (props) => {
                   <TouchableHighlight
                     style={styles.iconContainer}
                     onPress={() => appleSignin()}
-                    underlayColor="rgba(73,182,77,1,0.9)"
+                    underlayColor={ValueSheet.colours.black10}
                   >
                     <Image
                       style={styles.accountIcon}
@@ -209,7 +210,7 @@ const UnlockAccount = (props) => {
                 <TouchableHighlight
                   style={styles.iconContainer}
                   onPress={() => googleSignIn()}
-                  underlayColor="rgba(73,182,77,1,0.9)"
+                  underlayColor={ValueSheet.colours.black10}
                 >
                   <Image
                     style={styles.accountIcon}
@@ -228,25 +229,25 @@ const UnlockAccount = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginVertical: 45,
   },
   input: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 20,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   button: {
     width: "100%",
     marginVertical: 20,
   },
   buttonText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
   },
   center: {
@@ -260,8 +261,8 @@ const styles = StyleSheet.create({
   },
   seperator: {
     fontSize: 20,
-    color: "#1E1E1E",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.black,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginBottom: 30,
   },
   social: {
@@ -277,12 +278,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   passwordInput: {
-    color: "black",
+    color: ValueSheet.colours.black,
     fontSize: 20,
     marginLeft: 10,
     height: 40,
     textAlign: "center",
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   nextButton: {
     width: SCREEN_WIDTH - 50,
@@ -293,21 +294,25 @@ const styles = StyleSheet.create({
     padding: 5,
     width: SCREEN_WIDTH - 50,
     borderRadius: 10,
-    borderColor: "lightgray",
+    borderColor: ValueSheet.colours.grey,
     borderWidth: 2,
-    backgroundColor: "white",
+    backgroundColor: ValueSheet.colours.background,
     alignSelf: "center",
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
   linkBtn: {
     marginTop: 155,
     paddingBottom: 10,
   },
   linkText: {
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginVertical: 5,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   signContainer: {
     marginBottom: 10,
@@ -319,9 +324,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   iconContainer: {
-    backgroundColor: "white",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 100,
-    borderColor: "lightgray",
+    borderColor: ValueSheet.colours.grey,
     borderWidth: 2,
     padding: 20,
   },
@@ -333,7 +338,7 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 30,
     paddingTop: 32,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     textAlign: "center",
   },
 });
