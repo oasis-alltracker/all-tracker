@@ -15,12 +15,13 @@ import NotificationsHandler from "../api/notifications/notificationsHandler";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../user/keychain";
+import { ValueSheet } from "../ValueSheet";
 
 const oneDay = {
   startingDay: true,
   endingDay: true,
-  selectedColor: "#18A0FB",
-  selectedTextColor: "white",
+  selectedColor: ValueSheet.colours.datePickerBlue,
+  selectedTextColor: ValueSheet.colours.background,
   selected: true,
 };
 const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
@@ -303,11 +304,11 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         markedDates={markedDay}
         marking={{
           customTextStyle: {
-            fontFamily: "Sego-Bold",
+            fontFamily: ValueSheet.fonts.primaryBold,
           },
           customStyles: {
             text: {
-              fontFamily: "Sego-Bold",
+              fontFamily: ValueSheet.fonts.primaryBold,
             },
           },
         }}
@@ -320,19 +321,19 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         theme={{
           calendarBackground: "transparent",
           weekVerticalMargin: 0,
-          selectedDayTextColor: "#303C5E",
-          selectedDayBackgroundColor: "#18A0FB",
-          textMonthFontFamily: "Sego-Bold",
-          textDayHeaderFontFamily: "Sego-Bold",
+          selectedDayTextColor: ValueSheet.colours.primaryColour,
+          selectedDayBackgroundColor: ValueSheet.colours.datePickerBlue,
+          textMonthFontFamily: ValueSheet.fonts.primaryBold,
+          textDayHeaderFontFamily: ValueSheet.fonts.primaryBold,
           todayBackgroundColor: "#fcefc2",
-          todayTextColor: "#303C5E",
-          monthTextColor: "#303C5E",
-          textDayFontFamily: "Sego-Bold",
-          dayTextColor: "#303C5E",
+          todayTextColor: ValueSheet.colours.primaryColour,
+          monthTextColor: ValueSheet.colours.primaryColour,
+          textDayFontFamily: ValueSheet.fonts.primaryBold,
+          dayTextColor: ValueSheet.colours.primaryColour,
           textDayStyle: {
-            fontFamily: "Sego-Bold",
+            fontFamily: ValueSheet.fonts.primaryBold,
           },
-          arrowColor: "#303C5E",
+          arrowColor: ValueSheet.colours.primaryColour,
           "stylesheet.calendar.main": {
             calendar: {
               paddingLeft: 0,
@@ -375,7 +376,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
       isVisible={visible}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropColor={ValueSheet.colours.secondaryColour27}
     >
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.container}>
@@ -449,7 +450,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                   key={index.toString()}
                   style={[
                     styles.dayContainer,
-                    activeIndexes[index] && { backgroundColor: "#D7F6FF" },
+                    activeIndexes[index] && {
+                      backgroundColor: ValueSheet.colours.secondaryColour,
+                    },
                   ]}
                 >
                   <Text style={styles.dayText}>{item}</Text>
@@ -465,8 +468,13 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
             height={32}
             onValueChange={notificationsToggled}
             value={isReminderEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-            thumbColor={isReminderEnabled ? "#d7f6ff" : "#D5CBFF"}
+            trackColor={{
+              true: ValueSheet.colours.secondaryColour,
+              false: "#D5CBFF",
+            }}
+            thumbColor={
+              isReminderEnabled ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+            }
           />
           <Text style={styles.reminderTitle}>Reminder</Text>
           <View style={styles.timeSelectContainer}>
@@ -531,7 +539,7 @@ const styles = StyleSheet.create({
   line: {
     flexDirection: "row",
     borderTopWidth: 1,
-    borderColor: "rgba(0,0,0,0.1)",
+    borderColor: ValueSheet.colours.black10,
   },
   button: {
     width: "50%",
@@ -544,11 +552,8 @@ const styles = StyleSheet.create({
   },
   container: {
     justifyContent: "space-between",
-    // backgroundColor: "#17213E",
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 5,
-
-    // padding: 15,
   },
   buttons: {
     flexDirection: "row",
@@ -562,11 +567,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   btnActive: {
-    backgroundColor: "rgba(215, 246, 255, 0.5)",
+    backgroundColor: ValueSheet.colours.secondaryColour50,
   },
   btnText: {
-    fontFamily: "Sego-Bold",
-    color: "#fff",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.background,
     fontSize: 16,
   },
   buttonLine: {
@@ -584,26 +589,26 @@ const styles = StyleSheet.create({
   btn2: {
     marginBottom: 15,
     paddingHorizontal: 15,
-    backgroundColor: "#303C5E",
+    backgroundColor: ValueSheet.colours.primaryColour,
     paddingVertical: 10,
     borderRadius: 5,
     width: "30%",
     alignItems: "center",
   },
   headerText: {
-    color: "#303C5E",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   clearText: {
     color: "red",
     fontSize: 16,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   text2: {
-    color: "#18A0FB",
+    color: ValueSheet.colours.datePickerBlue,
     fontSize: 18,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   iconImage: {
     width: 35,
@@ -634,20 +639,20 @@ const styles = StyleSheet.create({
   },
   bottomItemText: {
     fontSize: 16,
-    fontFamily: "Sego-Bold",
-    color: "rgba(0,0,0,0.8)",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.black,
     flex: 1,
     marginLeft: 15,
   },
   bottomItemValue: {
     fontSize: 16,
-    fontFamily: "Sego",
-    color: "rgba(0,0,0,0.5)",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.black50,
   },
   reminderContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
@@ -660,26 +665,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     width: 114,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     paddingVertical: 10,
     borderRadius: 15,
     paddingRight: 5,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   reminderTitle: {
     fontSize: 18,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 15,
     flex: 1,
   },
   timeText: {
     fontSize: 17,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   errorToast: {
-    textColor: "#fff",
+    textColor: ValueSheet.colours.background,
   },
   daysContainer: {
     flexDirection: "row",
@@ -695,7 +700,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 20,
     paddingHorizontal: 5,
     paddingVertical: 20,
@@ -706,9 +711,9 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   dayText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 16,
     padding: 6,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
 });
