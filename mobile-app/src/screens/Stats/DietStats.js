@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
+import { ValueSheet } from "../../ValueSheet";
 
 const data = [
   { value: 500 },
@@ -47,8 +48,8 @@ const DietStats = ({ sunday, updateStats }) => {
           backgroundColor="transparent"
           xAxisLength={0}
           initialSpacing={0}
-          yAxisColor="#B3B3B3"
-          xAxisColor="#B3B3B3"
+          yAxisColor={ValueSheet.colours.black25}
+          xAxisColor={ValueSheet.colours.black25}
           height={160}
           width={220}
           curved
@@ -85,13 +86,13 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   xLabel: {
     fontSize: 14,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     flex: 1,
