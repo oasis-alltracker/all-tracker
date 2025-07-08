@@ -2,9 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
-import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
-import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../../ValueSheet";
 
 export default function EditMacroGoalsModal({
   getRef,
@@ -249,18 +248,18 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "white",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   macroContainerStyle: {
     paddingTop: 20,
   },
   title: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 36,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     marginVertical: 25,
     alignSelf: "center",
   },
@@ -278,7 +277,7 @@ const styles = StyleSheet.create({
   },
   item: {
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     marginHorizontal: 20,
     marginBottom: 15,
@@ -290,19 +289,19 @@ const styles = StyleSheet.create({
   },
   itemValue: {
     fontSize: 16,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     marginLeft: 15,
   },
   calorieValue: {
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
   },
   calorieText: {
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   calorieEditImg: {
     width: 30,
@@ -329,8 +328,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   flex: {
     flex: 1,
@@ -344,7 +343,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     padding: 10,
     alignSelf: "center",
@@ -354,22 +353,22 @@ const styles = StyleSheet.create({
   recalculateButton: {
     width: "70%",
     backgroundColor: "#CABDFF",
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
   },
   closeButton: {
     width: "35%",
     marginHorizontal: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
   },
   saveButton: {
     width: "35%",
     marginHorizontal: 2,
-    backgroundColor: "#D7F6FF",
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    backgroundColor: ValueSheet.colours.secondaryColour,
+    borderColor: ValueSheet.colours.borderGrey75,
   },
   buttonText: {
     fontSize: 18,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
 });
