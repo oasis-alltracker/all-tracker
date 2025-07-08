@@ -9,6 +9,7 @@ import {
 import React from "react";
 import DietStats from "../Stats/DietStats";
 import FitnessStats from "../Stats/FitnessStats";
+import { ValueSheet } from "../../ValueSheet";
 
 export default function Statistics() {
   return (
@@ -66,8 +67,8 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   preButton: {
@@ -96,8 +97,8 @@ const styles = StyleSheet.create({
   },
   dateName: {
     fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   chartBox: {
     width: "100%",
@@ -123,11 +124,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   xLabel: {
     fontSize: 16,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   chartContainer: {
     flex: 1,
@@ -141,14 +142,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 4,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     marginRight: 8,
     borderRadius: 30,
   },
   dayText: {
     fontSize: 12,
-    fontFamily: "Sego",
-    color: "#000000",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.black,
   },
   chartContr: {
     position: "absolute",

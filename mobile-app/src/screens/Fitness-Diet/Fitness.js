@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import { ValueSheet } from "../../ValueSheet";
 
 const workouts = [
   {
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   plus: {
@@ -136,8 +137,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   contentContainerStyle: {
     paddingHorizontal: 20,
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
   },
   workout: {
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     width: "48%",
     height: 160,
     padding: 20,
@@ -158,12 +159,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   itemName: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   itemDate: {
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
 });

@@ -24,5 +24,8 @@ export const ValueSheet = {
     black25: "rgba(0,0,0,0.25)",
     black10: "rgba(0,0,0,0.1)",
     datePickerBlue: "#18A0FB",
+    borderNavy: "#1E3556",
+    progressLightTeal: "#76BBCF",
+    progressTeal: "#008AB3",
   },
 };

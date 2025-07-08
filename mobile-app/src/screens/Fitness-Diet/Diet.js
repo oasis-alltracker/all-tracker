@@ -12,6 +12,7 @@ import moment from "moment";
 import { sharedStyles } from "../styles";
 import * as Progress from "react-native-progress";
 import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
+import { ValueSheet } from "../../ValueSheet";
 
 const mealTitles = [
   {
@@ -59,7 +60,12 @@ export default function Diet({
 }) {
   const editMacroGoalsRef = useRef(null);
   const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
-  const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
+  const colours = [
+    ValueSheet.colours.borderGrey,
+    ValueSheet.colours.secondaryColour,
+    ValueSheet.colours.progressLightTeal,
+    ValueSheet.colours.progressTeal,
+  ];
 
   const EmptyMeal = ({ item }) => (
     <TouchableOpacity
@@ -160,7 +166,7 @@ export default function Diet({
           unfilledColor={innerColor}
           color={outerColor}
           borderWidth={1}
-          borderColor="#ACC5CC"
+          borderColor={ValueSheet.colours.borderGrey}
         >
           <View style={styles.progressCircleContent}>
             <Text style={[styles.boldText, { fontSize: 22 }]}>
@@ -339,12 +345,12 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    tintColor: "#25436B",
+    tintColor: ValueSheet.colours.primaryColour,
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   preButton: {
@@ -365,21 +371,21 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     borderWidth: 1,
-    borderColor: "#ACC5CC",
+    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
   },
   button: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 2,
   },
   dateName: {
     fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   plus: {
     width: 40,
@@ -387,28 +393,28 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 20,
     marginLeft: 20,
   },
   desc: {
     fontSize: 20,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   boldText: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 30,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   miniText: {
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   addBtn: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     height: 80,
     alignItems: "center",
@@ -420,7 +426,7 @@ const styles = StyleSheet.create({
   },
   borderedContainer: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 40,
     marginHorizontal: 20,
     marginTop: 30,
@@ -433,7 +439,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   filler: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     maxWidth: "100%",
     height: "100%",
   },
@@ -443,14 +449,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   itemText: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 32,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   subItemText: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 22,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   items: {
     flexDirection: "row",
@@ -473,7 +479,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   line: {
-    borderBottomColor: "#ccc",
+    borderBottomColor: ValueSheet.colours.grey,
     borderBottomWidth: 1,
     marginVertical: 10,
   },

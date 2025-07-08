@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ValueSheet } from "../../ValueSheet";
 
 export default function Main({
   day,
@@ -22,7 +23,12 @@ export default function Main({
   setDietModalVisible,
 }) {
   const today = new Date();
-  const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
+  const colours = [
+    ValueSheet.colours.borderGrey,
+    ValueSheet.colours.secondaryColour,
+    ValueSheet.colours.progressLightTeal,
+    ValueSheet.colours.progressTeal,
+  ];
 
   const CalorieBar = () => {
     var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
@@ -153,8 +159,8 @@ export default function Main({
 const styles = StyleSheet.create({
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   preButton: {
@@ -175,21 +181,21 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     borderWidth: 1,
-    borderColor: "#ACC5CC",
+    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
   },
   button: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 2,
   },
   dateName: {
     fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   plus: {
     width: 70,
@@ -197,23 +203,23 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 20,
     marginLeft: 20,
   },
   desc: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   boldText: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 26,
   },
   addBtn: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 20,
     height: 80,
     justifyContent: "center",
@@ -227,14 +233,14 @@ const styles = StyleSheet.create({
     height: 20,
     width: 350,
     borderWidth: 2,
-    borderColor: "#ACC5CC",
-    backgroundColor: "#ACC5CC",
+    borderColor: ValueSheet.colours.borderGrey,
+    backgroundColor: ValueSheet.colours.borderGrey,
     marginHorizontal: 30,
     borderRadius: 5,
     marginBottom: 10,
   },
   filler: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     maxWidth: "100%",
     height: "100%",
   },
