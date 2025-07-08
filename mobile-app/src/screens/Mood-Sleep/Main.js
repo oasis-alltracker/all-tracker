@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 import navigationService from "../../navigators/navigationService";
 
 const moodData = [
@@ -207,19 +208,19 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 20,
     marginLeft: 20,
   },
   questionText: {
     fontSize: 24,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   addBtn: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     width: 280,
     justifyContent: "center",
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
   },
   ratingBtn: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     width: 280,
     justifyContent: "center",

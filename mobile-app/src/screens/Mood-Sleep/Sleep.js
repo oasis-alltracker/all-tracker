@@ -8,10 +8,11 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
+
 const today = new Date();
 
 const data = [
@@ -179,8 +180,8 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   plus: {
@@ -197,22 +198,22 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 31,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   contentContainerStyle: {
     paddingHorizontal: 20,
   },
   itemText: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 20,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
   },
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -238,27 +239,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   plusCon: {
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: "rgba(204, 204, 204, 0.728)",
+    borderColor: ValueSheet.colours.grey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
     opacity: 0.7,
   },
   buttonText: {
-    color: "rgba(37, 67, 107, 0.6)",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   scrollContainer: {
     alignItems: "center",

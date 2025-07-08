@@ -11,6 +11,7 @@ import moment from "moment";
 import MoodStats from "../Stats/MoodStats";
 import SleepStats from "../Stats/SleepStats";
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 import { InAppReview } from "react-native-in-app-review";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
@@ -131,8 +132,8 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   preButton: {
@@ -152,22 +153,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     marginTop: 20,
-    // borderWidth: 1,
-    // borderColor: "#ACC5CC",
     borderRadius: 2,
   },
   button: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    // backgroundColor: "#D7F6FF",
-    // borderWidth: 1,
-    // borderColor: "#CCCCCC",
     borderRadius: 2,
   },
   dateName: {
     fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   chartBox: {
     width: "100%",
@@ -194,12 +190,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   xLabel: {
     fontSize: 12,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   chartContainer: {
     alignItems: "center",
@@ -211,23 +207,23 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     borderWidth: 1,
-    borderColor: "#ACC5CC",
+    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
   },
   buttonMain: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0)",
-    borderBottomColor: "rgba(0, 0, 0, 0)",
-    borderRightColor: "#ccc",
-    borderLeftColor: "#ccc",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
+    borderRightColor: ValueSheet.colours.grey,
+    borderLeftColor: ValueSheet.colours.grey,
   },
   dateNameMain: {
     fontSize: 26,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   preButtonMain: {
     width: 25,
