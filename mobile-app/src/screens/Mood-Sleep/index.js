@@ -406,14 +406,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginHorizontal: 20,
   },
-  image: {
-    width: 130,
-    height: 130,
-  },
-  pagerView: {
-    flex: 1,
-    overflow: "visible",
-  },
   headerButton: {
     position: "absolute",
     top: 25,

@@ -206,13 +206,6 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
   },
-  title: {
-    fontSize: 33,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    marginTop: 20,
-    marginLeft: 20,
-  },
   questionText: {
     fontSize: 24,
     color: ValueSheet.colours.primaryColour,

@@ -151,29 +151,8 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
     alignItems: "center",
   },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "#FFEFBD",
-    borderColor: "#ffe8a1",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
   center: {
     alignItems: "center",
-  },
-  imageText: {
-    fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginTop: 10,
   },
   plus: {
     width: 40,
@@ -204,9 +183,6 @@ const styles = StyleSheet.create({
     fontSize: 31,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
-  },
-  contentContainerStyle: {
-    paddingHorizontal: 20,
   },
   itemText: {
     color: ValueSheet.colours.black,
