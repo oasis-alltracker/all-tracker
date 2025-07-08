@@ -193,7 +193,7 @@ export default function AddEntryModal({
   };
 
   const updateMacro = (origTotal, orig, newVal) => {
-    return +(origTotal - orig + newVal).toFixed(2);
+    return +(+(origTotal - orig + newVal)).toFixed(2);
   };
 
   const editEntry = async () => {
