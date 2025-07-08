@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../ValueSheet";
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -1288,8 +1289,8 @@ const TodosHabits = ({ navigation }) => {
                 style={[
                   sharedStyles.dot,
                   key === pageIndex && {
-                    backgroundColor: "#25436B",
-                    borderColor: "#1E3556",
+                    backgroundColor: ValueSheet.colours.primaryColour,
+                    borderColor: ValueSheet.colours.borderNavy,
                   },
                 ]}
               />
@@ -1323,7 +1324,7 @@ const TodosHabits = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   button: {
@@ -1345,7 +1346,11 @@ const styles = StyleSheet.create({
     left: 20,
     zIndex: 1,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default TodosHabits;

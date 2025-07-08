@@ -9,9 +9,9 @@ import {
   useWindowDimensions,
 } from "react-native";
 import moment from "moment";
-
-import { sharedStyles } from "../styles";
 import { todoCompare } from "../../utils/commonUtils";
+import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 
 const MyTasks = ({
   isLoading,
@@ -390,8 +390,8 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   plus: {
@@ -422,13 +422,13 @@ const styles = StyleSheet.create({
   },
   tasksTitle: {
     fontSize: 31,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   completedTitle: {
     fontSize: 20,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     paddingLeft: 4,
   },
   contentContainerStyle: {
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -452,7 +452,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -461,16 +461,16 @@ const styles = StyleSheet.create({
     height: 20,
   },
   itemText: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 20,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     flex: 1,
   },
   itemText2: {
     color: "#FFBEF1",
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   nextButton: {
     width: 18,
@@ -486,21 +486,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: "rgba(204, 204, 204, 0.728)",
+    borderColor: ValueSheet.colours.grey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
     opacity: 0.7,
   },
   buttonText: {
-    color: "rgba(37, 67, 107, 0.6)",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingBottom: 15,
   },
   plusImage: {
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -529,7 +529,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -538,18 +538,18 @@ const styles = StyleSheet.create({
     height: 20,
   },
   itemRenderTextMain: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     paddingVertical: 5,
     paddingRight: 5,
     flex: 1,
   },
   itemRenderTextMainStrikeThru: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     paddingVertical: 5,
     paddingRight: 5,
@@ -559,19 +559,19 @@ const styles = StyleSheet.create({
   itemRenderText2Main: {
     color: "#FFBEF1",
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   itemRenderText3Main: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   dueTodayText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
   },
 });

@@ -8,10 +8,11 @@ import {
   View,
 } from "react-native";
 import moment from "moment";
+import { InAppReview } from "react-native-in-app-review";
 import TaskStats from "../Stats/TaskStats";
 import HabitStats from "../Stats/HabitStats";
 import { sharedStyles } from "../styles";
-import { InAppReview } from "react-native-in-app-review";
+import { ValueSheet } from "../../ValueSheet";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();

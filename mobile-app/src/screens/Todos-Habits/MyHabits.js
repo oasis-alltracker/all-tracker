@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 
 export default function MyHabits({
   isLoading,
@@ -169,15 +169,15 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     padding: 10,
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
     textAlign: "center",
@@ -199,14 +199,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   button: {
     width: "47%",
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
@@ -220,13 +220,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: "rgba(204, 204, 204, 0.728)",
+    borderColor: ValueSheet.colours.grey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -247,29 +247,29 @@ const styles = StyleSheet.create({
   },
   habitsTitle: {
     fontSize: 31,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   plus: {
     width: 40,
     height: 40,
   },
   itemText: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 20,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
 
     flex: 1,
   },
   itemText2: {
     color: "#FFBEF1",
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -280,10 +280,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "rgba(37, 67, 107, 0.6)",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
