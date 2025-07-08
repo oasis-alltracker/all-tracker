@@ -15,7 +15,11 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
-import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
+import {
+  searchFatSecret,
+  barcodeSearchFatSecret,
+} from "../../../api/diet/search/fatSecretAPI";
+import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
 
 const SearchFood = ({ navigation, route }) => {
@@ -35,6 +39,7 @@ const SearchFood = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const addEntryRef = useRef(null);
+  const barcodeRef = useRef(null);
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -46,6 +51,15 @@ const SearchFood = ({ navigation, route }) => {
   } else if (mealName === "Snacks") {
     mealImage = require("../../../assets/images/snack.png");
   }
+
+  useEffect(() => {
+    console.log(route.params?.barcodeData);
+    console.log(typeof route.params?.barcodeData?.data);
+    if (route.params?.barcodeData != null) {
+      processBarcodeScan(route.params?.barcodeData?.data);
+      //addEntryRef.current.open(barcodeResult[0]);
+    }
+  }, [route]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -71,6 +85,15 @@ const SearchFood = ({ navigation, route }) => {
       });
     }
   }
+
+  const processBarcodeScan = async (barcode) => {
+    console.log(barcode);
+    var barcodeResult = await barcodeSearch(barcode);
+    console.log(barcodeResult);
+    if (barcodeResult != null) {
+      addEntryRef.current.open(barcodeResult);
+    }
+  };
 
   const getFoodItems = async () => {
     try {

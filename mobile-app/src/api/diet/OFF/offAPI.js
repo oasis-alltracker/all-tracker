@@ -1,59 +1,47 @@
 import axios from "axios";
 const API = "https://world.openfoodfacts.net/api/v2/product/";
 
-export async function searchOFF(barcode) {}
-
-export async function searchFatSecret(searchInput, page = 0) {
-  const token = await getFatSecretToken();
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  const params = {
-    search_expression: searchInput,
-    format: "json",
-    flag_default_serving: true,
-    max_results: 10,
-    page_number: page,
-    language: "en",
-    region: "US",
-  };
-  const response = await axios.get(API, { headers: headers, params: params });
-  return convertResults(response?.data.foods_search.results.food);
+export async function barcodeSearchOFF(barcode) {
+  const request = API + barcode;
+  try {
+    const response = await axios.get(request);
+    const transformedResult = convertResults(response?.data);
+    return transformedResult;
+  } catch (e) {
+    return null;
+  }
 }
 
-const convertResults = (results) => {
-  var transformedResults = [];
+const convertResults = (response) => {
+  const nutriments = response.product.nutriments;
+  var serving = {
+    calorieCount:
+      nutriments["energy-kcal_serving"] ??
+      nutriments["energy-kcal_value"] ??
+      "0",
+    carbCount:
+      nutriments?.carbohydrates_serving ??
+      nutriments?.carbohydrates_value ??
+      "0",
+    fatCount: nutriments?.fat_serving ?? nutriments?.fat_value ?? "0",
+    proteinCount:
+      nutriments?.proteins_serving ?? nutriments?.proteins_value ?? "0",
+    measurement: response.product?.serving_size ?? "per serving",
+  };
+  var brandName = response.product?.brands ?? "";
+  var name =
+    response.product?.product_name_en ?? response.product?.product_name;
+  var transformedResult = {
+    name: `${brandName} ${name}`,
+    foodItemID: response.product._id,
+    calorieCount: serving.calorieCount,
+    carbCount: serving.carbCount,
+    fatCount: serving.fatCount,
+    proteinCount: serving.proteinCount,
+    measurement: serving.measurement,
+    quantity: 1,
+    altServings: [serving],
+  };
 
-  results.forEach((item) => {
-    var defaultServing;
-    var servings = item.servings.serving.map((serving) => {
-      var entry = {
-        servingID: serving.serving_id,
-        measurement: serving.serving_description,
-        calorieCount: serving.calories,
-        carbCount: serving.carbohydrate,
-        proteinCount: serving.protein,
-        fatCount: serving.fat,
-        quantity: serving.number_of_units,
-      };
-      if (serving.is_default == "1") {
-        defaultServing = entry;
-      }
-      return entry;
-    });
-
-    transformedResults.push({
-      name: item.food_name,
-      foodItemID: item.food_id,
-      calorieCount: defaultServing.calorieCount,
-      carbCount: defaultServing.carbCount,
-      fatCount: defaultServing.fatCount,
-      proteinCount: defaultServing.proteinCount,
-      measurement: defaultServing.measurement,
-      quantity: defaultServing.quantity,
-      altServings: servings,
-    });
-  });
-
-  return transformedResults;
+  return transformedResult;
 };

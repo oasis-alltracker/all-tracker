@@ -10,6 +10,9 @@ import React, { useState } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
+import { barcodeSearchFatSecret } from "../../api/diet/search/fatSecretAPI";
+import { barcodeSearchOFF } from "../../api/diet/OFF/offAPI";
+import { barcodeSearch } from "../../api/diet/search/barcodeSearch";
 
 export default function Main({
   day,
@@ -138,7 +141,17 @@ export default function Main({
             <Text style={sharedStyles.trackerTitle}>Fitness</Text>
           </View>
 
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={() => {
+              console.log("hello");
+              try {
+                barcodeSearch("060885000618");
+              } catch (e) {
+                console.log(e);
+              }
+            }}
+          >
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-excercise.png")}
