@@ -23,6 +23,7 @@ export const ValueSheet = {
     black50: "rgba(0,0,0,0.5)",
     black25: "rgba(0,0,0,0.25)",
     black10: "rgba(0,0,0,0.1)",
+    inputGrey: "#7B97BC",
     datePickerBlue: "#18A0FB",
     borderNavy: "#1E3556",
     progressLightTeal: "#76BBCF",

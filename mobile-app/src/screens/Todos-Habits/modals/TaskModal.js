@@ -17,6 +17,7 @@ import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ValueSheet } from "../../../ValueSheet";
 
 export default function TaskModal({
   getRef,
@@ -307,7 +308,7 @@ export default function TaskModal({
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropColor={ValueSheet.colours.secondaryColour27}
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
@@ -325,7 +326,7 @@ export default function TaskModal({
               )}
 
               <TextInput
-                placeholderTextColor={"#7B97BC"}
+                placeholderTextColor={ValueSheet.colours.inputGrey}
                 placeholder="Name"
                 style={styles.inputTitle}
                 onChangeText={setTitle}
@@ -352,7 +353,7 @@ export default function TaskModal({
             <View style={styles.descriptionRow}>
               <TextInput
                 multiline
-                placeholderTextColor={"#7B97BC"}
+                placeholderTextColor={ValueSheet.colours.inputGrey}
                 placeholder="Description (optional)"
                 style={styles.input}
                 onChangeText={setDescription}
@@ -390,11 +391,11 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
   },
   searchImage: {
     width: 25,
@@ -424,9 +425,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   inputTitle: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 30,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
     marginLeft: 5,
     marginTop: 15,
@@ -434,25 +435,29 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 35,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
     marginLeft: 20,
     fontSize: 20,
   },
   key: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 25,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
   input: {
     width: 100,
     paddingHorizontal: 2,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     flex: 1,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 14,
     height: 110,
     textAlignVertical: "top",
@@ -462,14 +467,14 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   check: {
     width: 30,
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },

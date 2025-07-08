@@ -17,11 +17,10 @@ import ImagesModal from "./ImagesModal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
-
 import HabitsDB from "../../../api/DB/habitsDB";
-
 import HabitSearchModal from "./HabitSearchModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
+import { ValueSheet } from "../../../ValueSheet";
 
 export default function CreateHabitModal({
   getRef,
@@ -301,7 +300,7 @@ export default function CreateHabitModal({
                   />
                 </TouchableOpacity>
                 <TextInput
-                  placeholderTextColor={"#7B97BC"}
+                  placeholderTextColor={ValueSheet.colours.inputGrey}
                   placeholder="Name"
                   style={[styles.title, { width: "75%" }]}
                   onChangeText={setHabitName}
@@ -360,7 +359,7 @@ export default function CreateHabitModal({
     <>
       <Spinner
         visible={isLoading}
-        backdropColor="rgba(215, 246, 255, 0.27)"
+        backdropColor={ValueSheet.colours.secondaryColour27}
       ></Spinner>
       <ImagesModal
         selectImage={selectImage}
@@ -400,11 +399,11 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
   },
   searchImage: {
     width: 30,
@@ -445,25 +444,25 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 30,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   key: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 23,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   input: {
     borderWidth: 1.5,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     borderRadius: 20,
     width: 120,
     height: 40,
     paddingHorizontal: 20,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
   },
   button: {
@@ -471,7 +470,7 @@ const styles = StyleSheet.create({
   },
   timeButton: {
     borderWidth: 1.5,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     height: 40,
     borderRadius: 20,
     width: 130,
@@ -479,7 +478,7 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   image: {
     width: 70,
@@ -492,7 +491,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
   },
   imageOption: {
     width: 50,
@@ -506,7 +505,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
   },
   tcContainer: {
     marginTop: 15,
@@ -537,12 +536,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "rgba(0,0,0,0)",
-    backgroundColor: "rgba(215, 246, 255, 0.65)",
+    borderColor: ValueSheet.colours.black,
+    backgroundColor: ValueSheet.colours.secondaryColour65,
   },
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   scrollViewView: {
     paddingTop: 30,
@@ -557,7 +556,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     borderWidth: 2,
     borderRadius: 40,
-    backgroundColor: "#25436B",
+    backgroundColor: ValueSheet.colours.primaryColour,
     paddingHorizontal: 10,
     marginRight: 10,
   },
@@ -581,7 +580,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     borderWidth: 2,
     borderRadius: 40,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     paddingHorizontal: 10,
     marginRight: 10,
   },
@@ -598,7 +597,7 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     marginBottom: 0,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     width: 59,
     alignItems: "center",
   },
@@ -608,8 +607,8 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 15,
     flex: 1,
   },
@@ -622,23 +621,27 @@ const styles = StyleSheet.create({
     width: 140,
   },
   smallText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 12,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingHorizontal: 5,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
   text: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     marginTop: 2,
     textAlign: "center",
   },
   timeText: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
     alignItems: "center",
     marginTop: 5,
@@ -651,7 +654,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 40,
     marginBottom: 20,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 12,
   },
   backImage: {
