@@ -13,6 +13,7 @@ import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../../../ValueSheet";
 
 const data = [
   {
@@ -95,7 +96,9 @@ const SleepStep1 = (props) => {
             style={[
               styles.imageCon,
               { height: height * 0.09, width: width * 0.9 },
-              active === key + 1 && { backgroundColor: "#D7F6FF" },
+              active === key + 1 && {
+                backgroundColor: ValueSheet.colours.secondaryColour,
+              },
             ]}
           >
             <Image
@@ -124,7 +127,7 @@ const SleepStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -134,17 +137,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
-    borderColor: "#CCCCCC",
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 40,
     marginBottom: 35,
     textAlign: "center",
@@ -159,24 +157,16 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 60,
-    borderRadius: 20,
-    marginTop: 0,
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
   },
-  textStyle: {
-    fontSize: 20,
-    fontFamily: "Sego",
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default SleepStep1;
