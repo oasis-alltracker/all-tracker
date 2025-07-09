@@ -541,19 +541,9 @@ const Main = ({
 export default memo(Main);
 
 const styles = StyleSheet.create({
-  emptyHabits: {
-    fontSize: 20,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    paddingLeft: 15,
-  },
   plusMain: {
     width: 40,
     height: 40,
-  },
-  refresh: {
-    width: 30,
-    height: 30,
   },
   habitScrollContainterMain: {
     flexGrow: 1,
@@ -575,66 +565,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "transparent",
   },
-
-  contentContainerStyleMain: {
-    paddingHorizontal: 20,
-  },
-  itemMain: {
-    flexDirection: "row",
-    borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
-    borderRightWidth: 0,
-    borderLeftWidth: 0,
-    borderBottomWidth: 0,
-    width: "100%",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  checkMain: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: ValueSheet.colours.grey,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkImageMain: {
-    width: 20,
-    height: 20,
-  },
-  itemTextMain: {
-    color: ValueSheet.colours.black,
-    fontSize: 20,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginLeft: 20,
-    paddingVertical: 5,
-    flex: 1,
-  },
-  itemTextMainStrikeThru: {
-    color: ValueSheet.colours.black,
-    fontSize: 20,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginLeft: 20,
-    flex: 1,
-    textDecorationLine: "line-through",
-  },
-  itemText2Main: {
-    color: "#FFBEF1",
-    fontSize: 13,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
     marginRight: 5,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   quoteText: {
     fontFamily: ValueSheet.fonts.primaryFont,
@@ -652,11 +586,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 20,
-  },
-  repeatImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 8,
   },
   itemRenderMain: {
     flexDirection: "row",
