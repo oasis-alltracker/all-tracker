@@ -40,7 +40,7 @@ const convertResults = (response) => {
     proteinCount: serving.proteinCount,
     measurement: serving.measurement,
     quantity: 1,
-    altServings: [serving],
+    servingsDetails: [serving],
   };
 
   return transformedResult;

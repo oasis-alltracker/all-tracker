@@ -15,12 +15,10 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
-import {
-  searchFatSecret,
-  barcodeSearchFatSecret,
-} from "../../../api/diet/search/fatSecretAPI";
+import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
 import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -53,11 +51,8 @@ const SearchFood = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    console.log(route.params?.barcodeData);
-    console.log(typeof route.params?.barcodeData?.data);
-    if (route.params?.barcodeData != null) {
-      processBarcodeScan(route.params?.barcodeData?.data);
-      //addEntryRef.current.open(barcodeResult[0]);
+    if (route.params?.barcodeInfo != null) {
+      processBarcodeScan(route.params?.barcodeInfo?.data);
     }
   }, [route]);
 
@@ -91,11 +86,15 @@ const SearchFood = ({ navigation, route }) => {
   }
 
   const processBarcodeScan = async (barcode) => {
-    console.log(barcode);
     var barcodeResult = await barcodeSearch(barcode);
-    console.log(barcodeResult);
     if (barcodeResult != null) {
       addEntryRef.current.open(barcodeResult);
+    } else {
+      Toast.show("Sorry that item isn't available.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
+      });
     }
   };
 

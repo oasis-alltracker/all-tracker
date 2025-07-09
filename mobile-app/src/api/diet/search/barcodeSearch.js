@@ -7,6 +7,5 @@ export async function barcodeSearch(barcode) {
     console.log("failed in fat secret;");
     barcodeResult = await barcodeSearchOFF(barcode);
   }
-  console.log(barcodeResult);
   return barcodeResult;
 }
