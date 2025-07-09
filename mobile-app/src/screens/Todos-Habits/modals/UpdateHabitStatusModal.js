@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image, TouchableOpacity, Platform } from "react-native";
@@ -258,10 +258,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderBlockColor: ValueSheet.colours.black50,
   },
-  searchImage: {
-    width: 30,
-    height: 30,
-  },
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -324,19 +320,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
-    borderWidth: 1.5,
-    borderColor: ValueSheet.colours.black50,
-    borderRadius: 20,
-    width: 100,
-    height: 40,
-    paddingHorizontal: 20,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    fontSize: 20,
-  },
-  button: {
-    width: "47%",
-  },
   back: {
     backgroundColor: "transparent",
     borderColor: ValueSheet.colours.grey,
@@ -360,10 +343,6 @@ const styles = StyleSheet.create({
   },
   positiveToast: {
     backgroundColor: ValueSheet.colours.secondaryColour,
-    textColor: ValueSheet.colours.primaryColour,
-  },
-  negativeToast: {
-    backgroundColor: "#FFD7D7",
     textColor: ValueSheet.colours.primaryColour,
   },
 });

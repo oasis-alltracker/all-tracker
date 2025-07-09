@@ -434,19 +434,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingRight: 10,
   },
-  title: {
-    color: ValueSheet.colours.primaryColour,
-    fontSize: 35,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    flex: 1,
-    marginLeft: 20,
-    fontSize: 20,
-  },
-  key: {
-    color: ValueSheet.colours.primaryColour,
-    fontSize: 25,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
   errorToast: {
     textColor: ValueSheet.colours.background,
     zIndex: 999,
@@ -468,18 +455,5 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: "transparent",
     borderColor: ValueSheet.colours.grey,
-  },
-  check: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: ValueSheet.colours.grey,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkImage: {
-    width: 20,
-    height: 20,
   },
 });

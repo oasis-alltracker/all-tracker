@@ -748,7 +748,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: 20,
   },
-
   titleRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -766,13 +765,6 @@ const styles = StyleSheet.create({
     textColor: ValueSheet.colours.background,
     zIndex: 999,
     elevation: 100,
-  },
-  button: {
-    width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   timePickerContainer: {
     borderRadius: 15,
