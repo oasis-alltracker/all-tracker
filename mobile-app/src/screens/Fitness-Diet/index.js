@@ -394,19 +394,6 @@ const styles = StyleSheet.create({
     backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
-  button: {
-    height: 180,
-    borderRadius: 50,
-    marginHorizontal: 20,
-  },
-  image: {
-    width: 130,
-    height: 130,
-  },
-  pagerView: {
-    flex: 1,
-    overflow: "visible",
-  },
   headerButton: {
     position: "absolute",
     top: 25,

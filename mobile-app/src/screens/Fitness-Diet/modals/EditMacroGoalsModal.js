@@ -256,13 +256,6 @@ const styles = StyleSheet.create({
   macroContainerStyle: {
     paddingTop: 20,
   },
-  title: {
-    fontFamily: ValueSheet.fonts.primaryBold,
-    fontSize: 36,
-    color: ValueSheet.colours.primaryColour,
-    marginVertical: 25,
-    alignSelf: "center",
-  },
   head: {
     flexDirection: "column",
     alignItems: "flex-start",
@@ -330,10 +323,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
-  },
-  flex: {
-    flex: 1,
-    justifyContent: "center",
   },
   buttonContainer: {
     flexDirection: "row",

@@ -331,72 +331,9 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 80,
   },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(202, 189, 255, 65)",
-    borderColor: "rgba(162, 151, 204, 0.7)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    tintColor: ValueSheet.colours.primaryColour,
-  },
-  imageText: {
-    fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: ValueSheet.colours.borderGrey,
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    borderWidth: 1,
-    borderColor: ValueSheet.colours.grey,
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
   plus: {
     width: 40,
     height: 40,
-  },
-  title: {
-    fontSize: 33,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    marginTop: 20,
-    marginLeft: 20,
   },
   desc: {
     fontSize: 20,
@@ -411,18 +348,6 @@ const styles = StyleSheet.create({
   miniText: {
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
-  },
-  addBtn: {
-    borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
-    borderRadius: 30,
-    height: 80,
-    alignItems: "center",
-    marginHorizontal: 20,
-    marginTop: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
   },
   borderedContainer: {
     borderWidth: 2,
@@ -457,13 +382,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 22,
     color: ValueSheet.colours.primaryColour,
-  },
-  items: {
-    flexDirection: "row",
-    paddingHorizontal: 20,
-    justifyContent: "center",
-    marginTop: 30,
-    marginBottom: 50,
   },
   item: {
     flex: 1,

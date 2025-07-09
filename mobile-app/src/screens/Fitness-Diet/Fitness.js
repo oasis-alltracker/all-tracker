@@ -110,12 +110,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
   },
-  imageText: {
-    fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginTop: 10,
-  },
   plus: {
     width: 80,
     height: 80,
@@ -139,9 +133,6 @@ const styles = StyleSheet.create({
     fontSize: 33,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
-  },
-  contentContainerStyle: {
-    paddingHorizontal: 20,
   },
   workouts: {
     flexDirection: "row",

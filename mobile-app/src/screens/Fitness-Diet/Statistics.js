@@ -65,12 +65,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
-  imageText: {
-    fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginTop: 10,
-  },
   preButton: {
     width: 30,
     height: 30,
@@ -99,68 +93,5 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
-  },
-  chartBox: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 50,
-  },
-  chartCircle: {
-    width: 65,
-    height: 65,
-    borderRadius: 45,
-    backgroundColor: "rgba(202, 189, 255, 0.65)",
-    borderColor: "rgba(202, 189, 255, 0.7)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-    marginHorizontal: 30,
-  },
-  imageCircle: {
-    width: 24,
-    height: 24,
-  },
-  text: {
-    fontSize: 13,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
-  xLabel: {
-    fontSize: 16,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
-  chartContainer: {
-    flex: 1,
-  },
-  days: {
-    paddingVertical: 10,
-  },
-  day: {
-    width: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 4,
-    borderColor: ValueSheet.colours.grey,
-    marginRight: 8,
-    borderRadius: 30,
-  },
-  dayText: {
-    fontSize: 12,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.black,
-  },
-  chartContr: {
-    position: "absolute",
-    zIndex: 10,
-    top: 0,
-    width: 190,
-    marginTop: 0,
-    left: 30,
-  },
-  chartChange: {
-    width: 15,
-    height: 15,
   },
 });

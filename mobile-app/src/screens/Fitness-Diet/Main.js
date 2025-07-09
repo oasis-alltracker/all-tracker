@@ -157,56 +157,9 @@ export default function Main({
 }
 
 const styles = StyleSheet.create({
-  imageText: {
-    fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: ValueSheet.colours.borderGrey,
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    borderWidth: 1,
-    borderColor: ValueSheet.colours.grey,
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
   plus: {
     width: 70,
     height: 70,
-  },
-  title: {
-    fontSize: 33,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    marginTop: 20,
-    marginLeft: 20,
   },
   desc: {
     fontSize: 22,
