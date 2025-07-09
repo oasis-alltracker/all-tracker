@@ -77,10 +77,6 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingBottom: 0,
   },
-  buttonText: {
-    color: "#B981E7",
-    fontSize: 35,
-  },
   logContainer: {
     paddingTop: 0,
     justifyContent: "center",

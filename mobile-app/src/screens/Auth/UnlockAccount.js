@@ -237,19 +237,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryBold,
     marginVertical: 45,
   },
-  input: {
-    color: ValueSheet.colours.primaryColour,
-    fontSize: 20,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
-  button: {
-    width: "100%",
-    marginVertical: 20,
-  },
-  buttonText: {
-    color: ValueSheet.colours.primaryColour,
-    fontSize: 28,
-  },
   center: {
     alignItems: "center",
   },
@@ -258,24 +245,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "space-between",
     paddingBottom: 50,
-  },
-  seperator: {
-    fontSize: 20,
-    color: ValueSheet.colours.black,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginBottom: 30,
-  },
-  social: {
-    flexDirection: "row",
-  },
-  iconView: {
-    width: 80,
-    height: 80,
-    marginHorizontal: 10,
-  },
-  icon: {
-    width: "100%",
-    height: "100%",
   },
   passwordInput: {
     color: ValueSheet.colours.black,
@@ -303,16 +272,6 @@ const styles = StyleSheet.create({
     textColor: ValueSheet.colours.background,
     zIndex: 999,
     elevation: 100,
-  },
-  linkBtn: {
-    marginTop: 155,
-    paddingBottom: 10,
-  },
-  linkText: {
-    fontSize: 18,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginVertical: 5,
-    color: ValueSheet.colours.primaryColour,
   },
   signContainer: {
     marginBottom: 10,

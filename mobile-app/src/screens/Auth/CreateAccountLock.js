@@ -300,10 +300,6 @@ const styles = StyleSheet.create({
     backgroundColor: ValueSheet.colours.background,
     alignSelf: "center",
   },
-  button: {
-    width: "100%",
-    marginVertical: 20,
-  },
   center: {
     alignItems: "center",
   },
@@ -312,24 +308,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "space-between",
     paddingBottom: 50,
-  },
-  seperator: {
-    fontSize: 20,
-    color: ValueSheet.colours.black,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginBottom: 30,
-  },
-  social: {
-    flexDirection: "row",
-  },
-  iconView: {
-    width: 80,
-    height: 80,
-    marginHorizontal: 10,
-  },
-  icon: {
-    width: "100%",
-    height: "100%",
   },
   nextButton: {
     width: SCREEN_WIDTH - 50,

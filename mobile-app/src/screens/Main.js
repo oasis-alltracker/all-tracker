@@ -168,11 +168,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     opacity: 0.9,
   },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
-  },
 });
 
 const MainDrawer = ({ navigation, initialMainRoute }) => {
