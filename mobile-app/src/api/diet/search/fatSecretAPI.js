@@ -34,7 +34,6 @@ const convertResults = (results) => {
         carbCount: serving.carbohydrate,
         proteinCount: serving.protein,
         fatCount: serving.fat,
-        quantity: 1,
       };
       if (serving.is_default == "1") {
         defaultServing = entry;
@@ -53,7 +52,7 @@ const convertResults = (results) => {
       fatCount: defaultServing.fatCount,
       proteinCount: defaultServing.proteinCount,
       measurement: defaultServing.measurement,
-      quantity: defaultServing.quantity,
+      quantity: "1",
       servingsDetails: servings,
     });
   });
