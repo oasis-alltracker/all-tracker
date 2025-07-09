@@ -15,7 +15,7 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
-import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
+import { searchFatSecret } from "../../../api/diet/fatSecret/fatSecretAPI";
 import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-root-toast";

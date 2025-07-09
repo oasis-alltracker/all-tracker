@@ -1,4 +1,4 @@
-import { barcodeSearchFatSecret } from "./fatSecretAPI";
+import { barcodeSearchFatSecret } from "../fatSecret/fatSecretAPI";
 import { barcodeSearchOFF } from "../OFF/offAPI";
 
 export async function barcodeSearch(barcode) {
