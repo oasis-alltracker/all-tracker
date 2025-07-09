@@ -25,7 +25,7 @@ import { useFocusEffect } from "@react-navigation/native";
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
-  var barcodeData = route.params?.barcodeData || null;
+  var barcodeInfo = route.params?.barcodeInfo || null;
   const mealName = route.params.mealName;
   const dayString = route.params.dayString;
   const day = new Date(dayString);
@@ -67,6 +67,10 @@ const SearchFood = ({ navigation, route }) => {
       setSearchInput("");
     }, [])
   );
+
+  useEffect(() => {
+    barcodeInfo = route.params?.barcodeInfo || null;
+  }, [route]);
 
   function errorResponse(error) {
     console.log(error);
@@ -165,7 +169,7 @@ const SearchFood = ({ navigation, route }) => {
 
           <TouchableOpacity
             onPress={() => {
-              navigationService.navigate("cameraPage", {
+              navigationService.navigate("barcodeScanner", {
                 mealName: mealName,
                 dayString: dayString,
                 prevPage: prevPage,

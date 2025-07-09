@@ -72,7 +72,6 @@ const convertResults = (results) => {
         carbCount: serving.carbohydrate,
         proteinCount: serving.protein,
         fatCount: serving.fat,
-        quantity: serving.number_of_units,
       };
       if (serving.is_default == "1") {
         defaultServing = entry;
@@ -81,15 +80,18 @@ const convertResults = (results) => {
     });
 
     transformedResults.push({
-      name: item.food_name,
+      name:
+        item.food_type == "Brand"
+          ? `${item.brand_name} ${item.food_name}`
+          : item.food_name,
       foodItemID: item.food_id,
       calorieCount: defaultServing.calorieCount,
       carbCount: defaultServing.carbCount,
       fatCount: defaultServing.fatCount,
       proteinCount: defaultServing.proteinCount,
       measurement: defaultServing.measurement,
-      quantity: defaultServing.quantity,
-      altServings: servings,
+      quantity: "1",
+      servingsDetails: servings,
     });
   });
 
