@@ -141,7 +141,7 @@ export default function AddEntryModal({
     return (num1 * 100 + num2 * 100) / 100;
   };
 
-  const addFoodEntry = async () => {
+  const onAddFoodEntry = async () => {
     try {
       var newFoodEntry = {
         name: foodEntry.name,
@@ -192,11 +192,11 @@ export default function AddEntryModal({
     }
   };
 
-  const updateMacro = (origTotal, orig, newVal) => {
-    return +(+(origTotal - orig + newVal)).toFixed(2);
+  const updateMealMacro = (origTotal, origVal, newVal) => {
+    return Number((origTotal - origVal + newVal).toFixed(2));
   };
 
-  const editEntry = async () => {
+  const onEditSave = async () => {
     try {
       if (
         editedMacros.current == true ||
@@ -205,11 +205,11 @@ export default function AddEntryModal({
       ) {
         var updatedEntry = {
           name: foodEntry.name,
-          calorieCount: macros.calorieCount,
-          fatCount: macros.fatCount,
+          calorieCount: +macros.calorieCount,
+          fatCount: +macros.fatCount,
           foodItemID: foodEntry.foodItemID,
-          proteinCount: macros.proteinCount,
-          carbCount: macros.carbCount,
+          proteinCount: +macros.proteinCount,
+          carbCount: +macros.carbCount,
           quantity: +quantity,
           measurement: serving,
         };
@@ -225,22 +225,22 @@ export default function AddEntryModal({
         var index = updatedMeal.entries.indexOf(foodEntry);
         updatedMeal.entries[index] = updatedEntry;
 
-        updatedMeal.calorieCount = updateMacro(
+        updatedMeal.calorieCount = updateMealMacro(
           meal.calorieCount,
           foodEntry.calorieCount,
           updatedEntry.calorieCount
         );
-        updatedMeal.proteinCount = updateMacro(
+        updatedMeal.proteinCount = updateMealMacro(
           meal.proteinCount,
           foodEntry.proteinCount,
           updatedEntry.proteinCount
         );
-        updatedMeal.fatCount = updateMacro(
+        updatedMeal.fatCount = updateMealMacro(
           meal.fatCount,
           foodEntry.fatCount,
           updatedEntry.fatCount
         );
-        updatedMeal.carbCount = updateMacro(
+        updatedMeal.carbCount = updateMealMacro(
           meal.carbCount,
           foodEntry.carbCount,
           updatedEntry.carbCount
@@ -260,9 +260,9 @@ export default function AddEntryModal({
     }
   };
 
-  const editMacro = (title, value) => {
+  const onEditMacroValue = (title, value) => {
     var index;
-    value = +value;
+    value = Number(value);
     if (title == "Calories") index = "calorieCount";
     else if (title == "Carbs") index = "carbCount";
     else if (title == "Protein") index = "proteinCount";
@@ -406,7 +406,7 @@ export default function AddEntryModal({
                 { backgroundColor: "#D7F6FF" },
               ]}
               onPress={() => {
-                editing == false ? addFoodEntry() : editEntry();
+                editing == false ? onAddFoodEntry() : onEditSave();
               }}
             >
               <Text style={[styles.rowText]}>
@@ -417,7 +417,7 @@ export default function AddEntryModal({
           <UpdateMacrosModal
             getRef={(ref) => (updateMacrosRef.current = ref)}
             onUpdateMacroValue={(title, value, units) => {
-              editMacro(title, value);
+              onEditMacroValue(title, value);
             }}
           />
         </View>
