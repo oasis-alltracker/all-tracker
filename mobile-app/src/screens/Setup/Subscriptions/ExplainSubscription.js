@@ -14,11 +14,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Purchases from "react-native-purchases";
-import UserAPI from "../../../api/user/userAPI";
+import { ValueSheet } from "../../../ValueSheet";
 
 const ExplainSubscription = (props) => {
   const { width, height } = useWindowDimensions();
-  //const { selectedTrackers } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
 
   const subscribe = async () => {
@@ -38,11 +37,6 @@ const ExplainSubscription = (props) => {
         if (monthly) {
           const purchaseMade = await Purchases.purchasePackage(monthly);
           const accessToken = await getAccessToken();
-          // const { status, data } = await UserAPI.updateUser(
-          //   true,
-          //   selectedTrackers,
-          //   accessToken
-          // );
           navigationService.reset("main", 0);
         } else {
           Alert.alert("Error", "Monthly subscription not available.");
@@ -113,22 +107,10 @@ export default ExplainSubscription;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  subtitle: {
-    color: "#25436B",
-    fontSize: 24,
-    fontFamily: "Sego-Bold",
-    textAlign: "center",
-    paddingHorizontal: 30,
-    marginTop: 15,
+    backgroundColor: ValueSheet.colours.background,
   },
   nextButton: {
     marginHorizontal: 20,
-  },
-  buttonText: {
-    color: "#25436B",
-    fontSize: 25,
   },
   middleContainer: {
     flex: 1,
@@ -142,24 +124,24 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 232, 163, 0.4)",
   },
   text: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 24,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
   },
   bottomMessage: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 12,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
   },
   title: {
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 28,
     textAlign: "center",
   },
   bold: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
 });

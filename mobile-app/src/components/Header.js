@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 import HeaderIcon from "../assets/icons/arrowLeft";
 import NavigationService from "../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ValueSheet } from "../ValueSheet";
 
 const Header = ({
   containerStyle = {},
@@ -92,8 +93,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: "#151518",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   iconWrapper: {
     justifyContent: "center",
@@ -101,13 +102,13 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 12,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 12,
   },
   rightComponent: {
     flexDirection: "row",
     padding: 3,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 20,
   },
   icon: {

@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../ValueSheet";
 import React, { useEffect, useState } from "react";
 
 import { TouchableHighlight } from "react-native-gesture-handler";
@@ -209,7 +210,7 @@ const CreateAccountLock = (props) => {
                 style={styles.passwordInput}
                 placeholder="Enter your password"
                 secureTextEntry={true}
-                placeholderTextColor="#9c9eb9"
+                placeholderTextColor={ValueSheet.colours.black25}
                 onChangeText={setPassword}
                 autoCapitalize="none"
                 value={password}
@@ -220,7 +221,7 @@ const CreateAccountLock = (props) => {
                 style={styles.passwordInput}
                 placeholder="Re-enter your password"
                 secureTextEntry={true}
-                placeholderTextColor="#9c9eb9"
+                placeholderTextColor={ValueSheet.colours.black25}
                 onChangeText={setPasswordCopy}
                 autoCapitalize="none"
                 value={passwordCopy}
@@ -243,7 +244,7 @@ const CreateAccountLock = (props) => {
                   <TouchableHighlight
                     style={styles.iconContainer}
                     onPress={() => appleSignin()}
-                    underlayColor="rgba(73,182,77,1,0.9)"
+                    underlayColor={ValueSheet.colours.black10}
                   >
                     <Image
                       style={styles.accountIcon}
@@ -254,7 +255,7 @@ const CreateAccountLock = (props) => {
                 <TouchableHighlight
                   style={styles.iconContainer}
                   onPress={() => googleSignIn()}
-                  underlayColor="rgba(73,182,77,1,0.9)"
+                  underlayColor={ValueSheet.colours.black10}
                 >
                   <Image
                     style={styles.accountIcon}
@@ -273,35 +274,31 @@ const CreateAccountLock = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginVertical: 30,
   },
   passwordInput: {
-    color: "black",
+    color: ValueSheet.colours.black,
     fontSize: 20,
     marginLeft: 10,
     height: 40,
     textAlign: "center",
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   passwordInputContainer: {
     margin: 10,
     padding: 5,
     width: SCREEN_WIDTH - 50,
     borderRadius: 10,
-    borderColor: "lightgray",
+    borderColor: ValueSheet.colours.grey,
     borderWidth: 2,
-    backgroundColor: "white",
+    backgroundColor: ValueSheet.colours.background,
     alignSelf: "center",
-  },
-  button: {
-    width: "100%",
-    marginVertical: 20,
   },
   center: {
     alignItems: "center",
@@ -312,28 +309,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 50,
   },
-  seperator: {
-    fontSize: 20,
-    color: "#1E1E1E",
-    fontFamily: "Sego",
-    marginBottom: 30,
-  },
-  social: {
-    flexDirection: "row",
-  },
-  iconView: {
-    width: 80,
-    height: 80,
-    marginHorizontal: 10,
-  },
-  icon: {
-    width: "100%",
-    height: "100%",
-  },
   nextButton: {
     width: SCREEN_WIDTH - 50,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
   signContainer: {
     marginBottom: 10,
     justifyContent: "center",
@@ -344,9 +327,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   iconContainer: {
-    backgroundColor: "white",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 100,
-    borderColor: "lightgray",
+    borderColor: ValueSheet.colours.grey,
     borderWidth: 2,
     padding: 20,
   },
@@ -357,7 +340,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 30,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     textAlign: "center",
   },
 });

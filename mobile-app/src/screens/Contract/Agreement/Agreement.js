@@ -14,6 +14,7 @@ import CheckBox from "../../../assets/icons/checkbox";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ValueSheet } from "../../../ValueSheet";
 
 const Agreement = () => {
   const { width, height } = useWindowDimensions();
@@ -178,13 +179,13 @@ const Agreement = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 34,
     textAlign: "center",
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginBottom: 50,
   },
   linkBtn: {
@@ -195,21 +196,17 @@ const styles = StyleSheet.create({
   },
   agreementText: {
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 15,
     flex: 1,
   },
   linkText: {
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     textDecorationLine: "underline",
   },
   boldText: {
-    fontFamily: "Sego-Bold",
-  },
-  button: {
-    width: "100%",
-    marginVertical: 20,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   center: {
     alignItems: "center",
@@ -220,25 +217,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 50,
   },
-  seperator: {
-    fontSize: 20,
-    color: "#1E1E1E",
-    fontFamily: "Sego",
-    marginBottom: 30,
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
-  social: {
-    flexDirection: "row",
-  },
-  iconView: {
-    width: 80,
-    height: 80,
-    marginHorizontal: 10,
-  },
-  icon: {
-    width: "100%",
-    height: "100%",
-  },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default Agreement;

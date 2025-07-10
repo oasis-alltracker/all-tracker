@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
 import { Header } from "../../components";
+import { ValueSheet } from "../../ValueSheet";
 
 const Contact = () => {
   return (
@@ -21,29 +21,29 @@ const Contact = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   title: {
     alignSelf: "center",
     fontSize: 32,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     marginTop: 50,
   },
   text: {
     alignSelf: "center",
     textAlign: "center",
     fontSize: 18,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
     marginTop: 10,
   },
   texBold: {
     alignSelf: "center",
     textAlign: "center",
     fontSize: 18,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
 });
 

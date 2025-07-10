@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 
 export default function MyHabits({
   isLoading,
@@ -139,55 +139,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 80,
   },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 216, 247, 0.62)",
-    borderWidth: 2,
-    borderColor: "rgba(204, 173, 198, 0.7)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  headerImageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 80,
-    height: 80,
-  },
-  headerImage: {
-    width: 90,
-    height: 90,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  title: {
-    padding: 10,
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-    marginTop: 15,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingTop: 20,
-  },
   habitImage: {
     width: 30,
     height: 30,
@@ -199,14 +150,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#CCCCCC",
-  },
-  button: {
-    width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
@@ -220,13 +164,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: "rgba(204, 204, 204, 0.728)",
+    borderColor: ValueSheet.colours.grey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -247,29 +191,23 @@ const styles = StyleSheet.create({
   },
   habitsTitle: {
     fontSize: 31,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   plus: {
     width: 40,
     height: 40,
   },
   itemText: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 20,
-    fontFamily: "Sego",
-
+    fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
-  },
-  itemText2: {
-    color: "#FFBEF1",
-    fontSize: 13,
-    fontFamily: "Sego",
   },
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -280,17 +218,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "rgba(37, 67, 107, 0.6)",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
     marginRight: 10,
-  },
-  refresh: {
-    width: 30,
-    height: 30,
   },
 });
