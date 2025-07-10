@@ -13,7 +13,10 @@ export async function barcodeSearchOFF(barcode) {
 }
 
 const convertResults = (response) => {
-  const nutriments = response.product.nutriments;
+  var nutriments = response.product.nutriments;
+  nutriments = Object.fromEntries(
+    Object.entries(nutriments).filter(([_, value]) => value !== "")
+  );
   var serving = {
     calorieCount:
       nutriments["energy-kcal_serving"] ??
