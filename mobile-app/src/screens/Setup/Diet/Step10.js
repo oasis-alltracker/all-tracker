@@ -424,21 +424,28 @@ const DietStep10 = (props) => {
         <Text style={[styles.text, styles.minitext]}>
           Get personalized reminders to stay on track
         </Text>
-        <View style={[styles.habitContainer, styles.itemContainer4]}>
+        <View style={[styles.mealContainer, styles.itemContainer4]}>
           <Switch
             width={55}
             height={32}
             onValueChange={breakfastToggled}
             value={isBreakfastEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-            thumbColor={isBreakfastEnabled ? "#d7f6ff" : "#D5CBFF"}
+            trackColor={{
+              true: ValueSheet.colours.secondaryColour,
+              false: "#D5CBFF",
+            }}
+            thumbColor={
+              isBreakfastEnabled
+                ? ValueSheet.colours.secondaryColour
+                : "#D5CBFF"
+            }
           />
           <Text style={styles.itemTitle}>Breakfast</Text>
           <View
             style={[
-              styles.habitTimeContainer,
+              styles.mealTimeContainer,
               styles.itemContainer3,
-              { backgroundColor: "#D7F6FF" },
+              { backgroundColor: ValueSheet.colours.secondaryColour },
             ]}
           >
             <>
@@ -481,21 +488,26 @@ const DietStep10 = (props) => {
             </View>
           </View>
         </View>
-        <View style={[styles.habitContainer, styles.itemContainer4]}>
+        <View style={[styles.mealContainer, styles.itemContainer4]}>
           <Switch
             width={55}
             height={32}
             onValueChange={lunchToggled}
             value={isLunchEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-            thumbColor={isLunchEnabled ? "#d7f6ff" : "#D5CBFF"}
+            trackColor={{
+              true: ValueSheet.colours.secondaryColour,
+              false: "#D5CBFF",
+            }}
+            thumbColor={
+              isLunchEnabled ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+            }
           />
           <Text style={styles.itemTitle}>Lunch</Text>
           <View
             style={[
-              styles.habitTimeContainer,
+              styles.mealTimeContainer,
               styles.itemContainer3,
-              { backgroundColor: "#D7F6FF" },
+              { backgroundColor: ValueSheet.colours.secondaryColour },
             ]}
           >
             <>
@@ -538,21 +550,26 @@ const DietStep10 = (props) => {
             </View>
           </View>
         </View>
-        <View style={[styles.habitContainer, styles.itemContainer4]}>
+        <View style={[styles.mealContainer, styles.itemContainer4]}>
           <Switch
             width={55}
             height={32}
             onValueChange={dinnerToggled}
             value={isDinnerEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-            thumbColor={isDinnerEnabled ? "#d7f6ff" : "#D5CBFF"}
+            trackColor={{
+              true: ValueSheet.colours.secondaryColour,
+              false: "#D5CBFF",
+            }}
+            thumbColor={
+              isDinnerEnabled ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+            }
           />
           <Text style={styles.itemTitle}>Dinner</Text>
           <View
             style={[
-              styles.habitTimeContainer,
+              styles.mealTimeContainer,
               styles.itemContainer3,
-              { backgroundColor: "#D7F6FF" },
+              { backgroundColor: ValueSheet.colours.secondaryColour },
             ]}
           >
             <>
@@ -614,7 +631,7 @@ const DietStep10 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -635,13 +652,9 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
-  },
-
-  boldText: {
-    fontFamily: "Sego-Bold",
   },
   buttons: {
     flexDirection: "row",
@@ -653,43 +666,13 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 90,
-    borderRadius: 40,
-    marginTop: 10,
-    paddingHorizontal: 25,
-    justifyContent: "center",
-  },
-  notification: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    marginTop: 20,
+    borderColor: ValueSheet.colours.grey,
   },
   center: { alignItems: "center" },
-  selectImage: {
-    width: 45,
-    height: 45,
-    marginRight: 10,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  flex: {
-    flex: 1,
-    justifyContent: "center",
-  },
   text: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   minitext: {
     fontSize: 12,
@@ -698,33 +681,25 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     textAlign: "center",
-  },
-  selectText: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 20,
-  },
-  selectTime: {
-    marginBottom: 0,
   },
   timeText: {
     fontSize: 16,
   },
-  habitContainer: {
+  mealContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
     marginBottom: 10,
   },
-  habitTimeContainer: {
+  mealTimeContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 30,
@@ -745,8 +720,8 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginLeft: 15,
     flex: 1,
   },

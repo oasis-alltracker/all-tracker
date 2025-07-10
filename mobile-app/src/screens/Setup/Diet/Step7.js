@@ -22,7 +22,7 @@ const DietStep7 = (props) => {
 
   const getButtonColour = (index) => {
     if (index == activityLevel) {
-      return "rgba(215, 246, 255, 0.65)";
+      return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
     }
@@ -137,7 +137,7 @@ const DietStep7 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -157,14 +157,14 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
   },
@@ -178,12 +178,12 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   bigButtons: {
     width: "100%",
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     height: 65,
     borderRadius: 30,
   },
@@ -193,7 +193,11 @@ const styles = StyleSheet.create({
   center: {
     alignItems: "center",
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default DietStep7;

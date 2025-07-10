@@ -275,7 +275,7 @@ const DietStep9 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -295,20 +295,17 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
     textAlign: "center",
-  },
-  boldText: {
-    fontFamily: "Sego-Bold",
   },
   buttons: {
     flexDirection: "row",
@@ -320,25 +317,10 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 55,
-    borderRadius: 40,
-    marginTop: 10,
-    paddingHorizontal: 25,
-    justifyContent: "center",
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
-  },
-  selectImage: {
-    width: 35,
-    height: 35,
-    marginRight: 10,
   },
   head: {
     flexDirection: "column",
@@ -354,7 +336,7 @@ const styles = StyleSheet.create({
   },
   item: {
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     marginHorizontal: 20,
     marginBottom: 15,
@@ -366,19 +348,19 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 16,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     marginLeft: 15,
   },
   calorieTitle: {
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
   },
   calorieText: {
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   calorieEditImg: {
     width: 30,
@@ -404,17 +386,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontFamily: "Sego",
-    color: "#25436B",
-  },
-  flex: {
-    flex: 1,
-    justifyContent: "center",
-  },
-
-  minitext: {
-    fontSize: 16,
-    marginTop: 10,
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
 });
 

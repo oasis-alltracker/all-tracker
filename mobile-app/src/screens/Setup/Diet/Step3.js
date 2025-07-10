@@ -92,18 +92,18 @@ const DietStep3 = (props) => {
             keyboardType="number-pad"
             value={weight}
           />
-          <View style={[styles.buttons, styles.kgButtons]}>
+          <View style={[styles.buttons, styles.unitButtons]}>
             <Button
-              textStyle={styles.kgText}
+              textStyle={styles.unitText}
               onPress={() => setIsKg(true)}
-              style={[styles.kgBtn, !isKg && styles.inactive]}
+              style={[styles.unitBtn, !isKg && styles.inactive]}
             >
               kg
             </Button>
             <Button
-              textStyle={styles.kgText}
+              textStyle={styles.unitText}
               onPress={() => setIsKg(false)}
-              style={[styles.kgBtn, isKg && styles.inactive]}
+              style={[styles.unitBtn, isKg && styles.inactive]}
             >
               lb
             </Button>
@@ -188,11 +188,11 @@ const styles = StyleSheet.create({
   center: {
     alignItems: "center",
   },
-  kgButtons: {
+  unitButtons: {
     width: 170,
     marginBottom: 20,
   },
-  kgBtn: {
+  unitBtn: {
     width: 80,
     height: 35,
     borderRadius: 12,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderColor: ValueSheet.colours.grey,
   },
-  kgText: {
+  unitText: {
     fontSize: 18,
   },
   errorToast: {
