@@ -37,7 +37,6 @@ const SearchFood = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const addEntryRef = useRef(null);
-  const barcodeRef = useRef(null);
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -86,7 +85,9 @@ const SearchFood = ({ navigation, route }) => {
   }
 
   const processBarcodeScan = async (barcode) => {
+    setIsLoading(true);
     var barcodeResult = await barcodeSearch(barcode);
+    setIsLoading(false);
     if (barcodeResult != null) {
       addEntryRef.current.open(barcodeResult);
     } else {
