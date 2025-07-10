@@ -8,6 +8,7 @@ import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ValueSheet } from "../../../ValueSheet";
 
 const FitnessStep2 = (props) => {
   const { selectedTrackers } = props.route.params;
@@ -100,7 +101,7 @@ const FitnessStep2 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -120,14 +121,14 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
   },
@@ -141,12 +142,12 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   bigButtons: {
     width: "100%",
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     height: 90,
     borderRadius: 40,
     marginTop: 10,
