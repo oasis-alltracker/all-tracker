@@ -9,6 +9,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "./UpdateMacrosModal";
 import DietGoalsAPI from "../../../api/diet/dietGoalsAPI";
 import { getAccessToken } from "../../../user/keychain";
+import { ValueSheet } from "../../../ValueSheet";
 
 const activityLevelValues = {
   0: 1.2,

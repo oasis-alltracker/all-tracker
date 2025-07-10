@@ -13,6 +13,7 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../../ValueSheet";
 
 const DietStep3 = (props) => {
   const { selectedTrackers, isEditingMacros, goal } = props.route.params;
@@ -127,7 +128,7 @@ const DietStep3 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -147,14 +148,14 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 65,
     textAlign: "center",
@@ -169,20 +170,20 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   input: {
     width: "100%",
     backgroundColor: "transparent",
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     height: 80,
     borderRadius: 30,
     marginTop: 10,
     textAlign: "center",
     fontSize: 26,
     marginBottom: 25,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   center: {
     alignItems: "center",
@@ -198,12 +199,16 @@ const styles = StyleSheet.create({
   },
   inactive: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   kgText: {
     fontSize: 18,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default DietStep3;
