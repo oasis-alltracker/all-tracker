@@ -6,6 +6,7 @@ export const ValueSheet = {
 
   colours: {
     /* opacity specific colours are the same as the original but in RGBA format instead of hexadecimal*/
+    /* app-wide colours */
     background: "#ffffff",
     primaryColour: "#25436B",
     secondaryColour: "#D7F6FF",
@@ -28,5 +29,20 @@ export const ValueSheet = {
     borderNavy: "#1E3556",
     progressLightTeal: "#76BBCF",
     progressTeal: "#008AB3",
+
+    /* pinks - mind/todos-habits section colours */
+    pink: "#FFCFF5",
+    pink65: "RGBA (255, 207, 245, 0.65)",
+    borderPink: "#F5C4EA",
+
+    /* purples - body/fitness-diet section colours */
+    purple: "#D5CBFF",
+    pruple65: "RGBA (213, 203, 255, 0.65)",
+    borderPurple: "#A297CC",
+
+    /* yellows - soul/spirit/sleep-mood section colours */
+    yellow: "#FFE9A7",
+    yellow65: "RGBA (255, 233, 167, 0.65)",
+    borderYellow: "#F5DE93",
   },
 };
