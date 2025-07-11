@@ -5,6 +5,69 @@ import { Image, StyleSheet, useWindowDimensions } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const imagesArray = [
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/meditate.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/drink-water.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/run.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-junk-food.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/dog-walk.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/stretch.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/workout.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/cycling.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-phone.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/shower.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/journal.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/time-to-eat.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-alcohol.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/guitar.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/tea.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/outdoors.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/swimming.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/recreational-drugs.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/jumpsuit.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/herbs.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/drum.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/piano.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/console.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/audio-jack.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/party-music.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/eco-idea.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/flipflop.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/multimedia.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/music-note.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/add-to-cart.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/gym.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/electric-guitar.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/news.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/runner.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/yoga.png",
+  ],
+  [
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/exercise.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/smoking.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-food.png",
+    "https://oasis-images.s3.ca-central-1.amazonaws.com/read.png",
+  ],
+];
+
 export default function ImagesModal({
   getRef,
   selectImage,
@@ -65,626 +128,28 @@ export default function ImagesModal({
                 source={require("../../../assets/images/back-arrow.png")}
               />
             </TouchableOpacity>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/meditate.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/meditate.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/drink-water.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/drink-water.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/run.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/run.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-junk-food.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/no-junk-food.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/dog-walk.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/dog-walk.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/stretch.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/stretch.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/workout.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/workout.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/cycling.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/cycling.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-phone.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/no-phone.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/shower.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/shower.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/journal.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/journal.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/time-to-eat.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/time-to-eat.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-alcohol.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/no-alcohol.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/guitar.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/guitar.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/tea.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/tea.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/outdoors.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/outdoors.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/swimming.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/swimming.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/recreational-drugs.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/recreational-drugs.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/jumpsuit.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/jumpsuit.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/herbs.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/herbs.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/drum.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/drum.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/piano.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/piano.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/console.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/console.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/audio-jack.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/audio-jack.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/party-music.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/party-music.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/eco-idea.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/eco-idea.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/flipflop.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/flipflop.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/multimedia.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/multimedia.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/music-note.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/music-note.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/add-to-cart.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/add-to-cart.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/gym.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/gym.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/electric-guitar.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/electric-guitar.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/news.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/news.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/runner.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/runner.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/yoga.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/yoga.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.row}>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/exercise.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/exercise.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/smoking.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/smoking.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/no-food.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/no-food.png",
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.imageSelector}
-                onPress={() =>
-                  selectImageHandler(
-                    "https://oasis-images.s3.ca-central-1.amazonaws.com/read.png"
-                  )
-                }
-              >
-                <Image
-                  style={styles.imageOption}
-                  source={{
-                    uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/read.png",
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
+            {imagesArray.map((row, key) => {
+              return (
+                <View style={styles.row} key={key.toString()}>
+                  {row.map((imageUrl, key2) => {
+                    return (
+                      <TouchableOpacity
+                        style={styles.imageSelector}
+                        onPress={() => selectImageHandler(imageUrl)}
+                        key={key.toString() + key2.toString()}
+                      >
+                        <Image
+                          style={styles.imageOption}
+                          source={{
+                            uri: imageUrl,
+                          }}
+                        />
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              );
+            })}
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -234,7 +234,7 @@ export default function CreateHabitModal({
 
       setIsLoading(true);
       setIsMainVisible(false);
-      setIsLoading(true);
+      //setIsLoading(true);
       imagesRef.current.open();
     };
 
