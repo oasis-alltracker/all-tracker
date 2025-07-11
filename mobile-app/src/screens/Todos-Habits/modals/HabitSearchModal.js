@@ -6,7 +6,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function HabitSearchModal({
   getRef,
   selectHabit,
-  reopenMain,
   backDropPressed,
 }) {
   const { width, height } = useWindowDimensions();
@@ -31,7 +30,6 @@ export default function HabitSearchModal({
   const selectHabitHandler = (habit) => {
     selectHabit(habit);
     setIsVisible(false);
-    //reopenMain();
   };
 
   return (
@@ -56,7 +54,6 @@ export default function HabitSearchModal({
               style={styles.backButton}
               onPress={() => {
                 setIsVisible(false);
-                //reopenMain();
               }}
             >
               <Image

@@ -43,7 +43,6 @@ export default function CreateHabitModal({
   const [tempHabitName, setTempHabitName] = useState(false);
   const [tempIsPositiveIndex, setTempIsPositiveIndex] = useState(false);
   const [tempThreshold, setTempThreshold] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [scheduleCount, setScheduleCount] = useState(1);
   const [times, setTimes] = useState([[12, 0]]);
@@ -64,13 +63,6 @@ export default function CreateHabitModal({
 
   const selectImage = async (imageUrl) => {
     setImage(imageUrl);
-  };
-
-  const reopenMain = () => {
-    //setIsMainVisible(true);
-    // setTimeout(() => {
-    //   setIsMainVisible(true);
-    // }, 551);
   };
 
   const makeTimeArray = (length) => {
@@ -105,10 +97,6 @@ export default function CreateHabitModal({
       setIsNotificationsOn(newIsNotificationsOn);
     }
 
-    //setIsLoading(true);
-    setTimeout(() => {
-      //setIsLoading(false);
-    }, 1000);
     setTimeout(() => {
       setIsMainVisible(true);
     }, 1051);
@@ -117,9 +105,8 @@ export default function CreateHabitModal({
   const selectHabit = async (habitName) => {
     presetHabits = HabitsDB.viewHabits();
     presetHabit = presetHabits.find((habit) => habit.name === habitName);
-    console.log(presetHabit.name);
-    setTempHabitName(presetHabit.name);
-    setTempIsPositiveIndex(presetHabit.isPositive ? 0 : 1);
+    setHabitName(presetHabit.name);
+    setIsPositiveIndex(presetHabit.isPositive ? 0 : 1);
     setImage(presetHabit.pngUrl);
   };
 
@@ -133,15 +120,11 @@ export default function CreateHabitModal({
     setIsMainVisible(false);
     setIsNotificationsOn(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
-
-    //closeModalHandler(doAsyncWork);
   };
 
   const [habitName, setHabitName] = useState("");
   const [isPositiveIndex, setIsPositiveIndex] = useState("");
   const [threshold, setThreshold] = useState("");
-
-  const items = ["Good", "Bad"];
 
   const onSave = async () => {
     Keyboard.dismiss();
@@ -223,14 +206,9 @@ export default function CreateHabitModal({
   };
 
   const searchImage = () => {
-    console.log("search image entered");
     setTempHabitName(habitName);
     setTempIsPositiveIndex(isPositiveIndex);
     setTempThreshold(threshold);
-
-    //setIsLoading(true);
-    //setIsMainVisible(false);
-    //setIsLoading(true);
     imagesRef.current.open();
   };
 
@@ -239,10 +217,6 @@ export default function CreateHabitModal({
     setTempHabitName(habitName);
     setTempIsPositiveIndex(isPositiveIndex);
     setTempThreshold(threshold);
-
-    //setIsLoading(true);
-    //setIsMainVisible(false);
-    //setIsLoading(true);
     habitSearchRef.current.open();
   };
 
@@ -250,10 +224,6 @@ export default function CreateHabitModal({
     setTempHabitName(habitName);
     setTempIsPositiveIndex(isPositiveIndex);
     setTempThreshold(threshold);
-
-    //setIsLoading(true);
-    //setIsMainVisible(false);
-    //setIsLoading(true);
 
     notificationsRef.current.open({
       times: times,
@@ -349,14 +319,11 @@ export default function CreateHabitModal({
             <ImagesModal
               selectImage={selectImage}
               backDropPressed={backDropPressed}
-              reopenMain={reopenMain}
-              setIsLoading={setIsLoading}
               getRef={(ref) => (imagesRef.current = ref)}
             />
             <HabitSearchModal
               selectHabit={selectHabit}
               backDropPressed={backDropPressed}
-              reopenMain={reopenMain}
               getRef={(ref) => (habitSearchRef.current = ref)}
             />
             <HabitNotificationsModal

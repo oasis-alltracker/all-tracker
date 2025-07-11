@@ -68,27 +68,16 @@ const imagesArray = [
   ],
 ];
 
-export default function ImagesModal({
-  getRef,
-  selectImage,
-  reopenMain,
-  setIsLoading,
-  backDropPressed,
-}) {
+export default function ImagesModal({ getRef, selectImage, backDropPressed }) {
   const { width, height } = useWindowDimensions();
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     let ref = {
       open() {
-        // setTimeout(() => {
-        //   setIsVisible(true);
-        // }, 1700);
         setIsVisible(true);
       },
       close() {
-        //setIsLoading(false);
         setIsVisible(false);
-        //reopenMain();
       },
     };
 
@@ -97,9 +86,7 @@ export default function ImagesModal({
 
   const selectImageHandler = (image) => {
     selectImage(image);
-    //setIsLoading(false);
     setIsVisible(false);
-    //reopenMain();
   };
 
   return (
@@ -118,9 +105,7 @@ export default function ImagesModal({
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => {
-                //setIsLoading(false);
                 setIsVisible(false);
-                //reopenMain();
               }}
             >
               <Image
