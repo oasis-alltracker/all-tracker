@@ -7,7 +7,6 @@ export default function HabitSearchModal({
   getRef,
   selectHabit,
   reopenMain,
-  setIsLoading,
   backDropPressed,
 }) {
   const { width, height } = useWindowDimensions();
@@ -15,14 +14,14 @@ export default function HabitSearchModal({
   useEffect(() => {
     let ref = {
       open() {
-        setTimeout(() => {
-          setIsVisible(true);
-        }, 1700);
+        // setTimeout(() => {
+        //   setIsVisible(true);
+        // }, 1700);
+        setIsVisible(true);
       },
       close() {
-        //setIsLoading(false);
         setIsVisible(false);
-        reopenMain();
+        //reopenMain();
       },
     };
 
@@ -31,9 +30,8 @@ export default function HabitSearchModal({
 
   const selectHabitHandler = (habit) => {
     selectHabit(habit);
-    //setIsLoading(false);
     setIsVisible(false);
-    reopenMain();
+    //reopenMain();
   };
 
   return (
@@ -58,8 +56,7 @@ export default function HabitSearchModal({
               style={styles.backButton}
               onPress={() => {
                 setIsVisible(false);
-                //setIsLoading(false);
-                reopenMain();
+                //reopenMain();
               }}
             >
               <Image

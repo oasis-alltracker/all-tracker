@@ -80,14 +80,15 @@ export default function ImagesModal({
   useEffect(() => {
     let ref = {
       open() {
-        setTimeout(() => {
-          setIsVisible(true);
-        }, 1700);
+        // setTimeout(() => {
+        //   setIsVisible(true);
+        // }, 1700);
+        setIsVisible(true);
       },
       close() {
         //setIsLoading(false);
         setIsVisible(false);
-        reopenMain();
+        //reopenMain();
       },
     };
 
@@ -98,7 +99,7 @@ export default function ImagesModal({
     selectImage(image);
     //setIsLoading(false);
     setIsVisible(false);
-    reopenMain();
+    //reopenMain();
   };
 
   return (
@@ -119,7 +120,7 @@ export default function ImagesModal({
               onPress={() => {
                 //setIsLoading(false);
                 setIsVisible(false);
-                reopenMain();
+                //reopenMain();
               }}
             >
               <Image
