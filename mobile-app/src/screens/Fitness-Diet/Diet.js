@@ -218,13 +218,7 @@ export default function Diet({
       >
         <View style={{ alignItems: "center" }}>
           <View
-            style={[
-              sharedStyles.headerImageContainer,
-              {
-                backgroundColor: "rgba(202, 189, 255, 65)",
-                borderColor: "rgba(162, 151, 204, 0.7)",
-              },
-            ]}
+            style={[sharedStyles.headerImageContainer, styles.imageContainer]}
           >
             <Image
               style={sharedStyles.headerImage}
@@ -400,5 +394,9 @@ const styles = StyleSheet.create({
     borderBottomColor: ValueSheet.colours.grey,
     borderBottomWidth: 1,
     marginVertical: 10,
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.purple,
+    borderColor: ValueSheet.colours.borderPurple70,
   },
 });

@@ -32,18 +32,18 @@ export const ValueSheet = {
 
     /* pinks - mind/todos-habits section colours */
     pink: "#FFCFF5",
-    pink65: "RGBA (255, 207, 245, 0.65)",
+    pink65: "rgba(255, 207, 245, 0.65)",
     borderPink: "#F5C4EA",
 
     /* purples - body/fitness-diet section colours */
     purple: "#D5CBFF",
-    purple65: "RGBA (213, 203, 255, 0.65)",
+    purple65: "rgba(213, 203, 255, 0.65)",
     borderPurple: "#A297CC",
-    borderPurple70: "RGBA (162, 151, 204, 0.7)",
+    borderPurple70: "rgba(162, 151, 204, 0.7)",
 
     /* yellows - soul/spirit/sleep-mood section colours */
     yellow: "#FFE9A7",
-    yellow65: "RGBA (255, 233, 167, 0.65)",
+    yellow65: "rgba(255, 233, 167, 0.65)",
     borderYellow: "#F5DE93",
   },
 };

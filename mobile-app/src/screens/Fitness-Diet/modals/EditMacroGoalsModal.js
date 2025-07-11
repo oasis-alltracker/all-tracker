@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
   },
   recalculateButton: {
     width: "70%",
-    backgroundColor: "#CABDFF",
+    backgroundColor: ValueSheet.colours.purple,
     borderColor: ValueSheet.colours.borderGrey75,
   },
   closeButton: {
