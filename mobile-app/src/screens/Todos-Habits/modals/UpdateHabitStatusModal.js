@@ -1,9 +1,10 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image, TouchableOpacity, Platform } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../../ValueSheet";
 
 export default function UpdateHabitStatusModal({
   getRef,
@@ -169,7 +170,7 @@ export default function UpdateHabitStatusModal({
       isVisible={visible}
       onBackButtonPress={() => backDropPressed()}
       onBackdropPress={() => backDropPressed()}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropColor={ValueSheet.colours.secondaryColour27}
       style={styles.modal}
     >
       <View style={styles.container}>
@@ -251,15 +252,11 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 20,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
-  },
-  searchImage: {
-    width: 30,
-    height: 30,
+    borderBlockColor: ValueSheet.colours.black50,
   },
   titleContainer: {
     flexDirection: "row",
@@ -283,38 +280,38 @@ const styles = StyleSheet.create({
     marginHorizontal: 22,
   },
   inputTitle: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 37,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
     lineHeight: 38,
     marginTop: 15,
     paddingTop: 10,
   },
   bottomText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 20,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   countText: {
-    color: "#757575",
+    color: ValueSheet.colours.black50,
     fontSize: 38,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   countContainer: {
     borderRadius: 5,
     width: 60,
     marginLeft: 15,
     marginRight: 0,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
   },
   thresholdText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 38,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   thresholdContainer: {
     borderRadius: 5,
@@ -323,22 +320,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
-    borderWidth: 1.5,
-    borderColor: "rgba(0,0,0,0.8)",
-    borderRadius: 20,
-    width: 100,
-    height: 40,
-    paddingHorizontal: 20,
-    fontFamily: "Sego-Bold",
-    fontSize: 20,
-  },
-  button: {
-    width: "47%",
-  },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   row2: {
     flexDirection: "row",
@@ -358,11 +342,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   positiveToast: {
-    backgroundColor: "#D7F6FF",
-    textColor: "#25436B",
-  },
-  negativeToast: {
-    backgroundColor: "#FFD7D7",
-    textColor: "#25436B",
+    backgroundColor: ValueSheet.colours.secondaryColour,
+    textColor: ValueSheet.colours.primaryColour,
   },
 });

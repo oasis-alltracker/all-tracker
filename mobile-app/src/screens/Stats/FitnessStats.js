@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
+import { ValueSheet } from "../../ValueSheet";
 
 const days = ["M", "T", "W", "T", "F", "S", "S"];
 
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: "rgba(202, 189, 255, 0.65)",
-    borderColor: "rgba(202, 189, 255, 0.7)",
+    backgroundColor: ValueSheet.colours.purple65,
+    borderColor: ValueSheet.colours.purple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -57,13 +58,13 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   xLabel: {
     fontSize: 14,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     flex: 1,

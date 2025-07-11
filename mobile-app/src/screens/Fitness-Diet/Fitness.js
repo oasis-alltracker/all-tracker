@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import { ValueSheet } from "../../ValueSheet";
 
 const workouts = [
   {
@@ -98,8 +99,8 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: "rgba(202, 189, 255, 65)",
-    borderColor: "rgba(162, 151, 204, 0.7)",
+    backgroundColor: ValueSheet.colours.purple,
+    borderColor: ValueSheet.colours.borderPurple70,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -108,12 +109,6 @@ const styles = StyleSheet.create({
   image: {
     width: 120,
     height: 120,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
   },
   plus: {
     width: 80,
@@ -136,11 +131,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-  },
-  contentContainerStyle: {
-    paddingHorizontal: 20,
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   workouts: {
     flexDirection: "row",
@@ -150,7 +142,7 @@ const styles = StyleSheet.create({
   },
   workout: {
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     width: "48%",
     height: 160,
     padding: 20,
@@ -158,12 +150,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   itemName: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   itemDate: {
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
 });

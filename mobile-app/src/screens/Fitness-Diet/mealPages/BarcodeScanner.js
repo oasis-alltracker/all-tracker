@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../../ValueSheet";
 import {
   Camera,
   useCodeScanner,
@@ -189,12 +190,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   backArrowCameraActive: {
-    tintColor: "white",
+    tintColor: ValueSheet.colours.background,
   },
   viewfinder: {
     flex: 1,
     position: "absolute",
-    tintColor: "white",
+    tintColor: ValueSheet.colours.background,
   },
   camera: {
     flex: 1,
@@ -207,16 +208,16 @@ const styles = StyleSheet.create({
   },
   deniedPermissionsHeader: {
     fontSize: 32,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     alignSelf: "center",
     textAlign: "center",
     marginBottom: 100,
   },
   deniedPermissionsText: {
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
     alignSelf: "center",
     textAlign: "center",
   },

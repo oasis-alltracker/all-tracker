@@ -14,11 +14,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Purchases from "react-native-purchases";
-import UserAPI from "../../../api/user/userAPI";
+import { ValueSheet } from "../../../ValueSheet";
 
 const ExplainSubscription = (props) => {
   const { width, height } = useWindowDimensions();
-  //const { selectedTrackers } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
 
   const subscribe = async () => {
@@ -38,11 +37,6 @@ const ExplainSubscription = (props) => {
         if (monthly) {
           const purchaseMade = await Purchases.purchasePackage(monthly);
           const accessToken = await getAccessToken();
-          // const { status, data } = await UserAPI.updateUser(
-          //   true,
-          //   selectedTrackers,
-          //   accessToken
-          // );
           navigationService.reset("main", 0);
         } else {
           Alert.alert("Error", "Monthly subscription not available.");
@@ -87,7 +81,9 @@ const ExplainSubscription = (props) => {
           </Text>
           <Text style={styles.text}>
             Unleash your{" "}
-            <Text style={[styles.bold, { color: "#B981E7" }]}>Oasis</Text>
+            <Text style={[styles.bold, { color: ValueSheet.colours.textPink }]}>
+              Oasis
+            </Text>
           </Text>
           <View style={{ width: width * 0.8 }}>
             <Text style={[styles.bottomMessage, { marginTop: height * 0.01 }]}>
@@ -113,22 +109,10 @@ export default ExplainSubscription;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  subtitle: {
-    color: "#25436B",
-    fontSize: 24,
-    fontFamily: "Sego-Bold",
-    textAlign: "center",
-    paddingHorizontal: 30,
-    marginTop: 15,
+    backgroundColor: ValueSheet.colours.background,
   },
   nextButton: {
     marginHorizontal: 20,
-  },
-  buttonText: {
-    color: "#25436B",
-    fontSize: 25,
   },
   middleContainer: {
     flex: 1,
@@ -139,27 +123,27 @@ const styles = StyleSheet.create({
   poster: {
     width: "100%",
     resizeMode: "contain",
-    backgroundColor: "rgba(255, 232, 163, 0.4)",
+    backgroundColor: ValueSheet.colours.imageBackgroundYellow,
   },
   text: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 24,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
   },
   bottomMessage: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 12,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
   },
   title: {
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 28,
     textAlign: "center",
   },
   bold: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
 });

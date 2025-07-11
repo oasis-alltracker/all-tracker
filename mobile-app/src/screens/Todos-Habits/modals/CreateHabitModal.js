@@ -17,11 +17,10 @@ import ImagesModal from "./ImagesModal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
-
 import HabitsDB from "../../../api/DB/habitsDB";
-
 import HabitSearchModal from "./HabitSearchModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
+import { ValueSheet } from "../../../ValueSheet";
 
 export default function CreateHabitModal({
   getRef,
@@ -301,7 +300,7 @@ export default function CreateHabitModal({
                   />
                 </TouchableOpacity>
                 <TextInput
-                  placeholderTextColor={"#7B97BC"}
+                  placeholderTextColor={ValueSheet.colours.inputGrey}
                   placeholder="Name"
                   style={[styles.title, { width: "75%" }]}
                   onChangeText={setHabitName}
@@ -360,7 +359,7 @@ export default function CreateHabitModal({
     <>
       <Spinner
         visible={isLoading}
-        backdropColor="rgba(215, 246, 255, 0.27)"
+        backdropColor={ValueSheet.colours.secondaryColour27}
       ></Spinner>
       <ImagesModal
         selectImage={selectImage}
@@ -392,19 +391,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  scrollModal: {
-    margin: 0,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
   },
   searchImage: {
     width: 30,
@@ -423,21 +417,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 5,
   },
-  searchRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 15,
-    marginBottom: 5,
-    padding: 40,
-  },
-  rowHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 20,
-    marginBottom: 25,
-  },
   row2: {
     flexDirection: "row",
     alignItems: "center",
@@ -445,41 +424,33 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 30,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   key: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 23,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   input: {
     borderWidth: 1.5,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     borderRadius: 20,
     width: 120,
     height: 40,
     paddingHorizontal: 20,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
   },
   button: {
     width: "47%",
   },
-  timeButton: {
-    borderWidth: 1.5,
-    borderColor: "rgba(172, 197, 204, 0.75)",
-    height: 40,
-    borderRadius: 20,
-    width: 130,
-    marginLeft: 12,
-  },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   image: {
     width: 70,
@@ -492,61 +463,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
-  },
-  imageOption: {
-    width: 50,
-    height: 50,
-  },
-  imageSelector: {
-    width: 80,
-    height: 80,
-    borderRadius: 100,
-    marginHorizontal: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
-  },
-  tcContainer: {
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  habitSearchContainer: {
-    marginTop: 15,
-    marginBottom: 15,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  habitSearchRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    marginTop: 15,
-    marginBottom: 5,
-  },
-  habitOption: {
-    width: 80,
-    height: 80,
-  },
-  habitSelector: {
-    width: 120,
-    height: 120,
-    borderRadius: 100,
-    marginHorizontal: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "rgba(0,0,0,0)",
-    backgroundColor: "rgba(215, 246, 255, 0.65)",
-  },
-  safeAreaContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  scrollViewView: {
-    paddingTop: 30,
-    paddingBottom: 60,
+    borderColor: ValueSheet.colours.borderGrey75,
   },
   timeValueButton: {
     flex: 1,
@@ -557,20 +474,9 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     borderWidth: 2,
     borderRadius: 40,
-    backgroundColor: "#25436B",
+    backgroundColor: ValueSheet.colours.primaryColour,
     paddingHorizontal: 10,
     marginRight: 10,
-  },
-  itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-
-    paddingHorizontal: 15,
-    marginBottom: 10,
-  },
-  itemContainer2: {
-    flexDirection: "column",
-    width: 150,
   },
   timeValueButton: {
     flex: 1,
@@ -581,81 +487,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     borderWidth: 2,
     borderRadius: 40,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     paddingHorizontal: 10,
     marginRight: 10,
   },
-  timeContainer: {
-    marginTop: 10,
-    justifyContent: "space-between",
-    width: "100%",
-    flexDirection: "row",
-  },
-
-  itemContainer3: {
-    borderRadius: 15,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    marginBottom: 0,
-    borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
-    width: 59,
-    alignItems: "center",
-  },
-  line: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  itemTitle: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginLeft: 15,
-    flex: 1,
-  },
-  bottomItems: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 10,
-    paddingLeft: 15,
-    width: 140,
-  },
-  smallText: {
-    color: "#25436B",
-    fontSize: 12,
-    fontFamily: "Sego",
-    paddingHorizontal: 5,
-  },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
-  text: {
-    fontFamily: "Sego",
-    fontSize: 18,
-    color: "#25436B",
-    marginTop: 2,
-    textAlign: "center",
-  },
-  timeText: {
-    fontFamily: "Sego",
-    fontSize: 18,
-    color: "#25436B",
-    textAlign: "center",
-    alignItems: "center",
-    marginTop: 5,
-  },
-  backButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-    marginTop: 40,
-    marginBottom: 20,
-    backgroundColor: "#fff",
-    borderRadius: 12,
-  },
-  backImage: {
-    width: "100%",
-    height: "100%",
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
 });

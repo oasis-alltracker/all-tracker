@@ -12,6 +12,7 @@ import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../ValueSheet";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -122,14 +123,14 @@ const HabitStats = ({ sunday, updateStats }) => {
 
 const styles = StyleSheet.create({
   barContainer: {
-    backgroundColor: "#DED1DB",
+    backgroundColor: ValueSheet.colours.borderPink,
     borderRadius: 10,
     height: 60,
     width: "100%",
   },
   bar: {
     height: 60,
-    backgroundColor: "#FFD9F7",
+    backgroundColor: ValueSheet.colours.pink,
     borderRadius: 10,
   },
   chartBox: {
@@ -143,8 +144,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
+    backgroundColor: ValueSheet.colours.pink65,
+    borderColor: ValueSheet.colours.borderPink,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -157,21 +158,25 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   xLabel: {
     paddingTop: 6,
     fontSize: 14,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",
     justifyContent: "center",
     width: 210,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default HabitStats;

@@ -16,6 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
+import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
 //TO DOs:
@@ -336,7 +337,7 @@ export default function AddEntryModal({
                   textStyle={styles.selectText}
                   itemSeparator={true}
                   itemSeparatorStyle={{
-                    backgroundColor: "rgba(172, 197, 204, 0.75)",
+                    backgroundColor: ValueSheet.colours.borderGrey75,
                   }}
                 />
               </View>
@@ -366,7 +367,12 @@ export default function AddEntryModal({
               </View>
 
               <View style={styles.row}>
-                <Text style={[styles.rowText, { fontFamily: "Sego-Bold" }]}>
+                <Text
+                  style={[
+                    styles.rowText,
+                    { fontFamily: ValueSheet.fonts.primaryBold },
+                  ]}
+                >
                   {macros[item.macro]} {item.measurement}
                 </Text>
                 <TouchableOpacity
@@ -403,7 +409,7 @@ export default function AddEntryModal({
               style={[
                 styles.button,
                 styles.borderedContainer,
-                { backgroundColor: "#D7F6FF" },
+                { backgroundColor: ValueSheet.colours.secondaryColour },
               ]}
               onPress={() => {
                 editing == false ? onAddFoodEntry() : onEditSave();
@@ -435,29 +441,29 @@ const styles = StyleSheet.create({
   borderedContainer: {
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     alignItems: "center",
     padding: 5,
   },
   container: {
     width: "90%",
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
   },
   titleText: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 33,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     alignSelf: "left",
     marginBottom: 15,
   },
   rowText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   row: {
     flexDirection: "row",
@@ -483,20 +489,20 @@ const styles = StyleSheet.create({
   input: {
     width: "60%",
     fontSize: 20,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
   serving: {
     marginBottom: 20,
   },
   selectText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 12,
     textAlign: "center",
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   dropdownContainer: {
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     borderWidth: 2,
     maxHeight: 80,
   },

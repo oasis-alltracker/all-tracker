@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../ValueSheet";
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -1288,8 +1289,8 @@ const TodosHabits = ({ navigation }) => {
                 style={[
                   sharedStyles.dot,
                   key === pageIndex && {
-                    backgroundColor: "#25436B",
-                    borderColor: "#1E3556",
+                    backgroundColor: ValueSheet.colours.primaryColour,
+                    borderColor: ValueSheet.colours.borderNavy,
                   },
                 ]}
               />
@@ -1323,21 +1324,8 @@ const TodosHabits = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 1,
-  },
-  button: {
-    height: 180,
-    borderRadius: 50,
-    marginHorizontal: 20,
-  },
-  image: {
-    width: 130,
-    height: 130,
-  },
-  pagerView: {
-    flex: 1,
-    overflow: "visible",
   },
   headerButton: {
     position: "absolute",
@@ -1345,7 +1333,11 @@ const styles = StyleSheet.create({
     left: 20,
     zIndex: 1,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default TodosHabits;

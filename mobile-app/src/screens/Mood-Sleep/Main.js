@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 import navigationService from "../../navigators/navigationService";
 
 const moodData = [
@@ -66,15 +67,7 @@ export default function Main({
       contentContainerStyle={sharedStyles.container}
       scrollEnabled={false}
     >
-      <View
-        style={[
-          sharedStyles.headerImageContainer,
-          {
-            backgroundColor: "#FFEFBD",
-            borderColor: "#ffe8a1",
-          },
-        ]}
-      >
+      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/soul-white.png")}
@@ -205,21 +198,14 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
   },
-  title: {
-    fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-    marginTop: 20,
-    marginLeft: 20,
-  },
   questionText: {
     fontSize: 24,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   addBtn: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     width: 280,
     justifyContent: "center",
@@ -230,7 +216,7 @@ const styles = StyleSheet.create({
   },
   ratingBtn: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     width: 280,
     justifyContent: "center",
@@ -238,5 +224,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
     marginBottom: 12,
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.yellow75,
+    borderColor: ValueSheet.colours.borderYellow,
   },
 });

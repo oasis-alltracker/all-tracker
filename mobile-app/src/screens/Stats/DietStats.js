@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
+import { ValueSheet } from "../../ValueSheet";
 
 const data = [
   { value: 500 },
@@ -30,7 +31,7 @@ const DietStats = ({ sunday, updateStats }) => {
       <View style={styles.chartContainer}>
         <LineChart
           thickness={2}
-          color="rgba(202, 189, 255, 1)"
+          color={ValueSheet.colours.purple}
           maxValue={500}
           animateOnDataChange
           areaChart
@@ -40,15 +41,15 @@ const DietStats = ({ sunday, updateStats }) => {
           hideYAxisText
           hideDataPoints
           data={data}
-          startFillColor1={"rgba(202, 189, 255, 1)"}
-          endFillColor1={"rgba(202, 189, 255, 1)"}
+          startFillColor1={ValueSheet.colours.purple}
+          endFillColor1={ValueSheet.colours.purple}
           startOpacity={0.8}
           endOpacity={0.1}
           backgroundColor="transparent"
           xAxisLength={0}
           initialSpacing={0}
-          yAxisColor="#B3B3B3"
-          xAxisColor="#B3B3B3"
+          yAxisColor={ValueSheet.colours.black25}
+          xAxisColor={ValueSheet.colours.black25}
           height={160}
           width={220}
           curved
@@ -71,8 +72,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: "rgba(202, 189, 255, 0.65)",
-    borderColor: "rgba(202, 189, 255, 0.7)",
+    backgroundColor: ValueSheet.colours.purple65,
+    borderColor: ValueSheet.colours.purple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -85,13 +86,13 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   xLabel: {
     fontSize: 14,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     flex: 1,

@@ -11,6 +11,7 @@ import { LineChart } from "react-native-gifted-charts";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ValueSheet } from "../../ValueSheet";
 
 import Toast from "react-native-root-toast";
 
@@ -92,7 +93,7 @@ const SleepStats = ({ sunday, updateStats }) => {
       <View style={styles.chartContainer}>
         <LineChart
           thickness={2}
-          color="#FFEFBD"
+          color={ValueSheet.colours.yellow}
           maxValue={5}
           areaChart
           hideRules
@@ -101,16 +102,19 @@ const SleepStats = ({ sunday, updateStats }) => {
           hideYAxisText
           hideDataPoints
           data={sleepStats}
-          startFillColor1={"#FFEFBD"}
-          endFillColor1={"#FFEFBD"}
+          startFillColor1={ValueSheet.colours.yellow}
+          endFillColor1={ValueSheet.colours.yellow}
           startOpacity={0.8}
-          labelTextStyle={{ fontFamily: "Sego", fontSize: 8 }}
+          labelTextStyle={{
+            fontFamily: ValueSheet.fonts.primaryFont,
+            fontSize: 8,
+          }}
           endOpacity={0.1}
           backgroundColor="transparent"
           xAxisLength={0}
           initialSpacing={0}
-          yAxisColor="#B3B3B3"
-          xAxisColor="#B3B3B3"
+          yAxisColor={ValueSheet.colours.black25}
+          xAxisColor={ValueSheet.colours.black25}
           height={height * 0.15}
           width={190}
           spacing={40}
@@ -135,8 +139,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: "#FFEFBD",
-    borderColor: "#ffe8a1",
+    backgroundColor: ValueSheet.colours.yellow75,
+    borderColor: ValueSheet.colours.borderYellow,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -149,18 +153,22 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   xLabel: {
     fontSize: 14,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default SleepStats;

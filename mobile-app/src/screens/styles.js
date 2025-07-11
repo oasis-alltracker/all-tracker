@@ -1,4 +1,6 @@
 import { StyleSheet } from "react-native";
+import { ValueSheet } from "../ValueSheet";
+
 export const sharedStyles = StyleSheet.create({
   container: {
     alignItems: "center",
@@ -17,7 +19,7 @@ export const sharedStyles = StyleSheet.create({
   headerImage: {
     width: 72,
     height: 72,
-    tintColor: "#25436B",
+    tintColor: ValueSheet.colours.primaryColour,
   },
   datePickerView: {
     flexDirection: "row",
@@ -26,23 +28,23 @@ export const sharedStyles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     borderWidth: 1,
-    borderColor: "#ACC5CC",
+    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
   },
   changeDateButton: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0)",
-    borderBottomColor: "rgba(0, 0, 0, 0)",
-    borderRightColor: "#ccc",
-    borderLeftColor: "#ccc",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
+    borderRightColor: ValueSheet.colours.grey,
+    borderLeftColor: ValueSheet.colours.grey,
   },
   imageTextMain: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   increaseDateImage: {
@@ -60,8 +62,8 @@ export const sharedStyles = StyleSheet.create({
   },
   dateText: {
     fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   trackerDashView: {
     flexDirection: "row",
@@ -74,8 +76,8 @@ export const sharedStyles = StyleSheet.create({
 
   trackerTitle: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   dot: {
     width: 16,
@@ -84,7 +86,7 @@ export const sharedStyles = StyleSheet.create({
     backgroundColor: "transparent",
     marginHorizontal: 5,
     borderWidth: 2,
-    borderColor: "rgba(0,0,0,0.3)",
+    borderColor: ValueSheet.colours.black25,
   },
   pagination: {
     flexDirection: "row",

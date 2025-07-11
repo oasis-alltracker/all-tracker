@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../ValueSheet";
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -22,7 +23,6 @@ import Spinner from "react-native-loading-spinner-overlay";
 import SleepReportModal from "./reviews/sleep/sleepReportModal";
 import moment from "moment";
 import Toast from "react-native-root-toast";
-
 import WellnessReportModal from "./reviews/mood/wellnessReportModal";
 
 const MoodSleep = ({ navigation }) => {
@@ -373,8 +373,8 @@ const MoodSleep = ({ navigation }) => {
                 style={[
                   sharedStyles.dot,
                   key === index && {
-                    backgroundColor: "#25436B",
-                    borderColor: "#1E3556",
+                    backgroundColor: ValueSheet.colours.primaryColour,
+                    borderColor: ValueSheet.colours.borderNavy,
                   },
                 ]}
               />
@@ -398,21 +398,13 @@ const MoodSleep = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   button: {
     height: 180,
     borderRadius: 50,
     marginHorizontal: 20,
-  },
-  image: {
-    width: 130,
-    height: 130,
-  },
-  pagerView: {
-    flex: 1,
-    overflow: "visible",
   },
   headerButton: {
     position: "absolute",

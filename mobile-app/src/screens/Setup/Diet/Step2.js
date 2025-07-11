@@ -13,6 +13,7 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
+import { ValueSheet } from "../../../ValueSheet";
 
 const DietStep2 = (props) => {
   const { selectedTrackers, isEditingMacros, goal, currentWeight } =
@@ -137,7 +138,7 @@ const DietStep2 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -145,9 +146,9 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: "rgba(202, 189, 255, 0.65)",
     borderWidth: 2,
-    borderColor: "rgba(162, 151, 204, 0.7)",
+    backgroundColor: ValueSheet.colours.purple,
+    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -157,14 +158,14 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
     textAlign: "center",
@@ -179,41 +180,29 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   input: {
     width: "100%",
     backgroundColor: "transparent",
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     height: 80,
     borderRadius: 30,
     marginTop: 10,
     textAlign: "center",
     fontSize: 26,
     marginBottom: 25,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   center: {
     alignItems: "center",
   },
-  kgButtons: {
-    width: 170,
-    marginBottom: 20,
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
-  kgBtn: {
-    width: 80,
-    height: 35,
-    borderRadius: 12,
-  },
-  inactive: {
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  kgText: {
-    fontSize: 18,
-  },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default DietStep2;

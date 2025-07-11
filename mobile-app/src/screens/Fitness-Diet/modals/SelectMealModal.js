@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
+import { ValueSheet } from "../../../ValueSheet";
 
 const mealTitles = [
   {
@@ -46,7 +47,7 @@ export default function SelectMealModal({ isVisible, setVisible, dayString }) {
             <TouchableOpacity
               style={[
                 selectedIndex == index && {
-                  backgroundColor: "rgba(179,179,179,0.2)",
+                  backgroundColor: ValueSheet.colours.grey25,
                 },
               ]}
               onPress={() => updateSelected(index)}
@@ -64,10 +65,13 @@ export default function SelectMealModal({ isVisible, setVisible, dayString }) {
           style={[
             styles.button,
             selectedIndex == -1
-              ? { backgroundColor: "#D3D3D3", borderColor: "#B3B3B3" }
+              ? {
+                  backgroundColor: ValueSheet.colours.grey75,
+                  borderColor: ValueSheet.colours.grey,
+                }
               : {
-                  backgroundColor: "#D7F6FF",
-                  borderColor: "rgba(172, 197, 204, 0.75)",
+                  backgroundColor: ValueSheet.colours.secondaryColour,
+                  borderColor: ValueSheet.colours.borderGrey75,
                 },
           ]}
           disabled={selectedIndex == -1}
@@ -83,7 +87,7 @@ export default function SelectMealModal({ isVisible, setVisible, dayString }) {
           <Text
             style={[
               styles.buttonText,
-              selectedIndex == -1 && { color: "#666666" },
+              selectedIndex == -1 && { color: ValueSheet.colours.black50 },
             ]}
           >
             Continue
@@ -103,26 +107,26 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "white",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
   },
   line: {
-    borderBottomColor: "#ccc",
+    borderBottomColor: ValueSheet.colours.grey,
     borderBottomWidth: 2,
   },
   titleText: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 33,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     marginVertical: 20,
     alignSelf: "center",
   },
   rowText: {
     fontSize: 24,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
   },
   row: {
     flexDirection: "row",
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 24,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
 });
