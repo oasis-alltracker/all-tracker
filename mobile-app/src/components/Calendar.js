@@ -325,7 +325,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           selectedDayBackgroundColor: ValueSheet.colours.datePickerBlue,
           textMonthFontFamily: ValueSheet.fonts.primaryBold,
           textDayHeaderFontFamily: ValueSheet.fonts.primaryBold,
-          todayBackgroundColor: "#fcefc2",
+          todayBackgroundColor: ValueSheet.colours.yellow,
           todayTextColor: ValueSheet.colours.primaryColour,
           monthTextColor: ValueSheet.colours.primaryColour,
           textDayFontFamily: ValueSheet.fonts.primaryBold,
@@ -470,10 +470,12 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
             value={isReminderEnabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#D5CBFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
-              isReminderEnabled ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+              isReminderEnabled
+                ? ValueSheet.colours.secondaryColour
+                : ValueSheet.colours.purple
             }
           />
           <Text style={styles.reminderTitle}>Reminder</Text>

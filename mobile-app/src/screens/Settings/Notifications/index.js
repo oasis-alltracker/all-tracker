@@ -1024,12 +1024,12 @@ const Notifications = () => {
             value={isNotificationsEnabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#D5CBFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
               isNotificationsEnabled
                 ? ValueSheet.colours.secondaryColour
-                : "#D5CBFF"
+                : ValueSheet.colours.purple
             }
           />
         </View>
@@ -1048,12 +1048,12 @@ const Notifications = () => {
                   value={isHabitsEnabled}
                   trackColor={{
                     true: ValueSheet.colours.secondaryColour,
-                    false: "#D5CBFF",
+                    false: ValueSheet.colours.purple,
                   }}
                   thumbColor={
                     isHabitsEnabled
                       ? ValueSheet.colours.secondaryColour
-                      : "#D5CBFF"
+                      : ValueSheet.colours.purple
                   }
                 />
                 <Text style={styles.itemTitle}>Habits</Text>
@@ -1068,12 +1068,12 @@ const Notifications = () => {
                   value={isTasksEnabled}
                   trackColor={{
                     true: ValueSheet.colours.secondaryColour,
-                    false: "#D5CBFF",
+                    false: ValueSheet.colours.purple,
                   }}
                   thumbColor={
                     isTasksEnabled
                       ? ValueSheet.colours.secondaryColour
-                      : "#D5CBFF"
+                      : ValueSheet.colours.purple
                   }
                 />
                 <Text style={styles.itemTitle}>To-dos</Text>
@@ -1096,12 +1096,12 @@ const Notifications = () => {
                     value={isBreakfastEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
-                      false: "#D5CBFF",
+                      false: ValueSheet.colours.purple,
                     }}
                     thumbColor={
                       isBreakfastEnabled
                         ? ValueSheet.colours.secondaryColour
-                        : "#D5CBFF"
+                        : ValueSheet.colours.purple
                     }
                   />
                   <Text style={styles.itemTitle}>Breakfast</Text>
@@ -1162,12 +1162,12 @@ const Notifications = () => {
                     value={isLunchEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
-                      false: "#D5CBFF",
+                      false: ValueSheet.colours.purple,
                     }}
                     thumbColor={
                       isLunchEnabled
                         ? ValueSheet.colours.secondaryColour
-                        : "#D5CBFF"
+                        : ValueSheet.colours.purple
                     }
                   />
                   <Text style={styles.itemTitle}>Lunch</Text>
@@ -1228,12 +1228,12 @@ const Notifications = () => {
                     value={isDinnerEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
-                      false: "#D5CBFF",
+                      false: ValueSheet.colours.purple,
                     }}
                     thumbColor={
                       isDinnerEnabled
                         ? ValueSheet.colours.secondaryColour
-                        : "#D5CBFF"
+                        : ValueSheet.colours.purple
                     }
                   />
                   <Text style={styles.itemTitle}>Dinner</Text>

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   opacity: {
-    backgroundColor: "#F0EEF5",
+    backgroundColor: ValueSheet.colours.background,
   },
   textStyle: {
     fontSize: 26,
