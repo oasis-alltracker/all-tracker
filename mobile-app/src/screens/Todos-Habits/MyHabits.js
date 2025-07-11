@@ -31,7 +31,7 @@ export default function MyHabits({
             <TouchableOpacity
               key={key.toString()}
               onPress={() => {
-                setIsLoading(true);
+                //setIsLoading(true);
                 updateHabitRef.current.open(true, {
                   isPositive: val.isPositive,
                   habitName: val.name,
