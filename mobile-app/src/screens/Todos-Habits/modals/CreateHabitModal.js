@@ -69,9 +69,9 @@ export default function CreateHabitModal({
   };
 
   const reopenMain = () => {
-    setIsLoading(true);
+    //setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false);
+      //setIsLoading(false);
     }, 1000);
     setTimeout(() => {
       setIsMainVisible(true);
@@ -110,9 +110,9 @@ export default function CreateHabitModal({
       setIsNotificationsOn(newIsNotificationsOn);
     }
 
-    setIsLoading(true);
+    //setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false);
+      //setIsLoading(false);
     }, 1000);
     setTimeout(() => {
       setIsMainVisible(true);
@@ -232,7 +232,7 @@ export default function CreateHabitModal({
       setTempIsPositiveIndex(isPositiveIndex);
       setTempThreshold(threshold);
 
-      setIsLoading(true);
+      //setIsLoading(true);
       setIsMainVisible(false);
       //setIsLoading(true);
       imagesRef.current.open();
@@ -243,9 +243,9 @@ export default function CreateHabitModal({
       setTempIsPositiveIndex(isPositiveIndex);
       setTempThreshold(threshold);
 
-      setIsLoading(true);
+      //setIsLoading(true);
       setIsMainVisible(false);
-      setIsLoading(true);
+      //setIsLoading(true);
       habitSearchRef.current.open();
     };
 
@@ -254,9 +254,9 @@ export default function CreateHabitModal({
       setTempIsPositiveIndex(isPositiveIndex);
       setTempThreshold(threshold);
 
-      setIsLoading(true);
+      //setIsLoading(true);
       setIsMainVisible(false);
-      setIsLoading(true);
+      //setIsLoading(true);
 
       notificationsRef.current.open({
         times: times,
@@ -358,10 +358,6 @@ export default function CreateHabitModal({
 
   return (
     <>
-      <Spinner
-        visible={isLoading}
-        backdropColor="rgba(215, 246, 255, 0.27)"
-      ></Spinner>
       <ImagesModal
         selectImage={selectImage}
         backDropPressed={backDropPressed}

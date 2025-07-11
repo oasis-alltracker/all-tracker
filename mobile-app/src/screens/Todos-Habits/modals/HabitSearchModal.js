@@ -20,7 +20,7 @@ export default function HabitSearchModal({
         }, 1700);
       },
       close() {
-        setIsLoading(false);
+        //setIsLoading(false);
         setIsVisible(false);
         reopenMain();
       },
@@ -31,7 +31,7 @@ export default function HabitSearchModal({
 
   const selectHabitHandler = (habit) => {
     selectHabit(habit);
-    setIsLoading(false);
+    //setIsLoading(false);
     setIsVisible(false);
     reopenMain();
   };
@@ -58,7 +58,7 @@ export default function HabitSearchModal({
               style={styles.backButton}
               onPress={() => {
                 setIsVisible(false);
-                setIsLoading(false);
+                //setIsLoading(false);
                 reopenMain();
               }}
             >

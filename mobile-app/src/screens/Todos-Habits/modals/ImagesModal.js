@@ -85,7 +85,7 @@ export default function ImagesModal({
         }, 1700);
       },
       close() {
-        setIsLoading(false);
+        //setIsLoading(false);
         setIsVisible(false);
         reopenMain();
       },
@@ -96,7 +96,7 @@ export default function ImagesModal({
 
   const selectImageHandler = (image) => {
     selectImage(image);
-    setIsLoading(false);
+    //setIsLoading(false);
     setIsVisible(false);
     reopenMain();
   };
@@ -117,7 +117,7 @@ export default function ImagesModal({
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => {
-                setIsLoading(false);
+                //setIsLoading(false);
                 setIsVisible(false);
                 reopenMain();
               }}
