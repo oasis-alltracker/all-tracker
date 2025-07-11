@@ -47,15 +47,7 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
       contentContainerStyle={styles.container}
       scrollEnabled={false}
     >
-      <View
-        style={[
-          sharedStyles.headerImageContainer,
-          {
-            backgroundColor: "#FFEFBD",
-            borderColor: "#ffe8a1",
-          },
-        ]}
-      >
+      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/stats.png")}
@@ -151,5 +143,9 @@ const styles = StyleSheet.create({
         rotate: "180deg",
       },
     ],
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.yellow75,
+    borderColor: ValueSheet.colours.borderYellow,
   },
 });

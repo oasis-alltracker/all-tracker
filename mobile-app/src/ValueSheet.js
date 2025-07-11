@@ -44,7 +44,8 @@ export const ValueSheet = {
 
     /* yellows - soul/spirit/sleep-mood section colours */
     yellow: "#FFE9A7",
-    yellow65: "rgba(255, 233, 167, 0.65)",
+    yellow75: "rgba(255, 233, 167, 0.75)",
     borderYellow: "#F5DE93",
+    borderYellow70: "rgba(245, 222, 147, 0.7)",
   },
 };

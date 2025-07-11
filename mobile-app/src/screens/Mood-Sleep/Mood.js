@@ -104,15 +104,7 @@ export default function Mood({ moodRef, allWellnessReports }) {
       contentContainerStyle={styles.container}
       scrollEnabled={false}
     >
-      <View
-        style={[
-          sharedStyles.headerImageContainer,
-          {
-            backgroundColor: "#FFEFBD",
-            borderColor: "#ffe8a1",
-          },
-        ]}
-      >
+      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/mood.png")}
@@ -233,5 +225,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.yellow75,
+    borderColor: ValueSheet.colours.borderYellow,
   },
 });
