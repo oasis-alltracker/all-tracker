@@ -37,8 +37,9 @@ export const ValueSheet = {
 
     /* purples - body/fitness-diet section colours */
     purple: "#D5CBFF",
-    pruple65: "RGBA (213, 203, 255, 0.65)",
+    purple65: "RGBA (213, 203, 255, 0.65)",
     borderPurple: "#A297CC",
+    borderPurple70: "RGBA (162, 151, 204, 0.7)",
 
     /* yellows - soul/spirit/sleep-mood section colours */
     yellow: "#FFE9A7",
