@@ -1200,11 +1200,7 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const closeModalHandler = (doAsyncWork) => {
-    if (!doAsyncWork) {
-      setTimeout(() => setIsLoading(false), 500);
-    }
-  };
+  const closeModalHandler = (doAsyncWork) => {};
 
   const renderScene = ({ route }) => {
     switch (route.key) {

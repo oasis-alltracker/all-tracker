@@ -52,9 +52,7 @@ export default function CreateHabitModal({
   useEffect(() => {
     let ref = {
       open() {
-        setTimeout(() => {
-          setIsMainVisible(true);
-        }, 1700);
+        setIsMainVisible(true);
       },
       close() {
         setIsMainVisible(false);
@@ -138,7 +136,7 @@ export default function CreateHabitModal({
     setIsNotificationsOn(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
 
-    closeModalHandler(doAsyncWork);
+    //closeModalHandler(doAsyncWork);
   };
 
   const MainModal = () => {
