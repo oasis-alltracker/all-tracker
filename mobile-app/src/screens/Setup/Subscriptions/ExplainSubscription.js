@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   poster: {
     width: "100%",
     resizeMode: "contain",
-    backgroundColor: "rgba(255, 232, 163, 0.4)",
+    backgroundColor: ValueSheet.colours.imageBackgroundYellow,
   },
   text: {
     fontFamily: ValueSheet.fonts.primaryFont,

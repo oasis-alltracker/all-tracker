@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     borderRadius: 60,
     borderWidth: 2,
-    borderColor: "#c2f0fc",
+    borderColor: ValueSheet.colours.grey50,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: ValueSheet.colours.secondaryColour,
