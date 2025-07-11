@@ -107,7 +107,7 @@ const MoodStats = ({ sunday, updateStats }) => {
       <View style={styles.chartContainer}>
         <LineChart
           thickness={2}
-          color="#FFEFBD"
+          color={ValueSheet.colours.yellow}
           maxValue={5}
           areaChart
           hideRules
@@ -116,8 +116,8 @@ const MoodStats = ({ sunday, updateStats }) => {
           hideYAxisText
           hideDataPoints
           data={moodStats}
-          startFillColor1={"#FFEFBD"}
-          endFillColor1={"#FFEFBD"}
+          startFillColor1={ValueSheet.colours.yellow}
+          endFillColor1={ValueSheet.colours.yellow}
           startOpacity={0.8}
           labelTextStyle={{
             fontFamily: ValueSheet.fonts.primaryFont,
@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: "#FFEFBD",
-    borderColor: "#ffe8a1",
+    backgroundColor: ValueSheet.colours.yellow75,
+    borderColor: ValueSheet.colours.borderYellow,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

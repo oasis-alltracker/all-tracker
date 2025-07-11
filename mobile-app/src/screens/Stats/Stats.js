@@ -132,8 +132,8 @@ const Stats = ({ getRef }) => {
                 <View
                   style={[
                     {
-                      backgroundColor: "rgba(255, 207, 245, 0.65)",
-                      borderColor: "rgba(255, 207, 245, 0.70)",
+                      backgroundColor: ValueSheet.colours.pink65,
+                      borderColor: ValueSheet.colours.borderPink,
                     },
                     styles.entityImageCon,
                   ]}
@@ -166,8 +166,8 @@ const Stats = ({ getRef }) => {
                 <View
                   style={[
                     {
-                      backgroundColor: "rgba(202, 189, 255, 0.65)",
-                      borderColor: "rgba(202, 189, 255, 0.7)",
+                      backgroundColor: ValueSheet.colours.purple65,
+                      borderColor: ValueSheet.colours.purple,
                     },
                     styles.entityImageCon,
                   ]}
@@ -191,8 +191,8 @@ const Stats = ({ getRef }) => {
                 <View
                   style={[
                     {
-                      backgroundColor: "#FFEFBD",
-                      borderColor: "#ffe8a1",
+                      backgroundColor: ValueSheet.colours.yellow75,
+                      borderColor: ValueSheet.colours.borderYellow,
                     },
                     styles.entityImageCon,
                   ]}

@@ -127,14 +127,14 @@ const TaskStats = ({ sunday, updateStats }) => {
 
 const styles = StyleSheet.create({
   barContainer: {
-    backgroundColor: "#DED1DB",
+    backgroundColor: ValueSheet.colours.borderPink,
     borderRadius: 10,
     height: 60,
     width: "100%",
   },
   bar: {
     height: 60,
-    backgroundColor: "#FFD9F7",
+    backgroundColor: ValueSheet.colours.pink,
     borderRadius: 10,
   },
   chartBox: {
@@ -148,8 +148,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
+    backgroundColor: ValueSheet.colours.pink65,
+    borderColor: ValueSheet.colours.borderPink,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
