@@ -201,9 +201,10 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
         setTimeSchedule([...tempTimeSchedule]);
         setIsNotificationsOn(props.isNotificationsOn);
 
-        setTimeout(() => {
-          setIsVisible(true);
-        }, 1700);
+        // setTimeout(() => {
+        //   setIsVisible(true);
+        // }, 1700);
+        setIsVisible(true);
       },
       close() {
         setIsVisible(false);
