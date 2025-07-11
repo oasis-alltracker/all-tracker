@@ -81,7 +81,9 @@ const ExplainSubscription = (props) => {
           </Text>
           <Text style={styles.text}>
             Unleash your{" "}
-            <Text style={[styles.bold, { color: "#B981E7" }]}>Oasis</Text>
+            <Text style={[styles.bold, { color: ValueSheet.colours.textPink }]}>
+              Oasis
+            </Text>
           </Text>
           <View style={{ width: width * 0.8 }}>
             <Text style={[styles.bottomMessage, { marginTop: height * 0.01 }]}>

@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: ValueSheet.colours.secondaryColour,
   },
   btnText: {
-    color: "#B981E7",
+    color: ValueSheet.colours.textPink,
     fontFamily: ValueSheet.fonts.primaryFont,
     justifyContent: "center",
     alignItems: "center",

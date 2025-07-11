@@ -29,6 +29,7 @@ export const ValueSheet = {
     borderNavy: "#1E3556",
     progressLightTeal: "#76BBCF",
     progressTeal: "#008AB3",
+    textPink: "#B981E7",
 
     /* pinks - mind/todos-habits section colours */
     pink: "#FFCFF5",
