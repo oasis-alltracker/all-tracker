@@ -34,6 +34,7 @@ export const ValueSheet = {
     pink: "#FFCFF5",
     pink65: "rgba(255, 207, 245, 0.65)",
     borderPink: "#F5C4EA",
+    borderPink70: "rgba(245, 196, 234, 0.7)",
 
     /* purples - body/fitness-diet section colours */
     purple: "#D5CBFF",
