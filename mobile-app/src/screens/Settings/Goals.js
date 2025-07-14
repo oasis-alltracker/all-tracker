@@ -6,6 +6,7 @@ import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import UpdateMacrosModal from "../Setup/Diet/UpdateMacrosModal";
+import { ValueSheet } from "../../ValueSheet";
 
 const Goals = () => {
   const [datas, setDatas] = useState([
@@ -187,7 +188,7 @@ const Goals = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   contentContainerStyle: {
     paddingTop: 20,
@@ -196,9 +197,9 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   title: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 36,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     marginVertical: 25,
     alignSelf: "center",
   },
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
   },
   item: {
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     marginHorizontal: 20,
     marginBottom: 15,
@@ -228,19 +229,19 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 16,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     marginLeft: 15,
   },
   calorieTitle: {
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
   },
   calorieText: {
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   calorieEditImg: {
     width: 30,
@@ -266,17 +267,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    fontFamily: "Sego",
-    color: "#25436B",
-  },
-  flex: {
-    flex: 1,
-    justifyContent: "center",
-  },
-
-  minitext: {
-    fontSize: 16,
-    marginTop: 10,
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
 });
 

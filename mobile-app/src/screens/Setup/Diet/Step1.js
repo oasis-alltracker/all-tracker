@@ -5,6 +5,7 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
+import { ValueSheet } from "../../../ValueSheet";
 
 const DietStep1 = (props) => {
   const [goal, setGoal] = useState("none");
@@ -36,7 +37,7 @@ const DietStep1 = (props) => {
 
   const getButtonColour = (buttonGoal) => {
     if (buttonGoal == goal) {
-      return "rgba(215, 246, 255, 0.65)";
+      return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
     }
@@ -114,7 +115,7 @@ const DietStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -134,18 +135,22 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -156,12 +161,12 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   bigButtons: {
     width: "100%",
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     height: 80,
     borderRadius: 30,
     marginTop: 10,

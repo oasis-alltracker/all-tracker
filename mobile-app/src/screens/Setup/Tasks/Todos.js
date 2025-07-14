@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-
 import {
   View,
   Text,
@@ -22,6 +21,7 @@ import TasksAPI from "../../../api/tasks/tasksAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { todoCompare } from "../../../utils/commonUtils";
+import { ValueSheet } from "../../../ValueSheet";
 
 const Todos = (props) => {
   const { selectedTrackers } = props.route.params;
@@ -714,7 +714,7 @@ const Todos = (props) => {
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -734,27 +734,13 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   plus: {
     width: 40,
     height: 40,
-  },
-  headerImageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  headerImage: {
-    width: 90,
-    height: 90,
   },
   line: {
     flexDirection: "row",
@@ -766,66 +752,14 @@ const styles = StyleSheet.create({
   },
   tasksTitle: {
     fontSize: 31,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-  },
-  completedTitle: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-    paddingLeft: 4,
-  },
-  contentContainerStyle: {
-    paddingHorizontal: 20,
-  },
-  item: {
-    flexDirection: "row",
-    borderWidth: 2,
-    borderColor: "#ccc",
-    borderRightWidth: 0,
-    borderLeftWidth: 0,
-    borderBottomWidth: 0,
-    width: "100%",
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  check: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#ccc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkImage: {
-    width: 20,
-    height: 20,
-  },
-  itemText: {
-    color: "#1E1E1E",
-    fontSize: 20,
-    fontFamily: "Sego",
-    marginLeft: 20,
-    flex: 1,
-  },
-  itemText2: {
-    color: "#FFBEF1",
-    fontSize: 13,
-    fontFamily: "Sego",
-  },
-  nextButton: {
-    width: 22,
-    height: 22,
-    marginRight: 8,
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   title: {
     padding: 10,
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
     textAlign: "center",
@@ -839,91 +773,27 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: "rgba(204, 204, 204, 0.728)",
+    borderColor: ValueSheet.colours.borderGrey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
     opacity: 0.7,
   },
   buttonText: {
-    color: "rgba(37, 67, 107, 0.6)",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingBottom: 15,
   },
   plusImage: {
     width: 20,
     height: 20,
     resizeMode: "contain",
-  },
-  itemRenderMain: {
-    flexDirection: "row",
-    borderWidth: 2,
-    borderColor: "#ccc",
-    borderRightWidth: 0,
-    borderLeftWidth: 0,
-    borderBottomWidth: 0,
-    width: "100%",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  checkRender: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#ccc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkImageRender: {
-    width: 20,
-    height: 20,
-  },
-  itemRenderTextMain: {
-    color: "#1E1E1E",
-    fontSize: 20,
-    fontFamily: "Sego",
-    marginLeft: 20,
-    paddingVertical: 5,
-    flex: 1,
-  },
-  itemRenderTextMainStrikeThru: {
-    color: "#1E1E1E",
-    fontSize: 20,
-    fontFamily: "Sego",
-    marginLeft: 20,
-    paddingVertical: 5,
-    flex: 1,
-    textDecorationLine: "line-through",
-  },
-  itemRenderText2Main: {
-    color: "#FFBEF1",
-    fontSize: 13,
-    fontFamily: "Sego",
-  },
-  itemRenderText3Main: {
-    color: "#25436B",
-    fontSize: 13,
-    fontFamily: "Sego",
-  },
-  dueTodayText: {
-    color: "#25436B",
-    fontSize: 13,
-    fontFamily: "Sego",
-    paddingRight: 16,
-  },
-  repeatImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 8,
   },
   buttons: {
     flexDirection: "row",
@@ -936,7 +806,7 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

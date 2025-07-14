@@ -13,6 +13,7 @@ import { todoCompare } from "../../utils/commonUtils";
 import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 
 const Main = ({
   day,
@@ -279,7 +280,10 @@ const Main = ({
                           <TouchableOpacity
                             style={[
                               styles.habitButtonMain,
-                              { backgroundColor: "rgba(215, 246, 255, 0.65)" },
+                              {
+                                backgroundColor:
+                                  ValueSheet.colours.secondaryColour65,
+                              },
                             ]}
                             key={key.toString()}
                             onPress={() => {
@@ -313,8 +317,8 @@ const Main = ({
                             style={[
                               styles.habitButtonMain,
                               {
-                                backgroundColor: "rgb(255, 255, 255)",
-                                borderColor: "#CCCCCC",
+                                backgroundColor: ValueSheet.colours.background,
+                                borderColor: ValueSheet.colours.grey,
                                 borderWidth: 1,
                               },
                             ]}
@@ -391,8 +395,8 @@ const Main = ({
                           style={[
                             styles.habitButtonMain,
                             {
-                              backgroundColor: "rgb(255, 255, 255)",
-                              borderColor: "#CCCCCC",
+                              backgroundColor: ValueSheet.colours.background,
+                              borderColor: ValueSheet.colours.grey,
                               borderWidth: 1,
                             },
                           ]}
@@ -438,8 +442,8 @@ const Main = ({
                       style={[
                         styles.habitButtonMain,
                         {
-                          backgroundColor: "rgb(255, 255, 255)",
-                          borderColor: "#CCCCCC",
+                          backgroundColor: ValueSheet.colours.background,
+                          borderColor: ValueSheet.colours.grey,
                           borderWidth: 1,
                         },
                       ]}
@@ -535,19 +539,9 @@ const Main = ({
 export default memo(Main);
 
 const styles = StyleSheet.create({
-  emptyHabits: {
-    fontSize: 20,
-    color: "#25436B",
-    fontFamily: "Sego",
-    paddingLeft: 15,
-  },
   plusMain: {
     width: 40,
     height: 40,
-  },
-  refresh: {
-    width: 30,
-    height: 30,
   },
   habitScrollContainterMain: {
     flexGrow: 1,
@@ -567,68 +561,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "rgba(0,0,0,0)",
-  },
-
-  contentContainerStyleMain: {
-    paddingHorizontal: 20,
-  },
-  itemMain: {
-    flexDirection: "row",
-    borderWidth: 2,
-    borderColor: "#ccc",
-    borderRightWidth: 0,
-    borderLeftWidth: 0,
-    borderBottomWidth: 0,
-    width: "100%",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  checkMain: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#ccc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkImageMain: {
-    width: 20,
-    height: 20,
-  },
-  itemTextMain: {
-    color: "#1E1E1E",
-    fontSize: 20,
-    fontFamily: "Sego",
-    marginLeft: 20,
-    paddingVertical: 5,
-    flex: 1,
-  },
-  itemTextMainStrikeThru: {
-    color: "#1E1E1E",
-    fontSize: 20,
-    fontFamily: "Sego",
-    marginLeft: 20,
-    flex: 1,
-    textDecorationLine: "line-through",
-  },
-  itemText2Main: {
-    color: "#FFBEF1",
-    fontSize: 13,
-    fontFamily: "Sego",
+    borderColor: "transparent",
   },
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
     marginRight: 5,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   quoteText: {
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 15,
     marginTop: 22,
     paddingHorizontal: 40,
@@ -643,15 +585,10 @@ const styles = StyleSheet.create({
     overflow: "visible",
     paddingBottom: 20,
   },
-  repeatImage: {
-    width: 30,
-    height: 30,
-    marginLeft: 8,
-  },
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -666,7 +603,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -675,18 +612,18 @@ const styles = StyleSheet.create({
     height: 20,
   },
   itemRenderTextMain: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     paddingVertical: 5,
     flex: 1,
     paddingRight: 5,
   },
   itemRenderTextMainStrikeThru: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     paddingVertical: 5,
     flex: 1,
@@ -696,19 +633,19 @@ const styles = StyleSheet.create({
   itemRenderText2Main: {
     color: "#FFBEF1",
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   itemRenderText3Main: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   dueTodayText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
   },
 });

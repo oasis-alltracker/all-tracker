@@ -18,6 +18,7 @@ import TaskStats from "./TaskStats";
 import moment from "moment";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
+import { ValueSheet } from "../../ValueSheet";
 
 const Stats = ({ getRef }) => {
   const { width, height } = useWindowDimensions();
@@ -63,7 +64,7 @@ const Stats = ({ getRef }) => {
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => backDropPressed()}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropColor={ValueSheet.colours.secondaryColour27}
       style={[styles.scrollModal, { height: height * 0.7 }]}
       presentationStyle="pageSheet"
       transparent={false}
@@ -226,30 +227,8 @@ const Stats = ({ getRef }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     alignItems: "center",
-  },
-  text: {
-    alignSelf: "stretch",
-    fontSize: 12,
-    fontFamily: "Sego",
-    color: "#25436B",
-    marginTop: 10,
-  },
-  title: {
-    alignSelf: "center",
-    fontSize: 16,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
-    marginTop: 30,
-  },
-  header: {
-    alignSelf: "stretch",
-    fontSize: 12,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
-    marginTop: 50,
-    textDecorationLine: "underline",
   },
   tcContainer: {
     marginTop: 15,
@@ -258,8 +237,8 @@ const styles = StyleSheet.create({
   statsImageCon: {
     height: 100,
     borderRadius: 20,
-    backgroundColor: "#D7F6FF",
-    borderColor: "rgba(183,207,214,255)",
+    backgroundColor: ValueSheet.colours.secondaryColour,
+    borderColor: ValueSheet.colours.borderGrey,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -293,89 +272,14 @@ const styles = StyleSheet.create({
   },
   entityTitle: {
     fontSize: 38,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingLeft: 22,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    // borderWidth: 1,
-    // borderColor: "#ACC5CC",
-    borderRadius: 2,
   },
   scrollModal: {
     margin: 0,
     alignItems: "center",
     justifyContent: "center",
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    // backgroundColor: "#D7F6FF",
-    // borderWidth: 1,
-    // borderColor: "#CCCCCC",
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
-  },
-  chartBox: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 20,
-    paddingRight: 35,
-  },
-  chartCircle: {
-    width: 75,
-    height: 75,
-    borderRadius: 45,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 35,
-    marginRight: 40,
-  },
-  imageCircle: {
-    width: 28,
-    height: 28,
-  },
-  text: {
-    fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
-  },
-  xLabel: {
-    fontSize: 12,
-    fontFamily: "Sego",
-  },
-  chartContainer: {
-    alignItems: "center",
   },
   dateLineMain: {
     flexDirection: "row",
@@ -385,23 +289,23 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     borderWidth: 1,
-    borderColor: "#ACC5CC",
+    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
   },
   buttonMain: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0)",
-    borderBottomColor: "rgba(0, 0, 0, 0)",
-    borderRightColor: "#ccc",
-    borderLeftColor: "#ccc",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
+    borderRightColor: ValueSheet.colours.grey,
+    borderLeftColor: ValueSheet.colours.grey,
   },
   dateNameMain: {
     fontSize: 26,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   preButtonMain: {
     width: 30,

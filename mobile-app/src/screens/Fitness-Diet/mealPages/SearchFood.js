@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../../ValueSheet";
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
@@ -15,8 +16,10 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
-import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
+import { searchFatSecret } from "../../../api/diet/fatSecret/fatSecretAPI";
+import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -47,6 +50,12 @@ const SearchFood = ({ navigation, route }) => {
     mealImage = require("../../../assets/images/snack.png");
   }
 
+  useEffect(() => {
+    if (route.params?.barcodeInfo != null) {
+      processBarcodeScan(route.params?.barcodeInfo?.data);
+    }
+  }, [route]);
+
   useFocusEffect(
     React.useCallback(() => {
       getFoodItems(token);
@@ -75,6 +84,21 @@ const SearchFood = ({ navigation, route }) => {
       });
     }
   }
+
+  const processBarcodeScan = async (barcode) => {
+    setIsLoading(true);
+    var barcodeResult = await barcodeSearch(barcode);
+    setIsLoading(false);
+    if (barcodeResult != null) {
+      addEntryRef.current.open(barcodeResult);
+    } else {
+      Toast.show("Sorry that item isn't available.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
+      });
+    }
+  };
 
   const getFoodItems = async () => {
     try {
@@ -208,7 +232,7 @@ const SearchFood = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     justifyContent: "space-between",
   },
   scrollContainer: {
@@ -216,11 +240,11 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   topArea: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     flex: 1,
   },
   mainArea: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 3,
     minWidth: 0,
     justifyContent: "flex-start",
@@ -230,7 +254,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     justifyContent: "space-between",
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -249,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
   },
   topAreaBody: {
@@ -266,14 +290,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   backArrow: {
     height: 35,

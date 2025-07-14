@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
@@ -11,6 +10,7 @@ import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import Soultification from "../../Settings/Notifications/soultification";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { ValueSheet } from "../../../ValueSheet";
 
 const SleepStep1 = (props) => {
   const { selectedTrackers } = props.route.params;
@@ -227,7 +227,7 @@ const SleepStep1 = (props) => {
         <View style={{ marginTop: 65 }}>
           <Soultification
             title="Sleep review"
-            body="Time to wake up amd review your sleep"
+            body="Time to wake up and review your sleep"
             notifications={morningNotifications}
             isToggled={isMorningAlarmToggled}
             toggled={morningAlarmToggled}
@@ -254,7 +254,7 @@ const SleepStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -275,19 +275,9 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
-  },
-  title: {
-    fontSize: 24,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 20,
-    marginLeft: 10,
-  },
-  boldText: {
-    fontFamily: "Sego-Bold",
   },
   buttons: {
     flexDirection: "row",
@@ -299,92 +289,9 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 100,
-    borderRadius: 40,
-    marginTop: 10,
-    paddingHorizontal: 25,
-    justifyContent: "center",
-  },
-  notification: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    marginTop: 20,
+    borderColor: ValueSheet.colours.grey,
   },
   center: {},
-  selectImage: {
-    width: 45,
-    height: 45,
-    marginRight: 10,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  flex: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  text: {
-    color: "#25436B",
-    fontSize: 24,
-    fontFamily: "Sego",
-  },
-  minitext: {
-    fontSize: 13,
-    marginTop: 10,
-  },
-  selectText: {
-    margin: 20,
-    fontSize: 20,
-  },
-  selectTime: {
-    marginBottom: 0,
-  },
-  timeText: {
-    fontSize: 16,
-  },
-  notificationCon: {
-    height: "auto",
-    flexDirection: "column",
-    paddingHorizontal: 0,
-    alignItems: "flex-start",
-  },
-  inactive: {
-    backgroundColor: "transparent",
-    borderColor: "transparent",
-  },
-  dayBt: {
-    height: 35,
-    borderRadius: 10,
-    marginBottom: 0,
-  },
-  timeCon: {
-    paddingHorizontal: 20,
-  },
-  dayList: {
-    paddingHorizontal: 20,
-    paddingBottom: 15,
-  },
-  whatTime: {
-    fontSize: 20,
-  },
-  addButton: {
-    alignSelf: "center",
-    marginVertical: 15,
-  },
-  plusImage: {
-    width: 30,
-    height: 30,
-    resizeMode: "contain",
-  },
 });
 
 export default SleepStep1;

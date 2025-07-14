@@ -17,6 +17,7 @@ import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import WellnessReportsAPI from "../../../../api/mood/wellnessReportsAPI";
 import { getAccessToken } from "../../../../user/keychain";
+import { ValueSheet } from "../../../../ValueSheet";
 
 const WellnessStep6 = (props) => {
   const { width, height } = useWindowDimensions();
@@ -91,7 +92,7 @@ const WellnessStep6 = (props) => {
           >
             <TextInput
               multiline
-              placeholderTextColor={"#7B97BC"}
+              placeholderTextColor={ValueSheet.colours.inputGrey}
               placeholder="Write as much as you'd like:"
               style={styles.input}
               onChangeText={setJournal}
@@ -120,42 +121,22 @@ const WellnessStep6 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
     alignItems: "center",
   },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 216, 247, 0.62)",
-    borderWidth: 2,
-    borderColor: "rgba(204, 173, 198, 0.7)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 80,
-    height: 80,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
   title: {
     fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 80,
     textAlign: "center",
   },
   input: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 14,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
     marginLeft: 5,
     marginTop: 15,
@@ -170,31 +151,23 @@ const styles = StyleSheet.create({
   textCon: {
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   button: {
     width: "47%",
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 60,
-    borderRadius: 20,
-    marginTop: 0,
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
   },
-  textStyle: {
-    fontSize: 20,
-    fontFamily: "Sego",
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default WellnessStep6;

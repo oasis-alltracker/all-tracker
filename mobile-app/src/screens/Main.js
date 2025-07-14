@@ -1,3 +1,4 @@
+import { ValueSheet } from "../ValueSheet";
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -145,7 +146,7 @@ const Main = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   button: {
@@ -167,7 +168,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     opacity: 0.9,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 const MainDrawer = ({ navigation, initialMainRoute }) => {

@@ -18,6 +18,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import UserAPI from "../../../api/user/userAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ValueSheet } from "../../../ValueSheet";
 
 const Notifications = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -1021,8 +1022,15 @@ const Notifications = () => {
             height={32}
             onValueChange={allNotificationsToggled}
             value={isNotificationsEnabled}
-            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-            thumbColor={isNotificationsEnabled ? "#d7f6ff" : "#D5CBFF"}
+            trackColor={{
+              true: ValueSheet.colours.secondaryColour,
+              false: "#D5CBFF",
+            }}
+            thumbColor={
+              isNotificationsEnabled
+                ? ValueSheet.colours.secondaryColour
+                : "#D5CBFF"
+            }
           />
         </View>
 
@@ -1038,8 +1046,15 @@ const Notifications = () => {
                   height={32}
                   onValueChange={habitsToggled}
                   value={isHabitsEnabled}
-                  trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-                  thumbColor={isHabitsEnabled ? "#d7f6ff" : "#D5CBFF"}
+                  trackColor={{
+                    true: ValueSheet.colours.secondaryColour,
+                    false: "#D5CBFF",
+                  }}
+                  thumbColor={
+                    isHabitsEnabled
+                      ? ValueSheet.colours.secondaryColour
+                      : "#D5CBFF"
+                  }
                 />
                 <Text style={styles.itemTitle}>Habits</Text>
               </View>
@@ -1051,8 +1066,15 @@ const Notifications = () => {
                   height={32}
                   onValueChange={tasksToggled}
                   value={isTasksEnabled}
-                  trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-                  thumbColor={isTasksEnabled ? "#d7f6ff" : "#D5CBFF"}
+                  trackColor={{
+                    true: ValueSheet.colours.secondaryColour,
+                    false: "#D5CBFF",
+                  }}
+                  thumbColor={
+                    isTasksEnabled
+                      ? ValueSheet.colours.secondaryColour
+                      : "#D5CBFF"
+                  }
                 />
                 <Text style={styles.itemTitle}>To-dos</Text>
               </View>
@@ -1072,15 +1094,22 @@ const Notifications = () => {
                     height={32}
                     onValueChange={breakfastToggled}
                     value={isBreakfastEnabled}
-                    trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-                    thumbColor={isBreakfastEnabled ? "#d7f6ff" : "#D5CBFF"}
+                    trackColor={{
+                      true: ValueSheet.colours.secondaryColour,
+                      false: "#D5CBFF",
+                    }}
+                    thumbColor={
+                      isBreakfastEnabled
+                        ? ValueSheet.colours.secondaryColour
+                        : "#D5CBFF"
+                    }
                   />
                   <Text style={styles.itemTitle}>Breakfast</Text>
                   <View
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: "#D7F6FF" },
+                      { backgroundColor: ValueSheet.colours.secondaryColour },
                     ]}
                   >
                     <>
@@ -1131,15 +1160,22 @@ const Notifications = () => {
                     height={32}
                     onValueChange={lunchToggled}
                     value={isLunchEnabled}
-                    trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-                    thumbColor={isLunchEnabled ? "#d7f6ff" : "#D5CBFF"}
+                    trackColor={{
+                      true: ValueSheet.colours.secondaryColour,
+                      false: "#D5CBFF",
+                    }}
+                    thumbColor={
+                      isLunchEnabled
+                        ? ValueSheet.colours.secondaryColour
+                        : "#D5CBFF"
+                    }
                   />
                   <Text style={styles.itemTitle}>Lunch</Text>
                   <View
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: "#D7F6FF" },
+                      { backgroundColor: ValueSheet.colours.secondaryColour },
                     ]}
                   >
                     <>
@@ -1190,15 +1226,22 @@ const Notifications = () => {
                     height={32}
                     onValueChange={dinnerToggled}
                     value={isDinnerEnabled}
-                    trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-                    thumbColor={isDinnerEnabled ? "#d7f6ff" : "#D5CBFF"}
+                    trackColor={{
+                      true: ValueSheet.colours.secondaryColour,
+                      false: "#D5CBFF",
+                    }}
+                    thumbColor={
+                      isDinnerEnabled
+                        ? ValueSheet.colours.secondaryColour
+                        : "#D5CBFF"
+                    }
                   />
                   <Text style={styles.itemTitle}>Dinner</Text>
                   <View
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: "#D7F6FF" },
+                      { backgroundColor: ValueSheet.colours.secondaryColour },
                     ]}
                   >
                     <>
@@ -1287,7 +1330,7 @@ const Notifications = () => {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   contentContainerStyle: {
     paddingBottom: 20,
@@ -1298,19 +1341,18 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 25,
     marginTop: 25,
     marginBottom: 10,
   },
-
   habitContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
@@ -1324,9 +1366,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
     marginBottom: 10,
   },
-  itemContainer2: {
-    flexDirection: "column",
-  },
   itemContainer3: {
     borderRadius: 15,
     paddingHorizontal: 6,
@@ -1338,47 +1377,31 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
   },
-  line: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
   screenName: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 34,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
   },
   sectionTitle: {
     fontSize: 32,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 35,
     marginBottom: 8,
     paddingHorizontal: 10,
   },
   itemTitle: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginLeft: 15,
     flex: 1,
   },
   timeText: {
     fontSize: 17,
-    color: "#25436B",
-    fontFamily: "Sego",
-  },
-  bottomItems: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 10,
-    width: "100%",
-  },
-  smallText: {
-    color: "#25436B",
-    fontSize: 12,
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
 });
 

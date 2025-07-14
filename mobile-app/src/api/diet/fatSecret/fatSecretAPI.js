@@ -1,9 +1,47 @@
 import axios from "axios";
 import { FATSECRET_BASE_URL } from "../../../../config";
 import { getFatSecretToken } from "./fatSecretToken";
-const API = FATSECRET_BASE_URL + "foods/search/v3";
+
+export async function barcodeSearchFatSecret(barcode) {
+  const API = FATSECRET_BASE_URL + "food/barcode/find-by-id/v1";
+  const token = await getFatSecretToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const params = {
+    barcode: barcode, //as a string
+    format: "json",
+    language: "en",
+    region: "US",
+  };
+  const response = await axios.get(API, { headers: headers, params: params });
+  if (response?.data.food_id.value != 0) {
+    var result = await getByID(response?.data.food_id.value);
+    return result;
+  } else {
+    return null;
+  }
+}
+
+async function getByID(id) {
+  const API = FATSECRET_BASE_URL + "food/v4";
+  const token = await getFatSecretToken();
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  const params = {
+    food_id: id,
+    format: "json",
+    flag_default_serving: true,
+    language: "en",
+    region: "US",
+  };
+  const response = await axios.get(API, { headers: headers, params: params });
+  return convertResults([response?.data.food])[0]; //either this or make a new function
+}
 
 export async function searchFatSecret(searchInput, page = 0) {
+  const API = FATSECRET_BASE_URL + "foods/search/v3";
   const token = await getFatSecretToken();
   const headers = {
     Authorization: `Bearer ${token}`,

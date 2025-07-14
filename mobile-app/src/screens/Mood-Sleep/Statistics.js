@@ -11,6 +11,7 @@ import moment from "moment";
 import MoodStats from "../Stats/MoodStats";
 import SleepStats from "../Stats/SleepStats";
 import { sharedStyles } from "../styles";
+import { ValueSheet } from "../../ValueSheet";
 import { InAppReview } from "react-native-in-app-review";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
@@ -115,95 +116,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 80,
   },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "#FFEFBD",
-    borderColor: "#ffe8a1",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    // borderWidth: 1,
-    // borderColor: "#ACC5CC",
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    // backgroundColor: "#D7F6FF",
-    // borderWidth: 1,
-    // borderColor: "#CCCCCC",
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
-  },
-  chartBox: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 20,
-    paddingRight: 35,
-  },
-  chartCircle: {
-    width: 75,
-    height: 75,
-    borderRadius: 45,
-    backgroundColor: "rgba(255, 207, 245, 0.65)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 35,
-    marginRight: 40,
-  },
-  imageCircle: {
-    width: 28,
-    height: 28,
-  },
-  text: {
-    fontSize: 13,
-    fontFamily: "Sego",
-    color: "#25436B",
-  },
-  xLabel: {
-    fontSize: 12,
-    fontFamily: "Sego",
-  },
-  chartContainer: {
-    alignItems: "center",
-  },
   dateLineMain: {
     flexDirection: "row",
     alignItems: "center",
@@ -211,23 +123,23 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     borderWidth: 1,
-    borderColor: "#ACC5CC",
+    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
   },
   buttonMain: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
-    borderTopColor: "rgba(0, 0, 0, 0)",
-    borderBottomColor: "rgba(0, 0, 0, 0)",
-    borderRightColor: "#ccc",
-    borderLeftColor: "#ccc",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
+    borderRightColor: ValueSheet.colours.grey,
+    borderLeftColor: ValueSheet.colours.grey,
   },
   dateNameMain: {
     fontSize: 26,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   preButtonMain: {
     width: 25,

@@ -16,6 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import AddEntryModal from "../modals/AddEntryModal";
+import { ValueSheet } from "../../../ValueSheet";
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -268,7 +269,7 @@ const MealPage = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     justifyContent: "space-between",
   },
   scrollContainer: {
@@ -276,11 +277,11 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   topArea: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     flex: 1,
   },
   mainArea: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 3,
     minWidth: 0,
     justifyContent: "flex-start",
@@ -296,7 +297,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
     marginBottom: 5,
   },
@@ -312,8 +313,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     alignItems: "center",
-    backgroundColor: "#D7F6FF",
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    backgroundColor: ValueSheet.colours.secondaryColour,
+    borderColor: ValueSheet.colours.borderGrey75,
     width: "60%",
     padding: 5,
   },
@@ -324,7 +325,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     marginTop: 30,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     height: 100,
     padding: 10,
   },
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     marginBottom: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
   },
   topAreaBody: {
@@ -359,59 +360,59 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   macroAmount: {
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 20,
-    fontFamily: "Sego-Bold",
     position: "absolute",
     right: 0,
     marginRight: 35,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   macroUnit: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    fontFamily: "Sego",
     position: "absolute",
     right: 0,
     marginRight: 15,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   caloriesLabel: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   calorieInfo: {
     flexDirection: "row",
   },
   caloriesAmount: {
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     marginRight: 15,
   },
   caloriesUnit: {
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   addFoodText: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 25,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   mealItemCalories: {
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 17.5,
-    fontFamily: "Sego",
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   backArrow: {
     height: 35,
@@ -442,7 +443,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 10,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default MealPage;

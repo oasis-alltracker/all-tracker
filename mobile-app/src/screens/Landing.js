@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../navigators/navigationService";
 import { isAccountCreated } from "../user/keychain";
+import { ValueSheet } from "../ValueSheet";
 
 const Landing = () => {
   const { width, height } = useWindowDimensions();
@@ -66,7 +67,7 @@ const Landing = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fffdf8",
+    backgroundColor: ValueSheet.colours.background,
     paddingTop: 5,
   },
   logo: {
@@ -75,10 +76,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     paddingBottom: 0,
-  },
-  buttonText: {
-    color: "#B981E7",
-    fontSize: 35,
   },
   logContainer: {
     paddingTop: 0,
@@ -92,11 +89,11 @@ const styles = StyleSheet.create({
     borderColor: "#c2f0fc",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   btnText: {
     color: "#B981E7",
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     justifyContent: "center",
     alignItems: "center",
   },

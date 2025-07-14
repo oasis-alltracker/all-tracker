@@ -4,9 +4,9 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import React from "react";
 import { Header } from "../../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ValueSheet } from "../../../ValueSheet";
 
 const UserAgreement = () => {
   const { width, height } = useWindowDimensions();
@@ -372,27 +372,27 @@ const UserAgreement = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   text: {
     alignSelf: "stretch",
     fontSize: 12,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
     marginTop: 10,
   },
   title: {
     alignSelf: "center",
     fontSize: 16,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     marginTop: 30,
   },
   header: {
     alignSelf: "stretch",
     fontSize: 12,
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     marginTop: 50,
     textDecorationLine: "underline",
   },
