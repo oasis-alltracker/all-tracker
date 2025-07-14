@@ -21,13 +21,7 @@ import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 
-export default function UpdateHabitModal({
-  getRef,
-  closeModalHandler,
-  updateHabit,
-  deleteHabit,
-}) {
-  const { width, height } = useWindowDimensions();
+export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
   const [visible, setVisible] = useState(false);
 
   const [image, setImage] = useState(
@@ -38,9 +32,8 @@ export default function UpdateHabitModal({
 
   const [habitID, setHabitID] = useState("");
 
-  const [tempHabitName, setTempHabitName] = useState("");
-  const [tempIsPositiveIndex, setTempIsPositiveIndex] = useState("");
-  const [tempThreshold, setTempThreshold] = useState("");
+  const [habitName, setHabitName] = useState("");
+  const [threshold, setThreshold] = useState("");
 
   const [scheduleCount, setScheduleCount] = useState(1);
   const [times, setTimes] = useState([[12, 0]]);
@@ -100,11 +93,6 @@ export default function UpdateHabitModal({
     let ref = {
       open(edit, props) {
         if (props) {
-          if (props.isPositive) {
-            setTempIsPositiveIndex(0);
-          } else {
-            setTempIsPositiveIndex(1);
-          }
           setIsNotificationsOn(true);
           setHabitName(props.habitName);
           setThreshold(props.threshold);
@@ -121,15 +109,6 @@ export default function UpdateHabitModal({
 
     getRef(ref);
   }, []);
-
-  const formatDateObject = (dateObject) => {
-    const options = {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-    return dateObject.toLocaleString("en-US", options);
-  };
 
   const selectImage = async (imageUrl) => {
     setImage(imageUrl);
@@ -168,23 +147,12 @@ export default function UpdateHabitModal({
   };
 
   const backDropPressed = (doAsyncWork = false) => {
-    setTempHabitName(false);
-    setTempIsPositiveIndex(false);
-    setTempThreshold(false);
-    setTimes([[12, 0]]);
-    setScheduleCount(1);
-
     setVisible(false);
-    setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
-
-    closeModalHandler(doAsyncWork);
   };
 
-  const [habitName, setHabitName] = useState("");
-  const [isPositiveIndex, setIsPositiveIndex] = useState("");
-  const [threshold, setThreshold] = useState("");
-
   const onSave = async () => {
+    console.log(image);
+    console.log(habitName);
     Keyboard.dismiss();
     if (threshold <= 0) {
       if (Platform.OS === "ios") {
@@ -216,7 +184,6 @@ export default function UpdateHabitModal({
       }
     } else if (
       habitName &&
-      isPositiveIndex !== "" &&
       threshold &&
       image != "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
     ) {
@@ -268,39 +235,18 @@ export default function UpdateHabitModal({
   };
 
   const searchImage = () => {
-    setTempHabitName(habitName);
-    setTempIsPositiveIndex(isPositiveIndex);
-    setTempThreshold(threshold);
-
+    Keyboard.dismiss();
     imagesRef.current.open();
   };
 
   const viewNotificationsSchedule = () => {
-    setTempHabitName(habitName);
-    setTempIsPositiveIndex(isPositiveIndex);
-    setTempThreshold(threshold);
-
+    Keyboard.dismiss();
     notificationsRef.current.open({
       times: times,
       scheduleCount: scheduleCount,
       isNotificationsOn: isNotificationsOn,
     });
   };
-
-  useEffect(() => {
-    if (tempHabitName && habitName === "") {
-      setHabitName(tempHabitName);
-    }
-    if (
-      (tempIsPositiveIndex === 0 || tempIsPositiveIndex === 1) &&
-      isPositiveIndex === ""
-    ) {
-      setIsPositiveIndex(tempIsPositiveIndex);
-    }
-    if (tempThreshold && threshold === "") {
-      setThreshold(tempThreshold);
-    }
-  }, []);
 
   return (
     <RNModal

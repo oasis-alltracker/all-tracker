@@ -12,7 +12,6 @@ import {
   Platform,
 } from "react-native";
 import RNModal from "react-native-modal";
-import Spinner from "react-native-loading-spinner-overlay";
 import ImagesModal from "./ImagesModal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
@@ -23,13 +22,7 @@ import HabitsDB from "../../../api/DB/habitsDB";
 import HabitSearchModal from "./HabitSearchModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
 
-export default function CreateHabitModal({
-  getRef,
-  closeModalHandler,
-  createHabit,
-}) {
-  const { width, height } = useWindowDimensions();
-
+export default function CreateHabitModal({ getRef, createHabit }) {
   const [isMainVisible, setIsMainVisible] = useState(false);
 
   const imagesRef = useRef(null);

@@ -1200,8 +1200,6 @@ const TodosHabits = ({ navigation }) => {
     }
   };
 
-  const closeModalHandler = (doAsyncWork) => {};
-
   const renderScene = ({ route }) => {
     switch (route.key) {
       case "first":
@@ -1295,12 +1293,10 @@ const TodosHabits = ({ navigation }) => {
       </View>
       <CreateHabitModal
         getRef={(ref) => (createHabitRef.current = ref)}
-        closeModalHandler={closeModalHandler}
         createHabit={createHabit}
       />
       <UpdateHabitModal
         getRef={(ref) => (updateHabitRef.current = ref)}
-        closeModalHandler={closeModalHandler}
         updateHabit={updateHabit}
         deleteHabit={deleteHabit}
       />
