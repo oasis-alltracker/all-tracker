@@ -5,7 +5,6 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  useWindowDimensions,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
@@ -33,9 +32,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
   );
 
-  const [tempHabitName, setTempHabitName] = useState(false);
-  const [tempIsPositiveIndex, setTempIsPositiveIndex] = useState(false);
-  const [tempThreshold, setTempThreshold] = useState(false);
+  const [habitName, setHabitName] = useState("");
+  const [threshold, setThreshold] = useState("");
 
   const [scheduleCount, setScheduleCount] = useState(1);
   const [times, setTimes] = useState([[12, 0]]);
@@ -99,14 +97,12 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     presetHabits = HabitsDB.viewHabits();
     presetHabit = presetHabits.find((habit) => habit.name === habitName);
     setHabitName(presetHabit.name);
-    setIsPositiveIndex(presetHabit.isPositive ? 0 : 1);
     setImage(presetHabit.pngUrl);
   };
 
-  const backDropPressed = (doAsyncWork = false) => {
-    setTempHabitName(false);
-    setTempIsPositiveIndex(false);
-    setTempThreshold(false);
+  const backDropPressed = () => {
+    setHabitName("");
+    setThreshold("");
     setTimes([[12, 0]]);
     setScheduleCount(1);
 
@@ -114,10 +110,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     setIsNotificationsOn(false);
     setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
   };
-
-  const [habitName, setHabitName] = useState("");
-  const [isPositiveIndex, setIsPositiveIndex] = useState("");
-  const [threshold, setThreshold] = useState("");
 
   const onSave = async () => {
     Keyboard.dismiss();
@@ -199,46 +191,20 @@ export default function CreateHabitModal({ getRef, createHabit }) {
   };
 
   const searchImage = () => {
-    setTempHabitName(habitName);
-    setTempIsPositiveIndex(isPositiveIndex);
-    setTempThreshold(threshold);
     imagesRef.current.open();
   };
 
   const searchHabit = () => {
-    console.log("search habit entered");
-    setTempHabitName(habitName);
-    setTempIsPositiveIndex(isPositiveIndex);
-    setTempThreshold(threshold);
     habitSearchRef.current.open();
   };
 
   const viewNotificationsSchedule = () => {
-    setTempHabitName(habitName);
-    setTempIsPositiveIndex(isPositiveIndex);
-    setTempThreshold(threshold);
-
     notificationsRef.current.open({
       times: times,
       scheduleCount: scheduleCount,
       isNotificationsOn: isNotificationsOn,
     });
   };
-
-  useEffect(() => {
-    if (tempHabitName && habitName === "") {
-      setHabitName(tempHabitName);
-    }
-    if (
-      (tempIsPositiveIndex === 0 || tempIsPositiveIndex === 1) &&
-      isPositiveIndex === ""
-    ) {
-      setIsPositiveIndex(tempIsPositiveIndex);
-    }
-    if (tempThreshold && threshold === "") {
-      setThreshold(tempThreshold);
-    }
-  }, []);
 
   return (
     <RNModal
