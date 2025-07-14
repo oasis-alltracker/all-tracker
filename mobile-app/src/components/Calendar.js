@@ -22,6 +22,8 @@ const oneDay = {
   endingDay: true,
   selectedColor: ValueSheet.colours.datePickerBlue,
   selectedTextColor: ValueSheet.colours.background,
+  selectedColor: ValueSheet.colours.datePickerBlue,
+  selectedTextColor: ValueSheet.colours.background,
   selected: true,
 };
 const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
@@ -305,9 +307,11 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         marking={{
           customTextStyle: {
             fontFamily: ValueSheet.fonts.primaryBold,
+            fontFamily: ValueSheet.fonts.primaryBold,
           },
           customStyles: {
             text: {
+              fontFamily: ValueSheet.fonts.primaryBold,
               fontFamily: ValueSheet.fonts.primaryBold,
             },
           },
@@ -325,14 +329,16 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           selectedDayBackgroundColor: ValueSheet.colours.datePickerBlue,
           textMonthFontFamily: ValueSheet.fonts.primaryBold,
           textDayHeaderFontFamily: ValueSheet.fonts.primaryBold,
-          todayBackgroundColor: "#fcefc2",
+          todayBackgroundColor: ValueSheet.colours.yellow,
           todayTextColor: ValueSheet.colours.primaryColour,
           monthTextColor: ValueSheet.colours.primaryColour,
           textDayFontFamily: ValueSheet.fonts.primaryBold,
           dayTextColor: ValueSheet.colours.primaryColour,
           textDayStyle: {
             fontFamily: ValueSheet.fonts.primaryBold,
+            fontFamily: ValueSheet.fonts.primaryBold,
           },
+          arrowColor: ValueSheet.colours.primaryColour,
           arrowColor: ValueSheet.colours.primaryColour,
           "stylesheet.calendar.main": {
             calendar: {
@@ -453,6 +459,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                     activeIndexes[index] && {
                       backgroundColor: ValueSheet.colours.secondaryColour,
                     },
+                    activeIndexes[index] && {
+                      backgroundColor: ValueSheet.colours.secondaryColour,
+                    },
                   ]}
                 >
                   <Text style={styles.dayText}>{item}</Text>
@@ -470,10 +479,12 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
             value={isReminderEnabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#D5CBFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
-              isReminderEnabled ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+              isReminderEnabled
+                ? ValueSheet.colours.secondaryColour
+                : ValueSheet.colours.purple
             }
           />
           <Text style={styles.reminderTitle}>Reminder</Text>
@@ -540,6 +551,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderTopWidth: 1,
     borderColor: ValueSheet.colours.black10,
+    borderColor: ValueSheet.colours.black10,
   },
   button: {
     width: "50%",
@@ -552,6 +564,7 @@ const styles = StyleSheet.create({
   },
   container: {
     justifyContent: "space-between",
+    backgroundColor: ValueSheet.colours.background,
     backgroundColor: ValueSheet.colours.background,
     borderRadius: 5,
   },
@@ -568,8 +581,11 @@ const styles = StyleSheet.create({
   },
   btnActive: {
     backgroundColor: ValueSheet.colours.secondaryColour50,
+    backgroundColor: ValueSheet.colours.secondaryColour50,
   },
   btnText: {
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.background,
     fontFamily: ValueSheet.fonts.primaryBold,
     color: ValueSheet.colours.background,
     fontSize: 16,
@@ -590,6 +606,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingHorizontal: 15,
     backgroundColor: ValueSheet.colours.primaryColour,
+    backgroundColor: ValueSheet.colours.primaryColour,
     paddingVertical: 10,
     borderRadius: 5,
     width: "30%",
@@ -597,12 +614,15 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   clearText: {
     color: "red",
     fontSize: 16,
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   text2: {
@@ -641,6 +661,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryBold,
     color: ValueSheet.colours.black,
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.black,
     flex: 1,
     marginLeft: 15,
   },
@@ -648,10 +670,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.black50,
   },
   reminderContainer: {
     flexDirection: "row",
     alignItems: "center",
+    borderColor: ValueSheet.colours.grey,
     borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
@@ -666,13 +691,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 114,
     borderColor: ValueSheet.colours.grey,
+    borderColor: ValueSheet.colours.grey,
     paddingVertical: 10,
     borderRadius: 15,
     paddingRight: 5,
     backgroundColor: ValueSheet.colours.secondaryColour,
+    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   reminderTitle: {
     fontSize: 18,
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 15,
@@ -682,8 +711,11 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   errorToast: {
+    textColor: ValueSheet.colours.background,
     textColor: ValueSheet.colours.background,
   },
   daysContainer: {
@@ -701,6 +733,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderColor: ValueSheet.colours.grey,
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 20,
     paddingHorizontal: 5,
     paddingVertical: 20,
@@ -712,8 +745,10 @@ const styles = StyleSheet.create({
   },
   dayText: {
     color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 16,
     padding: 6,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
 });

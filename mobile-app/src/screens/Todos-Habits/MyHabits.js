@@ -94,13 +94,7 @@ export default function MyHabits({
         removeClippedSubviews={false}
       >
         <View
-          style={[
-            sharedStyles.headerImageContainer,
-            {
-              backgroundColor: "rgba(255, 207, 245, 0.65)",
-              borderColor: "rgba(255, 207, 245, 0.70)",
-            },
-          ]}
+          style={[sharedStyles.headerImageContainer, styles.imageContainer]}
         >
           <Image
             style={sharedStyles.headerImage}
@@ -225,5 +219,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginRight: 10,
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.pink65,
+    borderColor: ValueSheet.colours.borderPink70,
   },
 });

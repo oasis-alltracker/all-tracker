@@ -203,13 +203,7 @@ const Main = ({
         removeClippedSubviews={false}
       >
         <View
-          style={[
-            sharedStyles.headerImageContainer,
-            {
-              backgroundColor: "rgba(255, 207, 245, 0.65)",
-              borderColor: "rgba(255, 207, 245, 0.70)",
-            },
-          ]}
+          style={[sharedStyles.headerImageContainer, styles.imageContainer]}
         >
           <Image
             style={sharedStyles.headerImage}
@@ -270,7 +264,7 @@ const Main = ({
             <View style={{ width: "100%" }}>
               <ScrollView
                 horizontal={true}
-                contentContainerStyle={[styles.habitScrollContainterMain]}
+                contentContainerStyle={[styles.habitScrollContainerMain]}
                 showsHorizontalScrollIndicator={false}
               >
                 {statusList.length > 0 ? (
@@ -545,7 +539,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  habitScrollContainterMain: {
+  habitScrollContainerMain: {
     flexGrow: 1,
     alignItems: "center",
     paddingHorizontal: 20,
@@ -633,7 +627,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   itemRenderText2Main: {
-    color: "#FFBEF1",
+    color: ValueSheet.colours.borderPink,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
@@ -649,5 +643,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.pink65,
+    borderColor: ValueSheet.colours.borderPink70,
   },
 });

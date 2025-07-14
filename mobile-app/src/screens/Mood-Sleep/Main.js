@@ -67,15 +67,7 @@ export default function Main({
       contentContainerStyle={sharedStyles.container}
       scrollEnabled={false}
     >
-      <View
-        style={[
-          sharedStyles.headerImageContainer,
-          {
-            backgroundColor: "#FFEFBD",
-            borderColor: "#ffe8a1",
-          },
-        ]}
-      >
+      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/soul-white.png")}
@@ -232,5 +224,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
     marginBottom: 12,
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.yellow75,
+    borderColor: ValueSheet.colours.borderYellow,
   },
 });

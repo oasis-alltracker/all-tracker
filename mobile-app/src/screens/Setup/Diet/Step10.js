@@ -432,12 +432,12 @@ const DietStep10 = (props) => {
             value={isBreakfastEnabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#D5CBFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
               isBreakfastEnabled
                 ? ValueSheet.colours.secondaryColour
-                : "#D5CBFF"
+                : ValueSheet.colours.purple
             }
           />
           <Text style={styles.itemTitle}>Breakfast</Text>
@@ -496,10 +496,12 @@ const DietStep10 = (props) => {
             value={isLunchEnabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#D5CBFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
-              isLunchEnabled ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+              isLunchEnabled
+                ? ValueSheet.colours.secondaryColour
+                : ValueSheet.colours.purple
             }
           />
           <Text style={styles.itemTitle}>Lunch</Text>
@@ -558,10 +560,12 @@ const DietStep10 = (props) => {
             value={isDinnerEnabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#D5CBFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
-              isDinnerEnabled ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+              isDinnerEnabled
+                ? ValueSheet.colours.secondaryColour
+                : ValueSheet.colours.purple
             }
           />
           <Text style={styles.itemTitle}>Dinner</Text>
@@ -639,9 +643,9 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: "rgba(202, 189, 255, 0.65)",
     borderWidth: 2,
-    borderColor: "rgba(162, 151, 204, 0.7)",
+    backgroundColor: ValueSheet.colours.purple,
+    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",

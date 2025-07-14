@@ -31,7 +31,7 @@ const DietStats = ({ sunday, updateStats }) => {
       <View style={styles.chartContainer}>
         <LineChart
           thickness={2}
-          color="rgba(202, 189, 255, 1)"
+          color={ValueSheet.colours.purple}
           maxValue={500}
           animateOnDataChange
           areaChart
@@ -41,8 +41,8 @@ const DietStats = ({ sunday, updateStats }) => {
           hideYAxisText
           hideDataPoints
           data={data}
-          startFillColor1={"rgba(202, 189, 255, 1)"}
-          endFillColor1={"rgba(202, 189, 255, 1)"}
+          startFillColor1={ValueSheet.colours.purple}
+          endFillColor1={ValueSheet.colours.purple}
           startOpacity={0.8}
           endOpacity={0.1}
           backgroundColor="transparent"
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: "rgba(202, 189, 255, 0.65)",
-    borderColor: "rgba(202, 189, 255, 0.7)",
+    backgroundColor: ValueSheet.colours.purple65,
+    borderColor: ValueSheet.colours.purple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

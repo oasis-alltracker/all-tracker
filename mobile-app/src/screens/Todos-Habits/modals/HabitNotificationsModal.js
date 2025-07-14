@@ -351,10 +351,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
             value={isNotificationsOn}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#D5CBFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
-              isNotificationsOn ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+              isNotificationsOn
+                ? ValueSheet.colours.secondaryColour
+                : ValueSheet.colours.purple
             }
           />
         </View>

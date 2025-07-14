@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
   itemRenderText2Main: {
-    color: "#FFBEF1",
+    color: ValueSheet.colours.borderPink,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,

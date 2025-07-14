@@ -66,15 +66,7 @@ export default function Main({
       showsVerticalScrollIndicator={false}
       contentContainerStyle={sharedStyles.container}
     >
-      <View
-        style={[
-          sharedStyles.headerImageContainer,
-          {
-            backgroundColor: "rgba(202, 189, 255, 65)",
-            borderColor: "rgba(162, 151, 204, 0.7)",
-          },
-        ]}
-      >
+      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/body-white.png")}
@@ -196,5 +188,9 @@ const styles = StyleSheet.create({
     backgroundColor: ValueSheet.colours.secondaryColour,
     maxWidth: "100%",
     height: "100%",
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.purple,
+    borderColor: ValueSheet.colours.borderPurple70,
   },
 });

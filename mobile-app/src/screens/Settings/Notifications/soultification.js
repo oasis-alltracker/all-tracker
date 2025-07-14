@@ -473,10 +473,12 @@ const Soultification = ({
             value={isToggled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
-              false: "#CABDFF",
+              false: ValueSheet.colours.purple,
             }}
             thumbColor={
-              isToggled ? ValueSheet.colours.secondaryColour : "#CABDFF"
+              isToggled
+                ? ValueSheet.colours.secondaryColour
+                : ValueSheet.colours.purple
             }
           />
         </View>

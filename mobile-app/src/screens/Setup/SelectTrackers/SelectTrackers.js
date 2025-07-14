@@ -230,8 +230,8 @@ const SelectTrackers = () => {
               style={[
                 styles.button,
                 {
-                  backgroundColor: "rgba(202,189,255,1)",
-                  borderColor: "rgba(181, 176, 202,1)",
+                  backgroundColor: ValueSheet.colours.purple65,
+                  borderColor: ValueSheet.colours.purple,
                   width: buttonSize,
                   height: buttonSize,
                 },
@@ -256,8 +256,8 @@ const SelectTrackers = () => {
               style={[
                 styles.button,
                 {
-                  backgroundColor: "rgba(202,189,255,1)",
-                  borderColor: "rgba(181, 176, 202,1)",
+                  backgroundColor: ValueSheet.colours.purple65,
+                  borderColor: ValueSheet.colours.purple,
                   width: buttonSize,
                   height: buttonSize,
                 },
@@ -285,8 +285,8 @@ const SelectTrackers = () => {
             style={[
               styles.button,
               {
-                backgroundColor: "rgba(255, 239, 189, 1)",
-                borderColor: "rgba(204, 191, 152, 1)",
+                backgroundColor: ValueSheet.colours.yellow75,
+                borderColor: ValueSheet.colours.borderYellow,
                 width: buttonSize,
                 height: buttonSize,
               },
@@ -309,8 +309,8 @@ const SelectTrackers = () => {
             style={[
               styles.button,
               {
-                backgroundColor: "rgba(255, 239, 189, 1)",
-                borderColor: "rgba(204, 191, 152, 1)",
+                backgroundColor: ValueSheet.colours.yellow75,
+                borderColor: ValueSheet.colours.borderYellow,
                 width: buttonSize,
                 height: buttonSize,
               },
@@ -359,10 +359,11 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 200,
+    borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(255, 216, 247, 0.62)",
-    borderColor: "rgba(255, 207, 245, 0.70)",
+    backgroundColor: ValueSheet.colours.pink65,
+    borderColor: ValueSheet.colours.borderPink,
   },
   title: {
     color: ValueSheet.colours.primaryColour,

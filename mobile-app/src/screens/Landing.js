@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: ValueSheet.colours.background,
+    backgroundColor: ValueSheet.colours.background,
     paddingTop: 5,
   },
   logo: {
@@ -86,13 +87,13 @@ const styles = StyleSheet.create({
   btnContainer: {
     borderRadius: 60,
     borderWidth: 2,
-    borderColor: "#c2f0fc",
+    borderColor: ValueSheet.colours.grey50,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: ValueSheet.colours.secondaryColour,
   },
   btnText: {
-    color: "#B981E7",
+    color: ValueSheet.colours.textPink,
     fontFamily: ValueSheet.fonts.primaryFont,
     justifyContent: "center",
     alignItems: "center",

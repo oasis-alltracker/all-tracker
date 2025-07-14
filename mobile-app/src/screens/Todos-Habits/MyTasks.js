@@ -297,13 +297,7 @@ const MyTasks = ({
         removeClippedSubviews={false}
       >
         <View
-          style={[
-            sharedStyles.headerImageContainer,
-            {
-              backgroundColor: "rgba(255, 207, 245, 0.65)",
-              borderColor: "rgba(255, 207, 245, 0.70)",
-            },
-          ]}
+          style={[sharedStyles.headerImageContainer, styles.imageContainer]}
         >
           <Image
             style={sharedStyles.headerImage}
@@ -482,7 +476,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
   itemRenderText2Main: {
-    color: "#FFBEF1",
+    color: ValueSheet.colours.borderPink70,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
@@ -498,5 +492,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
+  },
+  imageContainer: {
+    backgroundColor: ValueSheet.colours.pink65,
+    borderColor: ValueSheet.colours.borderPink70,
   },
 });
