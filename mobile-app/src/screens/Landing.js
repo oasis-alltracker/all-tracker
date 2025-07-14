@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../navigators/navigationService";
 import { isAccountCreated } from "../user/keychain";
 import { ValueSheet } from "../ValueSheet";
+import { ValueSheet } from "../ValueSheet";
 
 const Landing = () => {
   const { width, height } = useWindowDimensions();
@@ -67,6 +68,7 @@ const Landing = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: ValueSheet.colours.background,
     backgroundColor: ValueSheet.colours.background,
     paddingTop: 5,
   },
