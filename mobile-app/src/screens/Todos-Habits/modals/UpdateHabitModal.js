@@ -151,8 +151,6 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
   };
 
   const onSave = async () => {
-    console.log(image);
-    console.log(habitName);
     Keyboard.dismiss();
     if (threshold <= 0) {
       if (Platform.OS === "ios") {
