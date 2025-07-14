@@ -16,8 +16,10 @@ import navigationService from "../../../navigators/navigationService";
 import RecentFoodEntriesAPI from "../../../api/diet/recentFoodEntriesAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import AddEntryModal from "../modals/AddEntryModal";
-import { searchFatSecret } from "../../../api/diet/search/fatSecretAPI";
+import { searchFatSecret } from "../../../api/diet/fatSecret/fatSecretAPI";
+import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -48,6 +50,12 @@ const SearchFood = ({ navigation, route }) => {
     mealImage = require("../../../assets/images/snack.png");
   }
 
+  useEffect(() => {
+    if (route.params?.barcodeInfo != null) {
+      processBarcodeScan(route.params?.barcodeInfo?.data);
+    }
+  }, [route]);
+
   useFocusEffect(
     React.useCallback(() => {
       getFoodItems(token);
@@ -76,6 +84,21 @@ const SearchFood = ({ navigation, route }) => {
       });
     }
   }
+
+  const processBarcodeScan = async (barcode) => {
+    setIsLoading(true);
+    var barcodeResult = await barcodeSearch(barcode);
+    setIsLoading(false);
+    if (barcodeResult != null) {
+      addEntryRef.current.open(barcodeResult);
+    } else {
+      Toast.show("Sorry that item isn't available.", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.CENTER,
+      });
+    }
+  };
 
   const getFoodItems = async () => {
     try {
