@@ -18,18 +18,11 @@ import ImagesModal from "./ImagesModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
 import { Button } from "../../../components";
 import Toast from "react-native-root-toast";
-import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
 
-export default function UpdateHabitModal({
-  getRef,
-  closeModalHandler,
-  updateHabit,
-  deleteHabit,
-}) {
-  const { width, height } = useWindowDimensions();
+export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
   const [visible, setVisible] = useState(false);
 
   const [image, setImage] = useState(
@@ -40,15 +33,12 @@ export default function UpdateHabitModal({
 
   const [habitID, setHabitID] = useState("");
 
-  const [tempHabitName, setTempHabitName] = useState("");
-  const [tempIsPositiveIndex, setTempIsPositiveIndex] = useState("");
-  const [tempThreshold, setTempThreshold] = useState("");
+  const [habitName, setHabitName] = useState("");
+  const [threshold, setThreshold] = useState("");
 
   const [scheduleCount, setScheduleCount] = useState(1);
   const [times, setTimes] = useState([[12, 0]]);
   const [isNotificationsOn, setIsNotificationsOn] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const setNotificationData = async (itemID) => {
@@ -104,20 +94,13 @@ export default function UpdateHabitModal({
     let ref = {
       open(edit, props) {
         if (props) {
-          if (props.isPositive) {
-            setTempIsPositiveIndex(0);
-          } else {
-            setTempIsPositiveIndex(1);
-          }
           setIsNotificationsOn(true);
-          setTempHabitName(props.habitName);
-          setTempThreshold(props.threshold);
+          setHabitName(props.habitName);
+          setThreshold(props.threshold);
           setHabitID(props.habitID);
           setImage(props.pngURL);
           setNotificationData(props.habitID);
-          setTimeout(() => {
-            setVisible(true);
-          }, 1700);
+          setVisible(true);
         }
       },
       close() {
@@ -128,27 +111,8 @@ export default function UpdateHabitModal({
     getRef(ref);
   }, []);
 
-  const formatDateObject = (dateObject) => {
-    const options = {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-    return dateObject.toLocaleString("en-US", options);
-  };
-
   const selectImage = async (imageUrl) => {
     setImage(imageUrl);
-  };
-
-  const reopenMain = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    setTimeout(() => {
-      setVisible(true);
-    }, 1051);
   };
 
   const makeTimeArray = (length) => {
@@ -181,246 +145,185 @@ export default function UpdateHabitModal({
       setTimes([...newNewTimes]);
       setIsNotificationsOn(newIsNotificationsOn);
     }
-
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    setTimeout(() => {
-      setVisible(true);
-    }, 1051);
   };
 
   const backDropPressed = (doAsyncWork = false) => {
-    setTempHabitName(false);
-    setTempIsPositiveIndex(false);
-    setTempThreshold(false);
-    setTimes([[12, 0]]);
-    setScheduleCount(1);
-
     setVisible(false);
-    setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
-
-    closeModalHandler(doAsyncWork);
   };
 
-  const MainModal = () => {
-    const [habitName, setHabitName] = useState("");
-    const [isPositiveIndex, setIsPositiveIndex] = useState("");
-    const [threshold, setThreshold] = useState("");
-
-    const onSave = async () => {
-      Keyboard.dismiss();
-      if (threshold <= 0) {
-        if (Platform.OS === "ios") {
-          Toast.show("Don't forget to set a goal for this habit.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Don't forget to set a goal for this habit.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
-      } else if (threshold > 99) {
-        if (Platform.OS === "ios") {
-          Toast.show("Your goal must be less than 100.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Your goal must be less than 100.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
-      } else if (
-        habitName &&
-        isPositiveIndex !== "" &&
-        threshold &&
-        image != "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
-      ) {
-        habit = {
-          name: habitName,
-          threshold: threshold,
-          pngURL: image,
-        };
-
-        habit.isPositive = true;
-        backDropPressed(true);
-        updateHabit(habitID, habit, times, isNotificationsOn);
+  const onSave = async () => {
+    Keyboard.dismiss();
+    if (threshold <= 0) {
+      if (Platform.OS === "ios") {
+        Toast.show("Don't forget to set a goal for this habit.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show("You must complete the form to update a habit.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("You must complete the form to update a habit.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show("Don't forget to set a goal for this habit.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
       }
-    };
+    } else if (threshold > 99) {
+      if (Platform.OS === "ios") {
+        Toast.show("Your goal must be less than 100.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("Your goal must be less than 100.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
+    } else if (
+      habitName &&
+      threshold &&
+      image != "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
+    ) {
+      habit = {
+        name: habitName,
+        threshold: threshold,
+        pngURL: image,
+      };
 
-    const onDelete = () => {
-      Alert.alert(
-        "Delete Habit",
-        "Are you sure you want to delete this habit?",
-        [
-          { text: "No", style: "cancel" },
-          {
-            text: "Yes",
-            isPreferred: true,
-            onPress: () => {
-              backDropPressed(true);
-              deleteHabit(habitID);
-            },
-          },
-        ],
+      habit.isPositive = true;
+      backDropPressed(true);
+      updateHabit(habitID, habit, times, isNotificationsOn);
+    } else {
+      if (Platform.OS === "ios") {
+        Toast.show("You must complete the form to update a habit.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+        });
+      } else {
+        Toast.show("You must complete the form to update a habit.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.TOP,
+        });
+      }
+    }
+  };
+
+  const onDelete = () => {
+    Alert.alert(
+      "Delete Habit",
+      "Are you sure you want to delete this habit?",
+      [
+        { text: "No", style: "cancel" },
         {
-          cancelable: true,
-        }
-      );
-    };
-
-    const searchImage = () => {
-      setTempHabitName(habitName);
-      setTempIsPositiveIndex(isPositiveIndex);
-      setTempThreshold(threshold);
-
-      setIsLoading(true);
-      setVisible(false);
-      imagesRef.current.open();
-    };
-
-    const viewNotificationsSchedule = () => {
-      setTempHabitName(habitName);
-      setTempIsPositiveIndex(isPositiveIndex);
-      setTempThreshold(threshold);
-
-      setIsLoading(true);
-      setVisible(false);
-
-      notificationsRef.current.open({
-        times: times,
-        scheduleCount: scheduleCount,
-        isNotificationsOn: isNotificationsOn,
-      });
-    };
-
-    useEffect(() => {
-      if (tempHabitName && habitName === "") {
-        setHabitName(tempHabitName);
+          text: "Yes",
+          isPreferred: true,
+          onPress: () => {
+            backDropPressed(true);
+            deleteHabit(habitID);
+          },
+        },
+      ],
+      {
+        cancelable: true,
       }
-      if (
-        (tempIsPositiveIndex === 0 || tempIsPositiveIndex === 1) &&
-        isPositiveIndex === ""
-      ) {
-        setIsPositiveIndex(tempIsPositiveIndex);
-      }
-      if (tempThreshold && threshold === "") {
-        setThreshold(tempThreshold);
-      }
-    }, []);
-
-    return (
-      <RNModal
-        isVisible={visible}
-        onBackButtonPress={() => backDropPressed()}
-        onBackdropPress={() => backDropPressed()}
-        backdropOpacity={0}
-        style={styles.modal}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-              <View style={styles.row}>
-                <TextInput
-                  placeholderTextColor={ValueSheet.colours.inputGrey}
-                  placeholder="Name"
-                  style={styles.title}
-                  onChangeText={setHabitName}
-                  value={habitName}
-                  blurOnSubmit={false}
-                />
-                <TouchableOpacity onPress={() => viewNotificationsSchedule()}>
-                  <Image
-                    style={styles.reminderBell}
-                    source={require("../../../assets/images/reminder.png")}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.row}>
-                <Text style={styles.key}>Image:</Text>
-                <TouchableOpacity
-                  style={styles.selectImage}
-                  onPress={() => searchImage()}
-                >
-                  <Image style={styles.image} source={{ uri: image }} />
-                </TouchableOpacity>
-              </View>
-
-              <View style={[styles.row, { marginBottom: 10 }]}>
-                <Text style={styles.key}>Times a day:</Text>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={setThreshold}
-                  keyboardType="number-pad"
-                  value={threshold}
-                  onSubmitEditing={Keyboard.dismiss}
-                  maxLength={2}
-                  blurOnSubmit={false}
-                />
-              </View>
-
-              <View style={styles.row2}>
-                <Button
-                  onPress={() => onDelete()}
-                  style={[styles.button, styles.back]}
-                >
-                  Delete
-                </Button>
-                <Button onPress={() => onSave()} style={styles.button}>
-                  Save
-                </Button>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </RNModal>
     );
   };
 
+  const searchImage = () => {
+    Keyboard.dismiss();
+    imagesRef.current.open();
+  };
+
+  const viewNotificationsSchedule = () => {
+    Keyboard.dismiss();
+    notificationsRef.current.open({
+      times: times,
+      scheduleCount: scheduleCount,
+      isNotificationsOn: isNotificationsOn,
+    });
+  };
+
   return (
-    <>
-      <Spinner
-        visible={isLoading}
-        backdropColor={ValueSheet.colours.secondaryColour27}
-      ></Spinner>
-      <ImagesModal
-        selectImage={selectImage}
-        backDropPressed={backDropPressed}
-        reopenMain={reopenMain}
-        setIsLoading={setIsLoading}
-        getRef={(ref) => (imagesRef.current = ref)}
-      />
-      <HabitNotificationsModal
-        reopenMain={reopenMainFromNotifications}
-        getRef={(ref) => (notificationsRef.current = ref)}
-      />
-      <MainModal />
-    </>
+    <RNModal
+      isVisible={visible}
+      onBackButtonPress={() => backDropPressed()}
+      onBackdropPress={() => backDropPressed()}
+      backdropOpacity={0}
+      style={styles.modal}
+    >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <TextInput
+                placeholderTextColor={ValueSheet.colours.inputGrey}
+                placeholder="Name"
+                style={styles.title}
+                onChangeText={setHabitName}
+                value={habitName}
+                blurOnSubmit={false}
+              />
+              <TouchableOpacity onPress={() => viewNotificationsSchedule()}>
+                <Image
+                  style={styles.reminderBell}
+                  source={require("../../../assets/images/reminder.png")}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.key}>Image:</Text>
+              <TouchableOpacity
+                style={styles.selectImage}
+                onPress={() => searchImage()}
+              >
+                <Image style={styles.image} source={{ uri: image }} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={[styles.row, { marginBottom: 10 }]}>
+              <Text style={styles.key}>Times a day:</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={setThreshold}
+                keyboardType="number-pad"
+                value={threshold}
+                onSubmitEditing={Keyboard.dismiss}
+                maxLength={2}
+                blurOnSubmit={false}
+              />
+            </View>
+
+            <View style={styles.row2}>
+              <Button
+                onPress={() => onDelete()}
+                style={[styles.button, styles.back]}
+              >
+                Delete
+              </Button>
+              <Button onPress={() => onSave()} style={styles.button}>
+                Save
+              </Button>
+            </View>
+
+            <ImagesModal
+              selectImage={selectImage}
+              backDropPressed={backDropPressed}
+              getRef={(ref) => (imagesRef.current = ref)}
+            />
+            <HabitNotificationsModal
+              reopenMain={reopenMainFromNotifications}
+              getRef={(ref) => (notificationsRef.current = ref)}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </RNModal>
   );
 }
 
