@@ -15,14 +15,10 @@ export default function HabitSearchModal({
   useEffect(() => {
     let ref = {
       open() {
-        // setTimeout(() => {
-        //   setIsVisible(true);
-        // }, 1700);
         setIsVisible(true);
       },
       close() {
         setIsVisible(false);
-        //reopenMain();
       },
     };
 
