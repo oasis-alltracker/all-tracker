@@ -16,7 +16,6 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../user/keychain";
 import { ValueSheet } from "../ValueSheet";
-import { ValueSheet } from "../ValueSheet";
 
 const oneDay = {
   startingDay: true,
@@ -383,7 +382,6 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
       isVisible={visible}
-      backdropColor={ValueSheet.colours.secondaryColour27}
       backdropColor={ValueSheet.colours.secondaryColour27}
     >
       <Spinner visible={isLoading}></Spinner>
