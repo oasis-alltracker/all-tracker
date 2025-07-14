@@ -22,6 +22,7 @@ import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 import SelectMealModal from "./modals/SelectMealModal";
+import { ValueSheet } from "../../ValueSheet";
 
 const FitnessDiet = ({ navigation, route }) => {
   var { refreshGoals } = route.params?.isEditingGoals || false;
@@ -370,8 +371,8 @@ const FitnessDiet = ({ navigation, route }) => {
                 style={[
                   sharedStyles.dot,
                   key === index && {
-                    backgroundColor: "#25436B",
-                    borderColor: "#1E3556",
+                    backgroundColor: ValueSheet.colours.primaryColour,
+                    borderColor: ValueSheet.colours.borderNavy,
                   },
                 ]}
               />
@@ -390,21 +391,8 @@ const FitnessDiet = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 1,
-  },
-  button: {
-    height: 180,
-    borderRadius: 50,
-    marginHorizontal: 20,
-  },
-  image: {
-    width: 130,
-    height: 130,
-  },
-  pagerView: {
-    flex: 1,
-    overflow: "visible",
   },
   headerButton: {
     position: "absolute",

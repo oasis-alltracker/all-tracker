@@ -16,6 +16,7 @@ import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
+import { ValueSheet } from "../../ValueSheet";
 
 const dietSettings = {
   img: require("../../assets/images/person-profile.png"),
@@ -150,7 +151,7 @@ const SettingsHome = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.cotainer}>
+    <SafeAreaView style={styles.container}>
       <Header style={{ paddingTop: 0 }} />
       <Spinner visible={isLoading}></Spinner>
       <ScrollView
@@ -260,16 +261,16 @@ const SettingsHome = () => {
 };
 
 const styles = StyleSheet.create({
-  cotainer: {
+  container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   contentContainerStyle: {
     paddingBottom: 40,
   },
   item: {
     borderWidth: 1,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 40,
     padding: 15,
     marginHorizontal: 20,
@@ -286,8 +287,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   itemTitle: {
-    fontFamily: "Sego-Bold",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryBold,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
   },
   child: {
@@ -297,8 +298,8 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   childTitle: {
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
   },
   arrowRight: {

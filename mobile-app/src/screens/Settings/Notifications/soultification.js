@@ -12,6 +12,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../../../user/keychain";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { ValueSheet } from "../../../ValueSheet";
 
 const weekDays = ["Every day", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -470,8 +471,13 @@ const Soultification = ({
             height={32}
             onValueChange={onToggle}
             value={isToggled}
-            trackColor={{ true: "#d7f6ff", false: "#CABDFF" }}
-            thumbColor={isToggled ? "#d7f6ff" : "#CABDFF"}
+            trackColor={{
+              true: ValueSheet.colours.secondaryColour,
+              false: "#CABDFF",
+            }}
+            thumbColor={
+              isToggled ? ValueSheet.colours.secondaryColour : "#CABDFF"
+            }
           />
         </View>
         {activeSchedule1 && (
@@ -543,7 +549,7 @@ const Soultification = ({
               <View
                 style={[
                   styles.timePickerContainer,
-                  { backgroundColor: "#D7F6FF" },
+                  { backgroundColor: ValueSheet.colours.secondaryColour },
                 ]}
               >
                 <>
@@ -656,7 +662,7 @@ const Soultification = ({
               <View
                 style={[
                   styles.timePickerContainer,
-                  { backgroundColor: "#D7F6FF" },
+                  { backgroundColor: ValueSheet.colours.secondaryColour },
                 ]}
               >
                 <>
@@ -769,7 +775,7 @@ const Soultification = ({
               <View
                 style={[
                   styles.timePickerContainer,
-                  { backgroundColor: "#D7F6FF" },
+                  { backgroundColor: ValueSheet.colours.secondaryColour },
                 ]}
               >
                 <>
@@ -876,30 +882,11 @@ const Soultification = ({
 };
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  contentContainerStyle: {
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  habitContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#ccc",
-    borderRadius: 30,
-    paddingHorizontal: 15,
-    paddingVertical: 20,
-    marginBottom: 10,
-  },
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -912,35 +899,24 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: 5,
     alignItems: "center",
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 0.7,
     width: 114,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     paddingRight: 5,
-    backgroundColor: "#D7F6FF",
-  },
-  habitContainer3: {
-    borderRadius: 15,
-    paddingHorizontal: 6,
-    paddingVertical: 10,
-    marginBottom: 0,
-  },
-  habitContainer4: {
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   timeText: {
     fontSize: 17,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   itemContainer4: {
     borderRadius: 8,
     paddingHorizontal: 2,
     paddingVertical: 3,
     marginBottom: 0,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   timeContainer: {
     flexDirection: "row",
@@ -956,36 +932,16 @@ export const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 5,
   },
-  screenName: {
-    color: "#25436B",
-    fontSize: 30,
-    fontFamily: "Sego-Bold",
-    flex: 1,
-  },
-  sectionTitle: {
-    fontSize: 40,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 30,
-    paddingHorizontal: 20,
-  },
   itemTitle: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
   },
-  bottomItems: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 10,
-    width: "100%",
-  },
   smallText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 12,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   plusImage: {
     width: 22,

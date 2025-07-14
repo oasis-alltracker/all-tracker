@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../../../ValueSheet";
 
 const data = [
   {
@@ -66,7 +67,9 @@ const SleepStep2 = (props) => {
             style={[
               styles.buttonCon,
               { width: width * 0.9 },
-              active === key + 1 && { backgroundColor: "#D7F6FF" },
+              active === key + 1 && {
+                backgroundColor: ValueSheet.colours.secondaryColour,
+              },
             ]}
             onPress={() => {
               setActive(key + 1);
@@ -95,19 +98,9 @@ const SleepStep2 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
-  },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 216, 247, 0.62)",
-    borderWidth: 2,
-    borderColor: "rgba(204, 173, 198, 0.7)",
-    justifyContent: "center",
-    alignItems: "center",
   },
   buttonCon: {
     borderRadius: 25,
@@ -116,30 +109,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 120,
     marginBottom: 15,
-    borderColor: "#CCCCCC",
-  },
-  image: {
-    width: 80,
-    height: 80,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
+    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 70,
     marginBottom: 80,
     textAlign: "center",
   },
   yesNoText: {
     fontSize: 25,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     textAlign: "center",
   },
   buttons: {
@@ -152,24 +135,16 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 60,
-    borderRadius: 20,
-    marginTop: 0,
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
   },
-  textStyle: {
-    fontSize: 20,
-    fontFamily: "Sego",
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default SleepStep2;

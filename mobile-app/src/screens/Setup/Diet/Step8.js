@@ -6,6 +6,7 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../../ValueSheet";
 
 const weightChangeValues = {
   kg: {
@@ -43,7 +44,7 @@ const DietStep8 = (props) => {
 
   const getButtonColour = (selectedIntensity) => {
     if (intensity == selectedIntensity) {
-      return "rgba(215, 246, 255, 0.65)";
+      return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
     }
@@ -216,7 +217,7 @@ const DietStep8 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -236,14 +237,14 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
   },
@@ -257,12 +258,12 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   bigButtons: {
     width: "100%",
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     height: 65,
     borderRadius: 30,
     paddingHorizontal: 25,
@@ -286,15 +287,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 16,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   minitext: {
     fontSize: 16,
     marginTop: 10,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
 
 export default DietStep8;

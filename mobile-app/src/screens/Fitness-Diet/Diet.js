@@ -12,6 +12,7 @@ import moment from "moment";
 import { sharedStyles } from "../styles";
 import * as Progress from "react-native-progress";
 import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
+import { ValueSheet } from "../../ValueSheet";
 
 const mealTitles = [
   {
@@ -59,7 +60,12 @@ export default function Diet({
 }) {
   const editMacroGoalsRef = useRef(null);
   const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
-  const colours = ["#ACC5CC", "#D7F6FF", "#76BBCF", "#008ab3"];
+  const colours = [
+    ValueSheet.colours.borderGrey,
+    ValueSheet.colours.secondaryColour,
+    ValueSheet.colours.progressLightTeal,
+    ValueSheet.colours.progressTeal,
+  ];
 
   const EmptyMeal = ({ item }) => (
     <TouchableOpacity
@@ -160,7 +166,7 @@ export default function Diet({
           unfilledColor={innerColor}
           color={outerColor}
           borderWidth={1}
-          borderColor="#ACC5CC"
+          borderColor={ValueSheet.colours.borderGrey}
         >
           <View style={styles.progressCircleContent}>
             <Text style={[styles.boldText, { fontSize: 22 }]}>
@@ -325,102 +331,27 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 80,
   },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(202, 189, 255, 65)",
-    borderColor: "rgba(162, 151, 204, 0.7)",
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    tintColor: "#25436B",
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: "#ACC5CC",
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: "#D7F6FF",
-    borderWidth: 1,
-    borderColor: "#CCCCCC",
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: "#25436B",
-    fontFamily: "Sego",
-  },
   plus: {
     width: 40,
     height: 40,
   },
-  title: {
-    fontSize: 33,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-    marginTop: 20,
-    marginLeft: 20,
-  },
   desc: {
     fontSize: 20,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   boldText: {
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 30,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   miniText: {
-    fontFamily: "Sego",
-    color: "#25436B",
-  },
-  addBtn: {
-    borderWidth: 2,
-    borderColor: "#CCCCCC",
-    borderRadius: 30,
-    height: 80,
-    alignItems: "center",
-    marginHorizontal: 20,
-    marginTop: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   borderedContainer: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 40,
     marginHorizontal: 20,
     marginTop: 30,
@@ -433,7 +364,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   filler: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     maxWidth: "100%",
     height: "100%",
   },
@@ -443,21 +374,14 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   itemText: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 32,
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
   },
   subItemText: {
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 22,
-    color: "#25436B",
-  },
-  items: {
-    flexDirection: "row",
-    paddingHorizontal: 20,
-    justifyContent: "center",
-    marginTop: 30,
-    marginBottom: 50,
+    color: ValueSheet.colours.primaryColour,
   },
   item: {
     flex: 1,
@@ -473,7 +397,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   line: {
-    borderBottomColor: "#ccc",
+    borderBottomColor: ValueSheet.colours.grey,
     borderBottomWidth: 1,
     marginVertical: 10,
   },

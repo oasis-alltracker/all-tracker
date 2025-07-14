@@ -15,6 +15,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
+import { ValueSheet } from "../../../ValueSheet";
 
 export default function HabitNotificationsModal({ getRef, reopenMain }) {
   const { width, height } = useWindowDimensions();
@@ -348,8 +349,13 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
             height={32}
             onValueChange={onToggle}
             value={isNotificationsOn}
-            trackColor={{ true: "#d7f6ff", false: "#D5CBFF" }}
-            thumbColor={isNotificationsOn ? "#d7f6ff" : "#D5CBFF"}
+            trackColor={{
+              true: ValueSheet.colours.secondaryColour,
+              false: "#D5CBFF",
+            }}
+            thumbColor={
+              isNotificationsOn ? ValueSheet.colours.secondaryColour : "#D5CBFF"
+            }
           />
         </View>
         <View style={styles.scheduleContainer}>
@@ -359,7 +365,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: "#D7F6FF" },
+                    { backgroundColor: ValueSheet.colours.secondaryColour },
                   ]}
                 >
                   <>
@@ -410,7 +416,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: "#D7F6FF" },
+                    { backgroundColor: ValueSheet.colours.secondaryColour },
                   ]}
                 >
                   <>
@@ -461,7 +467,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: "#D7F6FF" },
+                    { backgroundColor: ValueSheet.colours.secondaryColour },
                   ]}
                 >
                   <>
@@ -512,7 +518,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: "#D7F6FF" },
+                    { backgroundColor: ValueSheet.colours.secondaryColour },
                   ]}
                 >
                   <>
@@ -563,7 +569,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: "#D7F6FF" },
+                    { backgroundColor: ValueSheet.colours.secondaryColour },
                   ]}
                 >
                   <>
@@ -611,7 +617,10 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           {scheduleCount == 1 && (
             <View style={{ flexDirection: "row" }}>
               {isMiniLoading ? (
-                <ActivityIndicator size="small" color="#25436B" />
+                <ActivityIndicator
+                  size="small"
+                  color={ValueSheet.colours.primaryColour}
+                />
               ) : (
                 <TouchableOpacity
                   onPress={() => {
@@ -630,7 +639,10 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           {scheduleCount > 1 && scheduleCount < 5 && (
             <View style={{ flexDirection: "row" }}>
               {isMiniLoading ? (
-                <ActivityIndicator size="small" color="#25436B" />
+                <ActivityIndicator
+                  size="small"
+                  color={ValueSheet.colours.primaryColour}
+                />
               ) : (
                 <>
                   <TouchableOpacity
@@ -662,7 +674,10 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           {scheduleCount == 5 && (
             <View style={{ flexDirection: "row" }}>
               {isMiniLoading ? (
-                <ActivityIndicator size="small" color="#25436B" />
+                <ActivityIndicator
+                  size="small"
+                  color={ValueSheet.colours.primaryColour}
+                />
               ) : (
                 <>
                   <TouchableOpacity
@@ -710,12 +725,12 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     height: 490,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
   },
   scheduleContainer: {
     alignItems: "center",
@@ -726,14 +741,13 @@ const styles = StyleSheet.create({
   },
   buttonsRow: {
     borderTopWidth: 1,
-    borderColor: "rgba(0,0,0,0.1)",
+    borderColor: ValueSheet.colours.black10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 5,
     marginTop: 20,
   },
-
   titleRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -742,18 +756,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 32,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginVertical: 24,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
-  button: {
-    width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
   timePickerContainer: {
     borderRadius: 15,
@@ -761,12 +772,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 140,
     paddingRight: 5,
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   timeText: {
     fontSize: 17,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   timeContainer: {
     flexDirection: "row",
@@ -781,9 +792,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   notificationButtonText: {
-    color: "#18A0FB",
+    color: ValueSheet.colours.datePickerBlue,
     fontSize: 18,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   plusImage: {
     width: 22,

@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import RNModal from "react-native-modal";
 import { Button } from "../../../../components";
+import { ValueSheet } from "../../../../ValueSheet";
 
 export default function DreamJournalModal({ getRef, updateReport }) {
   const [visible, setVisible] = useState(false);
@@ -65,7 +66,7 @@ export default function DreamJournalModal({ getRef, updateReport }) {
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropColor={ValueSheet.colours.secondaryColour27}
       style={styles.modal}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -77,7 +78,7 @@ export default function DreamJournalModal({ getRef, updateReport }) {
           >
             <TextInput
               multiline
-              placeholderTextColor={"#7B97BC"}
+              placeholderTextColor={ValueSheet.colours.inputGrey}
               placeholder="Write as much detail as you'd like:"
               style={styles.input}
               onChangeText={setJournal}
@@ -111,27 +112,12 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     height: 550,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
-  },
-  ratingImage: {
-    width: 70,
-    height: 70,
-    marginVertical: 15,
-  },
-  editData: {
-    width: 40,
-    height: 40,
-  },
-  nameRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 20,
+    borderBlockColor: ValueSheet.colours.black50,
   },
   descriptionRow: {
     flexDirection: "row",
@@ -146,43 +132,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     paddingTop: 40,
   },
-  dataTitle: {
-    color: "#25436B",
-    fontSize: 22,
-    fontFamily: "Sego",
-    marginLeft: 5,
-  },
   titleTitle: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginVertical: 24,
   },
-  dataValue: {
-    color: "#25436B",
-    fontSize: 22,
-    fontFamily: "Sego-Bold",
-    flex: 1,
-    paddingRight: 10,
-    textAlign: "right",
-  },
-  title: {
-    color: "#25436B",
-    fontSize: 35,
-    fontFamily: "Sego-Bold",
-    flex: 1,
-    marginLeft: 20,
-    fontSize: 20,
-  },
-  key: {
-    color: "#25436B",
-    fontSize: 25,
-    fontFamily: "Sego",
-  },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   input: {
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 14,
     width: "90%",
     textAlignVertical: "top",
@@ -193,39 +151,7 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  check: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#ccc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkImage: {
-    width: 20,
-    height: 20,
-  },
-  center: {
-    alignItems: "center",
-  },
-  diaryButton: {
-    borderWidth: 2,
-    borderColor: "#CCCCCC",
-    borderRadius: 30,
-    height: 40,
-    width: 150,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 15,
-    marginBottom: 40,
-  },
-  diaryText: {
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
-    fontSize: 20,
+    borderColor: ValueSheet.colours.grey,
   },
   textCon: {
     width: 340,

@@ -1,3 +1,4 @@
+import { ValueSheet } from "../../../ValueSheet";
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
@@ -231,7 +232,7 @@ const SearchFood = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     justifyContent: "space-between",
   },
   scrollContainer: {
@@ -239,11 +240,11 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   topArea: {
-    backgroundColor: "#D7F6FF",
+    backgroundColor: ValueSheet.colours.secondaryColour,
     flex: 1,
   },
   mainArea: {
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     flex: 3,
     minWidth: 0,
     justifyContent: "flex-start",
@@ -253,7 +254,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     justifyContent: "space-between",
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
   },
   topAreaBody: {
@@ -289,14 +290,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
     fontSize: 20,
-    fontFamily: "Sego",
-    color: "#25436B",
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.primaryColour,
   },
   backArrow: {
     height: 35,

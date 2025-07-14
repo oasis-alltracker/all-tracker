@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import { ValueSheet } from "../ValueSheet";
+
 const RenderTodos = ({
   onPress = () => {},
   currentDay,
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -164,18 +166,18 @@ const styles = StyleSheet.create({
     height: 20,
   },
   itemRenderTextMain: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     paddingVertical: 5,
     paddingRight: 5,
     flex: 1,
   },
   itemRenderTextMainStrikeThru: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 18,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     paddingVertical: 5,
     paddingRight: 5,
@@ -185,19 +187,19 @@ const styles = StyleSheet.create({
   itemRenderText2Main: {
     color: "#FFBEF1",
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   itemRenderText3Main: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   dueTodayText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
   },
 });

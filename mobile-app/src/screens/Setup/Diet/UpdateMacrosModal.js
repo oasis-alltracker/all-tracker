@@ -5,6 +5,7 @@ import { Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Button } from "../../../components";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
+import { ValueSheet } from "../../../ValueSheet";
 
 export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
   const [visible, setVisible] = useState(false);
@@ -98,7 +99,7 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
       isVisible={visible}
       onBackButtonPress={() => backDropPressed()}
       onBackdropPress={() => backDropPressed()}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropColor={ValueSheet.colours.secondaryColour27}
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
@@ -122,18 +123,18 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
 
           {isCal && (
             <>
-              <View style={[styles.buttons, styles.kgButtons]}>
+              <View style={[styles.buttons, styles.unitButtons]}>
                 <Button
-                  textStyle={styles.kgText}
+                  textStyle={styles.unitText}
                   onPress={() => setUnits("kcal")}
-                  style={[styles.kgBtn, units != "kcal" && styles.inactive]}
+                  style={[styles.unitBtn, units != "kcal" && styles.inactive]}
                 >
                   kcal
                 </Button>
                 <Button
-                  textStyle={styles.kgText}
+                  textStyle={styles.unitText}
                   onPress={() => setUnits("kJ")}
-                  style={[styles.kgBtn, units != "kJ" && styles.inactive]}
+                  style={[styles.unitBtn, units != "kJ" && styles.inactive]}
                 >
                   kJ
                 </Button>
@@ -173,11 +174,11 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 20,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -193,53 +194,35 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   inputTitle: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 20,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
     marginLeft: 10,
     marginTop: 5,
     textAlign: "center",
   },
-  text: {
-    color: "#25436B",
-    fontSize: 27,
-    fontFamily: "Sego",
-  },
   countText: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     width: "100%",
     height: "100%",
     textAlign: "center",
     fontSize: 22,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   countContainer: {
     borderRadius: 5,
     width: 280,
     marginTop: 10,
     height: 40,
-    borderColor: "rgba(172, 197, 204, 0.75)",
+    borderColor: ValueSheet.colours.borderGrey75,
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
   },
-  input: {
-    borderWidth: 1.5,
-    borderColor: "rgba(0,0,0,0.8)",
-    borderRadius: 20,
-    width: 100,
-    height: 40,
-    paddingHorizontal: 20,
-    fontFamily: "Sego-Bold",
-    fontSize: 20,
-  },
-  button: {
-    width: "47%",
-  },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   row2: {
     flexDirection: "row",
@@ -253,40 +236,25 @@ const styles = StyleSheet.create({
     width: 130,
     marginHorizontal: 10,
   },
-  plusMain: {
-    width: 40,
-    height: 40,
-  },
-  countButton: {
-    paddingHorizontal: 15,
-  },
-  positiveToast: {
-    backgroundColor: "#D7F6FF",
-    textColor: "#25436B",
-  },
-  negativeToast: {
-    backgroundColor: "#FFD7D7",
-    textColor: "#25436B",
-  },
   closeModalText: {
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
   },
-  kgButtons: {
+  unitButtons: {
     width: 170,
   },
-  kgText: {
+  unitText: {
     fontSize: 18,
   },
-  kgBtn: {
+  unitBtn: {
     width: 80,
     height: 35,
     borderRadius: 12,
   },
   inactive: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   buttons: {
     marginTop: 15,

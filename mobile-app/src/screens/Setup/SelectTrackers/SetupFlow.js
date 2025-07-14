@@ -13,6 +13,7 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { ValueSheet } from "../../../ValueSheet";
 
 const data = [
   {
@@ -113,7 +114,9 @@ const SetupFlow = (props) => {
             style={[
               styles.buttonCon,
               { width: width * 0.9 },
-              active === key + 1 && { backgroundColor: "#D7F6FF" },
+              active === key + 1 && {
+                backgroundColor: ValueSheet.colours.secondaryColour,
+              },
             ]}
             onPress={() => {
               setActive(key + 1);
@@ -142,20 +145,10 @@ const SetupFlow = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     paddingBottom: 15,
     paddingHorizontal: 15,
     justifyContent: "space-between",
-  },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: "rgba(255, 216, 247, 0.62)",
-    borderWidth: 2,
-    borderColor: "rgba(204, 173, 198, 0.7)",
-    justifyContent: "center",
-    alignItems: "center",
   },
   buttonCon: {
     borderRadius: 25,
@@ -164,22 +157,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 110,
     marginBottom: 15,
-    borderColor: "#CCCCCC",
-  },
-  image: {
-    width: 80,
-    height: 80,
-  },
-  imageText: {
-    fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
-    marginTop: 10,
+    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 20,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     paddingHorizontal: 15,
     marginTop: 15,
     marginBottom: 60,
@@ -187,8 +170,8 @@ const styles = StyleSheet.create({
   },
   yesNoText: {
     fontSize: 25,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     textAlign: "center",
   },
   buttons: {
@@ -201,24 +184,13 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
-  bigButtons: {
-    width: "100%",
-    backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-    height: 60,
-    borderRadius: 20,
-    marginTop: 0,
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
   },
-  center: {
-    alignItems: "center",
-  },
-  textStyle: {
-    fontSize: 20,
-    fontFamily: "Sego",
-  },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
   middleContainer: {
     flex: 1,
     textAlignVertical: "center",

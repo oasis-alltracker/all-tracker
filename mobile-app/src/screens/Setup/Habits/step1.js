@@ -18,6 +18,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-root-toast";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { ValueSheet } from "../../../ValueSheet";
 
 const HabitsCreation = (props) => {
   const { width, height } = useWindowDimensions();
@@ -443,7 +444,7 @@ export default HabitsCreation;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -463,15 +464,15 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     padding: 10,
     fontSize: 22,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
     textAlign: "center",
@@ -487,7 +488,7 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
@@ -501,14 +502,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: "rgba(215, 246, 255, 0.35)",
+    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: "rgba(204, 204, 204, 0.728)",
-
+    borderColor: ValueSheet.colours.borderGrey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -529,24 +529,19 @@ const styles = StyleSheet.create({
   },
   habitsTitle: {
     fontSize: 31,
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
   },
   plus: {
     width: 40,
     height: 40,
   },
   itemText: {
-    color: "#1E1E1E",
+    color: ValueSheet.colours.black,
     fontSize: 20,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
     flex: 1,
-  },
-  itemText2: {
-    color: "#FFBEF1",
-    fontSize: 13,
-    fontFamily: "Sego",
   },
   habitImage: {
     width: 30,
@@ -559,12 +554,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
   },
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: "#ccc",
+    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -575,8 +570,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "rgba(37, 67, 107, 0.6)",
-    fontFamily: "Sego",
+    color: ValueSheet.colours.black50,
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });

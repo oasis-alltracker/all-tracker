@@ -5,6 +5,7 @@ import { Image } from "react-native";
 import { Button } from "../../../../components";
 import MoodJournalModal from "./moodJournalModal";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ValueSheet } from "../../../../ValueSheet";
 
 const data = [
   {
@@ -106,7 +107,7 @@ export default function WellnessReportModal({
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
-      backdropColor="rgba(215, 246, 255, 0.27)"
+      backdropColor={ValueSheet.colours.secondaryColour27}
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
@@ -172,26 +173,16 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: "rgba(0,0,0,0.5)",
+    borderBlockColor: ValueSheet.colours.black50,
   },
   ratingImage: {
     width: 70,
     height: 70,
     marginVertical: 15,
-  },
-  editData: {
-    width: 40,
-    height: 40,
-  },
-  nameRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 20,
   },
   descriptionRow: {
     flexDirection: "row",
@@ -206,74 +197,39 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   dataTitle: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
     marginLeft: 5,
   },
   titleTitle: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 10,
   },
   dataValue: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
     paddingRight: 10,
     textAlign: "right",
-  },
-  title: {
-    color: "#25436B",
-    fontSize: 35,
-    fontFamily: "Sego-Bold",
-    flex: 1,
-    marginLeft: 20,
-    fontSize: 20,
-  },
-  key: {
-    color: "#25436B",
-    fontSize: 25,
-    fontFamily: "Sego",
-  },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
-  input: {
-    width: 100,
-    paddingHorizontal: 20,
-    color: "#25436B",
-    flex: 1,
-    fontFamily: "Sego",
-    fontSize: 18,
   },
   button: {
     width: "47%",
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: "#CCCCCC",
-  },
-  check: {
-    width: 30,
-    height: 30,
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#ccc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkImage: {
-    width: 20,
-    height: 20,
+    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
   },
   diaryButton: {
     borderWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     height: 40,
     width: 150,
@@ -283,8 +239,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   diaryText: {
-    color: "#25436B",
-    fontFamily: "Sego-Bold",
+    color: ValueSheet.colours.primaryColour,
+    fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 20,
   },
 });

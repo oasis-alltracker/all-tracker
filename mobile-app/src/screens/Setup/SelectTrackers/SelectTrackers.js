@@ -15,6 +15,7 @@ import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Toast from "react-native-root-toast";
 import { DISPLAY_PHYSICAL_SETUP_BUTTONS } from "./experimentFlags";
+import { ValueSheet } from "../../../ValueSheet";
 
 const SelectTrackers = () => {
   const { width, height } = useWindowDimensions();
@@ -29,8 +30,12 @@ const SelectTrackers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
 
-  const buttonSize = DISPLAY_PHYSICAL_SETUP_BUTTONS? height*0.15 : height*0.2;
-  const buttonImageSize = DISPLAY_PHYSICAL_SETUP_BUTTONS? height*0.06 : height*0.08
+  const buttonSize = DISPLAY_PHYSICAL_SETUP_BUTTONS
+    ? height * 0.15
+    : height * 0.2;
+  const buttonImageSize = DISPLAY_PHYSICAL_SETUP_BUTTONS
+    ? height * 0.06
+    : height * 0.08;
 
   const setSelectedTrackers = async () => {
     setIsLoading(true);
@@ -167,14 +172,13 @@ const SelectTrackers = () => {
     fetchTrackingPreferences();
   }, []);
 
-
   return (
     <SafeAreaView style={styles.container}>
       <Header showCenter={false} />
       <Text style={[styles.subtitle]}>
-      Which areas of your daily life would you like to log?
+        Which areas of your daily life would you like to log?
       </Text>
-      
+
       <View style={styles.middleContainer}>
         <View style={styles.center}>
           <TouchableOpacity
@@ -182,11 +186,13 @@ const SelectTrackers = () => {
               styles.button,
               !habitsSelected && { opacity: 0.5 },
               habitsSelected && { borderWidth: 1.5 },
-              habitsSelected && { borderColor: "#25436B" },
+              habitsSelected && {
+                borderColor: ValueSheet.colours.primaryColour,
+              },
               { width: buttonSize, height: buttonSize },
             ]}
             onPress={() => setHabitsSelected(!habitsSelected)}
-          > 
+          >
             <Image
               style={{
                 width: buttonImageSize,
@@ -201,7 +207,9 @@ const SelectTrackers = () => {
               styles.button,
               !toDosSelected && { opacity: 0.5 },
               toDosSelected && { borderWidth: 1.5 },
-              toDosSelected && { borderColor: "#25436B" },
+              toDosSelected && {
+                borderColor: ValueSheet.colours.primaryColour,
+              },
               { width: buttonSize, height: buttonSize },
             ]}
             onPress={() => setToDosSelected(!toDosSelected)}
@@ -216,9 +224,9 @@ const SelectTrackers = () => {
             <Text style={styles.title}>to-dos</Text>
           </TouchableOpacity>
         </View>
-        {DISPLAY_PHYSICAL_SETUP_BUTTONS && 
+        {DISPLAY_PHYSICAL_SETUP_BUTTONS && (
           <View style={styles.center}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[
                 styles.button,
                 {
@@ -229,20 +237,22 @@ const SelectTrackers = () => {
                 },
                 !dietSelected && { opacity: 0.5 },
                 dietSelected && { borderWidth: 1.5 },
-                dietSelected && { borderColor: "#25436B" },
+                dietSelected && {
+                  borderColor: ValueSheet.colours.primaryColour,
+                },
               ]}
-              onPress={()=> setDietSelected(!dietSelected)}
-              >
-                <Image
-                  style={{
-                    width: buttonImageSize,
-                    height: buttonImageSize,
-                  }}
-                  source={require("../../../assets/images/diet512.png")}
-                />
-                <Text style={styles.title}>diet</Text>
+              onPress={() => setDietSelected(!dietSelected)}
+            >
+              <Image
+                style={{
+                  width: buttonImageSize,
+                  height: buttonImageSize,
+                }}
+                source={require("../../../assets/images/diet512.png")}
+              />
+              <Text style={styles.title}>diet</Text>
             </TouchableOpacity>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[
                 styles.button,
                 {
@@ -253,21 +263,23 @@ const SelectTrackers = () => {
                 },
                 !fitnessSelected && { opacity: 0.5 },
                 fitnessSelected && { borderWidth: 1.5 },
-                fitnessSelected && { borderColor: "#25436B" },
+                fitnessSelected && {
+                  borderColor: ValueSheet.colours.primaryColour,
+                },
               ]}
-              onPress={()=> setFitnessSelected(!fitnessSelected)}
-              >
-                <Image
-                  style={{
-                    width: buttonImageSize,
-                    height: buttonImageSize,
-                  }}
-                  source={require("../../../assets/images/fitness512.png")}
-                />
-                <Text style={styles.title}>fitness</Text>
+              onPress={() => setFitnessSelected(!fitnessSelected)}
+            >
+              <Image
+                style={{
+                  width: buttonImageSize,
+                  height: buttonImageSize,
+                }}
+                source={require("../../../assets/images/fitness512.png")}
+              />
+              <Text style={styles.title}>fitness</Text>
             </TouchableOpacity>
           </View>
-        }
+        )}
         <View style={styles.center}>
           <TouchableOpacity
             style={[
@@ -280,7 +292,7 @@ const SelectTrackers = () => {
               },
               !moodSelected && { opacity: 0.5 },
               moodSelected && { borderWidth: 1.5 },
-              moodSelected && { borderColor: "#25436B" },
+              moodSelected && { borderColor: ValueSheet.colours.primaryColour },
             ]}
             onPress={() => setMoodSelected(!moodSelected)}
           >
@@ -304,7 +316,9 @@ const SelectTrackers = () => {
               },
               !sleepSelected && { opacity: 0.5 },
               sleepSelected && { borderWidth: 1.5 },
-              sleepSelected && { borderColor: "#25436B" },
+              sleepSelected && {
+                borderColor: ValueSheet.colours.primaryColour,
+              },
             ]}
             onPress={() => setSleepSelected(!sleepSelected)}
           >
@@ -335,7 +349,7 @@ export default SelectTrackers;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: ValueSheet.colours.background,
   },
   center: {
     flexDirection: "row",
@@ -351,21 +365,17 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255, 207, 245, 0.70)",
   },
   title: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
     marginTop: 7,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
   },
   subtitle: {
-    color: "#25436B",
+    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
-    fontFamily: "Sego-Bold",
+    fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
     paddingHorizontal: 12,
-  },
-  buttonText: {
-    color: "#25436B",
-    fontSize: 25,
   },
   middleContainer: {
     flex: 1,
@@ -373,5 +383,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 8,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
 });
