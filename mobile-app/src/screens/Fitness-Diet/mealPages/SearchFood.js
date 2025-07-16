@@ -119,6 +119,14 @@ const SearchFood = ({ navigation, route }) => {
       response = await searchFatSecret(input);
       setResults(response);
       setIsLoading(false);
+
+      if (response.length == 0) {
+        Toast.show("Sorry that item isn't available.", {
+          ...styles.errorToast,
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+        });
+      }
     } catch (e) {
       errorResponse(e);
     }
