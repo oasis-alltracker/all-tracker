@@ -18,6 +18,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
+import FoodEntriesMacrosAPI from "../../../api/diet/foodEntriesMacrosAPI";
 
 //TO DOs:
 //1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
@@ -138,10 +139,6 @@ export default function AddEntryModal({
     getRef(ref);
   }, []);
 
-  const add2Decimals = (num1, num2) => {
-    return (num1 * 100 + num2 * 100) / 100;
-  };
-
   const onAddFoodEntry = async () => {
     try {
       var newFoodEntry = {
@@ -160,6 +157,12 @@ export default function AddEntryModal({
       setIsLoading(true);
       token = await getAccessToken();
       await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
+      newMeal = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
+        token,
+        moment(day).format("YYYYMMDD"),
+        newFoodEntry.meal
+      );
+      newMeal = newMeal[newFoodEntry.meal];
 
       setIsLoading(false);
       setVisible(false);
@@ -169,21 +172,9 @@ export default function AddEntryModal({
       };
 
       if (prevPage == "mealPage") {
-        meal.calorieCount = add2Decimals(
-          meal.calorieCount,
-          newFoodEntry.calorieCount
-        );
-        meal.proteinCount = add2Decimals(
-          meal.proteinCount,
-          newFoodEntry.proteinCount
-        );
-        meal.carbCount = add2Decimals(meal.carbCount, newFoodEntry.carbCount);
-        meal.fatCount = add2Decimals(meal.fatCount, newFoodEntry.fatCount);
-        meal.entries.push(newFoodEntry);
-
         params["dateString"] = day.toLocaleDateString();
         params["mealName"] = mealName;
-        params["meal"] = meal;
+        params["meal"] = newMeal;
       }
 
       navigationService.navigate(prevPage, params);
