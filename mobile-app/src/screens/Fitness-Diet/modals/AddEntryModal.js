@@ -19,9 +19,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 import FoodEntriesMacrosAPI from "../../../api/diet/foodEntriesMacrosAPI";
-
-//TO DOs:
-//1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
+import Toast from "react-native-root-toast";
 
 const macroTitles = [
   {
@@ -269,18 +267,29 @@ export default function AddEntryModal({
   };
 
   const recalMacrosByQuantity = () => {
-    var newMacros = {
-      calorieCount: +((macros.calorieCount / prevQuantity) * quantity).toFixed(
-        2
-      ),
-      carbCount: +((macros.carbCount / prevQuantity) * quantity).toFixed(2),
-      fatCount: +((macros.fatCount / prevQuantity) * quantity).toFixed(2),
-      proteinCount: +((macros.proteinCount / prevQuantity) * quantity).toFixed(
-        2
-      ),
-    };
-    setMacros(newMacros);
-    setPrevQuantity(quantity);
+    if (!isNaN(Number(quantity)) && Number(quantity) > 0) {
+      var newMacros = {
+        calorieCount: +(
+          (macros.calorieCount / prevQuantity) *
+          quantity
+        ).toFixed(2),
+        carbCount: +((macros.carbCount / prevQuantity) * quantity).toFixed(2),
+        fatCount: +((macros.fatCount / prevQuantity) * quantity).toFixed(2),
+        proteinCount: +(
+          (macros.proteinCount / prevQuantity) *
+          quantity
+        ).toFixed(2),
+      };
+      setMacros(newMacros);
+      setPrevQuantity(quantity);
+    } else {
+      setQuantity(prevQuantity);
+      Toast.show("Please enter a valid number greater than 0", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+      });
+    }
   };
 
   return (
