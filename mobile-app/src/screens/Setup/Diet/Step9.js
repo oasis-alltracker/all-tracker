@@ -101,7 +101,17 @@ const DietStep9 = (props) => {
     }
   };
 
-  const onNext = () => {
+  const onNext = async () => {
+    const token = await getAccessToken();
+    DietGoalsAPI.updateDietGoals(token, {
+      carbGoal: carbGoalValue,
+      proteinGoal: proteinGoalValue,
+      fatGoal: fatGoalValue,
+      calorieGoal: {
+        value: calorieGoalValue,
+        units: calorieUnit,
+      },
+    });
     if (isEditingMacros) {
       navigationService.navigate("fitness-diet", {
         isEditingGoals: isEditingMacros,
@@ -163,20 +173,10 @@ const DietStep9 = (props) => {
           text: "Fats:",
         },
       ]);
-      const token = await getAccessToken();
       setCalorieGoalValue(Math.round(dailyCalorieIntake));
       setCarbGoalValue(Math.round(carbs));
       setProteinGoalValue(Math.round(protein));
       setFatGoalValue(Math.round(fat));
-      DietGoalsAPI.updateDietGoals(token, {
-        carbGoal: Math.round(carbs),
-        proteinGoal: Math.round(protein),
-        fatGoal: Math.round(fat),
-        calorieGoal: {
-          value: Math.round(dailyCalorieIntake),
-          units: calorieUnit,
-        },
-      });
       setIsLoading(false);
     };
 
