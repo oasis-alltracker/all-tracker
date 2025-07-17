@@ -105,7 +105,7 @@ const SetupFlow = (props) => {
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.middleContainer}>
         <Text style={styles.title}>
-          Would you like go though the setup process?
+          Would you like go through the setup process?
         </Text>
 
         {data.map((val, key) => (
