@@ -101,7 +101,7 @@ const DietStep9 = (props) => {
     }
   };
 
-  const onNext = async () => {
+  const updateGoals = async () => {
     const token = await getAccessToken();
     DietGoalsAPI.updateDietGoals(token, {
       carbGoal: carbGoalValue,
@@ -112,6 +112,10 @@ const DietStep9 = (props) => {
         units: calorieUnit,
       },
     });
+  };
+
+  const onNext = async () => {
+    updateGoals();
     if (isEditingMacros) {
       navigationService.navigate("fitness-diet", {
         isEditingGoals: isEditingMacros,
