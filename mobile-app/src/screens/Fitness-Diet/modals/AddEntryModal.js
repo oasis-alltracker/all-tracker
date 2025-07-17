@@ -137,6 +137,10 @@ export default function AddEntryModal({
     getRef(ref);
   }, []);
 
+  const add2Decimals = (num1, num2) => {
+    return (num1 * 100 + num2 * 100) / 100;
+  };
+
   const onAddFoodEntry = async () => {
     try {
       var newFoodEntry = {
@@ -154,7 +158,8 @@ export default function AddEntryModal({
       };
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
+      response = await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
+      console.log(response); // this should include the sk
       newMeal = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
         token,
         moment(day).format("YYYYMMDD"),
@@ -268,6 +273,7 @@ export default function AddEntryModal({
 
   const recalMacrosByQuantity = () => {
     if (!isNaN(Number(quantity)) && Number(quantity) > 0) {
+      var roundedQuantity = quantity.toFixed(2);
       var newMacros = {
         calorieCount: +(
           (macros.calorieCount / prevQuantity) *
@@ -281,7 +287,8 @@ export default function AddEntryModal({
         ).toFixed(2),
       };
       setMacros(newMacros);
-      setPrevQuantity(quantity);
+      setQuantity(roundedQuantity);
+      setPrevQuantity(roundedQuantity);
     } else {
       setQuantity(prevQuantity);
       Toast.show("Please enter a valid number greater than 0", {

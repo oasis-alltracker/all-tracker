@@ -35,6 +35,7 @@ const SearchFood = ({ navigation, route }) => {
   });
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
+  const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const addEntryRef = useRef(null);
@@ -106,6 +107,9 @@ const SearchFood = ({ navigation, route }) => {
       setIsLoading(true);
       foodItems = await RecentFoodEntriesAPI.getRecentFoodEntries(token);
       setResults(foodItems);
+      if (foodItems.length == 0) {
+        setText("Your recent foods will be shown here");
+      }
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -126,6 +130,7 @@ const SearchFood = ({ navigation, route }) => {
           duration: Toast.durations.LONG,
           position: Toast.positions.CENTER,
         });
+        setText("There are no results. Please enter something else");
       }
     } catch (e) {
       errorResponse(e);
@@ -196,34 +201,40 @@ const SearchFood = ({ navigation, route }) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
         >
-          {searchResults.map((item, index) => (
-            <View key={index} style={styles.resultContainer}>
-              <View style={{ flexDirection: "vertical", flex: 1 }}>
-                <Text
-                  style={[
-                    styles.textStyle,
-                    { flexShrink: 1, flexWrap: "wrap" },
-                  ]}
-                >
-                  {item.name}
-                </Text>
-                <Text style={[styles.textStyle, { fontSize: 12 }]}>
-                  {item.calorieCount} cals
-                </Text>
-              </View>
+          {searchResults.length > 1 ? (
+            searchResults.map((item, index) => (
+              <View key={index} style={styles.resultContainer}>
+                <View style={{ flexDirection: "vertical", flex: 1 }}>
+                  <Text
+                    style={[
+                      styles.textStyle,
+                      { flexShrink: 1, flexWrap: "wrap" },
+                    ]}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text style={[styles.textStyle, { fontSize: 12 }]}>
+                    {item.calorieCount} cals
+                  </Text>
+                </View>
 
-              <TouchableOpacity
-                onPress={() => {
-                  addEntryRef.current.open(item);
-                }}
-              >
-                <Image
-                  style={styles.smallImage}
-                  source={require("../../../assets/images/plus512.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
+                <TouchableOpacity
+                  onPress={() => {
+                    addEntryRef.current.open(item);
+                  }}
+                >
+                  <Image
+                    style={styles.smallImage}
+                    source={require("../../../assets/images/plus512.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text style={[styles.textStyle, { textAlign: "center" }]}>
+              {text}
+            </Text>
+          )}
         </ScrollView>
         <AddEntryModal
           getRef={(ref) => (addEntryRef.current = ref)}
