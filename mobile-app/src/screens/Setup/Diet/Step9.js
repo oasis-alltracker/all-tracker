@@ -33,11 +33,12 @@ const DietStep9 = (props) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [calories, setCalories] = useState(0);
-  const [calorieGoalValue, setCalorieGoalValue] = useState(0);
+  const [calorieUnit, setCalorieUnit] = useState("kcal");
+  const [calorieGoalValue, setCalorieGoalValue] = useState(0); //holds calorie value and unit
   const [carbGoalValue, setCarbGoalValue] = useState(0);
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
-  const [calorieUnit, setCalorieUnit] = useState("kcal");
+
   const [datas, setDatas] = useState([
     {
       title: "0 g",
@@ -91,13 +92,6 @@ const DietStep9 = (props) => {
         return item;
       });
       setDatas(newDatas);
-      const token = await getAccessToken();
-      DietGoalsAPI.updateDietGoals(token, {
-        carbGoal: newCarbs,
-        proteinGoal: newProteins,
-        fatGoal: newFats,
-        calorieGoal: newCalories,
-      });
     }
   };
 
@@ -107,10 +101,7 @@ const DietStep9 = (props) => {
       carbGoal: carbGoalValue,
       proteinGoal: proteinGoalValue,
       fatGoal: fatGoalValue,
-      calorieGoal: {
-        value: calorieGoalValue,
-        units: calorieUnit,
-      },
+      calorieGoal: calorieGoalValue,
     });
   };
 
@@ -177,7 +168,10 @@ const DietStep9 = (props) => {
           text: "Fats:",
         },
       ]);
-      setCalorieGoalValue(Math.round(dailyCalorieIntake));
+      setCalorieGoalValue({
+        value: Math.round(dailyCalorieIntake),
+        units: calorieUnit,
+      });
       setCarbGoalValue(Math.round(carbs));
       setProteinGoalValue(Math.round(protein));
       setFatGoalValue(Math.round(fat));
