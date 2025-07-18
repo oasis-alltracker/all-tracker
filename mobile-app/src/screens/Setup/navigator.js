@@ -8,7 +8,7 @@ import Todos from "./Tasks/Todos";
 import DietStep1 from "./Diet/Step1";
 import DietStep3 from "./Diet/Step3";
 import DietStep2 from "./Diet/Step2";
-import BirthYearInput from "./Diet/BirthYearInput";
+import DietStep5 from "./Diet/Step5";
 import DietStep4 from "./Diet/Step4";
 import ActivityLevelSelection from "./Diet/ActivityLevelSelection";
 import IntensitySelection from "./Diet/IntensitySelection";
@@ -40,7 +40,7 @@ function SetupNavigator() {
       <Stack.Screen name="dietStep2" component={DietStep2} />
       <Stack.Screen name="dietStep3" component={DietStep3} />
       <Stack.Screen name="dietStep4" component={DietStep4} />
-      <Stack.Screen name="birthYearInput" component={BirthYearInput} />
+      <Stack.Screen name="dietStep5" component={DietStep5} />
       <Stack.Screen
         name="activityLevelSelection"
         component={ActivityLevelSelection}

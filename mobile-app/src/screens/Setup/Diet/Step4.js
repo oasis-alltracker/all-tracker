@@ -26,7 +26,7 @@ const DietStep4 = (props) => {
       if (!isNaN(Number(height))) {
         const currentHeight = { height: height, units: isCm ? "cm" : "in" };
 
-        navigationService.navigate("birthYearInput", {
+        navigationService.navigate("dietStep5", {
           selectedTrackers,
           isEditingMacros,
           goal,
