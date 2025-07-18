@@ -29,7 +29,7 @@ const DietStep7 = (props) => {
   };
 
   const onNext = () => {
-    if (activityLevel) {
+    if (activityLevel != null) {
       if (goal === "maintain") {
         const weightChangePerWeek = 0;
         navigationService.navigate("dietStep9", {
