@@ -18,7 +18,7 @@ const activityLevelValues = {
   3: 1.725,
 };
 
-const DietStep9 = (props) => {
+const NewGoalsSummary = (props) => {
   const {
     selectedTrackers,
     isEditingMacros,
@@ -112,7 +112,7 @@ const DietStep9 = (props) => {
         isEditingGoals: isEditingMacros,
       });
     } else {
-      navigationService.navigate("dietStep10", {
+      navigationService.navigate("dietNotifications", {
         selectedTrackers,
       });
     }
@@ -389,4 +389,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep9;
+export default NewGoalsSummary;

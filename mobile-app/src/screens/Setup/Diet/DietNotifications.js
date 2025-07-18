@@ -19,7 +19,7 @@ import NotificationsHandler from "../../../api/notifications/notificationsHandle
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep10 = (props) => {
+const DietNotifications = (props) => {
   const { selectedTrackers } = props.route.params;
   const [isBreakfastEnabled, setIsBreakfastEnabled] = useState(false);
   const [breakfastTime, setBreakfastTime] = useState(
@@ -731,4 +731,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep10;
+export default DietNotifications;

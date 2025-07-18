@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -11,71 +11,42 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
+import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep2 = (props) => {
-  const { selectedTrackers, isEditingMacros, goal, currentWeight } =
-    props.route.params;
-  const [goalWeight, setGoalWeight] = useState(null);
+const BirthYearInput = (props) => {
+  const {
+    selectedTrackers,
+    isEditingMacros,
+    goal,
+    weightGoal,
+    currentWeight,
+    currentHeight,
+  } = props.route.params;
+  const [birthYear, setBirthYear] = useState(null);
 
   const onNext = () => {
-    if (goalWeight) {
-      if (!isNaN(Number(goalWeight))) {
-        if (goal == "gain" && goalWeight <= currentWeight.weight) {
-          if (Platform.OS === "ios") {
-            Toast.show(
-              "Please enter a number greater than your current weight",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              }
-            );
-          } else {
-            Toast.show(
-              "Please enter a number greater than your current weight",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              }
-            );
-          }
-        } else if (goal == "lose" && goalWeight >= currentWeight.weight) {
-          if (Platform.OS === "ios") {
-            Toast.show("Please enter a number less than your current weight", {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            });
-          } else {
-            Toast.show("Please enter a number less than your current weight", {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            });
-          }
-        } else {
-          const weightGoal = { weight: goalWeight, units: currentWeight.units };
-          navigationService.navigate("dietStep6", {
-            selectedTrackers,
-            isEditingMacros,
-            goal,
-            currentWeight,
-            weightGoal,
-          });
-        }
+    if (birthYear) {
+      if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
+        navigationService.navigate("activityLevelSelection", {
+          selectedTrackers,
+          isEditingMacros,
+          goal,
+          weightGoal,
+          currentWeight,
+          currentHeight,
+          birthYear,
+        });
       } else {
         if (Platform.OS === "ios") {
-          Toast.show("Please enter a number", {
+          Toast.show("Please enter a valid birth year", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.BOTTOM,
           });
         } else {
-          Toast.show("Please enter a number", {
+          Toast.show("Please enter a valid birth year", {
             ...styles.errorToast,
             duration: Toast.durations.LONG,
             position: Toast.positions.TOP,
@@ -110,13 +81,13 @@ const DietStep2 = (props) => {
             />
             <Text style={styles.imageText}>diet</Text>
           </View>
-          <Text style={styles.title}>How much would you like to weigh?</Text>
+          <Text style={styles.title}>What year were you born?</Text>
           <TextInput
             style={styles.input}
             placeholder="0"
+            onChangeText={setBirthYear}
+            value={birthYear}
             keyboardType="number-pad"
-            onChangeText={setGoalWeight}
-            value={goalWeight}
           />
         </View>
         <View style={styles.buttons}>
@@ -205,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep2;
+export default BirthYearInput;
