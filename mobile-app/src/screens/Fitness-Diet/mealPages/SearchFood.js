@@ -193,7 +193,7 @@ const SearchFood = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
 
-        {searchResults.length > 1 ? (
+        {searchResults.length >= 1 ? (
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.scrollContainer}

@@ -140,12 +140,12 @@ const MealPage = ({ navigation, route }) => {
       <View style={styles.topArea}>
         <TouchableOpacity
           onPress={() => {
-            var params = {
-              foodItemsChanged: foodEntriesChangedRef.current,
-            };
+            var params = {};
 
             if (refreshMeal != null) {
               params["refreshMeal"] = refreshMeal;
+            } else {
+              params["foodItemsChanged"] = foodEntriesChangedRef.current;
             }
             navigationService.navigate("fitness-diet", params);
           }}

@@ -18,7 +18,6 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
-import FoodEntriesMacrosAPI from "../../../api/diet/foodEntriesMacrosAPI";
 import Toast from "react-native-root-toast";
 
 const macroTitles = [
