@@ -15,7 +15,7 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep2 = (props) => {
+const CurrentWeight = (props) => {
   const { selectedTrackers, isEditingMacros, goal } = props.route.params;
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
@@ -23,22 +23,22 @@ const DietStep2 = (props) => {
   const onNext = () => {
     if (weight) {
       if (!isNaN(Number(weight))) {
-        const DietStep2 = { weight: weight, units: isKg ? "kg" : "lb" };
+        const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
         if (goal == "maintain") {
-          const weightGoal = DietStep2;
+          const weightGoal = currentWeight;
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
             goal,
             weightGoal,
-            DietStep2,
+            currentWeight,
           });
         } else {
           navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
             goal,
-            DietStep2,
+            currentWeight,
           });
         }
       } else {
@@ -211,4 +211,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep2;
+export default CurrentWeight;
