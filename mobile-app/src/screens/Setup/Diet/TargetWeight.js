@@ -15,7 +15,7 @@ import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep3 = (props) => {
+const TargetWeight = (props) => {
   const { selectedTrackers, isEditingMacros, goal, currentWeight } =
     props.route.params;
   const [goalWeight, setGoalWeight] = useState(null);
@@ -205,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep3;
+export default TargetWeight;

@@ -34,7 +34,7 @@ const DietStep2 = (props) => {
             DietStep2,
           });
         } else {
-          navigationService.navigate("dietStep3", {
+          navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
             goal,
