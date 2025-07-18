@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,34 +11,60 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
+import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep3 = (props) => {
-  const { selectedTrackers, isEditingMacros, goal } = props.route.params;
-  const [isKg, setIsKg] = useState(true);
-  const [weight, setWeight] = useState(null);
+const TargetWeight = (props) => {
+  const { selectedTrackers, isEditingMacros, goal, currentWeight } =
+    props.route.params;
+  const [goalWeight, setGoalWeight] = useState(null);
 
   const onNext = () => {
-    if (weight) {
-      if (!isNaN(Number(weight))) {
-        const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
-        if (goal == "maintain") {
-          const weightGoal = currentWeight;
+    if (goalWeight) {
+      if (!isNaN(Number(goalWeight))) {
+        if (goal == "gain" && goalWeight <= currentWeight.weight) {
+          if (Platform.OS === "ios") {
+            Toast.show(
+              "Please enter a number greater than your current weight",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.BOTTOM,
+              }
+            );
+          } else {
+            Toast.show(
+              "Please enter a number greater than your current weight",
+              {
+                ...styles.errorToast,
+                duration: Toast.durations.LONG,
+                position: Toast.positions.TOP,
+              }
+            );
+          }
+        } else if (goal == "lose" && goalWeight >= currentWeight.weight) {
+          if (Platform.OS === "ios") {
+            Toast.show("Please enter a number less than your current weight", {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+            });
+          } else {
+            Toast.show("Please enter a number less than your current weight", {
+              ...styles.errorToast,
+              duration: Toast.durations.LONG,
+              position: Toast.positions.TOP,
+            });
+          }
+        } else {
+          const weightGoal = { weight: goalWeight, units: currentWeight.units };
           navigationService.navigate("dietStep6", {
             selectedTrackers,
             isEditingMacros,
             goal,
+            currentWeight,
             weightGoal,
-            currentWeight,
-          });
-        } else {
-          navigationService.navigate("dietStep2", {
-            selectedTrackers,
-            isEditingMacros,
-            goal,
-            currentWeight,
           });
         }
       } else {
@@ -84,30 +110,14 @@ const DietStep3 = (props) => {
             />
             <Text style={styles.imageText}>diet</Text>
           </View>
-          <Text style={styles.title}>What's your weight?</Text>
+          <Text style={styles.title}>How much would you like to weigh?</Text>
           <TextInput
             style={styles.input}
             placeholder="0"
-            onChangeText={setWeight}
             keyboardType="number-pad"
-            value={weight}
+            onChangeText={setGoalWeight}
+            value={goalWeight}
           />
-          <View style={[styles.buttons, styles.unitButtons]}>
-            <Button
-              textStyle={styles.unitText}
-              onPress={() => setIsKg(true)}
-              style={[styles.unitBtn, !isKg && styles.inactive]}
-            >
-              kg
-            </Button>
-            <Button
-              textStyle={styles.unitText}
-              onPress={() => setIsKg(false)}
-              style={[styles.unitBtn, isKg && styles.inactive]}
-            >
-              lb
-            </Button>
-          </View>
         </View>
         <View style={styles.buttons}>
           <Button
@@ -157,7 +167,7 @@ const styles = StyleSheet.create({
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
-    marginBottom: 65,
+    marginBottom: 20,
     textAlign: "center",
   },
   buttons: {
@@ -188,22 +198,6 @@ const styles = StyleSheet.create({
   center: {
     alignItems: "center",
   },
-  unitButtons: {
-    width: 170,
-    marginBottom: 20,
-  },
-  unitBtn: {
-    width: 80,
-    height: 35,
-    borderRadius: 12,
-  },
-  inactive: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
-  unitText: {
-    fontSize: 18,
-  },
   errorToast: {
     textColor: ValueSheet.colours.background,
     zIndex: 999,
@@ -211,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep3;
+export default TargetWeight;

@@ -13,7 +13,7 @@ const DietStep1 = (props) => {
 
   const onNext = () => {
     if (goal != "none") {
-      navigationService.navigate("dietStep3", {
+      navigationService.navigate("currentWeight", {
         selectedTrackers,
         isEditingMacros,
         goal,
