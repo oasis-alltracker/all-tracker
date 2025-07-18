@@ -15,7 +15,7 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep5 = (props) => {
+const BirthYearInput = (props) => {
   const {
     selectedTrackers,
     isEditingMacros,
@@ -176,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep5;
+export default BirthYearInput;

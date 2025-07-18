@@ -72,7 +72,7 @@ const HabitsNotifications = (props) => {
         navigationService.navigate("todos", { selectedTrackers });
       } else if (selectedTrackers.dietSelected) {
         setIsLoading(false);
-        navigationService.navigate("dietStep1", { selectedTrackers });
+        navigationService.navigate("goalSelection", { selectedTrackers });
       } else if (selectedTrackers.fitnessSelected) {
         setIsLoading(false);
         navigationService.navigate("fitness", { selectedTrackers });

@@ -7,7 +7,7 @@ import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep1 = (props) => {
+const GoalSelection = (props) => {
   const [goal, setGoal] = useState("none");
   const { selectedTrackers, isEditingMacros } = props.route.params;
 
@@ -179,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep1;
+export default GoalSelection;

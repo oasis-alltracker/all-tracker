@@ -82,7 +82,7 @@ const SelectTrackers = () => {
           );
         } else if (dietSelected) {
           await navigationService.navigate(
-            "dietStep1",
+            "goalSelection",
             (selectedTrackers = { selectedTrackers })
           );
         } else if (fitnessSelected) {
