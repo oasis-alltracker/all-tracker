@@ -107,7 +107,7 @@ const DietStep8 = (props) => {
         isEditingGoals: isEditingMacros,
       });
     } else {
-      navigationService.navigate("dietNotifications", {
+      navigationService.navigate("dietStep9", {
         selectedTrackers,
       });
     }
