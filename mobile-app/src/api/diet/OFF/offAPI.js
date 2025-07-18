@@ -31,6 +31,12 @@ const convertResults = (response) => {
       nutriments?.proteins_serving ?? nutriments?.proteins_value ?? "0",
     measurement: response.product?.serving_size ?? "per serving",
   };
+
+  serving.calorieCount = serving.calorieCount.toFixed(2);
+  serving.carbCount = serving.carbCount.toFixed(2);
+  serving.fatCount = serving.fatCount.toFixed(2);
+  serving.proteinCount = serving.proteinCount.toFixed(2);
+
   var brandName = response.product?.brands ?? "";
   var name =
     response.product?.product_name_en ?? response.product?.product_name;
