@@ -32,7 +32,7 @@ const ActivityLevelSelection = (props) => {
     if (activityLevel) {
       if (goal === "maintain") {
         const weightChangePerWeek = 0;
-        navigationService.navigate("dietStep9", {
+        navigationService.navigate("newGoalsSummary", {
           selectedTrackers,
           isEditingMacros,
           goal,

@@ -54,7 +54,7 @@ const IntensitySelection = (props) => {
     if (intensity) {
       const weightChangePerWeek =
         weightChangeValues[currentWeight.units][intensity];
-      navigationService.navigate("dietStep9", {
+      navigationService.navigate("newGoalsSummary", {
         selectedTrackers,
         isEditingMacros,
         goal,
