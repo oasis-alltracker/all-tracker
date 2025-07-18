@@ -7,7 +7,7 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const ActivityLevelSelection = (props) => {
+const DietStep6 = (props) => {
   const {
     selectedTrackers,
     isEditingMacros,
@@ -200,4 +200,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ActivityLevelSelection;
+export default DietStep6;

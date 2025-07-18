@@ -29,7 +29,7 @@ const DietStep5 = (props) => {
   const onNext = () => {
     if (birthYear) {
       if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
-        navigationService.navigate("activityLevelSelection", {
+        navigationService.navigate("dietStep6", {
           selectedTrackers,
           isEditingMacros,
           goal,
