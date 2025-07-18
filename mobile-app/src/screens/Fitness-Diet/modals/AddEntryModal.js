@@ -18,9 +18,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
-
-//TO DOs:
-//1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
+import Toast from "react-native-root-toast";
 
 const macroTitles = [
   {
@@ -139,6 +137,8 @@ export default function AddEntryModal({
   }, []);
 
   const add2Decimals = (num1, num2) => {
+    num1 = Number(num1);
+    num2 = Number(num2);
     return (num1 * 100 + num2 * 100) / 100;
   };
 
@@ -159,16 +159,15 @@ export default function AddEntryModal({
       };
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
-
-      setIsLoading(false);
-      setVisible(false);
+      response = await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
 
       var params = {
         refreshMeal: mealName.toLowerCase(),
       };
 
       if (prevPage == "mealPage") {
+        newFoodEntry.SK = response.ID;
+
         meal.calorieCount = add2Decimals(
           meal.calorieCount,
           newFoodEntry.calorieCount
@@ -185,6 +184,9 @@ export default function AddEntryModal({
         params["mealName"] = mealName;
         params["meal"] = meal;
       }
+
+      setIsLoading(false);
+      setVisible(false);
 
       navigationService.navigate(prevPage, params);
     } catch (e) {
@@ -264,6 +266,7 @@ export default function AddEntryModal({
   const onEditMacroValue = (title, value) => {
     var index;
     value = Number(value);
+    value = +value.toFixed(2);
     if (title == "Calories") index = "calorieCount";
     else if (title == "Carbs") index = "carbCount";
     else if (title == "Protein") index = "proteinCount";
@@ -278,18 +281,29 @@ export default function AddEntryModal({
   };
 
   const recalMacrosByQuantity = () => {
-    var newMacros = {
-      calorieCount: +((macros.calorieCount / prevQuantity) * quantity).toFixed(
-        2
-      ),
-      carbCount: +((macros.carbCount / prevQuantity) * quantity).toFixed(2),
-      fatCount: +((macros.fatCount / prevQuantity) * quantity).toFixed(2),
-      proteinCount: +((macros.proteinCount / prevQuantity) * quantity).toFixed(
-        2
-      ),
-    };
-    setMacros(newMacros);
-    setPrevQuantity(quantity);
+    if (!isNaN(Number(quantity)) && Number(quantity) > 0) {
+      var newMacros = {
+        calorieCount: +(
+          (macros.calorieCount / prevQuantity) *
+          quantity
+        ).toFixed(2),
+        carbCount: +((macros.carbCount / prevQuantity) * quantity).toFixed(2),
+        fatCount: +((macros.fatCount / prevQuantity) * quantity).toFixed(2),
+        proteinCount: +(
+          (macros.proteinCount / prevQuantity) *
+          quantity
+        ).toFixed(2),
+      };
+      setMacros(newMacros);
+      setPrevQuantity(quantity);
+    } else {
+      setQuantity(prevQuantity);
+      Toast.show("Please enter a valid number greater than 0", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+      });
+    }
   };
 
   return (

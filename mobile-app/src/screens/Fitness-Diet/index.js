@@ -203,7 +203,11 @@ const FitnessDiet = ({ navigation, route }) => {
         meal
       );
 
-      mealSetters[meal](result[meal]);
+      if (meal in result) {
+        mealSetters[meal](result[meal]);
+      } else {
+        mealSetters[meal](defaultMacros);
+      }
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
