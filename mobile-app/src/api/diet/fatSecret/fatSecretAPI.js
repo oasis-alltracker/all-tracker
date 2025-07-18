@@ -9,7 +9,7 @@ export async function barcodeSearchFatSecret(barcode) {
     Authorization: `Bearer ${token}`,
   };
   const params = {
-    barcode: barcode, //as a string
+    barcode: barcode,
     format: "json",
     language: "en",
     region: "US",
@@ -56,44 +56,45 @@ export async function searchFatSecret(searchInput, page = 0) {
     region: "US",
   };
   const response = await axios.get(API, { headers: headers, params: params });
-  return convertResults(response?.data.foods_search.results.food);
+  return convertResults(response?.data.foods_search.results?.food);
 }
 
 const convertResults = (results) => {
   var transformedResults = [];
+  if (results != null) {
+    results.forEach((item) => {
+      var defaultServing;
+      var servings = item.servings.serving.map((serving) => {
+        var entry = {
+          servingID: serving.serving_id,
+          measurement: serving.serving_description,
+          calorieCount: serving.calories,
+          carbCount: serving.carbohydrate,
+          proteinCount: serving.protein,
+          fatCount: serving.fat,
+        };
+        if (serving.is_default == "1") {
+          defaultServing = entry;
+        }
+        return entry;
+      });
 
-  results.forEach((item) => {
-    var defaultServing;
-    var servings = item.servings.serving.map((serving) => {
-      var entry = {
-        servingID: serving.serving_id,
-        measurement: serving.serving_description,
-        calorieCount: serving.calories,
-        carbCount: serving.carbohydrate,
-        proteinCount: serving.protein,
-        fatCount: serving.fat,
-      };
-      if (serving.is_default == "1") {
-        defaultServing = entry;
-      }
-      return entry;
+      transformedResults.push({
+        name:
+          item.food_type == "Brand"
+            ? `${item.brand_name} ${item.food_name}`
+            : item.food_name,
+        foodItemID: item.food_id,
+        calorieCount: defaultServing.calorieCount,
+        carbCount: defaultServing.carbCount,
+        fatCount: defaultServing.fatCount,
+        proteinCount: defaultServing.proteinCount,
+        measurement: defaultServing.measurement,
+        quantity: "1",
+        servingsDetails: servings,
+      });
     });
-
-    transformedResults.push({
-      name:
-        item.food_type == "Brand"
-          ? `${item.brand_name} ${item.food_name}`
-          : item.food_name,
-      foodItemID: item.food_id,
-      calorieCount: defaultServing.calorieCount,
-      carbCount: defaultServing.carbCount,
-      fatCount: defaultServing.fatCount,
-      proteinCount: defaultServing.proteinCount,
-      measurement: defaultServing.measurement,
-      quantity: "1",
-      servingsDetails: servings,
-    });
-  });
+  }
 
   return transformedResults;
 };

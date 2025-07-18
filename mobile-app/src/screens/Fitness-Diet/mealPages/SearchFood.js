@@ -35,6 +35,7 @@ const SearchFood = ({ navigation, route }) => {
   });
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
+  const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const addEntryRef = useRef(null);
@@ -106,6 +107,9 @@ const SearchFood = ({ navigation, route }) => {
       setIsLoading(true);
       foodItems = await RecentFoodEntriesAPI.getRecentFoodEntries(token);
       setResults(foodItems);
+      if (foodItems.length == 0) {
+        setText("Your recent foods will be shown here");
+      }
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -119,6 +123,10 @@ const SearchFood = ({ navigation, route }) => {
       response = await searchFatSecret(input);
       setResults(response);
       setIsLoading(false);
+
+      if (response.length == 0) {
+        setText("Sorry that item isn't available.");
+      }
     } catch (e) {
       errorResponse(e);
     }
@@ -184,39 +192,46 @@ const SearchFood = ({ navigation, route }) => {
             />
           </TouchableOpacity>
         </View>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}
-        >
-          {searchResults.map((item, index) => (
-            <View key={index} style={styles.resultContainer}>
-              <View style={{ flexDirection: "vertical", flex: 1 }}>
-                <Text
-                  style={[
-                    styles.textStyle,
-                    { flexShrink: 1, flexWrap: "wrap" },
-                  ]}
-                >
-                  {item.name}
-                </Text>
-                <Text style={[styles.textStyle, { fontSize: 12 }]}>
-                  {item.calorieCount} cals
-                </Text>
-              </View>
+        {searchResults.length >= 1 ? (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContainer}
+          >
+            {searchResults.map((item, index) => (
+              <View key={index} style={styles.resultContainer}>
+                <View style={{ flexDirection: "vertical", flex: 1 }}>
+                  <Text
+                    style={[
+                      styles.textStyle,
+                      { flexShrink: 1, flexWrap: "wrap" },
+                    ]}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text style={[styles.textStyle, { fontSize: 12 }]}>
+                    {item.calorieCount} cals
+                  </Text>
+                </View>
 
-              <TouchableOpacity
-                onPress={() => {
-                  addEntryRef.current.open(item);
-                }}
-              >
-                <Image
-                  style={styles.smallImage}
-                  source={require("../../../assets/images/plus512.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          ))}
-        </ScrollView>
+                <TouchableOpacity
+                  onPress={() => {
+                    addEntryRef.current.open(item);
+                  }}
+                >
+                  <Image
+                    style={styles.smallImage}
+                    source={require("../../../assets/images/plus512.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={styles.textContainer}>
+            <Text style={styles.greyText}>{text}</Text>
+          </View>
+        )}
+
         <AddEntryModal
           getRef={(ref) => (addEntryRef.current = ref)}
           mealName={mealName}
@@ -298,6 +313,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
+  },
+  greyText: {
+    fontSize: 20,
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.inputGrey,
+    textAlign: "center",
+    alignSelf: "center",
+  },
+  textContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 150,
   },
   backArrow: {
     height: 35,
