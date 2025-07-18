@@ -23,7 +23,7 @@ const weightChangeValues = {
   },
 };
 
-const IntensitySelection = (props) => {
+const DietStep7 = (props) => {
   const {
     selectedTrackers,
     isEditingMacros,
@@ -302,4 +302,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IntensitySelection;
+export default DietStep7;

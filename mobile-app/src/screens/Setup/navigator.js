@@ -11,7 +11,7 @@ import DietStep2 from "./Diet/Step2";
 import DietStep5 from "./Diet/Step5";
 import DietStep4 from "./Diet/Step4";
 import DietStep6 from "./Diet/Step6";
-import IntensitySelection from "./Diet/IntensitySelection";
+import DietStep7 from "./Diet/Step7";
 import NewGoalsSummary from "./Diet/NewGoalsSummary";
 import DietNotifications from "./Diet/DietNotifications";
 import FitnessStep1 from "./Fitness/Step1";
@@ -42,7 +42,7 @@ function SetupNavigator() {
       <Stack.Screen name="dietStep4" component={DietStep4} />
       <Stack.Screen name="dietStep5" component={DietStep5} />
       <Stack.Screen name="dietStep6" component={DietStep6} />
-      <Stack.Screen name="intensitySelection" component={IntensitySelection} />
+      <Stack.Screen name="dietStep7" component={DietStep7} />
       <Stack.Screen name="newGoalsSummary" component={NewGoalsSummary} />
       <Stack.Screen name="dietNotifications" component={DietNotifications} />
 
