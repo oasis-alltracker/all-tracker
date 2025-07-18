@@ -11,7 +11,7 @@ import CurrentWeight from "./Diet/CurrentWeight";
 import DietStep5 from "./Diet/Step5";
 import HeightInput from "./Diet/HeightInput";
 import ActivityLevelSelection from "./Diet/ActivityLevelSelection";
-import DietStep8 from "./Diet/Step8";
+import IntensitySelection from "./Diet/IntensitySelection";
 import DietStep9 from "./Diet/Step9";
 import DietStep10 from "./Diet/Step10";
 import FitnessStep1 from "./Fitness/Step1";
@@ -45,7 +45,7 @@ function SetupNavigator() {
         name="activityLevelSelection"
         component={ActivityLevelSelection}
       />
-      <Stack.Screen name="dietStep8" component={DietStep8} />
+      <Stack.Screen name="intensitySelection" component={IntensitySelection} />
       <Stack.Screen name="dietStep9" component={DietStep9} />
       <Stack.Screen name="dietStep10" component={DietStep10} />
 

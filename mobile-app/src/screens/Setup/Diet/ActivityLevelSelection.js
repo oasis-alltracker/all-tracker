@@ -44,7 +44,7 @@ const ActivityLevelSelection = (props) => {
           weightChangePerWeek,
         });
       } else {
-        navigationService.navigate("dietStep8", {
+        navigationService.navigate("intensitySelection", {
           selectedTrackers,
           isEditingMacros,
           goal,
