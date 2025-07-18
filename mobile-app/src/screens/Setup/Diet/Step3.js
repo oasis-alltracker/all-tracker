@@ -59,7 +59,7 @@ const DietStep3 = (props) => {
           }
         } else {
           const weightGoal = { weight: goalWeight, units: currentWeight.units };
-          navigationService.navigate("heightInput", {
+          navigationService.navigate("dietStep4", {
             selectedTrackers,
             isEditingMacros,
             goal,

@@ -15,7 +15,7 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const HeightInput = (props) => {
+const DietStep4 = (props) => {
   const { selectedTrackers, isEditingMacros, goal, weightGoal, currentWeight } =
     props.route.params;
   const [isCm, setIsCm] = useState(true);
@@ -204,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeightInput;
+export default DietStep4;

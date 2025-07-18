@@ -26,7 +26,7 @@ const DietStep2 = (props) => {
         const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
         if (goal == "maintain") {
           const weightGoal = currentWeight;
-          navigationService.navigate("heightInput", {
+          navigationService.navigate("dietStep4", {
             selectedTrackers,
             isEditingMacros,
             goal,
