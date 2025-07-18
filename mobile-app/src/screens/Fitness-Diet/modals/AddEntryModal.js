@@ -138,6 +138,8 @@ export default function AddEntryModal({
   }, []);
 
   const add2Decimals = (num1, num2) => {
+    num1 = Number(num1);
+    num2 = Number(num2);
     return (num1 * 100 + num2 * 100) / 100;
   };
 
@@ -159,26 +161,33 @@ export default function AddEntryModal({
       setIsLoading(true);
       token = await getAccessToken();
       response = await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
-      console.log(response); // this should include the sk
-      newMeal = await FoodEntriesMacrosAPI.getFoodMacrosForMeal(
-        token,
-        moment(day).format("YYYYMMDD"),
-        newFoodEntry.meal
-      );
-      newMeal = newMeal[newFoodEntry.meal];
-
-      setIsLoading(false);
-      setVisible(false);
 
       var params = {
         refreshMeal: mealName.toLowerCase(),
       };
 
       if (prevPage == "mealPage") {
+        newFoodEntry.SK = response.ID;
+
+        meal.calorieCount = add2Decimals(
+          meal.calorieCount,
+          newFoodEntry.calorieCount
+        );
+        meal.proteinCount = add2Decimals(
+          meal.proteinCount,
+          newFoodEntry.proteinCount
+        );
+        meal.carbCount = add2Decimals(meal.carbCount, newFoodEntry.carbCount);
+        meal.fatCount = add2Decimals(meal.fatCount, newFoodEntry.fatCount);
+        meal.entries.push(newFoodEntry);
+
         params["dateString"] = day.toLocaleDateString();
         params["mealName"] = mealName;
-        params["meal"] = newMeal;
+        params["meal"] = meal;
       }
+
+      setIsLoading(false);
+      setVisible(false);
 
       navigationService.navigate(prevPage, params);
     } catch (e) {
@@ -258,6 +267,7 @@ export default function AddEntryModal({
   const onEditMacroValue = (title, value) => {
     var index;
     value = Number(value);
+    value = +value.toFixed(2);
     if (title == "Calories") index = "calorieCount";
     else if (title == "Carbs") index = "carbCount";
     else if (title == "Protein") index = "proteinCount";
@@ -273,7 +283,6 @@ export default function AddEntryModal({
 
   const recalMacrosByQuantity = () => {
     if (!isNaN(Number(quantity)) && Number(quantity) > 0) {
-      var roundedQuantity = quantity.toFixed(2);
       var newMacros = {
         calorieCount: +(
           (macros.calorieCount / prevQuantity) *
@@ -287,8 +296,7 @@ export default function AddEntryModal({
         ).toFixed(2),
       };
       setMacros(newMacros);
-      setQuantity(roundedQuantity);
-      setPrevQuantity(roundedQuantity);
+      setPrevQuantity(quantity);
     } else {
       setQuantity(prevQuantity);
       Toast.show("Please enter a valid number greater than 0", {
