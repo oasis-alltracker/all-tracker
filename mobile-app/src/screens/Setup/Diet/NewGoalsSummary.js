@@ -107,7 +107,7 @@ const NewGoalsSummary = (props) => {
         isEditingGoals: isEditingMacros,
       });
     } else {
-      navigationService.navigate("dietStep10", {
+      navigationService.navigate("dietNotifications", {
         selectedTrackers,
       });
     }
