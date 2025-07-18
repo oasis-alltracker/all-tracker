@@ -125,12 +125,7 @@ const SearchFood = ({ navigation, route }) => {
       setIsLoading(false);
 
       if (response.length == 0) {
-        Toast.show("Sorry that item isn't available.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.CENTER,
-        });
-        setText("There are no results. Please enter something else");
+        setText("Sorry that item isnt available.");
       }
     } catch (e) {
       errorResponse(e);
@@ -197,12 +192,13 @@ const SearchFood = ({ navigation, route }) => {
             />
           </TouchableOpacity>
         </View>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}
-        >
-          {searchResults.length > 1 ? (
-            searchResults.map((item, index) => (
+
+        {searchResults.length > 1 ? (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContainer}
+          >
+            {searchResults.map((item, index) => (
               <View key={index} style={styles.resultContainer}>
                 <View style={{ flexDirection: "vertical", flex: 1 }}>
                   <Text
@@ -229,13 +225,14 @@ const SearchFood = ({ navigation, route }) => {
                   />
                 </TouchableOpacity>
               </View>
-            ))
-          ) : (
-            <Text style={[styles.textStyle, { textAlign: "center" }]}>
-              {text}
-            </Text>
-          )}
-        </ScrollView>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={styles.textContainer}>
+            <Text style={styles.greyText}>{text}</Text>
+          </View>
+        )}
+
         <AddEntryModal
           getRef={(ref) => (addEntryRef.current = ref)}
           mealName={mealName}
@@ -317,6 +314,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
+  },
+  greyText: {
+    fontSize: 20,
+    fontFamily: ValueSheet.fonts.primaryFont,
+    color: ValueSheet.colours.inputGrey,
+    textAlign: "center",
+    alignSelf: "center",
+  },
+  textContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 150,
   },
   backArrow: {
     height: 35,
