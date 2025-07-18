@@ -18,7 +18,7 @@ const activityLevelValues = {
   3: 1.725,
 };
 
-const NewGoalsSummary = (props) => {
+const DietStep8 = (props) => {
   const {
     selectedTrackers,
     isEditingMacros,
@@ -391,4 +391,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewGoalsSummary;
+export default DietStep8;
