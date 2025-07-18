@@ -7,7 +7,7 @@ import HabitsNotifications from "./Habits/step2";
 import Todos from "./Tasks/Todos";
 import DietStep1 from "./Diet/Step1";
 import TargetWeight from "./Diet/TargetWeight";
-import CurrentWeight from "./Diet/CurrentWeight";
+import DietStep2 from "./Diet/Step2";
 import BirthYearInput from "./Diet/BirthYearInput";
 import HeightInput from "./Diet/HeightInput";
 import ActivityLevelSelection from "./Diet/ActivityLevelSelection";
@@ -37,8 +37,9 @@ function SetupNavigator() {
         component={ExplainSubscription}
       />
       <Stack.Screen name="dietStep1" component={DietStep1} />
+      <Stack.Screen name="dietStep2" component={DietStep2} />
       <Stack.Screen name="targetWeight" component={TargetWeight} />
-      <Stack.Screen name="currentWeight" component={CurrentWeight} />
+
       <Stack.Screen name="birthYearInput" component={BirthYearInput} />
       <Stack.Screen name="heightInput" component={HeightInput} />
       <Stack.Screen
