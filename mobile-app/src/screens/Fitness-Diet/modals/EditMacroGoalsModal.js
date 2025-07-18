@@ -79,7 +79,7 @@ export default function EditMacroGoalsModal({
     if (selectedTrackers.dietSelected) {
       setVisible(false);
       navigationService.navigate("setup", {
-        screen: "goalSelection",
+        screen: "dietStep1",
         params: {
           selectedTrackers: selectedTrackers,
           isEditingMacros: isEditingMacros,

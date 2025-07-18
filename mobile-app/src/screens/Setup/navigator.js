@@ -5,7 +5,7 @@ import ExplainSubscription from "./Subscriptions/ExplainSubscription";
 import HabitsCreation from "./Habits/step1";
 import HabitsNotifications from "./Habits/step2";
 import Todos from "./Tasks/Todos";
-import GoalSelection from "./Diet/GoalSelection";
+import DietStep1 from "./Diet/Step1";
 import TargetWeight from "./Diet/TargetWeight";
 import CurrentWeight from "./Diet/CurrentWeight";
 import BirthYearInput from "./Diet/BirthYearInput";
@@ -36,7 +36,7 @@ function SetupNavigator() {
         name="explainsubscription"
         component={ExplainSubscription}
       />
-      <Stack.Screen name="goalSelection" component={GoalSelection} />
+      <Stack.Screen name="dietStep1" component={DietStep1} />
       <Stack.Screen name="targetWeight" component={TargetWeight} />
       <Stack.Screen name="currentWeight" component={CurrentWeight} />
       <Stack.Screen name="birthYearInput" component={BirthYearInput} />

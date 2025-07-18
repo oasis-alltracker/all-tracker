@@ -607,7 +607,7 @@ const Todos = (props) => {
   const onNext = async () => {
     try {
       if (selectedTrackers.dietSelected) {
-        navigationService.navigate("goalSelection", { selectedTrackers });
+        navigationService.navigate("dietStep1", { selectedTrackers });
       } else if (selectedTrackers.fitnessSelected) {
         navigationService.navigate("fitness", { selectedTrackers });
       } else if (selectedTrackers.moodSelected) {

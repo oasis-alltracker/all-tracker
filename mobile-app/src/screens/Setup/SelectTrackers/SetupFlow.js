@@ -55,7 +55,7 @@ const SetupFlow = (props) => {
         } else if (selectedTrackers.toDosSelected) {
           await navigationService.navigate("todos", { selectedTrackers });
         } else if (selectedTrackers.dietSelected) {
-          await navigationService.navigate("goalSelection", {
+          await navigationService.navigate("dietStep1", {
             selectedTrackers,
           });
         } else if (selectedTrackers.fitnessSelected) {
