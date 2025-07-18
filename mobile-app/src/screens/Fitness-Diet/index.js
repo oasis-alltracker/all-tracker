@@ -241,14 +241,9 @@ const FitnessDiet = ({ navigation, route }) => {
       token = await getAccessToken();
       goals = await DietGoalsAPI.getDietGoals(token);
 
-      len = Object.keys(goals).length;
-
-      if (len == 0) {
-        console.log("this person has not set up goals");
-      } else {
+      if (goals != null) {
         setDietGoals(goals);
       }
-
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
