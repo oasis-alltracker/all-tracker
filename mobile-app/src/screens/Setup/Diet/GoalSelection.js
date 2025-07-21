@@ -11,6 +11,17 @@ const GoalSelection = (props) => {
   const [goal, setGoal] = useState("none");
   const { selectedTrackers, isEditingMacros } = props.route.params;
 
+  const defaultDietFactors = {
+    goal: "none",
+    currentWeight: 0,
+    targetWeight: 0,
+    currentHeight: 0,
+    birthYear: 0,
+    activityLevelIndex: 0,
+    intensityLevel: null,
+  };
+  const [dietFactors, setDietFactors] = useState(defaultDietFactors);
+
   const onNext = () => {
     if (goal != "none") {
       navigationService.navigate("currentWeight", {
@@ -43,6 +54,19 @@ const GoalSelection = (props) => {
     }
   };
 
+  const updateDietFactors = (goal) => {
+    const newDietFactors = {
+      goal: goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+    };
+    setDietFactors(newDietFactors);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.center}>
@@ -62,6 +86,7 @@ const GoalSelection = (props) => {
           textStyle={styles.buttonsText}
           onPress={() => {
             setGoal("lose");
+            updateDietFactors("lose");
           }}
         >
           Lose weight
@@ -75,6 +100,7 @@ const GoalSelection = (props) => {
           textStyle={styles.buttonsText}
           onPress={() => {
             setGoal("maintain");
+            updateDietFactors("maintain");
           }}
         >
           Maintain weight
@@ -86,6 +112,7 @@ const GoalSelection = (props) => {
           ]}
           onPress={() => {
             setGoal("gain");
+            updateDietFactors("gain");
           }}
           textStyle={styles.buttonsText}
         >
