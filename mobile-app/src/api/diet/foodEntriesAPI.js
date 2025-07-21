@@ -30,7 +30,8 @@ class FoodEntriesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    await axios.post(API, foodEntry, { headers: headers });
+    response = await axios.post(API, foodEntry, { headers: headers });
+    return response?.data;
   }
 
   static async updateFoodEntry(token, foodEntryID, foodEntry) {

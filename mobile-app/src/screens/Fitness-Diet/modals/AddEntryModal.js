@@ -19,9 +19,6 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 
-//TO DOs:
-//1. maybe: make a call to the api to get further details like serving options (?) - will need to decide later as we integrate with our selected third party database
-
 const macroTitles = [
   {
     name: "Calories",
@@ -139,6 +136,8 @@ export default function AddEntryModal({
   }, []);
 
   const add2Decimals = (num1, num2) => {
+    num1 = Number(num1);
+    num2 = Number(num2);
     return (num1 * 100 + num2 * 100) / 100;
   };
 
@@ -159,16 +158,15 @@ export default function AddEntryModal({
       };
       setIsLoading(true);
       token = await getAccessToken();
-      await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
-
-      setIsLoading(false);
-      setVisible(false);
+      response = await FoodEntriesAPI.createFoodEntry(token, newFoodEntry);
 
       var params = {
         refreshMeal: mealName.toLowerCase(),
       };
 
       if (prevPage == "mealPage") {
+        newFoodEntry.SK = response.ID;
+
         meal.calorieCount = add2Decimals(
           meal.calorieCount,
           newFoodEntry.calorieCount
@@ -185,6 +183,9 @@ export default function AddEntryModal({
         params["mealName"] = mealName;
         params["meal"] = meal;
       }
+
+      setIsLoading(false);
+      setVisible(false);
 
       navigationService.navigate(prevPage, params);
     } catch (e) {
