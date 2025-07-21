@@ -22,7 +22,6 @@ const CurrentWeight = (props) => {
   );
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
-  console.log("Diet factors in CurrentWeight:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (weight) {

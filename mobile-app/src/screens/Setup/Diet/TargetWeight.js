@@ -21,14 +21,10 @@ const TargetWeight = (props) => {
     props.route.params.dietFactors
   );
   const [goalWeight, setGoalWeight] = useState(null);
-  console.log("Diet factors in TargetWeight:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (goalWeight) {
       if (!isNaN(Number(goalWeight))) {
-        console.log(
-          "Diet factors in TargetWeight:\n" + JSON.stringify(dietFactors)
-        );
         if (
           dietFactors.goal == "gain" &&
           goalWeight <= dietFactors.currentWeight.weight

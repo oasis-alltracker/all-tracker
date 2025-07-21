@@ -22,7 +22,6 @@ const HeightInput = (props) => {
   );
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
-  console.log("Diet factors in HeightInput:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (height) {
@@ -31,10 +30,6 @@ const HeightInput = (props) => {
         navigationService.navigate("birthYearInput", {
           selectedTrackers,
           isEditingMacros,
-          goal: "none",
-          weightGoal: 0,
-          currentWeight: 0,
-          currentHeight,
           dietFactors: updateDietFactors(currentHeight),
         });
       } else {

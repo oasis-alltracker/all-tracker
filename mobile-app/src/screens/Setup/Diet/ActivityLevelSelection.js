@@ -17,8 +17,13 @@ const ActivityLevelSelection = (props) => {
     currentHeight,
     birthYear,
   } = props.route.params;
-
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [activityLevel, setActivityLevel] = useState(null);
+  console.log(
+    "Diet factors in ActivityLevelSelection:\n" + JSON.stringify(dietFactors)
+  );
 
   const getButtonColour = (index) => {
     if (index == activityLevel) {

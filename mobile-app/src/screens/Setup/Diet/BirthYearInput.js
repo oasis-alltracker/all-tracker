@@ -16,14 +16,7 @@ import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
 const BirthYearInput = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-  } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
   const [dietFactors, setDietFactors] = useState(
     props.route.params.dietFactors
   );
@@ -38,11 +31,12 @@ const BirthYearInput = (props) => {
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
+          goal: "none",
+          weightGoal: 0,
+          currentWeight: 0,
+          currentHeight: 0,
           birthYear,
+          dietFactors: updateDietFactors(birthYear),
         });
       } else {
         if (Platform.OS === "ios") {
@@ -74,6 +68,20 @@ const BirthYearInput = (props) => {
         });
       }
     }
+  };
+
+  const updateDietFactors = (userBirthYear) => {
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: userBirthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+    };
+    setDietFactors(newDietFactors);
+    return newDietFactors;
   };
 
   return (
