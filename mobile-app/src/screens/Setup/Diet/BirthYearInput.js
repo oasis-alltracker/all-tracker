@@ -24,7 +24,13 @@ const BirthYearInput = (props) => {
     currentWeight,
     currentHeight,
   } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [birthYear, setBirthYear] = useState(null);
+  console.log(
+    "Diet factors in BirthYearInput:\n" + JSON.stringify(dietFactors)
+  );
 
   const onNext = () => {
     if (birthYear) {

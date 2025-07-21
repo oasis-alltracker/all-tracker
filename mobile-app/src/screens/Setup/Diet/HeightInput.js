@@ -28,14 +28,14 @@ const HeightInput = (props) => {
     if (height) {
       if (!isNaN(Number(height))) {
         const currentHeight = { height: height, units: isCm ? "cm" : "in" };
-
         navigationService.navigate("birthYearInput", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
+          goal: "none",
+          weightGoal: 0,
+          currentWeight: 0,
           currentHeight,
+          dietFactors: updateDietFactors(currentHeight),
         });
       } else {
         if (Platform.OS === "ios") {
@@ -67,6 +67,20 @@ const HeightInput = (props) => {
         });
       }
     }
+  };
+
+  const updateDietFactors = (userHeight) => {
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: userHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+    };
+    setDietFactors(newDietFactors);
+    return newDietFactors;
   };
 
   return (
