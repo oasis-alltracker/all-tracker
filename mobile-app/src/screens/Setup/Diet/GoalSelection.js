@@ -13,7 +13,7 @@ const GoalSelection = (props) => {
   const defaultDietFactors = {
     goal: "none",
     currentWeight: { weight: 0, units: "kg" },
-    targetWeight: 0,
+    targetWeight: { weight: 0, units: "kg" },
     currentHeight: 0,
     birthYear: 0,
     activityLevelIndex: 0,
