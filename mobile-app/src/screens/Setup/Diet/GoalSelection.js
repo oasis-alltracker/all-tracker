@@ -12,7 +12,7 @@ const GoalSelection = (props) => {
 
   const defaultDietFactors = {
     goal: "none",
-    currentWeight: 0,
+    currentWeight: { weight: 0, units: "kg" },
     targetWeight: 0,
     currentHeight: 0,
     birthYear: 0,
@@ -20,10 +20,8 @@ const GoalSelection = (props) => {
     intensityLevel: null,
   };
   const [dietFactors, setDietFactors] = useState(defaultDietFactors);
-  console.log("Diet factors in GoalSelection:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
-    console.log("Diet factors goal: " + dietFactors.goal);
     if (dietFactors.goal != "none") {
       navigationService.navigate("currentWeight", {
         selectedTrackers,

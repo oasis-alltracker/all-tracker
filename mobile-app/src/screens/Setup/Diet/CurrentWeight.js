@@ -23,18 +23,27 @@ const CurrentWeight = (props) => {
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
   console.log("Diet factors in CurrentWeight:\n" + JSON.stringify(dietFactors));
-  console.log("Diet factors goal: " + dietFactors.goal);
 
   const onNext = () => {
     if (weight) {
       if (!isNaN(Number(weight))) {
         const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
-        if (goal == "maintain") {
+        updateDietFactors(currentWeight);
+        console.log(
+          "\nUpdated Diet factors WITH INPUT WEIGHT:\n" +
+            JSON.stringify(dietFactors)
+        );
+        if (dietFactors.goal == "maintain") {
           const weightGoal = currentWeight;
+          //updateDietFactors(null, weightGoal);
+          console.log(
+            "Updated Diet factors in CurrentWeight (goal = maintain):\n" +
+              JSON.stringify(dietFactors)
+          );
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
-            goal,
+            goal: dietFactors.goal,
             weightGoal,
             currentWeight,
           });
@@ -42,7 +51,7 @@ const CurrentWeight = (props) => {
           navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
-            goal,
+            goal: dietFactors.goal,
             currentWeight,
           });
         }
@@ -77,6 +86,52 @@ const CurrentWeight = (props) => {
       }
     }
   };
+
+  const updateDietFactors = (userWeight) => {
+    console.log("userWeight = " + JSON.stringify(userWeight));
+    var newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: userWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+    };
+    setDietFactors(newDietFactors);
+  };
+  // const updateDietFactors = (userWeight, userTargetWeight) => {
+  //   console.log(
+  //     "userWeight = " +
+  //       JSON.stringify(userWeight) +
+  //       "; userTargetWeight = " +
+  //       JSON.stringify(userTargetWeight)
+  //   );
+  //   var newDietFactors = {};
+  //   if (userWeight) {
+  //     newDietFactors = {
+  //       goal: dietFactors.goal,
+  //       currentWeight: userWeight,
+  //       targetWeight: dietFactors.targetWeight,
+  //       currentHeight: dietFactors.currentHeight,
+  //       birthYear: dietFactors.birthYear,
+  //       activityLevelIndex: dietFactors.activityLevelIndex,
+  //       intensityLevel: dietFactors.intensityLevel,
+  //     };
+  //   }
+  //   if (userTargetWeight) {
+  //     newDietFactors = {
+  //       goal: dietFactors.goal,
+  //       currentWeight: dietFactors.currentWeight,
+  //       targetWeight: userTargetWeight,
+  //       currentHeight: dietFactors.currentHeight,
+  //       birthYear: dietFactors.birthYear,
+  //       activityLevelIndex: dietFactors.activityLevelIndex,
+  //       intensityLevel: dietFactors.intensityLevel,
+  //     };
+  //   }
+  //   setDietFactors(newDietFactors);
+  // };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
