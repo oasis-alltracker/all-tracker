@@ -8,7 +8,6 @@ import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
 const GoalSelection = (props) => {
-  const [goal, setGoal] = useState("none");
   const { selectedTrackers, isEditingMacros } = props.route.params;
 
   const defaultDietFactors = {
@@ -24,11 +23,11 @@ const GoalSelection = (props) => {
   console.log("Diet factors in GoalSelection:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
-    if (goal != "none") {
+    console.log("Diet factors goal: " + dietFactors.goal);
+    if (dietFactors.goal != "none") {
       navigationService.navigate("currentWeight", {
         selectedTrackers,
         isEditingMacros,
-        goal,
         dietFactors,
       });
     } else {
@@ -49,16 +48,16 @@ const GoalSelection = (props) => {
   };
 
   const getButtonColour = (buttonGoal) => {
-    if (buttonGoal == goal) {
+    if (buttonGoal == dietFactors.goal) {
       return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
     }
   };
 
-  const updateDietFactors = (goal) => {
+  const updateDietFactors = (userGoal) => {
     const newDietFactors = {
-      goal: goal,
+      goal: userGoal,
       currentWeight: dietFactors.currentWeight,
       targetWeight: dietFactors.targetWeight,
       currentHeight: dietFactors.currentHeight,
@@ -87,7 +86,6 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setGoal("lose");
             updateDietFactors("lose");
           }}
         >
@@ -101,7 +99,6 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setGoal("maintain");
             updateDietFactors("maintain");
           }}
         >
@@ -113,7 +110,6 @@ const GoalSelection = (props) => {
             { backgroundColor: getButtonColour("gain") },
           ]}
           onPress={() => {
-            setGoal("gain");
             updateDietFactors("gain");
           }}
           textStyle={styles.buttonsText}
