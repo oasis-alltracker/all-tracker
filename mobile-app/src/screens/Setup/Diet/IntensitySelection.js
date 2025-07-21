@@ -33,13 +33,12 @@ const IntensitySelection = (props) => {
   const [steadyNumberOfWeeks, setSteadyNumberOfWeeks] = useState(0);
   const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
   const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
-  const [intensity, setIntesity] = useState(null);
   console.log(
     "Diet factors in IntensitySelection:\n" + JSON.stringify(dietFactors)
   );
 
   const getButtonColour = (selectedIntensity) => {
-    if (intensity == selectedIntensity) {
+    if (dietFactors.intensityLevel == selectedIntensity) {
       return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
@@ -47,9 +46,11 @@ const IntensitySelection = (props) => {
   };
 
   const onNext = () => {
-    if (intensity) {
+    if (dietFactors.intensityLevel) {
       const weightChangePerWeek =
-        weightChangeValues[dietFactors.currentWeight.units][intensity];
+        weightChangeValues[dietFactors.currentWeight.units][
+          dietFactors.intensityLevel
+        ];
       navigationService.navigate("newGoalsSummary", {
         selectedTrackers,
         isEditingMacros,
@@ -93,13 +94,9 @@ const IntensitySelection = (props) => {
   };
 
   useEffect(() => {
-    console.log(
-      "diet factors current weight: " + dietFactors.currentWeight.weight
-    );
     const totalWeightChange = Math.abs(
       dietFactors.currentWeight.weight - dietFactors.targetWeight.weight
     );
-    console.log("totalWeightChange: " + totalWeightChange);
     if (dietFactors.currentWeight.units === "kg") {
       setUltimateNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 1));
       setSteadyNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.75));
@@ -130,7 +127,6 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("ultimate") },
           ]}
           onPress={() => {
-            setIntesity("ultimate");
             updateDietFactors("ultimate");
           }}
         >
@@ -153,7 +149,6 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("steady") },
           ]}
           onPress={() => {
-            setIntesity("steady");
             updateDietFactors("steady");
           }}
         >
@@ -176,7 +171,6 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("gradual") },
           ]}
           onPress={() => {
-            setIntesity("gradual");
             updateDietFactors("gradual");
           }}
         >
@@ -199,7 +193,6 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("relaxed") },
           ]}
           onPress={() => {
-            setIntesity("relaxed");
             updateDietFactors("relaxed");
           }}
         >

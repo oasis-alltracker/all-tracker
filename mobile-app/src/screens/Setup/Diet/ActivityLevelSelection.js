@@ -12,13 +12,9 @@ const ActivityLevelSelection = (props) => {
   const [dietFactors, setDietFactors] = useState(
     props.route.params.dietFactors
   );
-  const [activityLevel, setActivityLevel] = useState(null);
-  console.log(
-    "Diet factors in ActivityLevelSelection:\n" + JSON.stringify(dietFactors)
-  );
 
   const getButtonColour = (index) => {
-    if (index == activityLevel) {
+    if (index == dietFactors.activityLevelIndex) {
       return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
@@ -26,7 +22,7 @@ const ActivityLevelSelection = (props) => {
   };
 
   const onNext = () => {
-    if (activityLevel != null) {
+    if (dietFactors.activityLevelIndex != null) {
       if (dietFactors.goal === "maintain") {
         const weightChangePerWeek = 0;
         navigationService.navigate("newGoalsSummary", {
@@ -93,7 +89,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(0) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(0);
             updateDietFactors(0);
           }}
         >
@@ -103,7 +98,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(1) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(1);
             updateDietFactors(1);
           }}
         >
@@ -113,7 +107,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(2) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(2);
             updateDietFactors(2);
           }}
         >
@@ -123,7 +116,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(3) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(3);
             updateDietFactors(3);
           }}
         >

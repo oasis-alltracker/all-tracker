@@ -62,6 +62,9 @@ const NewGoalsSummary = (props) => {
   console.log(
     "Diet factors in NewGoalsSummary:\n" + JSON.stringify(dietFactors)
   );
+  console.log(
+    "weight change per week in NewGoalsSummary: " + weightChangePerWeek
+  );
 
   const onUpdateMacroValue = async (title, value, units) => {
     var newCalories = calorieGoalValue;
