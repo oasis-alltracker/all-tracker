@@ -18,6 +18,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
+import Toast from "react-native-root-toast";
 
 const macroTitles = [
   {
@@ -265,6 +266,7 @@ export default function AddEntryModal({
   const onEditMacroValue = (title, value) => {
     var index;
     value = Number(value);
+    value = +value.toFixed(2);
     if (title == "Calories") index = "calorieCount";
     else if (title == "Carbs") index = "carbCount";
     else if (title == "Protein") index = "proteinCount";
@@ -279,18 +281,29 @@ export default function AddEntryModal({
   };
 
   const recalMacrosByQuantity = () => {
-    var newMacros = {
-      calorieCount: +((macros.calorieCount / prevQuantity) * quantity).toFixed(
-        2
-      ),
-      carbCount: +((macros.carbCount / prevQuantity) * quantity).toFixed(2),
-      fatCount: +((macros.fatCount / prevQuantity) * quantity).toFixed(2),
-      proteinCount: +((macros.proteinCount / prevQuantity) * quantity).toFixed(
-        2
-      ),
-    };
-    setMacros(newMacros);
-    setPrevQuantity(quantity);
+    if (!isNaN(Number(quantity)) && Number(quantity) > 0) {
+      var newMacros = {
+        calorieCount: +(
+          (macros.calorieCount / prevQuantity) *
+          quantity
+        ).toFixed(2),
+        carbCount: +((macros.carbCount / prevQuantity) * quantity).toFixed(2),
+        fatCount: +((macros.fatCount / prevQuantity) * quantity).toFixed(2),
+        proteinCount: +(
+          (macros.proteinCount / prevQuantity) *
+          quantity
+        ).toFixed(2),
+      };
+      setMacros(newMacros);
+      setPrevQuantity(quantity);
+    } else {
+      setQuantity(prevQuantity);
+      Toast.show("Please enter a valid number greater than 0", {
+        ...styles.errorToast,
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+      });
+    }
   };
 
   return (
