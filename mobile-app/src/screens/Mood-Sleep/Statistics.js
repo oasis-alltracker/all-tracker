@@ -12,7 +12,7 @@ import MoodStats from "../Stats/MoodStats";
 import SleepStats from "../Stats/SleepStats";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
-import { InAppReview } from "react-native-in-app-review";
+import InAppReview from "react-native-in-app-review";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();
