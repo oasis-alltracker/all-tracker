@@ -30,21 +30,21 @@ const CurrentWeight = (props) => {
         const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
         if (dietFactors.goal == "maintain") {
           const weightGoal = currentWeight;
-          updateDietFactors(currentWeight, weightGoal);
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
             goal: dietFactors.goal,
             weightGoal,
             currentWeight,
+            dietFactors: updateDietFactors(currentWeight, weightGoal),
           });
         } else {
-          updateDietFactors(currentWeight, null);
           navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
             goal: dietFactors.goal,
             currentWeight,
+            dietFactors: updateDietFactors(currentWeight, null),
           });
         }
       } else {
@@ -103,6 +103,7 @@ const CurrentWeight = (props) => {
       };
     }
     setDietFactors(newDietFactors);
+    return newDietFactors;
   };
 
   return (

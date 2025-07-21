@@ -18,8 +18,12 @@ import { ValueSheet } from "../../../ValueSheet";
 const HeightInput = (props) => {
   const { selectedTrackers, isEditingMacros, goal, weightGoal, currentWeight } =
     props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
+  console.log("Diet factors in HeightInput:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (height) {

@@ -18,11 +18,18 @@ import { ValueSheet } from "../../../ValueSheet";
 const TargetWeight = (props) => {
   const { selectedTrackers, isEditingMacros, goal, currentWeight } =
     props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [goalWeight, setGoalWeight] = useState(null);
+  console.log("Diet factors in TargetWeight:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (goalWeight) {
       if (!isNaN(Number(goalWeight))) {
+        console.log(
+          "Diet factors in TargetWeight:\n" + JSON.stringify(dietFactors)
+        );
         if (goal == "gain" && goalWeight <= currentWeight.weight) {
           if (Platform.OS === "ios") {
             Toast.show(
@@ -58,13 +65,17 @@ const TargetWeight = (props) => {
             });
           }
         } else {
-          const weightGoal = { weight: goalWeight, units: currentWeight.units };
+          const weightGoal = {
+            weight: goalWeight,
+            units: dietFactors.currentWeight.units,
+          };
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
             goal,
             currentWeight,
             weightGoal,
+            dietFactors: updateDietFactors(weightGoal),
           });
         }
       } else {
@@ -97,6 +108,20 @@ const TargetWeight = (props) => {
         });
       }
     }
+  };
+
+  const updateDietFactors = (userTarget) => {
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: userTarget,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+    };
+    setDietFactors(newDietFactors);
+    return newDietFactors;
   };
 
   return (
