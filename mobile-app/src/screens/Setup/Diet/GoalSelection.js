@@ -21,6 +21,7 @@ const GoalSelection = (props) => {
     intensityLevel: null,
   };
   const [dietFactors, setDietFactors] = useState(defaultDietFactors);
+  console.log("Diet factors in GoalSelection:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (goal != "none") {
@@ -28,6 +29,7 @@ const GoalSelection = (props) => {
         selectedTrackers,
         isEditingMacros,
         goal,
+        dietFactors,
       });
     } else {
       if (Platform.OS === "ios") {

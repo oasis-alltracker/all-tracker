@@ -17,8 +17,13 @@ import { ValueSheet } from "../../../ValueSheet";
 
 const CurrentWeight = (props) => {
   const { selectedTrackers, isEditingMacros, goal } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
+  console.log("Diet factors in CurrentWeight:\n" + JSON.stringify(dietFactors));
+  console.log("Diet factors goal: " + dietFactors.goal);
 
   const onNext = () => {
     if (weight) {
