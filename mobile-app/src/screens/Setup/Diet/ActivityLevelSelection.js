@@ -45,12 +45,6 @@ const ActivityLevelSelection = (props) => {
         navigationService.navigate("intensitySelection", {
           selectedTrackers,
           isEditingMacros,
-          goal: "maintain",
-          weightGoal: 0,
-          currentWeight: 0,
-          currentHeight: 0,
-          birthYear: 0,
-          activityLevel: 0,
           dietFactors,
         });
       }

@@ -14,7 +14,7 @@ const GoalSelection = (props) => {
     goal: "none",
     currentWeight: { weight: 0, units: "kg" },
     targetWeight: { weight: 0, units: "kg" },
-    currentHeight: 0,
+    currentHeight: { height: 0, units: "cm" },
     birthYear: 0,
     activityLevelIndex: 0,
     intensityLevel: null,

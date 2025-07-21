@@ -24,16 +24,7 @@ const weightChangeValues = {
 };
 
 const IntensitySelection = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-    birthYear,
-    activityLevel,
-  } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
   const [dietFactors, setDietFactors] = useState(
     props.route.params.dietFactors
   );
@@ -58,16 +49,16 @@ const IntensitySelection = (props) => {
   const onNext = () => {
     if (intensity) {
       const weightChangePerWeek =
-        weightChangeValues[currentWeight.units][intensity];
+        weightChangeValues[dietFactors.currentWeight.units][intensity];
       navigationService.navigate("newGoalsSummary", {
         selectedTrackers,
         isEditingMacros,
-        goal,
-        weightGoal,
-        currentWeight,
-        currentHeight,
-        birthYear,
-        activityLevel,
+        goal: "maintain",
+        weightGoal: 0,
+        currentWeight: 0,
+        currentHeight: 0,
+        birthYear: 0,
+        activityLevel: 0,
         weightChangePerWeek,
         dietFactors,
       });
@@ -88,11 +79,28 @@ const IntensitySelection = (props) => {
     }
   };
 
+  const updateDietFactors = (intensity) => {
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: intensity,
+    };
+    setDietFactors(newDietFactors);
+  };
+
   useEffect(() => {
-    const totalWeightChange = Math.abs(
-      currentWeight.weight - weightGoal.weight
+    console.log(
+      "diet factors current weight: " + dietFactors.currentWeight.weight
     );
-    if (currentWeight.units === "kg") {
+    const totalWeightChange = Math.abs(
+      dietFactors.currentWeight.weight - dietFactors.targetWeight.weight
+    );
+    console.log("totalWeightChange: " + totalWeightChange);
+    if (dietFactors.currentWeight.units === "kg") {
       setUltimateNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 1));
       setSteadyNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.75));
       setGradualNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.5));
@@ -123,6 +131,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntesity("ultimate");
+            updateDietFactors("ultimate");
           }}
         >
           <View style={styles.row}>
@@ -135,7 +144,7 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{ultimateNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "1kg" : "2.2lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "1kg" : "2.2lbs"}/week
           </Text>
         </Button>
         <Button
@@ -145,6 +154,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntesity("steady");
+            updateDietFactors("steady");
           }}
         >
           <View style={styles.row}>
@@ -157,7 +167,7 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{steadyNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "0.75kg" : "1.6lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "0.75kg" : "1.6lbs"}/week
           </Text>
         </Button>
         <Button
@@ -167,6 +177,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntesity("gradual");
+            updateDietFactors("gradual");
           }}
         >
           <View style={styles.row}>
@@ -179,7 +190,7 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{gradualNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "0.5kg" : "1.1lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "0.5kg" : "1.1lbs"}/week
           </Text>
         </Button>
         <Button
@@ -189,6 +200,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntesity("relaxed");
+            updateDietFactors("relaxed");
           }}
         >
           <View style={styles.row}>
@@ -201,7 +213,7 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{relaxedNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "0.25kg" : "0.5lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "0.25kg" : "0.5lbs"}/week
           </Text>
         </Button>
       </View>
