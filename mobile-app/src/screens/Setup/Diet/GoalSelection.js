@@ -3,58 +3,21 @@ import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
+import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep7 = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-    birthYear,
-  } = props.route.params;
-
-  const [activityLevel, setActivityLevel] = useState(null);
-
-  const getButtonColour = (index) => {
-    if (index == activityLevel) {
-      return ValueSheet.colours.secondaryColour65;
-    } else {
-      return "transparent";
-    }
-  };
+const GoalSelection = (props) => {
+  const [goal, setGoal] = useState("none");
+  const { selectedTrackers, isEditingMacros } = props.route.params;
 
   const onNext = () => {
-    if (activityLevel) {
-      if (goal === "maintain") {
-        const weightChangePerWeek = 0;
-        navigationService.navigate("dietStep9", {
-          selectedTrackers,
-          isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-          birthYear,
-          activityLevel,
-          weightChangePerWeek,
-        });
-      } else {
-        navigationService.navigate("dietStep8", {
-          selectedTrackers,
-          isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-          birthYear,
-          activityLevel,
-        });
-      }
+    if (goal != "none") {
+      navigationService.navigate("currentWeight", {
+        selectedTrackers,
+        isEditingMacros,
+        goal,
+      });
     } else {
       if (Platform.OS === "ios") {
         Toast.show("Please make a selection", {
@@ -71,6 +34,15 @@ const DietStep7 = (props) => {
       }
     }
   };
+
+  const getButtonColour = (buttonGoal) => {
+    if (buttonGoal == goal) {
+      return ValueSheet.colours.secondaryColour65;
+    } else {
+      return "transparent";
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.center}>
@@ -81,42 +53,43 @@ const DietStep7 = (props) => {
           />
           <Text style={styles.imageText}>diet</Text>
         </View>
-        <Text style={styles.title}> How active are you?</Text>
+        <Text style={styles.title}>What is your goal?</Text>
         <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(0) }]}
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("lose") },
+          ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(0);
+            setGoal("lose");
           }}
         >
-          Not very active
+          Lose weight
         </Button>
         <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(1) }]}
+          style={[
+            styles.bigButtons,
+
+            { backgroundColor: getButtonColour("maintain") },
+          ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(1);
+            setGoal("maintain");
           }}
         >
-          Moderately active
+          Maintain weight
         </Button>
         <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(2) }]}
-          textStyle={styles.buttonsText}
+          style={[
+            styles.bigButtons,
+            { backgroundColor: getButtonColour("gain") },
+          ]}
           onPress={() => {
-            setActivityLevel(2);
+            setGoal("gain");
           }}
-        >
-          Active
-        </Button>
-        <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(3) }]}
           textStyle={styles.buttonsText}
-          onPress={() => {
-            setActivityLevel(3);
-          }}
         >
-          Very active
+          Gain weight
         </Button>
       </View>
       <View style={styles.buttons}>
@@ -126,7 +99,12 @@ const DietStep7 = (props) => {
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => {
+            onNext();
+          }}
+          style={styles.button}
+        >
           Next
         </Button>
       </View>
@@ -168,6 +146,11 @@ const styles = StyleSheet.create({
     marginTop: 25,
     marginBottom: 20,
   },
+  errorToast: {
+    textColor: ValueSheet.colours.background,
+    zIndex: 999,
+    elevation: 100,
+  },
   buttons: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -184,20 +167,16 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "transparent",
     borderColor: ValueSheet.colours.grey,
-    height: 65,
+    height: 80,
     borderRadius: 30,
+    marginTop: 10,
   },
   buttonsText: {
-    fontSize: 20,
+    fontSize: 22,
   },
   center: {
     alignItems: "center",
   },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
-  },
 });
 
-export default DietStep7;
+export default GoalSelection;

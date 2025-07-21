@@ -23,7 +23,7 @@ const weightChangeValues = {
   },
 };
 
-const DietStep8 = (props) => {
+const IntensitySelection = (props) => {
   const {
     selectedTrackers,
     isEditingMacros,
@@ -54,7 +54,7 @@ const DietStep8 = (props) => {
     if (intensity) {
       const weightChangePerWeek =
         weightChangeValues[currentWeight.units][intensity];
-      navigationService.navigate("dietStep9", {
+      navigationService.navigate("newGoalsSummary", {
         selectedTrackers,
         isEditingMacros,
         goal,
@@ -302,4 +302,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep8;
+export default IntensitySelection;
