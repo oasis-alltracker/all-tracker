@@ -33,17 +33,12 @@ const CurrentWeight = (props) => {
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
-            goal: dietFactors.goal,
-            weightGoal,
-            currentWeight,
             dietFactors: updateDietFactors(currentWeight, weightGoal),
           });
         } else {
           navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
-            goal: dietFactors.goal,
-            currentWeight,
             dietFactors: updateDietFactors(currentWeight, null),
           });
         }

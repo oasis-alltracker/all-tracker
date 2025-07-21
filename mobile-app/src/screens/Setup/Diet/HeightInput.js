@@ -16,8 +16,7 @@ import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
 const HeightInput = (props) => {
-  const { selectedTrackers, isEditingMacros, goal, weightGoal, currentWeight } =
-    props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
   const [dietFactors, setDietFactors] = useState(
     props.route.params.dietFactors
   );

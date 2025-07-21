@@ -16,8 +16,7 @@ import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
 const TargetWeight = (props) => {
-  const { selectedTrackers, isEditingMacros, goal, currentWeight } =
-    props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
   const [dietFactors, setDietFactors] = useState(
     props.route.params.dietFactors
   );
@@ -30,7 +29,10 @@ const TargetWeight = (props) => {
         console.log(
           "Diet factors in TargetWeight:\n" + JSON.stringify(dietFactors)
         );
-        if (goal == "gain" && goalWeight <= currentWeight.weight) {
+        if (
+          dietFactors.goal == "gain" &&
+          goalWeight <= dietFactors.currentWeight.weight
+        ) {
           if (Platform.OS === "ios") {
             Toast.show(
               "Please enter a number greater than your current weight",
@@ -50,7 +52,10 @@ const TargetWeight = (props) => {
               }
             );
           }
-        } else if (goal == "lose" && goalWeight >= currentWeight.weight) {
+        } else if (
+          dietFactors.goal == "lose" &&
+          goalWeight >= dietFactors.currentWeight.weight
+        ) {
           if (Platform.OS === "ios") {
             Toast.show("Please enter a number less than your current weight", {
               ...styles.errorToast,
@@ -72,9 +77,6 @@ const TargetWeight = (props) => {
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
-            goal,
-            currentWeight,
-            weightGoal,
             dietFactors: updateDietFactors(weightGoal),
           });
         }
