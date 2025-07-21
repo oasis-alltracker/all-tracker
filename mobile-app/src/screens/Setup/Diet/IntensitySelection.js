@@ -34,13 +34,18 @@ const IntensitySelection = (props) => {
     birthYear,
     activityLevel,
   } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
 
   const [ultimateNumberOfWeeks, setUltimateNumberOfWeeks] = useState(0);
   const [steadyNumberOfWeeks, setSteadyNumberOfWeeks] = useState(0);
   const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
   const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
-
   const [intensity, setIntesity] = useState(null);
+  console.log(
+    "Diet factors in IntensitySelection:\n" + JSON.stringify(dietFactors)
+  );
 
   const getButtonColour = (selectedIntensity) => {
     if (intensity == selectedIntensity) {
@@ -64,6 +69,7 @@ const IntensitySelection = (props) => {
         birthYear,
         activityLevel,
         weightChangePerWeek,
+        dietFactors,
       });
     } else {
       if (Platform.OS === "ios") {

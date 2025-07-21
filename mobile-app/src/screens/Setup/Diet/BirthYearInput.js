@@ -21,9 +21,6 @@ const BirthYearInput = (props) => {
     props.route.params.dietFactors
   );
   const [birthYear, setBirthYear] = useState(null);
-  console.log(
-    "Diet factors in BirthYearInput:\n" + JSON.stringify(dietFactors)
-  );
 
   const onNext = () => {
     if (birthYear) {
@@ -31,11 +28,6 @@ const BirthYearInput = (props) => {
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
-          goal: "none",
-          weightGoal: 0,
-          currentWeight: 0,
-          currentHeight: 0,
-          birthYear,
           dietFactors: updateDietFactors(birthYear),
         });
       } else {

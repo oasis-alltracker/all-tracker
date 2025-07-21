@@ -30,6 +30,9 @@ const NewGoalsSummary = (props) => {
     activityLevel,
     weightChangePerWeek,
   } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
 
   const [isLoading, setIsLoading] = useState(false);
   const [calories, setCalories] = useState(0);
@@ -38,7 +41,6 @@ const NewGoalsSummary = (props) => {
   const [carbGoalValue, setCarbGoalValue] = useState(0);
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
-
   const [datas, setDatas] = useState([
     {
       title: "0 g",
@@ -56,8 +58,10 @@ const NewGoalsSummary = (props) => {
       text: "Fats:",
     },
   ]);
-
   const updateMacrosRef = useRef(null);
+  console.log(
+    "Diet factors in NewGoalsSummary:\n" + JSON.stringify(dietFactors)
+  );
 
   const onUpdateMacroValue = async (title, value, units) => {
     var newCalories = calorieGoalValue;
