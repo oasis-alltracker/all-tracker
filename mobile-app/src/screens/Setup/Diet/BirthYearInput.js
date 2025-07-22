@@ -70,6 +70,7 @@ const BirthYearInput = (props) => {
       currentHeight: dietFactors.currentHeight,
       birthYear: userBirthYear,
       activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
       weeklyWeightChange: dietFactors.weeklyWeightChange,
     };
     setDietFactors(newDietFactors);

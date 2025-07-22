@@ -27,7 +27,6 @@ const ActivityLevelSelection = (props) => {
   const onNext = () => {
     if (dietFactors.activityLevelIndex != null) {
       if (dietFactors.goal === "maintain") {
-        const weightChangePerWeek = 0;
         navigationService.navigate("newGoalsSummary", {
           selectedTrackers,
           isEditingMacros,
@@ -65,7 +64,23 @@ const ActivityLevelSelection = (props) => {
       currentHeight: dietFactors.currentHeight,
       birthYear: dietFactors.birthYear,
       activityLevelIndex: activityIndex,
-      weeklyWeightChange: dietFactors.weeklyWeightChange,
+      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange:
+        dietFactors.goal == "maintain" ? 0 : dietFactors.weeklyWeightChange,
+    };
+    setDietFactors(newDietFactors);
+  };
+
+  const updateWeightChange = () => {
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange: 0,
     };
     setDietFactors(newDietFactors);
   };

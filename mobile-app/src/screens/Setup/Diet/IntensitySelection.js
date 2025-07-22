@@ -89,6 +89,7 @@ const IntensitySelection = (props) => {
       currentHeight: dietFactors.currentHeight,
       birthYear: dietFactors.birthYear,
       activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: intensity,
       weeklyWeightChange: weightChange,
     };
     setDietFactors(newDietFactors);
@@ -114,6 +115,7 @@ const IntensitySelection = (props) => {
 
   useEffect(() => {
     setDietFactors(props.route.params.dietFactors);
+    setIntensity(dietFactors.intensityLevel);
   }, [props]);
 
   return (

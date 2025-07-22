@@ -17,7 +17,8 @@ const GoalSelection = (props) => {
     currentHeight: { height: 0, units: "cm" },
     birthYear: 0,
     activityLevelIndex: -1,
-    weeklyWeightChange: null,
+    intensityLevel: "none",
+    weeklyWeightChange: 0,
   };
   const [dietFactors, setDietFactors] = useState(defaultDietFactors);
 
