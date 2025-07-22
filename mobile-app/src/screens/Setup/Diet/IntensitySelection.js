@@ -33,12 +33,13 @@ const IntensitySelection = (props) => {
   const [steadyNumberOfWeeks, setSteadyNumberOfWeeks] = useState(0);
   const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
   const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
+  const [intensity, setIntensity] = useState(null);
   console.log(
     "Diet factors in IntensitySelection:\n" + JSON.stringify(dietFactors)
   );
 
   const getButtonColour = (selectedIntensity) => {
-    if (dietFactors.intensityLevel == selectedIntensity) {
+    if (intensity == selectedIntensity) {
       return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
@@ -46,11 +47,9 @@ const IntensitySelection = (props) => {
   };
 
   const onNext = () => {
-    if (dietFactors.intensityLevel) {
+    if (intensity) {
       const weightChangePerWeek =
-        weightChangeValues[dietFactors.currentWeight.units][
-          dietFactors.intensityLevel
-        ];
+        weightChangeValues[dietFactors.currentWeight.units][intensity];
       navigationService.navigate("newGoalsSummary", {
         selectedTrackers,
         isEditingMacros,
@@ -61,7 +60,7 @@ const IntensitySelection = (props) => {
         birthYear: 0,
         activityLevel: 0,
         weightChangePerWeek,
-        dietFactors,
+        dietFactors: updateDietFactors(weightChangePerWeek),
       });
     } else {
       if (Platform.OS === "ios") {
@@ -80,7 +79,7 @@ const IntensitySelection = (props) => {
     }
   };
 
-  const updateDietFactors = (intensity) => {
+  const updateDietFactors = (weightChange) => {
     const newDietFactors = {
       goal: dietFactors.goal,
       currentWeight: dietFactors.currentWeight,
@@ -88,9 +87,10 @@ const IntensitySelection = (props) => {
       currentHeight: dietFactors.currentHeight,
       birthYear: dietFactors.birthYear,
       activityLevelIndex: dietFactors.activityLevelIndex,
-      intensityLevel: intensity,
+      weeklyWeightChange: weightChange,
     };
     setDietFactors(newDietFactors);
+    return newDietFactors;
   };
 
   useEffect(() => {
@@ -127,7 +127,7 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("ultimate") },
           ]}
           onPress={() => {
-            updateDietFactors("ultimate");
+            setIntensity("ultimate");
           }}
         >
           <View style={styles.row}>
@@ -149,7 +149,7 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("steady") },
           ]}
           onPress={() => {
-            updateDietFactors("steady");
+            setIntensity("steady");
           }}
         >
           <View style={styles.row}>
@@ -171,7 +171,7 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("gradual") },
           ]}
           onPress={() => {
-            updateDietFactors("gradual");
+            setIntensity("gradual");
           }}
         >
           <View style={styles.row}>
@@ -193,7 +193,7 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("relaxed") },
           ]}
           onPress={() => {
-            updateDietFactors("relaxed");
+            setIntensity("relaxed");
           }}
         >
           <View style={styles.row}>

@@ -69,7 +69,7 @@ const ActivityLevelSelection = (props) => {
       currentHeight: dietFactors.currentHeight,
       birthYear: dietFactors.birthYear,
       activityLevelIndex: activityIndex,
-      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange: dietFactors.weeklyWeightChange,
     };
     setDietFactors(newDietFactors);
   };

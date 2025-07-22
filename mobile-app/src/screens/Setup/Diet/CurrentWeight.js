@@ -83,7 +83,7 @@ const CurrentWeight = (props) => {
         currentHeight: dietFactors.currentHeight,
         birthYear: dietFactors.birthYear,
         activityLevelIndex: dietFactors.activityLevelIndex,
-        intensityLevel: dietFactors.intensityLevel,
+        weeklyWeightChange: dietFactors.weeklyWeightChange,
       };
     } else {
       newDietFactors = {
@@ -93,7 +93,7 @@ const CurrentWeight = (props) => {
         currentHeight: dietFactors.currentHeight,
         birthYear: dietFactors.birthYear,
         activityLevelIndex: dietFactors.activityLevelIndex,
-        intensityLevel: dietFactors.intensityLevel,
+        weeklyWeightChange: dietFactors.weeklyWeightChange,
       };
     }
     setDietFactors(newDietFactors);

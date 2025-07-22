@@ -116,7 +116,7 @@ const TargetWeight = (props) => {
       currentHeight: dietFactors.currentHeight,
       birthYear: dietFactors.birthYear,
       activityLevelIndex: dietFactors.activityLevelIndex,
-      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange: dietFactors.weeklyWeightChange,
     };
     setDietFactors(newDietFactors);
     return newDietFactors;

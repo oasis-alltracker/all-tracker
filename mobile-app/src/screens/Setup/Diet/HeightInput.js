@@ -72,7 +72,7 @@ const HeightInput = (props) => {
       currentHeight: userHeight,
       birthYear: dietFactors.birthYear,
       activityLevelIndex: dietFactors.activityLevelIndex,
-      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange: dietFactors.weeklyWeightChange,
     };
     setDietFactors(newDietFactors);
     return newDietFactors;
