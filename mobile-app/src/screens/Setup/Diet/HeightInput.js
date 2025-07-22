@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,9 @@ const HeightInput = (props) => {
   );
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
+  console.log(
+    "**********Diet factors in heightInput:\n" + JSON.stringify(dietFactors)
+  );
 
   const onNext = () => {
     if (height) {
@@ -64,6 +67,22 @@ const HeightInput = (props) => {
     }
   };
 
+  const onBack = () => {
+    if (dietFactors.goal == "maintain") {
+      navigationService.navigate("currentWeight", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    } else {
+      navigationService.navigate("targetWeight", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    }
+  };
+
   const updateDietFactors = (userHeight) => {
     const newDietFactors = {
       goal: dietFactors.goal,
@@ -78,6 +97,10 @@ const HeightInput = (props) => {
     setDietFactors(newDietFactors);
     return newDietFactors;
   };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

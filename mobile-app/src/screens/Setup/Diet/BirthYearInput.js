@@ -22,7 +22,7 @@ const BirthYearInput = (props) => {
   );
   const [birthYear, setBirthYear] = useState(null);
   console.log(
-    "Diet factors in birthYearInput:\n" + JSON.stringify(dietFactors)
+    "*** *** Diet factors in birthYearInput:\n" + JSON.stringify(dietFactors)
   );
 
   const onNext = () => {
@@ -65,6 +65,15 @@ const BirthYearInput = (props) => {
     }
   };
 
+  const onBack = () => {
+    console.log("birth year input --> height input");
+    navigationService.navigate("heightInput", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
   const updateDietFactors = (userBirthYear) => {
     const newDietFactors = {
       goal: dietFactors.goal,
@@ -98,7 +107,7 @@ const BirthYearInput = (props) => {
           <Text style={styles.title}>What year were you born?</Text>
           <TextInput
             style={styles.input}
-            placeholder="0"
+            placeholder={"0"}
             onChangeText={setBirthYear}
             value={birthYear}
             keyboardType="number-pad"

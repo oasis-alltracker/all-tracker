@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,9 @@ const CurrentWeight = (props) => {
   );
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
+  console.log(
+    "- - - - - Diet factors in currentWeight:\n" + JSON.stringify(dietFactors)
+  );
 
   const onNext = () => {
     if (weight) {
@@ -73,6 +76,15 @@ const CurrentWeight = (props) => {
     }
   };
 
+  const onBack = () => {
+    console.log("current weight --> goal selection");
+    navigationService.navigate("goalSelection", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
   const updateDietFactors = (userWeight, userTarget) => {
     var newDietFactors = {};
     if (userTarget) {
@@ -101,6 +113,10 @@ const CurrentWeight = (props) => {
     setDietFactors(newDietFactors);
     return newDietFactors;
   };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -21,6 +21,9 @@ const GoalSelection = (props) => {
     weeklyWeightChange: 0,
   };
   const [dietFactors, setDietFactors] = useState(defaultDietFactors);
+  console.log(
+    "!!!!!!!! Diet factors in birthYearInput:\n" + JSON.stringify(dietFactors)
+  );
 
   const onNext = () => {
     if (dietFactors.goal != "none") {
@@ -66,6 +69,13 @@ const GoalSelection = (props) => {
     };
     setDietFactors(newDietFactors);
   };
+
+  useEffect(() => {
+    var latestDietFactors = props.route.params?.dietFactors;
+    if (latestDietFactors) {
+      setDietFactors(latestDietFactors);
+    }
+  }, [props]);
 
   return (
     <SafeAreaView style={styles.container}>

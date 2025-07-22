@@ -34,9 +34,6 @@ const IntensitySelection = (props) => {
   const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
   const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
   const [intensity, setIntensity] = useState(null);
-  console.log(
-    "Diet factors in IntensitySelection:\n" + JSON.stringify(dietFactors)
-  );
 
   const getButtonColour = (selectedIntensity) => {
     if (intensity == selectedIntensity) {

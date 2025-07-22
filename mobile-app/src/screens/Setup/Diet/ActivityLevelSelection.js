@@ -12,9 +12,6 @@ const ActivityLevelSelection = (props) => {
   const [dietFactors, setDietFactors] = useState(
     props.route.params.dietFactors
   );
-  console.log(
-    "Diet factors in ActivityLevelSelection:\n" + JSON.stringify(dietFactors)
-  );
 
   const getButtonColour = (index) => {
     if (index == dietFactors.activityLevelIndex) {
@@ -57,7 +54,6 @@ const ActivityLevelSelection = (props) => {
   };
 
   const onBack = () => {
-    console.log("activity level selection --> birth year input");
     navigationService.navigate("birthYearInput", {
       selectedTrackers,
       isEditingMacros,

@@ -21,6 +21,9 @@ const TargetWeight = (props) => {
     props.route.params.dietFactors
   );
   const [goalWeight, setGoalWeight] = useState(null);
+  console.log(
+    "////////// Diet factors in targetWeight:\n" + JSON.stringify(dietFactors)
+  );
 
   const onNext = () => {
     if (goalWeight) {
@@ -108,6 +111,15 @@ const TargetWeight = (props) => {
     }
   };
 
+  const onBack = () => {
+    console.log("target weight --> current weight");
+    navigationService.navigate("currentWeight", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
   const updateDietFactors = (userTarget) => {
     const newDietFactors = {
       goal: dietFactors.goal,
@@ -122,6 +134,10 @@ const TargetWeight = (props) => {
     setDietFactors(newDietFactors);
     return newDietFactors;
   };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
