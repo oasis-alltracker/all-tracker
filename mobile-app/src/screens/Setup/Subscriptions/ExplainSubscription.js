@@ -20,7 +20,6 @@ import { Header } from "../../../components";
 const ExplainSubscription = (props) => {
   const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
-  const headerHeight = 119;
 
   const subscribe = async () => {
     setIsLoading(true);
