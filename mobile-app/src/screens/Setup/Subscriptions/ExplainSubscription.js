@@ -20,6 +20,7 @@ import { Header } from "../../../components";
 const ExplainSubscription = (props) => {
   const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
+  const headerHeight = 119;
 
   const subscribe = async () => {
     setIsLoading(true);
@@ -56,14 +57,14 @@ const ExplainSubscription = (props) => {
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>
       <Spinner visible={isLoading}></Spinner>
+      <Header showCenter={false} />
       <View
         style={{
-          height: height * 0.9,
+          flex: 1,
           justifyContent: "center",
         }}
       >
-        <Header showCenter={false} />
-        <Text style={[styles.title, { marginTop: height * 0.075 }]}>
+        <Text style={[styles.title, { marginTop: height * 0.05 }]}>
           1 month <Text style={styles.bold}>free</Text>
         </Text>
         <Text style={styles.title}>then $2.99/month</Text>
