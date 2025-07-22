@@ -28,13 +28,6 @@ const ActivityLevelSelection = (props) => {
         navigationService.navigate("newGoalsSummary", {
           selectedTrackers,
           isEditingMacros,
-          goal: "maintain",
-          weightGoal: 0,
-          currentWeight: 0,
-          currentHeight: 0,
-          birthYear: 0,
-          activityLevel: 0,
-          weightChangePerWeek,
           dietFactors,
         });
       } else {
