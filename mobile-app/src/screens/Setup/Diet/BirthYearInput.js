@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -21,6 +21,9 @@ const BirthYearInput = (props) => {
     props.route.params.dietFactors
   );
   const [birthYear, setBirthYear] = useState(null);
+  console.log(
+    "Diet factors in birthYearInput:\n" + JSON.stringify(dietFactors)
+  );
 
   const onNext = () => {
     if (birthYear) {
@@ -76,6 +79,10 @@ const BirthYearInput = (props) => {
     setDietFactors(newDietFactors);
     return newDietFactors;
   };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

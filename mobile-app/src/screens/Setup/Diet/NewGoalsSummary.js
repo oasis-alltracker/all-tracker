@@ -114,14 +114,12 @@ const NewGoalsSummary = (props) => {
 
   const onBack = () => {
     if (dietFactors.goal == "maintain") {
-      console.log("goal summary --> activity level selection");
       navigationService.navigate("activityLevelSelection", {
         selectedTrackers,
         isEditingMacros,
         dietFactors,
       });
     } else {
-      console.log("goal summary --> intensity selection");
       navigationService.navigate("intensitySelection", {
         selectedTrackers,
         isEditingMacros,

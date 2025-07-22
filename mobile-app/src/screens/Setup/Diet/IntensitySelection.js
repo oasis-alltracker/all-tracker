@@ -73,7 +73,6 @@ const IntensitySelection = (props) => {
   };
 
   const onBack = () => {
-    console.log("intensity selection --> activity level selection");
     navigationService.navigate("activityLevelSelection", {
       selectedTrackers,
       isEditingMacros,

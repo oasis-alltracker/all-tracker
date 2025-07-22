@@ -25,7 +25,7 @@ const ActivityLevelSelection = (props) => {
   };
 
   const onNext = () => {
-    if (dietFactors.activityLevelIndex != null) {
+    if (dietFactors.activityLevelIndex > -1) {
       if (dietFactors.goal === "maintain") {
         navigationService.navigate("newGoalsSummary", {
           selectedTrackers,
@@ -56,6 +56,15 @@ const ActivityLevelSelection = (props) => {
     }
   };
 
+  const onBack = () => {
+    console.log("activity level selection --> birth year input");
+    navigationService.navigate("birthYearInput", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
   const updateDietFactors = (activityIndex) => {
     const newDietFactors = {
       goal: dietFactors.goal,
@@ -67,20 +76,6 @@ const ActivityLevelSelection = (props) => {
       intensityLevel: dietFactors.intensityLevel,
       weeklyWeightChange:
         dietFactors.goal == "maintain" ? 0 : dietFactors.weeklyWeightChange,
-    };
-    setDietFactors(newDietFactors);
-  };
-
-  const updateWeightChange = () => {
-    const newDietFactors = {
-      goal: dietFactors.goal,
-      currentWeight: dietFactors.currentWeight,
-      targetWeight: dietFactors.targetWeight,
-      currentHeight: dietFactors.currentHeight,
-      birthYear: dietFactors.birthYear,
-      activityLevelIndex: dietFactors.activityLevelIndex,
-      intensityLevel: dietFactors.intensityLevel,
-      weeklyWeightChange: 0,
     };
     setDietFactors(newDietFactors);
   };
@@ -138,10 +133,7 @@ const ActivityLevelSelection = (props) => {
         </Button>
       </View>
       <View style={styles.buttons}>
-        <Button
-          onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
-        >
+        <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
           Back
         </Button>
         <Button onPress={() => onNext()} style={styles.button}>
