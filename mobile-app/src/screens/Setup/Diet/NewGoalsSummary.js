@@ -112,6 +112,24 @@ const NewGoalsSummary = (props) => {
     }
   };
 
+  const onBack = () => {
+    if (dietFactors.goal == "maintain") {
+      console.log("goal summary --> activity level selection");
+      navigationService.navigate("activityLevelSelection", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    } else {
+      console.log("goal summary --> intensity selection");
+      navigationService.navigate("intensitySelection", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    }
+  };
+
   useEffect(() => {
     const getDataOnLoad = async () => {
       setIsLoading(true);
@@ -247,10 +265,7 @@ const NewGoalsSummary = (props) => {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>

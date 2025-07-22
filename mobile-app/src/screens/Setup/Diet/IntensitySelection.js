@@ -72,6 +72,15 @@ const IntensitySelection = (props) => {
     }
   };
 
+  const onBack = () => {
+    console.log("intensity selection --> activity level selection");
+    navigationService.navigate("activityLevelSelection", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
   const updateDietFactors = (weightChange) => {
     const newDietFactors = {
       goal: dietFactors.goal,
@@ -102,6 +111,10 @@ const IntensitySelection = (props) => {
       setRelaxedNumberOfWeeks(Math.round(totalWeightChange / 0.551));
     }
   }, []);
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+  }, [props]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -204,10 +217,7 @@ const IntensitySelection = (props) => {
         </Button>
       </View>
       <View style={styles.buttons}>
-        <Button
-          onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
-        >
+        <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
           Back
         </Button>
         <Button onPress={() => onNext()} style={styles.button}>

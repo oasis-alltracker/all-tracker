@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -11,6 +11,9 @@ const ActivityLevelSelection = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
   const [dietFactors, setDietFactors] = useState(
     props.route.params.dietFactors
+  );
+  console.log(
+    "Diet factors in ActivityLevelSelection:\n" + JSON.stringify(dietFactors)
   );
 
   const getButtonColour = (index) => {
@@ -66,6 +69,10 @@ const ActivityLevelSelection = (props) => {
     };
     setDietFactors(newDietFactors);
   };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+  }, [props]);
 
   return (
     <SafeAreaView style={styles.container}>
