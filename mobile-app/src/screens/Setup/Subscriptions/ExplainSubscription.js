@@ -15,6 +15,7 @@ import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Purchases from "react-native-purchases";
 import { ValueSheet } from "../../../ValueSheet";
+import { Header } from "../../../components";
 
 const ExplainSubscription = (props) => {
   const { width, height } = useWindowDimensions();
@@ -61,7 +62,8 @@ const ExplainSubscription = (props) => {
           justifyContent: "center",
         }}
       >
-        <Text style={[styles.title, { marginTop: height * 0.18 }]}>
+        <Header showCenter={false} />
+        <Text style={[styles.title, { marginTop: height * 0.075 }]}>
           1 month <Text style={styles.bold}>free</Text>
         </Text>
         <Text style={styles.title}>then $2.99/month</Text>
