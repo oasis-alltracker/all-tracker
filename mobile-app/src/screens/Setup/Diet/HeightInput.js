@@ -22,9 +22,6 @@ const HeightInput = (props) => {
   );
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
-  console.log(
-    "**********Diet factors in heightInput:\n" + JSON.stringify(dietFactors)
-  );
 
   const onNext = () => {
     if (height) {
@@ -99,8 +96,8 @@ const HeightInput = (props) => {
   };
 
   useEffect(() => {
-    console.log("TRIGGERED HEIGHT USEEFFECT");
     setDietFactors(props.route.params.dietFactors);
+    setHeight(dietFactors.currentHeight.height);
   }, [props]);
 
   return (

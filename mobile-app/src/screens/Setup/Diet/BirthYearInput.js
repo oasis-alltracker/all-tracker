@@ -21,9 +21,6 @@ const BirthYearInput = (props) => {
     props.route.params.dietFactors
   );
   const [birthYear, setBirthYear] = useState(null);
-  console.log(
-    "*** *** Diet factors in birthYearInput:\n" + JSON.stringify(dietFactors)
-  );
 
   const onNext = () => {
     if (dietFactors.birthYear) {
@@ -34,7 +31,6 @@ const BirthYearInput = (props) => {
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
-          //dietFactors: updateDietFactors(birthYear),
           dietFactors,
         });
       } else {
@@ -70,7 +66,6 @@ const BirthYearInput = (props) => {
   };
 
   const onBack = () => {
-    console.log("birth year input --> height input");
     navigationService.navigate("heightInput", {
       selectedTrackers,
       isEditingMacros,
@@ -94,7 +89,6 @@ const BirthYearInput = (props) => {
   };
 
   useEffect(() => {
-    console.log("TRIGGERED BIRTH YEAR USEEFFECT");
     setDietFactors(props.route.params.dietFactors);
     setBirthYear(dietFactors.birthYear);
   }, [props]);
