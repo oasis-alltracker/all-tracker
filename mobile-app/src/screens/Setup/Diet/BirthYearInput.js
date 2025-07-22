@@ -26,12 +26,16 @@ const BirthYearInput = (props) => {
   );
 
   const onNext = () => {
-    if (birthYear) {
-      if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
+    if (dietFactors.birthYear) {
+      if (
+        !isNaN(Number(dietFactors.birthYear)) &&
+        dietFactors.birthYear.length == 4
+      ) {
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
-          dietFactors: updateDietFactors(birthYear),
+          //dietFactors: updateDietFactors(birthYear),
+          dietFactors,
         });
       } else {
         if (Platform.OS === "ios") {
@@ -90,7 +94,9 @@ const BirthYearInput = (props) => {
   };
 
   useEffect(() => {
+    console.log("TRIGGERED BIRTH YEAR USEEFFECT");
     setDietFactors(props.route.params.dietFactors);
+    setBirthYear(dietFactors.birthYear);
   }, [props]);
 
   return (
@@ -108,16 +114,13 @@ const BirthYearInput = (props) => {
           <TextInput
             style={styles.input}
             placeholder={"0"}
-            onChangeText={setBirthYear}
-            value={birthYear}
+            onChangeText={updateDietFactors}
+            value={dietFactors.birthYear}
             keyboardType="number-pad"
           />
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
