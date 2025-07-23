@@ -20,10 +20,14 @@ const GoalSelection = (props) => {
     intensityLevel: "none",
     weeklyWeightChange: 0,
   };
-  const [dietFactors, setDietFactors] = useState(defaultDietFactors);
+  //const [dietFactors, setDietFactors] = useState(defaultDietFactors);
+  const [goal, setGoal] = useState("none");
+  var dietFactors = props.route.params?.dietFactors || defaultDietFactors;
+  console.log("goal selection diet factors:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
-    if (dietFactors.goal != "none") {
+    if (goal != "none") {
+      dietFactors.goal = goal;
       navigationService.navigate("currentWeight", {
         selectedTrackers,
         isEditingMacros,
@@ -47,30 +51,30 @@ const GoalSelection = (props) => {
   };
 
   const getButtonColour = (buttonGoal) => {
-    if (buttonGoal == dietFactors.goal) {
+    if (buttonGoal == goal) {
       return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
     }
   };
 
-  const updateDietFactors = (userGoal) => {
-    const newDietFactors = {
-      goal: userGoal,
-      currentWeight: dietFactors.currentWeight,
-      targetWeight: dietFactors.targetWeight,
-      currentHeight: dietFactors.currentHeight,
-      birthYear: dietFactors.birthYear,
-      activityLevelIndex: dietFactors.activityLevelIndex,
-      weeklyWeightChange: dietFactors.weeklyWeightChange,
-    };
-    setDietFactors(newDietFactors);
-  };
+  // const updateDietFactors = (userGoal) => {
+  //   const newDietFactors = {
+  //     goal: userGoal,
+  //     currentWeight: dietFactors.currentWeight,
+  //     targetWeight: dietFactors.targetWeight,
+  //     currentHeight: dietFactors.currentHeight,
+  //     birthYear: dietFactors.birthYear,
+  //     activityLevelIndex: dietFactors.activityLevelIndex,
+  //     weeklyWeightChange: dietFactors.weeklyWeightChange,
+  //   };
+  //   setDietFactors(newDietFactors);
+  // };
 
   useEffect(() => {
     var latestDietFactors = props.route.params?.dietFactors;
     if (latestDietFactors) {
-      setDietFactors(latestDietFactors);
+      dietFactors = latestDietFactors;
     }
   }, [props]);
 
@@ -92,7 +96,8 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            updateDietFactors("lose");
+            //updateDietFactors("lose");
+            setGoal("lose");
           }}
         >
           Lose weight
@@ -105,7 +110,8 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            updateDietFactors("maintain");
+            //updateDietFactors("maintain");
+            setGoal("maintain");
           }}
         >
           Maintain weight
@@ -116,7 +122,8 @@ const GoalSelection = (props) => {
             { backgroundColor: getButtonColour("gain") },
           ]}
           onPress={() => {
-            updateDietFactors("gain");
+            //updateDietFactors("gain");
+            setGoal("gain");
           }}
           textStyle={styles.buttonsText}
         >
