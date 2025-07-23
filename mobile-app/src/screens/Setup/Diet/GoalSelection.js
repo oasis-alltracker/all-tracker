@@ -22,7 +22,6 @@ const GoalSelection = (props) => {
   };
   const [goal, setGoal] = useState("none");
   var dietFactors = props.route.params?.dietFactors || defaultDietFactors;
-  console.log("goal selection diet factors:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (goal != "none") {
