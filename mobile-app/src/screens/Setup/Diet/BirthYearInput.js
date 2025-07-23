@@ -17,17 +17,17 @@ import { ValueSheet } from "../../../ValueSheet";
 
 const BirthYearInput = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
-  const [dietFactors, setDietFactors] = useState(
-    props.route.params.dietFactors
-  );
+  // const [dietFactors, setDietFactors] = useState(
+  //   props.route.params.dietFactors
+  // );
+  var dietFactors = props.route.params.dietFactors;
   const [birthYear, setBirthYear] = useState(null);
+  //console.log("birth year diet factors:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
-    if (dietFactors.birthYear) {
-      if (
-        !isNaN(Number(dietFactors.birthYear)) &&
-        dietFactors.birthYear.length == 4
-      ) {
+    if (birthYear) {
+      if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
+        dietFactors.birthYear = birthYear;
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
@@ -73,23 +73,24 @@ const BirthYearInput = (props) => {
     });
   };
 
-  const updateDietFactors = (userBirthYear) => {
-    const newDietFactors = {
-      goal: dietFactors.goal,
-      currentWeight: dietFactors.currentWeight,
-      targetWeight: dietFactors.targetWeight,
-      currentHeight: dietFactors.currentHeight,
-      birthYear: userBirthYear,
-      activityLevelIndex: dietFactors.activityLevelIndex,
-      intensityLevel: dietFactors.intensityLevel,
-      weeklyWeightChange: dietFactors.weeklyWeightChange,
-    };
-    setDietFactors(newDietFactors);
-    return newDietFactors;
-  };
+  // const updateDietFactors = (userBirthYear) => {
+  //   const newDietFactors = {
+  //     goal: dietFactors.goal,
+  //     currentWeight: dietFactors.currentWeight,
+  //     targetWeight: dietFactors.targetWeight,
+  //     currentHeight: dietFactors.currentHeight,
+  //     birthYear: userBirthYear,
+  //     activityLevelIndex: dietFactors.activityLevelIndex,
+  //     intensityLevel: dietFactors.intensityLevel,
+  //     weeklyWeightChange: dietFactors.weeklyWeightChange,
+  //   };
+  //   setDietFactors(newDietFactors);
+  //   return newDietFactors;
+  // };
 
   useEffect(() => {
-    setDietFactors(props.route.params.dietFactors);
+    // setDietFactors(props.route.params.dietFactors);
+    dietFactors = props.route.params.dietFactors;
     setBirthYear(dietFactors.birthYear);
   }, [props]);
 
@@ -108,8 +109,8 @@ const BirthYearInput = (props) => {
           <TextInput
             style={styles.input}
             placeholder={"0"}
-            onChangeText={updateDietFactors}
-            value={dietFactors.birthYear}
+            onChangeText={setBirthYear}
+            value={birthYear}
             keyboardType="number-pad"
           />
         </View>
