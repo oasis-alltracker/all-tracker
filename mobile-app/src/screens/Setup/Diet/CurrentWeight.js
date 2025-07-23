@@ -24,11 +24,8 @@ const CurrentWeight = (props) => {
   const onNext = () => {
     if (weight) {
       if (!isNaN(Number(weight))) {
-        const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
-        dietFactors.currentWeight = currentWeight;
         if (dietFactors.goal == "maintain") {
-          const weightGoal = currentWeight;
-          dietFactors.targetWeight = weightGoal;
+          dietFactors.targetWeight = dietFactors.currentWeight;
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
@@ -81,6 +78,11 @@ const CurrentWeight = (props) => {
     });
   };
 
+  const updateWeight = (newWeight) => {
+    setWeight(newWeight);
+    dietFactors.currentWeight.weight = newWeight;
+  };
+
   useEffect(() => {
     dietFactors = props.route.params.dietFactors;
     setWeight(dietFactors.currentWeight.weight);
@@ -106,21 +108,27 @@ const CurrentWeight = (props) => {
           <TextInput
             style={styles.input}
             placeholder="0"
-            onChangeText={setWeight}
+            onChangeText={updateWeight}
             keyboardType="number-pad"
             value={weight}
           />
           <View style={[styles.buttons, styles.unitButtons]}>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsKg(true)}
+              onPress={() => {
+                setIsKg(true);
+                dietFactors.currentWeight.units = "kg";
+              }}
               style={[styles.unitBtn, !isKg && styles.inactive]}
             >
               kg
             </Button>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsKg(false)}
+              onPress={() => {
+                setIsKg(false);
+                dietFactors.currentWeight.units = "lb";
+              }}
               style={[styles.unitBtn, isKg && styles.inactive]}
             >
               lb

@@ -20,6 +20,7 @@ const HeightInput = (props) => {
   var dietFactors = props.route.params.dietFactors;
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
+  console.log(JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (height) {
