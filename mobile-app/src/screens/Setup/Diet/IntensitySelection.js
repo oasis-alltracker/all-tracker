@@ -42,7 +42,7 @@ const IntensitySelection = (props) => {
   };
 
   const onNext = () => {
-    if (intensity) {
+    if (intensity != null) {
       dietFactors.intensityLevel = intensity;
       dietFactors.weeklyWeightChange =
         weightChangeValues[dietFactors.currentWeight.units][intensity];
