@@ -20,7 +20,6 @@ const GoalSelection = (props) => {
     intensityLevel: "none",
     weeklyWeightChange: 0,
   };
-  //const [dietFactors, setDietFactors] = useState(defaultDietFactors);
   const [goal, setGoal] = useState("none");
   var dietFactors = props.route.params?.dietFactors || defaultDietFactors;
   console.log("goal selection diet factors:\n" + JSON.stringify(dietFactors));
@@ -58,19 +57,6 @@ const GoalSelection = (props) => {
     }
   };
 
-  // const updateDietFactors = (userGoal) => {
-  //   const newDietFactors = {
-  //     goal: userGoal,
-  //     currentWeight: dietFactors.currentWeight,
-  //     targetWeight: dietFactors.targetWeight,
-  //     currentHeight: dietFactors.currentHeight,
-  //     birthYear: dietFactors.birthYear,
-  //     activityLevelIndex: dietFactors.activityLevelIndex,
-  //     weeklyWeightChange: dietFactors.weeklyWeightChange,
-  //   };
-  //   setDietFactors(newDietFactors);
-  // };
-
   useEffect(() => {
     var latestDietFactors = props.route.params?.dietFactors;
     if (latestDietFactors) {
@@ -99,7 +85,6 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            //updateDietFactors("lose");
             setGoal("lose");
           }}
         >
@@ -113,7 +98,6 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            //updateDietFactors("maintain");
             setGoal("maintain");
           }}
         >
@@ -125,7 +109,6 @@ const GoalSelection = (props) => {
             { backgroundColor: getButtonColour("gain") },
           ]}
           onPress={() => {
-            //updateDietFactors("gain");
             setGoal("gain");
           }}
           textStyle={styles.buttonsText}

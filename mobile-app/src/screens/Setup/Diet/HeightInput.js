@@ -17,13 +17,9 @@ import { ValueSheet } from "../../../ValueSheet";
 
 const HeightInput = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
-  // const [dietFactors, setDietFactors] = useState(
-  //   props.route.params.dietFactors
-  // );
   var dietFactors = props.route.params.dietFactors;
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
-  //console.log("curr height diet factors:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (height) {
@@ -33,7 +29,6 @@ const HeightInput = (props) => {
         navigationService.navigate("birthYearInput", {
           selectedTrackers,
           isEditingMacros,
-          //dietFactors: updateDietFactors(currentHeight),
           dietFactors,
         });
       } else {
@@ -84,23 +79,7 @@ const HeightInput = (props) => {
     }
   };
 
-  // const updateDietFactors = (userHeight) => {
-  //   const newDietFactors = {
-  //     goal: dietFactors.goal,
-  //     currentWeight: dietFactors.currentWeight,
-  //     targetWeight: dietFactors.targetWeight,
-  //     currentHeight: userHeight,
-  //     birthYear: dietFactors.birthYear,
-  //     activityLevelIndex: dietFactors.activityLevelIndex,
-  //     intensityLevel: dietFactors.intensityLevel,
-  //     weeklyWeightChange: dietFactors.weeklyWeightChange,
-  //   };
-  //   setDietFactors(newDietFactors);
-  //   return newDietFactors;
-  // };
-
   useEffect(() => {
-    // setDietFactors(props.route.params.dietFactors);
     dietFactors = props.route.params.dietFactors;
     setHeight(dietFactors.currentHeight.height);
     if (dietFactors.currentHeight.units === "cm") {

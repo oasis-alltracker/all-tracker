@@ -9,12 +9,8 @@ import { ValueSheet } from "../../../ValueSheet";
 
 const ActivityLevelSelection = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
-  // const [dietFactors, setDietFactors] = useState(
-  //   props.route.params.dietFactors
-  // );
   var dietFactors = props.route.params.dietFactors;
   const [activityLevel, setActivityLevel] = useState(null);
-  // console.log("activity level diet factors:\n" + JSON.stringify(dietFactors));
 
   const getButtonColour = (index) => {
     if (index == activityLevel) {
@@ -29,7 +25,6 @@ const ActivityLevelSelection = (props) => {
       dietFactors.activityLevelIndex = activityLevel;
       if (dietFactors.goal === "maintain") {
         dietFactors.weeklyWeightChange = 0;
-        //updateDietFactors(dietFactors.activityLevelIndex);
         navigationService.navigate("newGoalsSummary", {
           selectedTrackers,
           isEditingMacros,
@@ -67,26 +62,7 @@ const ActivityLevelSelection = (props) => {
     });
   };
 
-  // const updateDietFactors = (activityIndex) => {
-  //   var weightChange = 0;
-  //   if (dietFactors.goal != "maintain") {
-  //     weightChange = dietFactors.weeklyWeightChange;
-  //   }
-  //   const newDietFactors = {
-  //     goal: dietFactors.goal,
-  //     currentWeight: dietFactors.currentWeight,
-  //     targetWeight: dietFactors.targetWeight,
-  //     currentHeight: dietFactors.currentHeight,
-  //     birthYear: dietFactors.birthYear,
-  //     activityLevelIndex: activityIndex,
-  //     intensityLevel: dietFactors.intensityLevel,
-  //     weeklyWeightChange: weightChange,
-  //   };
-  //   setDietFactors(newDietFactors);
-  // };
-
   useEffect(() => {
-    // setDietFactors(props.route.params.dietFactors);
     dietFactors = props.route.params.dietFactors;
     setActivityLevel(dietFactors.activityLevelIndex);
   }, [props]);
@@ -106,7 +82,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(0) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            //updateDietFactors(0);
             setActivityLevel(0);
           }}
         >
@@ -116,7 +91,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(1) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            // updateDietFactors(1);
             setActivityLevel(1);
           }}
         >
@@ -126,7 +100,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(2) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            // updateDietFactors(2);
             setActivityLevel(2);
           }}
         >
@@ -136,7 +109,6 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(3) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            // updateDietFactors(3);
             setActivityLevel(3);
           }}
         >
