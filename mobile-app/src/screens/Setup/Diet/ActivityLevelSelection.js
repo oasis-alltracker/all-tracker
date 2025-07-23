@@ -22,7 +22,6 @@ const ActivityLevelSelection = (props) => {
 
   const onNext = () => {
     if (activityLevel != null) {
-      dietFactors.activityLevelIndex = activityLevel;
       if (dietFactors.goal === "maintain") {
         dietFactors.weeklyWeightChange = 0;
         navigationService.navigate("newGoalsSummary", {
@@ -83,6 +82,7 @@ const ActivityLevelSelection = (props) => {
           textStyle={styles.buttonsText}
           onPress={() => {
             setActivityLevel(0);
+            dietFactors.activityLevelIndex = 0;
           }}
         >
           Not very active
@@ -92,6 +92,7 @@ const ActivityLevelSelection = (props) => {
           textStyle={styles.buttonsText}
           onPress={() => {
             setActivityLevel(1);
+            dietFactors.activityLevelIndex = 1;
           }}
         >
           Moderately active
@@ -101,6 +102,7 @@ const ActivityLevelSelection = (props) => {
           textStyle={styles.buttonsText}
           onPress={() => {
             setActivityLevel(2);
+            dietFactors.activityLevelIndex = 2;
           }}
         >
           Active
@@ -110,6 +112,7 @@ const ActivityLevelSelection = (props) => {
           textStyle={styles.buttonsText}
           onPress={() => {
             setActivityLevel(3);
+            dietFactors.activityLevelIndex = 3;
           }}
         >
           Very active

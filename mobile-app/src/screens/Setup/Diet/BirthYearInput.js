@@ -19,7 +19,6 @@ const BirthYearInput = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
   var dietFactors = props.route.params.dietFactors;
   const [birthYear, setBirthYear] = useState(null);
-  console.log(JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (birthYear) {

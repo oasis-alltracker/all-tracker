@@ -43,7 +43,6 @@ const IntensitySelection = (props) => {
 
   const onNext = () => {
     if (intensity != null) {
-      dietFactors.intensityLevel = intensity;
       dietFactors.weeklyWeightChange =
         weightChangeValues[dietFactors.currentWeight.units][intensity];
       navigationService.navigate("newGoalsSummary", {
@@ -116,6 +115,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntensity("ultimate");
+            dietFactors.intensityLevel = "ultimate";
           }}
         >
           <View style={styles.row}>
@@ -138,6 +138,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntensity("steady");
+            dietFactors.intensityLevel = "steady";
           }}
         >
           <View style={styles.row}>
@@ -160,6 +161,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntensity("gradual");
+            dietFactors.intensityLevel = "gradual";
           }}
         >
           <View style={styles.row}>
@@ -182,6 +184,7 @@ const IntensitySelection = (props) => {
           ]}
           onPress={() => {
             setIntensity("relaxed");
+            dietFactors.intensityLevel = "relaxed";
           }}
         >
           <View style={styles.row}>
