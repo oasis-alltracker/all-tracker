@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -8,20 +8,13 @@ import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
 const ActivityLevelSelection = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-    birthYear,
-  } = props.route.params;
-
-  const [activityLevel, setActivityLevel] = useState(null);
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
 
   const getButtonColour = (index) => {
-    if (index == activityLevel) {
+    if (index == dietFactors.activityLevelIndex) {
       return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
@@ -29,30 +22,19 @@ const ActivityLevelSelection = (props) => {
   };
 
   const onNext = () => {
-    if (activityLevel != null) {
-      if (goal === "maintain") {
-        const weightChangePerWeek = 0;
+    if (dietFactors.activityLevelIndex > -1) {
+      if (dietFactors.goal === "maintain") {
+        updateDietFactors(dietFactors.activityLevelIndex);
         navigationService.navigate("newGoalsSummary", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-          birthYear,
-          activityLevel,
-          weightChangePerWeek,
+          dietFactors,
         });
       } else {
         navigationService.navigate("intensitySelection", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-          birthYear,
-          activityLevel,
+          dietFactors,
         });
       }
     } else {
@@ -71,6 +53,37 @@ const ActivityLevelSelection = (props) => {
       }
     }
   };
+
+  const onBack = () => {
+    navigationService.navigate("birthYearInput", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateDietFactors = (activityIndex) => {
+    var weightChange = 0;
+    if (dietFactors.goal != "maintain") {
+      weightChange = dietFactors.weeklyWeightChange;
+    }
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: activityIndex,
+      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange: weightChange,
+    };
+    setDietFactors(newDietFactors);
+  };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+  }, [props]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.center}>
@@ -86,7 +99,7 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(0) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(0);
+            updateDietFactors(0);
           }}
         >
           Not very active
@@ -95,7 +108,7 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(1) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(1);
+            updateDietFactors(1);
           }}
         >
           Moderately active
@@ -104,7 +117,7 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(2) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(2);
+            updateDietFactors(2);
           }}
         >
           Active
@@ -113,17 +126,14 @@ const ActivityLevelSelection = (props) => {
           style={[styles.bigButtons, { backgroundColor: getButtonColour(3) }]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setActivityLevel(3);
+            updateDietFactors(3);
           }}
         >
           Very active
         </Button>
       </View>
       <View style={styles.buttons}>
-        <Button
-          onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
-        >
+        <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
           Back
         </Button>
         <Button onPress={() => onNext()} style={styles.button}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,27 +16,22 @@ import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
 const BirthYearInput = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-  } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [birthYear, setBirthYear] = useState(null);
 
   const onNext = () => {
-    if (birthYear) {
-      if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
+    if (dietFactors.birthYear) {
+      if (
+        !isNaN(Number(dietFactors.birthYear)) &&
+        dietFactors.birthYear.length == 4
+      ) {
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-          birthYear,
+          dietFactors,
         });
       } else {
         if (Platform.OS === "ios") {
@@ -70,6 +65,34 @@ const BirthYearInput = (props) => {
     }
   };
 
+  const onBack = () => {
+    navigationService.navigate("heightInput", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateDietFactors = (userBirthYear) => {
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: userBirthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange: dietFactors.weeklyWeightChange,
+    };
+    setDietFactors(newDietFactors);
+    return newDietFactors;
+  };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+    setBirthYear(dietFactors.birthYear);
+  }, [props]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -84,17 +107,14 @@ const BirthYearInput = (props) => {
           <Text style={styles.title}>What year were you born?</Text>
           <TextInput
             style={styles.input}
-            placeholder="0"
-            onChangeText={setBirthYear}
-            value={birthYear}
+            placeholder={"0"}
+            onChangeText={updateDietFactors}
+            value={dietFactors.birthYear}
             keyboardType="number-pad"
           />
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>

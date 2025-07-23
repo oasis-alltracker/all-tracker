@@ -16,14 +16,19 @@ import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
 const TargetWeight = (props) => {
-  const { selectedTrackers, isEditingMacros, goal, currentWeight } =
-    props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [goalWeight, setGoalWeight] = useState(null);
 
   const onNext = () => {
     if (goalWeight) {
       if (!isNaN(Number(goalWeight))) {
-        if (goal == "gain" && goalWeight <= currentWeight.weight) {
+        if (
+          dietFactors.goal == "gain" &&
+          goalWeight <= dietFactors.currentWeight.weight
+        ) {
           if (Platform.OS === "ios") {
             Toast.show(
               "Please enter a number greater than your current weight",
@@ -43,7 +48,10 @@ const TargetWeight = (props) => {
               }
             );
           }
-        } else if (goal == "lose" && goalWeight >= currentWeight.weight) {
+        } else if (
+          dietFactors.goal == "lose" &&
+          goalWeight >= dietFactors.currentWeight.weight
+        ) {
           if (Platform.OS === "ios") {
             Toast.show("Please enter a number less than your current weight", {
               ...styles.errorToast,
@@ -58,13 +66,14 @@ const TargetWeight = (props) => {
             });
           }
         } else {
-          const weightGoal = { weight: goalWeight, units: currentWeight.units };
+          const weightGoal = {
+            weight: goalWeight,
+            units: dietFactors.currentWeight.units,
+          };
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
-            goal,
-            currentWeight,
-            weightGoal,
+            dietFactors: updateDietFactors(weightGoal),
           });
         }
       } else {
@@ -99,6 +108,34 @@ const TargetWeight = (props) => {
     }
   };
 
+  const onBack = () => {
+    navigationService.navigate("currentWeight", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateDietFactors = (userTarget) => {
+    const newDietFactors = {
+      goal: dietFactors.goal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: userTarget,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      intensityLevel: dietFactors.intensityLevel,
+      weeklyWeightChange: dietFactors.weeklyWeightChange,
+    };
+    setDietFactors(newDietFactors);
+    return newDietFactors;
+  };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+    setGoalWeight(dietFactors.targetWeight.weight);
+  }, [props]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -120,10 +157,7 @@ const TargetWeight = (props) => {
           />
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>

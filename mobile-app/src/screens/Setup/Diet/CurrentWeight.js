@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,7 +16,10 @@ import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
 const CurrentWeight = (props) => {
-  const { selectedTrackers, isEditingMacros, goal } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  const [dietFactors, setDietFactors] = useState(
+    props.route.params.dietFactors
+  );
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
 
@@ -24,21 +27,18 @@ const CurrentWeight = (props) => {
     if (weight) {
       if (!isNaN(Number(weight))) {
         const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
-        if (goal == "maintain") {
+        if (dietFactors.goal == "maintain") {
           const weightGoal = currentWeight;
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
-            goal,
-            weightGoal,
-            currentWeight,
+            dietFactors: updateDietFactors(currentWeight, weightGoal),
           });
         } else {
           navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
-            goal,
-            currentWeight,
+            dietFactors: updateDietFactors(currentWeight, null),
           });
         }
       } else {
@@ -72,6 +72,53 @@ const CurrentWeight = (props) => {
       }
     }
   };
+
+  const onBack = () => {
+    navigationService.navigate("goalSelection", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateDietFactors = (userWeight, userTarget) => {
+    var newDietFactors = {};
+    if (userTarget) {
+      newDietFactors = {
+        goal: dietFactors.goal,
+        currentWeight: userWeight,
+        targetWeight: userTarget,
+        currentHeight: dietFactors.currentHeight,
+        birthYear: dietFactors.birthYear,
+        activityLevelIndex: dietFactors.activityLevelIndex,
+        intensityLevel: dietFactors.intensityLevel,
+        weeklyWeightChange: dietFactors.weeklyWeightChange,
+      };
+    } else {
+      newDietFactors = {
+        goal: dietFactors.goal,
+        currentWeight: userWeight,
+        targetWeight: dietFactors.targetWeight,
+        currentHeight: dietFactors.currentHeight,
+        birthYear: dietFactors.birthYear,
+        activityLevelIndex: dietFactors.activityLevelIndex,
+        intensityLevel: dietFactors.intensityLevel,
+        weeklyWeightChange: dietFactors.weeklyWeightChange,
+      };
+    }
+    setDietFactors(newDietFactors);
+    return newDietFactors;
+  };
+
+  useEffect(() => {
+    setDietFactors(props.route.params.dietFactors);
+    setWeight(dietFactors.currentWeight.weight);
+    if (dietFactors.currentWeight.units === "kg") {
+      setIsKg(true);
+    } else {
+      setIsKg(false);
+    }
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -110,10 +157,7 @@ const CurrentWeight = (props) => {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>

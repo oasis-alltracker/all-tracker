@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -8,15 +8,26 @@ import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
 const GoalSelection = (props) => {
-  const [goal, setGoal] = useState("none");
   const { selectedTrackers, isEditingMacros } = props.route.params;
 
+  const defaultDietFactors = {
+    goal: "none",
+    currentWeight: { weight: 0, units: "kg" },
+    targetWeight: { weight: 0, units: "kg" },
+    currentHeight: { height: 0, units: "cm" },
+    birthYear: 0,
+    activityLevelIndex: -1,
+    intensityLevel: "none",
+    weeklyWeightChange: 0,
+  };
+  const [dietFactors, setDietFactors] = useState(defaultDietFactors);
+
   const onNext = () => {
-    if (goal != "none") {
+    if (dietFactors.goal != "none") {
       navigationService.navigate("currentWeight", {
         selectedTrackers,
         isEditingMacros,
-        goal,
+        dietFactors,
       });
     } else {
       if (Platform.OS === "ios") {
@@ -36,12 +47,32 @@ const GoalSelection = (props) => {
   };
 
   const getButtonColour = (buttonGoal) => {
-    if (buttonGoal == goal) {
+    if (buttonGoal == dietFactors.goal) {
       return ValueSheet.colours.secondaryColour65;
     } else {
       return "transparent";
     }
   };
+
+  const updateDietFactors = (userGoal) => {
+    const newDietFactors = {
+      goal: userGoal,
+      currentWeight: dietFactors.currentWeight,
+      targetWeight: dietFactors.targetWeight,
+      currentHeight: dietFactors.currentHeight,
+      birthYear: dietFactors.birthYear,
+      activityLevelIndex: dietFactors.activityLevelIndex,
+      weeklyWeightChange: dietFactors.weeklyWeightChange,
+    };
+    setDietFactors(newDietFactors);
+  };
+
+  useEffect(() => {
+    var latestDietFactors = props.route.params?.dietFactors;
+    if (latestDietFactors) {
+      setDietFactors(latestDietFactors);
+    }
+  }, [props]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,7 +92,7 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setGoal("lose");
+            updateDietFactors("lose");
           }}
         >
           Lose weight
@@ -74,7 +105,7 @@ const GoalSelection = (props) => {
           ]}
           textStyle={styles.buttonsText}
           onPress={() => {
-            setGoal("maintain");
+            updateDietFactors("maintain");
           }}
         >
           Maintain weight
@@ -85,7 +116,7 @@ const GoalSelection = (props) => {
             { backgroundColor: getButtonColour("gain") },
           ]}
           onPress={() => {
-            setGoal("gain");
+            updateDietFactors("gain");
           }}
           textStyle={styles.buttonsText}
         >
