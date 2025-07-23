@@ -25,15 +25,16 @@ const weightChangeValues = {
 
 const IntensitySelection = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
-  const [dietFactors, setDietFactors] = useState(
-    props.route.params.dietFactors
-  );
-
+  // const [dietFactors, setDietFactors] = useState(
+  //   props.route.params.dietFactors
+  // );
+  var dietFactors = props.route.params.dietFactors;
   const [ultimateNumberOfWeeks, setUltimateNumberOfWeeks] = useState(0);
   const [steadyNumberOfWeeks, setSteadyNumberOfWeeks] = useState(0);
   const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
   const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
   const [intensity, setIntensity] = useState(null);
+  //console.log("intensity level diet factors:\n" + JSON.stringify(dietFactors));
 
   const getButtonColour = (selectedIntensity) => {
     if (intensity == selectedIntensity) {
@@ -45,12 +46,16 @@ const IntensitySelection = (props) => {
 
   const onNext = () => {
     if (intensity) {
-      const weightChangePerWeek =
+      dietFactors.intensityLevel = intensity;
+      // const weightChangePerWeek =
+      //   weightChangeValues[dietFactors.currentWeight.units][intensity];
+      dietFactors.weeklyWeightChange =
         weightChangeValues[dietFactors.currentWeight.units][intensity];
       navigationService.navigate("newGoalsSummary", {
         selectedTrackers,
         isEditingMacros,
-        dietFactors: updateDietFactors(weightChangePerWeek),
+        // dietFactors: updateDietFactors(weightChangePerWeek),
+        dietFactors,
       });
     } else {
       if (Platform.OS === "ios") {
@@ -77,20 +82,20 @@ const IntensitySelection = (props) => {
     });
   };
 
-  const updateDietFactors = (weightChange) => {
-    const newDietFactors = {
-      goal: dietFactors.goal,
-      currentWeight: dietFactors.currentWeight,
-      targetWeight: dietFactors.targetWeight,
-      currentHeight: dietFactors.currentHeight,
-      birthYear: dietFactors.birthYear,
-      activityLevelIndex: dietFactors.activityLevelIndex,
-      intensityLevel: intensity,
-      weeklyWeightChange: weightChange,
-    };
-    setDietFactors(newDietFactors);
-    return newDietFactors;
-  };
+  // const updateDietFactors = (weightChange) => {
+  //   const newDietFactors = {
+  //     goal: dietFactors.goal,
+  //     currentWeight: dietFactors.currentWeight,
+  //     targetWeight: dietFactors.targetWeight,
+  //     currentHeight: dietFactors.currentHeight,
+  //     birthYear: dietFactors.birthYear,
+  //     activityLevelIndex: dietFactors.activityLevelIndex,
+  //     intensityLevel: intensity,
+  //     weeklyWeightChange: weightChange,
+  //   };
+  //   setDietFactors(newDietFactors);
+  //   return newDietFactors;
+  // };
 
   useEffect(() => {
     const totalWeightChange = Math.abs(
@@ -110,7 +115,8 @@ const IntensitySelection = (props) => {
   }, []);
 
   useEffect(() => {
-    setDietFactors(props.route.params.dietFactors);
+    // setDietFactors(props.route.params.dietFactors);
+    dietFactors = props.route.params.dietFactors;
     setIntensity(dietFactors.intensityLevel);
   }, [props]);
 
