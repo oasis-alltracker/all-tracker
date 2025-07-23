@@ -18,17 +18,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { ValueSheet } from "../../ValueSheet";
 
-const dietSettings = {
-  img: require("../../assets/images/person-profile.png"),
-  title: "Personal",
-  childs: [
-    {
-      title: "Goals",
-      route: "goals",
-    },
-  ],
-};
-
 const generalSettings = {
   img: require("../../assets/images/tracking.png"),
   title: "Customization",
@@ -180,31 +169,6 @@ const SettingsHome = () => {
             </TouchableOpacity>
           ))}
         </View>
-
-        {trackingPreferences.dietSelected && (
-          <View style={styles.item}>
-            <View style={styles.itemHead}>
-              <Image source={dietSettings.img} style={styles.itemImg} />
-              <Text style={styles.itemTitle}>{dietSettings.title}</Text>
-            </View>
-            {dietSettings.childs.map((item, index) => (
-              <TouchableOpacity
-                onPress={(e) => {
-                  navigationService.navigate(item.route);
-                }}
-                style={styles.child}
-                key={index}
-              >
-                <Text style={styles.childTitle}>{item.title}</Text>
-                <Image
-                  style={styles.arrowRight}
-                  resizeMode="stretch"
-                  source={require("../../assets/images/left.png")}
-                />
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
 
         <View style={styles.item}>
           <View style={styles.itemHead}>
