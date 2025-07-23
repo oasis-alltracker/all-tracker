@@ -137,6 +137,7 @@ const TargetWeight = (props) => {
 
   useEffect(() => {
     setDietFactors(props.route.params.dietFactors);
+    setGoalWeight(dietFactors.targetWeight.weight);
   }, [props]);
 
   return (
