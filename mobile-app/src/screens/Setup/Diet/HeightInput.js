@@ -98,7 +98,7 @@ const HeightInput = (props) => {
   useEffect(() => {
     setDietFactors(props.route.params.dietFactors);
     setHeight(dietFactors.currentHeight.height);
-    if (dietFactors.currentWeight.units === "cm") {
+    if (dietFactors.currentHeight.units === "cm") {
       setIsCm(true);
     } else {
       setIsCm(false);
