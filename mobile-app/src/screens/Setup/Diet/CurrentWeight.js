@@ -23,7 +23,7 @@ const CurrentWeight = (props) => {
   var dietFactors = props.route.params.dietFactors;
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
-  console.log("curr weight diet factors:\n" + JSON.stringify(dietFactors));
+  //console.log("curr weight diet factors:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (weight) {
