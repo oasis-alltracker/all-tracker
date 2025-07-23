@@ -20,13 +20,10 @@ const HeightInput = (props) => {
   var dietFactors = props.route.params.dietFactors;
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
-  console.log(JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (height) {
       if (!isNaN(Number(height))) {
-        const currentHeight = { height: height, units: isCm ? "cm" : "in" };
-        dietFactors.currentHeight = currentHeight;
         navigationService.navigate("birthYearInput", {
           selectedTrackers,
           isEditingMacros,
@@ -80,6 +77,11 @@ const HeightInput = (props) => {
     }
   };
 
+  const updateHeight = (newHeight) => {
+    setHeight(newHeight);
+    dietFactors.currentHeight.height = newHeight;
+  };
+
   useEffect(() => {
     dietFactors = props.route.params.dietFactors;
     setHeight(dietFactors.currentHeight.height);
@@ -105,21 +107,27 @@ const HeightInput = (props) => {
           <TextInput
             style={styles.input}
             placeholder="0"
-            onChangeText={setHeight}
+            onChangeText={updateHeight}
             value={height}
             keyboardType="number-pad"
           />
           <View style={[styles.buttons, styles.unitButtons]}>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsCm(true)}
+              onPress={() => {
+                setIsCm(true);
+                dietFactors.currentHeight.units = "cm";
+              }}
               style={[styles.unitBtn, !isCm && styles.inactive]}
             >
               cm
             </Button>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsCm(false)}
+              onPress={() => {
+                setIsCm(false);
+                dietFactors.currentHeight.units = "in";
+              }}
               style={[styles.unitBtn, isCm && styles.inactive]}
             >
               in

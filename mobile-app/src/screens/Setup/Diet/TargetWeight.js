@@ -64,11 +64,6 @@ const TargetWeight = (props) => {
             });
           }
         } else {
-          const weightGoal = {
-            weight: goalWeight,
-            units: dietFactors.currentWeight.units,
-          };
-          dietFactors.targetWeight = weightGoal;
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
@@ -115,6 +110,12 @@ const TargetWeight = (props) => {
     });
   };
 
+  const updateWeight = (newWeight) => {
+    setGoalWeight(newWeight);
+    dietFactors.targetWeight.weight = newWeight;
+    dietFactors.targetWeight.units = dietFactors.currentWeight.units;
+  };
+
   useEffect(() => {
     dietFactors = props.route.params.dietFactors;
     setGoalWeight(dietFactors.targetWeight.weight);
@@ -136,7 +137,7 @@ const TargetWeight = (props) => {
             style={styles.input}
             placeholder="0"
             keyboardType="number-pad"
-            onChangeText={setGoalWeight}
+            onChangeText={updateWeight}
             value={goalWeight}
           />
         </View>

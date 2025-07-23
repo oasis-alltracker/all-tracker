@@ -19,11 +19,11 @@ const BirthYearInput = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
   var dietFactors = props.route.params.dietFactors;
   const [birthYear, setBirthYear] = useState(null);
+  console.log(JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (birthYear) {
       if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
-        dietFactors.birthYear = birthYear;
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
@@ -69,6 +69,11 @@ const BirthYearInput = (props) => {
     });
   };
 
+  const updateBirthYear = (year) => {
+    setBirthYear(year);
+    dietFactors.birthYear = year;
+  };
+
   useEffect(() => {
     dietFactors = props.route.params.dietFactors;
     setBirthYear(dietFactors.birthYear);
@@ -89,7 +94,7 @@ const BirthYearInput = (props) => {
           <TextInput
             style={styles.input}
             placeholder={"0"}
-            onChangeText={setBirthYear}
+            onChangeText={updateBirthYear}
             value={birthYear}
             keyboardType="number-pad"
           />
