@@ -22,9 +22,6 @@ const CurrentWeight = (props) => {
   );
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
-  console.log(
-    "- - - - - Diet factors in currentWeight:\n" + JSON.stringify(dietFactors)
-  );
 
   const onNext = () => {
     if (weight) {
@@ -77,7 +74,6 @@ const CurrentWeight = (props) => {
   };
 
   const onBack = () => {
-    console.log("current weight --> goal selection");
     navigationService.navigate("goalSelection", {
       selectedTrackers,
       isEditingMacros,
@@ -117,6 +113,11 @@ const CurrentWeight = (props) => {
   useEffect(() => {
     setDietFactors(props.route.params.dietFactors);
     setWeight(dietFactors.currentWeight.weight);
+    if (dietFactors.currentWeight.units === "kg") {
+      setIsKg(true);
+    } else {
+      setIsKg(false);
+    }
   }, [props]);
 
   return (

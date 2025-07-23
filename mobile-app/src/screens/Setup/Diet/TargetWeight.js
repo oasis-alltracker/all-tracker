@@ -21,9 +21,6 @@ const TargetWeight = (props) => {
     props.route.params.dietFactors
   );
   const [goalWeight, setGoalWeight] = useState(null);
-  console.log(
-    "////////// Diet factors in targetWeight:\n" + JSON.stringify(dietFactors)
-  );
 
   const onNext = () => {
     if (goalWeight) {
@@ -112,7 +109,6 @@ const TargetWeight = (props) => {
   };
 
   const onBack = () => {
-    console.log("target weight --> current weight");
     navigationService.navigate("currentWeight", {
       selectedTrackers,
       isEditingMacros,

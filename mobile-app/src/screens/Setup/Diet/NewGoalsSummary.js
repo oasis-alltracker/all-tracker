@@ -49,9 +49,6 @@ const NewGoalsSummary = (props) => {
     },
   ]);
   const updateMacrosRef = useRef(null);
-  console.log(
-    "Diet factors in NewGoalsSummary:\n" + JSON.stringify(dietFactors)
-  );
 
   const onUpdateMacroValue = async (title, value, units) => {
     var newCalories = calorieGoalValue;

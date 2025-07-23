@@ -21,9 +21,6 @@ const GoalSelection = (props) => {
     weeklyWeightChange: 0,
   };
   const [dietFactors, setDietFactors] = useState(defaultDietFactors);
-  console.log(
-    "!!!!!!!! Diet factors in birthYearInput:\n" + JSON.stringify(dietFactors)
-  );
 
   const onNext = () => {
     if (dietFactors.goal != "none") {
