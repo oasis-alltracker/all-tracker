@@ -20,9 +20,11 @@ const activityLevelValues = {
 
 const NewGoalsSummary = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
-  const [dietFactors, setDietFactors] = useState(
-    props.route.params.dietFactors
-  );
+  // const [dietFactors, setDietFactors] = useState(
+  //   props.route.params.dietFactors
+  // );
+  var dietFactors = props.route.params.dietFactors;
+  //console.log("goal summary diet factors:\n" + JSON.stringify(dietFactors));
 
   const [isLoading, setIsLoading] = useState(false);
   const [calories, setCalories] = useState(0);
