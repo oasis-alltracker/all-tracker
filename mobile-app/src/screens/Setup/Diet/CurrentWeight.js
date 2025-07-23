@@ -17,28 +17,34 @@ import { ValueSheet } from "../../../ValueSheet";
 
 const CurrentWeight = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
-  const [dietFactors, setDietFactors] = useState(
-    props.route.params.dietFactors
-  );
+  // const [dietFactors, setDietFactors] = useState(
+  //   props.route.params.dietFactors
+  // );
+  var dietFactors = props.route.params.dietFactors;
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
+  console.log("curr weight diet factors:\n" + JSON.stringify(dietFactors));
 
   const onNext = () => {
     if (weight) {
       if (!isNaN(Number(weight))) {
         const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
+        dietFactors.currentWeight = currentWeight;
         if (dietFactors.goal == "maintain") {
           const weightGoal = currentWeight;
+          dietFactors.targetWeight = weightGoal;
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
-            dietFactors: updateDietFactors(currentWeight, weightGoal),
+            //dietFactors: updateDietFactors(currentWeight, weightGoal),
+            dietFactors,
           });
         } else {
           navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
-            dietFactors: updateDietFactors(currentWeight, null),
+            //dietFactors: updateDietFactors(currentWeight, weightGoal),
+            dietFactors,
           });
         }
       } else {
@@ -81,37 +87,38 @@ const CurrentWeight = (props) => {
     });
   };
 
-  const updateDietFactors = (userWeight, userTarget) => {
-    var newDietFactors = {};
-    if (userTarget) {
-      newDietFactors = {
-        goal: dietFactors.goal,
-        currentWeight: userWeight,
-        targetWeight: userTarget,
-        currentHeight: dietFactors.currentHeight,
-        birthYear: dietFactors.birthYear,
-        activityLevelIndex: dietFactors.activityLevelIndex,
-        intensityLevel: dietFactors.intensityLevel,
-        weeklyWeightChange: dietFactors.weeklyWeightChange,
-      };
-    } else {
-      newDietFactors = {
-        goal: dietFactors.goal,
-        currentWeight: userWeight,
-        targetWeight: dietFactors.targetWeight,
-        currentHeight: dietFactors.currentHeight,
-        birthYear: dietFactors.birthYear,
-        activityLevelIndex: dietFactors.activityLevelIndex,
-        intensityLevel: dietFactors.intensityLevel,
-        weeklyWeightChange: dietFactors.weeklyWeightChange,
-      };
-    }
-    setDietFactors(newDietFactors);
-    return newDietFactors;
-  };
+  // const updateDietFactors = (userWeight, userTarget) => {
+  //   var newDietFactors = {};
+  //   if (userTarget) {
+  //     newDietFactors = {
+  //       goal: dietFactors.goal,
+  //       currentWeight: userWeight,
+  //       targetWeight: userTarget,
+  //       currentHeight: dietFactors.currentHeight,
+  //       birthYear: dietFactors.birthYear,
+  //       activityLevelIndex: dietFactors.activityLevelIndex,
+  //       intensityLevel: dietFactors.intensityLevel,
+  //       weeklyWeightChange: dietFactors.weeklyWeightChange,
+  //     };
+  //   } else {
+  //     newDietFactors = {
+  //       goal: dietFactors.goal,
+  //       currentWeight: userWeight,
+  //       targetWeight: dietFactors.targetWeight,
+  //       currentHeight: dietFactors.currentHeight,
+  //       birthYear: dietFactors.birthYear,
+  //       activityLevelIndex: dietFactors.activityLevelIndex,
+  //       intensityLevel: dietFactors.intensityLevel,
+  //       weeklyWeightChange: dietFactors.weeklyWeightChange,
+  //     };
+  //   }
+  //   setDietFactors(newDietFactors);
+  //   return newDietFactors;
+  // };
 
   useEffect(() => {
-    setDietFactors(props.route.params.dietFactors);
+    //setDietFactors(props.route.params.dietFactors);
+    dietFactors = props.route.params.dietFactors;
     setWeight(dietFactors.currentWeight.weight);
     if (dietFactors.currentWeight.units === "kg") {
       setIsKg(true);

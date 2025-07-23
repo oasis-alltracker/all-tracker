@@ -75,7 +75,10 @@ const GoalSelection = (props) => {
     var latestDietFactors = props.route.params?.dietFactors;
     if (latestDietFactors) {
       dietFactors = latestDietFactors;
+    } else {
+      dietFactors = defaultDietFactors;
     }
+    setGoal(dietFactors.goal);
   }, [props]);
 
   return (
