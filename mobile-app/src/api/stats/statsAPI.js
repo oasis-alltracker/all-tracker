@@ -52,5 +52,18 @@ class StatsAPI {
     });
     return response?.data;
   }
+
+  static async getDietStats(token, sunday) {
+    const api = EXPO_PUBLIC_BASE_URL + "dietStats/";
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await axios.get(api, {
+      headers: headers,
+      params: { sunday: sunday },
+    });
+    return response?.data;
+  }
 }
 export default StatsAPI;
