@@ -18,7 +18,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
-import Toast from "react-native-root-toast";
+// import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 
 const macroTitles = [
   {
@@ -298,10 +299,17 @@ export default function AddEntryModal({
       setPrevQuantity(quantity);
     } else {
       setQuantity(prevQuantity);
-      Toast.show("Please enter a valid number greater than 0", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
+      // Toast.show("Please enter a valid number greater than 0", {
+      //   ...styles.errorToast,
+      //   duration: Toast.durations.LONG,
+      //   position: Toast.positions.BOTTOM,
+      // });
+      Toast.show({
+        type: "error",
+        text1: "Please enter a valid number greater than 0",
+        text2: "You may enter a number with a dot, such as 1.5",
+        //topOffset: 100, //seems to appear quickly and then disappear/appear behind the modal at this offset
+        //topOffset: 18, //largest offset that will still be fully visible at top of screen
       });
     }
   };
@@ -314,6 +322,7 @@ export default function AddEntryModal({
       backdropOpacity={0}
       style={styles.modal}
     >
+      <Toast />
       <TouchableWithoutFeedback
         onPress={() => {
           Keyboard.dismiss();
