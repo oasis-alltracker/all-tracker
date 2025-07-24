@@ -54,12 +54,28 @@ export default function Fitness() {
     //   text1: "This is the toast header -  this is an error toast",
     //   text2: "This is the toast subheader/2nd line",
     // });
-    //toast with positioning - default/unspecified is top, only other option is bottom - no middle
+    //toast with position - default/unspecified is top, only other option is bottom - no middle
     // Toast.show({
     //   type: "info",
     //   text1: "This is the toast header -  this is an info toast",
     //   text2: "This is placed to the bottom of the screen",
     //   position: "bottom",
+    // });
+    //toast with adjusted positioning with offsets - offset used depends on the position
+    //default for both offset types is 40
+    // Toast.show({
+    //   type: "info",
+    //   text1: "This is the toast header -  this is an info toast",
+    //   text2: "This is placed to the bottom of the screen",
+    //   position: "bottom",
+    //   bottomOffset: 100,
+    // });
+    // Toast.show({
+    //   type: "info",
+    //   text1: "This is the toast header -  this is an info toast",
+    //   text2: "This is placed to the top of the screen",
+    //   position: "top",
+    //   topOffset: 100,
     // });
   };
 
