@@ -308,8 +308,7 @@ export default function AddEntryModal({
         type: "error",
         text1: "Please enter a valid number greater than 0",
         text2: "You may enter a number with a dot, such as 1.5",
-        //topOffset: 100, //seems to appear quickly and then disappear/appear behind the modal at this offset
-        //topOffset: 18, //largest offset that will still be fully visible at top of screen
+        topOffset: 100,
       });
     }
   };
@@ -322,7 +321,6 @@ export default function AddEntryModal({
       backdropOpacity={0}
       style={styles.modal}
     >
-      <Toast />
       <TouchableWithoutFeedback
         onPress={() => {
           Keyboard.dismiss();
@@ -451,6 +449,7 @@ export default function AddEntryModal({
           />
         </View>
       </TouchableWithoutFeedback>
+      <Toast />
     </RNModal>
   );
 }
