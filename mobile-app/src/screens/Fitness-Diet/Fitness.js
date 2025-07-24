@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import React from "react";
 import { ValueSheet } from "../../ValueSheet";
+import Toast from "react-native-simple-toast"; //package being tested out
+//import Toast from "react-native-root-toast"; //old/current package; for comparison purposes
 
 const workouts = [
   {
@@ -35,6 +37,28 @@ const plans = [
 ];
 
 export default function Fitness() {
+  // using react-native-root-toast for comparison.
+  // const showToast = () => {
+  //   Toast.show("Something went wrong. Please try again.", {
+  //     duration: Toast.durations.SHORT,
+  //     position: Toast.positions.TOP,
+  //   });
+  // };
+
+  const showToast = () => {
+    //default toast - just with duration specified.
+    Toast.show("Tester toast.", Toast.LONG);
+
+    // toast with positioning (gravity) - takes in args as message, then duration, then position.
+    //note: since Android 11, it seems the position cannot be set on Android.
+    //since this toast builds on ToastAndroid, it stays at the bottom despite the position being specified otherwise.
+    // Toast.showWithGravity(
+    //   "This is a toast at the top.",
+    //   Toast.SHORT,
+    //   Toast.CENTER
+    // );
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -56,7 +80,7 @@ export default function Fitness() {
         </TouchableOpacity>
       </View>
       <View style={styles.workouts}>
-        <TouchableOpacity style={styles.workout}>
+        <TouchableOpacity style={styles.workout} onPress={() => showToast()}>
           <Image
             style={styles.plus}
             source={require("../../assets/images/plus512.png")}
