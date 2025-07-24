@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { ValueSheet } from "../../ValueSheet";
+import Toast from "react-native-toast-message";
 
 const workouts = [
   {
@@ -35,6 +36,33 @@ const plans = [
 ];
 
 export default function Fitness() {
+  const showToast = () => {
+    //basic toast - from API doc sample code, but with adjusted message and 2nd line of text added
+    //comment/uncomment the different types, but only the latest one can be active at a time based on observations
+    Toast.show({
+      type: "info",
+      text1: "This is the toast header - this is an info toast",
+      text2: "This is the toast subheader/2nd line",
+    });
+    // Toast.show({
+    //   type: "success",
+    //   text1: "This is the toast header -  this is a success toast",
+    //   text2: "This is the toast subheader/2nd line",
+    // });
+    // Toast.show({
+    //   type: "error",
+    //   text1: "This is the toast header -  this is an error toast",
+    //   text2: "This is the toast subheader/2nd line",
+    // });
+    //toast with positioning - default/unspecified is top, only other option is bottom - no middle
+    // Toast.show({
+    //   type: "info",
+    //   text1: "This is the toast header -  this is an info toast",
+    //   text2: "This is placed to the bottom of the screen",
+    //   position: "bottom",
+    // });
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -56,7 +84,7 @@ export default function Fitness() {
         </TouchableOpacity>
       </View>
       <View style={styles.workouts}>
-        <TouchableOpacity style={styles.workout}>
+        <TouchableOpacity style={styles.workout} onPress={() => showToast()}>
           <Image
             style={styles.plus}
             source={require("../../assets/images/plus512.png")}
