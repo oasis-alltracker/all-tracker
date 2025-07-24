@@ -9,9 +9,7 @@ class GetDietStats {
     var result = {};
 
     entries.forEach((item) => {
-      console.log(item);
-      const key = item.SK.substring(0, 8); //or .split('-')[0]
-      console.log(key);
+      const key = item.SK.substring(0, 8);
       if (!result[key]) {
         result[key] = {
           calorieCount: 0,
@@ -21,8 +19,7 @@ class GetDietStats {
         };
       }
 
-      //adding it as an integer (as it will have 2 decimal points at most)
-      result[key]["calorieCount"] += item.calorieCount * 100;
+      result[key]["calorieCount"] += item.calorieCount * 100; //multiplying by 100 so it can add as an integer
       result[key]["fatCount"] += item.fatCount * 100;
       result[key]["carbCount"] += item.carbCount * 100;
       result[key]["proteinCount"] += item.proteinCount * 100;
@@ -46,16 +43,15 @@ class GetDietStats {
       fatCount: [],
     };
     for (var i = 0; i < 7; i++) {
-      var day = sunday.add(i, "days");
-      day = day.format("YYYYMMDD");
-      console.log(day);
+      var day = moment(sunday);
+      day = day.add(i, "days").format("YYYYMMDD");
       if (!entries[day]) {
         for (const key in result) {
-          result[key].push({ value: 0 });
+          result[key].push({ value: 0, date: day });
         }
       } else {
         for (const key in result) {
-          result[key].push({ value: entries[day][key] });
+          result[key].push({ value: entries[day][key], date: day });
         }
       }
     }
@@ -66,10 +62,6 @@ class GetDietStats {
   async getDietStats(user, day) {
     try {
       if (day) {
-        //idea: we pass in the sunday, get the entries between sunday and the
-        //upcoming saturday, then create an array of entries for each day
-        //then for each day, calculate the macro totals
-        //return the array of macro totals
         var sunday = moment(day, "YYYYMMDD");
         var saturday = moment(day, "YYYYMMDD").add(7, "days");
         var entries = await this.getEntriesForOneWeek(
@@ -78,11 +70,8 @@ class GetDietStats {
           saturday.format("YYYYMMDD")
         );
 
-        console.log(entries); //works
-
-        entries = this.calcMacrosByDate(entries);
-        console.log(entries);
-        const macroArrays = this.generateMacroArrays(sunday, entries);
+        const macros = this.calcMacrosByDate(entries);
+        const macroArrays = this.generateMacroArrays(sunday, macros);
 
         return {
           statusCode: 200,
@@ -119,9 +108,6 @@ class GetDietStats {
       ":sk_start": start_date,
       ":sk_end": end_date,
     };
-    console.log("expression \n" + expression);
-    console.log("names \n" + JSON.stringify(names));
-    console.log("values \n" + JSON.stringify(values));
 
     const response = await this.DB.queryItem(expression, names, values);
     return response?.Items;
