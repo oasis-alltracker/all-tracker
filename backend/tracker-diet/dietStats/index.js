@@ -7,7 +7,7 @@ const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 const DB = DynamoDBDocument.from(new DynamoDB());
 const dbService = new DbUtils(DB, tableName);
 
-const GetDietStats = require("./getDietStats");
+const { GetDietStats } = require("./getDietStats");
 const getDietStats = new GetDietStats(dbService);
 
 const { authenticateToken } = require("../../utils/authenticateToken");

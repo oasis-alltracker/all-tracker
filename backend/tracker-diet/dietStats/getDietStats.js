@@ -5,7 +5,7 @@ class GetDietStats {
     this.DB = db;
   }
 
-  calcMacrosByDate(entries) {
+  static calcMacrosByDate(entries) {
     var result = {};
 
     entries.forEach((item) => {
@@ -35,7 +35,7 @@ class GetDietStats {
     return result;
   }
 
-  generateMacroArrays(sunday, entries) {
+  static generateMacroArrays(sunday, entries) {
     var result = {
       calorieCount: [],
       carbCount: [],
@@ -70,8 +70,8 @@ class GetDietStats {
           saturday.format("YYYYMMDD")
         );
 
-        const macros = this.calcMacrosByDate(entries);
-        const macroArrays = this.generateMacroArrays(sunday, macros);
+        const macros = GetDietStats.calcMacrosByDate(entries);
+        const macroArrays = GetDietStats.generateMacroArrays(sunday, macros);
 
         return {
           statusCode: 200,
@@ -113,4 +113,7 @@ class GetDietStats {
     return response?.Items;
   }
 }
-module.exports = GetDietStats;
+module.exports = {
+  GetDietStats: GetDietStats,
+  calcMacrosByDate: GetDietStats.calcMacrosByDate,
+};
