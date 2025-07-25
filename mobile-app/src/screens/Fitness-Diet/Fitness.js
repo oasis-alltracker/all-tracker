@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { ValueSheet } from "../../ValueSheet";
+import { ToasterHelper } from "react-native-customizable-toast";
 
 const workouts = [
   {
@@ -35,6 +36,14 @@ const plans = [
 ];
 
 export default function Fitness() {
+  const showToast = () => {
+    ToasterHelper.show({
+      text: "Toast test",
+      type: "success",
+      timeout: 5000,
+    });
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -56,7 +65,7 @@ export default function Fitness() {
         </TouchableOpacity>
       </View>
       <View style={styles.workouts}>
-        <TouchableOpacity style={styles.workout}>
+        <TouchableOpacity style={styles.workout} onPress={() => showToast()}>
           <Image
             style={styles.plus}
             source={require("../../assets/images/plus512.png")}
