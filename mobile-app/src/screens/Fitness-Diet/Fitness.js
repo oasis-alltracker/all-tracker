@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import React from "react";
 import { ValueSheet } from "../../ValueSheet";
-import { ToasterHelper } from "react-native-customizable-toast";
+import { Toaster, ToasterHelper } from "react-native-customizable-toast";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const workouts = [
   {
@@ -45,56 +46,59 @@ export default function Fitness() {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
-      <View style={styles.imageCon}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/fitness.png")}
-        />
-      </View>
-      <View style={[styles.line]}>
-        <Text style={styles.title}>Workouts</Text>
-        <TouchableOpacity>
+    <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
+        <View style={styles.imageCon}>
           <Image
-            style={styles.threedot}
-            source={require("../../assets/images/three-dot.png")}
+            style={styles.image}
+            source={require("../../assets/images/fitness.png")}
           />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.workouts}>
-        <TouchableOpacity style={styles.workout} onPress={() => showToast()}>
-          <Image
-            style={styles.plus}
-            source={require("../../assets/images/plus512.png")}
-          />
-        </TouchableOpacity>
-        {workouts.map((item, index) => (
-          <View style={styles.workout} key={index}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemDate}>{item.date}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={[styles.line]}>
-        <Text style={styles.title}>Exercise plans</Text>
-        <TouchableOpacity>
-          <Image
-            style={styles.threedot}
-            source={require("../../assets/images/three-dot.png")}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.workouts}>
-        {plans.map((item, index) => (
-          <View style={styles.workout} key={index}>
-            <Text style={styles.itemName}>{item.name}</Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+        </View>
+        <View style={[styles.line]}>
+          <Text style={styles.title}>Workouts</Text>
+          <TouchableOpacity>
+            <Image
+              style={styles.threedot}
+              source={require("../../assets/images/three-dot.png")}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.workouts}>
+          <TouchableOpacity style={styles.workout} onPress={() => showToast()}>
+            <Image
+              style={styles.plus}
+              source={require("../../assets/images/plus512.png")}
+            />
+          </TouchableOpacity>
+          {workouts.map((item, index) => (
+            <View style={styles.workout} key={index}>
+              <Text style={styles.itemName}>{item.name}</Text>
+              <Text style={styles.itemDate}>{item.date}</Text>
+            </View>
+          ))}
+        </View>
+        <View style={[styles.line]}>
+          <Text style={styles.title}>Exercise plans</Text>
+          <TouchableOpacity>
+            <Image
+              style={styles.threedot}
+              source={require("../../assets/images/three-dot.png")}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.workouts}>
+          {plans.map((item, index) => (
+            <View style={styles.workout} key={index}>
+              <Text style={styles.itemName}>{item.name}</Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+      <Toaster />
+    </SafeAreaView>
   );
 }
 
