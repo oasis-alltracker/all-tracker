@@ -15,6 +15,9 @@ import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import Purchases from "react-native-purchases";
+import { Toaster } from "react-native-customizable-toast";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { FullWindowOverlay } from "react-native-screens";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -123,26 +126,31 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <StatusBar translucent backgroundColor="transparent" />
-        <PersistGate loading={null} persistor={persistor}>
-          {loading || !isConnected ? (
-            <ActivityIndicator
-              color={"#3097E7"}
-              size={"large"}
-              style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
-            />
-          ) : (
-            <NavigationContainer ref={navigationService._navigator}>
-              <AppNavigator
-                initialRoute={initialRoute}
-                initialMainRoute={initialMainRoute}
+    <GestureHandlerRootView>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <StatusBar translucent backgroundColor="transparent" />
+          <PersistGate loading={null} persistor={persistor}>
+            {loading || !isConnected ? (
+              <ActivityIndicator
+                color={"#3097E7"}
+                size={"large"}
+                style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
               />
-            </NavigationContainer>
-          )}
-        </PersistGate>
-      </Provider>
-    </SafeAreaProvider>
+            ) : (
+              <NavigationContainer ref={navigationService._navigator}>
+                <AppNavigator
+                  initialRoute={initialRoute}
+                  initialMainRoute={initialMainRoute}
+                />
+              </NavigationContainer>
+            )}
+          </PersistGate>
+          <FullWindowOverlay>
+            <Toaster />
+          </FullWindowOverlay>
+        </Provider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
