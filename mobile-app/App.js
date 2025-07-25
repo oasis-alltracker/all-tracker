@@ -17,6 +17,7 @@ import NetInfo from "@react-native-community/netinfo";
 import Purchases from "react-native-purchases";
 import { Toaster } from "react-native-customizable-toast";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { FullWindowOverlay } from "react-native-screens";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -145,7 +146,9 @@ export default function App() {
               </NavigationContainer>
             )}
           </PersistGate>
-          <Toaster />
+          <FullWindowOverlay>
+            <Toaster />
+          </FullWindowOverlay>
         </Provider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
