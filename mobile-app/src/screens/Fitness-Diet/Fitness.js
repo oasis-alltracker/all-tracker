@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { ValueSheet } from "../../ValueSheet";
+import Toast from "react-native-root-toast";
 
 const workouts = [
   {
@@ -35,6 +36,33 @@ const plans = [
 ];
 
 export default function Fitness() {
+  const showToast = () => {
+    //basic toast based on other toasts in the app
+    //all uncommented toasts will appear at the same time according to their specifications
+    //position can be specified by a number instead of the constants for top, bottom, center
+    //positive number to offset from top, negative to offset from bottom
+    Toast.show("Test toast in the center", {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.CENTER, //center: position = 0
+    });
+    Toast.show("Test toast at the top", {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.TOP, //top: position = 20
+    });
+    Toast.show("Test toast at the bottom", {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM, //bottom: position = -20
+    });
+    Toast.show("Test toast offset from the bottom by 75", {
+      duration: Toast.durations.SHORT,
+      position: -75,
+    });
+    Toast.show("Test toast offset from the top by 75", {
+      duration: Toast.durations.SHORT,
+      position: 75,
+    });
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -56,7 +84,7 @@ export default function Fitness() {
         </TouchableOpacity>
       </View>
       <View style={styles.workouts}>
-        <TouchableOpacity style={styles.workout}>
+        <TouchableOpacity style={styles.workout} onPress={() => showToast()}>
           <Image
             style={styles.plus}
             source={require("../../assets/images/plus512.png")}
