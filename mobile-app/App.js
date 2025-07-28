@@ -144,7 +144,7 @@ export default function App() {
           )}
         </PersistGate>
       </Provider>
-      <Toast />
+      <Toast position="bottom" bottomOffset={55} />
     </SafeAreaProvider>
   );
 }
