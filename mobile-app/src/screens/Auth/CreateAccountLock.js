@@ -9,7 +9,7 @@ import { AppEventsLogger } from "react-native-fbsdk-next";
 import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 import {
   View,
@@ -74,10 +74,10 @@ const CreateAccountLock = (props) => {
     } catch (e) {
       setIsLoading(false);
       console.log(e);
-      Toast.show("Something went wrong. Please try again later!", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.CENTER,
+      Toast.show({
+        type: "error",
+        text1: "Apple sign-in unsuccessful",
+        text2: "Please try again later.",
       });
     }
   };
@@ -96,10 +96,10 @@ const CreateAccountLock = (props) => {
     } catch (e) {
       setIsLoading(false);
       console.log(e);
-      Toast.show("Something went wrong. Please try again later!", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.CENTER,
+      Toast.show({
+        type: "error",
+        text1: "Google sign-in unsuccessful",
+        text2: "Please try again later.",
       });
     }
   };
@@ -131,7 +131,6 @@ const CreateAccountLock = (props) => {
       if (password === passwordCopy) {
         try {
           const deviceID = await getUniqueId();
-
           const { status, data } = await LoginAPI.loginDevice(
             deviceID,
             password
@@ -143,14 +142,11 @@ const CreateAccountLock = (props) => {
             await processUserAccessToken();
           } else if (!data.isCorrectPassword) {
             setIsLoading(false);
-            Toast.show(
-              "Incorrect password. This device already has an account.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.CENTER,
-              }
-            );
+            Toast.show({
+              type: "error",
+              text1: "Incorrect password",
+              text2: "This device already has an account.",
+            });
             navigationService.navigate("unlockAccount");
           } else if (data.isAccountSuspended || data.isAccountLocked) {
             setIsLoading(false);
@@ -164,35 +160,34 @@ const CreateAccountLock = (props) => {
             );
           } else {
             setIsLoading(false);
-            Toast.show("Something went wrong. Please try again.", {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.CENTER,
+            Toast.show({
+              type: "error",
+              text1: "Something went wrong",
+              text2: "Please try again later.",
             });
           }
         } catch (e) {
           console.log(e);
           setIsLoading(false);
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.CENTER,
+          Toast.show({
+            type: "error",
+            text1: "Something went wrong",
+            text2: "Please try again later.",
           });
         }
       } else {
         setIsLoading(false);
-        Toast.show("Passwords do not match.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.CENTER,
+        Toast.show({
+          type: "error",
+          text1: "Passwords do not match",
+          text2: "Please try entering the passwords again.",
         });
       }
     } else {
       setIsLoading(false);
-      Toast.show("Please enter a password.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.CENTER,
+      Toast.show({
+        type: "error",
+        text1: "Please enter a password.",
       });
     }
   };
@@ -311,11 +306,6 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     width: SCREEN_WIDTH - 50,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   signContainer: {
     marginBottom: 10,
