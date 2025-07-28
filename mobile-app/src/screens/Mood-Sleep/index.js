@@ -22,7 +22,7 @@ import { sharedStyles } from "../styles";
 import Spinner from "react-native-loading-spinner-overlay";
 import SleepReportModal from "./reviews/sleep/sleepReportModal";
 import moment from "moment";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import WellnessReportModal from "./reviews/mood/wellnessReportModal";
 
 const MoodSleep = ({ navigation }) => {
@@ -48,14 +48,28 @@ const MoodSleep = ({ navigation }) => {
 
   const [updateStats, setUpdateStats] = useState(0);
 
+  function errorResponse(error) {
+    console.log(error);
+    setIsLoading(false);
+    Toast.show({
+      type: "error",
+      text1: "Something went wrong",
+      text2: "Please try again later.",
+    });
+  }
+
   const updateDate = async (dateChange) => {
     setIsLoading(true);
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
     setDay(newDate);
-    await getSleepReports(moment(newDate).format("YYYYMMDD"));
-    await getMoodReports(moment(newDate).format("YYYYMMDD"));
-    setIsLoading(false);
+    try {
+      await getSleepReports(moment(newDate).format("YYYYMMDD"));
+      await getMoodReports(moment(newDate).format("YYYYMMDD"));
+      setIsLoading(false);
+    } catch (e) {
+      errorResponse(e);
+    }
   };
 
   const getMoodReports = async (dateStamp) => {
@@ -83,21 +97,7 @@ const MoodSleep = ({ navigation }) => {
       }
       setAllWellnessReports(allReports);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -114,20 +114,7 @@ const MoodSleep = ({ navigation }) => {
       await getMoodReports(moment(day).format("YYYYMMDD"));
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -141,20 +128,7 @@ const MoodSleep = ({ navigation }) => {
       setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -184,20 +158,7 @@ const MoodSleep = ({ navigation }) => {
 
       setAllSleepReports(allReports);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -214,20 +175,7 @@ const MoodSleep = ({ navigation }) => {
       await getSleepReports(moment(day).format("YYYYMMDD"));
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -241,20 +189,7 @@ const MoodSleep = ({ navigation }) => {
       setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
