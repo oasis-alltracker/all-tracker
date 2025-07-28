@@ -514,7 +514,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <Toast position="bottom" bottomOffset={55} />
+      <Toast position="top" />
     </Modal>
   );
 };
