@@ -18,7 +18,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 
 const macroTitles = [
   {
@@ -298,10 +298,9 @@ export default function AddEntryModal({
       setPrevQuantity(quantity);
     } else {
       setQuantity(prevQuantity);
-      Toast.show("Please enter a valid number greater than 0", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
+      Toast.show({
+        type: "error",
+        text1: "Please enter a valid number greater than 0.",
       });
     }
   };
@@ -442,6 +441,7 @@ export default function AddEntryModal({
           />
         </View>
       </TouchableWithoutFeedback>
+      <Toast position="top" />
     </RNModal>
   );
 }

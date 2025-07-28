@@ -15,7 +15,7 @@ import {
   Text,
   useWindowDimensions,
 } from "react-native";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
 import { useFocusEffect } from "@react-navigation/native";
@@ -42,10 +42,9 @@ const BarcodeScanner = ({ route }) => {
       setIsScanning(false);
       if (hasPermission) {
         setCameraStatus(true);
-        Toast.show("Please place food barcode\nin view of the camera.", {
-          ...styles.errorToast,
-          duration: Toast.durations.SHORT,
-          position: Toast.positions.CENTER,
+        Toast.show({
+          type: "info",
+          text1: "Please place food barcode in view of the camera.",
         });
       }
     }, [hasPermission])
