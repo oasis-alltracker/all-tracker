@@ -144,7 +144,7 @@ export default function App() {
           )}
         </PersistGate>
       </Provider>
-      <Toast position="top" />
+      <Toast position="top" topOffset={60} visibilityTime={2500} />
     </SafeAreaProvider>
   );
 }
