@@ -48,6 +48,8 @@ const Notifications = () => {
   const [moodNotifications, setMoodNotifications] = useState(false);
 
   const [isMorningAlarmToggled, setIsMorningAlarmToggled] = useState(false);
+  const [isSystemNotificationsEnabled, setIsSystemNotificationsEnabled] =
+    useState(false);
   const [morningNotifications, setMorningNotifications] = useState(false);
   const [isBedTimeReminderToggled, setIsBedTimeReminderToggled] =
     useState(false);
@@ -895,6 +897,9 @@ const Notifications = () => {
             "notifications"
           );
 
+          var systemNotifications =
+            await NotificationsHandler.checkNotificationsStatus(token);
+
           var habitNotifications =
             await NotificationsHandler.getGroupPreferenceNotificationsState(
               token,
@@ -931,6 +936,7 @@ const Notifications = () => {
           var newSleepNotifications =
             await NotificationsHandler.getNotifications(token, "sleep-");
 
+          setIsSystemNotificationsEnabled(systemNotifications);
           setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
           setIsHabitsEnabled(habitNotifications == "on");
           setIsTasksEnabled(taskNotificationsIsOn == "on");
@@ -1021,13 +1027,13 @@ const Notifications = () => {
             width={55}
             height={32}
             onValueChange={allNotificationsToggled}
-            value={isNotificationsEnabled}
+            value={isNotificationsEnabled && isSystemNotificationsEnabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
               false: ValueSheet.colours.purple,
             }}
             thumbColor={
-              isNotificationsEnabled
+              isNotificationsEnabled && isSystemNotificationsEnabled
                 ? ValueSheet.colours.secondaryColour
                 : ValueSheet.colours.purple
             }
@@ -1045,13 +1051,13 @@ const Notifications = () => {
                   width={55}
                   height={32}
                   onValueChange={habitsToggled}
-                  value={isHabitsEnabled}
+                  value={isHabitsEnabled && isSystemNotificationsEnabled}
                   trackColor={{
                     true: ValueSheet.colours.secondaryColour,
                     false: ValueSheet.colours.purple,
                   }}
                   thumbColor={
-                    isHabitsEnabled
+                    isHabitsEnabled && isSystemNotificationsEnabled
                       ? ValueSheet.colours.secondaryColour
                       : ValueSheet.colours.purple
                   }
@@ -1065,13 +1071,13 @@ const Notifications = () => {
                   width={55}
                   height={32}
                   onValueChange={tasksToggled}
-                  value={isTasksEnabled}
+                  value={isTasksEnabled && isSystemNotificationsEnabled}
                   trackColor={{
                     true: ValueSheet.colours.secondaryColour,
                     false: ValueSheet.colours.purple,
                   }}
                   thumbColor={
-                    isTasksEnabled
+                    isTasksEnabled && isSystemNotificationsEnabled
                       ? ValueSheet.colours.secondaryColour
                       : ValueSheet.colours.purple
                   }
@@ -1093,13 +1099,13 @@ const Notifications = () => {
                     width={55}
                     height={32}
                     onValueChange={breakfastToggled}
-                    value={isBreakfastEnabled}
+                    value={isBreakfastEnabled && isSystemNotificationsEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
                       false: ValueSheet.colours.purple,
                     }}
                     thumbColor={
-                      isBreakfastEnabled
+                      isBreakfastEnabled && isSystemNotificationsEnabled
                         ? ValueSheet.colours.secondaryColour
                         : ValueSheet.colours.purple
                     }
@@ -1159,13 +1165,13 @@ const Notifications = () => {
                     width={55}
                     height={32}
                     onValueChange={lunchToggled}
-                    value={isLunchEnabled}
+                    value={isLunchEnabled && isSystemNotificationsEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
                       false: ValueSheet.colours.purple,
                     }}
                     thumbColor={
-                      isLunchEnabled
+                      isLunchEnabled && isSystemNotificationsEnabled
                         ? ValueSheet.colours.secondaryColour
                         : ValueSheet.colours.purple
                     }
@@ -1225,13 +1231,13 @@ const Notifications = () => {
                     width={55}
                     height={32}
                     onValueChange={dinnerToggled}
-                    value={isDinnerEnabled}
+                    value={isDinnerEnabled && isSystemNotificationsEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
                       false: ValueSheet.colours.purple,
                     }}
                     thumbColor={
-                      isDinnerEnabled
+                      isDinnerEnabled && isSystemNotificationsEnabled
                         ? ValueSheet.colours.secondaryColour
                         : ValueSheet.colours.purple
                     }
@@ -1301,7 +1307,9 @@ const Notifications = () => {
                 title="Wellness check-in"
                 body="It's time to check in with yourself"
                 notifications={moodNotifications}
-                isToggled={isWellnessCheckinToggled}
+                isToggled={
+                  isWellnessCheckinToggled && isSystemNotificationsEnabled
+                }
                 toggled={wellnessCheckinToggled}
                 setIsToggled={setIsWellnessCheckinToggled}
                 group="mood"
@@ -1313,7 +1321,9 @@ const Notifications = () => {
                   title="Sleep review"
                   body="Time to wake up amd review your sleep"
                   notifications={morningNotifications}
-                  isToggled={isMorningAlarmToggled}
+                  isToggled={
+                    isMorningAlarmToggled && isSystemNotificationsEnabled
+                  }
                   toggled={morningAlarmToggled}
                   setIsToggled={setIsMorningAlarmToggled}
                   group="morning"
