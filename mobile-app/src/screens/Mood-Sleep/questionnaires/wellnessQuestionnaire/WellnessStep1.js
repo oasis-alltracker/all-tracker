@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import moment from "moment";
 import { ValueSheet } from "../../../../ValueSheet";
 
@@ -55,19 +55,10 @@ const WellnessStep1 = (props) => {
     moodReport.dateStamp = dateStamp;
     moodReport.title = dateString.slice(4, -4);
     if (active == 0) {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Please make a selection.",
+      });
     } else {
       moodReport.feeling = 6 - active;
       navigationService.navigate("moodStep2", { moodReport });
@@ -152,11 +143,6 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 
