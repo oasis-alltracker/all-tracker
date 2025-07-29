@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView } from "react-native-tab-view";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 
 import Main from "./Main";
@@ -124,6 +124,16 @@ const TodosHabits = ({ navigation }) => {
     }
   }, [pageIndex]);
 
+  function errorResponse(error) {
+    console.log(error);
+    setIsLoading(false);
+    Toast.show({
+      type: "error",
+      text1: "Something went wrong",
+      text2: "Please try again.",
+    });
+  }
+
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
     var newDate = new Date(new Date(day).getTime() + dayValue);
@@ -166,20 +176,7 @@ const TodosHabits = ({ navigation }) => {
       await createStatusList(day);
       setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -194,20 +191,7 @@ const TodosHabits = ({ navigation }) => {
       await createStatusList(date);
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please refresh the page.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please refresh the page.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -238,22 +222,9 @@ const TodosHabits = ({ navigation }) => {
           count: count,
         });
       }
-
       return habitStatus;
     } catch (e) {
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -281,21 +252,7 @@ const TodosHabits = ({ navigation }) => {
       await createStatusList(day);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -326,20 +283,7 @@ const TodosHabits = ({ navigation }) => {
       await createStatusList(day);
       setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -390,20 +334,7 @@ const TodosHabits = ({ navigation }) => {
       await createStatusList(day);
       setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -413,24 +344,11 @@ const TodosHabits = ({ navigation }) => {
       userHabits = await HabitsAPI.getHabits(token);
       setHabits(userHabits);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
-  //tuhdo methods
+  //todo methods
   const getToDos = async (token) => {
     try {
       userToDos = await ToDosAPI.getToDos(token, false);
@@ -443,20 +361,7 @@ const TodosHabits = ({ navigation }) => {
       setDoneToDos(userDoneToDos);
       setDueToDos(userDueToDos);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -495,20 +400,7 @@ const TodosHabits = ({ navigation }) => {
       await getToDos(token);
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -560,21 +452,7 @@ const TodosHabits = ({ navigation }) => {
       await getToDos(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -611,20 +489,7 @@ const TodosHabits = ({ navigation }) => {
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -674,20 +539,7 @@ const TodosHabits = ({ navigation }) => {
         await ToDosAPI.updateToDo(token, toDoSK, updatedToDo);
       }
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -730,20 +582,7 @@ const TodosHabits = ({ navigation }) => {
       setDueToDos(newDueToDos);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -767,21 +606,7 @@ const TodosHabits = ({ navigation }) => {
       await getToDos(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -796,20 +621,7 @@ const TodosHabits = ({ navigation }) => {
       setTasks(userTasks);
       setDueTasks(userDueTasks);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -841,21 +653,7 @@ const TodosHabits = ({ navigation }) => {
       await getTasks(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -902,21 +700,7 @@ const TodosHabits = ({ navigation }) => {
       await getTasks(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -985,20 +769,7 @@ const TodosHabits = ({ navigation }) => {
       }
       return nextDueDate;
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -1108,20 +879,7 @@ const TodosHabits = ({ navigation }) => {
       }
       return nextDueDate;
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -1152,21 +910,7 @@ const TodosHabits = ({ navigation }) => {
       await getTasks(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -1184,20 +928,7 @@ const TodosHabits = ({ navigation }) => {
       );
       setDueTasks(userDueTasks);
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please refresh the page.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please refresh the page.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -1324,11 +1055,6 @@ const styles = StyleSheet.create({
     top: 25,
     left: 20,
     zIndex: 1,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 
