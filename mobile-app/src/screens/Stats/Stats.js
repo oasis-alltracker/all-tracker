@@ -50,9 +50,7 @@ const Stats = ({ getRef }) => {
     const getPreferencesOnLoad = async () => {
       token = await getAccessToken();
       user = await UserAPI.getUser(token);
-      console.log("before asking for diet goals");
       var dietGoals = await DietGoalsAPI.getDietGoals(token);
-      console.log("after asking for diet goals");
 
       setDietGoals(dietGoals);
       setTrackingPreferences(user.data.trackingPreferences);
