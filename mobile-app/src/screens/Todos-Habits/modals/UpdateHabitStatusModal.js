@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image, TouchableOpacity, Platform } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
 
 export default function UpdateHabitStatusModal({
@@ -33,33 +33,15 @@ export default function UpdateHabitStatusModal({
         if (props.count >= props.threshold) {
           setCount(props.threshold);
           if (props.isPositive) {
-            if (Platform.OS === "ios") {
-              Toast.show("Habit complete. Great job!", {
-                ...styles.positiveToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              });
-            } else {
-              Toast.show("Habit complete. Great job!", {
-                ...styles.positiveToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              });
-            }
+            Toast.show({
+              type: "success",
+              text1: "Habit complete. Great job!",
+            });
           } else {
-            if (Platform.OS === "ios") {
-              Toast.show("You striked out. Try again tomorrow!", {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              });
-            } else {
-              Toast.show("You striked out. Try again tomorrow!", {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              });
-            }
+            Toast.show({
+              type: "info",
+              text1: "You striked out. Try again tomorrow!",
+            });
           }
         }
       },
@@ -101,64 +83,28 @@ export default function UpdateHabitStatusModal({
   const onPlusPressed = () => {
     if (threshold - count == 1) {
       if (isPositive) {
-        if (Platform.OS === "ios") {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "success",
+          text1: "Habit complete. Great job!",
+        });
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "You striked out. Try again tomorrow!",
+        });
       }
     }
     if (count >= threshold) {
       if (isPositive) {
-        if (Platform.OS === "ios") {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "success",
+          text1: "Habit complete. Great job!",
+        });
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "You striked out. Try again tomorrow!",
+        });
       }
     } else {
       setCount(count + 1);
@@ -238,6 +184,7 @@ export default function UpdateHabitStatusModal({
           </Button>
         </View>
       </View>
+      <Toast />
     </RNModal>
   );
 }
@@ -340,9 +287,5 @@ const styles = StyleSheet.create({
   },
   countButton: {
     paddingHorizontal: 0,
-  },
-  positiveToast: {
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    textColor: ValueSheet.colours.primaryColour,
   },
 });
