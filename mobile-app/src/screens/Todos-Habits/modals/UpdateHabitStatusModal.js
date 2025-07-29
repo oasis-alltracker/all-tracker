@@ -216,7 +216,7 @@ export default function UpdateHabitStatusModal({
             <>
               {count >= threshold ? (
                 <>
-                  <Text style={styles.bottomText}>Congatulations!</Text>
+                  <Text style={styles.bottomText}>Congratulations!</Text>
                 </>
               ) : (
                 <>
