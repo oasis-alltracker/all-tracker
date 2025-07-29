@@ -13,7 +13,7 @@ import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button, Calendar } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -91,19 +91,11 @@ export default function TaskModal({
               } catch (e) {
                 setIsLoading(false);
                 console.log(e);
-                if (Platform.OS === "ios") {
-                  Toast.show("Something went wrong. Please try again.", {
-                    ...styles.errorToast,
-                    duration: Toast.durations.LONG,
-                    position: Toast.positions.BOTTOM,
-                  });
-                } else {
-                  Toast.show("Something went wrong. Please try again.", {
-                    ...styles.errorToast,
-                    duration: Toast.durations.LONG,
-                    position: Toast.positions.TOP,
-                  });
-                }
+                Toast.show({
+                  type: "error",
+                  text1: "Something went wrong",
+                  text2: "Please try again later.",
+                });
               }
             },
           },
@@ -120,33 +112,16 @@ export default function TaskModal({
   const onSave = async () => {
     Keyboard.dismiss();
     if (title == "" && description == "") {
-      if (Platform.OS === "ios") {
-        Toast.show("You must complete the form to create a task.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("You must complete the form to create a task.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Incomplete fields",
+        text2: "Please complete the form to update the habit.",
+      });
     } else if (title == "") {
-      if (Platform.OS === "ios") {
-        Toast.show("Don't forget to give this task a name.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Don't forget to give this task a name.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Please give your task a name.",
+      });
     } else {
       try {
         setIsLoading(true);
@@ -222,19 +197,11 @@ export default function TaskModal({
       } catch (e) {
         setIsLoading(false);
         console.log(e);
-        if (Platform.OS === "ios") {
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "error",
+          text1: "Something went wrong",
+          text2: "Please try again later.",
+        });
       }
     }
   };
@@ -378,6 +345,7 @@ export default function TaskModal({
         saveDateHandler={saveDateHandler}
         getRef={(ref) => (calendarRef.current = ref)}
       />
+      <Toast />
     </RNModal>
   );
 }
@@ -433,11 +401,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     paddingVertical: 5,
     paddingRight: 10,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   input: {
     width: 100,
