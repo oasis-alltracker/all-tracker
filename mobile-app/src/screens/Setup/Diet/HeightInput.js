@@ -11,62 +11,24 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
+import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep2 = (props) => {
-  const { selectedTrackers, isEditingMacros, goal, currentWeight } =
-    props.route.params;
-  const [goalWeight, setGoalWeight] = useState(null);
+const HeightInput = (props) => {
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
+  const [isCm, setIsCm] = useState(true);
+  const [height, setHeight] = useState(null);
 
   const onNext = () => {
-    if (goalWeight) {
-      if (!isNaN(Number(goalWeight))) {
-        if (goal == "gain" && goalWeight <= currentWeight.weight) {
-          if (Platform.OS === "ios") {
-            Toast.show(
-              "Please enter a number greater than your current weight",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              }
-            );
-          } else {
-            Toast.show(
-              "Please enter a number greater than your current weight",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              }
-            );
-          }
-        } else if (goal == "lose" && goalWeight >= currentWeight.weight) {
-          if (Platform.OS === "ios") {
-            Toast.show("Please enter a number less than your current weight", {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            });
-          } else {
-            Toast.show("Please enter a number less than your current weight", {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            });
-          }
-        } else {
-          const weightGoal = { weight: goalWeight, units: currentWeight.units };
-          navigationService.navigate("dietStep6", {
-            selectedTrackers,
-            isEditingMacros,
-            goal,
-            currentWeight,
-            weightGoal,
-          });
-        }
+    if (height) {
+      if (!isNaN(Number(height))) {
+        navigationService.navigate("birthYearInput", {
+          selectedTrackers,
+          isEditingMacros,
+          dietFactors,
+        });
       } else {
         if (Platform.OS === "ios") {
           Toast.show("Please enter a number", {
@@ -99,6 +61,37 @@ const DietStep2 = (props) => {
     }
   };
 
+  const onBack = () => {
+    if (dietFactors.goal == "maintain") {
+      navigationService.navigate("currentWeight", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    } else {
+      navigationService.navigate("targetWeight", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    }
+  };
+
+  const updateHeight = (newHeight) => {
+    setHeight(newHeight);
+    dietFactors.currentHeight.height = newHeight;
+  };
+
+  useEffect(() => {
+    dietFactors = props.route.params.dietFactors;
+    setHeight(dietFactors.currentHeight.height);
+    if (dietFactors.currentHeight.units === "cm") {
+      setIsCm(true);
+    } else {
+      setIsCm(false);
+    }
+  }, [props]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -110,20 +103,39 @@ const DietStep2 = (props) => {
             />
             <Text style={styles.imageText}>diet</Text>
           </View>
-          <Text style={styles.title}>How much would you like to weigh?</Text>
+          <Text style={styles.title}>How tall are you?</Text>
           <TextInput
             style={styles.input}
             placeholder="0"
+            onChangeText={updateHeight}
+            value={height}
             keyboardType="number-pad"
-            onChangeText={setGoalWeight}
-            value={goalWeight}
           />
+          <View style={[styles.buttons, styles.unitButtons]}>
+            <Button
+              textStyle={styles.unitText}
+              onPress={() => {
+                setIsCm(true);
+                dietFactors.currentHeight.units = "cm";
+              }}
+              style={[styles.unitBtn, !isCm && styles.inactive]}
+            >
+              cm
+            </Button>
+            <Button
+              textStyle={styles.unitText}
+              onPress={() => {
+                setIsCm(false);
+                dietFactors.currentHeight.units = "in";
+              }}
+              style={[styles.unitBtn, isCm && styles.inactive]}
+            >
+              in
+            </Button>
+          </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
@@ -167,7 +179,7 @@ const styles = StyleSheet.create({
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
-    marginBottom: 20,
+    marginBottom: 65,
     textAlign: "center",
   },
   buttons: {
@@ -198,6 +210,22 @@ const styles = StyleSheet.create({
   center: {
     alignItems: "center",
   },
+  unitButtons: {
+    width: 170,
+    marginBottom: 20,
+  },
+  unitBtn: {
+    width: 80,
+    height: 35,
+    borderRadius: 12,
+  },
+  inactive: {
+    backgroundColor: "transparent",
+    borderColor: ValueSheet.colours.grey,
+  },
+  unitText: {
+    fontSize: 18,
+  },
   errorToast: {
     textColor: ValueSheet.colours.background,
     zIndex: 999,
@@ -205,4 +233,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep2;
+export default HeightInput;

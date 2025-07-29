@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import moment from "moment";
-import { InAppReview } from "react-native-in-app-review";
+import InAppReview from "react-native-in-app-review";
 import TaskStats from "../Stats/TaskStats";
 import HabitStats from "../Stats/HabitStats";
 import { sharedStyles } from "../styles";

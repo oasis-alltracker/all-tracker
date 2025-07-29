@@ -36,7 +36,7 @@ const HabitsCreation = (props) => {
       if (selectedTrackers.toDosSelected) {
         navigationService.navigate("todos", { selectedTrackers });
       } else if (selectedTrackers.dietSelected) {
-        navigationService.navigate("dietStep1", { selectedTrackers });
+        navigationService.navigate("goalSelection", { selectedTrackers });
       } else if (selectedTrackers.fitnessSelected) {
         navigationService.navigate("fitness", { selectedTrackers });
       } else if (selectedTrackers.moodSelected) {

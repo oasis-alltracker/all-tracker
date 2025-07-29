@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,28 +15,18 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep5 = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-  } = props.route.params;
+const BirthYearInput = (props) => {
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
   const [birthYear, setBirthYear] = useState(null);
 
   const onNext = () => {
     if (birthYear) {
       if (!isNaN(Number(birthYear)) && birthYear.length == 4) {
-        navigationService.navigate("dietStep7", {
+        navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-          birthYear,
+          dietFactors,
         });
       } else {
         if (Platform.OS === "ios") {
@@ -70,6 +60,24 @@ const DietStep5 = (props) => {
     }
   };
 
+  const onBack = () => {
+    navigationService.navigate("heightInput", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateBirthYear = (year) => {
+    setBirthYear(year);
+    dietFactors.birthYear = year;
+  };
+
+  useEffect(() => {
+    dietFactors = props.route.params.dietFactors;
+    setBirthYear(dietFactors.birthYear);
+  }, [props]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -84,17 +92,14 @@ const DietStep5 = (props) => {
           <Text style={styles.title}>What year were you born?</Text>
           <TextInput
             style={styles.input}
-            placeholder="0"
-            onChangeText={setBirthYear}
+            placeholder={"0"}
+            onChangeText={updateBirthYear}
             value={birthYear}
             keyboardType="number-pad"
           />
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
@@ -176,4 +181,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep5;
+export default BirthYearInput;

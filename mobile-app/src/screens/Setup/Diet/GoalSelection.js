@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -7,16 +7,29 @@ import Toast from "react-native-root-toast";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep1 = (props) => {
-  const [goal, setGoal] = useState("none");
+const GoalSelection = (props) => {
   const { selectedTrackers, isEditingMacros } = props.route.params;
+
+  const defaultDietFactors = {
+    goal: "none",
+    currentWeight: { weight: 0, units: "kg" },
+    targetWeight: { weight: 0, units: "kg" },
+    currentHeight: { height: 0, units: "cm" },
+    birthYear: 0,
+    activityLevelIndex: null,
+    intensityLevel: null,
+    weeklyWeightChange: 0,
+  };
+  const [goal, setGoal] = useState("none");
+  var dietFactors = props.route.params?.dietFactors || defaultDietFactors;
 
   const onNext = () => {
     if (goal != "none") {
-      navigationService.navigate("dietStep3", {
+      dietFactors.goal = goal;
+      navigationService.navigate("currentWeight", {
         selectedTrackers,
         isEditingMacros,
-        goal,
+        dietFactors,
       });
     } else {
       if (Platform.OS === "ios") {
@@ -42,6 +55,16 @@ const DietStep1 = (props) => {
       return "transparent";
     }
   };
+
+  useEffect(() => {
+    var latestDietFactors = props.route.params?.dietFactors;
+    if (latestDietFactors) {
+      dietFactors = latestDietFactors;
+    } else {
+      dietFactors = defaultDietFactors;
+    }
+    setGoal(dietFactors.goal);
+  }, [props]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -179,4 +202,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep1;
+export default GoalSelection;

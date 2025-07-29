@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,25 +15,29 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-root-toast";
 import { ValueSheet } from "../../../ValueSheet";
 
-const DietStep6 = (props) => {
-  const { selectedTrackers, isEditingMacros, goal, weightGoal, currentWeight } =
-    props.route.params;
-  const [isCm, setIsCm] = useState(true);
-  const [height, setHeight] = useState(null);
+const CurrentWeight = (props) => {
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
+  const [isKg, setIsKg] = useState(true);
+  const [weight, setWeight] = useState(null);
 
   const onNext = () => {
-    if (height) {
-      if (!isNaN(Number(height))) {
-        const currentHeight = { height: height, units: isCm ? "cm" : "in" };
-
-        navigationService.navigate("dietStep5", {
-          selectedTrackers,
-          isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-        });
+    if (weight) {
+      if (!isNaN(Number(weight))) {
+        if (dietFactors.goal == "maintain") {
+          dietFactors.targetWeight = dietFactors.currentWeight;
+          navigationService.navigate("heightInput", {
+            selectedTrackers,
+            isEditingMacros,
+            dietFactors,
+          });
+        } else {
+          navigationService.navigate("targetWeight", {
+            selectedTrackers,
+            isEditingMacros,
+            dietFactors,
+          });
+        }
       } else {
         if (Platform.OS === "ios") {
           Toast.show("Please enter a number", {
@@ -66,6 +70,29 @@ const DietStep6 = (props) => {
     }
   };
 
+  const onBack = () => {
+    navigationService.navigate("goalSelection", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateWeight = (newWeight) => {
+    setWeight(newWeight);
+    dietFactors.currentWeight.weight = newWeight;
+  };
+
+  useEffect(() => {
+    dietFactors = props.route.params.dietFactors;
+    setWeight(dietFactors.currentWeight.weight);
+    if (dietFactors.currentWeight.units === "kg") {
+      setIsKg(true);
+    } else {
+      setIsKg(false);
+    }
+  }, [props]);
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
@@ -77,36 +104,39 @@ const DietStep6 = (props) => {
             />
             <Text style={styles.imageText}>diet</Text>
           </View>
-          <Text style={styles.title}>How tall are you?</Text>
+          <Text style={styles.title}>What's your weight?</Text>
           <TextInput
             style={styles.input}
             placeholder="0"
-            onChangeText={setHeight}
-            value={height}
+            onChangeText={updateWeight}
             keyboardType="number-pad"
+            value={weight}
           />
           <View style={[styles.buttons, styles.unitButtons]}>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsCm(true)}
-              style={[styles.unitBtn, !isCm && styles.inactive]}
+              onPress={() => {
+                setIsKg(true);
+                dietFactors.currentWeight.units = "kg";
+              }}
+              style={[styles.unitBtn, !isKg && styles.inactive]}
             >
-              cm
+              kg
             </Button>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsCm(false)}
-              style={[styles.unitBtn, isCm && styles.inactive]}
+              onPress={() => {
+                setIsKg(false);
+                dietFactors.currentWeight.units = "lb";
+              }}
+              style={[styles.unitBtn, isKg && styles.inactive]}
             >
-              in
+              lb
             </Button>
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
@@ -204,4 +234,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep6;
+export default CurrentWeight;

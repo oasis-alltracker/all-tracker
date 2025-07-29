@@ -18,26 +18,17 @@ const activityLevelValues = {
   3: 1.725,
 };
 
-const DietStep9 = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-    birthYear,
-    activityLevel,
-    weightChangePerWeek,
-  } = props.route.params;
+const NewGoalsSummary = (props) => {
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
 
   const [isLoading, setIsLoading] = useState(false);
   const [calories, setCalories] = useState(0);
-  const [calorieGoalValue, setCalorieGoalValue] = useState(0);
+  const [calorieUnit, setCalorieUnit] = useState("kcal");
+  const [calorieGoalValue, setCalorieGoalValue] = useState(0); //holds calorie value and unit
   const [carbGoalValue, setCarbGoalValue] = useState(0);
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
-  const [calorieUnit, setCalorieUnit] = useState("kcal");
   const [datas, setDatas] = useState([
     {
       title: "0 g",
@@ -55,7 +46,6 @@ const DietStep9 = (props) => {
       text: "Fats:",
     },
   ]);
-
   const updateMacrosRef = useRef(null);
 
   const onUpdateMacroValue = async (title, value, units) => {
@@ -91,24 +81,44 @@ const DietStep9 = (props) => {
         return item;
       });
       setDatas(newDatas);
-      const token = await getAccessToken();
-      DietGoalsAPI.updateDietGoals(token, {
-        carbGoal: newCarbs,
-        proteinGoal: newProteins,
-        fatGoal: newFats,
-        calorieGoal: newCalories,
-      });
     }
   };
 
-  const onNext = () => {
+  const updateGoals = async () => {
+    const token = await getAccessToken();
+    DietGoalsAPI.updateDietGoals(token, {
+      carbGoal: carbGoalValue,
+      proteinGoal: proteinGoalValue,
+      fatGoal: fatGoalValue,
+      calorieGoal: calorieGoalValue,
+    });
+  };
+
+  const onNext = async () => {
+    updateGoals();
     if (isEditingMacros) {
       navigationService.navigate("fitness-diet", {
         isEditingGoals: isEditingMacros,
       });
     } else {
-      navigationService.navigate("dietStep10", {
+      navigationService.navigate("dietNotifications", {
         selectedTrackers,
+      });
+    }
+  };
+
+  const onBack = () => {
+    if (dietFactors.goal == "maintain") {
+      navigationService.navigate("activityLevelSelection", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    } else {
+      navigationService.navigate("intensitySelection", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
       });
     }
   };
@@ -118,29 +128,31 @@ const DietStep9 = (props) => {
       setIsLoading(true);
       var weightInKg;
       var goalWeightInLb;
-      if (currentWeight.units === "kg") {
-        weightInKg = currentWeight.weight;
-        goalWeightInLb = weightGoal.weight * 2.20462;
+      if (dietFactors.currentWeight.units === "kg") {
+        weightInKg = dietFactors.currentWeight.weight;
+        goalWeightInLb = dietFactors.targetWeight.weight * 2.20462;
       } else {
-        weightInKg = (currentWeight.weight * 1.0) / 2.20462;
-        goalWeightInLb = weightGoal.weight;
+        weightInKg = (dietFactors.currentWeight.weight * 1.0) / 2.20462;
+        goalWeightInLb = dietFactors.targetWeight.weight;
       }
       var heightInCm;
-      if (currentHeight.units === "cm") {
-        heightInCm = currentHeight.height;
+      if (dietFactors.currentHeight.units === "cm") {
+        heightInCm = dietFactors.currentHeight.height;
       } else {
-        heightInCm = (currentHeight.height * 1.0) / 0.393701;
+        heightInCm = (dietFactors.currentHeight.height * 1.0) / 0.393701;
       }
       var currentYear = new Date().getFullYear();
       const BMR =
-        10 * weightInKg + 6.25 * heightInCm - 5 * (currentYear - birthYear);
-      const TDEE = BMR * activityLevelValues[activityLevel];
-      const dailyCaloriesDefecit = (weightChangePerWeek * 3500) / 7;
+        10 * weightInKg +
+        6.25 * heightInCm -
+        5 * (currentYear - dietFactors.birthYear);
+      const TDEE = BMR * activityLevelValues[dietFactors.activityLevelIndex];
+      const dailyCaloriesDeficit = (dietFactors.weeklyWeightChange * 3500) / 7;
       var dailyCalorieIntake = TDEE;
-      if (goal === "lose") {
-        dailyCalorieIntake -= dailyCaloriesDefecit;
-      } else if (goal === "gain") {
-        dailyCalorieIntake += dailyCaloriesDefecit;
+      if (dietFactors.goal === "lose") {
+        dailyCalorieIntake -= dailyCaloriesDeficit;
+      } else if (dietFactors.goal === "gain") {
+        dailyCalorieIntake += dailyCaloriesDeficit;
       }
       const protein = goalWeightInLb * 0.8;
       const fat = (dailyCalorieIntake * 0.25) / 9;
@@ -163,20 +175,13 @@ const DietStep9 = (props) => {
           text: "Fats:",
         },
       ]);
-      const token = await getAccessToken();
-      setCalorieGoalValue(Math.round(dailyCalorieIntake));
+      setCalorieGoalValue({
+        value: Math.round(dailyCalorieIntake),
+        units: calorieUnit,
+      });
       setCarbGoalValue(Math.round(carbs));
       setProteinGoalValue(Math.round(protein));
       setFatGoalValue(Math.round(fat));
-      DietGoalsAPI.updateDietGoals(token, {
-        carbGoal: Math.round(carbs),
-        proteinGoal: Math.round(protein),
-        fatGoal: Math.round(fat),
-        calorieGoal: {
-          value: Math.round(dailyCalorieIntake),
-          units: calorieUnit,
-        },
-      });
       setIsLoading(false);
     };
 
@@ -253,10 +258,7 @@ const DietStep9 = (props) => {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
@@ -391,4 +393,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DietStep9;
+export default NewGoalsSummary;
