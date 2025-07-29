@@ -42,16 +42,27 @@ class GetDietStats {
       proteinCount: [],
       fatCount: [],
     };
+    const labels = ["S", "M", "T", "W", "T", "F", "S"];
     for (var i = 0; i < 7; i++) {
       var day = moment(sunday);
       day = day.add(i, "days").format("YYYYMMDD");
       if (!entries[day]) {
         for (const key in result) {
-          result[key].push({ value: 0, date: day });
+          result[key].push({
+            value: 0,
+            dataPointText: "0",
+            label: labels[i],
+            date: day,
+          });
         }
       } else {
         for (const key in result) {
-          result[key].push({ value: entries[day][key], date: day });
+          result[key].push({
+            value: entries[day][key],
+            dataPointText: `${entries[day][key]}`,
+            label: labels[i],
+            date: day,
+          });
         }
       }
     }

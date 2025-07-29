@@ -340,7 +340,7 @@ const FitnessDiet = ({ navigation, route }) => {
       case "third":
         return <Fitness />;
       case "fourth":
-        return <Statistics />;
+        return <Statistics dietGoals={dietGoals} day={day} />;
       default:
         return null;
     }

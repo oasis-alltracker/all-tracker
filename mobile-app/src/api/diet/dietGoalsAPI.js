@@ -4,6 +4,7 @@ const API = EXPO_PUBLIC_BASE_URL + "dietGoals/";
 
 class DietGoalsAPI {
   static async getDietGoals(token) {
+    console.log("entered diet goals");
     const headers = {
       Authorization: `Bearer ${token}`,
     };
