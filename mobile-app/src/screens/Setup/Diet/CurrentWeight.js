@@ -25,7 +25,7 @@ const CurrentWeight = (props) => {
     if (weight) {
       if (!isNaN(Number(weight))) {
         if (dietFactors.goal == "maintain") {
-          dietFactors.targetWeight = dietFactors.currentWeight;
+          dietFactors.targetWeight = { ...dietFactors.currentWeight };
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
