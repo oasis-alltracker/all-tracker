@@ -225,11 +225,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
   },
-  xLabel: {
-    fontSize: 14,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
-  },
   chartContainer: {
     flex: 1,
   },
@@ -239,8 +234,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 5,
     width: 250,
-    //alignSelf: "center",
-    //justifySelf: "center",
     marginLeft: 10,
   },
   icon: {

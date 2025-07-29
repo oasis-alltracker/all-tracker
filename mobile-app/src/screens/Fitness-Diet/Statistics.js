@@ -86,47 +86,4 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 80,
   },
-  imageCon: {
-    width: 180,
-    height: 180,
-    borderRadius: 100,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
-    borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-  },
-  preButton: {
-    width: 30,
-    height: 30,
-  },
-  nextButton: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  dateLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderRadius: 2,
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 2,
-  },
-  dateName: {
-    fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
 });
