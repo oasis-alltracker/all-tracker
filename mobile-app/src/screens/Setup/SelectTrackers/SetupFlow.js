@@ -179,11 +179,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderColor: ValueSheet.colours.grey,
   },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
-  },
   middleContainer: {
     flex: 1,
     textAlignVertical: "center",

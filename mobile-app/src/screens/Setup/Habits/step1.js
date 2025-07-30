@@ -15,7 +15,7 @@ import CreateHabitModal from "../../Todos-Habits/modals/CreateHabitModal";
 import UpdateHabitModal from "../../Todos-Habits/modals/UpdateHabitModal";
 import HabitsAPI from "../../../api/habits/habitsAPI";
 import Spinner from "react-native-loading-spinner-overlay";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
@@ -30,6 +30,16 @@ const HabitsCreation = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const modalRef = useRef(null);
+
+  function errorResponse(error) {
+    console.log(error);
+    setIsLoading(false);
+    Toast.show({
+      type: "error",
+      text1: "Something went wrong",
+      text2: "Please try again.",
+    });
+  }
 
   const onNext = async () => {
     try {
@@ -94,21 +104,7 @@ const HabitsCreation = (props) => {
         setIsLoading(false);
       }
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -143,21 +139,7 @@ const HabitsCreation = (props) => {
       await getHabits();
       setTimeout(() => setIsLoading(false), 500);
     } catch (e) {
-      connsole.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -187,21 +169,7 @@ const HabitsCreation = (props) => {
         prevExpoIDs
       );
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -251,19 +219,7 @@ const HabitsCreation = (props) => {
         );
       }
     } catch (e) {
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -273,21 +229,7 @@ const HabitsCreation = (props) => {
       var userHabits = await HabitsAPI.getHabits(token);
       setHabits(userHabits);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -572,10 +514,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: ValueSheet.colours.black50,
     fontFamily: ValueSheet.fonts.primaryFont,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
