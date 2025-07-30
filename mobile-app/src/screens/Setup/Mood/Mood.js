@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -70,25 +70,12 @@ const Mood = (props) => {
             setIsLoading(false);
             return listOfExpoIDs;
           } else {
-            if (Platform.OS === "ios") {
-              Toast.show(
-                "To get reminders, you need to turn on notifications in your phone's settings.",
-                {
-                  ...styles.errorToast,
-                  duration: Toast.durations.LONG,
-                  position: Toast.positions.BOTTOM,
-                }
-              );
-            } else {
-              Toast.show(
-                "To get reminders, you need to turn on notifications in your phone's settings.",
-                {
-                  ...styles.errorToast,
-                  duration: Toast.durations.LONG,
-                  position: Toast.positions.TOP,
-                }
-              );
-            }
+            Toast.show({
+              type: "info",
+              text1: "Reminders are disabled",
+              text2:
+                "Turn on notifications in your device settings to get reminders.",
+            });
           }
         } catch (e) {
           console.log(e);
@@ -96,25 +83,12 @@ const Mood = (props) => {
         }
       }
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          }
-        );
-      } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          }
-        );
-      }
+      Toast.show({
+        type: "info",
+        text1: "Reminders are disabled",
+        text2:
+          "Turn on notifications in your device settings to get reminders.",
+      });
     }
 
     setIsLoading(false);
@@ -177,19 +151,11 @@ const Mood = (props) => {
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again.",
+      });
     }
   };
 

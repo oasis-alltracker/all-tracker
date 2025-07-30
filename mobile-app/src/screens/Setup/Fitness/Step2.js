@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -46,19 +46,11 @@ const FitnessStep2 = (props) => {
       }
     } catch (e) {
       setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again.",
+      });
     }
   };
 
