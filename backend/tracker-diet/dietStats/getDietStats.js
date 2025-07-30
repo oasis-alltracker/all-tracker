@@ -57,9 +57,10 @@ class GetDietStats {
         }
       } else {
         for (const key in result) {
+          var val = Math.round(entries[day][key]);
           result[key].push({
-            value: entries[day][key],
-            dataPointText: `${entries[day][key]}`,
+            value: val,
+            dataPointText: `${val}`,
             label: labels[i],
             date: day,
           });
