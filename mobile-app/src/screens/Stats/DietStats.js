@@ -124,6 +124,7 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           thickness={2}
           color1={ValueSheet.colours.purple}
           showYAxisIndices
+          yAxisLabelWidth={35}
           dataPointsColor1={ValueSheet.colours.borderPurple}
           color2={ValueSheet.colours.pink}
           dataPointsColor2={ValueSheet.colours.pink}
@@ -200,7 +201,6 @@ const styles = StyleSheet.create({
   chartBox: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "center",
     marginTop: 20,
     paddingRight: 35,
   },
@@ -213,8 +213,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 35,
-    marginRight: 40,
+    marginTop: 60,
+    marginLeft: 25,
+    marginRight: 10,
   },
   imageCircle: {
     width: 28,
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
-    flex: 1,
+    alignItems: "center",
   },
   row: {
     flexDirection: "row",
