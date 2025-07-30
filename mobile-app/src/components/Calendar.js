@@ -96,7 +96,8 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           Toast.show({
             type: "info",
             text1: "Reminders are disabled",
-            text2: "Turn on notifications in your settings to get reminders.",
+            text2:
+              "Turn on notifications in your device settings to get reminders.",
           });
         }
       } else {

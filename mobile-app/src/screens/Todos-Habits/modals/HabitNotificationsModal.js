@@ -91,7 +91,8 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           Toast.show({
             type: "info",
             text1: "Reminders are disabled",
-            text2: "Turn on notifications in your settings to get reminders.",
+            text2:
+              "Turn on notifications in your device settings to get reminders.",
           });
         }
         setIsMiniLoading(false);
@@ -137,7 +138,8 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           Toast.show({
             type: "info",
             text1: "Reminders are disabled",
-            text2: "Turn on notifications in your settings to get reminders.",
+            text2:
+              "Turn on notifications in your device settings to get reminders.",
           });
         }
       }
