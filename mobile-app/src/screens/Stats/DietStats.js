@@ -68,6 +68,7 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           return { value: dietGoals[item.goal], hideDataPoint: true };
         });
       }
+      array[0] = { value: array[0].value, dataPointText: `${array[0].value}` };
       lineArrays.push(array);
     });
 
@@ -123,19 +124,17 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           spacing={220 / 7}
           thickness={2}
           color1={ValueSheet.colours.purple}
-          showYAxisIndices
-          yAxisLabelWidth={35}
+          hideYAxisText
+          yAxisLabelWidth={0}
           dataPointsColor1={ValueSheet.colours.borderPurple}
           color2={ValueSheet.colours.pink}
           dataPointsColor2={ValueSheet.colours.pink}
-          maxValue={graphMax[macroIndex] * 1.1}
-          noOfSections={6}
+          maxValue={graphMax[macroIndex] * 1.15}
           hideRules
           textFontSize={13}
           textShiftY={-8}
           textShiftX={3}
           textColor={ValueSheet.colours.primaryColour}
-          yAxisTextStyle={{ color: ValueSheet.colours.primaryColour }}
           areaChart
           startFillColor1={ValueSheet.colours.purple}
           endFillColor1={ValueSheet.colours.purple}
@@ -215,7 +214,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 60,
     marginLeft: 25,
-    marginRight: 10,
+    marginRight: 20,
   },
   imageCircle: {
     width: 28,
@@ -234,8 +233,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginVertical: 5,
-    width: 250,
-    marginLeft: 10,
+    width: 230,
   },
   icon: {
     width: 20,

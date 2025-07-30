@@ -98,7 +98,7 @@ const SleepStats = ({ sunday, updateStats }) => {
           areaChart
           hideRules
           yAxisTextNumberOfLines={1}
-          yAxisLabelWidth={35}
+          yAxisLabelWidth={0}
           hideYAxisText
           hideDataPoints
           data={sleepStats}
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
     marginLeft: 25,
-    marginRight: 10,
+    marginRight: 20,
   },
   imageCircle: {
     width: 28,
