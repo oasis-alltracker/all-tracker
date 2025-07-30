@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -91,25 +91,12 @@ const DietNotifications = (props) => {
           setBreakfastExpoIDs(expoIDs);
         }
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            }
-          );
-        } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            }
-          );
-        }
+        Toast.show({
+          type: "info",
+          text1: "Reminders are disabled",
+          text2:
+            "Turn on notifications in your device settings to get reminders.",
+        });
       }
     }
 
@@ -149,25 +136,12 @@ const DietNotifications = (props) => {
           setLunchExpoIDs(expoIDs);
         }
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            }
-          );
-        } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            }
-          );
-        }
+        Toast.show({
+          type: "info",
+          text1: "Reminders are disabled",
+          text2:
+            "Turn on notifications in your device settings to get reminders.",
+        });
       }
     }
 
@@ -207,25 +181,12 @@ const DietNotifications = (props) => {
           setDinnerExpoIDs(expoIDs);
         }
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            }
-          );
-        } else {
-          Toast.show(
-            "To get reminders, you need to turn on notifications in your phone's settings.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            }
-          );
-        }
+        Toast.show({
+          type: "info",
+          text1: "Reminders are disabled",
+          text2:
+            "Turn on notifications in your device settings to get reminders.",
+        });
       }
     }
 
@@ -319,19 +280,11 @@ const DietNotifications = (props) => {
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again.",
+      });
     }
   };
 

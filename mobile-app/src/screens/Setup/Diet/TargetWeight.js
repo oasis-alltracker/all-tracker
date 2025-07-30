@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
@@ -27,42 +27,18 @@ const TargetWeight = (props) => {
           dietFactors.goal == "gain" &&
           goalWeight <= dietFactors.currentWeight.weight
         ) {
-          if (Platform.OS === "ios") {
-            Toast.show(
-              "Please enter a number greater than your current weight",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              }
-            );
-          } else {
-            Toast.show(
-              "Please enter a number greater than your current weight",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              }
-            );
-          }
+          Toast.show({
+            type: "error",
+            text1: "Enter a number greater than your current weight.",
+          });
         } else if (
           dietFactors.goal == "lose" &&
           goalWeight >= dietFactors.currentWeight.weight
         ) {
-          if (Platform.OS === "ios") {
-            Toast.show("Please enter a number less than your current weight", {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            });
-          } else {
-            Toast.show("Please enter a number less than your current weight", {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            });
-          }
+          Toast.show({
+            type: "error",
+            text1: "Enter a number less than your current weight.",
+          });
         } else {
           navigationService.navigate("heightInput", {
             selectedTrackers,
@@ -71,34 +47,16 @@ const TargetWeight = (props) => {
           });
         }
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show("Please enter a number", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Please enter a number", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "error",
+          text1: "Please enter a valid number using digits from 0 to 9.",
+        });
       }
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Please enter a number.",
+      });
     }
   };
 
@@ -216,11 +174,6 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

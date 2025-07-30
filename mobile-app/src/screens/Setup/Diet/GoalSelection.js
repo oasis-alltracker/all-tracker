@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
@@ -32,19 +32,10 @@ const GoalSelection = (props) => {
         dietFactors,
       });
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "error",
+        text1: "Please make a selection.",
+      });
     }
   };
 
@@ -168,11 +159,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   buttons: {
     flexDirection: "row",
