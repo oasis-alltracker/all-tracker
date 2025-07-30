@@ -20,6 +20,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Sego: require("./src/assets/fonts/segoesc.ttf"),
     "Sego-Bold": require("./src/assets/fonts/segoesc_bold.ttf"),
+    Quicksand: require("./src/assets/fonts/Quicksand.ttf"),
   });
   const [loading, setLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
