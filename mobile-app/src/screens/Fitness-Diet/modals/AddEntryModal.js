@@ -56,6 +56,7 @@ export default function AddEntryModal({
   editing = false,
   foodEntriesChangedRef,
   setMeal,
+  dietUnit,
 }) {
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -87,6 +88,8 @@ export default function AddEntryModal({
   });
   const [prevQuantity, setPrevQuantity] = useState(0);
   const editedMacros = useRef(false);
+
+  const energyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
 
   useEffect(() => {
     let ref = {
