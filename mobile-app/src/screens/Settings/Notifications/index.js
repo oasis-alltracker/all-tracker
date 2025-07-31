@@ -1005,7 +1005,7 @@ const Notifications = () => {
                 isToggled={
                   isWellnessCheckinToggled && isSystemNotificationsEnabled
                 }
-                toggled={wellnessCheckinToggled}
+                toggledHandler={wellnessCheckinToggled}
                 setIsToggled={setIsWellnessCheckinToggled}
                 group="mood"
               />
@@ -1019,7 +1019,7 @@ const Notifications = () => {
                   isToggled={
                     isMorningAlarmToggled && isSystemNotificationsEnabled
                   }
-                  toggled={morningAlarmToggled}
+                  toggledHandler={morningAlarmToggled}
                   setIsToggled={setIsMorningAlarmToggled}
                   group="morning"
                 />
