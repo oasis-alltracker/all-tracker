@@ -316,6 +316,7 @@ const SelectTrackers = () => {
       >
         Continue
       </Button>
+      <Toast position="bottom" bottomOffset={125} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
