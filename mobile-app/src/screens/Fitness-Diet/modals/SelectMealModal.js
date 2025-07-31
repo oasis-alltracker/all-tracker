@@ -23,7 +23,12 @@ const mealTitles = [
   },
 ];
 
-export default function SelectMealModal({ isVisible, setVisible, dayString }) {
+export default function SelectMealModal({
+  isVisible,
+  setVisible,
+  dayString,
+  dietUnit,
+}) {
   const [selectedIndex, setSelected] = useState(-1);
 
   const updateSelected = (currIndex) => {
@@ -79,7 +84,9 @@ export default function SelectMealModal({ isVisible, setVisible, dayString }) {
             navigationService.navigate("searchFood", {
               mealName: mealTitles[selectedIndex].name,
               dayString: dayString,
+              dietUnit: dietUnit,
             });
+            console.log(dietUnit);
             setVisible(false);
             setSelected(-1);
           }}

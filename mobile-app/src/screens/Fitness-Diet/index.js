@@ -52,27 +52,6 @@ const FitnessDiet = ({ navigation, route }) => {
   const [dinner, setDinner] = useState(defaultMacros);
   const [snack, setSnack] = useState(defaultMacros);
 
-  var totalMacros = {
-    calorieCount: Math.round(
-      breakfast.calorieCount +
-        lunch.calorieCount +
-        dinner.calorieCount +
-        snack.calorieCount
-    ),
-    carbCount: Math.round(
-      breakfast.carbCount + lunch.carbCount + dinner.carbCount + snack.carbCount
-    ),
-    fatCount: Math.round(
-      breakfast.fatCount + lunch.fatCount + dinner.fatCount + snack.fatCount
-    ),
-    proteinCount: Math.round(
-      breakfast.proteinCount +
-        lunch.proteinCount +
-        dinner.proteinCount +
-        snack.proteinCount
-    ),
-  };
-
   const mealSetters = {
     breakfast: setBreakfast,
     lunch: setLunch,
@@ -94,6 +73,27 @@ const FitnessDiet = ({ navigation, route }) => {
   });
 
   const [dietModalVisible, setDietVisible] = useState(false);
+
+  var totalMacros = {
+    calorieCount: Math.round(
+      breakfast.calorieCount +
+        lunch.calorieCount +
+        dinner.calorieCount +
+        snack.calorieCount
+    ),
+    carbCount: Math.round(
+      breakfast.carbCount + lunch.carbCount + dinner.carbCount + snack.carbCount
+    ),
+    fatCount: Math.round(
+      breakfast.fatCount + lunch.fatCount + dinner.fatCount + snack.fatCount
+    ),
+    proteinCount: Math.round(
+      breakfast.proteinCount +
+        lunch.proteinCount +
+        dinner.proteinCount +
+        snack.proteinCount
+    ),
+  };
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -384,6 +384,7 @@ const FitnessDiet = ({ navigation, route }) => {
         isVisible={dietModalVisible}
         setVisible={setDietVisible}
         dayString={day.toISOString()}
+        dietUnit={dietGoals.calorieGoal.units}
       />
     </SafeAreaView>
   );
