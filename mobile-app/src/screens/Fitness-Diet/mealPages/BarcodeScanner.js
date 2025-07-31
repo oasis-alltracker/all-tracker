@@ -45,6 +45,7 @@ const BarcodeScanner = ({ route }) => {
         Toast.show({
           type: "info",
           text1: "Please place food barcode in view of the camera.",
+          topOffset: windowHeight / 2 - 30, //centering toast; default toast height is 60, 60/2 is 30
         });
       }
     }, [hasPermission])
