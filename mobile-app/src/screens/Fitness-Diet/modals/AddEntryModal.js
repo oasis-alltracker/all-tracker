@@ -441,7 +441,7 @@ export default function AddEntryModal({
           />
         </View>
       </TouchableWithoutFeedback>
-      <Toast position="top" topOffset={10} visibilityTime={2500} />
+      <Toast position="top" topOffset={90} visibilityTime={2500} />
     </RNModal>
   );
 }
