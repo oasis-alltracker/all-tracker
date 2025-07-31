@@ -40,13 +40,13 @@ const ExplainSubscription = (props) => {
           const accessToken = await getAccessToken();
           navigationService.reset("main", 0);
         } else {
-          Alert.alert("info", "Monthly subscription not available.");
+          Alert.alert("Error", "Monthly subscription not available.");
         }
       } else {
-        Alert.alert("info", "No offerings available.");
+        Alert.alert("Error", "No offerings available.");
       }
     } catch (error) {
-      Alert.alert("info", "Failed to purchase subscription.");
+      Alert.alert("Error", "Failed to purchase subscription.");
       console.error(error);
     }
 
