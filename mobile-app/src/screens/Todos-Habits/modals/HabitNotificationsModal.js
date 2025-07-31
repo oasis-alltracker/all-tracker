@@ -685,7 +685,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           </TouchableOpacity>
         </View>
       </View>
-      <Toast />
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }

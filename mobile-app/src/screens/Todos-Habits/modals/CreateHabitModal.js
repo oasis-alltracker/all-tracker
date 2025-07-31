@@ -257,7 +257,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-      <Toast />
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }

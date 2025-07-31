@@ -151,7 +151,7 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <Toast position="top" />
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }
