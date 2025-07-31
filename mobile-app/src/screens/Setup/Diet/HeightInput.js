@@ -124,6 +124,7 @@ const HeightInput = (props) => {
             Next
           </Button>
         </View>
+        <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
