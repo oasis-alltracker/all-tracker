@@ -87,6 +87,7 @@ const WellnessStep6 = (props) => {
             </Button>
           </View>
         </>
+        <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
