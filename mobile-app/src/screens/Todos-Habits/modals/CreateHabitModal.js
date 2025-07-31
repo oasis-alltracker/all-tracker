@@ -114,18 +114,18 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     Keyboard.dismiss();
     if (!habitName) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please give your habit a name.",
       });
     } else if (threshold <= 0) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please specify a goal",
         text2: "How many times a day do you want to do this habit?",
       });
     } else if (threshold > 99) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please specify a smaller goal",
         text2: "Your goal must be be less than 100.",
       });
@@ -133,7 +133,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       image == "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
     ) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please select an image for your habit.",
       });
     } else if (

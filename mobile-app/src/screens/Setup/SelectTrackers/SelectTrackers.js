@@ -104,7 +104,7 @@ const SelectTrackers = () => {
       } else {
         setIsLoading(false);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Something went wrong",
           text2: "Please try again.",
         });
@@ -112,7 +112,7 @@ const SelectTrackers = () => {
     } else {
       setIsLoading(false);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "No trackers selected",
         text2: "You must select at least one tracker to continue.",
       });
@@ -137,7 +137,7 @@ const SelectTrackers = () => {
       } catch (e) {
         console.log(e);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Something went wrong",
           text2: "Please try again.",
         });

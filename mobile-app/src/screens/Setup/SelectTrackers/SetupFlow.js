@@ -34,7 +34,7 @@ const SetupFlow = (props) => {
   const onNext = async () => {
     if (active == 0) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please make a selection.",
       });
     } else {

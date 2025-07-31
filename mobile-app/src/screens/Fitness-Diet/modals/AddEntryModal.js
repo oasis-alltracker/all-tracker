@@ -299,7 +299,7 @@ export default function AddEntryModal({
     } else {
       setQuantity(prevQuantity);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please enter a valid number greater than 0.",
       });
     }

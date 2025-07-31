@@ -30,13 +30,13 @@ const BirthYearInput = (props) => {
         });
       } else {
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Please enter a valid birth year.",
         });
       }
     } else {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please enter a number.",
       });
     }

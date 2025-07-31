@@ -70,7 +70,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
       } catch (e) {
         console.log(e);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Could not retrieve notifications",
           text2: "Please try again later",
         });
@@ -141,13 +141,13 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
     Keyboard.dismiss();
     if (threshold <= 0) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please specify a goal",
         text2: "How many times a day do you want to do this habit?",
       });
     } else if (threshold > 99) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please specify a smaller goal",
         text2: "Your goal must be be less than 100.",
       });
@@ -167,7 +167,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
       updateHabit(habitID, habit, times, isNotificationsOn);
     } else {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Incomplete fields",
         text2: "Please complete the form to update the habit.",
       });

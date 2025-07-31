@@ -79,7 +79,7 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
       setIsLoading(false);
     } else {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please enter a valid number using digits from 0 to 9.",
       });
     }

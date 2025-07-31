@@ -75,7 +75,7 @@ const CreateAccountLock = (props) => {
       setIsLoading(false);
       console.log(e);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Apple sign-in unsuccessful",
         text2: "Please try again later.",
       });
@@ -97,7 +97,7 @@ const CreateAccountLock = (props) => {
       setIsLoading(false);
       console.log(e);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Google sign-in unsuccessful",
         text2: "Please try again later.",
       });
@@ -143,7 +143,7 @@ const CreateAccountLock = (props) => {
           } else if (!data.isCorrectPassword) {
             setIsLoading(false);
             Toast.show({
-              type: "error",
+              type: "info",
               text1: "Incorrect password",
               text2: "This device already has an account.",
             });
@@ -161,7 +161,7 @@ const CreateAccountLock = (props) => {
           } else {
             setIsLoading(false);
             Toast.show({
-              type: "error",
+              type: "info",
               text1: "Something went wrong",
               text2: "Please try again later.",
             });
@@ -170,7 +170,7 @@ const CreateAccountLock = (props) => {
           console.log(e);
           setIsLoading(false);
           Toast.show({
-            type: "error",
+            type: "info",
             text1: "Something went wrong",
             text2: "Please try again later.",
           });
@@ -178,7 +178,7 @@ const CreateAccountLock = (props) => {
       } else {
         setIsLoading(false);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Passwords do not match",
           text2: "Please try entering the passwords again.",
         });
@@ -186,7 +186,7 @@ const CreateAccountLock = (props) => {
     } else {
       setIsLoading(false);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please enter a password.",
       });
     }

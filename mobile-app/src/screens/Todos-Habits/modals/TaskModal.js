@@ -92,7 +92,7 @@ export default function TaskModal({
                 setIsLoading(false);
                 console.log(e);
                 Toast.show({
-                  type: "error",
+                  type: "info",
                   text1: "Something went wrong",
                   text2: "Please try again later.",
                 });
@@ -113,13 +113,13 @@ export default function TaskModal({
     Keyboard.dismiss();
     if (title == "" && description == "") {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Incomplete fields",
         text2: "Please complete the form to update the habit.",
       });
     } else if (title == "") {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please give your task a name.",
       });
     } else {
@@ -198,7 +198,7 @@ export default function TaskModal({
         setIsLoading(false);
         console.log(e);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Something went wrong",
           text2: "Please try again later.",
         });

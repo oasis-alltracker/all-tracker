@@ -88,14 +88,14 @@ const Agreement = () => {
         console.log(e);
         setIsLoading(false);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Something went wrong",
           text2: "Please try again later.",
         });
       }
     } else {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Unchecked agreements",
         text2: "Please confirm you read and understand the agreements.",
       });

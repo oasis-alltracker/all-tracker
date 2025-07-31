@@ -72,7 +72,7 @@ const SearchFood = ({ navigation, route }) => {
     console.log(error);
     setIsLoading(false);
     Toast.show({
-      type: "error",
+      type: "info",
       text1: "Something went wrong",
       text2: "Please try again later.",
     });

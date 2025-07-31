@@ -58,7 +58,7 @@ const SleepStep1 = (props) => {
     sleepReport.title = dateString.slice(4, -4);
     if (active == 0) {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please make a selection.",
       });
     } else {

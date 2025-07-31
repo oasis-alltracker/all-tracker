@@ -38,7 +38,7 @@ const ActivityLevelSelection = (props) => {
       }
     } else {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please make a selection.",
       });
     }

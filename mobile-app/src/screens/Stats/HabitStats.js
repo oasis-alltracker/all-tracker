@@ -61,7 +61,7 @@ const HabitStats = ({ sunday, updateStats }) => {
       } catch (e) {
         setIsLoading(false);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Failed to retrieve habit stats",
           text2: "Please refresh the page by exiting and returning to it.",
         });

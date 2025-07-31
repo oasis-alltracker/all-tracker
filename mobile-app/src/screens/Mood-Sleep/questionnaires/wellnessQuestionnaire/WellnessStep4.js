@@ -23,7 +23,7 @@ const WellnessStep4 = (props) => {
   const onNext = async () => {
     if (location == "") {
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please write an entry.",
       });
     } else {

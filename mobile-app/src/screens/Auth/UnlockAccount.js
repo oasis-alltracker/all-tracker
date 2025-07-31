@@ -73,7 +73,7 @@ const UnlockAccount = (props) => {
       setIsLoading(false);
       console.log(e);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Apple sign-in unsuccessful",
         text2: "Please try again later.",
       });
@@ -95,7 +95,7 @@ const UnlockAccount = (props) => {
       setIsLoading(false);
       console.log(e);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Google sign-in unsuccessful",
         text2: "Please try again later.",
       });
@@ -142,7 +142,7 @@ const UnlockAccount = (props) => {
         } else {
           setIsLoading(false);
           Toast.show({
-            type: "error",
+            type: "info",
             text1: "Password is incorrect",
             text2: "Please try again.",
           });
@@ -150,7 +150,7 @@ const UnlockAccount = (props) => {
       } else {
         setIsLoading(false);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Something went wrong",
           text2: "Please try again later.",
         });
@@ -158,7 +158,7 @@ const UnlockAccount = (props) => {
     } else {
       setIsLoading(false);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Please enter a password.",
       });
     }

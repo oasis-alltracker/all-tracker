@@ -128,7 +128,7 @@ const MealPage = ({ navigation, route }) => {
       console.log(e);
       setIsLoading(false);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Failed to delete food entry",
         text2: "Please try again.",
       });

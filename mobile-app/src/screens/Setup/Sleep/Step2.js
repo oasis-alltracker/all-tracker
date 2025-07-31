@@ -146,7 +146,7 @@ const SleepStep2 = (props) => {
       setIsLoading(false);
       console.log(e);
       Toast.show({
-        type: "error",
+        type: "info",
         text1: "Something went wrong",
         text2: "Please try again.",
       });

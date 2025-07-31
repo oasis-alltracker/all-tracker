@@ -66,7 +66,7 @@ const TaskStats = ({ sunday, updateStats }) => {
         console.log(e);
         setIsLoading(false);
         Toast.show({
-          type: "error",
+          type: "info",
           text1: "Failed to retrieve task stats",
           text2: "Please refresh the page by exiting and returning to it.",
         });
