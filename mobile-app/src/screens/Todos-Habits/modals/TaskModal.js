@@ -345,7 +345,7 @@ export default function TaskModal({
         saveDateHandler={saveDateHandler}
         getRef={(ref) => (calendarRef.current = ref)}
       />
-      <Toast />
+      <Toast position="top" />
     </RNModal>
   );
 }

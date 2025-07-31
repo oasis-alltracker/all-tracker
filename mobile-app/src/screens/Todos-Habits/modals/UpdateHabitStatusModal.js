@@ -184,7 +184,7 @@ export default function UpdateHabitStatusModal({
           </Button>
         </View>
       </View>
-      <Toast />
+      <Toast position="top" />
     </RNModal>
   );
 }
