@@ -32,17 +32,10 @@ export default function UpdateHabitStatusModal({
 
         if (props.count >= props.threshold) {
           setCount(props.threshold);
-          if (props.isPositive) {
-            Toast.show({
-              type: "success",
-              text1: "Habit complete. Great job!",
-            });
-          } else {
-            Toast.show({
-              type: "info",
-              text1: "You striked out. Try again tomorrow!",
-            });
-          }
+          setTimeout(() => {
+            //necessary to display the toast over the modal on open
+            displayToast(props.isPositive);
+          }, 10);
         }
       },
       close() {
@@ -52,6 +45,20 @@ export default function UpdateHabitStatusModal({
 
     getRef(ref);
   }, []);
+
+  const displayToast = (positive) => {
+    if (positive) {
+      Toast.show({
+        type: "success",
+        text1: "Habit complete. Great job!",
+      });
+    } else {
+      Toast.show({
+        type: "info",
+        text1: "You striked out. Try again tomorrow!",
+      });
+    }
+  };
 
   const backDropPressed = async () => {
     const habit = {
@@ -81,31 +88,11 @@ export default function UpdateHabitStatusModal({
     }
   };
   const onPlusPressed = () => {
-    if (threshold - count == 1) {
-      if (isPositive) {
-        Toast.show({
-          type: "success",
-          text1: "Habit complete. Great job!",
-        });
-      } else {
-        Toast.show({
-          type: "info",
-          text1: "You striked out. Try again tomorrow!",
-        });
-      }
+    if (threshold - count <= 1) {
+      displayToast(isPositive);
     }
     if (count >= threshold) {
-      if (isPositive) {
-        Toast.show({
-          type: "success",
-          text1: "Habit complete. Great job!",
-        });
-      } else {
-        Toast.show({
-          type: "info",
-          text1: "You striked out. Try again tomorrow!",
-        });
-      }
+      displayToast(isPositive);
     } else {
       setCount(count + 1);
     }
@@ -184,7 +171,7 @@ export default function UpdateHabitStatusModal({
           </Button>
         </View>
       </View>
-      <Toast position="top" />
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }
