@@ -378,6 +378,7 @@ const HabitsCreation = (props) => {
         updateHabit={updateHabit}
         deleteHabit={deleteHabit}
       />
+      <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
