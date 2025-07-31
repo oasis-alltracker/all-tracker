@@ -21,7 +21,7 @@ const Soultification = ({
   body,
   notifications,
   isToggled,
-  toggled,
+  toggledHandler,
   setIsToggled,
   group,
 }) => {
@@ -233,7 +233,7 @@ const Soultification = ({
         });
       }
     }
-    var listOfExpoIDs = await toggled(notificationTriggers, turnOn);
+    var listOfExpoIDs = await toggledHandler(notificationTriggers, turnOn);
     if (listOfExpoIDs) {
       for (var i = 0; i < listOfExpoIDs.length; i++) {
         if (i == 0) {
