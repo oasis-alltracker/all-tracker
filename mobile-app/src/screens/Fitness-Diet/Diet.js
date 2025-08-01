@@ -78,6 +78,7 @@ export default function Diet({
           dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
+          dietUnit: dietGoals.calorieGoal.units,
         });
       }}
     >
@@ -109,6 +110,7 @@ export default function Diet({
           dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
+          dietUnit: dietGoals.calorieGoal.units,
         });
       }}
     >

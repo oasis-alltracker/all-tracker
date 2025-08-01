@@ -241,6 +241,7 @@ const SearchFood = ({ navigation, route }) => {
           day={day}
           prevPage={prevPage}
           meal={mealMacros}
+          dietUnit={dietUnit}
         />
       </View>
     </SafeAreaView>
