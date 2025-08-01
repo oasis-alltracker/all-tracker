@@ -26,6 +26,8 @@ const MealPage = ({ navigation, route }) => {
   const foodEntriesChangedRef = useRef(false);
   const editEntryRef = useRef(null);
   var refreshMeal = route.params?.refreshMeal || null;
+  const dietUnit = route.params?.dietUnit;
+  const energyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -66,6 +68,7 @@ const MealPage = ({ navigation, route }) => {
       dayString: currentDate.toISOString(),
       prevPage: "mealPage",
       meal: JSON.parse(JSON.stringify(currentMeal)),
+      dietUnit: dietUnit,
     });
   };
 
@@ -189,7 +192,8 @@ const MealPage = ({ navigation, route }) => {
                     {item.name}
                   </Text>
                   <Text style={styles.mealItemCalories}>
-                    {item.calorieCount} cal
+                    {+(item.calorieCount * energyMultiplier).toFixed(2)}{" "}
+                    {dietUnit}
                   </Text>
                 </View>
                 <TouchableOpacity onPress={() => deleteMealItem(item)}>
@@ -215,9 +219,9 @@ const MealPage = ({ navigation, route }) => {
               <Text style={styles.caloriesLabel}>Calories</Text>
               <View style={styles.calorieInfo}>
                 <Text style={styles.caloriesAmount}>
-                  {currentMeal.calorieCount}
+                  {+(currentMeal.calorieCount * energyMultiplier).toFixed(2)}
                 </Text>
-                <Text style={styles.caloriesUnit}>kcal</Text>
+                <Text style={styles.caloriesUnit}>{dietUnit}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -260,6 +264,7 @@ const MealPage = ({ navigation, route }) => {
           editing={true}
           foodEntriesChangedRef={foodEntriesChangedRef}
           setMeal={setCurrentMeal}
+          dietUnit={dietUnit}
         />
       </View>
     </SafeAreaView>

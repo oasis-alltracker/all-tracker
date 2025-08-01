@@ -33,6 +33,8 @@ const SearchFood = ({ navigation, route }) => {
     month: "long",
     day: "numeric",
   });
+  const dietUnit = route.params?.dietUnit;
+  const energyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
   const [text, setText] = useState("");
@@ -183,6 +185,7 @@ const SearchFood = ({ navigation, route }) => {
                 dayString: dayString,
                 prevPage: prevPage,
                 meal: mealMacros,
+                dietUnit: dietUnit,
               });
             }}
           >
@@ -209,7 +212,8 @@ const SearchFood = ({ navigation, route }) => {
                     {item.name}
                   </Text>
                   <Text style={[styles.textStyle, { fontSize: 12 }]}>
-                    {item.calorieCount} cals
+                    {Math.round(item.calorieCount * energyMultiplier)}{" "}
+                    {dietUnit}
                   </Text>
                 </View>
 
@@ -238,6 +242,7 @@ const SearchFood = ({ navigation, route }) => {
           day={day}
           prevPage={prevPage}
           meal={mealMacros}
+          dietUnit={dietUnit}
         />
       </View>
     </SafeAreaView>
