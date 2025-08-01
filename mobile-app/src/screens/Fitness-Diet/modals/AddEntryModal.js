@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
   Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
@@ -87,6 +88,9 @@ export default function AddEntryModal({
   });
   const [prevQuantity, setPrevQuantity] = useState(0);
   const editedMacros = useRef(false);
+
+  const windowWidth = useWindowDimensions().width;
+  const windowHeight = useWindowDimensions().height;
 
   useEffect(() => {
     let ref = {
@@ -300,7 +304,10 @@ export default function AddEntryModal({
       setQuantity(prevQuantity);
       Toast.show({
         type: "info",
-        text1: "Please enter a valid number greater than 0.",
+        text1: "Invalid quantity",
+        text2: "Please enter a valid number greater than 0.",
+        topOffset: windowHeight / 2 - 90, //centering toast; default toast height is 60, 60/2 is 30
+        visibilityTime: 2500,
       });
     }
   };
@@ -441,7 +448,7 @@ export default function AddEntryModal({
           />
         </View>
       </TouchableWithoutFeedback>
-      <Toast position="top" topOffset={90} visibilityTime={2500} />
+      <Toast />
     </RNModal>
   );
 }
