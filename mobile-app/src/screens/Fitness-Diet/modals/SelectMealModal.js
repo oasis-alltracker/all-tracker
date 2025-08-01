@@ -86,7 +86,6 @@ export default function SelectMealModal({
               dayString: dayString,
               dietUnit: dietUnit,
             });
-            console.log(dietUnit);
             setVisible(false);
             setSelected(-1);
           }}
