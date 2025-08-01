@@ -159,7 +159,8 @@ const UnlockAccount = (props) => {
       setIsLoading(false);
       Toast.show({
         type: "info",
-        text1: "Please enter a password.",
+        text1: "Incomplete field",
+        text2: "Please enter a password.",
       });
     }
   };
