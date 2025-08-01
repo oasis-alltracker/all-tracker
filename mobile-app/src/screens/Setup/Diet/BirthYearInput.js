@@ -31,13 +31,15 @@ const BirthYearInput = (props) => {
       } else {
         Toast.show({
           type: "info",
-          text1: "Please enter a valid birth year.",
+          text1: "Invalid input",
+          text2: "Please enter a valid 4 digit birth year.",
         });
       }
     } else {
       Toast.show({
         type: "info",
-        text1: "Please enter a number.",
+        text1: "Incomplete field",
+        text2: "Please enter a number.",
       });
     }
   };

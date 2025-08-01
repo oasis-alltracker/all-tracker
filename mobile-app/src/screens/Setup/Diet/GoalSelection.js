@@ -34,7 +34,8 @@ const GoalSelection = (props) => {
     } else {
       Toast.show({
         type: "info",
-        text1: "Please make a selection.",
+        text1: "No selection made",
+        text2: "Please make a selection before proceeding.",
       });
     }
   };

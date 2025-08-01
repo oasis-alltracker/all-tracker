@@ -41,13 +41,15 @@ const CurrentWeight = (props) => {
       } else {
         Toast.show({
           type: "info",
-          text1: "Please enter a valid number using digits from 0 to 9.",
+          text1: "Invalid input",
+          text2: "Please enter a valid number using digits from 0 to 9.",
         });
       }
     } else {
       Toast.show({
         type: "info",
-        text1: "Please enter a number.",
+        text1: "Incomplete field",
+        text2: "Please enter a number.",
       });
     }
   };
