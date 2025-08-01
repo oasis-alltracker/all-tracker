@@ -303,13 +303,11 @@ export default function AddEntryModal({
       setPrevQuantity(quantity);
     } else {
       setQuantity(prevQuantity);
-      var offset = windowHeight / 3;
-      console.log("windowHeight = " + windowHeight + ", offset = " + offset);
       Toast.show({
         type: "info",
         text1: "Invalid quantity",
         text2: "Please enter a valid number greater than 0.",
-        topOffset: offset, //centering toast; default toast height is 60, 60/2 is 30
+        topOffset: 15,
         visibilityTime: 2500,
       });
     }
