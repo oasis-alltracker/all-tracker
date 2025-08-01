@@ -31,7 +31,8 @@ const SleepStep4 = (props) => {
     if (active == 0) {
       Toast.show({
         type: "info",
-        text1: "Please make a selection.",
+        text1: "No selection made",
+        text2: "Please make a selection before proceeding.",
       });
     } else {
       if (active == 1) {

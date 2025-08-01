@@ -24,7 +24,8 @@ const WellnessStep4 = (props) => {
     if (location == "") {
       Toast.show({
         type: "info",
-        text1: "Please write an entry.",
+        text1: "Incomplete field",
+        text2: "Please write an entry.",
       });
     } else {
       moodReport.location = location;
