@@ -185,6 +185,7 @@ const SearchFood = ({ navigation, route }) => {
                 dayString: dayString,
                 prevPage: prevPage,
                 meal: mealMacros,
+                dietUnit: dietUnit,
               });
             }}
           >
