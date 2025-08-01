@@ -16,7 +16,7 @@ import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 
 const HabitsNotifications = (props) => {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
@@ -133,23 +133,12 @@ const HabitsNotifications = (props) => {
         setIsLoading(false);
       }
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
-      } else {
-        Toast.show(
-          "To get reminders, you need to turn on notifications in your phone's settings.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-          }
-        );
-      }
+      Toast.show({
+        type: "info",
+        text1: "Reminders are disabled",
+        text2:
+          "Turn on notifications in your device settings to get reminders.",
+      });
     }
 
     setIsLoading(false);
@@ -160,23 +149,11 @@ const HabitsNotifications = (props) => {
         setIsNotificationsEnabled(true);
       } else {
         setIsNotificationsEnabled(false);
-        if (Platform.OS === "ios") {
-          Toast.show(
-            "Notifications are disabled. To get reminders, you need to enable them.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
-        } else {
-          Toast.show(
-            "Notifications are disabled. To get reminders, you need to enable them.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-            }
-          );
-        }
+        Toast.show({
+          type: "info",
+          text1: "Notifications are disabled",
+          text2: "To get reminders, you need to enable them.",
+        });
       }
     } else {
       setIsNotificationsEnabled(false);
@@ -330,6 +307,7 @@ const HabitsNotifications = (props) => {
           Next
         </Button>
       </View>
+      <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
@@ -442,7 +420,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
   },
-  errorToast: { textColor: "#fff", zIndex: 999, elevation: 100 },
 });
 
 export default HabitsNotifications;

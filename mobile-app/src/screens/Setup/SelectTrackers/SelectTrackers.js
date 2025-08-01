@@ -13,7 +13,7 @@ import navigationService from "../../../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { DISPLAY_PHYSICAL_SETUP_BUTTONS } from "./experimentFlags";
 import { ValueSheet } from "../../../ValueSheet";
 
@@ -103,35 +103,19 @@ const SelectTrackers = () => {
         }
       } else {
         setIsLoading(false);
-        if (Platform.OS === "ios") {
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "Something went wrong",
+          text2: "Please try again.",
+        });
       }
     } else {
       setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("You must select at least one tracker to continue.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("You must select at least one tracker to continue.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "No trackers selected",
+        text2: "You must select at least one tracker to continue.",
+      });
     }
   };
   useEffect(() => {
@@ -152,19 +136,11 @@ const SelectTrackers = () => {
         if (trackingPreferencesLoaded?.sleepSelected) setSleepSelected(true);
       } catch (e) {
         console.log(e);
-        if (Platform.OS === "ios") {
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Something went wrong. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "Something went wrong",
+          text2: "Please try again.",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -340,6 +316,7 @@ const SelectTrackers = () => {
       >
         Continue
       </Button>
+      <Toast position="bottom" bottomOffset={125} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
@@ -383,10 +360,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     paddingVertical: 12,
     paddingHorizontal: 8,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });

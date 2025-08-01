@@ -4,7 +4,7 @@ import RNModal from "react-native-modal";
 import { Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Button } from "../../../components";
 import Spinner from "react-native-loading-spinner-overlay";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
 
 export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
@@ -78,19 +78,11 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
       setVisible(false);
       setIsLoading(false);
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please enter a number", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please enter a number", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Invalid input",
+        text2: "Please enter a valid number using digits from 0 to 9.",
+      });
     }
   };
 
@@ -160,6 +152,7 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }

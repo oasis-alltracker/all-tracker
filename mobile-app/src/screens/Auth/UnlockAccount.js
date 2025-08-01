@@ -8,7 +8,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 import {
   View,
@@ -72,10 +72,10 @@ const UnlockAccount = (props) => {
     } catch (e) {
       setIsLoading(false);
       console.log(e);
-      Toast.show("Something went wrong. Please try again later!", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.CENTER,
+      Toast.show({
+        type: "info",
+        text1: "Apple sign-in unsuccessful",
+        text2: "Please try again later.",
       });
     }
   };
@@ -94,10 +94,10 @@ const UnlockAccount = (props) => {
     } catch (e) {
       setIsLoading(false);
       console.log(e);
-      Toast.show("Something went wrong. Please try again later!", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.CENTER,
+      Toast.show({
+        type: "info",
+        text1: "Google sign-in unsuccessful",
+        text2: "Please try again later.",
       });
     }
   };
@@ -141,26 +141,26 @@ const UnlockAccount = (props) => {
           );
         } else {
           setIsLoading(false);
-          Toast.show("Password is incorrect. Please try again.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.CENTER,
+          Toast.show({
+            type: "info",
+            text1: "Password is incorrect",
+            text2: "Please try again.",
           });
         }
       } else {
         setIsLoading(false);
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.CENTER,
+        Toast.show({
+          type: "info",
+          text1: "Something went wrong",
+          text2: "Please try again later.",
         });
       }
     } else {
       setIsLoading(false);
-      Toast.show("Please enter a password.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.CENTER,
+      Toast.show({
+        type: "info",
+        text1: "Incomplete field",
+        text2: "Please enter a password.",
       });
     }
   };
@@ -267,11 +267,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: ValueSheet.colours.background,
     alignSelf: "center",
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   signContainer: {
     marginBottom: 10,
