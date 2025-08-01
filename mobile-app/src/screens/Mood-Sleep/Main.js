@@ -127,7 +127,9 @@ export default function Main({
             </TouchableOpacity>
           ) : (
             <>
-              <Text style={styles.questionText}>How are you feeling?</Text>
+              <View style={styles.questionContainer}>
+                <Text style={styles.questionText}>How are you feeling?</Text>
+              </View>
               <TouchableOpacity
                 style={[styles.addBtn, { height: height * 0.065 }]}
                 onPress={() => {
@@ -169,7 +171,9 @@ export default function Main({
             </TouchableOpacity>
           ) : (
             <>
-              <Text style={styles.questionText}>How was your sleep?</Text>
+              <View style={styles.questionContainer}>
+                <Text style={styles.questionText}>How was your sleep?</Text>
+              </View>
               <TouchableOpacity
                 style={[styles.addBtn, { height: height * 0.065 }]}
                 onPress={() => {
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
     height: 35,
   },
   questionText: {
-    fontSize: 24,
+    fontSize: 26,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
@@ -230,5 +234,9 @@ const styles = StyleSheet.create({
   imageContainer: {
     backgroundColor: ValueSheet.colours.yellow75,
     borderColor: ValueSheet.colours.borderYellow,
+  },
+  questionContainer: {
+    justifyContent: "center",
+    marginBottom: 5,
   },
 });
