@@ -120,7 +120,8 @@ export default function TaskModal({
     } else if (title == "") {
       Toast.show({
         type: "info",
-        text1: "Please give your task a name.",
+        text1: "Incomplete fields",
+        text2: "Please give your task a name.",
       });
     } else {
       try {

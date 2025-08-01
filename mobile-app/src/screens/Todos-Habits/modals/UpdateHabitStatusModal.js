@@ -50,12 +50,14 @@ export default function UpdateHabitStatusModal({
     if (positive) {
       Toast.show({
         type: "success",
-        text1: "Habit complete. Great job!",
+        text1: "Habit complete",
+        text2: "Great job!",
       });
     } else {
       Toast.show({
         type: "info",
-        text1: "You striked out. Try again tomorrow!",
+        text1: "You striked out",
+        text2: "Try again tomorrow!",
       });
     }
   };

@@ -115,7 +115,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     if (!habitName) {
       Toast.show({
         type: "info",
-        text1: "Please give your habit a name.",
+        text1: "Incomplete fields",
+        text2: "Please give your habit a name.",
       });
     } else if (threshold <= 0) {
       Toast.show({
@@ -134,7 +135,8 @@ export default function CreateHabitModal({ getRef, createHabit }) {
     ) {
       Toast.show({
         type: "info",
-        text1: "Please select an image for your habit.",
+        text1: "Incomplete fields",
+        text2: "Please select an image for your habit.",
       });
     } else if (
       habitName &&
