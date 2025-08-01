@@ -87,7 +87,9 @@ const SearchFood = ({ navigation, route }) => {
     } else {
       Toast.show({
         type: "info",
-        text1: "Sorry, that item cannot be identified.",
+        text1: "That item could not be identified",
+        text2: "Please scan it again or search for an equivalent item. ",
+        visibilityTime: 3000,
       });
     }
   };
