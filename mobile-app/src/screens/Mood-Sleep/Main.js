@@ -84,14 +84,16 @@ export default function Main({
           />
         </TouchableOpacity>
         <>
-          {moment(day).format("YYYYMMDD") ==
-          moment(today).format("YYYYMMDD") ? (
-            <Text style={sharedStyles.dateText}>Today</Text>
-          ) : (
-            <Text style={sharedStyles.dateText}>
-              {day.toDateString().slice(4, -5)}
-            </Text>
-          )}
+          <View style={sharedStyles.dateTextContainer}>
+            {moment(day).format("YYYYMMDD") ==
+            moment(today).format("YYYYMMDD") ? (
+              <Text style={sharedStyles.dateText}>Today</Text>
+            ) : (
+              <Text style={sharedStyles.dateText}>
+                {day.toDateString().slice(4, -5)}
+              </Text>
+            )}
+          </View>
         </>
         <TouchableOpacity
           style={sharedStyles.changeDateButton}
