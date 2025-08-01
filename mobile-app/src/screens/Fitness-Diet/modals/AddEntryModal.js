@@ -89,7 +89,11 @@ export default function AddEntryModal({
   const [prevQuantity, setPrevQuantity] = useState(0);
   const editedMacros = useRef(false);
 
-  const energyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
+  const energyMultiplier = useRef(dietUnit == "kcal" ? 1 : 4.184);
+
+  useEffect(() => {
+    energyMultiplier.current = dietUnit == "kcal" ? 1 : 4.184;
+  }, [dietUnit]);
 
   useEffect(() => {
     let ref = {
@@ -109,7 +113,7 @@ export default function AddEntryModal({
         if (editing) {
           var convertedMacros = { ...foodEntry };
           convertedMacros.calorieCount = +(
-            Number(convertedMacros.calorieCount) * energyMultiplier
+            Number(convertedMacros.calorieCount) * energyMultiplier.current
           ).toFixed(2);
 
           editedMacros.current = false;
@@ -129,7 +133,7 @@ export default function AddEntryModal({
           );
           var convertedMacros = { ...details[index] };
           convertedMacros.calorieCount = +(
-            Number(convertedMacros.calorieCount) * energyMultiplier
+            Number(convertedMacros.calorieCount) * energyMultiplier.current
           ).toFixed(2);
 
           setLabels(options);
@@ -160,7 +164,9 @@ export default function AddEntryModal({
       var newFoodEntry = {
         name: foodEntry.name,
         meal: mealName.toLowerCase(),
-        calorieCount: +(macros.calorieCount / energyMultiplier).toFixed(2),
+        calorieCount: +(macros.calorieCount / energyMultiplier.current).toFixed(
+          2
+        ),
         fatCount: macros.fatCount,
         foodItemID: foodEntry.foodItemID,
         proteinCount: macros.proteinCount,
@@ -222,7 +228,9 @@ export default function AddEntryModal({
       ) {
         var updatedEntry = {
           name: foodEntry.name,
-          calorieCount: +(macros.calorieCount / energyMultiplier).toFixed(2),
+          calorieCount: +(
+            macros.calorieCount / energyMultiplier.current
+          ).toFixed(2),
           fatCount: +macros.fatCount,
           foodItemID: foodEntry.foodItemID,
           proteinCount: +macros.proteinCount,
@@ -357,7 +365,8 @@ export default function AddEntryModal({
                     setServing(item.label);
                     var convertedMacros = { ...servingsDetails[item.value] };
                     convertedMacros.calorieCount = +(
-                      Number(convertedMacros.calorieCount) * energyMultiplier
+                      Number(convertedMacros.calorieCount) *
+                      energyMultiplier.current
                     ).toFixed(2);
                     setMacros(convertedMacros);
                     setQuantity("1");
