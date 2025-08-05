@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryFont,
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: 5,
   },
 });
 
