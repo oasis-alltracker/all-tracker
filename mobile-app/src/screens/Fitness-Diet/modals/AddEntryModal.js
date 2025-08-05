@@ -56,7 +56,6 @@ export default function AddEntryModal({
   editing = false,
   foodEntriesChangedRef,
   setMeal,
-  dietUnit,
 }) {
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,15 +88,16 @@ export default function AddEntryModal({
   const [prevQuantity, setPrevQuantity] = useState(0);
   const editedMacros = useRef(false);
 
-  const energyMultiplier = useRef(dietUnit == "kcal" ? 1 : 4.184);
-
-  useEffect(() => {
-    energyMultiplier.current = dietUnit == "kcal" ? 1 : 4.184;
-  }, [dietUnit]);
+  const [energyMultiplier, setMultiplier] = useState(1);
+  const [dietUnit, setDietUnit] = useState("kcal");
 
   useEffect(() => {
     let ref = {
-      open(foodEntry) {
+      open(foodEntry, dietUnit) {
+        setDietUnit(dietUnit);
+        var tempEnergyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
+        setMultiplier(tempEnergyMultiplier);
+
         setFoodEntry(foodEntry);
         setVisible(true);
         setSelectOpen(false);
@@ -113,7 +113,7 @@ export default function AddEntryModal({
         if (editing) {
           var convertedMacros = { ...foodEntry };
           convertedMacros.calorieCount = +(
-            Number(convertedMacros.calorieCount) * energyMultiplier.current
+            convertedMacros.calorieCount * tempEnergyMultiplier
           ).toFixed(2);
 
           editedMacros.current = false;
@@ -133,7 +133,7 @@ export default function AddEntryModal({
           );
           var convertedMacros = { ...details[index] };
           convertedMacros.calorieCount = +(
-            Number(convertedMacros.calorieCount) * energyMultiplier.current
+            convertedMacros.calorieCount * tempEnergyMultiplier
           ).toFixed(2);
 
           setLabels(options);
@@ -164,9 +164,7 @@ export default function AddEntryModal({
       var newFoodEntry = {
         name: foodEntry.name,
         meal: mealName.toLowerCase(),
-        calorieCount: +(macros.calorieCount / energyMultiplier.current).toFixed(
-          2
-        ),
+        calorieCount: +(macros.calorieCount / energyMultiplier).toFixed(2),
         fatCount: macros.fatCount,
         foodItemID: foodEntry.foodItemID,
         proteinCount: macros.proteinCount,
@@ -228,9 +226,7 @@ export default function AddEntryModal({
       ) {
         var updatedEntry = {
           name: foodEntry.name,
-          calorieCount: +(
-            macros.calorieCount / energyMultiplier.current
-          ).toFixed(2),
+          calorieCount: +(macros.calorieCount / energyMultiplier).toFixed(2),
           fatCount: +macros.fatCount,
           foodItemID: foodEntry.foodItemID,
           proteinCount: +macros.proteinCount,
@@ -365,8 +361,7 @@ export default function AddEntryModal({
                     setServing(item.label);
                     var convertedMacros = { ...servingsDetails[item.value] };
                     convertedMacros.calorieCount = +(
-                      Number(convertedMacros.calorieCount) *
-                      energyMultiplier.current
+                      convertedMacros.calorieCount * energyMultiplier
                     ).toFixed(2);
                     setMacros(convertedMacros);
                     setQuantity("1");

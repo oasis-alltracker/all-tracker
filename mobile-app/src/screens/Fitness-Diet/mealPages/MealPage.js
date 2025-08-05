@@ -184,7 +184,7 @@ const MealPage = ({ navigation, route }) => {
                 key={index}
                 style={styles.mealItem}
                 onPress={() => {
-                  editEntryRef.current.open(item);
+                  editEntryRef.current.open(item, dietUnit);
                 }}
               >
                 <View style={[styles.mealItemInfo, { flex: 1 }]}>
@@ -264,7 +264,6 @@ const MealPage = ({ navigation, route }) => {
           editing={true}
           foodEntriesChangedRef={foodEntriesChangedRef}
           setMeal={setCurrentMeal}
-          dietUnit={dietUnit}
         />
       </View>
     </SafeAreaView>

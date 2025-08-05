@@ -219,7 +219,7 @@ const SearchFood = ({ navigation, route }) => {
 
                 <TouchableOpacity
                   onPress={() => {
-                    addEntryRef.current.open(item);
+                    addEntryRef.current.open(item, dietUnit);
                   }}
                 >
                   <Image
@@ -242,7 +242,6 @@ const SearchFood = ({ navigation, route }) => {
           day={day}
           prevPage={prevPage}
           meal={mealMacros}
-          dietUnit={dietUnit}
         />
       </View>
     </SafeAreaView>
