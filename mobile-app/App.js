@@ -18,8 +18,8 @@ import Purchases from "react-native-purchases";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Quicksand: require("./src/assets/fonts/quicksand-regular-400.ttf"),
-    "Quicksand-SemiBold": require("./src/assets/fonts/quicksand-semibold-600.ttf"),
+    Quicksand: require("./src/assets/fonts/Quicksand-Regular.ttf"),
+    "Quicksand-SemiBold": require("./src/assets/fonts/Quicksand-SemiBold.ttf"),
   });
   const [loading, setLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
