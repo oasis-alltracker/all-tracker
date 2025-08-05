@@ -88,9 +88,16 @@ export default function AddEntryModal({
   const [prevQuantity, setPrevQuantity] = useState(0);
   const editedMacros = useRef(false);
 
+  const [energyMultiplier, setMultiplier] = useState(1);
+  const [dietUnit, setDietUnit] = useState("kcal");
+
   useEffect(() => {
     let ref = {
-      open(foodEntry) {
+      open(foodEntry, dietUnit) {
+        setDietUnit(dietUnit);
+        var tempEnergyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
+        setMultiplier(tempEnergyMultiplier);
+
         setFoodEntry(foodEntry);
         setVisible(true);
         setSelectOpen(false);
@@ -104,13 +111,18 @@ export default function AddEntryModal({
         });
 
         if (editing) {
+          var convertedMacros = { ...foodEntry };
+          convertedMacros.calorieCount = +(
+            convertedMacros.calorieCount * tempEnergyMultiplier
+          ).toFixed(2);
+
           editedMacros.current = false;
           setLabels(options);
           setSelectedServing(
             options.find((element) => element.label == foodEntry.measurement)
               ?.value
           );
-          setMacros(foodEntry);
+          setMacros(convertedMacros);
           setQuantity(`${+foodEntry.quantity}`);
           setPrevQuantity(`${+foodEntry.quantity}`);
           setServing(`${foodEntry.measurement}`);
@@ -119,9 +131,14 @@ export default function AddEntryModal({
           var index = options.findIndex(
             (element) => element.label == foodEntry.measurement
           );
+          var convertedMacros = { ...details[index] };
+          convertedMacros.calorieCount = +(
+            convertedMacros.calorieCount * tempEnergyMultiplier
+          ).toFixed(2);
+
           setLabels(options);
           setSelectedServing(options[index].value);
-          setMacros(details[index]);
+          setMacros(convertedMacros);
           setQuantity("1");
           setPrevQuantity("1");
           setServing(`${details[index].measurement}`);
@@ -147,7 +164,7 @@ export default function AddEntryModal({
       var newFoodEntry = {
         name: foodEntry.name,
         meal: mealName.toLowerCase(),
-        calorieCount: macros.calorieCount,
+        calorieCount: +(macros.calorieCount / energyMultiplier).toFixed(2),
         fatCount: macros.fatCount,
         foodItemID: foodEntry.foodItemID,
         proteinCount: macros.proteinCount,
@@ -183,6 +200,7 @@ export default function AddEntryModal({
         params["dateString"] = day.toLocaleDateString();
         params["mealName"] = mealName;
         params["meal"] = meal;
+        params["dietUnit"] = dietUnit;
       }
 
       setIsLoading(false);
@@ -208,7 +226,7 @@ export default function AddEntryModal({
       ) {
         var updatedEntry = {
           name: foodEntry.name,
-          calorieCount: +macros.calorieCount,
+          calorieCount: +(macros.calorieCount / energyMultiplier).toFixed(2),
           fatCount: +macros.fatCount,
           foodItemID: foodEntry.foodItemID,
           proteinCount: +macros.proteinCount,
@@ -341,7 +359,11 @@ export default function AddEntryModal({
                   items={servingLabels}
                   onSelectItem={(item) => {
                     setServing(item.label);
-                    setMacros(servingsDetails[item.value]);
+                    var convertedMacros = { ...servingsDetails[item.value] };
+                    convertedMacros.calorieCount = +(
+                      convertedMacros.calorieCount * energyMultiplier
+                    ).toFixed(2);
+                    setMacros(convertedMacros);
                     setQuantity("1");
                     setPrevQuantity("1");
                   }}
@@ -387,7 +409,8 @@ export default function AddEntryModal({
                     { fontFamily: ValueSheet.fonts.primaryBold },
                   ]}
                 >
-                  {macros[item.macro]} {item.measurement}
+                  {macros[item.macro]}{" "}
+                  {item.name == "Calories" ? dietUnit : item.measurement}
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
