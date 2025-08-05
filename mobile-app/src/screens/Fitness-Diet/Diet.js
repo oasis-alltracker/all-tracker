@@ -60,9 +60,9 @@ export default function Diet({
 }) {
   const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
   const editMacroGoalsRef = useRef(null);
-  //prettier-ignore
-  const calorieDif =
-    Math.round(dietGoals.calorieGoal.value - (totalMacros.calorieCount * energyMultiplier));
+  const calorieDif = Math.round(
+    dietGoals.calorieGoal.value - totalMacros.calorieCount * energyMultiplier
+  );
   const colours = [
     ValueSheet.colours.borderGrey,
     ValueSheet.colours.secondaryColour,
