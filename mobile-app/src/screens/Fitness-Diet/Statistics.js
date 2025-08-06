@@ -13,7 +13,7 @@ import { ValueSheet } from "../../ValueSheet";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 
-export default function Statistics({ dietGoals, day }) {
+export default function Statistics({ dietGoals, day, updateStats }) {
   var thisSunday = moment(day).day(0);
   const [sunday, setSunday] = useState(moment(thisSunday));
 
@@ -74,7 +74,11 @@ export default function Statistics({ dietGoals, day }) {
           />
         </TouchableOpacity>
       </View>
-      <DietStats sunday={sunday.format("YYYYMMDD")} dietGoals={dietGoals} />
+      <DietStats
+        sunday={sunday.format("YYYYMMDD")}
+        dietGoals={dietGoals}
+        updateStats={updateStats}
+      />
     </ScrollView>
   );
 }

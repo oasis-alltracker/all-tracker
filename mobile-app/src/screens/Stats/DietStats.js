@@ -4,6 +4,7 @@ import { LineChart } from "react-native-gifted-charts";
 import { ValueSheet } from "../../ValueSheet";
 import { getAccessToken } from "../../user/keychain";
 import StatsAPI from "../../api/stats/statsAPI";
+import { useFocusEffect } from "@react-navigation/native";
 
 const macroTitles = [
   {
@@ -50,9 +51,17 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
   const [goalLines, setGoalLines] = useState(defaultArrays);
   const [graphMax, setMax] = useState(2000);
 
-  useEffect(() => {
-    getStats();
-  }, [sunday, updateStats]);
+  // useEffect(() => {
+  //   getStats();
+  //   console.log("we got the stats again!");
+  // }, [sunday, updateStats]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getStats();
+      console.log("we got the stats again!");
+    }, [sunday, updateStats])
+  );
 
   useEffect(() => {
     var lineArrays = [];

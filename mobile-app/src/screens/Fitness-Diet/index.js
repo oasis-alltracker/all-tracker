@@ -94,6 +94,7 @@ const FitnessDiet = ({ navigation, route }) => {
   });
 
   const [dietModalVisible, setDietVisible] = useState(false);
+  const [updateStats, setUpdateStats] = useState(0);
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -208,6 +209,7 @@ const FitnessDiet = ({ navigation, route }) => {
       } else {
         mealSetters[meal](defaultMacros);
       }
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -233,6 +235,7 @@ const FitnessDiet = ({ navigation, route }) => {
         }
       }
 
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -340,7 +343,13 @@ const FitnessDiet = ({ navigation, route }) => {
       case "third":
         return <Fitness />;
       case "fourth":
-        return <Statistics dietGoals={dietGoals} day={day} />;
+        return (
+          <Statistics
+            dietGoals={dietGoals}
+            day={day}
+            updateStats={updateStats}
+          />
+        );
       default:
         return null;
     }
