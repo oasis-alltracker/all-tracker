@@ -20,12 +20,15 @@ const TargetWeight = (props) => {
   var dietFactors = props.route.params.dietFactors;
   const [goalWeight, setGoalWeight] = useState(null);
 
+  console.log(JSON.stringify(dietFactors));
+
   const onNext = () => {
     if (goalWeight) {
+      console.log("goalWeight check passed - goalweight = " + goalWeight);
       if (!isNaN(Number(goalWeight))) {
         if (
           dietFactors.goal == "gain" &&
-          goalWeight <= dietFactors.currentWeight.weight
+          Number(goalWeight) <= Number(dietFactors.currentWeight.weight)
         ) {
           Toast.show({
             type: "info",
@@ -33,13 +36,23 @@ const TargetWeight = (props) => {
           });
         } else if (
           dietFactors.goal == "lose" &&
-          goalWeight >= dietFactors.currentWeight.weight
+          Number(goalWeight) >= Number(dietFactors.currentWeight.weight)
         ) {
+          console.log(
+            "goalWeight >= dietFactors.currentWeight.weight = " +
+              (goalWeight >= dietFactors.currentWeight.weight)
+          );
           Toast.show({
             type: "info",
             text1: "Enter a number less than your current weight.",
           });
         } else {
+          console.log(
+            "target = " +
+              JSON.stringify(dietFactors.targetWeight) +
+              ", current = " +
+              JSON.stringify(dietFactors.currentWeight)
+          );
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
