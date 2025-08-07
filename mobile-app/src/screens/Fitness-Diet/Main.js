@@ -6,11 +6,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
+import { Appearance, useColorScheme } from "react-native";
 
 export default function Main({
   day,
@@ -22,6 +24,8 @@ export default function Main({
   dietGoals,
   setDietModalVisible,
 }) {
+  const theme2 = useColorScheme();
+  const theme = useContext(ThemeContext);
   const today = new Date();
   const colours = [
     ValueSheet.colours.borderGrey,
@@ -136,7 +140,13 @@ export default function Main({
             <Text style={sharedStyles.trackerTitle}>Fitness</Text>
           </View>
 
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={() => {
+              //prettier-ignore
+              Appearance.setColorScheme('dark');
+            }}
+          >
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-excercise.png")}
@@ -144,6 +154,7 @@ export default function Main({
           </TouchableOpacity>
         </>
       )}
+      <Text>{theme2}</Text>
     </ScrollView>
   );
 }

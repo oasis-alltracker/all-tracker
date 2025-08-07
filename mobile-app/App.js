@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, createContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
@@ -15,6 +15,7 @@ import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import Purchases from "react-native-purchases";
+import { ThemeProvider } from "./src/contexts/ThemeProvider";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -123,26 +124,28 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <StatusBar translucent backgroundColor="transparent" />
-        <PersistGate loading={null} persistor={persistor}>
-          {loading || !isConnected ? (
-            <ActivityIndicator
-              color={"#3097E7"}
-              size={"large"}
-              style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
-            />
-          ) : (
-            <NavigationContainer ref={navigationService._navigator}>
-              <AppNavigator
-                initialRoute={initialRoute}
-                initialMainRoute={initialMainRoute}
+    <ThemeProvider>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <StatusBar translucent backgroundColor="transparent" />
+          <PersistGate loading={null} persistor={persistor}>
+            {loading || !isConnected ? (
+              <ActivityIndicator
+                color={"#3097E7"}
+                size={"large"}
+                style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
               />
-            </NavigationContainer>
-          )}
-        </PersistGate>
-      </Provider>
-    </SafeAreaProvider>
+            ) : (
+              <NavigationContainer ref={navigationService._navigator}>
+                <AppNavigator
+                  initialRoute={initialRoute}
+                  initialMainRoute={initialMainRoute}
+                />
+              </NavigationContainer>
+            )}
+          </PersistGate>
+        </Provider>
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
