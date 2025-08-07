@@ -13,12 +13,11 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import { ValueSheet } from "../../../ValueSheet";
 
 export default function HabitNotificationsModal({ getRef, reopenMain }) {
-  const { width, height } = useWindowDimensions();
   const [isVisible, setIsVisible] = useState(false);
 
   const [systemNotificationsEnabled, setSystemNotificationsEnabled] =
@@ -89,25 +88,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
               systemNotificationsStatus
           );
         } else {
-          if (Platform.OS === "ios") {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              }
-            );
-          } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              }
-            );
-          }
+          Toast.show({
+            type: "info",
+            text1: "Reminders are disabled",
+            text2:
+              "Turn on notifications in your device settings to get reminders.",
+          });
         }
         setIsMiniLoading(false);
       }
@@ -149,25 +135,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           );
         } else {
           setIsNotificationsOn(false);
-          if (Platform.OS === "ios") {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              }
-            );
-          } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              }
-            );
-          }
+          Toast.show({
+            type: "info",
+            text1: "Reminders are disabled",
+            text2:
+              "Turn on notifications in your device settings to get reminders.",
+          });
         }
       }
     } else {
@@ -712,6 +685,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           </TouchableOpacity>
         </View>
       </View>
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }
@@ -760,11 +734,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 24,
     marginBottom: 32,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   timePickerContainer: {
     borderRadius: 15,

@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Header, Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
@@ -33,19 +33,11 @@ const SetupFlow = (props) => {
 
   const onNext = async () => {
     if (active == 0) {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "No selection made",
+        text2: "Please make a selection before proceeding.",
+      });
     } else {
       if (active == 1) {
         if (selectedTrackers.habitsSelected) {
@@ -140,6 +132,7 @@ const SetupFlow = (props) => {
           Next
         </Button>
       </View>
+      <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
@@ -187,11 +180,6 @@ const styles = StyleSheet.create({
   back: {
     backgroundColor: "transparent",
     borderColor: ValueSheet.colours.grey,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   middleContainer: {
     flex: 1,

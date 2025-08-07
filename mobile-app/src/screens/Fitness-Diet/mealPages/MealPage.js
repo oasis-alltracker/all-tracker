@@ -14,7 +14,7 @@ import navigationService from "../../../navigators/navigationService";
 import FoodEntriesAPI from "../../../api/diet/foodEntriesAPI";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import AddEntryModal from "../modals/AddEntryModal";
 import { ValueSheet } from "../../../ValueSheet";
 
@@ -127,10 +127,10 @@ const MealPage = ({ navigation, route }) => {
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.TOP,
+      Toast.show({
+        type: "info",
+        text1: "Failed to delete food entry",
+        text2: "Please try again.",
       });
     }
   };
@@ -437,11 +437,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginRight: 10,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

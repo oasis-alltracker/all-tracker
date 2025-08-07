@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../../ValueSheet";
 
 const data = [
@@ -29,19 +29,11 @@ const SleepStep4 = (props) => {
 
   const onNext = async () => {
     if (active == 0) {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "No selection made",
+        text2: "Please make a selection before proceeding.",
+      });
     } else {
       if (active == 1) {
         sleepReport.didManageIntake = true;
@@ -86,6 +78,7 @@ const SleepStep4 = (props) => {
           Next
         </Button>
       </View>
+      <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
@@ -134,11 +127,6 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

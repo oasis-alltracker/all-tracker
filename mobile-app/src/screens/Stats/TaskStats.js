@@ -11,7 +11,7 @@ import {
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../ValueSheet";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
@@ -65,19 +65,11 @@ const TaskStats = ({ sunday, updateStats }) => {
       } catch (e) {
         console.log(e);
         setIsLoading(false);
-        if (Platform.OS === "ios") {
-          Toast.show("Something went wrong. Please refresh the page.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Something went wrong. Please refresh the page.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "Failed to retrieve task stats",
+          text2: "Please refresh the page by exiting and returning to it.",
+        });
       }
     };
     if (updateStats > 0) {
@@ -175,11 +167,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 210,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

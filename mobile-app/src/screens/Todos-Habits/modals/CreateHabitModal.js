@@ -14,7 +14,7 @@ import RNModal from "react-native-modal";
 import ImagesModal from "./ImagesModal";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import HabitsDB from "../../../api/DB/habitsDB";
 import HabitSearchModal from "./HabitSearchModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
@@ -113,63 +113,31 @@ export default function CreateHabitModal({ getRef, createHabit }) {
   const onSave = async () => {
     Keyboard.dismiss();
     if (!habitName) {
-      if (Platform.OS === "ios") {
-        Toast.show("Don't forget to give this habit a name.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Don't forget to give this habit a name.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Incomplete fields",
+        text2: "Please give your habit a name.",
+      });
     } else if (threshold <= 0) {
-      if (Platform.OS === "ios") {
-        Toast.show("Don't forget to set a goal for this habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Don't forget to set a goal for this habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Please specify a goal",
+        text2: "How many times a day do you want to do this habit?",
+      });
     } else if (threshold > 99) {
-      if (Platform.OS === "ios") {
-        Toast.show("Your goal must be less than 100.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Your goal must be less than 100.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Please specify a smaller goal",
+        text2: "Your goal must be be less than 100.",
+      });
     } else if (
       image == "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
     ) {
-      if (Platform.OS === "ios") {
-        Toast.show("Don't forget to select an image.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Don't forget to select an image.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Incomplete fields",
+        text2: "Please select an image for your habit.",
+      });
     } else if (
       habitName &&
       threshold &&
@@ -290,6 +258,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }
@@ -401,10 +370,5 @@ const styles = StyleSheet.create({
     borderColor: ValueSheet.colours.borderGrey75,
     paddingHorizontal: 10,
     marginRight: 10,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });

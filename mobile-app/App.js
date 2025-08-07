@@ -15,6 +15,7 @@ import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import Purchases from "react-native-purchases";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -143,6 +144,7 @@ export default function App() {
           )}
         </PersistGate>
       </Provider>
+      <Toast position="top" topOffset={60} visibilityTime={2500} />
     </SafeAreaProvider>
   );
 }

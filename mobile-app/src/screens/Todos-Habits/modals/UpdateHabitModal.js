@@ -17,7 +17,7 @@ import { Image } from "react-native";
 import ImagesModal from "./ImagesModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
@@ -69,25 +69,11 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
         }
       } catch (e) {
         console.log(e);
-        if (Platform.OS === "ios") {
-          Toast.show(
-            "Something went wrong. Could not retrieve notifications.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            }
-          );
-        } else {
-          Toast.show(
-            "Something went wrong. Could not retrieve notifications.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            }
-          );
-        }
+        Toast.show({
+          type: "info",
+          text1: "Could not retrieve notifications",
+          text2: "Please try again later",
+        });
       }
     };
 
@@ -154,33 +140,17 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
   const onSave = async () => {
     Keyboard.dismiss();
     if (threshold <= 0) {
-      if (Platform.OS === "ios") {
-        Toast.show("Don't forget to set a goal for this habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Don't forget to set a goal for this habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Please specify a goal",
+        text2: "How many times a day do you want to do this habit?",
+      });
     } else if (threshold > 99) {
-      if (Platform.OS === "ios") {
-        Toast.show("Your goal must be less than 100.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Your goal must be less than 100.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Please specify a smaller goal",
+        text2: "Your goal must be be less than 100.",
+      });
     } else if (
       habitName &&
       threshold &&
@@ -196,19 +166,11 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
       backDropPressed(true);
       updateHabit(habitID, habit, times, isNotificationsOn);
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("You must complete the form to update a habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("You must complete the form to update a habit.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Incomplete fields",
+        text2: "Please complete the form to update the habit.",
+      });
     }
   };
 
@@ -323,6 +285,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+      <Toast />
     </RNModal>
   );
 }
@@ -402,10 +365,5 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
     paddingBottom: 2,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
