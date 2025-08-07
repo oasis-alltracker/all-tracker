@@ -230,7 +230,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 blurOnSubmit={false}
               />
             </View>
-
             <View style={styles.row2}>
               <Button
                 onPress={() => backDropPressed()}
@@ -306,6 +305,7 @@ const styles = StyleSheet.create({
     color: ValueSheet.colours.primaryColour,
     fontSize: 30,
     fontFamily: ValueSheet.fonts.primaryBold,
+    marginBottom: 5,
   },
   key: {
     color: ValueSheet.colours.primaryColour,
@@ -319,6 +319,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     paddingHorizontal: 20,
+    paddingBottom: 2.5,
     color: ValueSheet.colours.primaryColour,
     textAlign: "center",
     fontFamily: ValueSheet.fonts.primaryFont,

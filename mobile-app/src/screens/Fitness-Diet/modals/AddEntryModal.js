@@ -498,17 +498,19 @@ const styles = StyleSheet.create({
   icon: {
     height: 30,
     width: 30,
+    marginHorizontal: 2,
   },
   button: {
     width: "45%",
     alignContent: "center",
     marginTop: 20,
+    paddingBottom: 10,
   },
   macroContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: 5,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   input: {
     width: "60%",

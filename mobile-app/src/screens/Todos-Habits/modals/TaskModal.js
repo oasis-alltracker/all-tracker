@@ -369,18 +369,18 @@ const styles = StyleSheet.create({
   searchImage: {
     width: 25,
     height: 25,
-    marginTop: 10,
+    marginTop: 5,
   },
   editData: {
     width: 32,
     height: 32,
-    marginTop: 5,
   },
   nameRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
+    marginTop: 5,
   },
   descriptionRow: {
     flexDirection: "row",
@@ -400,8 +400,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 5,
     marginTop: 15,
-    paddingVertical: 5,
     paddingRight: 10,
+    paddingBottom: 17.5,
   },
   input: {
     width: 100,

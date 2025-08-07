@@ -710,7 +710,7 @@ const Notifications = () => {
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.itemContainer}>
+        <View style={styles.screenNameContainer}>
           <Text style={styles.screenName}>Notifications</Text>
           <Switch
             width={55}
@@ -1032,7 +1032,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  itemContainer: {
+  screenNameContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
@@ -1077,6 +1077,7 @@ export const styles = StyleSheet.create({
     fontSize: 34,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
+    marginBottom: 10,
   },
   sectionTitle: {
     fontSize: 32,

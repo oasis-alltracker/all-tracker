@@ -727,13 +727,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: 5,
   },
   title: {
     color: ValueSheet.colours.primaryColour,
     fontSize: 32,
     fontFamily: ValueSheet.fonts.primaryBold,
-    marginVertical: 24,
+    marginTop: 24,
+    marginBottom: 32,
   },
   timePickerContainer: {
     borderRadius: 15,
@@ -747,6 +747,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
+    marginLeft: 7.5,
+    marginBottom: 2.5,
   },
   timeContainer: {
     flexDirection: "row",

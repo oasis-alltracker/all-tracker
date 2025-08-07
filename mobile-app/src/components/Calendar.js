@@ -680,6 +680,7 @@ const styles = StyleSheet.create({
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 15,
+    marginBottom: 5,
     flex: 1,
   },
   timeText: {
@@ -688,6 +689,8 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
+    marginLeft: 7.5,
+    marginBottom: 2.5,
   },
   daysContainer: {
     flexDirection: "row",
