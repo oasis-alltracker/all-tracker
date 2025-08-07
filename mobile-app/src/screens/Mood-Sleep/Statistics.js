@@ -65,14 +65,16 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
           />
         </TouchableOpacity>
         <>
-          {moment(thisSunday).format("YYYYMMDD") ==
-          moment(selectedSunday).format("YYYYMMDD") ? (
-            <Text style={styles.dateNameMain}>This week</Text>
-          ) : (
-            <Text style={styles.dateNameMain}>
-              Week of {selectedSunday.toDateString().slice(4, -5)}
-            </Text>
-          )}
+          <View style={sharedStyles.dateTextContainer}>
+            {moment(thisSunday).format("YYYYMMDD") ==
+            moment(selectedSunday).format("YYYYMMDD") ? (
+              <Text style={styles.dateNameMain}>This week</Text>
+            ) : (
+              <Text style={styles.dateNameMain}>
+                Week of {selectedSunday.toDateString().slice(4, -5)}
+              </Text>
+            )}
+          </View>
         </>
         <TouchableOpacity
           style={styles.buttonMain}

@@ -215,9 +215,8 @@ const MealPage = ({ navigation, route }) => {
               <Text style={styles.caloriesLabel}>Calories</Text>
               <View style={styles.calorieInfo}>
                 <Text style={styles.caloriesAmount}>
-                  {currentMeal.calorieCount}
+                  {currentMeal.calorieCount} kcal
                 </Text>
-                <Text style={styles.caloriesUnit}>kcal</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -316,7 +315,8 @@ const styles = StyleSheet.create({
     backgroundColor: ValueSheet.colours.secondaryColour,
     borderColor: ValueSheet.colours.borderGrey75,
     width: "60%",
-    padding: 5,
+    paddingTop: 5,
+    paddingBottom: 10,
   },
   calories: {
     flexDirection: "row",
@@ -392,14 +392,9 @@ const styles = StyleSheet.create({
   },
   calorieInfo: {
     flexDirection: "row",
+    paddingBottom: 2.5,
   },
   caloriesAmount: {
-    fontFamily: ValueSheet.fonts.primaryBold,
-    fontSize: 25,
-    color: ValueSheet.colours.primaryColour,
-    marginRight: 15,
-  },
-  caloriesUnit: {
     fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
     color: ValueSheet.colours.primaryColour,

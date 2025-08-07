@@ -237,6 +237,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 15,
     marginBottom: 40,
+    paddingBottom: 5,
   },
   diaryText: {
     color: ValueSheet.colours.primaryColour,

@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: ValueSheet.colours.borderGrey75,
     paddingHorizontal: 10,
+    paddingBottom: 5,
   },
   spinner: {
     alignSelf: "center",
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 26,
-    fontFamily: "Sego",
+    fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
   },
 });

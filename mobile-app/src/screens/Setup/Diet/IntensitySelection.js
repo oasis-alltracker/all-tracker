@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 5,
   },
   flex: {
     flex: 1,

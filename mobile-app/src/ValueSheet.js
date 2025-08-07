@@ -1,7 +1,7 @@
 export const ValueSheet = {
   fonts: {
-    primaryFont: "Sego",
-    primaryBold: "Sego-Bold",
+    primaryFont: "Quicksand",
+    primaryBold: "Quicksand-SemiBold",
   },
 
   colours: {

@@ -307,6 +307,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 5,
   },
   thresholdText: {
     color: ValueSheet.colours.primaryColour,
@@ -319,6 +320,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 5,
   },
   back: {
     backgroundColor: "transparent",
