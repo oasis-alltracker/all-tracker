@@ -115,7 +115,7 @@ export default function TaskModal({
       Toast.show({
         type: "info",
         text1: "Incomplete fields",
-        text2: "Please complete the form to update the habit.",
+        text2: "Please complete the form to save this task.",
       });
     } else if (title == "") {
       Toast.show({

@@ -12,7 +12,7 @@ const Contact = () => {
       <View style={styles.container}>
         <Text style={styles.text}>If you would like to contact us,</Text>
         <Text style={styles.text}>please DM on instagram</Text>
-        <Text style={styles.texBold}>@oasis.journal.app</Text>
+        <Text style={styles.textBold}>@oasis.journal.app</Text>
       </View>
     </>
   );
@@ -33,15 +33,14 @@ const styles = StyleSheet.create({
   text: {
     alignSelf: "center",
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
-    marginTop: 10,
   },
-  texBold: {
+  textBold: {
     alignSelf: "center",
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryBold,
     color: ValueSheet.colours.primaryColour,
   },
