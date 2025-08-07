@@ -19,7 +19,7 @@ import AddEntryModal from "../modals/AddEntryModal";
 import { searchFatSecret } from "../../../api/diet/fatSecret/fatSecretAPI";
 import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -71,19 +71,11 @@ const SearchFood = ({ navigation, route }) => {
   function errorResponse(error) {
     console.log(error);
     setIsLoading(false);
-    if (Platform.OS === "ios") {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-      });
-    } else {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.TOP,
-      });
-    }
+    Toast.show({
+      type: "info",
+      text1: "Something went wrong",
+      text2: "Please try again later.",
+    });
   }
 
   const processBarcodeScan = async (barcode) => {
@@ -93,10 +85,11 @@ const SearchFood = ({ navigation, route }) => {
     if (barcodeResult != null) {
       addEntryRef.current.open(barcodeResult);
     } else {
-      Toast.show("Sorry that item isn't available.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.CENTER,
+      Toast.show({
+        type: "info",
+        text1: "That item could not be identified",
+        text2: "Please scan it again or search for an equivalent item. ",
+        visibilityTime: 3000,
       });
     }
   };
@@ -125,7 +118,7 @@ const SearchFood = ({ navigation, route }) => {
       setIsLoading(false);
 
       if (response.length == 0) {
-        setText("Sorry that item isn't available.");
+        setText("Sorry, that item isn't available.");
       }
     } catch (e) {
       errorResponse(e);

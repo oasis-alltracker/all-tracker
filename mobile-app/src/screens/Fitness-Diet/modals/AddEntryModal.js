@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   View,
   Keyboard,
+  useWindowDimensions,
 } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
@@ -18,7 +19,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const macroTitles = [
   {
@@ -87,6 +89,9 @@ export default function AddEntryModal({
   });
   const [prevQuantity, setPrevQuantity] = useState(0);
   const editedMacros = useRef(false);
+
+  const windowWidth = useWindowDimensions().width;
+  const windowHeight = useWindowDimensions().height;
 
   useEffect(() => {
     let ref = {
@@ -298,10 +303,12 @@ export default function AddEntryModal({
       setPrevQuantity(quantity);
     } else {
       setQuantity(prevQuantity);
-      Toast.show("Please enter a valid number greater than 0", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
+      Toast.show({
+        type: "info",
+        text1: "Invalid quantity",
+        text2: "Please enter a valid number greater than 0.",
+        topOffset: 15,
+        visibilityTime: 2500,
       });
     }
   };
@@ -314,134 +321,137 @@ export default function AddEntryModal({
       backdropOpacity={0}
       style={styles.modal}
     >
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-          setSelectOpen(false);
-        }}
-      >
-        <View style={styles.container}>
-          <Text
-            style={styles.titleText}
-            adjustsFontSizeToFit={true}
-            numberOfLines={2}
-          >
-            {foodEntry.name}
-          </Text>
-          <Spinner visible={isLoading}></Spinner>
-          <View style={styles.serving}>
-            <View style={[styles.row, { zIndex: 1000 }]}>
-              <Text style={styles.rowText}>Serving: </Text>
-              <View style={{ width: "60%" }}>
-                <DropDownPicker
-                  open={selectOpen}
-                  setOpen={setSelectOpen}
-                  value={selectedServing}
-                  setValue={setSelectedServing}
-                  items={servingLabels}
-                  onSelectItem={(item) => {
-                    setServing(item.label);
-                    setMacros(servingsDetails[item.value]);
-                    setQuantity("1");
-                    setPrevQuantity("1");
-                  }}
-                  onOpen={() => Keyboard.dismiss()}
-                  style={[styles.borderedContainer]}
-                  dropDownContainerStyle={styles.dropdownContainer}
-                  textStyle={styles.selectText}
-                  itemSeparator={true}
-                  itemSeparatorStyle={{
-                    backgroundColor: ValueSheet.colours.borderGrey75,
-                  }}
+      <SafeAreaView>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss();
+            setSelectOpen(false);
+          }}
+        >
+          <View style={styles.container}>
+            <Text
+              style={styles.titleText}
+              adjustsFontSizeToFit={true}
+              numberOfLines={2}
+            >
+              {foodEntry.name}
+            </Text>
+            <Spinner visible={isLoading}></Spinner>
+            <View style={styles.serving}>
+              <View style={[styles.row, { zIndex: 1000 }]}>
+                <Text style={styles.rowText}>Serving: </Text>
+                <View style={{ width: "60%" }}>
+                  <DropDownPicker
+                    open={selectOpen}
+                    setOpen={setSelectOpen}
+                    value={selectedServing}
+                    setValue={setSelectedServing}
+                    items={servingLabels}
+                    onSelectItem={(item) => {
+                      setServing(item.label);
+                      setMacros(servingsDetails[item.value]);
+                      setQuantity("1");
+                      setPrevQuantity("1");
+                    }}
+                    onOpen={() => Keyboard.dismiss()}
+                    style={[styles.borderedContainer]}
+                    dropDownContainerStyle={styles.dropdownContainer}
+                    textStyle={styles.selectText}
+                    itemSeparator={true}
+                    itemSeparatorStyle={{
+                      backgroundColor: ValueSheet.colours.borderGrey75,
+                    }}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.row}>
+                <Text style={styles.rowText}>Quantity: </Text>
+                <TextInput
+                  style={[styles.borderedContainer, styles.input]}
+                  inputMode="decimal"
+                  onChangeText={setQuantity}
+                  value={quantity}
+                  textAlign={"center"}
+                  onEndEditing={recalMacrosByQuantity}
                 />
               </View>
             </View>
 
+            {macroTitles.map((item, index) => (
+              <View
+                key={index}
+                style={[styles.borderedContainer, styles.macroContainer]}
+              >
+                <View style={styles.row}>
+                  <Image style={styles.icon} source={item.icon} />
+                  <Text style={styles.rowText}>{item.name}</Text>
+                </View>
+
+                <View style={styles.row}>
+                  <Text
+                    style={[
+                      styles.rowText,
+                      { fontFamily: ValueSheet.fonts.primaryBold },
+                    ]}
+                  >
+                    {macros[item.macro]} {item.measurement}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      updateMacrosRef.current.open({
+                        title: item.name,
+                        isCal: false,
+                        units: item.measurement,
+                        value: `${macros[item.macro]}`,
+                        isEntry: true,
+                        icon: item.icon,
+                      });
+                    }}
+                  >
+                    <Image
+                      style={styles.icon}
+                      source={require("../../../assets/images/edit.png")}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+
             <View style={styles.row}>
-              <Text style={styles.rowText}>Quantity: </Text>
-              <TextInput
-                style={[styles.borderedContainer, styles.input]}
-                inputMode="decimal"
-                onChangeText={setQuantity}
-                value={quantity}
-                textAlign={"center"}
-                onEndEditing={recalMacrosByQuantity}
-              />
-            </View>
-          </View>
-
-          {macroTitles.map((item, index) => (
-            <View
-              key={index}
-              style={[styles.borderedContainer, styles.macroContainer]}
-            >
-              <View style={styles.row}>
-                <Image style={styles.icon} source={item.icon} />
-                <Text style={styles.rowText}>{item.name}</Text>
-              </View>
-
-              <View style={styles.row}>
-                <Text
-                  style={[
-                    styles.rowText,
-                    { fontFamily: ValueSheet.fonts.primaryBold },
-                  ]}
-                >
-                  {macros[item.macro]} {item.measurement}
+              <TouchableOpacity
+                style={[styles.button, styles.borderedContainer]}
+                onPress={() => {
+                  setVisible(false);
+                }}
+              >
+                <Text style={[styles.rowText]}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.button,
+                  styles.borderedContainer,
+                  { backgroundColor: ValueSheet.colours.secondaryColour },
+                ]}
+                onPress={() => {
+                  editing == false ? onAddFoodEntry() : onEditSave();
+                }}
+              >
+                <Text style={[styles.rowText]}>
+                  {editing == true ? "Save" : "Add"}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    updateMacrosRef.current.open({
-                      title: item.name,
-                      isCal: false,
-                      units: item.measurement,
-                      value: `${macros[item.macro]}`,
-                      isEntry: true,
-                      icon: item.icon,
-                    });
-                  }}
-                >
-                  <Image
-                    style={styles.icon}
-                    source={require("../../../assets/images/edit.png")}
-                  />
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
-          ))}
-
-          <View style={styles.row}>
-            <TouchableOpacity
-              style={[styles.button, styles.borderedContainer]}
-              onPress={() => {
-                setVisible(false);
+            <UpdateMacrosModal
+              getRef={(ref) => (updateMacrosRef.current = ref)}
+              onUpdateMacroValue={(title, value, units) => {
+                onEditMacroValue(title, value);
               }}
-            >
-              <Text style={[styles.rowText]}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.button,
-                styles.borderedContainer,
-                { backgroundColor: ValueSheet.colours.secondaryColour },
-              ]}
-              onPress={() => {
-                editing == false ? onAddFoodEntry() : onEditSave();
-              }}
-            >
-              <Text style={[styles.rowText]}>
-                {editing == true ? "Save" : "Add"}
-              </Text>
-            </TouchableOpacity>
+            />
           </View>
-          <UpdateMacrosModal
-            getRef={(ref) => (updateMacrosRef.current = ref)}
-            onUpdateMacroValue={(title, value, units) => {
-              onEditMacroValue(title, value);
-            }}
-          />
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+        <Toast />
+      </SafeAreaView>
     </RNModal>
   );
 }
