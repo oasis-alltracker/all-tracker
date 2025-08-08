@@ -4,7 +4,7 @@
     "slug": "oasistracker",
     "version": "2.6.6",
     "orientation": "portrait",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "scheme": "com.oasistracker",
     "splash": {
       "image": "./src/assets/images/splash-screen.png",

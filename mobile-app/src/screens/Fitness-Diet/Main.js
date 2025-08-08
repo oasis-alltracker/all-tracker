@@ -154,7 +154,7 @@ export default function Main({
           </TouchableOpacity>
         </>
       )}
-      <Text>{theme2}</Text>
+      <Text>{theme}</Text>
     </ScrollView>
   );
 }
@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
+  progressColorsDark: {},
   filler: {
     backgroundColor: ValueSheet.colours.secondaryColour,
     maxWidth: "100%",
