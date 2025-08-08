@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -12,6 +12,7 @@ import moment from "moment";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
 import navigationService from "../../navigators/navigationService";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const moodData = [
   {
@@ -60,6 +61,7 @@ export default function Main({
 }) {
   const today = new Date();
   const { width, height } = useWindowDimensions();
+  const theme = useContext(ThemeContext);
 
   return (
     <ScrollView
@@ -86,9 +88,11 @@ export default function Main({
         <>
           {moment(day).format("YYYYMMDD") ==
           moment(today).format("YYYYMMDD") ? (
-            <Text style={sharedStyles.dateText}>Today</Text>
+            <Text style={[sharedStyles.dateText, styles[`${theme}Text`]]}>
+              Today
+            </Text>
           ) : (
-            <Text style={sharedStyles.dateText}>
+            <Text style={[sharedStyles.dateText, styles[`${theme}Text`]]}>
               {day.toDateString().slice(4, -5)}
             </Text>
           )}
@@ -107,11 +111,19 @@ export default function Main({
       {trackingPreferences.moodSelected && (
         <>
           <View style={[sharedStyles.trackerDashView]}>
-            <Text style={sharedStyles.trackerTitle}>Mood</Text>
+            <Text style={[sharedStyles.trackerTitle, styles[`${theme}Text`]]}>
+              Mood
+            </Text>
           </View>
           {wellnessReportForDay ? (
             <TouchableOpacity
-              style={[styles.ratingBtn, { height: height * 0.1 }]}
+              style={[
+                styles.ratingBtn,
+                {
+                  height: height * 0.1,
+                  backgroundColor: ValueSheet[theme].backgroundVariation,
+                },
+              ]}
               onPress={() => {
                 moodRef.current.open(wellnessReportForDay);
               }}
@@ -125,9 +137,11 @@ export default function Main({
             </TouchableOpacity>
           ) : (
             <>
-              <Text style={styles.questionText}>How are you feeling?</Text>
+              <Text style={[styles.questionText, styles[`${theme}Text`]]}>
+                How are you feeling?
+              </Text>
               <TouchableOpacity
-                style={[styles.addBtn, { height: height * 0.065 }]}
+                style={[styles[`${theme}AddBtn`], { height: height * 0.065 }]}
                 onPress={() => {
                   navigationService.navigate("moodTest", {
                     screen: "moodStep1",
@@ -150,12 +164,20 @@ export default function Main({
       {trackingPreferences.sleepSelected && (
         <>
           <View style={[sharedStyles.trackerDashView]}>
-            <Text style={sharedStyles.trackerTitle}>Sleep</Text>
+            <Text style={[sharedStyles.trackerTitle, styles[`${theme}Text`]]}>
+              Sleep
+            </Text>
           </View>
 
           {sleepReportForDay ? (
             <TouchableOpacity
-              style={[styles.ratingBtn, { height: height * 0.1 }]}
+              style={[
+                styles.ratingBtn,
+                {
+                  height: height * 0.1,
+                  backgroundColor: ValueSheet[theme].backgroundVariation,
+                },
+              ]}
               onPress={() => {
                 sleepRef.current.open(sleepReportForDay);
               }}
@@ -167,9 +189,11 @@ export default function Main({
             </TouchableOpacity>
           ) : (
             <>
-              <Text style={styles.questionText}>How was your sleep?</Text>
+              <Text style={[styles.questionText, styles[`${theme}Text`]]}>
+                How was your sleep?
+              </Text>
               <TouchableOpacity
-                style={[styles.addBtn, { height: height * 0.065 }]}
+                style={[styles[`${theme}AddBtn`], { height: height * 0.065 }]}
                 onPress={() => {
                   navigationService.navigate("sleepTest", {
                     screen: "sleepStep1",
@@ -198,15 +222,33 @@ const styles = StyleSheet.create({
     width: 35,
     height: 35,
   },
+  coloursText: {
+    color: ValueSheet.colours.primaryColour,
+  },
+  darkColoursText: {
+    color: ValueSheet.darkColours.primaryColour,
+  },
   questionText: {
     fontSize: 24,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
-  addBtn: {
+  coloursAddBtn: {
     borderWidth: 2,
     borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
+    width: 280,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 14,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  darkColoursAddBtn: {
+    borderWidth: 2,
+    borderColor: ValueSheet.colours.grey,
+    borderRadius: 30,
+    backgroundColor: ValueSheet.darkColours.backgroundVariation,
     width: 280,
     justifyContent: "center",
     alignItems: "center",

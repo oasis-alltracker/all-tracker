@@ -1,5 +1,5 @@
 import { ValueSheet } from "../../ValueSheet";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -24,6 +24,7 @@ import SleepReportModal from "./reviews/sleep/sleepReportModal";
 import moment from "moment";
 import Toast from "react-native-root-toast";
 import WellnessReportModal from "./reviews/mood/wellnessReportModal";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const MoodSleep = ({ navigation }) => {
   const [index, setIndex] = useState(0);
@@ -47,6 +48,7 @@ const MoodSleep = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [updateStats, setUpdateStats] = useState(0);
+  const theme = useContext(ThemeContext);
 
   const updateDate = async (dateChange) => {
     setIsLoading(true);
@@ -346,10 +348,10 @@ const MoodSleep = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles[`${theme}Container`]}>
       <Spinner visible={isLoading}></Spinner>
 
-      <View style={styles.container}>
+      <View style={styles[`${theme}Container`]}>
         <TouchableOpacity
           style={styles.headerButton}
           onPress={() => navigation.openDrawer()}
@@ -373,8 +375,8 @@ const MoodSleep = ({ navigation }) => {
                 style={[
                   sharedStyles.dot,
                   key === index && {
-                    backgroundColor: ValueSheet.colours.primaryColour,
-                    borderColor: ValueSheet.colours.borderNavy,
+                    backgroundColor: ValueSheet[theme].primaryColour,
+                    borderColor: ValueSheet[theme].borderNavy,
                   },
                 ]}
               />
@@ -397,8 +399,12 @@ const MoodSleep = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  coloursContainer: {
     backgroundColor: ValueSheet.colours.background,
+    flex: 1,
+  },
+  darkColoursContainer: {
+    backgroundColor: ValueSheet.darkColours.background,
     flex: 1,
   },
   button: {
