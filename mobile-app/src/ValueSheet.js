@@ -8,6 +8,7 @@ export const ValueSheet = {
     /* opacity specific colours are the same as the original but in RGBA format instead of hexadecimal*/
     /* app-wide colours */
     background: "#ffffff",
+    backgroundVariation: "#ffffff",
     primaryColour: "#25436B",
     secondaryColour: "#D7F6FF",
     secondaryColour70: "rgba(215, 246, 255, 0.70)",
@@ -55,6 +56,7 @@ export const ValueSheet = {
     /* opacity specific colours are the same as the original but in RGBA format instead of hexadecimal*/
     /* app-wide colours */
     background: "#3D4451",
+    backgroundVariation: "#4F5B70",
     primaryColour: "#F4FDFF",
     secondaryColour: "#C5DDFF",
     secondaryColour70: "rgba(197, 221, 255, 0.70)",

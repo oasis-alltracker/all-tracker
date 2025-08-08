@@ -4,7 +4,7 @@ import {
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MenuIcon from "../../assets/icons/menu";
 import Main from "./Main";
 import Statistics from "./Statistics";
@@ -23,6 +23,7 @@ import UserAPI from "../../api/user/userAPI";
 import { sharedStyles } from "../styles";
 import SelectMealModal from "./modals/SelectMealModal";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext, ThemeProvider } from "../../contexts/ThemeProvider";
 
 const FitnessDiet = ({ navigation, route }) => {
   var { refreshGoals } = route.params?.isEditingGoals || false;
@@ -94,6 +95,8 @@ const FitnessDiet = ({ navigation, route }) => {
   });
 
   const [dietModalVisible, setDietVisible] = useState(false);
+  const theme = useContext(ThemeContext);
+  const [styles, setStyles] = useState(generateStyle("colours"));
 
   const updateDate = (dateChange) => {
     var dayValue = 60 * 60 * 24 * 1000 * dateChange;
@@ -156,6 +159,10 @@ const FitnessDiet = ({ navigation, route }) => {
       refreshMeals();
     }
   }, [route]);
+
+  useEffect(() => {
+    setStyles(generateStyle(theme));
+  }, [theme]);
 
   function errorResponse(error) {
     console.log(error);
@@ -371,8 +378,8 @@ const FitnessDiet = ({ navigation, route }) => {
                 style={[
                   sharedStyles.dot,
                   key === index && {
-                    backgroundColor: ValueSheet.colours.primaryColour,
-                    borderColor: ValueSheet.colours.borderNavy,
+                    backgroundColor: ValueSheet[theme].primaryColour,
+                    borderColor: ValueSheet[theme].borderNavy,
                   },
                 ]}
               />
@@ -388,18 +395,19 @@ const FitnessDiet = ({ navigation, route }) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: ValueSheet.colours.background,
-    flex: 1,
-  },
-  headerButton: {
-    position: "absolute",
-    top: 25,
-    left: 20,
-    zIndex: 1,
-  },
-});
+const generateStyle = (theme) => {
+  return StyleSheet.create({
+    container: {
+      backgroundColor: ValueSheet[theme].background,
+      flex: 1,
+    },
+    headerButton: {
+      position: "absolute",
+      top: 25,
+      left: 20,
+      zIndex: 1,
+    },
+  });
+};
 
 export default FitnessDiet;

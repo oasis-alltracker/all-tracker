@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { sharedStyles } from "../styles";
 import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -28,11 +28,16 @@ export default function Main({
   const theme = useContext(ThemeContext);
   const today = new Date();
   const colours = [
-    ValueSheet.colours.borderGrey,
-    ValueSheet.colours.secondaryColour,
-    ValueSheet.colours.progressLightTeal,
-    ValueSheet.colours.progressTeal,
+    ValueSheet[theme].borderGrey,
+    ValueSheet[theme].secondaryColour,
+    ValueSheet[theme].progressLightTeal,
+    ValueSheet[theme].progressTeal,
   ];
+  var [styles, setStyle] = useState(generateStyle("colours"));
+
+  useEffect(() => {
+    setStyle(generateStyle(theme));
+  }, [theme]);
 
   const CalorieBar = () => {
     var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
@@ -80,7 +85,10 @@ export default function Main({
 
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
-          style={sharedStyles.changeDateButton}
+          style={[
+            sharedStyles.changeDateButton,
+            { backgroundColor: ValueSheet[theme].secondaryColour },
+          ]}
           onPress={() => updateDate(-1)}
         >
           <Image
@@ -91,15 +99,18 @@ export default function Main({
         <>
           {moment(day).format("YYYYMMDD") ==
           moment(today).format("YYYYMMDD") ? (
-            <Text style={sharedStyles.dateText}>Today</Text>
+            <Text style={[sharedStyles.dateText, styles.textColor]}>Today</Text>
           ) : (
-            <Text style={sharedStyles.dateText}>
+            <Text style={[sharedStyles.dateText, styles.textColor]}>
               {day.toDateString().slice(4, -5)}
             </Text>
           )}
         </>
         <TouchableOpacity
-          style={sharedStyles.changeDateButton}
+          style={[
+            sharedStyles.changeDateButton,
+            { backgroundColor: ValueSheet[theme].secondaryColour },
+          ]}
           onPress={() => updateDate(1)}
         >
           <Image
@@ -112,7 +123,9 @@ export default function Main({
       {trackingPreferences.dietSelected && (
         <>
           <View style={[sharedStyles.trackerDashView]}>
-            <Text style={sharedStyles.trackerTitle}>Diet</Text>
+            <Text style={[sharedStyles.trackerTitle, styles.textColor]}>
+              Diet
+            </Text>
           </View>
           <TouchableOpacity
             style={styles.addBtn}
@@ -137,7 +150,9 @@ export default function Main({
       {trackingPreferences.fitnessSelected && (
         <>
           <View style={[sharedStyles.trackerDashView]}>
-            <Text style={sharedStyles.trackerTitle}>Fitness</Text>
+            <Text style={[sharedStyles.trackerTitle, styles.textColor]}>
+              Fitness
+            </Text>
           </View>
 
           <TouchableOpacity
@@ -159,50 +174,56 @@ export default function Main({
   );
 }
 
-const styles = StyleSheet.create({
-  plus: {
-    width: 70,
-    height: 70,
-  },
-  desc: {
-    fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-  },
-  boldText: {
-    fontFamily: ValueSheet.fonts.primaryBold,
-    fontSize: 26,
-  },
-  addBtn: {
-    borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
-    borderRadius: 20,
-    height: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    width: 350,
-  },
-  progress: {
-    height: 20,
-    width: 350,
-    borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey,
-    backgroundColor: ValueSheet.colours.borderGrey,
-    marginHorizontal: 30,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  progressColorsDark: {},
-  filler: {
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    maxWidth: "100%",
-    height: "100%",
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
-  },
-});
+const generateStyle = (theme) => {
+  return StyleSheet.create({
+    plus: {
+      width: 70,
+      height: 70,
+    },
+    textColor: {
+      color: ValueSheet[theme].primaryColour,
+    },
+    desc: {
+      fontSize: 22,
+      color: ValueSheet[theme].primaryColour,
+      fontFamily: ValueSheet.fonts.primaryFont,
+    },
+    boldText: {
+      fontFamily: ValueSheet.fonts.primaryBold,
+      fontSize: 26,
+    },
+    addBtn: {
+      borderWidth: 2,
+      borderColor: ValueSheet[theme].borderGrey,
+      borderRadius: 20,
+      backgroundColor: ValueSheet[theme].backgroundVariation,
+      height: 80,
+      justifyContent: "center",
+      alignItems: "center",
+      marginHorizontal: 20,
+      marginTop: 10,
+      marginBottom: 10,
+      width: 350,
+    },
+    progress: {
+      height: 20,
+      width: 350,
+      borderWidth: 2,
+      borderColor: ValueSheet[theme].borderGrey,
+      backgroundColor: ValueSheet[theme].borderGrey,
+      marginHorizontal: 30,
+      borderRadius: 5,
+      marginBottom: 10,
+    },
+    progressColorsDark: {},
+    filler: {
+      backgroundColor: ValueSheet[theme].secondaryColour,
+      maxWidth: "100%",
+      height: "100%",
+    },
+    imageContainer: {
+      backgroundColor: ValueSheet[theme].purple,
+      borderColor: ValueSheet[theme].borderPurple70,
+    },
+  });
+};
