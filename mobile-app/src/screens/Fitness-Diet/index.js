@@ -376,6 +376,7 @@ const FitnessDiet = ({ navigation, route }) => {
         isVisible={dietModalVisible}
         setVisible={setDietVisible}
         dayString={day.toISOString()}
+        dietUnit={dietGoals.calorieGoal.units}
       />
     </SafeAreaView>
   );

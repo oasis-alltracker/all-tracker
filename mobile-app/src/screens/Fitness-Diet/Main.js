@@ -22,6 +22,7 @@ export default function Main({
   dietGoals,
   setDietModalVisible,
 }) {
+  const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
   const today = new Date();
   const colours = [
     ValueSheet.colours.borderGrey,
@@ -31,7 +32,11 @@ export default function Main({
   ];
 
   const CalorieBar = () => {
-    var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
+    var denom =
+      dietGoals.calorieGoal.units == "kcal"
+        ? dietGoals.calorieGoal.value
+        : dietGoals.calorieGoal.value / 4.184;
+    var percentage = totalMacros.calorieCount / denom;
     var consumedPercent = `${((percentage % 1) * 100).toFixed(0)}%`;
     var index = Math.floor(percentage);
     var innerColor;
@@ -125,8 +130,10 @@ export default function Main({
           </TouchableOpacity>
           <CalorieBar />
           <Text style={styles.desc}>
-            <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> /{" "}
-            {dietGoals["calorieGoal"]["value"]}{" "}
+            <Text style={styles.boldText}>
+              {Math.round(totalMacros.calorieCount * energyMultiplier)}
+            </Text>{" "}
+            / {dietGoals["calorieGoal"]["value"]}{" "}
             {dietGoals["calorieGoal"]["units"]}
           </Text>
         </>
