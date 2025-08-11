@@ -19,13 +19,7 @@ const FitnessStats = ({ sunday, updateStats }) => {
           showsHorizontalScrollIndicator={false}
           horizontal
           contentContainerStyle={styles.days}
-        >
-          {days.map((item, index) => (
-            <View style={styles.day} key={index}>
-              <Text style={styles.dayText}>{item}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        ></ScrollView>
         <Text style={styles.xLabel}>Days worked out: 6</Text>
       </View>
     </View>
@@ -36,7 +30,6 @@ const styles = StyleSheet.create({
   chartBox: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "center",
     marginTop: 20,
     paddingRight: 35,
   },
@@ -50,7 +43,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 35,
-    marginRight: 40,
+    marginLeft: 25,
+    marginRight: 45,
   },
   imageCircle: {
     width: 28,
@@ -67,7 +61,7 @@ const styles = StyleSheet.create({
     color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
-    flex: 1,
+    alignItems: "center",
   },
 });
 
