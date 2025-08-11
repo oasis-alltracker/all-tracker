@@ -159,7 +159,7 @@ export default function Main({
             style={styles.addBtn}
             onPress={() => {
               //prettier-ignore
-              Appearance.setColorScheme('dark');
+              Appearance.setColorScheme('light');
             }}
           >
             <Image
@@ -179,6 +179,7 @@ const generateStyle = (theme) => {
     plus: {
       width: 70,
       height: 70,
+      tintColor: ValueSheet[theme].primaryColour,
     },
     textColor: {
       color: ValueSheet[theme].primaryColour,
