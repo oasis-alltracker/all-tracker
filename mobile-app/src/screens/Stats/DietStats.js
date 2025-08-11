@@ -51,17 +51,10 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
   const [goalLines, setGoalLines] = useState(defaultArrays);
   const [graphMax, setMax] = useState(2000);
 
-  // useEffect(() => {
-  //   getStats();
-  //   console.log("we got the stats again!");
-  // }, [sunday, updateStats]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      getStats();
-      console.log("we got the stats again!");
-    }, [sunday, updateStats])
-  );
+  useEffect(() => {
+    getStats();
+    console.log("we got the stats again!");
+  }, [sunday, updateStats]);
 
   useEffect(() => {
     var lineArrays = [];
@@ -70,16 +63,21 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
       var array;
       if (item.title == "Calories") {
         array = defaultWeek.map(() => {
-          return { value: dietGoals[item.goal].value, hideDataPoint: true };
+          return {
+            value: Number(dietGoals[item.goal].value),
+            hideDataPoint: true,
+          };
         });
       } else {
         array = defaultWeek.map(() => {
-          return { value: dietGoals[item.goal], hideDataPoint: true };
+          return { value: Number(dietGoals[item.goal]), hideDataPoint: true };
         });
       }
       array[0] = { value: array[0].value, dataPointText: `${array[0].value}` };
       lineArrays.push(array);
     });
+
+    lineArrays.forEach((item) => console.log(item));
 
     setGoalLines(lineArrays);
   }, [dietGoals]);
@@ -113,6 +111,9 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
   const updateIndex = (num) => {
     if (macroIndex + num >= 0 && macroIndex + num < 4)
       setIndex(macroIndex + num);
+
+    console.log("new goal line");
+    console.log(goalLines[macroIndex + num]);
   };
 
   return (
