@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image, TouchableOpacity, Platform } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
 
 export default function UpdateHabitStatusModal({
@@ -32,35 +32,10 @@ export default function UpdateHabitStatusModal({
 
         if (props.count >= props.threshold) {
           setCount(props.threshold);
-          if (props.isPositive) {
-            if (Platform.OS === "ios") {
-              Toast.show("Habit complete. Great job!", {
-                ...styles.positiveToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              });
-            } else {
-              Toast.show("Habit complete. Great job!", {
-                ...styles.positiveToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              });
-            }
-          } else {
-            if (Platform.OS === "ios") {
-              Toast.show("You striked out. Try again tomorrow!", {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              });
-            } else {
-              Toast.show("You striked out. Try again tomorrow!", {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              });
-            }
-          }
+          setTimeout(() => {
+            //necessary to display the toast over the modal on open
+            displayToast(props.isPositive);
+          }, 10);
         }
       },
       close() {
@@ -70,6 +45,22 @@ export default function UpdateHabitStatusModal({
 
     getRef(ref);
   }, []);
+
+  const displayToast = (positive) => {
+    if (positive) {
+      Toast.show({
+        type: "success",
+        text1: "Habit complete",
+        text2: "Great job!",
+      });
+    } else {
+      Toast.show({
+        type: "info",
+        text1: "You striked out",
+        text2: "Try again tomorrow!",
+      });
+    }
+  };
 
   const backDropPressed = async () => {
     const habit = {
@@ -99,67 +90,11 @@ export default function UpdateHabitStatusModal({
     }
   };
   const onPlusPressed = () => {
-    if (threshold - count == 1) {
-      if (isPositive) {
-        if (Platform.OS === "ios") {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
-      } else {
-        if (Platform.OS === "ios") {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
-      }
+    if (threshold - count <= 1) {
+      displayToast(isPositive);
     }
     if (count >= threshold) {
-      if (isPositive) {
-        if (Platform.OS === "ios") {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Habit complete. Great job!", {
-            ...styles.positiveToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
-      } else {
-        if (Platform.OS === "ios") {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("You striked out. Try again tomorrow!", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
-      }
+      displayToast(isPositive);
     } else {
       setCount(count + 1);
     }
@@ -238,6 +173,7 @@ export default function UpdateHabitStatusModal({
           </Button>
         </View>
       </View>
+      <Toast position="top" topOffset={25} visibilityTime={2500} />
     </RNModal>
   );
 }
@@ -307,6 +243,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 5,
   },
   thresholdText: {
     color: ValueSheet.colours.primaryColour,
@@ -319,6 +256,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 5,
   },
   back: {
     backgroundColor: "transparent",
@@ -340,9 +278,5 @@ const styles = StyleSheet.create({
   },
   countButton: {
     paddingHorizontal: 0,
-  },
-  positiveToast: {
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    textColor: ValueSheet.colours.primaryColour,
   },
 });

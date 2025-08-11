@@ -13,7 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 import WellnessReportsAPI from "../../../../api/mood/wellnessReportsAPI";
 import { getAccessToken } from "../../../../user/keychain";
@@ -34,44 +34,18 @@ const WellnessStep6 = (props) => {
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Something went wrong",
+        text2: "Please try again.",
+      });
     }
   };
 
   const onNext = async () => {
     moodReport.journal = journal;
     setIsLoading(true);
-    try {
-      await createMoodReport(moodReport);
-    } catch (e) {
-      setIsLoading(false);
-
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
-    }
+    await createMoodReport(moodReport);
   };
 
   return (
@@ -113,6 +87,7 @@ const WellnessStep6 = (props) => {
             </Button>
           </View>
         </>
+        <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -162,11 +137,6 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

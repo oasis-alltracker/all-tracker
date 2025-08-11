@@ -13,9 +13,9 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { StyleSheet } from "react-native";
 import NotificationsHandler from "../api/notifications/notificationsHandler";
 import Spinner from "react-native-loading-spinner-overlay";
-import Toast from "react-native-root-toast";
 import { getAccessToken } from "../user/keychain";
 import { ValueSheet } from "../ValueSheet";
+import Toast from "react-native-toast-message";
 
 const oneDay = {
   startingDay: true,
@@ -93,46 +93,19 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         if (systemNotificationsStatus && systemNotificationsEnabled) {
           setIsReminderEnabled(true);
         } else {
-          if (Platform.OS === "ios") {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.BOTTOM,
-              }
-            );
-          } else {
-            Toast.show(
-              "To get reminders, you need to turn on notifications in your settings.",
-              {
-                ...styles.errorToast,
-                duration: Toast.durations.LONG,
-                position: Toast.positions.TOP,
-              }
-            );
-          }
+          Toast.show({
+            type: "info",
+            text1: "Reminders are disabled",
+            text2:
+              "Turn on notifications in your device settings to get reminders.",
+          });
         }
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show(
-            "To get reminders, you need to make a date selection first",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            }
-          );
-        } else {
-          Toast.show(
-            "To get reminders, you need to make a date selection first",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            }
-          );
-        }
+        Toast.show({
+          type: "info",
+          text1: "Reminders are unavailable without a selected date",
+          text2: "Please make a date selection first.",
+        });
       }
     }
   };
@@ -223,10 +196,11 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
     if (isItRecurring) {
       if (days.length == 0) {
         if (isEdit) {
-          Toast.show("You must select at least one day.", {
-            ...styles.errorToast,
-            position: Toast.positions.CENTER,
-            duration: Toast.durations.LONG,
+          console.log(isItRecurring + " + " + days.length + " + " + isEdit);
+          Toast.show({
+            type: "info",
+            text1: "You must select at least one day",
+            text2: "Please make a date selection first.",
           });
           return;
         } else {
@@ -541,6 +515,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <Toast position="top" topOffset={60} visibilityTime={2500} />
     </Modal>
   );
 };
@@ -705,6 +680,7 @@ const styles = StyleSheet.create({
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 15,
+    marginBottom: 5,
     flex: 1,
   },
   timeText: {
@@ -713,10 +689,8 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    textColor: ValueSheet.colours.background,
+    marginLeft: 7.5,
+    marginBottom: 2.5,
   },
   daysContainer: {
     flexDirection: "row",

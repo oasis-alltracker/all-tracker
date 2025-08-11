@@ -12,7 +12,7 @@ import { Image } from "react-native";
 import { Button, RenderTodos } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import UserAPI from "../../../api/user/userAPI";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import ToDosAPI from "../../../api/toDos/toDosAPI";
@@ -37,27 +37,23 @@ const Todos = (props) => {
 
   const today = new Date();
 
+  function errorResponse(error) {
+    console.log(error);
+    setIsLoading(false);
+    Toast.show({
+      type: "info",
+      text1: "Something went wrong",
+      text2: "Please try again.",
+    });
+  }
+
   const getToDos = async (token) => {
     try {
       userToDos = await ToDosAPI.getToDos(token, false);
 
       setToDos(userToDos);
     } catch (e) {
-      setIsLoading(false);
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -96,21 +92,7 @@ const Todos = (props) => {
       await getToDos(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -153,20 +135,7 @@ const Todos = (props) => {
       await getToDos(token);
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -207,11 +176,7 @@ const Todos = (props) => {
         toDo.isLocked = false;
       }
     } catch (e) {
-      console.log(e);
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-      });
+      errorResponse(e);
     }
   };
 
@@ -223,20 +188,7 @@ const Todos = (props) => {
       await getToDos(token);
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -246,21 +198,7 @@ const Todos = (props) => {
       userTasks = await TasksAPI.getTasks(token);
       setTasks(userTasks);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -291,20 +229,7 @@ const Todos = (props) => {
       await getTasks(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -343,21 +268,7 @@ const Todos = (props) => {
       await getTasks(token);
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -428,20 +339,7 @@ const Todos = (props) => {
         var newTasks = [...tasks];
       }
     } catch (e) {
-      console.log(e);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -453,20 +351,7 @@ const Todos = (props) => {
       await getTasks(token);
       setIsLoading(false);
     } catch (e) {
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -665,21 +550,7 @@ const Todos = (props) => {
         setIsLoading(false);
       }
     } catch (e) {
-      console.log(e);
-      setIsLoading(false);
-      if (Platform.OS === "ios") {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Something went wrong. Please try again.", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      errorResponse(e);
     }
   };
 
@@ -707,6 +578,7 @@ const Todos = (props) => {
           Next
         </Button>
       </View>
+      <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
