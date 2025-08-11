@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
 
 const weightChangeValues = {
@@ -24,23 +24,14 @@ const weightChangeValues = {
 };
 
 const IntensitySelection = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-    birthYear,
-    activityLevel,
-  } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
 
   const [ultimateNumberOfWeeks, setUltimateNumberOfWeeks] = useState(0);
   const [steadyNumberOfWeeks, setSteadyNumberOfWeeks] = useState(0);
   const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
   const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
-
-  const [intensity, setIntesity] = useState(null);
+  const [intensity, setIntensity] = useState(null);
 
   const getButtonColour = (selectedIntensity) => {
     if (intensity == selectedIntensity) {
@@ -51,42 +42,36 @@ const IntensitySelection = (props) => {
   };
 
   const onNext = () => {
-    if (intensity) {
-      const weightChangePerWeek =
-        weightChangeValues[currentWeight.units][intensity];
+    if (intensity != null) {
+      dietFactors.weeklyWeightChange =
+        weightChangeValues[dietFactors.currentWeight.units][intensity];
       navigationService.navigate("newGoalsSummary", {
         selectedTrackers,
         isEditingMacros,
-        goal,
-        weightGoal,
-        currentWeight,
-        currentHeight,
-        birthYear,
-        activityLevel,
-        weightChangePerWeek,
+        dietFactors,
       });
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "No selection made",
+        text2: "Please make a selection before proceeding.",
+      });
     }
+  };
+
+  const onBack = () => {
+    navigationService.navigate("activityLevelSelection", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
   };
 
   useEffect(() => {
     const totalWeightChange = Math.abs(
-      currentWeight.weight - weightGoal.weight
+      dietFactors.currentWeight.weight - dietFactors.targetWeight.weight
     );
-    if (currentWeight.units === "kg") {
+    if (dietFactors.currentWeight.units === "kg") {
       setUltimateNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 1));
       setSteadyNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.75));
       setGradualNumberOfWeeks(Math.round((totalWeightChange * 1.0) / 0.5));
@@ -98,6 +83,11 @@ const IntensitySelection = (props) => {
       setRelaxedNumberOfWeeks(Math.round(totalWeightChange / 0.551));
     }
   }, []);
+
+  useEffect(() => {
+    dietFactors = props.route.params.dietFactors;
+    setIntensity(dietFactors.intensityLevel);
+  }, [props]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -116,7 +106,8 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("ultimate") },
           ]}
           onPress={() => {
-            setIntesity("ultimate");
+            setIntensity("ultimate");
+            dietFactors.intensityLevel = "ultimate";
           }}
         >
           <View style={styles.row}>
@@ -129,7 +120,7 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{ultimateNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "1kg" : "2.2lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "1kg" : "2.2lbs"}/week
           </Text>
         </Button>
         <Button
@@ -138,7 +129,8 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("steady") },
           ]}
           onPress={() => {
-            setIntesity("steady");
+            setIntensity("steady");
+            dietFactors.intensityLevel = "steady";
           }}
         >
           <View style={styles.row}>
@@ -151,7 +143,7 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{steadyNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "0.75kg" : "1.6lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "0.75kg" : "1.6lbs"}/week
           </Text>
         </Button>
         <Button
@@ -160,7 +152,8 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("gradual") },
           ]}
           onPress={() => {
-            setIntesity("gradual");
+            setIntensity("gradual");
+            dietFactors.intensityLevel = "gradual";
           }}
         >
           <View style={styles.row}>
@@ -173,7 +166,7 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{gradualNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "0.5kg" : "1.1lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "0.5kg" : "1.1lbs"}/week
           </Text>
         </Button>
         <Button
@@ -182,7 +175,8 @@ const IntensitySelection = (props) => {
             { backgroundColor: getButtonColour("relaxed") },
           ]}
           onPress={() => {
-            setIntesity("relaxed");
+            setIntensity("relaxed");
+            dietFactors.intensityLevel = "relaxed";
           }}
         >
           <View style={styles.row}>
@@ -195,21 +189,19 @@ const IntensitySelection = (props) => {
             <Text style={styles.text}>{relaxedNumberOfWeeks} weeks</Text>
           </View>
           <Text style={[styles.text, styles.minitext]}>
-            {currentWeight.units == "kg" ? "0.25kg" : "0.5lbs"}/week
+            {dietFactors.currentWeight.units == "kg" ? "0.25kg" : "0.5lbs"}/week
           </Text>
         </Button>
       </View>
       <View style={styles.buttons}>
-        <Button
-          onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
-        >
+        <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
           Back
         </Button>
         <Button onPress={() => onNext()} style={styles.button}>
           Next
         </Button>
       </View>
+      <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
@@ -282,6 +274,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 5,
   },
   flex: {
     flex: 1,
@@ -294,11 +287,6 @@ const styles = StyleSheet.create({
   minitext: {
     fontSize: 16,
     marginTop: 10,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

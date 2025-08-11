@@ -60,6 +60,10 @@ export const sharedStyles = StyleSheet.create({
       },
     ],
   },
+  dateTextContainer: {
+    justifyContent: "center",
+    marginBottom: 5,
+  },
   dateText: {
     fontSize: 33,
     color: ValueSheet.colours.primaryColour,

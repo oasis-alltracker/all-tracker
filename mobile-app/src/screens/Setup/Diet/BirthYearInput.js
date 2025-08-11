@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,18 +12,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
 
 const BirthYearInput = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-  } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
   const [birthYear, setBirthYear] = useState(null);
 
   const onNext = () => {
@@ -32,43 +26,41 @@ const BirthYearInput = (props) => {
         navigationService.navigate("activityLevelSelection", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
-          birthYear,
+          dietFactors,
         });
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show("Please enter a valid birth year", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Please enter a valid birth year", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "Invalid input",
+          text2: "Please enter a valid 4 digit birth year.",
+        });
       }
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Incomplete field",
+        text2: "Please enter a number.",
+      });
     }
   };
+
+  const onBack = () => {
+    navigationService.navigate("heightInput", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateBirthYear = (year) => {
+    setBirthYear(year);
+    dietFactors.birthYear = year;
+  };
+
+  useEffect(() => {
+    dietFactors = props.route.params.dietFactors;
+    setBirthYear(dietFactors.birthYear);
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -84,23 +76,21 @@ const BirthYearInput = (props) => {
           <Text style={styles.title}>What year were you born?</Text>
           <TextInput
             style={styles.input}
-            placeholder="0"
-            onChangeText={setBirthYear}
+            placeholder={"0"}
+            onChangeText={updateBirthYear}
             value={birthYear}
             keyboardType="number-pad"
           />
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
             Next
           </Button>
         </View>
+        <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -168,11 +158,6 @@ const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

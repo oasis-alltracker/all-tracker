@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,66 +12,70 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
 
 const CurrentWeight = (props) => {
-  const { selectedTrackers, isEditingMacros, goal } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
   const [isKg, setIsKg] = useState(true);
   const [weight, setWeight] = useState(null);
 
   const onNext = () => {
     if (weight) {
       if (!isNaN(Number(weight))) {
-        const currentWeight = { weight: weight, units: isKg ? "kg" : "lb" };
-        if (goal == "maintain") {
-          const weightGoal = currentWeight;
+        if (dietFactors.goal == "maintain") {
+          dietFactors.targetWeight = { ...dietFactors.currentWeight };
           navigationService.navigate("heightInput", {
             selectedTrackers,
             isEditingMacros,
-            goal,
-            weightGoal,
-            currentWeight,
+            dietFactors,
           });
         } else {
           navigationService.navigate("targetWeight", {
             selectedTrackers,
             isEditingMacros,
-            goal,
-            currentWeight,
+            dietFactors,
           });
         }
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show("Please enter a number", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Please enter a number", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "Invalid input",
+          text2: "Please enter a valid number using digits from 0 to 9.",
+        });
       }
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Incomplete field",
+        text2: "Please enter a number.",
+      });
     }
   };
+
+  const onBack = () => {
+    navigationService.navigate("goalSelection", {
+      selectedTrackers,
+      isEditingMacros,
+      dietFactors,
+    });
+  };
+
+  const updateWeight = (newWeight) => {
+    setWeight(newWeight);
+    dietFactors.currentWeight.weight = newWeight;
+  };
+
+  useEffect(() => {
+    dietFactors = props.route.params.dietFactors;
+    setWeight(dietFactors.currentWeight.weight);
+    if (dietFactors.currentWeight.units === "kg") {
+      setIsKg(true);
+    } else {
+      setIsKg(false);
+    }
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -88,21 +92,27 @@ const CurrentWeight = (props) => {
           <TextInput
             style={styles.input}
             placeholder="0"
-            onChangeText={setWeight}
+            onChangeText={updateWeight}
             keyboardType="number-pad"
             value={weight}
           />
           <View style={[styles.buttons, styles.unitButtons]}>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsKg(true)}
+              onPress={() => {
+                setIsKg(true);
+                dietFactors.currentWeight.units = "kg";
+              }}
               style={[styles.unitBtn, !isKg && styles.inactive]}
             >
               kg
             </Button>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsKg(false)}
+              onPress={() => {
+                setIsKg(false);
+                dietFactors.currentWeight.units = "lb";
+              }}
               style={[styles.unitBtn, isKg && styles.inactive]}
             >
               lb
@@ -110,16 +120,14 @@ const CurrentWeight = (props) => {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
             Next
           </Button>
         </View>
+        <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -203,11 +211,6 @@ const styles = StyleSheet.create({
   },
   unitText: {
     fontSize: 18,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

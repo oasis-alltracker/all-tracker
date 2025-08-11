@@ -2,7 +2,7 @@
   "expo": {
     "name": "Oasis",
     "slug": "oasistracker",
-    "version": "2.6.4",
+    "version": "2.6.6",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "scheme": "com.oasistracker",

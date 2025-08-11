@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,59 +12,69 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
 
 const HeightInput = (props) => {
-  const { selectedTrackers, isEditingMacros, goal, weightGoal, currentWeight } =
-    props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
   const [isCm, setIsCm] = useState(true);
   const [height, setHeight] = useState(null);
 
   const onNext = () => {
     if (height) {
       if (!isNaN(Number(height))) {
-        const currentHeight = { height: height, units: isCm ? "cm" : "in" };
-
         navigationService.navigate("birthYearInput", {
           selectedTrackers,
           isEditingMacros,
-          goal,
-          weightGoal,
-          currentWeight,
-          currentHeight,
+          dietFactors,
         });
       } else {
-        if (Platform.OS === "ios") {
-          Toast.show("Please enter a number", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Please enter a number", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "Invalid input",
+          text2: "Please enter a valid number using digits from 0 to 9.",
+        });
       }
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "Incomplete field",
+        text2: "Please enter a number.",
+      });
     }
   };
+
+  const onBack = () => {
+    if (dietFactors.goal == "maintain") {
+      navigationService.navigate("currentWeight", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    } else {
+      navigationService.navigate("targetWeight", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    }
+  };
+
+  const updateHeight = (newHeight) => {
+    setHeight(newHeight);
+    dietFactors.currentHeight.height = newHeight;
+  };
+
+  useEffect(() => {
+    dietFactors = props.route.params.dietFactors;
+    setHeight(dietFactors.currentHeight.height);
+    if (dietFactors.currentHeight.units === "cm") {
+      setIsCm(true);
+    } else {
+      setIsCm(false);
+    }
+  }, [props]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -81,21 +91,27 @@ const HeightInput = (props) => {
           <TextInput
             style={styles.input}
             placeholder="0"
-            onChangeText={setHeight}
+            onChangeText={updateHeight}
             value={height}
             keyboardType="number-pad"
           />
           <View style={[styles.buttons, styles.unitButtons]}>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsCm(true)}
+              onPress={() => {
+                setIsCm(true);
+                dietFactors.currentHeight.units = "cm";
+              }}
               style={[styles.unitBtn, !isCm && styles.inactive]}
             >
               cm
             </Button>
             <Button
               textStyle={styles.unitText}
-              onPress={() => setIsCm(false)}
+              onPress={() => {
+                setIsCm(false);
+                dietFactors.currentHeight.units = "in";
+              }}
               style={[styles.unitBtn, isCm && styles.inactive]}
             >
               in
@@ -103,16 +119,14 @@ const HeightInput = (props) => {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>
             Next
           </Button>
         </View>
+        <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -196,11 +210,6 @@ const styles = StyleSheet.create({
   },
   unitText: {
     fontSize: 18,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

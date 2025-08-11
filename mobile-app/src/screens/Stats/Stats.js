@@ -20,6 +20,7 @@ import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
 import { ValueSheet } from "../../ValueSheet";
 import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
+import { sharedStyles } from "../styles";
 
 const Stats = ({ getRef }) => {
   const { width, height } = useWindowDimensions();
@@ -115,14 +116,16 @@ const Stats = ({ getRef }) => {
               />
             </TouchableOpacity>
             <>
-              {moment(thisSunday).format("YYYYMMDD") ==
-              moment(selectedSunday).format("YYYYMMDD") ? (
-                <Text style={styles.dateNameMain}>This week</Text>
-              ) : (
-                <Text style={styles.dateNameMain}>
-                  Week of {selectedSunday.toDateString().slice(4, -5)}
-                </Text>
-              )}
+              <View style={sharedStyles.dateTextContainer}>
+                {moment(thisSunday).format("YYYYMMDD") ==
+                moment(selectedSunday).format("YYYYMMDD") ? (
+                  <Text style={styles.dateNameMain}>This week</Text>
+                ) : (
+                  <Text style={styles.dateNameMain}>
+                    Week of {selectedSunday.toDateString().slice(4, -5)}
+                  </Text>
+                )}
+              </View>
             </>
             <TouchableOpacity
               style={styles.buttonMain}

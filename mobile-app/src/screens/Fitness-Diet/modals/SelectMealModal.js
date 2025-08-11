@@ -23,7 +23,12 @@ const mealTitles = [
   },
 ];
 
-export default function SelectMealModal({ isVisible, setVisible, dayString }) {
+export default function SelectMealModal({
+  isVisible,
+  setVisible,
+  dayString,
+  dietUnit,
+}) {
   const [selectedIndex, setSelected] = useState(-1);
 
   const updateSelected = (currIndex) => {
@@ -79,6 +84,7 @@ export default function SelectMealModal({ isVisible, setVisible, dayString }) {
             navigationService.navigate("searchFood", {
               mealName: mealTitles[selectedIndex].name,
               dayString: dayString,
+              dietUnit: dietUnit,
             });
             setVisible(false);
             setSelected(-1);
@@ -144,7 +150,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     width: "60%",
-    padding: 5,
+    paddingTop: 5,
+    paddingBottom: 10,
     alignSelf: "center",
     alignContent: "center",
     marginTop: 30,

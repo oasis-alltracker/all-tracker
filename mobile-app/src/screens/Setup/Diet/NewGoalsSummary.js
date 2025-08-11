@@ -19,17 +19,8 @@ const activityLevelValues = {
 };
 
 const NewGoalsSummary = (props) => {
-  const {
-    selectedTrackers,
-    isEditingMacros,
-    goal,
-    weightGoal,
-    currentWeight,
-    currentHeight,
-    birthYear,
-    activityLevel,
-    weightChangePerWeek,
-  } = props.route.params;
+  const { selectedTrackers, isEditingMacros } = props.route.params;
+  var dietFactors = props.route.params.dietFactors;
 
   const [isLoading, setIsLoading] = useState(false);
   const [calories, setCalories] = useState(0);
@@ -38,7 +29,6 @@ const NewGoalsSummary = (props) => {
   const [carbGoalValue, setCarbGoalValue] = useState(0);
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
-
   const [datas, setDatas] = useState([
     {
       title: "0 g",
@@ -56,7 +46,6 @@ const NewGoalsSummary = (props) => {
       text: "Fats:",
     },
   ]);
-
   const updateMacrosRef = useRef(null);
 
   const onUpdateMacroValue = async (title, value, units) => {
@@ -118,34 +107,52 @@ const NewGoalsSummary = (props) => {
     }
   };
 
+  const onBack = () => {
+    if (dietFactors.goal == "maintain") {
+      navigationService.navigate("activityLevelSelection", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    } else {
+      navigationService.navigate("intensitySelection", {
+        selectedTrackers,
+        isEditingMacros,
+        dietFactors,
+      });
+    }
+  };
+
   useEffect(() => {
     const getDataOnLoad = async () => {
       setIsLoading(true);
       var weightInKg;
       var goalWeightInLb;
-      if (currentWeight.units === "kg") {
-        weightInKg = currentWeight.weight;
-        goalWeightInLb = weightGoal.weight * 2.20462;
+      if (dietFactors.currentWeight.units === "kg") {
+        weightInKg = dietFactors.currentWeight.weight;
+        goalWeightInLb = dietFactors.targetWeight.weight * 2.20462;
       } else {
-        weightInKg = (currentWeight.weight * 1.0) / 2.20462;
-        goalWeightInLb = weightGoal.weight;
+        weightInKg = (dietFactors.currentWeight.weight * 1.0) / 2.20462;
+        goalWeightInLb = dietFactors.targetWeight.weight;
       }
       var heightInCm;
-      if (currentHeight.units === "cm") {
-        heightInCm = currentHeight.height;
+      if (dietFactors.currentHeight.units === "cm") {
+        heightInCm = dietFactors.currentHeight.height;
       } else {
-        heightInCm = (currentHeight.height * 1.0) / 0.393701;
+        heightInCm = (dietFactors.currentHeight.height * 1.0) / 0.393701;
       }
       var currentYear = new Date().getFullYear();
       const BMR =
-        10 * weightInKg + 6.25 * heightInCm - 5 * (currentYear - birthYear);
-      const TDEE = BMR * activityLevelValues[activityLevel];
-      const dailyCaloriesDefecit = (weightChangePerWeek * 3500) / 7;
+        10 * weightInKg +
+        6.25 * heightInCm -
+        5 * (currentYear - dietFactors.birthYear);
+      const TDEE = BMR * activityLevelValues[dietFactors.activityLevelIndex];
+      const dailyCaloriesDeficit = (dietFactors.weeklyWeightChange * 3500) / 7;
       var dailyCalorieIntake = TDEE;
-      if (goal === "lose") {
-        dailyCalorieIntake -= dailyCaloriesDefecit;
-      } else if (goal === "gain") {
-        dailyCalorieIntake += dailyCaloriesDefecit;
+      if (dietFactors.goal === "lose") {
+        dailyCalorieIntake -= dailyCaloriesDeficit;
+      } else if (dietFactors.goal === "gain") {
+        dailyCalorieIntake += dailyCaloriesDeficit;
       }
       const protein = goalWeightInLb * 0.8;
       const fat = (dailyCalorieIntake * 0.25) / 9;
@@ -251,10 +258,7 @@ const NewGoalsSummary = (props) => {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button
-            onPress={() => navigationService.goBack()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             Back
           </Button>
           <Button onPress={() => onNext()} style={styles.button}>

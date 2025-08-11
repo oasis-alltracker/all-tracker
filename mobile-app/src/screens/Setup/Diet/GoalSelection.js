@@ -1,37 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
 
 const GoalSelection = (props) => {
-  const [goal, setGoal] = useState("none");
   const { selectedTrackers, isEditingMacros } = props.route.params;
+
+  const defaultDietFactors = {
+    goal: "none",
+    currentWeight: { weight: 0, units: "kg" },
+    targetWeight: { weight: 0, units: "kg" },
+    currentHeight: { height: 0, units: "cm" },
+    birthYear: 0,
+    activityLevelIndex: null,
+    intensityLevel: null,
+    weeklyWeightChange: 0,
+  };
+  const [goal, setGoal] = useState("none");
+  var dietFactors = props.route.params?.dietFactors || defaultDietFactors;
 
   const onNext = () => {
     if (goal != "none") {
+      dietFactors.goal = goal;
       navigationService.navigate("currentWeight", {
         selectedTrackers,
         isEditingMacros,
-        goal,
+        dietFactors,
       });
     } else {
-      if (Platform.OS === "ios") {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.BOTTOM,
-        });
-      } else {
-        Toast.show("Please make a selection", {
-          ...styles.errorToast,
-          duration: Toast.durations.LONG,
-          position: Toast.positions.TOP,
-        });
-      }
+      Toast.show({
+        type: "info",
+        text1: "No selection made",
+        text2: "Please make a selection before proceeding.",
+      });
     }
   };
 
@@ -42,6 +47,16 @@ const GoalSelection = (props) => {
       return "transparent";
     }
   };
+
+  useEffect(() => {
+    var latestDietFactors = props.route.params?.dietFactors;
+    if (latestDietFactors) {
+      dietFactors = latestDietFactors;
+    } else {
+      dietFactors = defaultDietFactors;
+    }
+    setGoal(dietFactors.goal);
+  }, [props]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,6 +123,7 @@ const GoalSelection = (props) => {
           Next
         </Button>
       </View>
+      <Toast position="bottom" bottomOffset={140} visibilityTime={2500} />
     </SafeAreaView>
   );
 };
@@ -145,11 +161,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
   buttons: {
     flexDirection: "row",
