@@ -25,7 +25,7 @@ const TargetWeight = (props) => {
       if (!isNaN(Number(goalWeight))) {
         if (
           dietFactors.goal == "gain" &&
-          goalWeight <= dietFactors.currentWeight.weight
+          Number(goalWeight) <= Number(dietFactors.currentWeight.weight)
         ) {
           Toast.show({
             type: "info",
@@ -34,7 +34,7 @@ const TargetWeight = (props) => {
           });
         } else if (
           dietFactors.goal == "lose" &&
-          goalWeight >= dietFactors.currentWeight.weight
+          Number(goalWeight) >= Number(dietFactors.currentWeight.weight)
         ) {
           Toast.show({
             type: "info",
