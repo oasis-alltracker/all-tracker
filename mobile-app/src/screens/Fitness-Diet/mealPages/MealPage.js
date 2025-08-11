@@ -219,9 +219,9 @@ const MealPage = ({ navigation, route }) => {
               <Text style={styles.caloriesLabel}>Calories</Text>
               <View style={styles.calorieInfo}>
                 <Text style={styles.caloriesAmount}>
-                  {+(currentMeal.calorieCount * energyMultiplier).toFixed(2)}
+                  {+(currentMeal.calorieCount * energyMultiplier).toFixed(2)}{" "}
+                  {dietUnit}
                 </Text>
-                <Text style={styles.caloriesUnit}>{dietUnit}</Text>
               </View>
             </View>
           </TouchableOpacity>
