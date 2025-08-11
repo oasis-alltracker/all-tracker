@@ -37,6 +37,8 @@ const BarcodeScanner = ({ route }) => {
   const viewfinderWidth = 375;
   const viewfinderHeight = 300;
 
+  const dietUnit = route.params?.dietUnit;
+
   useFocusEffect(
     useCallback(() => {
       setIsScanning(false);
@@ -44,7 +46,8 @@ const BarcodeScanner = ({ route }) => {
         setCameraStatus(true);
         Toast.show({
           type: "info",
-          text1: "Please place food barcode in view of the camera.",
+          text1: "Food barcode scanning",
+          text2: "Please place barcode in view of the camera.",
           topOffset: windowHeight / 2 - 30, //centering toast; default toast height is 60, 60/2 is 30
         });
       }
@@ -80,6 +83,7 @@ const BarcodeScanner = ({ route }) => {
       meal: route.params.meal,
       mealName: route.params.mealName,
       dayString: route.params.dayString,
+      dietUnit: dietUnit,
     };
     if (barcodeType && barcodeData) {
       params["barcodeInfo"] = {

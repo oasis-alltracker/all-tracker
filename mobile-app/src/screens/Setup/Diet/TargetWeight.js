@@ -29,7 +29,8 @@ const TargetWeight = (props) => {
         ) {
           Toast.show({
             type: "info",
-            text1: "Enter a number greater than your current weight.",
+            text1: "Invalid input",
+            text2: "Enter a number greater than your current weight.",
           });
         } else if (
           dietFactors.goal == "lose" &&
@@ -37,7 +38,8 @@ const TargetWeight = (props) => {
         ) {
           Toast.show({
             type: "info",
-            text1: "Enter a number less than your current weight.",
+            text1: "Invalid input",
+            text2: "Enter a number less than your current weight.",
           });
         } else {
           navigationService.navigate("heightInput", {

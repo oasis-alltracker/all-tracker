@@ -58,8 +58,11 @@ export default function Diet({
   totalMacros,
   updateGoals,
 }) {
+  const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
   const editMacroGoalsRef = useRef(null);
-  const calorieDif = dietGoals.calorieGoal.value - totalMacros.calorieCount;
+  const calorieDif = Math.round(
+    dietGoals.calorieGoal.value - totalMacros.calorieCount * energyMultiplier
+  );
   const colours = [
     ValueSheet.colours.borderGrey,
     ValueSheet.colours.secondaryColour,
@@ -75,6 +78,7 @@ export default function Diet({
           dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
+          dietUnit: dietGoals.calorieGoal.units,
         });
       }}
     >
@@ -85,6 +89,7 @@ export default function Diet({
             navigationService.navigate("searchFood", {
               mealName: item?.name,
               dayString: day.toISOString(),
+              dietUnit: dietGoals.calorieGoal.units,
             });
           }}
         >
@@ -105,6 +110,7 @@ export default function Diet({
           dateString: day.toLocaleDateString(),
           mealName: item.name,
           meal: meals[item.name],
+          dietUnit: dietGoals.calorieGoal.units,
         });
       }}
     >
@@ -130,13 +136,14 @@ export default function Diet({
             {item.name}
           </Text>
           <Text style={styles.subItemText}>
-            {Math.round(item.calorieCount)} {dietGoals.calorieGoal.units}
+            {Math.round(item.calorieCount * energyMultiplier)}{" "}
+            {dietGoals.calorieGoal.units}
           </Text>
         </View>
       ))}
       <View style={styles.line} />
       <Text style={[styles.subItemText, { textAlign: "center" }]}>
-        {Math.round(meals[item.name].calorieCount)}{" "}
+        {Math.round(meals[item.name].calorieCount * energyMultiplier)}{" "}
         {dietGoals.calorieGoal.units}
       </Text>
     </TouchableOpacity>
@@ -180,7 +187,11 @@ export default function Diet({
   };
 
   const CalorieBar = () => {
-    var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
+    var denom =
+      dietGoals.calorieGoal.units == "kcal"
+        ? dietGoals.calorieGoal.value
+        : dietGoals.calorieGoal.value / 4.184;
+    var percentage = totalMacros.calorieCount / denom;
     var consumedPercent = `${((percentage % 1) * 100).toFixed(0)}%`;
     var index = Math.floor(percentage);
     var innerColor;
@@ -288,8 +299,10 @@ export default function Diet({
           </View>
           <View style={styles.row}>
             <Text style={styles.desc}>
-              <Text style={styles.boldText}>{totalMacros.calorieCount}</Text>{" "}
-              kcal
+              <Text style={styles.boldText}>
+                {Math.round(totalMacros.calorieCount * energyMultiplier)}
+              </Text>{" "}
+              {dietGoals.calorieGoal.units}
             </Text>
             <Text style={styles.boldText}>{Math.abs(calorieDif)}</Text>
           </View>
