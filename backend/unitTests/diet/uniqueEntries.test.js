@@ -3,20 +3,20 @@ const {
 } = require("../../tracker-diet/recentEntries/getRecentEntries");
 
 describe("findUniqueEntries", () => {
-  it("returns up to 10 unique entries by name", () => {
+  it("returns up to 10 unique entries by id", () => {
     const entries = [
-      { name: "apple", value: 1 },
-      { name: "banana", value: 2 },
-      { name: "apple", value: 3 }, // duplicate
-      { name: "orange", value: 4 },
-      { name: "banana", value: 5 }, // duplicate
-      { name: "grape", value: 6 },
-      { name: "pear", value: 7 },
-      { name: "mango", value: 8 },
-      { name: "kiwi", value: 9 },
-      { name: "peach", value: 10 },
-      { name: "plum", value: 11 },
-      { name: "melon", value: 12 }, // this would be 11th unique, so skipped
+      { name: "apple", foodItemID: 1 },
+      { name: "banana", foodItemID: 2 },
+      { name: "apple", foodItemID: 1 }, // duplicate
+      { name: "orange", foodItemID: 4 },
+      { name: "banana", foodItemID: 2 }, // duplicate
+      { name: "grape", foodItemID: 6 },
+      { name: "pear", foodItemID: 7 },
+      { name: "mango", foodItemID: 8 },
+      { name: "kiwi", foodItemID: 9 },
+      { name: "peach", foodItemID: 10 },
+      { name: "plum", foodItemID: 11 },
+      { name: "melon", foodItemID: 12 }, // this would be 11th unique, so skipped
     ];
 
     const result = findUniqueEntries(entries);
@@ -40,12 +40,12 @@ describe("findUniqueEntries", () => {
 
   it("returns all unique entries if fewer than 10", () => {
     const entries = [
-      { name: "a" },
-      { name: "b" },
-      { name: "c" },
-      { name: "a" },
-      { name: "b" },
-      { name: "d" },
+      { name: "a", foodItemID: 1 },
+      { name: "b", foodItemID: 2 },
+      { name: "c", foodItemID: 3 },
+      { name: "a", foodItemID: 1 },
+      { name: "b", foodItemID: 2 },
+      { name: "d", foodItemID: 5 },
     ];
 
     const result = findUniqueEntries(entries);

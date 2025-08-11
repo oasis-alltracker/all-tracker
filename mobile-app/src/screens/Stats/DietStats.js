@@ -1,24 +1,115 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import { ValueSheet } from "../../ValueSheet";
+import { getAccessToken } from "../../user/keychain";
+import StatsAPI from "../../api/stats/statsAPI";
+import { useFocusEffect } from "@react-navigation/native";
 
-const data = [
-  { value: 500 },
-  { value: 80 },
-  { value: 90 },
-  { value: 70 },
-  { value: 50 },
-  { value: 400 },
-  { value: 30 },
-  { value: 10 },
-  { value: 40 },
-  { value: 300 },
-  { value: 75 },
-  { value: 70 },
+const macroTitles = [
+  {
+    title: "Calories",
+    macro: "calorieCount",
+    goal: "calorieGoal",
+  },
+  {
+    title: "Carbs",
+    macro: "carbCount",
+    goal: "carbGoal",
+  },
+  {
+    title: "Protein",
+    macro: "proteinCount",
+    goal: "proteinGoal",
+  },
+  {
+    title: "Fat",
+    macro: "fatCount",
+    goal: "fatGoal",
+  },
 ];
 
-const DietStats = ({ sunday, updateStats }) => {
+const DietStats = ({ sunday, updateStats, dietGoals }) => {
+  const defaultWeek = [
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+    { value: 0 },
+  ];
+  const defaultArrays = {
+    calorieCount: defaultWeek,
+    carbCount: defaultWeek,
+    proteinCount: defaultWeek,
+    fatCount: defaultWeek,
+  };
+
+  const [macroIndex, setIndex] = useState(0);
+  const [dataArrays, setDataArrays] = useState(defaultArrays);
+  const [goalLines, setGoalLines] = useState(defaultArrays);
+  const [graphMax, setMax] = useState(2000);
+
+  useEffect(() => {
+    getStats();
+  }, [sunday, updateStats]);
+
+  useEffect(() => {
+    var lineArrays = [];
+
+    macroTitles.forEach((item) => {
+      var array;
+      if (item.title == "Calories") {
+        array = defaultWeek.map(() => {
+          return {
+            value: Number(dietGoals[item.goal].value),
+            hideDataPoint: true,
+          };
+        });
+      } else {
+        array = defaultWeek.map(() => {
+          return { value: Number(dietGoals[item.goal]), hideDataPoint: true };
+        });
+      }
+      array[0] = { value: array[0].value, dataPointText: `${array[0].value}` };
+      lineArrays.push(array);
+    });
+
+    setGoalLines(lineArrays);
+  }, [dietGoals]);
+
+  const getStats = async () => {
+    try {
+      var token = await getAccessToken();
+      var statsData = await StatsAPI.getDietStats(token, sunday);
+
+      //calculating the max value for each macro - needed for graph display
+      var maxArray = [];
+
+      macroTitles.forEach((item) => {
+        var dietVal = dietGoals[item.goal];
+        if (item.macro == "calorieCount") dietVal = dietVal.value;
+
+        var max = Math.max(
+          ...statsData[item.macro].map((item2) => item2.value)
+        );
+        if (dietVal > max) max = dietVal;
+        maxArray.push(max);
+      });
+
+      setMax(maxArray);
+      setDataArrays(statsData);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const updateIndex = (num) => {
+    if (macroIndex + num >= 0 && macroIndex + num < 4)
+      setIndex(macroIndex + num);
+  };
+
   return (
     <View style={styles.chartBox}>
       <View style={styles.chartCircle}>
@@ -30,31 +121,80 @@ const DietStats = ({ sunday, updateStats }) => {
       </View>
       <View style={styles.chartContainer}>
         <LineChart
-          thickness={2}
-          color={ValueSheet.colours.purple}
-          maxValue={500}
-          animateOnDataChange
-          areaChart
-          hideRules
-          yAxisTextNumberOfLines={1}
-          yAxisLabelWidth={0}
-          hideYAxisText
-          hideDataPoints
-          data={data}
-          startFillColor1={ValueSheet.colours.purple}
-          endFillColor1={ValueSheet.colours.purple}
-          startOpacity={0.8}
-          endOpacity={0.1}
-          backgroundColor="transparent"
-          xAxisLength={0}
-          initialSpacing={0}
-          yAxisColor={ValueSheet.colours.black25}
-          xAxisColor={ValueSheet.colours.black25}
+          data={dataArrays[macroTitles[macroIndex].macro]}
+          data2={goalLines[macroIndex]}
           height={160}
           width={220}
-          curved
+          spacing={220 / 7}
+          thickness={2}
+          color1={ValueSheet.colours.purple}
+          hideYAxisText
+          yAxisLabelWidth={0}
+          dataPointsColor1={ValueSheet.colours.borderPurple}
+          color2={ValueSheet.colours.pink}
+          dataPointsColor2={ValueSheet.colours.pink}
+          maxValue={graphMax[macroIndex] * 1.15}
+          hideRules
+          textFontSize={13}
+          textShiftY={-8}
+          textShiftX={3}
+          textColor={ValueSheet.colours.primaryColour}
+          areaChart
+          startFillColor1={ValueSheet.colours.purple}
+          endFillColor1={ValueSheet.colours.purple}
+          startOpacity2={0.0}
+          endOpacity2={0.0}
+          startOpacity1={0.8}
+          endOpacity1={0.1}
+          xAxisLength={220}
+          yAxisColor={ValueSheet.colours.black25}
+          xAxisColor={ValueSheet.colours.black25}
         />
-        <Text style={styles.xLabel}>Score: 3.2</Text>
+        <View style={styles.row}>
+          <TouchableOpacity
+            onPress={() => {
+              updateIndex(-1);
+            }}
+          >
+            <Image
+              style={[styles.icon, styles.leftIcon]}
+              source={require("../../assets/images/left.png")}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.text, { fontSize: 20 }]}>
+            {macroTitles[macroIndex].title}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              updateIndex(+1);
+            }}
+          >
+            <Image
+              style={styles.icon}
+              source={require("../../assets/images/left.png")}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.row}>
+          <View style={styles.legendEntry}>
+            <View
+              style={[
+                styles.icon,
+                { backgroundColor: ValueSheet.colours.pink },
+              ]}
+            ></View>
+            <Text style={styles.text}> = goal </Text>
+          </View>
+          <View style={styles.legendEntry}>
+            <View
+              style={[
+                styles.icon,
+                { backgroundColor: ValueSheet.colours.purple },
+              ]}
+            ></View>
+            <Text style={styles.text}> = consumed </Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -64,7 +204,6 @@ const styles = StyleSheet.create({
   chartBox: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "center",
     marginTop: 20,
     paddingRight: 35,
   },
@@ -77,8 +216,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 35,
-    marginRight: 40,
+    marginTop: 60,
+    marginLeft: 25,
+    marginRight: 20,
   },
   imageCircle: {
     width: 28,
@@ -89,13 +229,33 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
   },
-  xLabel: {
-    fontSize: 14,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
-  },
   chartContainer: {
-    flex: 1,
+    alignItems: "center",
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 5,
+    width: 230,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+  },
+  leftIcon: {
+    transform: [
+      {
+        rotate: "180deg",
+      },
+    ],
+  },
+  legendEntry: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 5,
+    width: "50%",
   },
 });
 

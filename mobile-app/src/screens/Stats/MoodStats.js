@@ -117,13 +117,12 @@ const MoodStats = ({ sunday, updateStats }) => {
           }}
           endOpacity={0.1}
           backgroundColor="transparent"
-          xAxisLength={0}
-          initialSpacing={0}
+          xAxisLength={220}
           yAxisColor={ValueSheet.colours.black25}
           xAxisColor={ValueSheet.colours.black25}
           height={height * 0.15}
-          width={190}
-          spacing={40}
+          width={220}
+          spacing={220 / 7}
         />
         <Text style={styles.xLabel}>
           Average rating: {Math.round(averageRating * 10) / 10}/5
@@ -137,7 +136,6 @@ const styles = StyleSheet.create({
   chartBox: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "center",
     marginTop: 20,
     paddingRight: 35,
   },
@@ -151,7 +149,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 30,
-    marginRight: 35,
+    marginLeft: 25,
+    marginRight: 20,
   },
   imageCircle: {
     width: 28,
