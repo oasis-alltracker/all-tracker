@@ -53,7 +53,6 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
 
   useEffect(() => {
     getStats();
-    console.log("we got the stats again!");
   }, [sunday, updateStats]);
 
   useEffect(() => {
@@ -76,8 +75,6 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
       array[0] = { value: array[0].value, dataPointText: `${array[0].value}` };
       lineArrays.push(array);
     });
-
-    lineArrays.forEach((item) => console.log(item));
 
     setGoalLines(lineArrays);
   }, [dietGoals]);
@@ -111,9 +108,6 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
   const updateIndex = (num) => {
     if (macroIndex + num >= 0 && macroIndex + num < 4)
       setIndex(macroIndex + num);
-
-    console.log("new goal line");
-    console.log(goalLines[macroIndex + num]);
   };
 
   return (
