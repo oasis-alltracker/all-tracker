@@ -37,6 +37,8 @@ const BarcodeScanner = ({ route }) => {
   const viewfinderWidth = 375;
   const viewfinderHeight = 300;
 
+  const dietUnit = route.params?.dietUnit;
+
   useFocusEffect(
     useCallback(() => {
       setIsScanning(false);
@@ -81,6 +83,7 @@ const BarcodeScanner = ({ route }) => {
       meal: route.params.meal,
       mealName: route.params.mealName,
       dayString: route.params.dayString,
+      dietUnit: dietUnit,
     };
     if (barcodeType && barcodeData) {
       params["barcodeInfo"] = {
