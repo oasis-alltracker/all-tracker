@@ -187,12 +187,12 @@ const FitnessDiet = ({ navigation, route }) => {
       if (
         trackingPreferences.fitnessSelected &&
         trackingPreferences.dietSelected &&
-        index == 3
+        pageIndex == 3
       ) {
         setUpdateStats(updateStats + 1);
       } else if (
-        (index == 2 && !trackingPreferences.fitnessSelected) ||
-        (index == 2 && !trackingPreferences.dietSelected)
+        (pageIndex == 2 && !trackingPreferences.habitsSelected) ||
+        (pageIndex == 2 && !trackingPreferences.toDosSelected)
       ) {
         setUpdateStats(updateStats + 1);
       }
