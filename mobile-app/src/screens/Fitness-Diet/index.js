@@ -161,14 +161,14 @@ const FitnessDiet = ({ navigation, route }) => {
   useEffect(() => {
     if (trackingPreferences) {
       if (
-        trackingPreferences.habitsSelected &&
-        trackingPreferences.toDosSelected &&
+        trackingPreferences.fitnessSelected &&
+        trackingPreferences.dietSelected &&
         pageIndex == 3
       ) {
         setUpdateStats(updateStats + 1);
       } else if (
-        (pageIndex == 2 && !trackingPreferences.habitsSelected) ||
-        (pageIndex == 2 && !trackingPreferences.toDosSelected)
+        (pageIndex == 2 && !trackingPreferences.fitnessSelected) ||
+        (pageIndex == 2 && !trackingPreferences.dietSelected)
       ) {
         setUpdateStats(updateStats + 1);
       }
