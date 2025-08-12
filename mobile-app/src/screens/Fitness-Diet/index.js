@@ -415,9 +415,8 @@ const FitnessDiet = ({ navigation, route }) => {
                 style={[
                   sharedStyles.dot,
                   key === pageIndex && {
-                    backgroundColor:
-                      ValueSheet.colours[theme][theme].primaryColour,
-                    borderColor: ValueSheet.colours[theme][theme].borderNavy,
+                    backgroundColor: ValueSheet.colours[theme].primaryColour,
+                    borderColor: ValueSheet.colours[theme].borderNavy,
                   },
                 ]}
               />
