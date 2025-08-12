@@ -182,6 +182,23 @@ const FitnessDiet = ({ navigation, route }) => {
     setStyles(generateStyle(theme));
   }, [theme]);
 
+  useEffect(() => {
+    if (trackingPreferences) {
+      if (
+        trackingPreferences.fitnessSelected &&
+        trackingPreferences.dietSelected &&
+        index == 3
+      ) {
+        setUpdateStats(updateStats + 1);
+      } else if (
+        (index == 2 && !trackingPreferences.fitnessSelected) ||
+        (index == 2 && !trackingPreferences.dietSelected)
+      ) {
+        setUpdateStats(updateStats + 1);
+      }
+    }
+  }, [index]);
+
   function errorResponse(error) {
     console.log(error);
     setIsLoading(false);
