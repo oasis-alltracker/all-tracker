@@ -378,7 +378,7 @@ const FitnessDiet = ({ navigation, route }) => {
           <MenuIcon />
         </TouchableOpacity>
         <TabView
-          navigationState={{ pageIndex, routes }}
+          navigationState={{ index: pageIndex, routes }}
           renderScene={renderScene}
           onIndexChange={setPageIndex}
           initialLayout={{ width }}
