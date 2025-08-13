@@ -174,27 +174,6 @@ const FitnessDiet = ({ navigation, route }) => {
       ) {
         setUpdateStats(updateStats + 1);
       } else if (
-        (pageIndex == 2 && !trackingPreferences.fitnessSelected) ||
-        (pageIndex == 2 && !trackingPreferences.dietSelected)
-      ) {
-        setUpdateStats(updateStats + 1);
-      }
-    }
-  }, [pageIndex]);
-
-  useEffect(() => {
-    setStyles(generateStyle(theme));
-  }, [theme]);
-
-  useEffect(() => {
-    if (trackingPreferences) {
-      if (
-        trackingPreferences.fitnessSelected &&
-        trackingPreferences.dietSelected &&
-        pageIndex == 3
-      ) {
-        setUpdateStats(updateStats + 1);
-      } else if (
         (pageIndex == 2 && !trackingPreferences.habitsSelected) ||
         (pageIndex == 2 && !trackingPreferences.toDosSelected)
       ) {
