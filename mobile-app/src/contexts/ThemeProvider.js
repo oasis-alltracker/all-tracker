@@ -14,17 +14,12 @@ export const ThemeProvider = ({ children }) => {
       if (colorScheme && (colorScheme == "light" || colorScheme == "dark")) {
         setTheme(colorScheme);
       }
-      console.log(
-        "in initialuze theme, color scheme returned from async storage is " +
-          colorScheme
-      );
     };
 
     initializeTheme();
   }, []);
 
   const updateTheme = async (colorScheme) => {
-    console.log("in update theme, " + colorScheme);
     if (colorScheme == "dark" || colorScheme == "light") {
       setTheme(colorScheme);
       await AsyncStorage.setItem("theme", colorScheme);

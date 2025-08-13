@@ -140,8 +140,8 @@ export default function Main({
             />
           </TouchableOpacity>
           <CalorieBar />
-          <Text style={[styles.desc, styles.textColour]}>
-            <Text style={[styles.boldText, styles.textColour]}>
+          <Text style={[styles.desc, styles.textColor]}>
+            <Text style={[styles.boldText, styles.textColor]}>
               {Math.round(totalMacros.calorieCount * energyMultiplier)}
             </Text>{" "}
             / {dietGoals["calorieGoal"]["value"]}{" "}
@@ -160,7 +160,7 @@ export default function Main({
 
           <TouchableOpacity style={styles.addBtn}>
             <Image
-              style={styles.plus}
+              style={[styles.plus]}
               source={require("../../assets/images/add-excercise.png")}
             />
           </TouchableOpacity>
