@@ -16,6 +16,7 @@ import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import Purchases from "react-native-purchases";
 import Toast from "react-native-toast-message";
+import { ThemeProvider } from "./src/contexts/ThemeProvider";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -124,27 +125,29 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <StatusBar translucent backgroundColor="transparent" />
-        <PersistGate loading={null} persistor={persistor}>
-          {loading || !isConnected ? (
-            <ActivityIndicator
-              color={"#3097E7"}
-              size={"large"}
-              style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
-            />
-          ) : (
-            <NavigationContainer ref={navigationService._navigator}>
-              <AppNavigator
-                initialRoute={initialRoute}
-                initialMainRoute={initialMainRoute}
+    <ThemeProvider>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <StatusBar translucent backgroundColor="transparent" />
+          <PersistGate loading={null} persistor={persistor}>
+            {loading || !isConnected ? (
+              <ActivityIndicator
+                color={"#3097E7"}
+                size={"large"}
+                style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
               />
-            </NavigationContainer>
-          )}
-        </PersistGate>
-      </Provider>
-      <Toast position="top" topOffset={60} visibilityTime={2500} />
-    </SafeAreaProvider>
+            ) : (
+              <NavigationContainer ref={navigationService._navigator}>
+                <AppNavigator
+                  initialRoute={initialRoute}
+                  initialMainRoute={initialMainRoute}
+                />
+              </NavigationContainer>
+            )}
+          </PersistGate>
+        </Provider>
+        <Toast position="top" topOffset={60} visibilityTime={2500} />
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
