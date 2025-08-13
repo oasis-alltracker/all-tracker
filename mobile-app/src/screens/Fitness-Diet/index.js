@@ -31,7 +31,7 @@ const FitnessDiet = ({ navigation, route }) => {
   var { refreshGoals } = route.params?.isEditingGoals || false;
   var { foodEntriesChanged } = route.params?.foodItemsChanged || false;
   var refreshMeal = route.params?.refreshMeal || null;
-  const [index, setIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
@@ -165,6 +165,23 @@ const FitnessDiet = ({ navigation, route }) => {
     setStyles(generateStyle(theme));
   }, [theme]);
 
+  useEffect(() => {
+    if (trackingPreferences) {
+      if (
+        trackingPreferences.fitnessSelected &&
+        trackingPreferences.dietSelected &&
+        pageIndex == 3
+      ) {
+        setUpdateStats(updateStats + 1);
+      } else if (
+        (pageIndex == 2 && !trackingPreferences.fitnessSelected) ||
+        (pageIndex == 2 && !trackingPreferences.dietSelected)
+      ) {
+        setUpdateStats(updateStats + 1);
+      }
+    }
+  }, [pageIndex]);
+
   function errorResponse(error) {
     console.log(error);
     setIsLoading(false);
@@ -208,7 +225,6 @@ const FitnessDiet = ({ navigation, route }) => {
       } else {
         mealSetters[meal](defaultMacros);
       }
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -233,8 +249,6 @@ const FitnessDiet = ({ navigation, route }) => {
           mealSetters[key](defaultMacros);
         }
       }
-
-      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -364,9 +378,9 @@ const FitnessDiet = ({ navigation, route }) => {
           <MenuIcon />
         </TouchableOpacity>
         <TabView
-          navigationState={{ index, routes }}
+          navigationState={{ index: pageIndex, routes }}
           renderScene={renderScene}
-          onIndexChange={setIndex}
+          onIndexChange={setPageIndex}
           initialLayout={{ width }}
           renderTabBar={() => null}
           lazy
@@ -378,7 +392,7 @@ const FitnessDiet = ({ navigation, route }) => {
                 key={key.toString()}
                 style={[
                   sharedStyles.dot,
-                  key === index && {
+                  key === pageIndex && {
                     backgroundColor: ValueSheet.colours[theme].primaryColour,
                     borderColor: ValueSheet.colours[theme].borderNavy,
                   },
