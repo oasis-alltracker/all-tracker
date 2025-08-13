@@ -234,15 +234,15 @@ const SettingsHome = () => {
             <Text style={styles.childTitle}>Dark Mode: </Text>
             <Switch
               onValueChange={() => {
-                theme.setter(theme.theme == "light" ? "dark" : "light");
+                theme.setter(theme.value == "light" ? "dark" : "light");
               }}
-              value={theme.theme == "dark"}
+              value={theme.value == "dark"}
               trackColor={{
                 true: ValueSheet.colours.secondaryColour,
                 false: ValueSheet.colours.purple,
               }}
               thumbColor={
-                theme.theme == "dark"
+                theme.value == "dark"
                   ? ValueSheet.colours.secondaryColour
                   : ValueSheet.colours.purple
               }

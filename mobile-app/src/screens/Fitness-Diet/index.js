@@ -26,7 +26,7 @@ import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const FitnessDiet = ({ navigation, route }) => {
-  const theme = useContext(ThemeContext).theme;
+  const theme = useContext(ThemeContext).value;
   const [styles, setStyles] = useState(generateStyle("light"));
   var { refreshGoals } = route.params?.isEditingGoals || false;
   var { foodEntriesChanged } = route.params?.foodItemsChanged || false;

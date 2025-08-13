@@ -25,7 +25,7 @@ export default function Main({
 }) {
   const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
   const today = new Date();
-  const theme = useContext(ThemeContext).theme;
+  const theme = useContext(ThemeContext).value;
   const [styles, setStyle] = useState(generateStyle("light"));
   const colours = [
     ValueSheet.colours[theme].borderGrey,
