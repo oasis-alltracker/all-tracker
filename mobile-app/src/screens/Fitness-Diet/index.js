@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TabView } from "react-native-tab-view";
 import { getAccessToken } from "../../user/keychain";
 import moment from "moment";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 
 import FoodEntriesMacrosAPI from "../../api/diet/foodEntriesMacrosAPI";
 import FoodEntriesAPI from "../../api/diet/foodEntriesAPI";
@@ -95,6 +95,7 @@ const FitnessDiet = ({ navigation, route }) => {
   });
 
   const [dietModalVisible, setDietVisible] = useState(false);
+  const [updateStats, setUpdateStats] = useState(0);
   const theme = useContext(ThemeContext);
   const [styles, setStyles] = useState(generateStyle("colours"));
 
@@ -167,19 +168,11 @@ const FitnessDiet = ({ navigation, route }) => {
   function errorResponse(error) {
     console.log(error);
     setIsLoading(false);
-    if (Platform.OS === "ios") {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-      });
-    } else {
-      Toast.show("Something went wrong. Please try again.", {
-        ...styles.errorToast,
-        duration: Toast.durations.LONG,
-        position: Toast.positions.TOP,
-      });
-    }
+    Toast.show({
+      type: "info",
+      text1: "Something went wrong",
+      text2: "Please try again later.",
+    });
   }
 
   const getAllMeals = async (token) => {
@@ -215,6 +208,7 @@ const FitnessDiet = ({ navigation, route }) => {
       } else {
         mealSetters[meal](defaultMacros);
       }
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -240,6 +234,7 @@ const FitnessDiet = ({ navigation, route }) => {
         }
       }
 
+      setUpdateStats(updateStats + 1);
       setIsLoading(false);
     } catch (e) {
       errorResponse(e);
@@ -347,7 +342,13 @@ const FitnessDiet = ({ navigation, route }) => {
       case "third":
         return <Fitness />;
       case "fourth":
-        return <Statistics />;
+        return (
+          <Statistics
+            dietGoals={dietGoals}
+            day={day}
+            updateStats={updateStats}
+          />
+        );
       default:
         return null;
     }
@@ -391,6 +392,7 @@ const FitnessDiet = ({ navigation, route }) => {
         isVisible={dietModalVisible}
         setVisible={setDietVisible}
         dayString={day.toISOString()}
+        dietUnit={dietGoals.calorieGoal.units}
       />
     </SafeAreaView>
   );

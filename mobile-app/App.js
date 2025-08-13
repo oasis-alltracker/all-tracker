@@ -15,12 +15,13 @@ import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import Purchases from "react-native-purchases";
+import Toast from "react-native-toast-message";
 import { ThemeProvider } from "./src/contexts/ThemeProvider";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Sego: require("./src/assets/fonts/segoesc.ttf"),
-    "Sego-Bold": require("./src/assets/fonts/segoesc_bold.ttf"),
+    Quicksand: require("./src/assets/fonts/Quicksand-Regular.ttf"),
+    "Quicksand-SemiBold": require("./src/assets/fonts/Quicksand-SemiBold.ttf"),
   });
   const [loading, setLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -145,6 +146,7 @@ export default function App() {
             )}
           </PersistGate>
         </Provider>
+        <Toast position="top" topOffset={60} visibilityTime={2500} />
       </SafeAreaProvider>
     </ThemeProvider>
   );

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 import CheckBox from "../../../assets/icons/checkbox";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { getAccessToken } from "../../../user/keychain";
@@ -85,39 +85,20 @@ const Agreement = () => {
         setIsLoading(false);
         navigationService.navigate("setup");
       } catch (e) {
+        console.log(e);
         setIsLoading(false);
-        if (Platform.OS === "ios") {
-          "Something went wrong. Please try again.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.BOTTOM,
-            };
-        } else {
-          "Something went wrong. Please try again.",
-            {
-              ...styles.errorToast,
-              duration: Toast.durations.LONG,
-              position: Toast.positions.TOP,
-            };
-        }
+        Toast.show({
+          type: "info",
+          text1: "Something went wrong",
+          text2: "Please try again later.",
+        });
       }
     } else {
-      if (Platform.OS === "ios") {
-        "You must sign the agreement to continue.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          };
-      } else {
-        "You must sign the agreement to continue.",
-          {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          };
-      }
+      Toast.show({
+        type: "info",
+        text1: "Unchecked agreements",
+        text2: "Please confirm you read and understand the agreements.",
+      });
     }
   };
 
@@ -216,11 +197,6 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "space-between",
     paddingBottom: 50,
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

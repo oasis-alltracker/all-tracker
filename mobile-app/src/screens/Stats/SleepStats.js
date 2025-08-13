@@ -12,8 +12,7 @@ import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../ValueSheet";
-
-import Toast from "react-native-root-toast";
+import Toast from "react-native-toast-message";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -57,19 +56,11 @@ const SleepStats = ({ sunday, updateStats }) => {
         setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
-        if (Platform.OS === "ios") {
-          Toast.show("Something went wrong. Please refresh the page.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.BOTTOM,
-          });
-        } else {
-          Toast.show("Something went wrong. Please refresh the page.", {
-            ...styles.errorToast,
-            duration: Toast.durations.LONG,
-            position: Toast.positions.TOP,
-          });
-        }
+        Toast.show({
+          type: "info",
+          text1: "Failed to retrieve sleep stats",
+          text2: "Please refresh the page by exiting and returning to it.",
+        });
       }
     };
     if (updateStats > 0) {
@@ -111,13 +102,12 @@ const SleepStats = ({ sunday, updateStats }) => {
           }}
           endOpacity={0.1}
           backgroundColor="transparent"
-          xAxisLength={0}
-          initialSpacing={0}
+          xAxisLength={220}
           yAxisColor={ValueSheet.colours.black25}
           xAxisColor={ValueSheet.colours.black25}
           height={height * 0.15}
-          width={190}
-          spacing={40}
+          width={220}
+          spacing={220 / 7}
         />
         <Text style={styles.xLabel}>
           Average rating: {Math.round(averageRating * 10) / 10}/5
@@ -131,7 +121,6 @@ const styles = StyleSheet.create({
   chartBox: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "center",
     marginTop: 20,
     paddingRight: 35,
   },
@@ -145,7 +134,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 30,
-    marginRight: 35,
+    marginLeft: 25,
+    marginRight: 20,
   },
   imageCircle: {
     width: 28,
@@ -163,11 +153,6 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: "center",
-  },
-  errorToast: {
-    textColor: ValueSheet.colours.background,
-    zIndex: 999,
-    elevation: 100,
   },
 });
 

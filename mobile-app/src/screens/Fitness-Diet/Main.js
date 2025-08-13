@@ -24,6 +24,7 @@ export default function Main({
   dietGoals,
   setDietModalVisible,
 }) {
+  const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
   const theme2 = useColorScheme();
   const theme = useContext(ThemeContext);
   const today = new Date();
@@ -40,7 +41,11 @@ export default function Main({
   }, [theme]);
 
   const CalorieBar = () => {
-    var percentage = totalMacros.calorieCount / dietGoals.calorieGoal.value;
+    var denom =
+      dietGoals.calorieGoal.units == "kcal"
+        ? dietGoals.calorieGoal.value
+        : dietGoals.calorieGoal.value / 4.184;
+    var percentage = totalMacros.calorieCount / denom;
     var consumedPercent = `${((percentage % 1) * 100).toFixed(0)}%`;
     var index = Math.floor(percentage);
     var innerColor;
@@ -97,14 +102,18 @@ export default function Main({
           />
         </TouchableOpacity>
         <>
-          {moment(day).format("YYYYMMDD") ==
-          moment(today).format("YYYYMMDD") ? (
-            <Text style={[sharedStyles.dateText, styles.textColor]}>Today</Text>
-          ) : (
-            <Text style={[sharedStyles.dateText, styles.textColor]}>
-              {day.toDateString().slice(4, -5)}
-            </Text>
-          )}
+          <View style={sharedStyles.dateTextContainer}>
+            {moment(day).format("YYYYMMDD") ==
+            moment(today).format("YYYYMMDD") ? (
+              <Text style={[sharedStyles.dateText, styles.textColor]}>
+                Today
+              </Text>
+            ) : (
+              <Text style={[sharedStyles.dateText, styles.textColor]}>
+                {day.toDateString().slice(4, -5)}
+              </Text>
+            )}
+          </View>
         </>
         <TouchableOpacity
           style={[
@@ -140,8 +149,10 @@ export default function Main({
           </TouchableOpacity>
           <CalorieBar />
           <Text style={styles.desc}>
-            <Text style={styles.boldText}>{totalMacros["calorieCount"]}</Text> /{" "}
-            {dietGoals["calorieGoal"]["value"]}{" "}
+            <Text style={styles.boldText}>
+              {Math.round(totalMacros.calorieCount * energyMultiplier)}
+            </Text>{" "}
+            / {dietGoals["calorieGoal"]["value"]}{" "}
             {dietGoals["calorieGoal"]["units"]}
           </Text>
         </>

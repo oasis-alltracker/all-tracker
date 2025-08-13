@@ -19,11 +19,19 @@ import moment from "moment";
 import { getAccessToken } from "../../user/keychain";
 import UserAPI from "../../api/user/userAPI";
 import { ValueSheet } from "../../ValueSheet";
+import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
+import { sharedStyles } from "../styles";
 
 const Stats = ({ getRef }) => {
   const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
   const [trackingPreferences, setTrackingPreferences] = useState(false);
+  const [dietGoals, setDietGoals] = useState({
+    calorieGoal: { units: "kcal", value: 2000 },
+    carbGoal: 200,
+    fatGoal: 67,
+    proteinGoal: 150,
+  });
 
   const [updateStats, setUpdateStats] = useState(1);
 
@@ -43,7 +51,9 @@ const Stats = ({ getRef }) => {
     const getPreferencesOnLoad = async () => {
       token = await getAccessToken();
       user = await UserAPI.getUser(token);
+      var dietGoals = await DietGoalsAPI.getDietGoals(token);
 
+      setDietGoals(dietGoals);
       setTrackingPreferences(user.data.trackingPreferences);
     };
     let ref = {
@@ -106,14 +116,16 @@ const Stats = ({ getRef }) => {
               />
             </TouchableOpacity>
             <>
-              {moment(thisSunday).format("YYYYMMDD") ==
-              moment(selectedSunday).format("YYYYMMDD") ? (
-                <Text style={styles.dateNameMain}>This week</Text>
-              ) : (
-                <Text style={styles.dateNameMain}>
-                  Week of {selectedSunday.toDateString().slice(4, -5)}
-                </Text>
-              )}
+              <View style={sharedStyles.dateTextContainer}>
+                {moment(thisSunday).format("YYYYMMDD") ==
+                moment(selectedSunday).format("YYYYMMDD") ? (
+                  <Text style={styles.dateNameMain}>This week</Text>
+                ) : (
+                  <Text style={styles.dateNameMain}>
+                    Week of {selectedSunday.toDateString().slice(4, -5)}
+                  </Text>
+                )}
+              </View>
             </>
             <TouchableOpacity
               style={styles.buttonMain}
@@ -179,7 +191,13 @@ const Stats = ({ getRef }) => {
                 </View>
                 <Text style={styles.entityTitle}>Body</Text>
               </View>
-              {trackingPreferences?.dietSelected && <DietStats />}
+              {trackingPreferences?.dietSelected && (
+                <DietStats
+                  sunday={moment(selectedSunday).format("YYYYMMDD")}
+                  updateStats={updateStats}
+                  dietGoals={dietGoals}
+                />
+              )}
               {trackingPreferences?.fitnessSelected && <FitnessStats />}
             </View>
           )}
