@@ -194,7 +194,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 />
               </TouchableOpacity>
               <TextInput
-                placeholderTextColor={"#7B97BC"}
+                placeholderTextColor={ValueSheet.colours.inputGrey}
                 placeholder="Name"
                 style={[styles.title, { width: "75%" }]}
                 onChangeText={setHabitName}

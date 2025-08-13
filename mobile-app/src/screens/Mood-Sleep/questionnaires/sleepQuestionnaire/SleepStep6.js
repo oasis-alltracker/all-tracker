@@ -68,7 +68,7 @@ const SleepStep6 = (props) => {
             <TextInput
               multiline
               placeholderTextColor={ValueSheet.colours.inputGrey}
-              placeholder="Decsribe your dream in as much detail as you'd like:"
+              placeholder="Describe your dream in as much detail as you'd like:"
               style={styles.input}
               onChangeText={setJournal}
               value={journal}
