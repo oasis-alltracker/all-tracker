@@ -20,10 +20,6 @@ export const ThemeProvider = ({ children }) => {
       } else {
         Appearance.setColorScheme(null);
       }
-      console.log(
-        "in initialuze theme, color scheme returned from async storage is" +
-          colorScheme
-      );
       setTheme(colorScheme == "dark" ? "darkColours" : "colours");
       skip = false;
     };
@@ -31,9 +27,7 @@ export const ThemeProvider = ({ children }) => {
     initializeTheme();
 
     const listener = Appearance.addChangeListener(({ colorScheme }) => {
-      console.log("in apperance listener, color scheme is " + colorScheme);
       if (!skip) {
-        console.log("didnt skip!");
         setTheme(colorScheme == "dark" ? "darkColours" : "colours");
         AsyncStorage.setItem("theme", colorScheme);
       }

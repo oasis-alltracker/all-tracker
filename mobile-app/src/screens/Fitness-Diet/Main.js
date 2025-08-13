@@ -12,7 +12,6 @@ import moment from "moment";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
-import { Appearance, useColorScheme } from "react-native";
 
 export default function Main({
   day,
@@ -25,7 +24,6 @@ export default function Main({
   setDietModalVisible,
 }) {
   const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
-  const theme2 = useColorScheme();
   const theme = useContext(ThemeContext);
   const today = new Date();
   const colours = [
@@ -174,7 +172,6 @@ export default function Main({
           </TouchableOpacity>
         </>
       )}
-      <Text>{theme2}</Text>
     </ScrollView>
   );
 }
