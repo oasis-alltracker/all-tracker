@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -7,8 +7,10 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Switch,
+  Appearance,
 } from "react-native";
-import { Header } from "../../components";
+import { Button, Header } from "../../components";
 import navigationService from "../../navigators/navigationService";
 import { logout } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -17,6 +19,7 @@ import UserAPI from "../../api/user/userAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const generalSettings = {
   img: require("../../assets/images/tracking.png"),
@@ -69,6 +72,8 @@ const accountSettings = {
 const SettingsHome = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [trackingPreferences, setTrackingPreferences] = useState([]);
+  const theme = useContext(ThemeContext);
+  const [usingDefaultTheme, setUsingDefaultTheme] = useState(false);
 
   const deleteAccount = async () => {
     setIsLoading(true);
@@ -218,6 +223,41 @@ const SettingsHome = () => {
               />
             </TouchableOpacity>
           ))}
+        </View>
+
+        <View style={styles.item}>
+          <View style={styles.itemHead}>
+            <Image source={helpSettings.img} style={styles.itemImg} />
+            <Text style={styles.itemTitle}>Theme</Text>
+          </View>
+          <View style={styles.child}>
+            <Text style={styles.childTitle}>Dark Mode: </Text>
+            <Switch
+              onValueChange={() => {
+                Appearance.setColorScheme(
+                  theme == "darkColours" ? "light" : "dark"
+                );
+              }}
+              value={theme == "darkColours"}
+              trackColor={{
+                true: ValueSheet.colours.secondaryColour,
+                false: ValueSheet.colours.purple,
+              }}
+              thumbColor={
+                theme == "darkColours"
+                  ? ValueSheet.colours.secondaryColour
+                  : ValueSheet.colours.purple
+              }
+            />
+          </View>
+
+          <Button
+            onPress={() => {
+              Appearance.setColorScheme(null);
+            }}
+          >
+            System Default
+          </Button>
         </View>
       </ScrollView>
     </SafeAreaView>

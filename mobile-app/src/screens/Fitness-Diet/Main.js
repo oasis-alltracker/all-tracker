@@ -155,13 +155,7 @@ export default function Main({
             </Text>
           </View>
 
-          <TouchableOpacity
-            style={styles.addBtn}
-            onPress={() => {
-              //prettier-ignore
-              Appearance.setColorScheme('light');
-            }}
-          >
+          <TouchableOpacity style={styles.addBtn}>
             <Image
               style={styles.plus}
               source={require("../../assets/images/add-excercise.png")}
@@ -169,7 +163,7 @@ export default function Main({
           </TouchableOpacity>
         </>
       )}
-      <Text>{theme}</Text>
+      <Text>{theme2}</Text>
     </ScrollView>
   );
 }
