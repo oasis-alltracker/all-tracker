@@ -16,6 +16,7 @@
       "icon": "./src/assets/images/space-oasis-icon-logo.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.oasistracker",
+      "userInterfaceStyle": "automatic",
       "infoPlist": {
         "CFBundleURLTypes": [
           {
@@ -33,7 +34,8 @@
         "foregroundImage": "./src/assets/images/space-oasis-icon-logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.oasistracker"
+      "package": "com.oasistracker",
+      "userInterfaceStyle": "automatic"
     },
     "web": {
       "favicon": "./assets/favicon.png"

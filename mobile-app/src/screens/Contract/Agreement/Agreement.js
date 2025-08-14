@@ -143,9 +143,9 @@ const Agreement = () => {
             </TouchableOpacity>
             <Text style={styles.agreementText}>
               I understand and agree to the{" "}
-              <Text style={styles.boldText}>Terms of Sevice</Text>, including
+              <Text style={styles.boldText}>Terms of Service</Text>, including
               the <Text style={styles.boldText}>Privacy Policy</Text> and{" "}
-              <Text style={styles.boldText}>User Agreemeent</Text>
+              <Text style={styles.boldText}>User Agreement</Text>
             </Text>
           </View>
         </View>
