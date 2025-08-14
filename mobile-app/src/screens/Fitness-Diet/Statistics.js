@@ -6,16 +6,18 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import DietStats from "../Stats/DietStats";
 import FitnessStats from "../Stats/FitnessStats";
 import { ValueSheet } from "../../ValueSheet";
 import moment from "moment";
 import { sharedStyles } from "../styles";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 export default function Statistics({ dietGoals, day, updateStats }) {
   var thisSunday = moment(day).day(0);
   const [sunday, setSunday] = useState(moment(thisSunday));
+  const theme = useContext(ThemeContext).value;
 
   const decreaseWeek = () => {
     var newSunday = moment(sunday).day(-7);
@@ -48,7 +50,10 @@ export default function Statistics({ dietGoals, day, updateStats }) {
       </View>
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
-          style={sharedStyles.changeDateButton}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
           onPress={decreaseWeek}
         >
           <Image
@@ -58,14 +63,21 @@ export default function Statistics({ dietGoals, day, updateStats }) {
         </TouchableOpacity>
 
         <Text
-          style={[sharedStyles.dateText, { fontSize: 26, marginVertical: 3.5 }]}
+          style={[
+            sharedStyles.dateText,
+            sharedStyles["textColour_" + theme],
+            { fontSize: 26, marginVertical: 3.5 },
+          ]}
         >
           {thisSunday.isSame(sunday, "day")
             ? "This week"
             : sunday.format("[Week of] MMM D")}
         </Text>
         <TouchableOpacity
-          style={sharedStyles.changeDateButton}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
           onPress={increaseWeek}
         >
           <Image

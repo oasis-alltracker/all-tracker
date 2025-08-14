@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 import { ValueSheet } from "../../../ValueSheet";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 export default function EditMacroGoalsModal({
   getRef,
@@ -34,10 +36,10 @@ export default function EditMacroGoalsModal({
   const [proteinGoalValue, setProteinGoalValue] = useState(0);
   const [fatGoalValue, setFatGoalValue] = useState(0);
 
-  const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setVisible] = useState(false);
   const updateMacrosRef = useRef(null);
   const isEditingMacros = true;
+  const theme = useContext(ThemeContext).value;
 
   const onUpdateMacroValue = async (macroLabel, macroValue, units) => {
     var newCalories = calorieGoalValue;
@@ -152,16 +154,31 @@ export default function EditMacroGoalsModal({
       backdropOpacity={0}
       style={styles.modal}
     >
-      <View style={styles.container}>
+      <View
+        style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+      >
         <View style={styles.macroContainerStyle}>
-          <View style={[styles.item, styles.head]}>
+          <View
+            style={[
+              styles.item,
+              styles.head,
+              sharedStyles["borderedContainer_" + theme],
+            ]}
+          >
             <View style={[styles.item, styles.headItem]}>
               <View style={styles.row}>
                 <Image
                   source={require("../../../assets/images/calories.png")}
-                  style={styles.calorieItemImg}
+                  style={[styles.calorieItemImg, sharedStyles["tint_" + theme]]}
                 />
-                <Text style={styles.calorieText}>Calories</Text>
+                <Text
+                  style={[
+                    styles.calorieText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Calories
+                </Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
@@ -174,21 +191,40 @@ export default function EditMacroGoalsModal({
                 }}
               >
                 <Image
-                  style={styles.calorieEditImg}
+                  style={[styles.calorieEditImg, sharedStyles["tint_" + theme]]}
                   source={require("../../../assets/images/edit.png")}
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.calorieValue}>
+            <Text
+              style={[styles.calorieValue, sharedStyles["textColour_" + theme]]}
+            >
               {calories} {calorieUnit}
             </Text>
           </View>
           {datas.map((item, index) => (
-            <View style={styles.item} key={index}>
+            <View
+              style={[styles.item, sharedStyles["borderedContainer_" + theme]]}
+              key={index}
+            >
               <View style={styles.row}>
-                <Image source={item.img} style={styles.itemImg} />
-                <Text style={styles.text}>{item.label}</Text>
-                <Text style={styles.itemValue}>{item.value}</Text>
+                <Image
+                  source={item.img}
+                  style={[styles.itemImg, sharedStyles["tint_" + theme]]}
+                />
+                <Text
+                  style={[styles.text, sharedStyles["textColour_" + theme]]}
+                >
+                  {item.label}
+                </Text>
+                <Text
+                  style={[
+                    styles.itemValue,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  {item.value}
+                </Text>
               </View>
               <TouchableOpacity
                 onPress={() => {
@@ -201,7 +237,7 @@ export default function EditMacroGoalsModal({
                 }}
               >
                 <Image
-                  style={styles.editImg}
+                  style={[styles.editImg, sharedStyles["tint_" + theme]]}
                   source={require("../../../assets/images/edit.png")}
                 />
               </TouchableOpacity>
@@ -210,23 +246,53 @@ export default function EditMacroGoalsModal({
         </View>
         <View>
           <TouchableOpacity
-            style={[styles.button, styles.recalculateButton]}
+            style={[
+              styles.button,
+              styles.recalculateButton,
+              {
+                backgroundColor: ValueSheet.colours[theme].purple,
+                borderColor: ValueSheet.colours[theme].borderPurple,
+              },
+            ]}
             onPress={() => onRecalculate()}
           >
-            <Text style={styles.buttonText}>Recalculate goals</Text>
+            <Text
+              style={[styles.buttonText, sharedStyles["textColour_" + theme]]}
+            >
+              Recalculate goals
+            </Text>
           </TouchableOpacity>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={[styles.button, styles.closeButton]}
+              style={[
+                styles.button,
+                styles.bottomButton,
+                sharedStyles["borderedContainer_" + theme],
+              ]}
               onPress={() => closeModal()}
             >
-              <Text style={styles.buttonText}>Close</Text>
+              <Text
+                style={[styles.buttonText, sharedStyles["textColour_" + theme]]}
+              >
+                Close
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.saveButton]}
+              style={[
+                styles.button,
+                styles.bottomButton,
+                {
+                  backgroundColor: ValueSheet.colours[theme].secondaryColour70,
+                  borderColor: ValueSheet.colours[theme].borderGrey75,
+                },
+              ]}
               onPress={() => onSave()}
             >
-              <Text style={styles.buttonText}>Save</Text>
+              <Text
+                style={[styles.buttonText, sharedStyles["textColour_" + theme]]}
+              >
+                Save
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -248,10 +314,8 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
   },
   macroContainerStyle: {
     paddingTop: 20,
@@ -270,7 +334,6 @@ const styles = StyleSheet.create({
   },
   item: {
     borderWidth: 1,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     marginHorizontal: 20,
     marginBottom: 15,
@@ -283,18 +346,15 @@ const styles = StyleSheet.create({
   itemValue: {
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     marginLeft: 15,
   },
   calorieValue: {
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
   },
   calorieText: {
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   calorieEditImg: {
     width: 30,
@@ -322,7 +382,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -332,7 +391,6 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     paddingTop: 10,
     paddingBottom: 13,
@@ -342,23 +400,13 @@ const styles = StyleSheet.create({
   },
   recalculateButton: {
     width: "70%",
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderGrey75,
   },
-  closeButton: {
+  bottomButton: {
     width: "35%",
     marginHorizontal: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
-  },
-  saveButton: {
-    width: "35%",
-    marginHorizontal: 2,
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    borderColor: ValueSheet.colours.borderGrey75,
   },
   buttonText: {
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
 });
