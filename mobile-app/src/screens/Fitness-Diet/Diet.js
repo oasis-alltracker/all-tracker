@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import * as Progress from "react-native-progress";
 import EditMacroGoalsModal from "./modals/EditMacroGoalsModal";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const mealTitles = [
   {
@@ -63,16 +64,20 @@ export default function Diet({
   const calorieDif = Math.round(
     dietGoals.calorieGoal.value - totalMacros.calorieCount * energyMultiplier
   );
+  const theme = useContext(ThemeContext).value;
   const colours = [
-    ValueSheet.colours.borderGrey,
-    ValueSheet.colours.secondaryColour,
-    ValueSheet.colours.progressLightTeal,
-    ValueSheet.colours.progressTeal,
+    ValueSheet.colours[theme].borderGrey,
+    ValueSheet.colours[theme].secondaryColour,
+    ValueSheet.colours[theme].progressLightTeal,
+    ValueSheet.colours[theme].progressTeal,
   ];
 
   const EmptyMeal = ({ item }) => (
     <TouchableOpacity
-      style={styles.borderedContainer}
+      style={[
+        styles.borderedContainer,
+        sharedStyles["borderedContainer_" + theme],
+      ]}
       onPress={() => {
         navigationService.navigate("mealPage", {
           dateString: day.toLocaleDateString(),
@@ -83,7 +88,9 @@ export default function Diet({
       }}
     >
       <View style={[styles.row, { marginBottom: 0 }]}>
-        <Text style={styles.itemText}>{item?.name}</Text>
+        <Text style={[styles.itemText, sharedStyles["textColour_" + theme]]}>
+          {item?.name}
+        </Text>
         <TouchableOpacity
           onPress={() => {
             navigationService.navigate("searchFood", {
@@ -94,7 +101,7 @@ export default function Diet({
           }}
         >
           <Image
-            style={styles.plus}
+            style={[styles.plus, sharedStyles["tint_" + theme]]}
             source={require("../../assets/images/plus512.png")}
           />
         </TouchableOpacity>
@@ -104,7 +111,10 @@ export default function Diet({
 
   const MealWithEntries = ({ item }) => (
     <TouchableOpacity
-      style={styles.borderedContainer}
+      style={[
+        styles.borderedContainer,
+        sharedStyles["borderedContainer_" + theme],
+      ]}
       onPress={() => {
         navigationService.navigate("mealPage", {
           dateString: day.toLocaleDateString(),
@@ -115,10 +125,12 @@ export default function Diet({
       }}
     >
       <View style={styles.row}>
-        <Text style={styles.itemText}>{item.name}</Text>
+        <Text style={[styles.itemText, sharedStyles["textColour_" + theme]]}>
+          {item.name}
+        </Text>
         <TouchableOpacity>
           <Image
-            style={styles.plus}
+            style={[styles.plus, sharedStyles["tint_" + theme]]}
             source={require("../../assets/images/edit.png")}
           />
         </TouchableOpacity>
@@ -131,18 +143,35 @@ export default function Diet({
           <Text
             ellipsizeMode="tail"
             numberOfLines={1}
-            style={[styles.subItemText, { flexShrink: 1 }]}
+            style={[
+              styles.subItemText,
+              sharedStyles["textColour_" + theme],
+              { flexShrink: 1 },
+            ]}
           >
             {item.name}
           </Text>
-          <Text style={styles.subItemText}>
+          <Text
+            style={[styles.subItemText, sharedStyles["textColour_" + theme]]}
+          >
             {Math.round(item.calorieCount * energyMultiplier)}{" "}
             {dietGoals.calorieGoal.units}
           </Text>
         </View>
       ))}
-      <View style={styles.line} />
-      <Text style={[styles.subItemText, { textAlign: "center" }]}>
+      <View
+        style={[
+          styles.line,
+          { borderBottomColor: ValueSheet.colours[theme].grey },
+        ]}
+      />
+      <Text
+        style={[
+          styles.subItemText,
+          sharedStyles["textColour_" + theme],
+          { textAlign: "center" },
+        ]}
+      >
         {Math.round(meals[item.name].calorieCount * energyMultiplier)}{" "}
         {dietGoals.calorieGoal.units}
       </Text>
@@ -176,10 +205,20 @@ export default function Diet({
           borderColor={ValueSheet.colours.borderGrey}
         >
           <View style={styles.progressCircleContent}>
-            <Text style={[styles.boldText, { fontSize: 22 }]}>
+            <Text
+              style={[
+                styles.boldText,
+                sharedStyles["textColour_" + theme],
+                { fontSize: 22 },
+              ]}
+            >
               {totalMacros[item.consumed]}g
             </Text>
-            <Text style={styles.miniText}>/{dietGoals[item.goal]}g</Text>
+            <Text
+              style={[styles.miniText, sharedStyles["textColour_" + theme]]}
+            >
+              /{dietGoals[item.goal]}g
+            </Text>
           </View>
         </Progress.Circle>
       </View>
@@ -229,7 +268,11 @@ export default function Diet({
       >
         <View style={{ alignItems: "center" }}>
           <View
-            style={[sharedStyles.headerImageContainer, styles.imageContainer]}
+            style={[
+              sharedStyles.headerImageContainer,
+              styles.imageContainer,
+              sharedStyles["tint_" + theme],
+            ]}
           >
             <Image
               style={sharedStyles.headerImage}
@@ -240,7 +283,10 @@ export default function Diet({
 
         <View style={sharedStyles.datePickerView}>
           <TouchableOpacity
-            style={sharedStyles.changeDateButton}
+            style={[
+              sharedStyles.changeDateButton,
+              sharedStyles["changeDateButton_" + theme],
+            ]}
             onPress={() => updateDate(-1)}
           >
             <Image
@@ -252,16 +298,31 @@ export default function Diet({
             <View style={sharedStyles.dateTextContainer}>
               {moment(day).format("YYYYMMDD") ==
               moment(today).format("YYYYMMDD") ? (
-                <Text style={sharedStyles.dateText}>Today</Text>
+                <Text
+                  style={[
+                    sharedStyles.dateText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Today
+                </Text>
               ) : (
-                <Text style={sharedStyles.dateText}>
+                <Text
+                  style={[
+                    sharedStyles.dateText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
                   {day.toDateString().slice(4, -5)}
                 </Text>
               )}
             </View>
           </>
           <TouchableOpacity
-            style={sharedStyles.changeDateButton}
+            style={[
+              sharedStyles.changeDateButton,
+              sharedStyles["changeDateButton_" + theme],
+            ]}
             onPress={() => updateDate(1)}
           >
             <Image
@@ -271,9 +332,22 @@ export default function Diet({
           </TouchableOpacity>
         </View>
 
-        <View style={styles.borderedContainer}>
+        <View
+          style={[
+            styles.borderedContainer,
+            sharedStyles["borderedContainer_" + theme],
+          ]}
+        >
           <View style={styles.row}>
-            <Text style={[styles.boldText, { marginBottom: 10 }]}>Macros</Text>
+            <Text
+              style={[
+                styles.boldText,
+                sharedStyles["textColour_" + theme],
+                { marginBottom: 10 },
+              ]}
+            >
+              Macros
+            </Text>
             <TouchableOpacity
               onPress={() => {
                 editMacroGoalsRef.current.open({
@@ -286,32 +360,48 @@ export default function Diet({
               }}
             >
               <Image
-                style={styles.plus}
+                style={[styles.plus, sharedStyles["tint_" + theme]]}
                 source={require("../../assets/images/edit.png")}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <Text style={styles.miniText}>Eaten</Text>
-            <Text style={styles.miniText}>
+            <Text
+              style={[styles.miniText, sharedStyles["textColour_" + theme]]}
+            >
+              Eaten
+            </Text>
+            <Text
+              style={[styles.miniText, sharedStyles["textColour_" + theme]]}
+            >
               {calorieDif > 0 ? "Remaining" : "Exceeded"}
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.desc}>
-              <Text style={styles.boldText}>
+            <Text style={[styles.desc, sharedStyles["textColour_" + theme]]}>
+              <Text
+                style={[styles.boldText, sharedStyles["textColour_" + theme]]}
+              >
                 {Math.round(totalMacros.calorieCount * energyMultiplier)}
               </Text>{" "}
               {dietGoals.calorieGoal.units}
             </Text>
-            <Text style={styles.boldText}>{Math.abs(calorieDif)}</Text>
+            <Text
+              style={[styles.boldText, sharedStyles["textColour_" + theme]]}
+            >
+              {Math.abs(calorieDif)}
+            </Text>
           </View>
           <CalorieBar />
           <View style={[styles.row, { gap: 10 }]}>
             {macroKeys.map((item, index) => (
               <View style={styles.item} key={index}>
                 <MacroProgressCircle item={item} />
-                <Text style={styles.desc}>{item.title}</Text>
+                <Text
+                  style={[styles.desc, sharedStyles["textColour_" + theme]]}
+                >
+                  {item.title}
+                </Text>
               </View>
             ))}
           </View>
@@ -346,21 +436,17 @@ const styles = StyleSheet.create({
   },
   desc: {
     fontSize: 20,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   boldText: {
     fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
   },
   miniText: {
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   borderedContainer: {
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 40,
     marginHorizontal: 20,
     marginTop: 30,
@@ -373,7 +459,6 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   filler: {
-    backgroundColor: ValueSheet.colours.secondaryColour,
     maxWidth: "100%",
     height: "100%",
   },
@@ -385,12 +470,10 @@ const styles = StyleSheet.create({
   itemText: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 32,
-    color: ValueSheet.colours.primaryColour,
   },
   subItemText: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
   },
   item: {
     flex: 1,
@@ -406,7 +489,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   line: {
-    borderBottomColor: ValueSheet.colours.grey,
     borderBottomWidth: 1,
     marginVertical: 10,
   },

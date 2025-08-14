@@ -83,7 +83,7 @@ export default function Main({
         ]}
       >
         <Image
-          style={sharedStyles.headerImage}
+          style={[sharedStyles.headerImage, sharedStyles.tint_light]}
           source={require("../../assets/images/body-white.png")}
         />
       </View>
@@ -93,7 +93,7 @@ export default function Main({
         <TouchableOpacity
           style={[
             sharedStyles.changeDateButton,
-            { backgroundColor: ValueSheet.colours[theme].secondaryColour },
+            sharedStyles["changeDateButton_" + theme],
           ]}
           onPress={() => updateDate(-1)}
         >
@@ -109,7 +109,7 @@ export default function Main({
               <Text
                 style={[
                   sharedStyles.dateText,
-                  { color: ValueSheet.colours[theme].primaryColour },
+                  sharedStyles["textColour_" + theme],
                 ]}
               >
                 Today
@@ -118,7 +118,7 @@ export default function Main({
               <Text
                 style={[
                   sharedStyles.dateText,
-                  { color: ValueSheet.colours[theme].primaryColour },
+                  sharedStyles["textColour_" + theme],
                 ]}
               >
                 {day.toDateString().slice(4, -5)}
@@ -129,7 +129,7 @@ export default function Main({
         <TouchableOpacity
           style={[
             sharedStyles.changeDateButton,
-            { backgroundColor: ValueSheet.colours[theme].secondaryColour },
+            sharedStyles["changeDateButton_" + theme],
           ]}
           onPress={() => updateDate(1)}
         >
@@ -146,45 +146,26 @@ export default function Main({
             <Text
               style={[
                 sharedStyles.trackerTitle,
-                { color: ValueSheet.colours[theme].primaryColour },
+                sharedStyles["textColour_" + theme],
               ]}
             >
               Diet
             </Text>
           </View>
           <TouchableOpacity
-            style={[
-              styles.addBtn,
-              {
-                borderColor: ValueSheet.colours[theme].borderGrey,
-                backgroundColor: ValueSheet.colours[theme].backgroundVariation,
-              },
-            ]}
+            style={[styles.addBtn, sharedStyles["borderedContainer_" + theme]]}
             onPress={() => {
               setDietModalVisible(true);
             }}
           >
             <Image
-              style={[
-                styles.plus,
-                { tintColor: ValueSheet.colours[theme].primaryColour },
-              ]}
+              style={[styles.plus, sharedStyles["tint_" + theme]]}
               source={require("../../assets/images/add-food.png")}
             />
           </TouchableOpacity>
           <CalorieBar />
-          <Text
-            style={[
-              styles.desc,
-              { color: ValueSheet.colours[theme].primaryColour },
-            ]}
-          >
-            <Text
-              style={[
-                styles.desc,
-                { color: ValueSheet.colours[theme].primaryColour },
-              ]}
-            >
+          <Text style={[styles.desc, sharedStyles["textColour_" + theme]]}>
+            <Text style={[styles.desc, sharedStyles["textColour_" + theme]]}>
               {Math.round(totalMacros.calorieCount * energyMultiplier)}
             </Text>{" "}
             / {dietGoals["calorieGoal"]["value"]}{" "}
@@ -199,7 +180,7 @@ export default function Main({
             <Text
               style={[
                 sharedStyles.trackerTitle,
-                { color: ValueSheet.colours[theme].primaryColour },
+                sharedStyles["textColour_" + theme],
               ]}
             >
               Fitness
@@ -207,16 +188,10 @@ export default function Main({
           </View>
 
           <TouchableOpacity
-            style={[
-              styles.addBtn,
-              {
-                borderColor: ValueSheet.colours[theme].borderGrey,
-                backgroundColor: ValueSheet.colours[theme].backgroundVariation,
-              },
-            ]}
+            style={[styles.addBtn, sharedStyles["borderedContainer_" + theme]]}
           >
             <Image
-              style={[styles.plus]}
+              style={[styles.plus, sharedStyles["tint_" + theme]]}
               source={require("../../assets/images/add-excercise.png")}
             />
           </TouchableOpacity>
@@ -250,6 +225,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: 350,
   },
+  addBtn_dark: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
+    backgroundColor: ValueSheet.colours.dark.backgroundVariation,
+  },
+  addBtn_light: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
+    backgroundColor: ValueSheet.colours.dark.backgroundVariation,
+  },
   progress: {
     height: 20,
     width: 350,
@@ -261,9 +244,5 @@ const styles = StyleSheet.create({
   filler: {
     maxWidth: "100%",
     height: "100%",
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
   },
 });

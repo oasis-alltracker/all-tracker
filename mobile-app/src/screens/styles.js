@@ -19,7 +19,6 @@ export const sharedStyles = StyleSheet.create({
   headerImage: {
     width: 72,
     height: 72,
-    tintColor: ValueSheet.colours.primaryColour,
   },
   datePickerView: {
     flexDirection: "row",
@@ -34,12 +33,19 @@ export const sharedStyles = StyleSheet.create({
   changeDateButton: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
     borderTopColor: "transparent",
     borderBottomColor: "transparent",
-    borderRightColor: ValueSheet.colours.grey,
-    borderLeftColor: ValueSheet.colours.grey,
+  },
+  changeDateButton_dark: {
+    borderRightColor: ValueSheet.colours.dark.grey,
+    borderLeftColor: ValueSheet.colours.dark.grey,
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+  },
+  changeDateButton_light: {
+    borderRightColor: ValueSheet.colours.light.grey,
+    borderLeftColor: ValueSheet.colours.light.grey,
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
   },
   imageTextMain: {
     fontSize: 22,
@@ -100,5 +106,33 @@ export const sharedStyles = StyleSheet.create({
     alignItems: "center",
     left: 0,
     justifyContent: "center",
+  },
+  textColour_dark: {
+    color: ValueSheet.colours.dark.primaryColour,
+  },
+  textColour_light: {
+    color: ValueSheet.colours.light.primaryColour,
+  },
+  tint_dark: {
+    tintColor: ValueSheet.colours.dark.primaryColour,
+  },
+  tint_light: {
+    tintColor: ValueSheet.colours.light.primaryColour,
+  },
+  borderedContainer_dark: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
+    backgroundColor: ValueSheet.colours.dark.backgroundVariation,
+  },
+  borderedContainer_light: {
+    borderColor: ValueSheet.colours.light.borderGrey,
+    backgroundColor: ValueSheet.colours.light.backgroundVariation,
+  },
+  modalBackground_dark: {
+    backgroundColor: ValueSheet.colours.dark.background,
+    borderColor: ValueSheet.colours.dark.borderGrey,
+  },
+  modalBackground_light: {
+    backgroundColor: ValueSheet.colours.light.background,
+    borderColor: ValueSheet.colours.light.borderGrey,
   },
 });
