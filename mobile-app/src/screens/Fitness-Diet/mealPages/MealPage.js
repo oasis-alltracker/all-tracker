@@ -47,7 +47,7 @@ const MealPage = ({ navigation, route }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      foodEntriesChangedRef.current = false;
+      foodEntriesChangedRef.current = route.params?.foodEntriesChanged || false;
     }, [])
   );
 
@@ -69,6 +69,7 @@ const MealPage = ({ navigation, route }) => {
       prevPage: "mealPage",
       meal: JSON.parse(JSON.stringify(currentMeal)),
       dietUnit: dietUnit,
+      foodEntriesChanged: foodEntriesChangedRef.current,
     });
   };
 

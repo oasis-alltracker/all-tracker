@@ -138,7 +138,7 @@ const SearchFood = ({ navigation, route }) => {
               params["dateString"] = day.toLocaleDateString();
               params["mealName"] = mealName;
               params["meal"] = mealMacros;
-              params["dietUnit"] = dietUnit;
+              params["dietUnit"] = route.params?.foodEntriesChanged;
             }
             navigationService.navigate(prevPage, params);
           }}
