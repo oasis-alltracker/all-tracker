@@ -135,4 +135,18 @@ export const sharedStyles = StyleSheet.create({
     backgroundColor: ValueSheet.colours.light.background,
     borderColor: ValueSheet.colours.light.borderGrey,
   },
+  pageBackground_dark: {
+    backgroundColor: ValueSheet.colours.dark.background,
+  },
+  pageBackground_light: {
+    backgroundColor: ValueSheet.colours.light.background,
+  },
+  button_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+    borderColor: ValueSheet.colours.dark.borderGrey75,
+  },
+  button_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
+    borderColor: ValueSheet.colours.light.borderGrey75,
+  },
 });

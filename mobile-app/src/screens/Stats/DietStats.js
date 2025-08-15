@@ -120,7 +120,12 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           style={styles.imageCircle}
           source={require("../../assets/images/diet.png")}
         />
-        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+        <Text
+          style={[
+            styles.text,
+            { color: ValueSheet.colours.light.primaryColour },
+          ]}
+        >
           diet
         </Text>
       </View>
@@ -228,8 +233,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.light.purple65,
-    borderColor: ValueSheet.colours.light.purple,
+    backgroundColor: ValueSheet.colours.light.purple,
+    borderColor: ValueSheet.colours.light.borderPurple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

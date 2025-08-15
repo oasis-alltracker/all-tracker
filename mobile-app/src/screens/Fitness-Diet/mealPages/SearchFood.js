@@ -1,5 +1,5 @@
 import { ValueSheet } from "../../../ValueSheet";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -20,6 +20,8 @@ import { searchFatSecret } from "../../../api/diet/fatSecret/fatSecretAPI";
 import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -39,6 +41,7 @@ const SearchFood = ({ navigation, route }) => {
   const [searchResults, setResults] = useState([]);
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const theme = useContext(ThemeContext).value;
 
   const addEntryRef = useRef(null);
 
@@ -128,8 +131,10 @@ const SearchFood = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topArea}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
+      <View style={styles["topArea_" + theme]}>
         <Spinner visible={isLoading}></Spinner>
         <TouchableOpacity
           onPress={() => {
@@ -152,21 +157,38 @@ const SearchFood = ({ navigation, route }) => {
             <Image style={styles.mealIcon} source={mealImage}></Image>
             <Text style={styles.title}>{mealName}</Text>
           </View>
-          <Text style={styles.textStyle}>{formattedDate}</Text>
+          <Text
+            style={[
+              styles.textStyle,
+              { color: ValueSheet.colours.light.primaryColour },
+            ]}
+          >
+            {formattedDate}
+          </Text>
         </View>
       </View>
-      <View style={styles.mainArea}>
+      <View style={[styles.mainArea, sharedStyles["pageBackground_" + theme]]}>
         <View style={[styles.row, { marginBottom: 20 }]}>
-          <View style={styles.searchContainer}>
+          <View
+            style={[
+              styles.searchContainer,
+              sharedStyles["borderedContainer_" + theme],
+            ]}
+          >
             <Image
               source={require("../../../assets/images/search2.png")}
-              style={{ width: 30, height: 30 }}
+              style={[{ width: 30, height: 30 }, sharedStyles["tint_" + theme]]}
             />
             <TextInput
-              style={[styles.textStyle, styles.input]}
+              style={[
+                styles.textStyle,
+                sharedStyles["textColour_" + theme],
+                styles.input,
+              ]}
               onChangeText={setSearchInput}
               value={searchInput}
               placeholder="Food, meal or brand"
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               onSubmitEditing={() => searchFood(searchInput)}
             />
           </View>
@@ -184,7 +206,7 @@ const SearchFood = ({ navigation, route }) => {
           >
             <Image
               source={require("../../../assets/images/barcode.png")}
-              style={styles.smallImage}
+              style={[styles.smallImage, sharedStyles["tint_" + theme]]}
             />
           </TouchableOpacity>
         </View>
@@ -194,17 +216,30 @@ const SearchFood = ({ navigation, route }) => {
             contentContainerStyle={styles.scrollContainer}
           >
             {searchResults.map((item, index) => (
-              <View key={index} style={styles.resultContainer}>
+              <View
+                key={index}
+                style={[
+                  styles.resultContainer,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
+              >
                 <View style={{ flexDirection: "vertical", flex: 1 }}>
                   <Text
                     style={[
                       styles.textStyle,
+                      sharedStyles["textColour_" + theme],
                       { flexShrink: 1, flexWrap: "wrap" },
                     ]}
                   >
                     {item.name}
                   </Text>
-                  <Text style={[styles.textStyle, { fontSize: 12 }]}>
+                  <Text
+                    style={[
+                      styles.textStyle,
+                      sharedStyles["textColour_" + theme],
+                      { fontSize: 12 },
+                    ]}
+                  >
                     {Math.round(item.calorieCount * energyMultiplier)}{" "}
                     {dietUnit}
                   </Text>
@@ -216,7 +251,7 @@ const SearchFood = ({ navigation, route }) => {
                   }}
                 >
                   <Image
-                    style={styles.smallImage}
+                    style={[styles.smallImage, sharedStyles["tint_" + theme]]}
                     source={require("../../../assets/images/plus512.png")}
                   />
                 </TouchableOpacity>
@@ -225,7 +260,9 @@ const SearchFood = ({ navigation, route }) => {
           </ScrollView>
         ) : (
           <View style={styles.textContainer}>
-            <Text style={styles.greyText}>{text}</Text>
+            <Text style={[styles.greyText, styles["greyText_" + theme]]}>
+              {text}
+            </Text>
           </View>
         )}
 
@@ -251,12 +288,15 @@ const styles = StyleSheet.create({
     overflow: "visible",
     paddingBottom: 30,
   },
-  topArea: {
-    backgroundColor: ValueSheet.colours.secondaryColour,
+  topArea_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+    flex: 1,
+  },
+  topArea_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
     flex: 1,
   },
   mainArea: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 3,
     minWidth: 0,
     justifyContent: "flex-start",
@@ -266,7 +306,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     justifyContent: "space-between",
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -285,7 +324,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
   },
   topAreaBody: {
@@ -302,21 +340,25 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   greyText: {
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.inputGrey,
     textAlign: "center",
     alignSelf: "center",
+  },
+  greyText_dark: {
+    color: ValueSheet.colours.dark.inputGrey,
+  },
+  greyText_light: {
+    color: ValueSheet.colours.light.inputGrey,
   },
   textContainer: {
     alignItems: "center",
