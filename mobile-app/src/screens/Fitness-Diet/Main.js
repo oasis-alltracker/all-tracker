@@ -225,14 +225,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: 350,
   },
-  addBtn_dark: {
-    borderColor: ValueSheet.colours.dark.borderGrey,
-    backgroundColor: ValueSheet.colours.dark.backgroundVariation,
-  },
-  addBtn_light: {
-    borderColor: ValueSheet.colours.dark.borderGrey,
-    backgroundColor: ValueSheet.colours.dark.backgroundVariation,
-  },
   progress: {
     height: 20,
     width: 350,

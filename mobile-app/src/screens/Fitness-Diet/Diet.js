@@ -159,12 +159,7 @@ export default function Diet({
           </Text>
         </View>
       ))}
-      <View
-        style={[
-          styles.line,
-          { borderBottomColor: ValueSheet.colours[theme].grey },
-        ]}
-      />
+      <View style={[styles.line, styles["line_" + theme]]} />
       <Text
         style={[
           styles.subItemText,
@@ -491,6 +486,12 @@ const styles = StyleSheet.create({
   line: {
     borderBottomWidth: 1,
     marginVertical: 10,
+  },
+  line_dark: {
+    borderBottomColor: ValueSheet.colours.dark.grey,
+  },
+  line_light: {
+    borderBottomColor: ValueSheet.colours.light.grey,
   },
   imageContainer: {
     backgroundColor: ValueSheet.colours.purple,
