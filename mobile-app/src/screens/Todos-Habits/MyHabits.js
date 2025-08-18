@@ -122,7 +122,7 @@ export default function MyHabits({ habits, createHabitRef, updateHabitRef }) {
               }}
             >
               <Image
-                style={styles.plus}
+                style={[styles.plus, sharedStyles["tint_" + theme]]}
                 source={require("../../assets/images/plus512.png")}
               />
             </TouchableOpacity>

@@ -365,7 +365,7 @@ const MyTasks = ({
               }}
             >
               <Image
-                style={styles.plus}
+                style={[styles.plus, sharedStyles["tint_" + theme]]}
                 source={require("../../assets/images/plus512.png")}
               />
             </TouchableOpacity>

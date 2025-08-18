@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -21,8 +21,11 @@ import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
+  const theme = useContext(ThemeContext).value;
   const [visible, setVisible] = useState(false);
 
   const [image, setImage] = useState(
@@ -221,12 +224,14 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
+          <View
+            style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+          >
             <View style={styles.row}>
               <TextInput
-                placeholderTextColor={ValueSheet.colours.inputGrey}
+                placeholderTextColor={ValueSheet.colours[theme].inputGrey}
                 placeholder="Name"
-                style={styles.title}
+                style={[styles.title, sharedStyles["textColour_" + theme]]}
                 onChangeText={setHabitName}
                 value={habitName}
                 blurOnSubmit={false}
@@ -239,9 +244,11 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
               </TouchableOpacity>
             </View>
             <View style={styles.row}>
-              <Text style={styles.key}>Image:</Text>
+              <Text style={[styles.key, sharedStyles["textColour_" + theme]]}>
+                Image:
+              </Text>
               <TouchableOpacity
-                style={styles.selectImage}
+                style={[styles.selectImage, sharedStyles["border_" + theme]]}
                 onPress={() => searchImage()}
               >
                 <Image style={styles.image} source={{ uri: image }} />
@@ -249,9 +256,15 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
             </View>
 
             <View style={[styles.row, { marginBottom: 10 }]}>
-              <Text style={styles.key}>Times a day:</Text>
+              <Text style={[styles.key, sharedStyles["textColour_" + theme]]}>
+                Times a day:
+              </Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  sharedStyles["textColour_" + theme],
+                  sharedStyles["border_" + theme],
+                ]}
                 onChangeText={setThreshold}
                 keyboardType="number-pad"
                 value={threshold}
@@ -264,11 +277,20 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
             <View style={styles.row2}>
               <Button
                 onPress={() => onDelete()}
-                style={[styles.button, styles.back]}
+                style={[
+                  styles.button,
+                  styles.back,
+                  sharedStyles["border_" + theme],
+                ]}
+                textColour={ValueSheet.colours[theme].primaryColour}
               >
                 Delete
               </Button>
-              <Button onPress={() => onSave()} style={styles.button}>
+              <Button
+                onPress={() => onSave()}
+                style={styles.button}
+                textColour={ValueSheet.colours.light.primaryColour}
+              >
                 Save
               </Button>
             </View>
@@ -299,11 +321,9 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   row: {
     flexDirection: "row",
@@ -319,24 +339,20 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   title: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 32,
     fontFamily: ValueSheet.fonts.primaryBold,
     width: 240,
   },
   key: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 23,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   input: {
     borderWidth: 1.5,
-    borderColor: ValueSheet.colours.borderGrey75,
     borderRadius: 20,
     width: 120,
     height: 40,
     paddingHorizontal: 20,
-    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
@@ -346,7 +362,6 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   image: {
     width: 70,
@@ -359,7 +374,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
   },
   reminderBell: {
     width: 35,
