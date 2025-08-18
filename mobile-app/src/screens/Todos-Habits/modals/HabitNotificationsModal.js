@@ -370,7 +370,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         <Text
                           style={[
                             styles.timeText,
-                            { color: ValueSheet.colours.light.primaryColour },
+                            sharedStyles["textColour_light"],
                           ]}
                         >
                           {formatDateObject(timeSchedule[0])}
@@ -426,7 +426,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         <Text
                           style={[
                             styles.timeText,
-                            { color: ValueSheet.colours.light.primaryColour },
+                            sharedStyles["textColour_light"],
                           ]}
                         >
                           {formatDateObject(timeSchedule[1])}
@@ -482,7 +482,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         <Text
                           style={[
                             styles.timeText,
-                            { color: ValueSheet.colours.light.primaryColour },
+                            sharedStyles["textColour_light"],
                           ]}
                         >
                           {formatDateObject(timeSchedule[2])}
@@ -538,7 +538,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         <Text
                           style={[
                             styles.timeText,
-                            { color: ValueSheet.colours.light.primaryColour },
+                            sharedStyles["textColour_light"],
                           ]}
                         >
                           {formatDateObject(timeSchedule[3])}
@@ -594,7 +594,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         <Text
                           style={[
                             styles.timeText,
-                            { color: ValueSheet.colours.light.primaryColour },
+                            sharedStyles["textColour_light"],
                           ]}
                         >
                           {formatDateObject(timeSchedule[4])}
