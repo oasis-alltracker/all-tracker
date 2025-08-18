@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -19,8 +19,11 @@ import HabitsDB from "../../../api/DB/habitsDB";
 import HabitSearchModal from "./HabitSearchModal";
 import HabitNotificationsModal from "./HabitNotificationsModal";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function CreateHabitModal({ getRef, createHabit }) {
+  const theme = useContext(ThemeContext).value;
   const [isMainVisible, setIsMainVisible] = useState(false);
 
   const imagesRef = useRef(null);
@@ -185,33 +188,41 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
+          <View
+            style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+          >
             <View style={styles.row}>
               <TouchableOpacity onPress={() => searchHabit()}>
                 <Image
-                  style={styles.searchImage}
+                  style={[styles.searchImage, sharedStyles["tint_" + theme]]}
                   source={require("../../../assets/images/search2.png")}
                 />
               </TouchableOpacity>
               <TextInput
-                placeholderTextColor={ValueSheet.colours.inputGrey}
+                placeholderTextColor={ValueSheet.colours[theme].inputGrey}
                 placeholder="Name"
-                style={[styles.title, { width: "75%" }]}
+                style={[
+                  styles.title,
+                  sharedStyles["textColour_" + theme],
+                  { width: "75%" },
+                ]}
                 onChangeText={setHabitName}
                 value={habitName}
                 blurOnSubmit={false}
               />
               <TouchableOpacity onPress={() => viewNotificationsSchedule()}>
                 <Image
-                  style={styles.reminderBell}
+                  style={[styles.reminderBell, sharedStyles["tint_" + theme]]}
                   source={require("../../../assets/images/reminder.png")}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.row}>
-              <Text style={styles.key}>Image:</Text>
+              <Text style={[styles.key, sharedStyles["textColour_" + theme]]}>
+                Image:
+              </Text>
               <TouchableOpacity
-                style={styles.selectImage}
+                style={[styles.selectImage, sharedStyles["border_" + theme]]}
                 onPress={() => searchImage()}
               >
                 <Image style={styles.image} source={{ uri: image }} />
@@ -219,9 +230,15 @@ export default function CreateHabitModal({ getRef, createHabit }) {
             </View>
 
             <View style={[styles.row, { marginBottom: 10 }]}>
-              <Text style={styles.key}>Times a day:</Text>
+              <Text style={[styles.key, sharedStyles["textColour_" + theme]]}>
+                Times a day:
+              </Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  sharedStyles["textColour_" + theme],
+                  sharedStyles["border_" + theme],
+                ]}
                 onChangeText={setThreshold}
                 keyboardType="number-pad"
                 value={threshold}
@@ -233,11 +250,20 @@ export default function CreateHabitModal({ getRef, createHabit }) {
             <View style={styles.row2}>
               <Button
                 onPress={() => backDropPressed()}
-                style={[styles.button, styles.back]}
+                style={[
+                  styles.button,
+                  styles.back,
+                  sharedStyles["border_" + theme],
+                ]}
+                textColour={ValueSheet.colours[theme].primaryColour}
               >
                 Cancel
               </Button>
-              <Button onPress={() => onSave()} style={styles.button}>
+              <Button
+                onPress={() => onSave()}
+                style={styles.button}
+                textColour={ValueSheet.colours.light.primaryColour}
+              >
                 Save
               </Button>
             </View>
@@ -272,11 +298,9 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   searchImage: {
     width: 30,
@@ -302,25 +326,21 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   title: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 30,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginBottom: 5,
   },
   key: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 23,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   input: {
     borderWidth: 1.5,
-    borderColor: ValueSheet.colours.borderGrey75,
     borderRadius: 20,
     width: 120,
     height: 40,
     paddingHorizontal: 20,
     paddingBottom: 2.5,
-    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
@@ -330,7 +350,6 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   image: {
     width: 70,
@@ -343,32 +362,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
-  },
-  timeValueButton: {
-    flex: 1,
-    alignSelf: "flex-end",
-  },
-  timeValue: {
-    flex: 1,
-    alignSelf: "flex-end",
-    borderWidth: 2,
-    borderRadius: 40,
-    backgroundColor: ValueSheet.colours.primaryColour,
-    paddingHorizontal: 10,
-    marginRight: 10,
-  },
-  timeValueButton: {
-    flex: 1,
-    alignSelf: "flex-end",
-  },
-  timeValue: {
-    flex: 1,
-    alignSelf: "flex-end",
-    borderWidth: 2,
-    borderRadius: 40,
-    borderColor: ValueSheet.colours.borderGrey75,
-    paddingHorizontal: 10,
-    marginRight: 10,
   },
 });
