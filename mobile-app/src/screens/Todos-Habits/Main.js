@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, memo } from "react";
+import React, { useRef, useState, useEffect, memo, useContext } from "react";
 import {
   Image,
   ImageBackground,
@@ -14,6 +14,7 @@ import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const Main = ({
   day,
@@ -21,8 +22,6 @@ const Main = ({
   dueToDos,
   dueTasks,
   trackingPreferences,
-  isLoading,
-  setIsLoading,
   updateDate,
   createHabitRef,
   taskRef,
@@ -32,6 +31,7 @@ const Main = ({
   updateDueToDoStatus,
   updateDueTaskStatus,
 }) => {
+  const theme = useContext(ThemeContext).value;
   const updateHabitsStatusRef = useRef(null);
   const { width, height } = useWindowDimensions();
   const today = new Date();
