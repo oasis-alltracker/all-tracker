@@ -26,17 +26,12 @@ export default function Main({
   const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
   const today = new Date();
   const theme = useContext(ThemeContext).value;
-  const [styles, setStyle] = useState(generateStyle("light"));
   const colours = [
     ValueSheet.colours[theme].borderGrey,
     ValueSheet.colours[theme].secondaryColour,
     ValueSheet.colours[theme].progressLightTeal,
     ValueSheet.colours[theme].progressTeal,
   ];
-
-  useEffect(() => {
-    setStyle(generateStyle(theme));
-  }, [theme]);
 
   const CalorieBar = () => {
     var denom =
@@ -78,9 +73,17 @@ export default function Main({
       showsVerticalScrollIndicator={false}
       contentContainerStyle={sharedStyles.container}
     >
-      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          {
+            backgroundColor: ValueSheet.colours[theme].purple,
+            borderColor: ValueSheet.colours[theme].borderPurple70,
+          },
+        ]}
+      >
         <Image
-          style={sharedStyles.headerImage}
+          style={[sharedStyles.headerImage, sharedStyles.tint_light]}
           source={require("../../assets/images/body-white.png")}
         />
       </View>
@@ -88,7 +91,10 @@ export default function Main({
 
       <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
-          style={sharedStyles.changeDateButton}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
           onPress={() => updateDate(-1)}
         >
           <Image
@@ -100,18 +106,31 @@ export default function Main({
           <View style={sharedStyles.dateTextContainer}>
             {moment(day).format("YYYYMMDD") ==
             moment(today).format("YYYYMMDD") ? (
-              <Text style={[sharedStyles.dateText, styles.textColor]}>
+              <Text
+                style={[
+                  sharedStyles.dateText,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
                 Today
               </Text>
             ) : (
-              <Text style={[sharedStyles.dateText, styles.textColor]}>
+              <Text
+                style={[
+                  sharedStyles.dateText,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
                 {day.toDateString().slice(4, -5)}
               </Text>
             )}
           </View>
         </>
         <TouchableOpacity
-          style={sharedStyles.changeDateButton}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
           onPress={() => updateDate(1)}
         >
           <Image
@@ -124,24 +143,29 @@ export default function Main({
       {trackingPreferences.dietSelected && (
         <>
           <View style={[sharedStyles.trackerDashView]}>
-            <Text style={[sharedStyles.trackerTitle, styles.textColor]}>
+            <Text
+              style={[
+                sharedStyles.trackerTitle,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
               Diet
             </Text>
           </View>
           <TouchableOpacity
-            style={styles.addBtn}
+            style={[styles.addBtn, sharedStyles["borderedContainer_" + theme]]}
             onPress={() => {
               setDietModalVisible(true);
             }}
           >
             <Image
-              style={styles.plus}
+              style={[styles.plus, sharedStyles["tint_" + theme]]}
               source={require("../../assets/images/add-food.png")}
             />
           </TouchableOpacity>
           <CalorieBar />
-          <Text style={[styles.desc, styles.textColor]}>
-            <Text style={[styles.boldText, styles.textColor]}>
+          <Text style={[styles.desc, sharedStyles["textColour_" + theme]]}>
+            <Text style={[styles.desc, sharedStyles["textColour_" + theme]]}>
               {Math.round(totalMacros.calorieCount * energyMultiplier)}
             </Text>{" "}
             / {dietGoals["calorieGoal"]["value"]}{" "}
@@ -153,14 +177,21 @@ export default function Main({
       {trackingPreferences.fitnessSelected && (
         <>
           <View style={[sharedStyles.trackerDashView]}>
-            <Text style={[sharedStyles.trackerTitle, styles.textColor]}>
+            <Text
+              style={[
+                sharedStyles.trackerTitle,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
               Fitness
             </Text>
           </View>
 
-          <TouchableOpacity style={styles.addBtn}>
+          <TouchableOpacity
+            style={[styles.addBtn, sharedStyles["borderedContainer_" + theme]]}
+          >
             <Image
-              style={[styles.plus]}
+              style={[styles.plus, sharedStyles["tint_" + theme]]}
               source={require("../../assets/images/add-excercise.png")}
             />
           </TouchableOpacity>
@@ -170,55 +201,40 @@ export default function Main({
   );
 }
 
-const generateStyle = (theme) => {
-  return StyleSheet.create({
-    plus: {
-      width: 70,
-      height: 70,
-      tintColor: ValueSheet.colours[theme].primaryColour,
-    },
-    textColor: {
-      color: ValueSheet.colours[theme].primaryColour,
-    },
-    desc: {
-      fontSize: 22,
-      fontFamily: ValueSheet.fonts.primaryFont,
-    },
-    boldText: {
-      fontFamily: ValueSheet.fonts.primaryBold,
-      fontSize: 26,
-    },
-    addBtn: {
-      borderWidth: 2,
-      borderColor: ValueSheet.colours[theme].borderGrey,
-      borderRadius: 20,
-      backgroundColor: ValueSheet.colours[theme].backgroundVariation,
-      height: 80,
-      justifyContent: "center",
-      alignItems: "center",
-      marginHorizontal: 20,
-      marginTop: 10,
-      marginBottom: 10,
-      width: 350,
-    },
-    progress: {
-      height: 20,
-      width: 350,
-      borderWidth: 2,
-      borderColor: ValueSheet.colours[theme].borderGrey,
-      backgroundColor: ValueSheet.colours[theme].borderGrey,
-      marginHorizontal: 30,
-      borderRadius: 5,
-      marginBottom: 10,
-    },
-    filler: {
-      backgroundColor: ValueSheet.colours[theme].secondaryColour,
-      maxWidth: "100%",
-      height: "100%",
-    },
-    imageContainer: {
-      backgroundColor: ValueSheet.colours[theme].purple,
-      borderColor: ValueSheet.colours[theme].borderPurple70,
-    },
-  });
-};
+const styles = StyleSheet.create({
+  plus: {
+    width: 70,
+    height: 70,
+  },
+  desc: {
+    fontSize: 22,
+    fontFamily: ValueSheet.fonts.primaryFont,
+  },
+  boldText: {
+    fontFamily: ValueSheet.fonts.primaryBold,
+    fontSize: 26,
+  },
+  addBtn: {
+    borderWidth: 2,
+    borderRadius: 20,
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    width: 350,
+  },
+  progress: {
+    height: 20,
+    width: 350,
+    borderWidth: 2,
+    marginHorizontal: 30,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  filler: {
+    maxWidth: "100%",
+    height: "100%",
+  },
+});

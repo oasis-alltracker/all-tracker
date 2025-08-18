@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import { ValueSheet } from "../../ValueSheet";
 import { getAccessToken } from "../../user/keychain";
 import StatsAPI from "../../api/stats/statsAPI";
 import { useFocusEffect } from "@react-navigation/native";
+import { ThemeContext } from "../../contexts/ThemeProvider";
+import { sharedStyles } from "../styles";
 
 const macroTitles = [
   {
@@ -50,6 +52,7 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
   const [dataArrays, setDataArrays] = useState(defaultArrays);
   const [goalLines, setGoalLines] = useState(defaultArrays);
   const [graphMax, setMax] = useState(2000);
+  const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
     getStats();
@@ -117,7 +120,14 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           style={styles.imageCircle}
           source={require("../../assets/images/diet.png")}
         />
-        <Text style={styles.text}>diet</Text>
+        <Text
+          style={[
+            styles.text,
+            { color: ValueSheet.colours.light.primaryColour },
+          ]}
+        >
+          diet
+        </Text>
       </View>
       <View style={styles.chartContainer}>
         <LineChart
@@ -127,28 +137,28 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           width={220}
           spacing={220 / 7}
           thickness={2}
-          color1={ValueSheet.colours.purple}
+          color1={ValueSheet.colours[theme].purple}
           hideYAxisText
           yAxisLabelWidth={0}
-          dataPointsColor1={ValueSheet.colours.borderPurple}
-          color2={ValueSheet.colours.pink}
-          dataPointsColor2={ValueSheet.colours.pink}
+          dataPointsColor1={ValueSheet.colours[theme].borderPurple}
+          color2={ValueSheet.colours[theme].pink}
+          dataPointsColor2={ValueSheet.colours[theme].pink}
           maxValue={graphMax[macroIndex] * 1.15}
           hideRules
           textFontSize={13}
           textShiftY={-8}
           textShiftX={3}
-          textColor={ValueSheet.colours.primaryColour}
+          textColor={ValueSheet.colours[theme].primaryColour}
           areaChart
-          startFillColor1={ValueSheet.colours.purple}
-          endFillColor1={ValueSheet.colours.purple}
+          startFillColor1={ValueSheet.colours[theme].purple}
+          endFillColor1={ValueSheet.colours[theme].purple}
           startOpacity2={0.0}
           endOpacity2={0.0}
           startOpacity1={0.8}
           endOpacity1={0.1}
           xAxisLength={220}
-          yAxisColor={ValueSheet.colours.black25}
-          xAxisColor={ValueSheet.colours.black25}
+          yAxisColor={ValueSheet.colours[theme].primaryColour}
+          xAxisColor={ValueSheet.colours[theme].primaryColour}
         />
         <View style={styles.row}>
           <TouchableOpacity
@@ -161,7 +171,13 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
               source={require("../../assets/images/left.png")}
             />
           </TouchableOpacity>
-          <Text style={[styles.text, { fontSize: 20 }]}>
+          <Text
+            style={[
+              styles.text,
+              sharedStyles["textColour_" + theme],
+              { fontSize: 20 },
+            ]}
+          >
             {macroTitles[macroIndex].title}
           </Text>
           <TouchableOpacity
@@ -180,19 +196,25 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
             <View
               style={[
                 styles.icon,
-                { backgroundColor: ValueSheet.colours.pink },
+                { backgroundColor: ValueSheet.colours[theme].pink },
               ]}
             ></View>
-            <Text style={styles.text}> = goal </Text>
+            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+              {" "}
+              = goal{" "}
+            </Text>
           </View>
           <View style={styles.legendEntry}>
             <View
               style={[
                 styles.icon,
-                { backgroundColor: ValueSheet.colours.purple },
+                { backgroundColor: ValueSheet.colours[theme].purple },
               ]}
             ></View>
-            <Text style={styles.text}> = consumed </Text>
+            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+              {" "}
+              = consumed{" "}
+            </Text>
           </View>
         </View>
       </View>
@@ -211,8 +233,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.purple65,
-    borderColor: ValueSheet.colours.purple,
+    backgroundColor: ValueSheet.colours.light.purple,
+    borderColor: ValueSheet.colours.light.borderPurple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -227,7 +249,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",
