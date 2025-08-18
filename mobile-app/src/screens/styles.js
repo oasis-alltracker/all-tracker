@@ -93,11 +93,15 @@ export const sharedStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 16,
   },
-
   trackerTitle: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
+  },
+  trackerTitleColour_dark: {
+    color: ValueSheet.colours.dark.primaryColour,
+  },
+  trackerTitleColour_light: {
+    color: ValueSheet.colours.light.primaryColour,
   },
   dot: {
     width: 16,
@@ -136,6 +140,12 @@ export const sharedStyles = StyleSheet.create({
   borderedContainer_light: {
     borderColor: ValueSheet.colours.light.borderGrey,
     backgroundColor: ValueSheet.colours.light.backgroundVariation,
+  },
+  border_light: {
+    borderColor: ValueSheet.colours.light.borderGrey,
+  },
+  border_dark: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
   },
   modalBackground_dark: {
     backgroundColor: ValueSheet.colours.dark.background,
