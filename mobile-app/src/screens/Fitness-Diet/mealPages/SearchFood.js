@@ -188,10 +188,19 @@ const SearchFood = ({ navigation, route }) => {
               sharedStyles["borderedContainer_" + theme],
             ]}
           >
-            <Image
-              source={require("../../../assets/images/search2.png")}
-              style={[{ width: 30, height: 30 }, sharedStyles["tint_" + theme]]}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                searchFood();
+              }}
+            >
+              <Image
+                source={require("../../../assets/images/search2.png")}
+                style={[
+                  { width: 30, height: 30 },
+                  sharedStyles["tint_" + theme],
+                ]}
+              />
+            </TouchableOpacity>
             <TextInput
               style={[
                 styles.textStyle,
