@@ -149,6 +149,10 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           textShiftY={-8}
           textShiftX={3}
           textColor={ValueSheet.colours[theme].primaryColour}
+          xAxisLabelTextStyle={{
+            fontFamily: ValueSheet.fonts.primaryFont,
+            color: ValueSheet.colours[theme].primaryColour,
+          }}
           areaChart
           startFillColor1={ValueSheet.colours[theme].purple}
           endFillColor1={ValueSheet.colours[theme].purple}
@@ -233,8 +237,8 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.light.purple,
-    borderColor: ValueSheet.colours.light.borderPurple,
+    backgroundColor: ValueSheet.colours.light.purple65,
+    borderColor: ValueSheet.colours.light.purple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

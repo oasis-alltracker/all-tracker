@@ -1,5 +1,5 @@
 import { ValueSheet } from "../ValueSheet";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -29,6 +29,8 @@ import SearchFood from "./Fitness-Diet/mealPages/SearchFood";
 import SetupNavigator from "./Setup/navigator";
 import BarcodeCamera from "./Fitness-Diet/mealPages/BarcodeCamera";
 import BarcodeScanner from "./Fitness-Diet/mealPages/BarcodeScanner";
+import { sharedStyles } from "./styles";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 const Drawer = createDrawerNavigator();
 
@@ -37,6 +39,7 @@ const Main = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [buttons, setButtons] = useState([]);
   const statsRef = useRef(null);
+  const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
@@ -53,8 +56,8 @@ const Main = ({ navigation }) => {
         ) {
           buttonPreference.push({
             image: require("../assets/images/mind-white512.png"),
-            color: ValueSheet.colours.pink65,
-            border: ValueSheet.colours.borderPink,
+            color: ValueSheet.colours[theme].pink65,
+            border: ValueSheet.colours[theme].borderPink,
             onPress: () => {
               navigationService.reset("todos-habits", 0);
             },
@@ -66,8 +69,8 @@ const Main = ({ navigation }) => {
         ) {
           buttonPreference.push({
             image: require("../assets/images/body-white.png"),
-            color: ValueSheet.colours.purple65,
-            border: ValueSheet.colours.purple,
+            color: ValueSheet.colours[theme].purple65,
+            border: ValueSheet.colours[theme].purple,
             onPress: () => {
               navigationService.reset("fitness-diet", 0);
             },
@@ -79,8 +82,8 @@ const Main = ({ navigation }) => {
         ) {
           buttonPreference.push({
             image: require("../assets/images/soul-white.png"),
-            color: ValueSheet.colours.yellow75,
-            border: ValueSheet.colours.borderYellow,
+            color: ValueSheet.colours[theme].yellow75,
+            border: ValueSheet.colours[theme].borderYellow,
             onPress: () => {
               navigationService.reset("mood-sleep", 0);
             },
@@ -93,7 +96,9 @@ const Main = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <MainHeader
         leftComponent={
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -134,7 +139,7 @@ const Main = ({ navigation }) => {
           }}
         >
           <Image
-            style={styles.downImage}
+            style={[styles.downImage, sharedStyles["tint_" + theme]]}
             source={require("../assets/images/down-arrow.png")}
           />
         </TouchableOpacity>
@@ -146,7 +151,6 @@ const Main = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   button: {

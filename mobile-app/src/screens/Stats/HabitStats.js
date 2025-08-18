@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -13,6 +13,8 @@ import { getAccessToken } from "../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../ValueSheet";
+import { sharedStyles } from "../styles";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -23,6 +25,7 @@ const HabitStats = ({ sunday, updateStats }) => {
   const [totalCountDisplay, setTotalCountDisplay] = useState(0);
   const [totalCompletionsDisplay, setTotalCompletionsDisplay] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const theme = useContext(ThemeContext).value;
   useEffect(() => {
     const getStatsOnLoad = async () => {
       try {
@@ -76,18 +79,25 @@ const HabitStats = ({ sunday, updateStats }) => {
   return (
     <View style={styles.chartBox}>
       <Spinner visible={isLoading}></Spinner>
-      <View style={styles.chartCircle}>
+      <View style={[styles.chartCircle, styles["chartCircle_" + theme]]}>
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/habits.png")}
         />
-        <Text style={styles.text}>habits</Text>
+        <Text style={styles.statTitle}>habits</Text>
       </View>
       <View style={[styles.chartContainer, { height: height * 0.15 }]}>
-        <View style={[styles.barContainer, { marginTop: height * 0.035 }]}>
+        <View
+          style={[
+            styles.barContainer,
+            styles["barContainer_" + theme],
+            { marginTop: height * 0.035 },
+          ]}
+        >
           <Animated.View
             style={[
               styles.bar,
+              styles["bar_" + theme],
               { width: ((totalCompletionsMath * 1.0) / totalCountMath) * 210 },
             ]}
           />
@@ -95,7 +105,7 @@ const HabitStats = ({ sunday, updateStats }) => {
 
         {totalCountDisplay > 0 ? (
           <>
-            <Text style={styles.xLabel}>
+            <Text style={[styles.xLabel, sharedStyles["textColour_" + theme]]}>
               Completed - {totalCompletionsDisplay}/{totalCountDisplay} -{" "}
               {Math.floor(
                 ((totalCompletionsMath * 1.0) / totalCountMath) * 100
@@ -104,7 +114,7 @@ const HabitStats = ({ sunday, updateStats }) => {
             </Text>
           </>
         ) : (
-          <Text style={styles.xLabel}>
+          <Text style={[styles.xLabel, sharedStyles["textColour_" + theme]]}>
             Completed - {totalCompletionsDisplay}/{totalCountDisplay} - 100%
           </Text>
         )}
@@ -115,15 +125,25 @@ const HabitStats = ({ sunday, updateStats }) => {
 
 const styles = StyleSheet.create({
   barContainer: {
-    backgroundColor: ValueSheet.colours.borderPink,
     borderRadius: 10,
     height: 60,
     width: "100%",
   },
+  barContainer_dark: {
+    backgroundColor: ValueSheet.colours.dark.borderPink,
+  },
+  barContainer_light: {
+    backgroundColor: ValueSheet.colours.light.borderPink,
+  },
   bar: {
     height: 60,
-    backgroundColor: ValueSheet.colours.pink,
     borderRadius: 10,
+  },
+  bar_light: {
+    backgroundColor: ValueSheet.colours.light.pink,
+  },
+  bar_dark: {
+    backgroundColor: ValueSheet.colours.dark.pink,
   },
   chartBox: {
     width: "100%",
@@ -136,28 +156,33 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 30,
     marginRight: 35,
   },
+  chartCircle_dark: {
+    backgroundColor: ValueSheet.colours.dark.pink65,
+    borderColor: ValueSheet.colours.dark.borderPink,
+  },
+  chartCircle_light: {
+    backgroundColor: ValueSheet.colours.light.pink65,
+    borderColor: ValueSheet.colours.light.borderPink,
+  },
   imageCircle: {
     width: 28,
     height: 28,
   },
-  text: {
+  statTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
   },
   xLabel: {
     paddingTop: 6,
     fontSize: 14,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",

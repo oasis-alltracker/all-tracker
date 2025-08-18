@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
 import { ValueSheet } from "../../ValueSheet";
+import { sharedStyles } from "../styles";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const days = ["M", "T", "W", "T", "F", "S", "S"];
 
 const FitnessStats = ({ sunday, updateStats }) => {
+  const theme = useContext(ThemeContext).value;
   return (
     <View style={styles.chartBox}>
-      <View style={styles.chartCircle}>
+      <View style={[styles.chartCircle, styles["chartCircle_" + theme]]}>
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/fitness.png")}
         />
-        <Text style={styles.text}>fitness</Text>
+        <Text style={styles.statTitle}>fitness</Text>
       </View>
       <View style={styles.chartContainer}>
         <ScrollView
@@ -20,7 +23,9 @@ const FitnessStats = ({ sunday, updateStats }) => {
           horizontal
           contentContainerStyle={styles.days}
         ></ScrollView>
-        <Text style={styles.xLabel}>Days worked out: 6</Text>
+        <Text style={[styles.xLabel, sharedStyles["textColour_" + theme]]}>
+          Days worked out: 6
+        </Text>
       </View>
     </View>
   );
@@ -37,8 +42,6 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.purple65,
-    borderColor: ValueSheet.colours.purple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -46,11 +49,19 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 45,
   },
+  chartCircle_dark: {
+    backgroundColor: ValueSheet.colours.dark.purple65,
+    borderColor: ValueSheet.colours.dark.purple,
+  },
+  chartCircle_light: {
+    backgroundColor: ValueSheet.colours.dark.purple65,
+    borderColor: ValueSheet.colours.dark.purple,
+  },
   imageCircle: {
     width: 28,
     height: 28,
   },
-  text: {
+  statTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
