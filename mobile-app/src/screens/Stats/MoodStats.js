@@ -92,7 +92,9 @@ const MoodStats = ({ sunday, updateStats }) => {
   return (
     <View style={styles.chartBox}>
       <Spinner visible={isLoading}></Spinner>
-      <View style={[styles.chartCircle, styles["chartCircle_" + theme]]}>
+      <View
+        style={[styles.chartCircle, sharedStyles["yellowContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/mood.png")}
@@ -152,14 +154,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginLeft: 25,
     marginRight: 20,
-  },
-  chartCircle_dark: {
-    backgroundColor: ValueSheet.colours.dark.yellow75,
-    borderColor: ValueSheet.colours.dark.borderYellow,
-  },
-  chartCircle_light: {
-    backgroundColor: ValueSheet.colours.dark.yellow75,
-    borderColor: ValueSheet.colours.dark.borderYellow,
   },
   imageCircle: {
     width: 28,

@@ -166,10 +166,7 @@ const Stats = ({ getRef }) => {
               <View style={styles.entityHeader}>
                 <View
                   style={[
-                    {
-                      backgroundColor: ValueSheet.colours.pink65,
-                      borderColor: ValueSheet.colours.borderPink,
-                    },
+                    sharedStyles["pinkContainer_" + theme],
                     styles.entityImageCon,
                   ]}
                 >
@@ -207,10 +204,7 @@ const Stats = ({ getRef }) => {
               <View style={styles.entityHeader}>
                 <View
                   style={[
-                    {
-                      backgroundColor: ValueSheet.colours.purple65,
-                      borderColor: ValueSheet.colours.purple,
-                    },
+                    sharedStyles["purpleContainer_" + theme],
                     styles.entityImageCon,
                   ]}
                 >
@@ -245,10 +239,7 @@ const Stats = ({ getRef }) => {
               <View style={styles.entityHeader}>
                 <View
                   style={[
-                    {
-                      backgroundColor: ValueSheet.colours.yellow75,
-                      borderColor: ValueSheet.colours.borderYellow,
-                    },
+                    sharedStyles["yellowContainer_" + theme],
                     styles.entityImageCon,
                   ]}
                 >
@@ -342,7 +333,6 @@ const styles = StyleSheet.create({
   },
   dateNameMain: {
     fontSize: 26,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   preButtonMain: {

@@ -10,7 +10,9 @@ const FitnessStats = ({ sunday, updateStats }) => {
   const theme = useContext(ThemeContext).value;
   return (
     <View style={styles.chartBox}>
-      <View style={[styles.chartCircle, styles["chartCircle_" + theme]]}>
+      <View
+        style={[styles.chartCircle, sharedStyles["purpleContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/fitness.png")}
@@ -49,14 +51,6 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 45,
   },
-  chartCircle_dark: {
-    backgroundColor: ValueSheet.colours.dark.purple65,
-    borderColor: ValueSheet.colours.dark.purple,
-  },
-  chartCircle_light: {
-    backgroundColor: ValueSheet.colours.dark.purple65,
-    borderColor: ValueSheet.colours.dark.purple,
-  },
   imageCircle: {
     width: 28,
     height: 28,
@@ -64,12 +58,11 @@ const styles = StyleSheet.create({
   statTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
   },
   xLabel: {
     fontSize: 14,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",

@@ -79,7 +79,9 @@ const HabitStats = ({ sunday, updateStats }) => {
   return (
     <View style={styles.chartBox}>
       <Spinner visible={isLoading}></Spinner>
-      <View style={[styles.chartCircle, styles["chartCircle_" + theme]]}>
+      <View
+        style={[styles.chartCircle, sharedStyles["pinkContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/habits.png")}
@@ -90,7 +92,7 @@ const HabitStats = ({ sunday, updateStats }) => {
         <View
           style={[
             styles.barContainer,
-            styles["barContainer_" + theme],
+            sharedStyles["pinkContainer_" + theme],
             { marginTop: height * 0.035 },
           ]}
         >
@@ -129,12 +131,6 @@ const styles = StyleSheet.create({
     height: 60,
     width: "100%",
   },
-  barContainer_dark: {
-    backgroundColor: ValueSheet.colours.dark.borderPink,
-  },
-  barContainer_light: {
-    backgroundColor: ValueSheet.colours.light.borderPink,
-  },
   bar: {
     height: 60,
     borderRadius: 10,
@@ -161,14 +157,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
     marginRight: 35,
-  },
-  chartCircle_dark: {
-    backgroundColor: ValueSheet.colours.dark.pink65,
-    borderColor: ValueSheet.colours.dark.borderPink,
-  },
-  chartCircle_light: {
-    backgroundColor: ValueSheet.colours.light.pink65,
-    borderColor: ValueSheet.colours.light.borderPink,
   },
   imageCircle: {
     width: 28,

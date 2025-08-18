@@ -76,17 +76,19 @@ const SleepStats = ({ sunday, updateStats }) => {
   return (
     <View style={styles.chartBox}>
       <Spinner visible={isLoading}></Spinner>
-      <View style={[styles.chartCircle, styles["chartCircle_" + theme]]}>
+      <View
+        style={[styles.chartCircle, sharedStyles["yellowContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/sleep.png")}
         />
-        <Text style={styles.text}>sleep</Text>
+        <Text style={styles.statsTitle}>sleep</Text>
       </View>
       <View style={styles.chartContainer}>
         <LineChart
           thickness={2}
-          color={ValueSheet.colours.yellow}
+          color={ValueSheet.colours[theme].yellow}
           maxValue={5}
           areaChart
           hideRules
@@ -95,8 +97,8 @@ const SleepStats = ({ sunday, updateStats }) => {
           hideYAxisText
           hideDataPoints
           data={sleepStats}
-          startFillColor1={ValueSheet.colours.yellow}
-          endFillColor1={ValueSheet.colours.yellow}
+          startFillColor1={ValueSheet.colours[theme].yellow}
+          endFillColor1={ValueSheet.colours[theme].yellow}
           startOpacity={0.8}
           xAxisLabelTextStyle={{
             fontFamily: ValueSheet.fonts.primaryFont,
@@ -137,27 +139,18 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 20,
   },
-  chartCircle_dark: {
-    backgroundColor: ValueSheet.colours.dark.yellow75,
-    borderColor: ValueSheet.colours.dark.borderYellow,
-  },
-  chartCircle_light: {
-    backgroundColor: ValueSheet.colours.dark.yellow75,
-    borderColor: ValueSheet.colours.dark.borderYellow,
-  },
   imageCircle: {
     width: 28,
     height: 28,
   },
-  text: {
+  statsTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
   },
   xLabel: {
     fontSize: 14,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",

@@ -115,7 +115,9 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
 
   return (
     <View style={styles.chartBox}>
-      <View style={styles.chartCircle}>
+      <View
+        style={[styles.chartCircle, sharedStyles["purpleContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/diet.png")}
@@ -237,8 +239,6 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.light.purple65,
-    borderColor: ValueSheet.colours.light.purple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
