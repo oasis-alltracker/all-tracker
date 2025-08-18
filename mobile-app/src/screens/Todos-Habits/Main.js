@@ -128,7 +128,7 @@ const Main = ({
           >
             {isCheck && (
               <Image
-                style={styles.checkImageRender}
+                style={[styles.checkImageRender, sharedStyles["tint_" + theme]]}
                 source={require("../../assets/images/check.png")}
               />
             )}
@@ -365,7 +365,7 @@ const Main = ({
                             }}
                           >
                             <Image
-                              style={styles.habitImageMain}
+                              style={[styles.habitImageMain]}
                               source={{ uri: val.pngURL }}
                             />
                           </TouchableOpacity>
@@ -404,7 +404,10 @@ const Main = ({
                               resizeMode="cover"
                             >
                               <Image
-                                style={styles.habitImageMain}
+                                style={[
+                                  styles.habitImageMain,
+                                  sharedStyles["tint_" + theme],
+                                ]}
                                 source={require("../../assets/images/check-mark.png")}
                               />
                             </ImageBackground>

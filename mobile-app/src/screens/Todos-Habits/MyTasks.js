@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useContext } from "react";
 import {
   Image,
   ScrollView,
@@ -12,9 +12,9 @@ import moment from "moment";
 import { todoCompare } from "../../utils/commonUtils";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const MyTasks = ({
-  isLoading,
   taskRef,
   toDos,
   tasks,
@@ -23,6 +23,7 @@ const MyTasks = ({
   updateToDoStatus,
   updateDoneToDoStatus,
 }) => {
+  const theme = useContext(ThemeContext).value;
   const { width, height } = useWindowDimensions();
   const [tasksAndToDos, setTasksAndToDos] = useState([]);
   const [completedToDos, setCompletedToDos] = useState([]);
@@ -83,7 +84,10 @@ const MyTasks = ({
     }, []);
 
     return (
-      <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.itemRenderMain, sharedStyles["border_" + theme]]}
+      >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             onPress={async () => {
@@ -111,22 +115,34 @@ const MyTasks = ({
                 await updateToDoStatus(item);
               }
             }}
-            style={styles.checkRender}
+            style={[styles.checkRender, sharedStyles["border_" + theme]]}
           >
             {isCheck && (
               <Image
-                style={styles.checkImageRender}
+                style={[styles.checkImageRender, sharedStyles["tint_" + theme]]}
                 source={require("../../assets/images/check.png")}
               />
             )}
           </TouchableOpacity>
           <View style={{ width: width * 0.63 }}>
             {isCheck ? (
-              <Text style={styles.itemRenderTextMainStrikeThru}>
+              <Text
+                style={[
+                  styles.itemRenderTextMainStrikeThru,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
                 {item.name}
               </Text>
             ) : (
-              <Text style={styles.itemRenderTextMain}>{item.name}</Text>
+              <Text
+                style={[
+                  styles.itemRenderTextMain,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
+                {item.name}
+              </Text>
             )}
           </View>
         </View>
@@ -137,7 +153,14 @@ const MyTasks = ({
               <>
                 {moment(itemDate).format("YYYYMMDD") ==
                 moment(currentDay).format("YYYYMMDD") ? (
-                  <Text style={styles.dueTodayText}>Today</Text>
+                  <Text
+                    style={[
+                      styles.dueTodayText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Today
+                  </Text>
                 ) : (
                   <>
                     {moment(itemDate).format("YYYYMMDD") <
@@ -146,7 +169,12 @@ const MyTasks = ({
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     ) : (
-                      <Text style={styles.itemRenderText3Main}>
+                      <Text
+                        style={[
+                          styles.itemRenderText3Main,
+                          sharedStyles["textColour_" + theme],
+                        ]}
+                      >
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     )}
@@ -157,7 +185,14 @@ const MyTasks = ({
               <View>
                 {moment(itemDate).format("YYYYMMDD") ==
                 moment(currentDay).format("YYYYMMDD") ? (
-                  <Text style={styles.dueTodayText}>Today</Text>
+                  <Text
+                    style={[
+                      styles.dueTodayText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Today
+                  </Text>
                 ) : (
                   <>
                     {moment(itemDate).format("YYYYMMDD") <
@@ -166,7 +201,12 @@ const MyTasks = ({
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     ) : (
-                      <Text style={styles.itemRenderText3Main}>
+                      <Text
+                        style={[
+                          styles.itemRenderText3Main,
+                          sharedStyles["textColour_" + theme],
+                        ]}
+                      >
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     )}
@@ -234,10 +274,18 @@ const MyTasks = ({
       onPress={() => {
         taskRef.current.open();
       }}
-      style={[styles.addButton, { width: width - 30, height: height * 0.22 }]}
+      style={[
+        styles.addButton,
+        sharedStyles["border_" + theme],
+        { width: width - 30, height: height * 0.22 },
+      ]}
     >
-      <Text style={styles.buttonText}>Click here to create a task</Text>
-      <View style={styles.plusCon}>
+      <Text style={[styles.buttonText, sharedStyles["textColour_" + theme]]}>
+        Click here to create a task
+      </Text>
+      <View
+        style={[styles.plusCon, sharedStyles["secondaryBackground_" + theme]]}
+      >
         <Image
           style={[
             styles.plusImage,
@@ -305,7 +353,11 @@ const MyTasks = ({
           />
         </View>
         <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
-          <Text style={styles.tasksTitle}>My tasks</Text>
+          <Text
+            style={[styles.tasksTitle, sharedStyles["textColour_" + theme]]}
+          >
+            My tasks
+          </Text>
           <View style={styles.buttonItems}>
             <TouchableOpacity
               onPress={() => {
@@ -323,7 +375,11 @@ const MyTasks = ({
           {tasksAndToDos.length > 0 ? <Tasks /> : <CreateTasks />}
         </View>
         <View style={[styles.line, { paddingTop: 5, marginBottom: 15 }]}>
-          <Text style={styles.completedTitle}>Completed</Text>
+          <Text
+            style={[styles.completedTitle, sharedStyles["textColour_" + theme]]}
+          >
+            Completed
+          </Text>
           <View style={styles.buttonItems}>
             <TouchableOpacity
               onPress={() => {
@@ -382,12 +438,10 @@ const styles = StyleSheet.create({
   },
   tasksTitle: {
     fontSize: 31,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   completedTitle: {
     fontSize: 20,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     paddingLeft: 4,
   },
@@ -405,20 +459,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: ValueSheet.colours.grey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
     opacity: 0.7,
   },
   buttonText: {
-    color: ValueSheet.colours.black50,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingBottom: 15,
   },
@@ -433,7 +484,6 @@ const styles = StyleSheet.create({
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -448,7 +498,6 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -457,7 +506,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
   itemRenderTextMain: {
-    color: ValueSheet.colours.black,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
@@ -466,7 +514,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemRenderTextMainStrikeThru: {
-    color: ValueSheet.colours.black,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
@@ -476,25 +523,23 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
   itemRenderText2Main: {
-    color: ValueSheet.colours.borderPink70,
+    color: ValueSheet.colours.light.borderPink,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   itemRenderText3Main: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   dueTodayText: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
   },
   imageContainer: {
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink70,
+    backgroundColor: ValueSheet.colours.light.pink65,
+    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });
