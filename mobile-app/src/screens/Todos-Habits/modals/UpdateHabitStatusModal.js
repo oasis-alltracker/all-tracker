@@ -202,6 +202,7 @@ export default function UpdateHabitStatusModal({
         </View>
         <View style={styles.row2}>
           <Button
+            textColour={ValueSheet.colours[theme].primaryColour}
             onPress={() => backDropPressed()}
             style={[
               styles.button,
@@ -211,7 +212,11 @@ export default function UpdateHabitStatusModal({
           >
             Close
           </Button>
-          <Button onPress={() => onSave()} style={styles.button}>
+          <Button
+            onPress={() => onSave()}
+            style={styles.button}
+            textColour={ValueSheet.colours.light.primaryColour}
+          >
             Ok
           </Button>
         </View>
