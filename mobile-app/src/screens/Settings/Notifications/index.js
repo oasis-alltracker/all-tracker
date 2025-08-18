@@ -58,7 +58,7 @@ const Notifications = () => {
     setIsLoading(true);
     const token = await getAccessToken();
 
-    if (isNotificationsEnabled) {
+    if (isNotificationsEnabled && isSystemNotificationsEnabled) {
       await NotificationsHandler.turnOffAllNotifications(token);
       setIsNotificationsEnabled(false);
       setIsHabitsEnabled(false);
@@ -73,9 +73,10 @@ const Notifications = () => {
       var systemNotificationsStatus = true;
       systemNotificationsStatus =
         await NotificationsHandler.checkNotificationsStatus(token);
+      setIsSystemNotificationsEnabled(systemNotificationsStatus ? true : false);
       if (systemNotificationsStatus) {
         await NotificationsHandler.turnOnAllNotifications(token);
-        setIsNotificationsEnabled((previousState) => !previousState);
+        setIsNotificationsEnabled(true);
       } else {
         Toast.show({
           type: "info",
@@ -631,7 +632,7 @@ const Notifications = () => {
           var newSleepNotifications =
             await NotificationsHandler.getNotifications(token, "sleep-");
 
-          setIsSystemNotificationsEnabled(systemNotifications);
+          setIsSystemNotificationsEnabled(systemNotifications ? true : false);
           setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
           setIsHabitsEnabled(habitNotifications == "on");
           setIsTasksEnabled(taskNotificationsIsOn == "on");
@@ -746,7 +747,10 @@ const Notifications = () => {
                   width={55}
                   height={32}
                   onValueChange={habitsToggled}
-                  value={isHabitsEnabled && isSystemNotificationsEnabled}
+                  disabled={
+                    !isNotificationsEnabled || !isSystemNotificationsEnabled
+                  }
+                  value={isHabitsEnabled}
                   trackColor={{
                     true: ValueSheet.colours.secondaryColour,
                     false: ValueSheet.colours.purple,
@@ -766,7 +770,10 @@ const Notifications = () => {
                   width={55}
                   height={32}
                   onValueChange={tasksToggled}
-                  value={isTasksEnabled && isSystemNotificationsEnabled}
+                  disabled={
+                    !isNotificationsEnabled || !isSystemNotificationsEnabled
+                  }
+                  value={isTasksEnabled}
                   trackColor={{
                     true: ValueSheet.colours.secondaryColour,
                     false: ValueSheet.colours.purple,
@@ -794,11 +801,14 @@ const Notifications = () => {
                     width={55}
                     height={32}
                     onValueChange={breakfastToggled}
-                    value={isBreakfastEnabled && isSystemNotificationsEnabled}
+                    value={isBreakfastEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
                       false: ValueSheet.colours.purple,
                     }}
+                    disabled={
+                      !isNotificationsEnabled || !isSystemNotificationsEnabled
+                    }
                     thumbColor={
                       isBreakfastEnabled && isSystemNotificationsEnabled
                         ? ValueSheet.colours.secondaryColour
@@ -860,7 +870,10 @@ const Notifications = () => {
                     width={55}
                     height={32}
                     onValueChange={lunchToggled}
-                    value={isLunchEnabled && isSystemNotificationsEnabled}
+                    value={isLunchEnabled}
+                    disabled={
+                      !isNotificationsEnabled || !isSystemNotificationsEnabled
+                    }
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
                       false: ValueSheet.colours.purple,
@@ -926,7 +939,10 @@ const Notifications = () => {
                     width={55}
                     height={32}
                     onValueChange={dinnerToggled}
-                    value={isDinnerEnabled && isSystemNotificationsEnabled}
+                    disabled={
+                      !isNotificationsEnabled || !isSystemNotificationsEnabled
+                    }
+                    value={isDinnerEnabled}
                     trackColor={{
                       true: ValueSheet.colours.secondaryColour,
                       false: ValueSheet.colours.purple,
@@ -1002,11 +1018,12 @@ const Notifications = () => {
                 title="Wellness check-in"
                 body="It's time to check in with yourself"
                 notifications={moodNotifications}
-                isToggled={
-                  isWellnessCheckinToggled && isSystemNotificationsEnabled
-                }
+                isToggled={isWellnessCheckinToggled}
                 toggledHandler={wellnessCheckinToggled}
                 setIsToggled={setIsWellnessCheckinToggled}
+                disabled={
+                  !isNotificationsEnabled || !isSystemNotificationsEnabled
+                }
                 group="mood"
               />
             )}
@@ -1016,11 +1033,12 @@ const Notifications = () => {
                   title="Sleep review"
                   body="Time to wake up amd review your sleep"
                   notifications={morningNotifications}
-                  isToggled={
-                    isMorningAlarmToggled && isSystemNotificationsEnabled
-                  }
+                  isToggled={isMorningAlarmToggled}
                   toggledHandler={morningAlarmToggled}
                   setIsToggled={setIsMorningAlarmToggled}
+                  disabled={
+                    !isNotificationsEnabled || !isSystemNotificationsEnabled
+                  }
                   group="morning"
                 />
               </>

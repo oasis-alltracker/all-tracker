@@ -23,6 +23,7 @@ const Soultification = ({
   isToggled,
   toggledHandler,
   setIsToggled,
+  disabled,
   group,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -471,6 +472,7 @@ const Soultification = ({
             height={32}
             onValueChange={onToggle}
             value={isToggled}
+            disabled={disabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
               false: ValueSheet.colours.purple,

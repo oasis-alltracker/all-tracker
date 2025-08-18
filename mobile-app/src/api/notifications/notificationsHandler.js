@@ -148,48 +148,50 @@ class NotificationsHandler {
     notifications,
     prevExpoIDs = false
   ) {
-    var expoIDs = [];
-    if (notifications) {
-      for (var trigger of triggers) {
-        if (Platform.OS === "android" && trigger.day) {
-          trigger = {
-            seconds: this.getSecondsUntilDate(trigger),
-            repeats: false,
-          };
-        }
-        try {
-          const expoID = await this.schedulePushNotification(
-            title,
-            body,
-            trigger
-          );
-          expoIDs.push(expoID);
-        } catch (e) {
-          console.log(e);
+    if (!notificationID.endsWith("Preference")) {
+      var expoIDs = [];
+      if (notifications) {
+        for (var trigger of triggers) {
+          if (Platform.OS === "android" && trigger.day) {
+            trigger = {
+              seconds: this.getSecondsUntilDate(trigger),
+              repeats: false,
+            };
+          }
+          try {
+            const expoID = await this.schedulePushNotification(
+              title,
+              body,
+              trigger
+            );
+            expoIDs.push(expoID);
+          } catch (e) {
+            console.log(e);
+          }
         }
       }
-    }
 
-    if (prevExpoIDs) {
-      for (var prevExpoID of prevExpoIDs) {
-        await this.cancelPushNotification(prevExpoID);
+      if (prevExpoIDs) {
+        for (var prevExpoID of prevExpoIDs) {
+          await this.cancelPushNotification(prevExpoID);
+        }
       }
-    }
 
-    try {
-      await this.updateNotification(
-        token,
-        notificationID,
-        expoIDs,
-        title,
-        body,
-        triggers,
-        "on"
-      );
-      return expoIDs;
-    } catch (e) {
-      console.log(e);
-      return false;
+      try {
+        await this.updateNotification(
+          token,
+          notificationID,
+          expoIDs,
+          title,
+          body,
+          triggers,
+          "on"
+        );
+        return expoIDs;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
     }
   }
   static async turnOffNotification(token, notificationID, expoIDs) {

@@ -23,7 +23,7 @@ import {
 } from "react-native";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
-import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import NotificationsHandler from "../../api/notifications/notificationsHandler";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { getUniqueId } from "react-native-device-info";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -118,7 +118,11 @@ const UnlockAccount = (props) => {
         "notifications"
       );
       if (allNotifications[0]?.preference === "on") {
-        await NotificationsHandler.checkNotificationsStatus(token);
+        systemNotificationsStatus =
+          await NotificationsHandler.checkNotificationsStatus(token);
+        if (systemNotificationsStatus) {
+          NotificationsHandler.turnOnAllNotifications(token);
+        }
       }
     } else {
       navigationService.navigate("contract");
