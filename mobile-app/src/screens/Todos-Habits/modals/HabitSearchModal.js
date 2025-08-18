@@ -142,7 +142,10 @@ export default function HabitSearchModal({
               {habitOptions.map((item, index) => (
                 <View key={index} style={styles.habitItem}>
                   <TouchableOpacity
-                    style={styles.habitSelector}
+                    style={[
+                      styles.habitSelector,
+                      styles["habitSelectorColour_" + theme],
+                    ]}
                     onPress={() => selectHabitHandler(item.label)}
                   >
                     <Image
@@ -189,7 +192,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   habitItem: {
-    margin: 15,
+    marginHorizontal: 15,
+    marginVertical: 10,
   },
   habitOption: {
     width: 80,
@@ -204,7 +208,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 2,
     borderColor: "transparent",
-    backgroundColor: ValueSheet.colours.secondaryColour65,
+  },
+  habitSelectorColour_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour65,
+  },
+  habitSelectorColour_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour65,
   },
   safeAreaContainer: {
     flex: 1,
