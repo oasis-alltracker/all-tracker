@@ -245,7 +245,7 @@ const Main = ({
           style={[sharedStyles.headerImageContainer, styles.imageContainer]}
         >
           <Image
-            style={sharedStyles.headerImage}
+            style={[sharedStyles.headerImage, sharedStyles.tint_light]}
             source={require("../../assets/images/mind-white.png")}
           />
         </View>
@@ -319,7 +319,7 @@ const Main = ({
                   }}
                 >
                   <Image
-                    style={styles.plusMain}
+                    style={[styles.plusMain, sharedStyles["tint_" + theme]]}
                     source={require("../../assets/images/plus512.png")}
                   />
                 </TouchableOpacity>
@@ -500,7 +500,10 @@ const Main = ({
                       }}
                     >
                       <Image
-                        style={styles.habitImageMain}
+                        style={[
+                          styles.habitImageMain,
+                          sharedStyles["tint_" + theme],
+                        ]}
                         source={require("../../assets/images/plus512.png")}
                       />
                     </TouchableOpacity>
@@ -529,7 +532,7 @@ const Main = ({
                   }}
                 >
                   <Image
-                    style={styles.plusMain}
+                    style={[styles.plusMain, sharedStyles["tint_" + theme]]}
                     source={require("../../assets/images/plus512.png")}
                   />
                 </TouchableOpacity>
