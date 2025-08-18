@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import RNModal from "react-native-modal";
 import {
@@ -16,8 +16,11 @@ import NotificationsHandler from "../../../api/notifications/notificationsHandle
 import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function HabitNotificationsModal({ getRef, reopenMain }) {
+  const theme = useContext(ThemeContext).value;
   const [isVisible, setIsVisible] = useState(false);
 
   const [systemNotificationsEnabled, setSystemNotificationsEnabled] =
@@ -312,22 +315,26 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
       backdropOpacity={0}
       style={styles.modal}
     >
-      <View style={styles.container}>
+      <View
+        style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+      >
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Notifications</Text>
+          <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+            Notifications
+          </Text>
           <Switch
             width={55}
             height={32}
             onValueChange={onToggle}
             value={isNotificationsOn}
             trackColor={{
-              true: ValueSheet.colours.secondaryColour,
-              false: ValueSheet.colours.purple,
+              true: ValueSheet.colours[theme].secondaryColour,
+              false: ValueSheet.colours[theme].purple,
             }}
             thumbColor={
               isNotificationsOn
-                ? ValueSheet.colours.secondaryColour
-                : ValueSheet.colours.purple
+                ? ValueSheet.colours[theme].secondaryColour
+                : ValueSheet.colours[theme].purple
             }
           />
         </View>
@@ -338,7 +345,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: ValueSheet.colours.secondaryColour },
+                    sharedStyles["timePicker_" + theme],
                   ]}
                 >
                   <>
@@ -360,7 +367,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         }}
                         title="toggleMinMaxDate"
                       >
-                        <Text style={styles.timeText}>
+                        <Text
+                          style={[
+                            styles.timeText,
+                            { color: ValueSheet.colours.light.primaryColour },
+                          ]}
+                        >
                           {formatDateObject(timeSchedule[0])}
                         </Text>
                       </TouchableOpacity>
@@ -389,7 +401,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: ValueSheet.colours.secondaryColour },
+                    sharedStyles["timePicker_" + theme],
                   ]}
                 >
                   <>
@@ -411,7 +423,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         }}
                         title="toggleMinMaxDate"
                       >
-                        <Text style={styles.timeText}>
+                        <Text
+                          style={[
+                            styles.timeText,
+                            { color: ValueSheet.colours.light.primaryColour },
+                          ]}
+                        >
                           {formatDateObject(timeSchedule[1])}
                         </Text>
                       </TouchableOpacity>
@@ -440,7 +457,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: ValueSheet.colours.secondaryColour },
+                    sharedStyles["timePicker_" + theme],
                   ]}
                 >
                   <>
@@ -462,7 +479,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         }}
                         title="toggleMinMaxDate"
                       >
-                        <Text style={styles.timeText}>
+                        <Text
+                          style={[
+                            styles.timeText,
+                            { color: ValueSheet.colours.light.primaryColour },
+                          ]}
+                        >
                           {formatDateObject(timeSchedule[2])}
                         </Text>
                       </TouchableOpacity>
@@ -491,7 +513,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: ValueSheet.colours.secondaryColour },
+                    sharedStyles["timePicker_" + theme],
                   ]}
                 >
                   <>
@@ -513,7 +535,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         }}
                         title="toggleMinMaxDate"
                       >
-                        <Text style={styles.timeText}>
+                        <Text
+                          style={[
+                            styles.timeText,
+                            { color: ValueSheet.colours.light.primaryColour },
+                          ]}
+                        >
                           {formatDateObject(timeSchedule[3])}
                         </Text>
                       </TouchableOpacity>
@@ -542,7 +569,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                 <View
                   style={[
                     styles.timePickerContainer,
-                    { backgroundColor: ValueSheet.colours.secondaryColour },
+                    sharedStyles["timePicker_" + theme],
                   ]}
                 >
                   <>
@@ -564,7 +591,12 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                         }}
                         title="toggleMinMaxDate"
                       >
-                        <Text style={styles.timeText}>
+                        <Text
+                          style={[
+                            styles.timeText,
+                            { color: ValueSheet.colours.light.primaryColour },
+                          ]}
+                        >
                           {formatDateObject(timeSchedule[4])}
                         </Text>
                       </TouchableOpacity>
@@ -592,7 +624,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
               {isMiniLoading ? (
                 <ActivityIndicator
                   size="small"
-                  color={ValueSheet.colours.primaryColour}
+                  color={ValueSheet.colours[theme].primaryColour}
                 />
               ) : (
                 <TouchableOpacity
@@ -601,9 +633,9 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                   }}
                 >
                   <Image
-                    source={require("../../../assets/images/plus.png")}
+                    source={require("../../../assets/images/plus512.png")}
                     resizeMode="contain"
-                    style={styles.plusImage}
+                    style={[styles.plusImage, sharedStyles["tint_" + theme]]}
                   />
                 </TouchableOpacity>
               )}
@@ -614,7 +646,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
               {isMiniLoading ? (
                 <ActivityIndicator
                   size="small"
-                  color={ValueSheet.colours.primaryColour}
+                  color={ValueSheet.colours[theme].primaryColour}
                 />
               ) : (
                 <>
@@ -626,7 +658,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                     <Image
                       source={require("../../../assets/images/trash.png")}
                       resizeMode="contain"
-                      style={styles.trashImage}
+                      style={[styles.trashImage, sharedStyles["tint_" + theme]]}
                     />
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -635,9 +667,9 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                     }}
                   >
                     <Image
-                      source={require("../../../assets/images/plus.png")}
+                      source={require("../../../assets/images/plus512.png")}
                       resizeMode="contain"
-                      style={styles.plusImage}
+                      style={[styles.plusImage, sharedStyles["tint_" + theme]]}
                     />
                   </TouchableOpacity>
                 </>
@@ -649,7 +681,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
               {isMiniLoading ? (
                 <ActivityIndicator
                   size="small"
-                  color={ValueSheet.colours.primaryColour}
+                  color={ValueSheet.colours[theme].primaryColour}
                 />
               ) : (
                 <>
@@ -661,7 +693,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
                     <Image
                       source={require("../../../assets/images/trash.png")}
                       resizeMode="contain"
-                      style={styles.trashImage}
+                      style={[styles.trashImage, sharedStyles["tint_" + theme]]}
                     />
                   </TouchableOpacity>
                 </>
@@ -670,18 +702,32 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           )}
         </View>
 
-        <View style={styles.buttonsRow}>
+        <View style={[styles.buttonsRow, sharedStyles["border_" + theme]]}>
           <TouchableOpacity
             onPress={() => onExit()}
             style={styles.notificationButton}
           >
-            <Text style={styles.notificationButtonText}>Cancel</Text>
+            <Text
+              style={[
+                styles.notificationButtonText,
+                styles["notificationButtonTextColour_" + theme],
+              ]}
+            >
+              Cancel
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => onSave()}
             style={styles.notificationButton}
           >
-            <Text style={styles.notificationButtonText}>Done</Text>
+            <Text
+              style={[
+                styles.notificationButtonText,
+                styles["notificationButtonTextColour_" + theme],
+              ]}
+            >
+              Done
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -699,12 +745,10 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     height: 490,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   scheduleContainer: {
     alignItems: "center",
@@ -715,7 +759,6 @@ const styles = StyleSheet.create({
   },
   buttonsRow: {
     borderTopWidth: 1,
-    borderColor: ValueSheet.colours.black10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -729,7 +772,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   title: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 32,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 24,
@@ -741,11 +783,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 140,
     paddingRight: 5,
-    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   timeText: {
     fontSize: 17,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 7.5,
     marginBottom: 2.5,
@@ -763,9 +803,14 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   notificationButtonText: {
-    color: ValueSheet.colours.datePickerBlue,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryBold,
+  },
+  notificationButtonTextColour_dark: {
+    color: ValueSheet.colours.dark.datePickerBlue,
+  },
+  notificationButtonTextColour_light: {
+    color: ValueSheet.colours.light.datePickerBlue,
   },
   plusImage: {
     width: 22,

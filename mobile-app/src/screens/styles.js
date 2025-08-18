@@ -165,4 +165,10 @@ export const sharedStyles = StyleSheet.create({
   secondaryBackground_light: {
     backgroundColor: ValueSheet.colours.light.secondaryColour27,
   },
+  timePicker_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+  },
+  timePicker_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
+  },
 });
