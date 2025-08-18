@@ -56,8 +56,7 @@ const Main = ({ navigation }) => {
         ) {
           buttonPreference.push({
             image: require("../assets/images/mind-white512.png"),
-            color: ValueSheet.colours[theme].pink65,
-            border: ValueSheet.colours[theme].borderPink,
+            color: "pink",
             onPress: () => {
               navigationService.reset("todos-habits", 0);
             },
@@ -69,8 +68,7 @@ const Main = ({ navigation }) => {
         ) {
           buttonPreference.push({
             image: require("../assets/images/body-white.png"),
-            color: ValueSheet.colours[theme].purple65,
-            border: ValueSheet.colours[theme].purple,
+            color: "purple",
             onPress: () => {
               navigationService.reset("fitness-diet", 0);
             },
@@ -82,13 +80,13 @@ const Main = ({ navigation }) => {
         ) {
           buttonPreference.push({
             image: require("../assets/images/soul-white.png"),
-            color: ValueSheet.colours[theme].yellow75,
-            border: ValueSheet.colours[theme].borderYellow,
+            color: "yellow",
             onPress: () => {
               navigationService.reset("mood-sleep", 0);
             },
           });
         }
+
         setButtons(buttonPreference);
       }
     };
@@ -120,7 +118,7 @@ const Main = ({ navigation }) => {
               onPress={item.onPress}
               style={[
                 styles.button,
-                { backgroundColor: item.color, borderColor: item.border },
+                sharedStyles[item.color + "Container_" + theme],
               ]}
               key={index}
             >
