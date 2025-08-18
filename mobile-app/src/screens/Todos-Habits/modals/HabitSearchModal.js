@@ -1,15 +1,85 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import RNModal from "react-native-modal";
 import { Image, StyleSheet, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+
+const habitOptions = [
+  {
+    label: "Meditate",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/meditate.png",
+  },
+  {
+    label: "Drink water",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/drink-water.png",
+  },
+  {
+    label: "Walk dog",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png",
+  },
+  {
+    label: "Go on a walk",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png",
+  },
+  {
+    label: "Cold shower",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/shower.png",
+  },
+  {
+    label: "Play music",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/guitar.png",
+  },
+  {
+    label: "Drink tea",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/tea.png",
+  },
+  {
+    label: "Read",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/read.png",
+  },
+  {
+    label: "Run",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/run.png",
+  },
+  {
+    label: "Stretch",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/stretch.png",
+  },
+  {
+    label: "Exercise",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/workout.png",
+  },
+  {
+    label: "Eat food",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/time-to-eat.png",
+  },
+  {
+    label: "Journal",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/journal.png",
+  },
+  {
+    label: "Be outdoors",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/outdoors.png",
+  },
+  {
+    label: "Bike ride",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/cycling.png",
+  },
+  {
+    label: "Swim",
+    image: "https://oasis-images.s3.ca-central-1.amazonaws.com/swimming.png",
+  },
+];
 
 export default function HabitSearchModal({
   getRef,
   selectHabit,
   backDropPressed,
 }) {
+  const theme = useContext(ThemeContext).value;
   const { width, height } = useWindowDimensions();
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -40,7 +110,12 @@ export default function HabitSearchModal({
       backdropOpacity={0}
       style={[styles.scrollModal, { height: height * 0.7 }]}
     >
-      <SafeAreaView style={styles.safeAreaContainer}>
+      <SafeAreaView
+        style={[
+          styles.safeAreaContainer,
+          sharedStyles["pageBackground_" + theme],
+        ]}
+      >
         <ScrollView
           style={[
             styles.habitSearchContainer,
@@ -49,256 +124,41 @@ export default function HabitSearchModal({
         >
           <View style={styles.scrollViewView}>
             <TouchableOpacity
-              style={styles.backButton}
+              style={[
+                styles.backButton,
+                sharedStyles["pageBackground_" + theme],
+              ]}
               onPress={() => {
                 setIsVisible(false);
               }}
             >
               <Image
-                style={styles.backImage}
+                style={[styles.backImage, sharedStyles["tint_" + theme]]}
                 resizeMode="cover"
                 source={require("../../../assets/images/back-arrow.png")}
               />
             </TouchableOpacity>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Meditate")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/meditate.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Meditate</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Drink water")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/drink-water.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Drink water</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Walk dog")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/dog-walk.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Walk dog</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Go on a walk")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/walk.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Go on a walk</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Cold shower")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/shower.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Cold shower</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Play music")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/guitar.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Play music</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Drink tea")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/tea.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Drink tea</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Read")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/read.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Read</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Run")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/run.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Run</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Stretch")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/stretch.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Stretch</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Exercise")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/workout.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Exercise</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Eat food")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/time-to-eat.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Eat food</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Journal")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/journal.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Journal</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Be outdoors")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/outdoors.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Be outdoors</Text>
-              </View>
-            </View>
-            <View style={styles.habitSearchRow}>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Bike ride")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/cycling.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Bike ride</Text>
-              </View>
-              <View style={styles.habitItem}>
-                <TouchableOpacity
-                  style={styles.habitSelector}
-                  onPress={() => selectHabitHandler("Swim")}
-                >
-                  <Image
-                    style={styles.habitOption}
-                    source={{
-                      uri: "https://oasis-images.s3.ca-central-1.amazonaws.com/swimming.png",
-                    }}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.text}>Swim</Text>
-              </View>
+            <View style={styles.habitOptionsContainer}>
+              {habitOptions.map((item, index) => (
+                <View key={index} style={styles.habitItem}>
+                  <TouchableOpacity
+                    style={styles.habitSelector}
+                    onPress={() => selectHabitHandler(item.label)}
+                  >
+                    <Image
+                      style={styles.habitOption}
+                      source={{
+                        uri: item.image,
+                      }}
+                    />
+                  </TouchableOpacity>
+                  <Text
+                    style={[styles.text, sharedStyles["textColour_" + theme]]}
+                  >
+                    {item.label}
+                  </Text>
+                </View>
+              ))}
             </View>
           </View>
         </ScrollView>
@@ -319,12 +179,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
-  habitSearchRow: {
+  habitOptionsContainer: {
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-evenly",
+    alignContent: "space-between",
     marginTop: 15,
     marginBottom: 5,
+  },
+  habitItem: {
+    margin: 15,
   },
   habitOption: {
     width: 80,
@@ -343,7 +208,6 @@ const styles = StyleSheet.create({
   },
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   scrollViewView: {
     paddingTop: 30,
@@ -352,7 +216,6 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
-    color: ValueSheet.colours.primaryColour,
     marginTop: 2,
     textAlign: "center",
   },
@@ -364,7 +227,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 40,
     marginBottom: 20,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 12,
   },
   backImage: {
