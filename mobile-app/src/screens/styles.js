@@ -47,6 +47,16 @@ export const sharedStyles = StyleSheet.create({
     borderLeftColor: ValueSheet.colours.light.grey,
     backgroundColor: ValueSheet.colours.light.secondaryColour,
   },
+  changeDateButton_dark: {
+    borderRightColor: ValueSheet.colours.dark.grey,
+    borderLeftColor: ValueSheet.colours.dark.grey,
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+  },
+  changeDateButton_light: {
+    borderRightColor: ValueSheet.colours.light.grey,
+    borderLeftColor: ValueSheet.colours.light.grey,
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
+  },
   imageTextMain: {
     fontSize: 22,
     color: ValueSheet.colours.primaryColour,
@@ -134,5 +144,19 @@ export const sharedStyles = StyleSheet.create({
   modalBackground_light: {
     backgroundColor: ValueSheet.colours.light.background,
     borderColor: ValueSheet.colours.light.borderGrey,
+  },
+  pageBackground_dark: {
+    backgroundColor: ValueSheet.colours.dark.background,
+  },
+  pageBackground_light: {
+    backgroundColor: ValueSheet.colours.light.background,
+  },
+  button_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+    borderColor: ValueSheet.colours.dark.borderGrey75,
+  },
+  button_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
+    borderColor: ValueSheet.colours.light.borderGrey75,
   },
 });

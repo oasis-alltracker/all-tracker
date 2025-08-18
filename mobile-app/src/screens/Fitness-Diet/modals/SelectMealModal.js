@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import RNModal from "react-native-modal";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 const mealTitles = [
   {
@@ -30,6 +32,7 @@ export default function SelectMealModal({
   dietUnit,
 }) {
   const [selectedIndex, setSelected] = useState(-1);
+  const theme = useContext(ThemeContext).value;
 
   const updateSelected = (currIndex) => {
     if (selectedIndex == currIndex) setSelected(-1);
@@ -44,11 +47,22 @@ export default function SelectMealModal({
       backdropOpacity={0}
       style={styles.modal}
     >
-      <View style={styles.container}>
-        <Text style={styles.titleText}>Select Meal </Text>
+      <View
+        style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+      >
+        <Text style={[styles.titleText, sharedStyles["textColour_" + theme]]}>
+          Select Meal{" "}
+        </Text>
         {mealTitles.map((item, index) => (
           <View key={index}>
-            <View style={styles.line} />
+            <View
+              style={[
+                styles.line,
+                {
+                  borderBottomColor: ValueSheet.colours[theme].grey,
+                },
+              ]}
+            />
             <TouchableOpacity
               style={[
                 selectedIndex == index && {
@@ -58,13 +72,27 @@ export default function SelectMealModal({
               onPress={() => updateSelected(index)}
             >
               <View style={styles.row}>
-                <Image style={styles.icon} source={item.icon}></Image>
-                <Text style={styles.rowText}>{item.name}</Text>
+                <Image
+                  style={[styles.icon, sharedStyles["tint_" + theme]]}
+                  source={item.icon}
+                ></Image>
+                <Text
+                  style={[styles.rowText, sharedStyles["textColour_" + theme]]}
+                >
+                  {item.name}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
         ))}
-        <View style={styles.line} />
+        <View
+          style={[
+            styles.line,
+            {
+              borderBottomColor: ValueSheet.colours.grey,
+            },
+          ]}
+        />
 
         <TouchableOpacity
           style={[
@@ -93,7 +121,9 @@ export default function SelectMealModal({
           <Text
             style={[
               styles.buttonText,
-              selectedIndex == -1 && { color: ValueSheet.colours.black50 },
+              selectedIndex == -1 && {
+                color: ValueSheet.colours[theme].black50,
+              },
             ]}
           >
             Continue
@@ -113,26 +143,21 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   line: {
-    borderBottomColor: ValueSheet.colours.grey,
     borderBottomWidth: 2,
   },
   titleText: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 33,
-    color: ValueSheet.colours.primaryColour,
     marginVertical: 20,
     alignSelf: "center",
   },
   rowText: {
     fontSize: 24,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
   row: {
     flexDirection: "row",
@@ -160,6 +185,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 24,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
   },
 });
