@@ -30,8 +30,7 @@ const Button = (props) => {
         <Text
           style={[
             styles.textStyle,
-            sharedStyles["textColour_" + theme],
-            { color: props.textColour },
+            sharedStyles["textColour_light"],
             props.textStyle,
           ]}
         >
@@ -49,7 +48,7 @@ const Button = (props) => {
           styles.button,
           sharedStyles["button_" + theme],
           props.style,
-          props.style || styles.opacity,
+          props.style || sharedStyles["pageBackground_" + theme],
         ]}
       >
         {_renderInnerText()}
@@ -82,9 +81,6 @@ const styles = StyleSheet.create({
   },
   spinner: {
     alignSelf: "center",
-  },
-  opacity: {
-    backgroundColor: ValueSheet.colours.background,
   },
   textStyle: {
     fontSize: 26,

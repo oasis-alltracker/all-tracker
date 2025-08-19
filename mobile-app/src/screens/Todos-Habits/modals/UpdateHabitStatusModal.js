@@ -204,19 +204,12 @@ export default function UpdateHabitStatusModal({
           <Button
             textColour={ValueSheet.colours[theme].primaryColour}
             onPress={() => backDropPressed()}
-            style={[
-              styles.button,
-              styles.back,
-              sharedStyles["border_" + theme],
-            ]}
+            style={[styles.button, styles.back]}
+            textStyle={sharedStyles["textColour_" + theme]}
           >
             Close
           </Button>
-          <Button
-            onPress={() => onSave()}
-            style={styles.button}
-            textColour={ValueSheet.colours.light.primaryColour}
-          >
+          <Button onPress={() => onSave()} style={styles.button}>
             Ok
           </Button>
         </View>

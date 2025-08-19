@@ -277,20 +277,12 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
             <View style={styles.row2}>
               <Button
                 onPress={() => onDelete()}
-                style={[
-                  styles.button,
-                  styles.back,
-                  sharedStyles["border_" + theme],
-                ]}
-                textColour={ValueSheet.colours[theme].primaryColour}
+                style={[styles.button, styles.back]}
+                textStyle={sharedStyles["textColour_" + theme]}
               >
                 Delete
               </Button>
-              <Button
-                onPress={() => onSave()}
-                style={styles.button}
-                textColour={ValueSheet.colours.light.primaryColour}
-              >
+              <Button onPress={() => onSave()} style={styles.button}>
                 Save
               </Button>
             </View>

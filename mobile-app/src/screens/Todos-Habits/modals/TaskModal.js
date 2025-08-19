@@ -341,15 +341,11 @@ export default function TaskModal({
                   styles.back,
                   sharedStyles["border_" + theme],
                 ]}
-                textColour={ValueSheet.colours[theme].primaryColour}
+                textStyle={sharedStyles["textColour_" + theme]}
               >
                 {isEdit ? "Delete" : "Cancel"}
               </Button>
-              <Button
-                onPress={() => onSave()}
-                style={styles.button}
-                textColour={ValueSheet.colours.light.primaryColour}
-              >
+              <Button onPress={() => onSave()} style={styles.button}>
                 Save
               </Button>
             </View>
