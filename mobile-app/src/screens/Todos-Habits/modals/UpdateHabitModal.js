@@ -238,7 +238,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
               />
               <TouchableOpacity onPress={() => viewNotificationsSchedule()}>
                 <Image
-                  style={styles.reminderBell}
+                  style={[styles.reminderBell, sharedStyles["tint_" + theme]]}
                   source={require("../../../assets/images/reminder.png")}
                 />
               </TouchableOpacity>
