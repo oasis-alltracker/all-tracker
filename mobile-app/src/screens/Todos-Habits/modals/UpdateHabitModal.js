@@ -5,7 +5,6 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  useWindowDimensions,
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
@@ -28,9 +27,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
   const theme = useContext(ThemeContext).value;
   const [visible, setVisible] = useState(false);
 
-  const [image, setImage] = useState(
-    "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
-  );
+  const [image, setImage] = useState(null);
   const imagesRef = useRef(null);
   const notificationsRef = useRef(null);
 
@@ -154,11 +151,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
         text1: "Please specify a smaller goal",
         text2: "Your goal must be be less than 100.",
       });
-    } else if (
-      habitName &&
-      threshold &&
-      image != "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
-    ) {
+    } else if (habitName && threshold && image != null) {
       habit = {
         name: habitName,
         threshold: threshold,
@@ -251,7 +244,9 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
                 style={[styles.selectImage, sharedStyles["border_" + theme]]}
                 onPress={() => searchImage()}
               >
-                <Image style={styles.image} source={{ uri: image }} />
+                {image != null ? (
+                  <Image style={[styles.image]} source={{ uri: image }} />
+                ) : null}
               </TouchableOpacity>
             </View>
 

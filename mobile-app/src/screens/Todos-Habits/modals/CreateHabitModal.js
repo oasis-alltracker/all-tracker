@@ -30,9 +30,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
   const habitSearchRef = useRef(null);
   const notificationsRef = useRef(null);
 
-  const [image, setImage] = useState(
-    "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
-  );
+  const [image, setImage] = useState(null);
 
   const [habitName, setHabitName] = useState("");
   const [threshold, setThreshold] = useState("");
@@ -110,7 +108,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
 
     setIsMainVisible(false);
     setIsNotificationsOn(false);
-    setImage("https://oasis-images.s3.ca-central-1.amazonaws.com/white.png");
+    setImage(null);
   };
 
   const onSave = async () => {
@@ -133,19 +131,13 @@ export default function CreateHabitModal({ getRef, createHabit }) {
         text1: "Please specify a smaller goal",
         text2: "Your goal must be be less than 100.",
       });
-    } else if (
-      image == "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
-    ) {
+    } else if (image == null) {
       Toast.show({
         type: "info",
         text1: "Incomplete fields",
         text2: "Please select an image for your habit.",
       });
-    } else if (
-      habitName &&
-      threshold &&
-      image != "https://oasis-images.s3.ca-central-1.amazonaws.com/white.png"
-    ) {
+    } else if (habitName && threshold && image != null) {
       habit = {
         name: habitName,
         threshold: threshold,
@@ -225,7 +217,9 @@ export default function CreateHabitModal({ getRef, createHabit }) {
                 style={[styles.selectImage, sharedStyles["border_" + theme]]}
                 onPress={() => searchImage()}
               >
-                <Image style={styles.image} source={{ uri: image }} />
+                {image != null ? (
+                  <Image style={[styles.image]} source={{ uri: image }} />
+                ) : null}
               </TouchableOpacity>
             </View>
 
