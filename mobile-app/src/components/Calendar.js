@@ -25,17 +25,18 @@ import Toast from "react-native-toast-message";
 import { sharedStyles } from "../screens/styles";
 import { ThemeContext } from "../contexts/ThemeProvider";
 
-const oneDay = {
-  startingDay: true,
-  endingDay: true,
-  selectedColor: ValueSheet.colours.datePickerBlue,
-  selectedTextColor: ValueSheet.colours.background,
-  selected: true,
-};
 const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
 const DatePicker = ({ getRef, saveDateHandler }) => {
   const theme = useContext(ThemeContext).value;
+
+  const oneDay = {
+    startingDay: true,
+    endingDay: true,
+    selectedColor: ValueSheet.colours[theme].datePickerBlue,
+    selectedTextColor: ValueSheet.colours[theme].primaryColour,
+    selected: true,
+  };
   const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
@@ -309,7 +310,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           textMonthFontFamily: ValueSheet.fonts.primaryBold,
           textDayHeaderFontFamily: ValueSheet.fonts.primaryBold,
           todayBackgroundColor: ValueSheet.colours[theme].yellow,
-          todayTextColor: ValueSheet.colours[theme].primaryColour,
+          todayTextColor: ValueSheet.colours.light.primaryColour,
           monthTextColor: ValueSheet.colours[theme].primaryColour,
           textDayFontFamily: ValueSheet.fonts.primaryBold,
           dayTextColor: ValueSheet.colours[theme].primaryColour,
@@ -467,6 +468,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                     style={[
                       styles.dayText,
                       sharedStyles["textColour_" + theme],
+                      activeIndexes[index] && sharedStyles["textColour_light"],
                     ]}
                   >
                     {item}
