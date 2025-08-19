@@ -55,7 +55,9 @@ const Stats = ({ getRef }) => {
       user = await UserAPI.getUser(token);
       var dietGoals = await DietGoalsAPI.getDietGoals(token);
 
-      setDietGoals(dietGoals);
+      if (dietGoals != null) {
+        setDietGoals(dietGoals);
+      }
       setTrackingPreferences(user.data.trackingPreferences);
     };
     let ref = {
