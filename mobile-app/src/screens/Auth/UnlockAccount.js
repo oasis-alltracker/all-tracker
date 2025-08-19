@@ -120,9 +120,7 @@ const UnlockAccount = (props) => {
       if (allNotifications[0]?.preference === "on") {
         systemNotificationsStatus =
           await NotificationsHandler.checkNotificationsStatus(token);
-        if (systemNotificationsStatus) {
-          NotificationsHandler.turnOnAllNotifications(token);
-        }
+        NotificationsHandler.turnOnAllNotifications(token);
       }
     } else {
       navigationService.navigate("contract");
