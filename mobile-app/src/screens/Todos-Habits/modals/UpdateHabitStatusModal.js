@@ -203,12 +203,16 @@ export default function UpdateHabitStatusModal({
         <View style={styles.row2}>
           <Button
             onPress={() => backDropPressed()}
-            style={[styles.button, styles.back]}
-            textStyle={sharedStyles["textColour_" + theme]}
+            style={styles.button}
+            isNegative={true}
           >
             Close
           </Button>
-          <Button onPress={() => onSave()} style={styles.button}>
+          <Button
+            onPress={() => onSave()}
+            style={styles.button}
+            isNegative={false}
+          >
             Ok
           </Button>
         </View>
@@ -290,9 +294,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingBottom: 5,
-  },
-  back: {
-    backgroundColor: "transparent",
   },
   row2: {
     flexDirection: "row",

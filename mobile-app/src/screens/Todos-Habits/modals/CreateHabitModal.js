@@ -338,9 +338,6 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-  },
   image: {
     width: 70,
     height: 70,

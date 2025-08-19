@@ -272,12 +272,16 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
             <View style={styles.row2}>
               <Button
                 onPress={() => onDelete()}
-                style={[styles.button, styles.back]}
-                textStyle={sharedStyles["textColour_" + theme]}
+                style={styles.button}
+                isNegative={true}
               >
                 Delete
               </Button>
-              <Button onPress={() => onSave()} style={styles.button}>
+              <Button
+                onPress={() => onSave()}
+                style={styles.button}
+                isNegative={false}
+              >
                 Save
               </Button>
             </View>
@@ -346,9 +350,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
   },
   image: {
     width: 70,

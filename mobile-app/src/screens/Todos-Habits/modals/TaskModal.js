@@ -336,16 +336,16 @@ export default function TaskModal({
             <View style={styles.buttonsRow}>
               <Button
                 onPress={() => onBack()}
-                style={[
-                  styles.button,
-                  styles.back,
-                  sharedStyles["border_" + theme],
-                ]}
-                textStyle={sharedStyles["textColour_" + theme]}
+                style={styles.button}
+                isNegative={true}
               >
                 {isEdit ? "Delete" : "Cancel"}
               </Button>
-              <Button onPress={() => onSave()} style={styles.button}>
+              <Button
+                onPress={() => onSave()}
+                style={styles.button}
+                isNegative={false}
+              >
                 Save
               </Button>
             </View>
@@ -421,8 +421,5 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
   },
 });
