@@ -245,14 +245,14 @@ export default function CreateHabitModal({ getRef, createHabit }) {
               <Button
                 onPress={() => backDropPressed()}
                 style={styles.button}
-                isNegative={true}
+                positiveSelect={false}
               >
                 Cancel
               </Button>
               <Button
                 onPress={() => onSave()}
                 style={styles.button}
-                isNegative={false}
+                positiveSelect={true}
               >
                 Save
               </Button>

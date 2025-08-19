@@ -273,14 +273,14 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
               <Button
                 onPress={() => onDelete()}
                 style={styles.button}
-                isNegative={true}
+                positiveSelect={false}
               >
                 Delete
               </Button>
               <Button
                 onPress={() => onSave()}
                 style={styles.button}
-                isNegative={false}
+                positiveSelect={true}
               >
                 Save
               </Button>

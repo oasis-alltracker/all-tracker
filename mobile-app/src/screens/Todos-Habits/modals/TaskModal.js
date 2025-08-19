@@ -337,14 +337,14 @@ export default function TaskModal({
               <Button
                 onPress={() => onBack()}
                 style={styles.button}
-                isNegative={true}
+                positiveSelect={false}
               >
                 {isEdit ? "Delete" : "Cancel"}
               </Button>
               <Button
                 onPress={() => onSave()}
                 style={styles.button}
-                isNegative={false}
+                positiveSelect={true}
               >
                 Save
               </Button>

@@ -204,14 +204,14 @@ export default function UpdateHabitStatusModal({
           <Button
             onPress={() => backDropPressed()}
             style={styles.button}
-            isNegative={true}
+            positiveSelect={false}
           >
             Close
           </Button>
           <Button
             onPress={() => onSave()}
             style={styles.button}
-            isNegative={false}
+            positiveSelect={true}
           >
             Ok
           </Button>

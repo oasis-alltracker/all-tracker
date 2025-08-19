@@ -12,7 +12,7 @@ import { ThemeContext } from "../contexts/ThemeProvider";
 
 const Button = (props) => {
   const theme = useContext(ThemeContext).value;
-  var isNegative = props?.isNegative || false;
+  var positiveSelect = props?.positiveSelect || false;
 
   const _renderInnerText = () => {
     if (props.isLoading) {
@@ -28,12 +28,12 @@ const Button = (props) => {
       typeof props.children === "string" ||
       typeof props.children === "number"
     ) {
-      if (isNegative) {
+      if (positiveSelect) {
         return (
           <Text
             style={[
               styles.textStyle,
-              sharedStyles["textColour_" + theme],
+              sharedStyles["textColour_light"],
               props.textStyle,
             ]}
           >
@@ -45,7 +45,7 @@ const Button = (props) => {
           <Text
             style={[
               styles.textStyle,
-              sharedStyles["textColour_light"],
+              sharedStyles["textColour_" + theme],
               props.textStyle,
             ]}
           >
@@ -72,15 +72,11 @@ const Button = (props) => {
     );
   }
 
-  if (isNegative) {
+  if (positiveSelect) {
     return (
       <TouchableOpacity
         {...props}
-        style={[
-          styles.button,
-          sharedStyles["borderedContainer_" + theme],
-          props.style,
-        ]}
+        style={[styles.button, sharedStyles["button_" + theme], props.style]}
       >
         {_renderInnerText()}
       </TouchableOpacity>
@@ -89,7 +85,11 @@ const Button = (props) => {
     return (
       <TouchableOpacity
         {...props}
-        style={[styles.button, sharedStyles["button_" + theme], props.style]}
+        style={[
+          styles.button,
+          sharedStyles["borderedContainer_" + theme],
+          props.style,
+        ]}
       >
         {_renderInnerText()}
       </TouchableOpacity>
