@@ -18,7 +18,7 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
-const SleepStats = ({ sunday, updateStats }) => {
+const SleepStats = ({ sunday, updateStats, setIsLoading }) => {
   const { width, height } = useWindowDimensions();
   const [sleepStats, setSleepStats] = useState([
     { value: 0, label: labels[0] },
@@ -30,7 +30,6 @@ const SleepStats = ({ sunday, updateStats }) => {
     { value: 0, label: labels[6] },
   ]);
   const [averageRating, setAveragerRating] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
   const theme = useContext(ThemeContext).value;
   useEffect(() => {
     const getStatsOnLoad = async () => {
@@ -75,7 +74,6 @@ const SleepStats = ({ sunday, updateStats }) => {
 
   return (
     <View style={styles.chartBox}>
-      <Spinner visible={isLoading}></Spinner>
       <View
         style={[styles.chartCircle, sharedStyles["yellowContainer_" + theme]]}
       >

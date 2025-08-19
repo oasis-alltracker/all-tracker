@@ -31,7 +31,7 @@ const macroTitles = [
   },
 ];
 
-const DietStats = ({ sunday, updateStats, dietGoals }) => {
+const DietStats = ({ sunday, updateStats, dietGoals, setIsLoading }) => {
   const defaultWeek = [
     { value: 0 },
     { value: 0 },
@@ -55,7 +55,9 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
   const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
+    setIsLoading(true);
     getStats();
+    setIsLoading(false);
   }, [sunday, updateStats]);
 
   useEffect(() => {

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import InAppReview from "react-native-in-app-review";
+import Spinner from "react-native-loading-spinner-overlay";
 import TaskStats from "../Stats/TaskStats";
 import HabitStats from "../Stats/HabitStats";
 import { sharedStyles } from "../styles";
@@ -19,6 +20,7 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
   thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
 
   const [selectedSunday, setSelectedSunday] = useState(thisSunday);
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateWeek = (dateChange) => {
     var newDate = new Date(
@@ -47,6 +49,7 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
       contentContainerStyle={styles.container}
       scrollEnabled={false}
     >
+      <Spinner visible={isLoading}></Spinner>
       <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
         <Image
           style={sharedStyles.headerImage}
@@ -90,12 +93,14 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
         <HabitStats
           sunday={moment(selectedSunday).format("YYYYMMDD")}
           updateStats={updateStats}
+          setIsLoading={setIsLoading}
         />
       )}
       {trackingPreferences.toDosSelected && (
         <TaskStats
           sunday={moment(selectedSunday).format("YYYYMMDD")}
           updateStats={updateStats}
+          setIsLoading={setIsLoading}
         />
       )}
     </ScrollView>

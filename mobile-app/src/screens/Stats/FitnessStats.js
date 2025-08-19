@@ -6,7 +6,7 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const days = ["M", "T", "W", "T", "F", "S", "S"];
 
-const FitnessStats = ({ sunday, updateStats }) => {
+const FitnessStats = ({ sunday, updateStats, setIsLoading }) => {
   const theme = useContext(ThemeContext).value;
   return (
     <View style={styles.chartBox}>

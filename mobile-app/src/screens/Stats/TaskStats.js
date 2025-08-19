@@ -6,11 +6,9 @@ import {
   Image,
   Dimensions,
   Animated,
-  Platform,
 } from "react-native";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
-import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
@@ -22,12 +20,11 @@ const [width, height] = [
   Dimensions.get("window").height,
 ];
 
-const TaskStats = ({ sunday, updateStats }) => {
+const TaskStats = ({ sunday, updateStats, setIsLoading }) => {
   const [totalCountMath, setTotalCountMath] = useState(1);
   const [totalCompletionsMath, setTotalCompletionsMath] = useState(1);
   const [totalCountDisplay, setTotalCountDisplay] = useState(0);
   const [totalCompletionsDisplay, setTotalCompletionsDisplay] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
   const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
@@ -83,7 +80,6 @@ const TaskStats = ({ sunday, updateStats }) => {
 
   return (
     <View style={styles.chartBox}>
-      <Spinner visible={isLoading}></Spinner>
       <View
         style={[styles.chartCircle, sharedStyles["pinkContainer_" + theme]]}
       >

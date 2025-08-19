@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from "react-native";
 import RNModal from "react-native-modal";
 import DietStats from "./DietStats";
@@ -28,6 +29,7 @@ const Stats = ({ getRef }) => {
   const [visible, setVisible] = useState(false);
   const theme = useContext(ThemeContext).value;
   const [trackingPreferences, setTrackingPreferences] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [dietGoals, setDietGoals] = useState({
     calorieGoal: { units: "kcal", value: 2000 },
     carbGoal: 200,
@@ -77,12 +79,13 @@ const Stats = ({ getRef }) => {
     <RNModal
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
+      backdropOpacity={0}
       onBackdropPress={() => backDropPressed()}
       style={[styles.scrollModal, { height: height * 0.7 }]}
-      presentationStyle="pageSheet"
-      transparent={false}
     >
-      <View style={[styles.container, sharedStyles["pageBackground_" + theme]]}>
+      <SafeAreaView
+        style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      >
         <TouchableOpacity
           style={styles.upImageContainer}
           onPress={() => {
@@ -111,7 +114,9 @@ const Stats = ({ getRef }) => {
           />
         </TouchableOpacity>
 
-        <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
+        <ScrollView
+          style={[styles.tcContainer, { height: height * 0.7, width: width }]}
+        >
           <View style={sharedStyles.datePickerView}>
             <TouchableOpacity
               style={[
@@ -190,12 +195,14 @@ const Stats = ({ getRef }) => {
                 <HabitStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
               {trackingPreferences?.toDosSelected && (
                 <TaskStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
             </View>
@@ -229,6 +236,7 @@ const Stats = ({ getRef }) => {
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
                   dietGoals={dietGoals}
+                  setIsLoading={setIsLoading}
                 />
               )}
               {trackingPreferences?.fitnessSelected && <FitnessStats />}
@@ -263,18 +271,20 @@ const Stats = ({ getRef }) => {
                 <MoodStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
               {trackingPreferences?.sleepSelected && (
                 <SleepStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
             </View>
           )}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </RNModal>
   );
 };
@@ -287,7 +297,6 @@ const styles = StyleSheet.create({
   tcContainer: {
     marginTop: 15,
     marginBottom: 15,
-    width: "100%",
   },
   statsImageCon: {
     height: 100,
@@ -315,7 +324,7 @@ const styles = StyleSheet.create({
   entityView: {
     marginBottom: 30,
     marginTop: 15,
-    marginLeft: 30,
+    marginLeft: 10,
     marginRight: 10,
   },
   entityHeader: {

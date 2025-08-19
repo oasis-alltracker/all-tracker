@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
-import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../ValueSheet";
 import { sharedStyles } from "../styles";
@@ -18,14 +17,14 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
-const HabitStats = ({ sunday, updateStats }) => {
+const HabitStats = ({ sunday, updateStats, setIsLoading }) => {
   const { width, height } = useWindowDimensions();
   const [totalCountMath, setTotalCountMath] = useState(1);
   const [totalCompletionsMath, setTotalCompletionsMath] = useState(1);
   const [totalCountDisplay, setTotalCountDisplay] = useState(0);
   const [totalCompletionsDisplay, setTotalCompletionsDisplay] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
   const theme = useContext(ThemeContext).value;
+
   useEffect(() => {
     const getStatsOnLoad = async () => {
       try {
@@ -78,7 +77,6 @@ const HabitStats = ({ sunday, updateStats }) => {
 
   return (
     <View style={styles.chartBox}>
-      <Spinner visible={isLoading}></Spinner>
       <View
         style={[styles.chartCircle, sharedStyles["pinkContainer_" + theme]]}
       >
