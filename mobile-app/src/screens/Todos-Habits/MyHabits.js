@@ -50,7 +50,7 @@ export default function MyHabits({ habits, createHabitRef, updateHabitRef }) {
                 <View
                   style={[
                     styles.habitImageContainer,
-                    sharedStyles["border_" + theme],
+                    sharedStyles["borderedContainer_" + theme],
                   ]}
                   onPress={() => searchImage()}
                 >

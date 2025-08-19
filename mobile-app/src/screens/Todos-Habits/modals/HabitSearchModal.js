@@ -144,7 +144,7 @@ export default function HabitSearchModal({
                   <TouchableOpacity
                     style={[
                       styles.habitSelector,
-                      styles["habitSelectorColour_" + theme],
+                      sharedStyles["borderedContainer_" + theme],
                     ]}
                     onPress={() => selectHabitHandler(item.label)}
                   >
