@@ -202,7 +202,6 @@ export default function UpdateHabitStatusModal({
         </View>
         <View style={styles.row2}>
           <Button
-            textColour={ValueSheet.colours[theme].primaryColour}
             onPress={() => backDropPressed()}
             style={[styles.button, styles.back]}
             textStyle={sharedStyles["textColour_" + theme]}
