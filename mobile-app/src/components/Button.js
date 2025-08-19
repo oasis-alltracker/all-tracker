@@ -12,6 +12,8 @@ import { ThemeContext } from "../contexts/ThemeProvider";
 
 const Button = (props) => {
   const theme = useContext(ThemeContext).value;
+  var isNegative = props?.isNegative || false;
+
   const _renderInnerText = () => {
     if (props.isLoading) {
       return (
@@ -26,17 +28,31 @@ const Button = (props) => {
       typeof props.children === "string" ||
       typeof props.children === "number"
     ) {
-      return (
-        <Text
-          style={[
-            styles.textStyle,
-            sharedStyles["textColour_light"],
-            props.textStyle,
-          ]}
-        >
-          {props.children}
-        </Text>
-      );
+      if (isNegative) {
+        return (
+          <Text
+            style={[
+              styles.textStyle,
+              sharedStyles["textColour_" + theme],
+              props.textStyle,
+            ]}
+          >
+            {props.children}
+          </Text>
+        );
+      } else {
+        return (
+          <Text
+            style={[
+              styles.textStyle,
+              sharedStyles["textColour_light"],
+              props.textStyle,
+            ]}
+          >
+            {props.children}
+          </Text>
+        );
+      }
     }
     return props.children;
   };
@@ -56,14 +72,29 @@ const Button = (props) => {
     );
   }
 
-  return (
-    <TouchableOpacity
-      {...props}
-      style={[styles.button, sharedStyles["button_" + theme], props.style]}
-    >
-      {_renderInnerText()}
-    </TouchableOpacity>
-  );
+  if (isNegative) {
+    return (
+      <TouchableOpacity
+        {...props}
+        style={[
+          styles.button,
+          sharedStyles["borderedContainer_" + theme],
+          props.style,
+        ]}
+      >
+        {_renderInnerText()}
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <TouchableOpacity
+        {...props}
+        style={[styles.button, sharedStyles["button_" + theme], props.style]}
+      >
+        {_renderInnerText()}
+      </TouchableOpacity>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

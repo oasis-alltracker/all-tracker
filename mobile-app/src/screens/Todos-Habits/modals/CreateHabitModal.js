@@ -244,12 +244,16 @@ export default function CreateHabitModal({ getRef, createHabit }) {
             <View style={styles.row2}>
               <Button
                 onPress={() => backDropPressed()}
-                style={[styles.button, styles.back]}
-                textStyle={sharedStyles["textColour_" + theme]}
+                style={styles.button}
+                isNegative={true}
               >
                 Cancel
               </Button>
-              <Button onPress={() => onSave()} style={styles.button}>
+              <Button
+                onPress={() => onSave()}
+                style={styles.button}
+                isNegative={false}
+              >
                 Save
               </Button>
             </View>
