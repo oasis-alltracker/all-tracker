@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   ScrollView,
   TextInput,
   Keyboard,
@@ -39,6 +40,7 @@ const SearchFood = ({ navigation, route }) => {
   const energyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
+  const [suggestedResults, setSuggestedResults] = useState([]);
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const theme = useContext(ThemeContext).value;
@@ -103,8 +105,11 @@ const SearchFood = ({ navigation, route }) => {
     try {
       token = await getAccessToken();
       setIsLoading(true);
-      foodItems = await RecentFoodEntriesAPI.getRecentFoodEntries(token);
+
+      var foodItems = await RecentFoodEntriesAPI.getRecentFoodEntries(token);
       setResults(foodItems);
+      setSuggestedResults(foodItems);
+
       if (foodItems.length == 0) {
         setText("Your recent foods will be shown here");
       }
@@ -114,16 +119,21 @@ const SearchFood = ({ navigation, route }) => {
     }
   };
 
-  const searchFood = async (input) => {
+  const searchFood = async () => {
     try {
       Keyboard.dismiss();
-      setIsLoading(true);
-      response = await searchFatSecret(input);
-      setResults(response);
-      setIsLoading(false);
+      if (searchInput.trim() !== "") {
+        setIsLoading(true);
+        response = await searchFatSecret(searchInput);
+        setResults(response);
+        setIsLoading(false);
 
-      if (response.length == 0) {
-        setText("Sorry, that item isn't available.");
+        if (response.length == 0) {
+          setText("Sorry, that item isn't available.");
+        }
+      } else {
+        setResults(suggestedResults);
+        setText("Your recent foods will be shown here");
       }
     } catch (e) {
       errorResponse(e);
@@ -134,39 +144,42 @@ const SearchFood = ({ navigation, route }) => {
     <SafeAreaView
       style={[styles.container, sharedStyles["pageBackground_" + theme]]}
     >
-      <View style={styles["topArea_" + theme]}>
-        <Spinner visible={isLoading}></Spinner>
-        <TouchableOpacity
-          onPress={() => {
-            var params = {};
-            if (prevPage == "mealPage") {
-              params["dateString"] = day.toLocaleDateString();
-              params["mealName"] = mealName;
-              params["meal"] = mealMacros;
-            }
-            navigationService.navigate(prevPage, params);
-          }}
-        >
-          <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/back-arrow.png")}
-          ></Image>
-        </TouchableOpacity>
-        <View style={styles.topAreaBody}>
-          <View style={styles.mealHeader}>
-            <Image style={styles.mealIcon} source={mealImage}></Image>
-            <Text style={styles.title}>{mealName}</Text>
-          </View>
-          <Text
-            style={[
-              styles.textStyle,
-              { color: ValueSheet.colours.light.primaryColour },
-            ]}
+      <TouchableWithoutFeedback onPress={() => searchFood()}>
+        <View style={styles["topArea_" + theme]}>
+          <Spinner visible={isLoading}></Spinner>
+          <TouchableOpacity
+            onPress={() => {
+              var params = {};
+              if (prevPage == "mealPage") {
+                params["dateString"] = day.toLocaleDateString();
+                params["mealName"] = mealName;
+                params["meal"] = mealMacros;
+              }
+              navigationService.navigate(prevPage, params);
+            }}
           >
-            {formattedDate}
-          </Text>
+            <Image
+              style={styles.backArrow}
+              source={require("../../../assets/images/back-arrow.png")}
+            ></Image>
+          </TouchableOpacity>
+          <View style={styles.topAreaBody}>
+            <View style={styles.mealHeader}>
+              <Image style={styles.mealIcon} source={mealImage}></Image>
+              <Text style={styles.title}>{mealName}</Text>
+            </View>
+            <Text
+              style={[
+                styles.textStyle,
+                { color: ValueSheet.colours.light.primaryColour },
+              ]}
+            >
+              {formattedDate}
+            </Text>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
+
       <View style={[styles.mainArea, sharedStyles["pageBackground_" + theme]]}>
         <View style={[styles.row, { marginBottom: 20 }]}>
           <View
@@ -175,10 +188,19 @@ const SearchFood = ({ navigation, route }) => {
               sharedStyles["borderedContainer_" + theme],
             ]}
           >
-            <Image
-              source={require("../../../assets/images/search2.png")}
-              style={[{ width: 30, height: 30 }, sharedStyles["tint_" + theme]]}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                searchFood();
+              }}
+            >
+              <Image
+                source={require("../../../assets/images/search2.png")}
+                style={[
+                  { width: 30, height: 30 },
+                  sharedStyles["tint_" + theme],
+                ]}
+              />
+            </TouchableOpacity>
             <TextInput
               style={[
                 styles.textStyle,
@@ -189,7 +211,7 @@ const SearchFood = ({ navigation, route }) => {
               value={searchInput}
               placeholder="Food, meal or brand"
               placeholderTextColor={ValueSheet.colours[theme].inputGrey}
-              onSubmitEditing={() => searchFood(searchInput)}
+              onSubmitEditing={() => searchFood()}
             />
           </View>
 
@@ -210,61 +232,63 @@ const SearchFood = ({ navigation, route }) => {
             />
           </TouchableOpacity>
         </View>
-        {searchResults.length >= 1 ? (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.scrollContainer}
-          >
-            {searchResults.map((item, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.resultContainer,
-                  sharedStyles["borderedContainer_" + theme],
-                ]}
-              >
-                <View style={{ flexDirection: "vertical", flex: 1 }}>
-                  <Text
-                    style={[
-                      styles.textStyle,
-                      sharedStyles["textColour_" + theme],
-                      { flexShrink: 1, flexWrap: "wrap" },
-                    ]}
-                  >
-                    {item.name}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.textStyle,
-                      sharedStyles["textColour_" + theme],
-                      { fontSize: 12 },
-                    ]}
-                  >
-                    {Math.round(item.calorieCount * energyMultiplier)}{" "}
-                    {dietUnit}
-                  </Text>
-                </View>
-
-                <TouchableOpacity
-                  onPress={() => {
-                    addEntryRef.current.open(item, dietUnit);
-                  }}
+        <TouchableWithoutFeedback onPress={() => searchFood()}>
+          {searchResults.length >= 1 ? (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scrollContainer}
+            >
+              {searchResults.map((item, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.resultContainer,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
                 >
-                  <Image
-                    style={[styles.smallImage, sharedStyles["tint_" + theme]]}
-                    source={require("../../../assets/images/plus512.png")}
-                  />
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
-        ) : (
-          <View style={styles.textContainer}>
-            <Text style={[styles.greyText, styles["greyText_" + theme]]}>
-              {text}
-            </Text>
-          </View>
-        )}
+                  <View style={{ flexDirection: "vertical", flex: 1 }}>
+                    <Text
+                      style={[
+                        styles.textStyle,
+                        sharedStyles["textColour_" + theme],
+                        { flexShrink: 1, flexWrap: "wrap" },
+                      ]}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.textStyle,
+                        sharedStyles["textColour_" + theme],
+                        { fontSize: 12 },
+                      ]}
+                    >
+                      {Math.round(item.calorieCount * energyMultiplier)}{" "}
+                      {dietUnit}
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      addEntryRef.current.open(item, dietUnit);
+                    }}
+                  >
+                    <Image
+                      style={[styles.smallImage, sharedStyles["tint_" + theme]]}
+                      source={require("../../../assets/images/plus512.png")}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          ) : (
+            <View style={styles.textContainer}>
+              <Text style={[styles.greyText, styles["greyText_" + theme]]}>
+                {text}
+              </Text>
+            </View>
+          )}
+        </TouchableWithoutFeedback>
 
         <AddEntryModal
           getRef={(ref) => (addEntryRef.current = ref)}

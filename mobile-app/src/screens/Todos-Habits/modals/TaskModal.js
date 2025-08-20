@@ -9,7 +9,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button, Calendar } from "../../../components";
@@ -18,6 +18,8 @@ import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function TaskModal({
   getRef,
@@ -28,6 +30,7 @@ export default function TaskModal({
   deleteTask,
   deleteToDo,
 }) {
+  const theme = useContext(ThemeContext).value;
   const [visible, setVisible] = useState(false);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -276,7 +279,7 @@ export default function TaskModal({
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
-      backdropColor={ValueSheet.colours.secondaryColour27}
+      backdropColor={ValueSheet.colours[theme].secondaryColour27}
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
@@ -284,19 +287,21 @@ export default function TaskModal({
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
+          <View
+            style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+          >
             <View style={styles.nameRow}>
               {!title && (
                 <Image
-                  style={styles.editData}
+                  style={[styles.editData, sharedStyles["tint_" + theme]]}
                   source={require("../../../assets/images/edit.png")}
                 />
               )}
 
               <TextInput
-                placeholderTextColor={ValueSheet.colours.inputGrey}
+                placeholderTextColor={ValueSheet.colours[theme].inputGrey}
                 placeholder="Name"
-                style={styles.inputTitle}
+                style={[styles.inputTitle, sharedStyles["textColour_" + theme]]}
                 onChangeText={setTitle}
                 value={title}
               />
@@ -313,7 +318,7 @@ export default function TaskModal({
                 }}
               >
                 <Image
-                  style={styles.searchImage}
+                  style={[styles.searchImage, sharedStyles["tint_" + theme]]}
                   source={require("../../../assets/images/date-picker.png")}
                 />
               </TouchableOpacity>
@@ -321,9 +326,9 @@ export default function TaskModal({
             <View style={styles.descriptionRow}>
               <TextInput
                 multiline
-                placeholderTextColor={ValueSheet.colours.inputGrey}
+                placeholderTextColor={ValueSheet.colours[theme].inputGrey}
                 placeholder="Description (optional)"
-                style={styles.input}
+                style={[styles.input, sharedStyles["textColour_" + theme]]}
                 onChangeText={setDescription}
                 value={description}
               />
@@ -331,7 +336,12 @@ export default function TaskModal({
             <View style={styles.buttonsRow}>
               <Button
                 onPress={() => onBack()}
-                style={[styles.button, styles.back]}
+                style={[
+                  styles.button,
+                  styles.back,
+                  sharedStyles["border_" + theme],
+                ]}
+                textStyle={sharedStyles["textColour_" + theme]}
               >
                 {isEdit ? "Delete" : "Cancel"}
               </Button>
@@ -360,11 +370,9 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   searchImage: {
     width: 25,
@@ -394,7 +402,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   inputTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 30,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
@@ -406,7 +413,6 @@ const styles = StyleSheet.create({
   input: {
     width: 100,
     paddingHorizontal: 2,
-    color: ValueSheet.colours.primaryColour,
     flex: 1,
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 14,
@@ -418,6 +424,5 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
 });

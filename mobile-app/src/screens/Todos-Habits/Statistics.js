@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Image,
   ScrollView,
@@ -14,8 +14,10 @@ import TaskStats from "../Stats/TaskStats";
 import HabitStats from "../Stats/HabitStats";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
+  const theme = useContext(ThemeContext).value;
   var thisSunday = new Date();
   thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
 
@@ -57,9 +59,9 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
         />
       </View>
 
-      <View style={styles.dateLineMain}>
+      <View style={[styles.dateLineMain, sharedStyles["border_" + theme]]}>
         <TouchableOpacity
-          style={styles.buttonMain}
+          style={[styles.buttonMain, sharedStyles["changeDateButton_" + theme]]}
           onPress={() => updateWeek(-7)}
         >
           <Image
@@ -71,16 +73,28 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
           <View style={sharedStyles.dateTextContainer}>
             {moment(thisSunday).format("YYYYMMDD") ==
             moment(selectedSunday).format("YYYYMMDD") ? (
-              <Text style={styles.dateNameMain}>This week</Text>
+              <Text
+                style={[
+                  styles.dateNameMain,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
+                This week
+              </Text>
             ) : (
-              <Text style={styles.dateNameMain}>
+              <Text
+                style={[
+                  styles.dateNameMain,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
                 Week of {selectedSunday.toDateString().slice(4, -5)}
               </Text>
             )}
           </View>
         </>
         <TouchableOpacity
-          style={styles.buttonMain}
+          style={[styles.buttonMain, sharedStyles["changeDateButton_" + theme]]}
           onPress={() => updateWeek(7)}
         >
           <Image
@@ -122,22 +136,17 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     borderWidth: 1,
-    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
   },
   buttonMain: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
     borderTopColor: "transparent",
     borderBottomColor: "transparent",
-    borderRightColor: ValueSheet.colours.grey,
-    borderLeftColor: ValueSheet.colours.grey,
   },
   dateNameMain: {
     fontSize: 26,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   preButtonMain: {
@@ -152,7 +161,7 @@ const styles = StyleSheet.create({
     ],
   },
   imageContainer: {
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink70,
+    backgroundColor: ValueSheet.colours.light.pink65,
+    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });

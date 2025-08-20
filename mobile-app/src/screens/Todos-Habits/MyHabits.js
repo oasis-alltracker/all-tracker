@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -10,16 +10,11 @@ import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
-export default function MyHabits({
-  isLoading,
-  setIsLoading,
-  habits,
-  createHabitRef,
-  updateHabitRef,
-}) {
+export default function MyHabits({ habits, createHabitRef, updateHabitRef }) {
   const { width, height } = useWindowDimensions();
-
+  const theme = useContext(ThemeContext).value;
   const Habits = () => (
     <View style={{ height: height * 0.43 }}>
       <ScrollView
@@ -42,13 +37,21 @@ export default function MyHabits({
               }}
               style={[
                 styles.item,
+                sharedStyles["border_" + theme],
                 key === habits.length - 1 && { borderBottomWidth: 2 },
               ]}
             >
-              <Text style={styles.itemText}>{val.name}</Text>
+              <Text
+                style={[styles.itemText, sharedStyles["textColour_" + theme]]}
+              >
+                {val.name}
+              </Text>
               <Text>
                 <View
-                  style={styles.habitImageContainer}
+                  style={[
+                    styles.habitImageContainer,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
                   onPress={() => searchImage()}
                 >
                   <Image
@@ -64,17 +67,23 @@ export default function MyHabits({
     </View>
   );
 
-  const CreatHabits = () => (
+  const CreateHabits = () => (
     <TouchableOpacity
       onPress={() => {
         createHabitRef.current.open();
       }}
-      style={[styles.addButton, { width: width - 30, height: height * 0.4 }]}
+      style={[
+        styles.addButton,
+        sharedStyles["border_" + theme],
+        { width: width - 30, height: height * 0.4 },
+      ]}
     >
-      <Text style={styles.buttonText}>
+      <Text style={[styles.buttonText, sharedStyles["textColour_" + theme]]}>
         Click here to create your first habit
       </Text>
-      <View style={styles.plusCon}>
+      <View
+        style={[styles.plusCon, sharedStyles["secondaryBackground_" + theme]]}
+      >
         <Image
           style={styles.plusImage}
           source={require("../../assets/images/plus.png")}
@@ -101,7 +110,11 @@ export default function MyHabits({
         </View>
 
         <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
-          <Text style={styles.habitsTitle}>My habits</Text>
+          <Text
+            style={[styles.habitsTitle, sharedStyles["textColour_" + theme]]}
+          >
+            My habits
+          </Text>
           <View style={styles.buttonItems}>
             <TouchableOpacity
               onPress={() => {
@@ -109,14 +122,14 @@ export default function MyHabits({
               }}
             >
               <Image
-                style={styles.plus}
+                style={[styles.plus, sharedStyles["tint_" + theme]]}
                 source={require("../../assets/images/plus512.png")}
               />
             </TouchableOpacity>
           </View>
         </View>
         <View style={styles.center}>
-          {habits.length > 0 ? <Habits /> : <CreatHabits />}
+          {habits.length > 0 ? <Habits /> : <CreateHabits />}
         </View>
       </ScrollView>
     </>
@@ -141,7 +154,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
@@ -155,13 +167,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: ValueSheet.colours.grey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -182,7 +192,6 @@ const styles = StyleSheet.create({
   },
   habitsTitle: {
     fontSize: 31,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   plus: {
@@ -190,7 +199,6 @@ const styles = StyleSheet.create({
     height: 40,
   },
   itemText: {
-    color: ValueSheet.colours.black,
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
@@ -198,7 +206,6 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -209,7 +216,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: ValueSheet.colours.black50,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   buttonItems: {
@@ -218,7 +224,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   imageContainer: {
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink70,
+    backgroundColor: ValueSheet.colours.light.pink65,
+    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });

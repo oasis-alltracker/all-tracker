@@ -1,5 +1,5 @@
 import { ValueSheet } from "../../ValueSheet";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -32,8 +32,10 @@ import TaskModal from "./modals/TaskModal";
 import { sharedStyles } from "../styles";
 import TasksAPI from "../../api/tasks/tasksAPI";
 import NotificationsHandler from "../../api/notifications/notificationsHandler";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const TodosHabits = ({ navigation }) => {
+  const theme = useContext(ThemeContext).value;
   const [pageIndex, setPageIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(true);
@@ -989,7 +991,10 @@ const TodosHabits = ({ navigation }) => {
     }
   };
   return (
-    <SafeAreaView style={styles.container} removeClippedSubviews={false}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      removeClippedSubviews={false}
+    >
       <View style={styles.container}>
         <Spinner visible={isLoading}></Spinner>
         <TouchableOpacity
@@ -1014,8 +1019,8 @@ const TodosHabits = ({ navigation }) => {
                 style={[
                   sharedStyles.dot,
                   key === pageIndex && {
-                    backgroundColor: ValueSheet.colours.primaryColour,
-                    borderColor: ValueSheet.colours.borderNavy,
+                    backgroundColor: ValueSheet.colours[theme].primaryColour,
+                    borderColor: ValueSheet.colours[theme].borderNavy,
                   },
                 ]}
               />
@@ -1047,7 +1052,6 @@ const TodosHabits = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   headerButton: {
