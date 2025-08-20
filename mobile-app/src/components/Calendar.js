@@ -436,7 +436,11 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
               }}
               style={styles.btn}
             >
-              <Text style={styles.clearText}>Clear</Text>
+              <Text
+                style={[styles.clearText, styles["clearTextColour_" + theme]]}
+              >
+                Clear
+              </Text>
             </TouchableOpacity>
             {renderCalendar}
           </>
@@ -610,9 +614,14 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   clearText: {
-    color: "red",
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryBold,
+  },
+  clearTextColour_dark: {
+    color: ValueSheet.colours.dark.textPink,
+  },
+  clearTextColour_light: {
+    color: ValueSheet.colours.light.textPink,
   },
   text2: {
     fontSize: 18,

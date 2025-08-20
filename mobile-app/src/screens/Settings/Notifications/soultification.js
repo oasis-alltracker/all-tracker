@@ -21,8 +21,9 @@ const Soultification = ({
   body,
   notifications,
   isToggled,
-  toggled,
+  toggledHandler,
   setIsToggled,
+  disabled,
   group,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -233,7 +234,7 @@ const Soultification = ({
         });
       }
     }
-    var listOfExpoIDs = await toggled(notificationTriggers, turnOn);
+    var listOfExpoIDs = await toggledHandler(notificationTriggers, turnOn);
     if (listOfExpoIDs) {
       for (var i = 0; i < listOfExpoIDs.length; i++) {
         if (i == 0) {
@@ -471,6 +472,7 @@ const Soultification = ({
             height={32}
             onValueChange={onToggle}
             value={isToggled}
+            disabled={disabled}
             trackColor={{
               true: ValueSheet.colours.secondaryColour,
               false: ValueSheet.colours.purple,

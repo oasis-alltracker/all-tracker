@@ -241,7 +241,10 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
                 Image:
               </Text>
               <TouchableOpacity
-                style={[styles.selectImage, sharedStyles["border_" + theme]]}
+                style={[
+                  styles.selectImage,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
                 onPress={() => searchImage()}
               >
                 {image != null ? (
@@ -258,7 +261,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
                 style={[
                   styles.input,
                   sharedStyles["textColour_" + theme],
-                  sharedStyles["border_" + theme],
+                  sharedStyles["borderedContainer_" + theme],
                 ]}
                 onChangeText={setThreshold}
                 keyboardType="number-pad"

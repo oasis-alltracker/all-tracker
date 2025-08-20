@@ -134,7 +134,7 @@ export default function ImagesModal({ getRef, selectImage, backDropPressed }) {
                       <TouchableOpacity
                         style={[
                           styles.imageSelector,
-                          sharedStyles["border_" + theme],
+                          sharedStyles["borderedContainer_" + theme],
                         ]}
                         onPress={() => selectImageHandler(imageUrl)}
                         key={key.toString() + key2.toString()}
