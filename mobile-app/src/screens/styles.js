@@ -159,4 +159,16 @@ export const sharedStyles = StyleSheet.create({
     backgroundColor: ValueSheet.colours.light.secondaryColour,
     borderColor: ValueSheet.colours.light.borderGrey75,
   },
+  switchTrack_dark: {
+    true: ValueSheet.colours.dark.secondaryColour65,
+    false: ValueSheet.colours.dark.purple,
+  },
+  switchThumbOn_dark: ValueSheet.colours.dark.secondaryColour,
+  switchThumbOff_dark: ValueSheet.colours.dark.purple,
+  switchTrack_light: {
+    true: ValueSheet.colours.light.secondaryColour27,
+    false: ValueSheet.colours.light.purple65,
+  },
+  switchThumbOn_light: ValueSheet.colours.light.secondaryColour,
+  switchThumbOff_light: ValueSheet.colours.light.purple,
 });
