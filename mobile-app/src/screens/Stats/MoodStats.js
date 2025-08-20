@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -13,6 +13,8 @@ import { getAccessToken } from "../../user/keychain";
 import { LineChart } from "react-native-gifted-charts";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
+import { sharedStyles } from "../styles";
 
 const data = [
   { value: 500 },
@@ -31,7 +33,7 @@ const data = [
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 
-const MoodStats = ({ sunday, updateStats }) => {
+const MoodStats = ({ sunday, updateStats, setIsLoading }) => {
   const { width, height } = useWindowDimensions();
   const [moodStats, setMoodStats] = useState([
     { value: 0, label: labels[0] },
@@ -43,7 +45,7 @@ const MoodStats = ({ sunday, updateStats }) => {
     { value: 0, label: labels[6] },
   ]);
   const [averageRating, setAveragerRating] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
     const getStatsOnLoad = async () => {
@@ -88,18 +90,19 @@ const MoodStats = ({ sunday, updateStats }) => {
 
   return (
     <View style={styles.chartBox}>
-      <Spinner visible={isLoading}></Spinner>
-      <View style={styles.chartCircle}>
+      <View
+        style={[styles.chartCircle, sharedStyles["yellowContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/mood.png")}
         />
-        <Text style={styles.text}>mood</Text>
+        <Text style={styles.statsTitle}>mood</Text>
       </View>
       <View style={styles.chartContainer}>
         <LineChart
           thickness={2}
-          color={ValueSheet.colours.yellow}
+          color={ValueSheet.colours[theme].yellow}
           maxValue={5}
           areaChart
           hideRules
@@ -108,23 +111,23 @@ const MoodStats = ({ sunday, updateStats }) => {
           hideYAxisText
           hideDataPoints
           data={moodStats}
-          startFillColor1={ValueSheet.colours.yellow}
-          endFillColor1={ValueSheet.colours.yellow}
+          startFillColor1={ValueSheet.colours[theme].yellow}
+          endFillColor1={ValueSheet.colours[theme].yellow}
           startOpacity={0.8}
-          labelTextStyle={{
+          xAxisLabelTextStyle={{
             fontFamily: ValueSheet.fonts.primaryFont,
-            fontSize: 8,
+            color: ValueSheet.colours[theme].primaryColour,
           }}
           endOpacity={0.1}
           backgroundColor="transparent"
           xAxisLength={220}
-          yAxisColor={ValueSheet.colours.black25}
-          xAxisColor={ValueSheet.colours.black25}
+          yAxisColor={ValueSheet.colours[theme].primaryColour}
+          xAxisColor={ValueSheet.colours[theme].primaryColour}
           height={height * 0.15}
           width={220}
           spacing={220 / 7}
         />
-        <Text style={styles.xLabel}>
+        <Text style={[styles.xLabel, sharedStyles["textColour_" + theme]]}>
           Average rating: {Math.round(averageRating * 10) / 10}/5
         </Text>
       </View>
@@ -143,8 +146,6 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.yellow75,
-    borderColor: ValueSheet.colours.borderYellow,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -156,15 +157,14 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
-  text: {
+  statsTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
   },
   xLabel: {
     fontSize: 14,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",

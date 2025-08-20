@@ -13,12 +13,14 @@ import SleepStats from "../Stats/SleepStats";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
 import InAppReview from "react-native-in-app-review";
+import Spinner from "react-native-loading-spinner-overlay";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
   var thisSunday = new Date();
   thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
 
   const [selectedSunday, setSelectedSunday] = useState(thisSunday);
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateWeek = (dateChange) => {
     var newDate = new Date(
@@ -47,6 +49,7 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
       contentContainerStyle={styles.container}
       scrollEnabled={false}
     >
+      <Spinner visible={isLoading}></Spinner>
       <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
         <Image
           style={sharedStyles.headerImage}
@@ -90,12 +93,14 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
         <MoodStats
           sunday={moment(selectedSunday).format("YYYYMMDD")}
           updateStats={updateStats}
+          setIsLoading={setIsLoading}
         />
       )}
       {trackingPreferences.sleepSelected && (
         <SleepStats
           sunday={moment(selectedSunday).format("YYYYMMDD")}
           updateStats={updateStats}
+          setIsLoading={setIsLoading}
         />
       )}
     </ScrollView>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from "react-native";
 import RNModal from "react-native-modal";
 import DietStats from "./DietStats";
@@ -21,11 +22,14 @@ import UserAPI from "../../api/user/userAPI";
 import { ValueSheet } from "../../ValueSheet";
 import DietGoalsAPI from "../../api/diet/dietGoalsAPI";
 import { sharedStyles } from "../styles";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const Stats = ({ getRef }) => {
   const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
+  const theme = useContext(ThemeContext).value;
   const [trackingPreferences, setTrackingPreferences] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [dietGoals, setDietGoals] = useState({
     calorieGoal: { units: "kcal", value: 2000 },
     carbGoal: 200,
@@ -53,7 +57,9 @@ const Stats = ({ getRef }) => {
       user = await UserAPI.getUser(token);
       var dietGoals = await DietGoalsAPI.getDietGoals(token);
 
-      setDietGoals(dietGoals);
+      if (dietGoals != null) {
+        setDietGoals(dietGoals);
+      }
       setTrackingPreferences(user.data.trackingPreferences);
     };
     let ref = {
@@ -73,13 +79,13 @@ const Stats = ({ getRef }) => {
     <RNModal
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
+      backdropOpacity={0}
       onBackdropPress={() => backDropPressed()}
-      backdropColor={ValueSheet.colours.secondaryColour27}
       style={[styles.scrollModal, { height: height * 0.7 }]}
-      presentationStyle="pageSheet"
-      transparent={false}
     >
-      <View style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      >
         <TouchableOpacity
           style={styles.upImageContainer}
           onPress={() => {
@@ -87,13 +93,17 @@ const Stats = ({ getRef }) => {
           }}
         >
           <Image
-            style={styles.upImage}
+            style={[styles.upImage, sharedStyles["tint_" + theme]]}
             source={require("../..//assets/images/up-arrow.png")}
           />
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.statsImageCon, { width: width - 65 }]}
+          style={[
+            styles.statsImageCon,
+            sharedStyles["button_" + theme],
+            { width: width - 65 },
+          ]}
           onPress={() => {
             setVisible(false);
           }}
@@ -104,14 +114,19 @@ const Stats = ({ getRef }) => {
           />
         </TouchableOpacity>
 
-        <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
-          <View style={styles.dateLineMain}>
+        <ScrollView
+          style={[styles.tcContainer, { height: height * 0.7, width: width }]}
+        >
+          <View style={sharedStyles.datePickerView}>
             <TouchableOpacity
-              style={styles.buttonMain}
+              style={[
+                sharedStyles.changeDateButton,
+                sharedStyles["changeDateButton_" + theme],
+              ]}
               onPress={() => updateWeek(-7)}
             >
               <Image
-                style={[styles.preButtonMain, styles.nextButtonMain]}
+                style={[sharedStyles.decreaseDateImage]}
                 source={require("../../assets/images/left.png")}
               />
             </TouchableOpacity>
@@ -119,20 +134,35 @@ const Stats = ({ getRef }) => {
               <View style={sharedStyles.dateTextContainer}>
                 {moment(thisSunday).format("YYYYMMDD") ==
                 moment(selectedSunday).format("YYYYMMDD") ? (
-                  <Text style={styles.dateNameMain}>This week</Text>
+                  <Text
+                    style={[
+                      sharedStyles.dateText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    This week
+                  </Text>
                 ) : (
-                  <Text style={styles.dateNameMain}>
+                  <Text
+                    style={[
+                      sharedStyles.dateText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
                     Week of {selectedSunday.toDateString().slice(4, -5)}
                   </Text>
                 )}
               </View>
             </>
             <TouchableOpacity
-              style={styles.buttonMain}
+              style={[
+                sharedStyles.changeDateButton,
+                sharedStyles["changeDateButton_" + theme],
+              ]}
               onPress={() => updateWeek(7)}
             >
               <Image
-                style={styles.preButtonMain}
+                style={sharedStyles.increaseDateImage}
                 source={require("../../assets/images/left.png")}
               />
             </TouchableOpacity>
@@ -143,10 +173,7 @@ const Stats = ({ getRef }) => {
               <View style={styles.entityHeader}>
                 <View
                   style={[
-                    {
-                      backgroundColor: ValueSheet.colours.pink65,
-                      borderColor: ValueSheet.colours.borderPink,
-                    },
+                    sharedStyles["pinkContainer_" + theme],
                     styles.entityImageCon,
                   ]}
                 >
@@ -155,18 +182,27 @@ const Stats = ({ getRef }) => {
                     source={require("../../assets/images/mind-blue.png")}
                   />
                 </View>
-                <Text style={styles.entityTitle}>Mind</Text>
+                <Text
+                  style={[
+                    styles.entityTitle,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Mind
+                </Text>
               </View>
               {trackingPreferences?.habitsSelected && (
                 <HabitStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
               {trackingPreferences?.toDosSelected && (
                 <TaskStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
             </View>
@@ -177,10 +213,7 @@ const Stats = ({ getRef }) => {
               <View style={styles.entityHeader}>
                 <View
                   style={[
-                    {
-                      backgroundColor: ValueSheet.colours.purple65,
-                      borderColor: ValueSheet.colours.purple,
-                    },
+                    sharedStyles["purpleContainer_" + theme],
                     styles.entityImageCon,
                   ]}
                 >
@@ -189,13 +222,21 @@ const Stats = ({ getRef }) => {
                     source={require("../../assets/images/body-blue.png")}
                   />
                 </View>
-                <Text style={styles.entityTitle}>Body</Text>
+                <Text
+                  style={[
+                    styles.entityTitle,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Body
+                </Text>
               </View>
               {trackingPreferences?.dietSelected && (
                 <DietStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
                   dietGoals={dietGoals}
+                  setIsLoading={setIsLoading}
                 />
               )}
               {trackingPreferences?.fitnessSelected && <FitnessStats />}
@@ -208,10 +249,7 @@ const Stats = ({ getRef }) => {
               <View style={styles.entityHeader}>
                 <View
                   style={[
-                    {
-                      backgroundColor: ValueSheet.colours.yellow75,
-                      borderColor: ValueSheet.colours.borderYellow,
-                    },
+                    sharedStyles["yellowContainer_" + theme],
                     styles.entityImageCon,
                   ]}
                 >
@@ -220,24 +258,33 @@ const Stats = ({ getRef }) => {
                     source={require("../../assets/images/soul-blue.png")}
                   />
                 </View>
-                <Text style={styles.entityTitle}>Spirit</Text>
+                <Text
+                  style={[
+                    styles.entityTitle,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Spirit
+                </Text>
               </View>
               {trackingPreferences?.moodSelected && (
                 <MoodStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
               {trackingPreferences?.sleepSelected && (
                 <SleepStats
                   sunday={moment(selectedSunday).format("YYYYMMDD")}
                   updateStats={updateStats}
+                  setIsLoading={setIsLoading}
                 />
               )}
             </View>
           )}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </RNModal>
   );
 };
@@ -245,7 +292,6 @@ const Stats = ({ getRef }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     alignItems: "center",
   },
   tcContainer: {
@@ -255,8 +301,6 @@ const styles = StyleSheet.create({
   statsImageCon: {
     height: 100,
     borderRadius: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    borderColor: ValueSheet.colours.borderGrey,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -290,7 +334,6 @@ const styles = StyleSheet.create({
   },
   entityTitle: {
     fontSize: 38,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingLeft: 22,
   },
@@ -299,30 +342,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  dateLineMain: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: ValueSheet.colours.borderGrey,
-    borderRadius: 2,
-  },
-  buttonMain: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    borderWidth: 1,
-    borderTopColor: "transparent",
-    borderBottomColor: "transparent",
-    borderRightColor: ValueSheet.colours.grey,
-    borderLeftColor: ValueSheet.colours.grey,
-  },
   dateNameMain: {
     fontSize: 26,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   preButtonMain: {
