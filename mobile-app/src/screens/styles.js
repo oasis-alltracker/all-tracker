@@ -47,16 +47,6 @@ export const sharedStyles = StyleSheet.create({
     borderLeftColor: ValueSheet.colours.light.grey,
     backgroundColor: ValueSheet.colours.light.secondaryColour,
   },
-  changeDateButton_dark: {
-    borderRightColor: ValueSheet.colours.dark.grey,
-    borderLeftColor: ValueSheet.colours.dark.grey,
-    backgroundColor: ValueSheet.colours.dark.secondaryColour,
-  },
-  changeDateButton_light: {
-    borderRightColor: ValueSheet.colours.light.grey,
-    borderLeftColor: ValueSheet.colours.light.grey,
-    backgroundColor: ValueSheet.colours.light.secondaryColour,
-  },
   imageTextMain: {
     fontSize: 22,
     color: ValueSheet.colours.primaryColour,
@@ -93,11 +83,15 @@ export const sharedStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 16,
   },
-
   trackerTitle: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
+  },
+  trackerTitleColour_dark: {
+    color: ValueSheet.colours.dark.primaryColour,
+  },
+  trackerTitleColour_light: {
+    color: ValueSheet.colours.light.primaryColour,
   },
   dot: {
     width: 16,
@@ -137,6 +131,12 @@ export const sharedStyles = StyleSheet.create({
     borderColor: ValueSheet.colours.light.borderGrey,
     backgroundColor: ValueSheet.colours.light.backgroundVariation,
   },
+  border_light: {
+    borderColor: ValueSheet.colours.light.borderGrey,
+  },
+  border_dark: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
+  },
   modalBackground_dark: {
     backgroundColor: ValueSheet.colours.dark.background,
     borderColor: ValueSheet.colours.dark.borderGrey,
@@ -158,5 +158,17 @@ export const sharedStyles = StyleSheet.create({
   button_light: {
     backgroundColor: ValueSheet.colours.light.secondaryColour,
     borderColor: ValueSheet.colours.light.borderGrey75,
+  },
+  secondaryBackground_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour27,
+  },
+  secondaryBackground_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour27,
+  },
+  timePicker_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+  },
+  timePicker_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
   },
 });

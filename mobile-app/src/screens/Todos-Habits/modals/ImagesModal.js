@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, TouchableOpacity, ScrollView } from "react-native";
 import RNModal from "react-native-modal";
 import { Image, StyleSheet, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const imagesArray = [
   [
@@ -69,6 +71,7 @@ const imagesArray = [
 ];
 
 export default function ImagesModal({ getRef, selectImage, backDropPressed }) {
+  const theme = useContext(ThemeContext).value;
   const { width, height } = useWindowDimensions();
   const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
@@ -99,17 +102,26 @@ export default function ImagesModal({ getRef, selectImage, backDropPressed }) {
       backdropOpacity={0}
       style={[styles.scrollModal, { height: height * 0.7 }]}
     >
-      <SafeAreaView style={[styles.safeAreaContainer, { width: width }]}>
+      <SafeAreaView
+        style={[
+          styles.safeAreaContainer,
+          sharedStyles["pageBackground_" + theme],
+          { width: width },
+        ]}
+      >
         <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
           <View style={styles.scrollViewView}>
             <TouchableOpacity
-              style={styles.backButton}
+              style={[
+                styles.backButton,
+                sharedStyles["pageBackground_" + theme],
+              ]}
               onPress={() => {
                 setIsVisible(false);
               }}
             >
               <Image
-                style={styles.backImage}
+                style={[styles.backImage, sharedStyles["tint_" + theme]]}
                 resizeMode="cover"
                 source={require("../../../assets/images/back-arrow.png")}
               />
@@ -120,7 +132,10 @@ export default function ImagesModal({ getRef, selectImage, backDropPressed }) {
                   {row.map((imageUrl, key2) => {
                     return (
                       <TouchableOpacity
-                        style={styles.imageSelector}
+                        style={[
+                          styles.imageSelector,
+                          sharedStyles["borderedContainer_" + theme],
+                        ]}
                         onPress={() => selectImageHandler(imageUrl)}
                         key={key.toString() + key2.toString()}
                       >
@@ -168,7 +183,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
   },
   tcContainer: {
     marginTop: 15,
@@ -176,7 +190,6 @@ const styles = StyleSheet.create({
   },
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   scrollViewView: {
     paddingTop: 30,
@@ -190,7 +203,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 40,
     marginBottom: 20,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 12,
   },
   backImage: {

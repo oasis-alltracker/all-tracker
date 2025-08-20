@@ -1,4 +1,10 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+  useContext,
+} from "react";
 import {
   useWindowDimensions,
   Text,
@@ -16,19 +22,21 @@ import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../user/keychain";
 import { ValueSheet } from "../ValueSheet";
 import Toast from "react-native-toast-message";
+import { sharedStyles } from "../screens/styles";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
-const oneDay = {
-  startingDay: true,
-  endingDay: true,
-  selectedColor: ValueSheet.colours.datePickerBlue,
-  selectedTextColor: ValueSheet.colours.background,
-  selectedColor: ValueSheet.colours.datePickerBlue,
-  selectedTextColor: ValueSheet.colours.background,
-  selected: true,
-};
 const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
 const DatePicker = ({ getRef, saveDateHandler }) => {
+  const theme = useContext(ThemeContext).value;
+
+  const oneDay = {
+    startingDay: true,
+    endingDay: true,
+    selectedColor: ValueSheet.colours[theme].datePickerBlue,
+    selectedTextColor: ValueSheet.colours[theme].primaryColour,
+    selected: true,
+  };
   const { width, height } = useWindowDimensions();
   const [visible, setVisible] = useState(false);
   const [show, setShow] = useState(false);
@@ -281,11 +289,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         marking={{
           customTextStyle: {
             fontFamily: ValueSheet.fonts.primaryBold,
-            fontFamily: ValueSheet.fonts.primaryBold,
           },
           customStyles: {
             text: {
-              fontFamily: ValueSheet.fonts.primaryBold,
               fontFamily: ValueSheet.fonts.primaryBold,
             },
           },
@@ -299,21 +305,19 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         theme={{
           calendarBackground: "transparent",
           weekVerticalMargin: 0,
-          selectedDayTextColor: ValueSheet.colours.primaryColour,
-          selectedDayBackgroundColor: ValueSheet.colours.datePickerBlue,
+          selectedDayTextColor: ValueSheet.colours[theme].primaryColour,
+          selectedDayBackgroundColor: ValueSheet.colours[theme].datePickerBlue,
           textMonthFontFamily: ValueSheet.fonts.primaryBold,
           textDayHeaderFontFamily: ValueSheet.fonts.primaryBold,
-          todayBackgroundColor: ValueSheet.colours.yellow,
-          todayTextColor: ValueSheet.colours.primaryColour,
-          monthTextColor: ValueSheet.colours.primaryColour,
+          todayBackgroundColor: ValueSheet.colours[theme].yellow,
+          todayTextColor: ValueSheet.colours.light.primaryColour,
+          monthTextColor: ValueSheet.colours[theme].primaryColour,
           textDayFontFamily: ValueSheet.fonts.primaryBold,
-          dayTextColor: ValueSheet.colours.primaryColour,
+          dayTextColor: ValueSheet.colours[theme].primaryColour,
           textDayStyle: {
             fontFamily: ValueSheet.fonts.primaryBold,
-            fontFamily: ValueSheet.fonts.primaryBold,
           },
-          arrowColor: ValueSheet.colours.primaryColour,
-          arrowColor: ValueSheet.colours.primaryColour,
+          arrowColor: ValueSheet.colours[theme].primaryColour,
           "stylesheet.calendar.main": {
             calendar: {
               paddingLeft: 0,
@@ -356,10 +360,12 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
       isVisible={visible}
-      backdropColor={ValueSheet.colours.secondaryColour27}
+      backdropColor={ValueSheet.colours[theme].secondaryColour27}
     >
       <Spinner visible={isLoading}></Spinner>
-      <View style={styles.container}>
+      <View
+        style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+      >
         {!isEdit ? (
           <View style={styles.topLine}>
             <TouchableOpacity
@@ -376,9 +382,21 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                 ]);
                 setIsReminderEnabled(false);
               }}
-              style={[styles.btn, !isRecurring && styles.btnActive]}
+              style={[
+                styles.btn,
+                !isRecurring && sharedStyles["timePicker_" + theme],
+              ]}
             >
-              <Text style={styles.headerText}>To-do</Text>
+              <Text
+                style={[
+                  styles.headerText,
+                  !isRecurring && theme == "dark"
+                    ? sharedStyles["textColour_light"]
+                    : sharedStyles["textColour_" + theme],
+                ]}
+              >
+                To-do
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -387,9 +405,21 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                 setIsRecurring(true);
                 setIsReminderEnabled(false);
               }}
-              style={[styles.btn, isRecurring && styles.btnActive]}
+              style={[
+                styles.btn,
+                isRecurring && sharedStyles["timePicker_" + theme],
+              ]}
             >
-              <Text style={styles.headerText}>Recurring</Text>
+              <Text
+                style={[
+                  styles.headerText,
+                  isRecurring && theme == "dark"
+                    ? sharedStyles["textColour_light"]
+                    : sharedStyles["textColour_" + theme],
+                ]}
+              >
+                Recurring
+              </Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -406,7 +436,11 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
               }}
               style={styles.btn}
             >
-              <Text style={styles.clearText}>Clear</Text>
+              <Text
+                style={[styles.clearText, styles["clearTextColour_" + theme]]}
+              >
+                Clear
+              </Text>
             </TouchableOpacity>
             {renderCalendar}
           </>
@@ -430,39 +464,55 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                   key={index.toString()}
                   style={[
                     styles.dayContainer,
-                    activeIndexes[index] && {
-                      backgroundColor: ValueSheet.colours.secondaryColour,
-                    },
-                    activeIndexes[index] && {
-                      backgroundColor: ValueSheet.colours.secondaryColour,
-                    },
+                    sharedStyles["border_" + theme],
+                    activeIndexes[index] && sharedStyles["timePicker_" + theme],
                   ]}
                 >
-                  <Text style={styles.dayText}>{item}</Text>
+                  <Text
+                    style={[
+                      styles.dayText,
+                      sharedStyles["textColour_" + theme],
+                      activeIndexes[index] && sharedStyles["textColour_light"],
+                    ]}
+                  >
+                    {item}
+                  </Text>
                 </TouchableOpacity>
               );
             })}
           </View>
         )}
 
-        <View style={[styles.reminderContainer]}>
+        <View
+          style={[styles.reminderContainer, sharedStyles["border_" + theme]]}
+        >
           <Switch
             width={55}
             height={32}
             onValueChange={notificationsToggled}
             value={isReminderEnabled}
             trackColor={{
-              true: ValueSheet.colours.secondaryColour,
-              false: ValueSheet.colours.purple,
+              true: ValueSheet.colours[theme].secondaryColour,
+              false: ValueSheet.colours[theme].purple,
             }}
             thumbColor={
               isReminderEnabled
-                ? ValueSheet.colours.secondaryColour
-                : ValueSheet.colours.purple
+                ? ValueSheet.colours[theme].secondaryColour
+                : ValueSheet.colours[theme].purple
             }
           />
-          <Text style={styles.reminderTitle}>Reminder</Text>
-          <View style={styles.timeSelectContainer}>
+          <Text
+            style={[styles.reminderTitle, sharedStyles["textColour_" + theme]]}
+          >
+            Reminder
+          </Text>
+          <View
+            style={[
+              styles.timeSelectContainer,
+              sharedStyles["border_" + theme],
+              sharedStyles["timePicker_" + theme],
+            ]}
+          >
             <>
               {Platform.OS === "ios" ? (
                 <DateTimePicker
@@ -481,7 +531,9 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
                   }}
                   title="toggleMinMaxDate"
                 >
-                  <Text style={styles.timeText}>
+                  <Text
+                    style={[styles.timeText, sharedStyles["textColour_light"]]}
+                  >
                     {formatDateObject(reminderTime)}
                   </Text>
                 </TouchableOpacity>
@@ -503,15 +555,19 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
           </View>
         </View>
 
-        <View style={styles.line}>
+        <View style={[styles.line, sharedStyles["border_" + theme]]}>
           <TouchableOpacity
             onPress={() => setVisible(false)}
             style={styles.button}
           >
-            <Text style={styles.text2}>Cancel</Text>
+            <Text style={[styles.text2, styles["text2Colour_" + theme]]}>
+              Cancel
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => onSave()} style={styles.button}>
-            <Text style={styles.text2}>Done</Text>
+            <Text style={[styles.text2, styles["text2Colour_" + theme]]}>
+              Done
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -525,8 +581,6 @@ const styles = StyleSheet.create({
   line: {
     flexDirection: "row",
     borderTopWidth: 1,
-    borderColor: ValueSheet.colours.black10,
-    borderColor: ValueSheet.colours.black10,
   },
   button: {
     width: "50%",
@@ -539,13 +593,7 @@ const styles = StyleSheet.create({
   },
   container: {
     justifyContent: "space-between",
-    backgroundColor: ValueSheet.colours.background,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 5,
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
   btn: {
     marginTop: 10,
@@ -554,22 +602,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginLeft: 10,
   },
-  btnActive: {
-    backgroundColor: ValueSheet.colours.secondaryColour50,
-    backgroundColor: ValueSheet.colours.secondaryColour50,
-  },
-  btnText: {
-    fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.background,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.background,
-    fontSize: 16,
-  },
-  buttonLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
   topLine: {
     flexDirection: "row",
     alignItems: "center",
@@ -577,82 +609,33 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 20,
   },
-  btn2: {
-    marginBottom: 15,
-    paddingHorizontal: 15,
-    backgroundColor: ValueSheet.colours.primaryColour,
-    backgroundColor: ValueSheet.colours.primaryColour,
-    paddingVertical: 10,
-    borderRadius: 5,
-    width: "30%",
-    alignItems: "center",
-  },
   headerText: {
-    color: ValueSheet.colours.primaryColour,
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
-    fontFamily: ValueSheet.fonts.primaryBold,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   clearText: {
-    color: "red",
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryBold,
-    fontFamily: ValueSheet.fonts.primaryBold,
+  },
+  clearTextColour_dark: {
+    color: ValueSheet.colours.dark.textPink,
+  },
+  clearTextColour_light: {
+    color: ValueSheet.colours.light.textPink,
   },
   text2: {
-    color: ValueSheet.colours.datePickerBlue,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
-  iconImage: {
-    width: 35,
-    height: 30,
-    resizeMode: "contain",
+  text2Colour_dark: {
+    color: ValueSheet.colours.dark.datePickerBlue,
   },
-  bottomItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    width: "100%",
-    paddingVertical: 24,
-  },
-  arrow: {
-    width: 12,
-    height: 12,
-    resizeMode: "contain",
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-    marginLeft: 8,
-  },
-  leftLine: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  bottomItemText: {
-    fontSize: 16,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.black,
-    fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.black,
-    flex: 1,
-    marginLeft: 15,
-  },
-  bottomItemValue: {
-    fontSize: 16,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.black50,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.black50,
+  text2Colour_light: {
+    color: ValueSheet.colours.light.datePickerBlue,
   },
   reminderContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderColor: ValueSheet.colours.grey,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
@@ -665,19 +648,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     width: 114,
-    borderColor: ValueSheet.colours.grey,
-    borderColor: ValueSheet.colours.grey,
     paddingVertical: 10,
     borderRadius: 15,
     paddingRight: 5,
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   reminderTitle: {
     fontSize: 18,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 15,
     marginBottom: 5,
@@ -685,9 +661,6 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 17,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 7.5,
     marginBottom: 2.5,
@@ -706,8 +679,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: ValueSheet.colours.grey,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 20,
     paddingHorizontal: 5,
     paddingVertical: 20,
@@ -718,11 +689,8 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   dayText: {
-    color: ValueSheet.colours.primaryColour,
-    color: ValueSheet.colours.primaryColour,
     fontSize: 16,
     padding: 6,
-    fontFamily: ValueSheet.fonts.primaryFont,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
 });
