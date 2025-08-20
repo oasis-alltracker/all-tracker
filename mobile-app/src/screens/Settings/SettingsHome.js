@@ -20,6 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
+import { sharedStyles } from "../styles";
 
 const generalSettings = {
   img: require("../../assets/images/tracking.png"),
@@ -145,17 +146,34 @@ const SettingsHome = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme.value]]}
+    >
       <Header style={{ paddingTop: 0 }} />
       <Spinner visible={isLoading}></Spinner>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.item}>
+        <View
+          style={[
+            styles.item,
+            sharedStyles["borderedContainer_" + theme.value],
+          ]}
+        >
           <View style={styles.itemHead}>
-            <Image source={generalSettings.img} style={styles.itemImg} />
-            <Text style={styles.itemTitle}>{generalSettings.title}</Text>
+            <Image
+              source={generalSettings.img}
+              style={[styles.itemImg, sharedStyles["tint_" + theme.value]]}
+            />
+            <Text
+              style={[
+                styles.itemTitle,
+                sharedStyles["textColour_" + theme.value],
+              ]}
+            >
+              {generalSettings.title}
+            </Text>
           </View>
           {generalSettings.childs.map((item, index) => (
             <TouchableOpacity
@@ -165,7 +183,14 @@ const SettingsHome = () => {
               style={styles.child}
               key={index}
             >
-              <Text style={styles.childTitle}>{item.title}</Text>
+              <Text
+                style={[
+                  styles.childTitle,
+                  sharedStyles["textColour_" + theme.value],
+                ]}
+              >
+                {item.title}
+              </Text>
               <Image
                 style={styles.arrowRight}
                 resizeMode="stretch"
@@ -173,12 +198,52 @@ const SettingsHome = () => {
               />
             </TouchableOpacity>
           ))}
+          <View style={styles.child}>
+            <Text
+              style={[
+                styles.childTitle,
+                sharedStyles["textColour_" + theme.value],
+              ]}
+            >
+              Dark Mode:{" "}
+            </Text>
+            <Switch
+              onValueChange={() => {
+                theme.setter(theme.value == "light" ? "dark" : "light");
+              }}
+              value={theme.value == "dark"}
+              trackColor={{
+                true: ValueSheet.colours.dark.secondaryColour65,
+                false: ValueSheet.colours.light.purple,
+              }}
+              thumbColor={
+                theme.value == "dark"
+                  ? ValueSheet.colours.dark.secondaryColour
+                  : ValueSheet.colours.light.purple
+              }
+            />
+          </View>
         </View>
 
-        <View style={styles.item}>
+        <View
+          style={[
+            styles.item,
+            sharedStyles["borderedContainer_" + theme.value],
+          ]}
+        >
           <View style={styles.itemHead}>
-            <Image source={helpSettings.img} style={styles.itemImg} />
-            <Text style={styles.itemTitle}>{helpSettings.title}</Text>
+            <Image
+              source={helpSettings.img}
+              style={[styles.itemImg, sharedStyles["tint_" + theme.value]]}
+            />
+            <Text
+              style={[
+                styles.itemTitle,
+                sharedStyles["textColour_" + theme.value],
+              ]}
+            >
+              {helpSettings.title}
+            </Text>
           </View>
           {helpSettings.childs.map((item, index) => (
             <TouchableOpacity
@@ -188,7 +253,14 @@ const SettingsHome = () => {
               style={styles.child}
               key={index}
             >
-              <Text style={styles.childTitle}>{item.title}</Text>
+              <Text
+                style={[
+                  styles.childTitle,
+                  sharedStyles["textColour_" + theme.value],
+                ]}
+              >
+                {item.title}
+              </Text>
               <Image
                 style={styles.arrowRight}
                 resizeMode="stretch"
@@ -198,10 +270,25 @@ const SettingsHome = () => {
           ))}
         </View>
 
-        <View style={styles.item}>
+        <View
+          style={[
+            styles.item,
+            sharedStyles["borderedContainer_" + theme.value],
+          ]}
+        >
           <View style={styles.itemHead}>
-            <Image source={accountSettings.img} style={styles.itemImg} />
-            <Text style={styles.itemTitle}>{accountSettings.title}</Text>
+            <Image
+              source={accountSettings.img}
+              style={[styles.itemImg, sharedStyles["tint_" + theme.value]]}
+            />
+            <Text
+              style={[
+                styles.itemTitle,
+                sharedStyles["textColour_" + theme.value],
+              ]}
+            >
+              {accountSettings.title}
+            </Text>
           </View>
           {accountSettings.childs.map((item, index) => (
             <TouchableOpacity
@@ -215,7 +302,14 @@ const SettingsHome = () => {
               style={styles.child}
               key={index}
             >
-              <Text style={styles.childTitle}>{item.title}</Text>
+              <Text
+                style={[
+                  styles.childTitle,
+                  sharedStyles["textColour_" + theme.value],
+                ]}
+              >
+                {item.title}
+              </Text>
               <Image
                 style={styles.arrowRight}
                 resizeMode="stretch"
@@ -223,33 +317,6 @@ const SettingsHome = () => {
               />
             </TouchableOpacity>
           ))}
-        </View>
-
-        <View style={styles.item}>
-          <View style={styles.itemHead}>
-            <Image source={helpSettings.img} style={styles.itemImg} />
-            <Text style={styles.itemTitle}>Theme</Text>
-          </View>
-          <View style={styles.child}>
-            <Text style={styles.childTitle}>Dark Mode: </Text>
-            <Switch
-              onValueChange={() => {
-                theme.setter(theme.value == "light" ? "dark" : "light");
-              }}
-              value={theme.value == "dark"}
-              trackColor={{
-                true: ValueSheet.colours.secondaryColour,
-                false: ValueSheet.colours.purple,
-              }}
-              thumbColor={
-                theme.value == "dark"
-                  ? ValueSheet.colours.secondaryColour
-                  : ValueSheet.colours.purple
-              }
-            />
-          </View>
-
-          <Text style={styles.childTitle}> System Theme is: {systemTheme}</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -259,14 +326,12 @@ const SettingsHome = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   contentContainerStyle: {
     paddingBottom: 40,
   },
   item: {
     borderWidth: 1,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 40,
     padding: 15,
     marginHorizontal: 20,
@@ -284,7 +349,6 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
   },
   child: {
@@ -295,7 +359,6 @@ const styles = StyleSheet.create({
   },
   childTitle: {
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
   },
   arrowRight: {
