@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { useState, useEffect, useContext } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-toast-message";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const GoalSelection = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers, isEditingMacros } = props.route.params;
 
   const defaultDietFactors = {
@@ -40,14 +43,6 @@ const GoalSelection = (props) => {
     }
   };
 
-  const getButtonColour = (buttonGoal) => {
-    if (buttonGoal == goal) {
-      return ValueSheet.colours.secondaryColour65;
-    } else {
-      return "transparent";
-    }
-  };
-
   useEffect(() => {
     var latestDietFactors = props.route.params?.dietFactors;
     if (latestDietFactors) {
@@ -59,22 +54,28 @@ const GoalSelection = (props) => {
   }, [props]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.center}>
-        <View style={styles.imageCon}>
+        <View
+          style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/images/diet.png")}
           />
-          <Text style={styles.imageText}>diet</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            diet
+          </Text>
         </View>
-        <Text style={styles.title}>What is your goal?</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          What is your goal?
+        </Text>
         <Button
-          style={[
-            styles.bigButtons,
-            { backgroundColor: getButtonColour("lose") },
-          ]}
+          style={styles.bigButtons}
           textStyle={styles.buttonsText}
+          positiveSelect={"lose" === goal}
           onPress={() => {
             setGoal("lose");
           }}
@@ -82,12 +83,9 @@ const GoalSelection = (props) => {
           Lose weight
         </Button>
         <Button
-          style={[
-            styles.bigButtons,
-
-            { backgroundColor: getButtonColour("maintain") },
-          ]}
+          style={styles.bigButtons}
           textStyle={styles.buttonsText}
+          positiveSelect={"maintain" === goal}
           onPress={() => {
             setGoal("maintain");
           }}
@@ -95,13 +93,11 @@ const GoalSelection = (props) => {
           Maintain weight
         </Button>
         <Button
-          style={[
-            styles.bigButtons,
-            { backgroundColor: getButtonColour("gain") },
-          ]}
+          style={styles.bigButtons}
           onPress={() => {
             setGoal("gain");
           }}
+          positiveSelect={"gain" === goal}
           textStyle={styles.buttonsText}
         >
           Gain weight
@@ -110,7 +106,7 @@ const GoalSelection = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
@@ -119,6 +115,7 @@ const GoalSelection = (props) => {
             onNext();
           }}
           style={styles.button}
+          positiveSelect={true}
         >
           Next
         </Button>
@@ -131,7 +128,6 @@ const GoalSelection = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -140,8 +136,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -151,13 +145,11 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
@@ -170,14 +162,8 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   bigButtons: {
     width: "100%",
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
     height: 80,
     borderRadius: 30,
     marginTop: 10,

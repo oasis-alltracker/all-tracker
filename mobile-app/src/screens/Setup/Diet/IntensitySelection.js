@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const weightChangeValues = {
   kg: {
@@ -24,6 +25,7 @@ const weightChangeValues = {
 };
 
 const IntensitySelection = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers, isEditingMacros } = props.route.params;
   var dietFactors = props.route.params.dietFactors;
 
@@ -32,14 +34,6 @@ const IntensitySelection = (props) => {
   const [gradualNumberOfWeeks, setGradualNumberOfWeeks] = useState(0);
   const [relaxedNumberOfWeeks, setRelaxedNumberOfWeeks] = useState(0);
   const [intensity, setIntensity] = useState(null);
-
-  const getButtonColour = (selectedIntensity) => {
-    if (intensity == selectedIntensity) {
-      return ValueSheet.colours.secondaryColour65;
-    } else {
-      return "transparent";
-    }
-  };
 
   const onNext = () => {
     if (intensity != null) {
@@ -90,21 +84,27 @@ const IntensitySelection = (props) => {
   }, [props]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.center}>
-        <View style={styles.imageCon}>
+        <View
+          style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/images/diet.png")}
           />
-          <Text style={styles.imageText}>diet</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            diet
+          </Text>
         </View>
-        <Text style={styles.title}>Choose your intensity</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Choose your intensity
+        </Text>
         <Button
-          style={[
-            styles.bigButtons,
-            { backgroundColor: getButtonColour("ultimate") },
-          ]}
+          style={styles.bigButtons}
+          positiveSelect={intensity === "ultimate"}
           onPress={() => {
             setIntensity("ultimate");
             dietFactors.intensityLevel = "ultimate";
@@ -116,18 +116,32 @@ const IntensitySelection = (props) => {
               resizeMode="contain"
               source={require("../../../assets/images/ultimate.png")}
             />
-            <Text style={[styles.text, styles.flex]}>Ultimate</Text>
-            <Text style={styles.text}>{ultimateNumberOfWeeks} weeks</Text>
+            <Text
+              style={[
+                styles.text,
+                styles.flex,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
+              Ultimate
+            </Text>
+            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+              {ultimateNumberOfWeeks} weeks
+            </Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>
+          <Text
+            style={[
+              styles.text,
+              styles.minitext,
+              sharedStyles["textColour_" + theme],
+            ]}
+          >
             {dietFactors.currentWeight.units == "kg" ? "1kg" : "2.2lbs"}/week
           </Text>
         </Button>
         <Button
-          style={[
-            styles.bigButtons,
-            { backgroundColor: getButtonColour("steady") },
-          ]}
+          style={styles.bigButtons}
+          positiveSelect={intensity === "steady"}
           onPress={() => {
             setIntensity("steady");
             dietFactors.intensityLevel = "steady";
@@ -139,18 +153,32 @@ const IntensitySelection = (props) => {
               resizeMode="contain"
               source={require("../../../assets/images/steady.png")}
             />
-            <Text style={[styles.text, styles.flex]}>Steady</Text>
-            <Text style={styles.text}>{steadyNumberOfWeeks} weeks</Text>
+            <Text
+              style={[
+                styles.text,
+                styles.flex,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
+              Steady
+            </Text>
+            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+              {steadyNumberOfWeeks} weeks
+            </Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>
+          <Text
+            style={[
+              styles.text,
+              styles.minitext,
+              sharedStyles["textColour_" + theme],
+            ]}
+          >
             {dietFactors.currentWeight.units == "kg" ? "0.75kg" : "1.6lbs"}/week
           </Text>
         </Button>
         <Button
-          style={[
-            styles.bigButtons,
-            { backgroundColor: getButtonColour("gradual") },
-          ]}
+          style={styles.bigButtons}
+          positiveSelect={intensity === "gradual"}
           onPress={() => {
             setIntensity("gradual");
             dietFactors.intensityLevel = "gradual";
@@ -162,18 +190,32 @@ const IntensitySelection = (props) => {
               resizeMode="contain"
               source={require("../../../assets/images/gradually.png")}
             />
-            <Text style={[styles.text, styles.flex]}>Gradual</Text>
-            <Text style={styles.text}>{gradualNumberOfWeeks} weeks</Text>
+            <Text
+              style={[
+                styles.text,
+                styles.flex,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
+              Gradual
+            </Text>
+            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+              {gradualNumberOfWeeks} weeks
+            </Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>
+          <Text
+            style={[
+              styles.text,
+              styles.minitext,
+              sharedStyles["textColour_" + theme],
+            ]}
+          >
             {dietFactors.currentWeight.units == "kg" ? "0.5kg" : "1.1lbs"}/week
           </Text>
         </Button>
         <Button
-          style={[
-            styles.bigButtons,
-            { backgroundColor: getButtonColour("relaxed") },
-          ]}
+          style={styles.bigButtons}
+          positiveSelect={intensity === "relaxed"}
           onPress={() => {
             setIntensity("relaxed");
             dietFactors.intensityLevel = "relaxed";
@@ -186,18 +228,30 @@ const IntensitySelection = (props) => {
               source={require("../../../assets/images/relaxed.png")}
             />
             <Text style={[styles.text, styles.flex]}>Relaxed</Text>
-            <Text style={styles.text}>{relaxedNumberOfWeeks} weeks</Text>
+            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+              {relaxedNumberOfWeeks} weeks
+            </Text>
           </View>
-          <Text style={[styles.text, styles.minitext]}>
+          <Text
+            style={[
+              styles.text,
+              styles.minitext,
+              sharedStyles["textColour_" + theme],
+            ]}
+          >
             {dietFactors.currentWeight.units == "kg" ? "0.25kg" : "0.5lbs"}/week
           </Text>
         </Button>
       </View>
       <View style={styles.buttons}>
-        <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
+        <Button onPress={() => onBack()} style={styles.button}>
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -209,7 +263,6 @@ const IntensitySelection = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -218,8 +271,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -229,13 +280,11 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
@@ -248,14 +297,8 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   bigButtons: {
     width: "100%",
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
     height: 65,
     borderRadius: 30,
     paddingHorizontal: 25,
@@ -280,7 +323,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   text: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryFont,
   },

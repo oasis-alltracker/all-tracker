@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -14,8 +13,11 @@ import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const CurrentWeight = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers, isEditingMacros } = props.route.params;
   var dietFactors = props.route.params.dietFactors;
   const [isKg, setIsKg] = useState(true);
@@ -79,18 +81,31 @@ const CurrentWeight = (props) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      >
         <View style={styles.center}>
-          <View style={styles.imageCon}>
+          <View
+            style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+          >
             <Image
               style={styles.image}
               source={require("../../../assets/images/diet.png")}
             />
-            <Text style={styles.imageText}>diet</Text>
+            <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+              diet
+            </Text>
           </View>
-          <Text style={styles.title}>What's your weight?</Text>
+          <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+            What's your weight?
+          </Text>
           <TextInput
-            style={styles.input}
+            placeholderTextColor={ValueSheet.colours[theme].inputGrey}
+            style={[
+              styles.input,
+              sharedStyles["borderedContainer_" + theme],
+              sharedStyles["textColour_" + theme],
+            ]}
             placeholder="0"
             onChangeText={updateWeight}
             keyboardType="number-pad"
@@ -103,7 +118,8 @@ const CurrentWeight = (props) => {
                 setIsKg(true);
                 dietFactors.currentWeight.units = "kg";
               }}
-              style={[styles.unitBtn, !isKg && styles.inactive]}
+              style={styles.unitBtn}
+              positiveSelect={isKg}
             >
               kg
             </Button>
@@ -113,17 +129,22 @@ const CurrentWeight = (props) => {
                 setIsKg(false);
                 dietFactors.currentWeight.units = "lb";
               }}
-              style={[styles.unitBtn, isKg && styles.inactive]}
+              style={styles.unitBtn}
+              positiveSelect={!isKg}
             >
               lb
             </Button>
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
+          <Button onPress={() => onBack()} style={styles.button}>
             Back
           </Button>
-          <Button onPress={() => onNext()} style={styles.button}>
+          <Button
+            onPress={() => onNext()}
+            style={styles.button}
+            positiveSelect={true}
+          >
             Next
           </Button>
         </View>
@@ -136,7 +157,6 @@ const CurrentWeight = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -145,8 +165,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -156,13 +174,11 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 65,
@@ -176,15 +192,9 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   input: {
     width: "100%",
-    backgroundColor: "transparent",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     height: 80,
     borderRadius: 30,
     marginTop: 10,
@@ -204,10 +214,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 35,
     borderRadius: 12,
-  },
-  inactive: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   unitText: {
     fontSize: 18,
