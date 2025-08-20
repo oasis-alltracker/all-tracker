@@ -21,6 +21,7 @@ import * as SecureStore from "expo-secure-store";
 import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 import { sharedStyles } from "../styles";
+import ThemedSwitch from "../../components/ThemedSwitch";
 
 const generalSettings = {
   img: require("../../assets/images/tracking.png"),
@@ -73,7 +74,6 @@ const accountSettings = {
 const SettingsHome = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [trackingPreferences, setTrackingPreferences] = useState([]);
-  const systemTheme = useColorScheme();
   const theme = useContext(ThemeContext);
 
   const deleteAccount = async () => {
@@ -207,20 +207,11 @@ const SettingsHome = () => {
             >
               Dark Mode:{" "}
             </Text>
-            <Switch
+            <ThemedSwitch
               onValueChange={() => {
                 theme.setter(theme.value == "light" ? "dark" : "light");
               }}
               value={theme.value == "dark"}
-              trackColor={{
-                true: ValueSheet.colours.dark.secondaryColour65,
-                false: ValueSheet.colours.light.purple,
-              }}
-              thumbColor={
-                theme.value == "dark"
-                  ? ValueSheet.colours.dark.secondaryColour
-                  : ValueSheet.colours.light.purple
-              }
             />
           </View>
         </View>
