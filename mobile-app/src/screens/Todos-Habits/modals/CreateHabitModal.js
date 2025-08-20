@@ -245,14 +245,14 @@ export default function CreateHabitModal({ getRef, createHabit }) {
               />
             </View>
             <View style={styles.row2}>
-              <Button
-                onPress={() => backDropPressed()}
-                style={[styles.button, styles.back]}
-                textStyle={sharedStyles["textColour_" + theme]}
-              >
+              <Button onPress={() => backDropPressed()} style={styles.button}>
                 Cancel
               </Button>
-              <Button onPress={() => onSave()} style={styles.button}>
+              <Button
+                onPress={() => onSave()}
+                style={styles.button}
+                positiveSelect={true}
+              >
                 Save
               </Button>
             </View>
@@ -336,9 +336,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
   },
   image: {
     width: 70,
