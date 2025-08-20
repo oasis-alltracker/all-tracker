@@ -334,11 +334,7 @@ export default function TaskModal({
               />
             </View>
             <View style={styles.buttonsRow}>
-              <Button
-                onPress={() => onBack()}
-                style={styles.button}
-                positiveSelect={false}
-              >
+              <Button onPress={() => onBack()} style={styles.button}>
                 {isEdit ? "Delete" : "Cancel"}
               </Button>
               <Button

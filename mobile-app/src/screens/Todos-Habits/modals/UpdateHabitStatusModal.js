@@ -201,11 +201,7 @@ export default function UpdateHabitStatusModal({
           )}
         </View>
         <View style={styles.row2}>
-          <Button
-            onPress={() => backDropPressed()}
-            style={styles.button}
-            positiveSelect={false}
-          >
+          <Button onPress={() => backDropPressed()} style={styles.button}>
             Close
           </Button>
           <Button
