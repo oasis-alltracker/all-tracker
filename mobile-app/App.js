@@ -17,6 +17,7 @@ import NetInfo from "@react-native-community/netinfo";
 import Purchases from "react-native-purchases";
 import Toast from "react-native-toast-message";
 import { ThemeProvider } from "./src/contexts/ThemeProvider";
+import axios from "axios";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -40,6 +41,8 @@ export default function App() {
   };
 
   useEffect(() => {
+    axios.defaults.timeout = 8000;
+
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);

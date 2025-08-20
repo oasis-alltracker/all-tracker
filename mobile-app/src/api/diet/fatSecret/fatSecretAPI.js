@@ -14,11 +14,15 @@ export async function barcodeSearchFatSecret(barcode) {
     language: "en",
     region: "US",
   };
-  const response = await axios.get(API, { headers: headers, params: params });
-  if (response?.data.food_id.value != 0) {
-    var result = await getByID(response?.data.food_id.value);
-    return result;
-  } else {
+  try {
+    const response = await axios.get(API, { headers: headers, params: params });
+    if (response?.data.food_id.value != 0) {
+      var result = await getByID(response?.data.food_id.value);
+      return result;
+    } else {
+      return null;
+    }
+  } catch (error) {
     return null;
   }
 }
