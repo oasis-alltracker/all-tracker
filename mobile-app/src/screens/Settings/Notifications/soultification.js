@@ -479,27 +479,13 @@ const Soultification = ({
           <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
             {title}
           </Text>
-          <Switch
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={onToggle}
             value={isToggled}
             disabled={disabled}
-            trackColor={sharedStyles["switchTrack_" + theme]}
-            ios_backgroundColor={ValueSheet.colours[theme].purple65}
-            thumbColor={
-              isToggled
-                ? sharedStyles["switchThumbOn_" + theme]
-                : sharedStyles["switchThumbOff_" + theme]
-            }
           />
-          {/* <ThemedSwitch
-            width={55}
-            height={32}
-            onValueChange={onToggle}
-            value={isToggled}
-            disabled={disabled}
-          /> */}
         </View>
         {activeSchedule1 && (
           <>
