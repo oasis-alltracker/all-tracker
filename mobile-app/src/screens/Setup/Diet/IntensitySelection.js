@@ -112,7 +112,12 @@ const IntensitySelection = (props) => {
         >
           <View style={styles.row}>
             <Image
-              style={styles.selectImage}
+              style={[
+                styles.selectImage,
+                intensity === "ultimate"
+                  ? sharedStyles["tint_light"]
+                  : sharedStyles["tint_" + theme],
+              ]}
               resizeMode="contain"
               source={require("../../../assets/images/ultimate.png")}
             />
@@ -120,12 +125,21 @@ const IntensitySelection = (props) => {
               style={[
                 styles.text,
                 styles.flex,
-                sharedStyles["textColour_" + theme],
+                intensity === "ultimate"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
               ]}
             >
               Ultimate
             </Text>
-            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            <Text
+              style={[
+                styles.text,
+                intensity === "ultimate"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
+              ]}
+            >
               {ultimateNumberOfWeeks} weeks
             </Text>
           </View>
@@ -133,7 +147,9 @@ const IntensitySelection = (props) => {
             style={[
               styles.text,
               styles.minitext,
-              sharedStyles["textColour_" + theme],
+              intensity === "ultimate"
+                ? sharedStyles["textColour_light"]
+                : sharedStyles["textColour_" + theme],
             ]}
           >
             {dietFactors.currentWeight.units == "kg" ? "1kg" : "2.2lbs"}/week
@@ -149,7 +165,12 @@ const IntensitySelection = (props) => {
         >
           <View style={styles.row}>
             <Image
-              style={styles.selectImage}
+              style={[
+                styles.selectImage,
+                intensity === "steady"
+                  ? sharedStyles["tint_light"]
+                  : sharedStyles["tint_" + theme],
+              ]}
               resizeMode="contain"
               source={require("../../../assets/images/steady.png")}
             />
@@ -157,12 +178,22 @@ const IntensitySelection = (props) => {
               style={[
                 styles.text,
                 styles.flex,
-                sharedStyles["textColour_" + theme],
+                intensity === "steady"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
+                ,
               ]}
             >
               Steady
             </Text>
-            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            <Text
+              style={[
+                styles.text,
+                intensity === "steady"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
+              ]}
+            >
               {steadyNumberOfWeeks} weeks
             </Text>
           </View>
@@ -170,7 +201,9 @@ const IntensitySelection = (props) => {
             style={[
               styles.text,
               styles.minitext,
-              sharedStyles["textColour_" + theme],
+              intensity === "steady"
+                ? sharedStyles["textColour_light"]
+                : sharedStyles["textColour_" + theme],
             ]}
           >
             {dietFactors.currentWeight.units == "kg" ? "0.75kg" : "1.6lbs"}/week
@@ -186,7 +219,12 @@ const IntensitySelection = (props) => {
         >
           <View style={styles.row}>
             <Image
-              style={styles.selectImage}
+              style={[
+                styles.selectImage,
+                intensity === "gradual"
+                  ? sharedStyles["tint_light"]
+                  : sharedStyles["tint_" + theme],
+              ]}
               resizeMode="contain"
               source={require("../../../assets/images/gradually.png")}
             />
@@ -194,12 +232,22 @@ const IntensitySelection = (props) => {
               style={[
                 styles.text,
                 styles.flex,
-                sharedStyles["textColour_" + theme],
+                intensity === "gradual"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
+                ,
               ]}
             >
               Gradual
             </Text>
-            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            <Text
+              style={[
+                styles.text,
+                intensity === "gradual"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
+              ]}
+            >
               {gradualNumberOfWeeks} weeks
             </Text>
           </View>
@@ -207,7 +255,9 @@ const IntensitySelection = (props) => {
             style={[
               styles.text,
               styles.minitext,
-              sharedStyles["textColour_" + theme],
+              intensity === "gradual"
+                ? sharedStyles["textColour_light"]
+                : sharedStyles["textColour_" + theme],
             ]}
           >
             {dietFactors.currentWeight.units == "kg" ? "0.5kg" : "1.1lbs"}/week
@@ -223,12 +273,34 @@ const IntensitySelection = (props) => {
         >
           <View style={styles.row}>
             <Image
-              style={styles.selectImage}
+              style={[
+                styles.selectImage,
+                intensity === "relaxed"
+                  ? sharedStyles["tint_light"]
+                  : sharedStyles["tint_" + theme],
+              ]}
               resizeMode="contain"
               source={require("../../../assets/images/relaxed.png")}
             />
-            <Text style={[styles.text, styles.flex]}>Relaxed</Text>
-            <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            <Text
+              style={[
+                styles.text,
+                styles.flex,
+                intensity === "relaxed"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
+              ]}
+            >
+              Relaxed
+            </Text>
+            <Text
+              style={[
+                styles.text,
+                intensity === "relaxed"
+                  ? sharedStyles["textColour_light"]
+                  : sharedStyles["textColour_" + theme],
+              ]}
+            >
               {relaxedNumberOfWeeks} weeks
             </Text>
           </View>
@@ -236,7 +308,10 @@ const IntensitySelection = (props) => {
             style={[
               styles.text,
               styles.minitext,
-              sharedStyles["textColour_" + theme],
+              intensity === "relaxed"
+                ? sharedStyles["textColour_light"]
+                : sharedStyles["textColour_" + theme],
+              ,
             ]}
           >
             {dietFactors.currentWeight.units == "kg" ? "0.25kg" : "0.5lbs"}/week
