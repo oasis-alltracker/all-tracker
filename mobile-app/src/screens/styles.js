@@ -156,6 +156,7 @@ export const sharedStyles = StyleSheet.create({
     borderColor: ValueSheet.colours.dark.borderGrey75,
   },
   button_light: {
+    //maybe rename to blueContainer
     backgroundColor: ValueSheet.colours.light.secondaryColour,
     borderColor: ValueSheet.colours.light.borderGrey75,
   },
@@ -170,5 +171,29 @@ export const sharedStyles = StyleSheet.create({
   },
   timePicker_light: {
     backgroundColor: ValueSheet.colours.light.secondaryColour,
+  },
+  purpleContainer_dark: {
+    backgroundColor: ValueSheet.colours.dark.purple65,
+    borderColor: ValueSheet.colours.dark.purple,
+  },
+  purpleContainer_light: {
+    backgroundColor: ValueSheet.colours.light.purple65,
+    borderColor: ValueSheet.colours.light.purple,
+  },
+  pinkContainer_dark: {
+    backgroundColor: ValueSheet.colours.dark.pink65,
+    borderColor: ValueSheet.colours.dark.borderPink,
+  },
+  pinkContainer_light: {
+    backgroundColor: ValueSheet.colours.light.pink65,
+    borderColor: ValueSheet.colours.light.borderPink,
+  },
+  yellowContainer_dark: {
+    backgroundColor: ValueSheet.colours.dark.yellow75,
+    borderColor: ValueSheet.colours.dark.borderYellow,
+  },
+  yellowContainer_light: {
+    backgroundColor: ValueSheet.colours.light.yellow75,
+    borderColor: ValueSheet.colours.light.borderYellow,
   },
 });

@@ -11,6 +11,7 @@ import DietStats from "../Stats/DietStats";
 import FitnessStats from "../Stats/FitnessStats";
 import { ValueSheet } from "../../ValueSheet";
 import moment from "moment";
+import Spinner from "react-native-loading-spinner-overlay";
 import { sharedStyles } from "../styles";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 
@@ -18,6 +19,7 @@ export default function Statistics({ dietGoals, day, updateStats }) {
   var thisSunday = moment(day).day(0);
   const [sunday, setSunday] = useState(moment(thisSunday));
   const theme = useContext(ThemeContext).value;
+  const [isLoading, setIsLoading] = useState(false);
 
   const decreaseWeek = () => {
     var newSunday = moment(sunday).day(-7);
@@ -34,6 +36,7 @@ export default function Statistics({ dietGoals, day, updateStats }) {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
+      <Spinner visible={isLoading}></Spinner>
       <View
         style={[
           sharedStyles.headerImageContainer,
@@ -90,6 +93,7 @@ export default function Statistics({ dietGoals, day, updateStats }) {
         sunday={sunday.format("YYYYMMDD")}
         dietGoals={dietGoals}
         updateStats={updateStats}
+        setIsLoading={setIsLoading}
       />
     </ScrollView>
   );
