@@ -4,17 +4,18 @@ import { getFatSecretToken } from "./fatSecretToken";
 
 export async function barcodeSearchFatSecret(barcode) {
   const API = FATSECRET_BASE_URL + "food/barcode/find-by-id/v1";
-  const token = await getFatSecretToken();
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
-  const params = {
-    barcode: barcode,
-    format: "json",
-    language: "en",
-    region: "US",
-  };
   try {
+    const token = await getFatSecretToken();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const params = {
+      barcode: barcode,
+      format: "json",
+      language: "en",
+      region: "US",
+    };
+
     const response = await axios.get(API, { headers: headers, params: params });
     if (response?.data.food_id.value != 0) {
       var result = await getByID(response?.data.food_id.value);

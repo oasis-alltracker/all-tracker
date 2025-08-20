@@ -52,6 +52,7 @@ const DietStats = ({ sunday, updateStats, dietGoals, setIsLoading }) => {
   const [dataArrays, setDataArrays] = useState(defaultArrays);
   const [goalLines, setGoalLines] = useState(defaultArrays);
   const [graphMax, setMax] = useState(2000);
+  const energyMultiplier = dietGoals.calorieGoal.units == "kcal" ? 1 : 4.184;
   const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
@@ -92,8 +93,15 @@ const DietStats = ({ sunday, updateStats, dietGoals, setIsLoading }) => {
       //calculating the max value for each macro - needed for graph display
       var maxArray = [];
 
+      // Convert the stats data to the correct format
+      statsData.calorieCount.forEach((item) => {
+        item.value = item.value * energyMultiplier;
+        item.dataPointText = `${Math.round(item.value)}`;
+      });
+
       macroTitles.forEach((item) => {
         var dietVal = dietGoals[item.goal];
+        //diet goals are stored in in the user's preference unit, so we don't need to convert them
         if (item.macro == "calorieCount") dietVal = dietVal.value;
 
         var max = Math.max(
