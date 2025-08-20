@@ -156,6 +156,7 @@ export const sharedStyles = StyleSheet.create({
     borderColor: ValueSheet.colours.dark.borderGrey75,
   },
   button_light: {
+    //maybe rename to blueContainer
     backgroundColor: ValueSheet.colours.light.secondaryColour,
     borderColor: ValueSheet.colours.light.borderGrey75,
   },

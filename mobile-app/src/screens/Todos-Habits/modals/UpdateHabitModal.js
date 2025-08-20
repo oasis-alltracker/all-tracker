@@ -273,11 +273,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
             </View>
 
             <View style={styles.row2}>
-              <Button
-                onPress={() => onDelete()}
-                style={styles.button}
-                positiveSelect={false}
-              >
+              <Button onPress={() => onDelete()} style={styles.button}>
                 Delete
               </Button>
               <Button

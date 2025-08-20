@@ -245,11 +245,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
               />
             </View>
             <View style={styles.row2}>
-              <Button
-                onPress={() => backDropPressed()}
-                style={styles.button}
-                positiveSelect={false}
-              >
+              <Button onPress={() => backDropPressed()} style={styles.button}>
                 Cancel
               </Button>
               <Button

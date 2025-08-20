@@ -31,7 +31,7 @@ const macroTitles = [
   },
 ];
 
-const DietStats = ({ sunday, updateStats, dietGoals }) => {
+const DietStats = ({ sunday, updateStats, dietGoals, setIsLoading }) => {
   const defaultWeek = [
     { value: 0 },
     { value: 0 },
@@ -55,7 +55,9 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
   const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
+    setIsLoading(true);
     getStats();
+    setIsLoading(false);
   }, [sunday, updateStats]);
 
   useEffect(() => {
@@ -115,7 +117,9 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
 
   return (
     <View style={styles.chartBox}>
-      <View style={styles.chartCircle}>
+      <View
+        style={[styles.chartCircle, sharedStyles["purpleContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/diet.png")}
@@ -149,6 +153,10 @@ const DietStats = ({ sunday, updateStats, dietGoals }) => {
           textShiftY={-8}
           textShiftX={3}
           textColor={ValueSheet.colours[theme].primaryColour}
+          xAxisLabelTextStyle={{
+            fontFamily: ValueSheet.fonts.primaryFont,
+            color: ValueSheet.colours[theme].primaryColour,
+          }}
           areaChart
           startFillColor1={ValueSheet.colours[theme].purple}
           endFillColor1={ValueSheet.colours[theme].purple}
@@ -233,8 +241,6 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.light.purple,
-    borderColor: ValueSheet.colours.light.borderPurple,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

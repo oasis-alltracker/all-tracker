@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -6,13 +6,13 @@ import {
   Image,
   Dimensions,
   Animated,
-  Platform,
 } from "react-native";
 import StatsAPI from "../../api/stats/statsAPI";
 import { getAccessToken } from "../../user/keychain";
-import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
+import { sharedStyles } from "../styles";
 
 const labels = ["S", "M", "T", "W", "T", "F", "S"];
 const [width, height] = [
@@ -20,12 +20,12 @@ const [width, height] = [
   Dimensions.get("window").height,
 ];
 
-const TaskStats = ({ sunday, updateStats }) => {
+const TaskStats = ({ sunday, updateStats, setIsLoading }) => {
   const [totalCountMath, setTotalCountMath] = useState(1);
   const [totalCompletionsMath, setTotalCompletionsMath] = useState(1);
   const [totalCountDisplay, setTotalCountDisplay] = useState(0);
   const [totalCompletionsDisplay, setTotalCompletionsDisplay] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
     const getStatsOnLoad = async () => {
@@ -80,16 +80,23 @@ const TaskStats = ({ sunday, updateStats }) => {
 
   return (
     <View style={styles.chartBox}>
-      <Spinner visible={isLoading}></Spinner>
-      <View style={styles.chartCircle}>
+      <View
+        style={[styles.chartCircle, sharedStyles["pinkContainer_" + theme]]}
+      >
         <Image
           style={styles.imageCircle}
           source={require("../../assets/images/to-dos.png")}
         />
-        <Text style={styles.text}>to-dos</Text>
+        <Text style={styles.statsTitle}>to-dos</Text>
       </View>
       <View style={[styles.chartContainer, { height: height * 0.15 }]}>
-        <View style={[styles.barContainer, { marginTop: height * 0.035 }]}>
+        <View
+          style={[
+            styles.barContainer,
+            sharedStyles["pinkContainer_" + theme],
+            { marginTop: height * 0.035 },
+          ]}
+        >
           <Animated.View
             style={[
               styles.bar,
@@ -99,7 +106,7 @@ const TaskStats = ({ sunday, updateStats }) => {
         </View>
         {totalCountDisplay > 0 ? (
           <>
-            <Text style={styles.xLabel}>
+            <Text style={[styles.xLabel, sharedStyles["textColour_" + theme]]}>
               Completed - {totalCompletionsDisplay}/{totalCountDisplay} -{" "}
               {Math.floor(
                 ((totalCompletionsMath * 1.0) / totalCountMath) * 100
@@ -108,7 +115,7 @@ const TaskStats = ({ sunday, updateStats }) => {
             </Text>
           </>
         ) : (
-          <Text style={styles.xLabel}>
+          <Text style={[styles.xLabel, sharedStyles["textColour_" + theme]]}>
             Completed - {totalCompletionsDisplay}/{totalCountDisplay} - 100%
           </Text>
         )}
@@ -119,15 +126,19 @@ const TaskStats = ({ sunday, updateStats }) => {
 
 const styles = StyleSheet.create({
   barContainer: {
-    backgroundColor: ValueSheet.colours.borderPink,
     borderRadius: 10,
     height: 60,
     width: "100%",
   },
   bar: {
     height: 60,
-    backgroundColor: ValueSheet.colours.pink,
     borderRadius: 10,
+  },
+  bar_light: {
+    backgroundColor: ValueSheet.colours.light.pink,
+  },
+  bar_dark: {
+    backgroundColor: ValueSheet.colours.dark.pink,
   },
   chartBox: {
     width: "100%",
@@ -140,8 +151,6 @@ const styles = StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 45,
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -152,7 +161,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
-  text: {
+  statsTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     color: ValueSheet.colours.primaryColour,
