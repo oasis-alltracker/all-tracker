@@ -847,7 +847,10 @@ const Notifications = () => {
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: ValueSheet.colours.secondaryColour },
+                      {
+                        backgroundColor:
+                          ValueSheet.colours[theme].secondaryColour,
+                      },
                     ]}
                   >
                     <>
@@ -925,7 +928,10 @@ const Notifications = () => {
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: ValueSheet.colours.secondaryColour },
+                      {
+                        backgroundColor:
+                          ValueSheet.colours[theme].secondaryColour,
+                      },
                     ]}
                   >
                     <>
@@ -1003,7 +1009,10 @@ const Notifications = () => {
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: ValueSheet.colours.secondaryColour },
+                      {
+                        backgroundColor:
+                          ValueSheet.colours[theme].secondaryColour,
+                      },
                     ]}
                   >
                     <>
@@ -1107,7 +1116,6 @@ const Notifications = () => {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   contentContainerStyle: {
     paddingBottom: 20,
