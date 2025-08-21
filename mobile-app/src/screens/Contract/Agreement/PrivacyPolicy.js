@@ -7,21 +7,29 @@ import {
 import { Header } from "../../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ValueSheet } from "../../../ValueSheet";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
+import { useContext } from "react";
 
 const PrivacyPolicy = () => {
   const { width, height } = useWindowDimensions();
+  const theme = useContext(ThemeContext).value;
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Header showCenter={false} />
       <ScrollView style={[styles.tcContainer, { height: height * 0.7 }]}>
-        <Text style={styles.title}>Privacy Policy</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Privacy Policy
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           "We" (publishers of who whom you downloaded this application from)
           take your privacy seriously. We have created this Privacy Policy to
           explain our policies and procedures for collecting, using, and
           disclosing your information.{" "}
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           We provide information about our app on our website (“Site”) Users can
           access the app through our mobile device and tablet
           application(“App”). In this Privacy Policy, the Site, the App, and our
@@ -34,13 +42,15 @@ const PrivacyPolicy = () => {
           “information” or “data”.
         </Text>
 
-        <Text style={styles.header}>1. OUR COMMITMENT</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
+          1. OUR COMMITMENT
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           We prioritize your privacy and the confidentiality of your data. As a
           personal journal and diary, we understand the importance of keeping
           your entries private and secure.
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           1.1 Confidential Treatment of Your Data - All data you enter into the
           App is treated as strictly confidential. We do not access, review, or
           share your data under any circumstances, including for troubleshooting
@@ -48,7 +58,7 @@ const PrivacyPolicy = () => {
           or system errors where access to user data could assist in resolving
           the issue, we will not access your personal entries.
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           1.2 Privacy in Service Improvements - Your data may be used to enhance
           your experience within the App, but it will never be linked to you in
           any way when utilized for analytics or AI-driven improvements. Any
@@ -57,7 +67,7 @@ const PrivacyPolicy = () => {
           maintaining strict safeguards that prevent personal data from being
           tied to any improvements or third-party systems.
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           1.3 Third-Party Services and Data Protection - We may use third-party
           services to improve the App, such as analytics or AI-driven
           enhancements. However: (a)Your personal data is never shared with
@@ -66,7 +76,7 @@ const PrivacyPolicy = () => {
           we utilize do not have access to the data used for algorithm training,
           ensuring your personal information remains private.
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           1.4 Government Requests & Backdoors - We do not build backdoors or
           provide any means for unauthorized access to your data. If we receive
           a request from any government or authority to provide user data or
@@ -76,20 +86,20 @@ const PrivacyPolicy = () => {
           specific user’s data was requested. Your privacy is our highest
           priority, and we will not compromise on this principle.
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           By using the App, you can trust that your journal remains a private
           space for you. We are committed to upholding the highest standards of
           confidentiality and security.
         </Text>
 
-        <Text style={styles.header}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
           2. THE INFORMATION WE COLLECT AND STORE
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           We may collect and store the following information when you access the
           Services:
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           Information you provide. When you register an account, contact us with
           inquiries, or otherwise communicate with us (including through social
           media), we collect some personal information such as your name and
@@ -102,7 +112,7 @@ const PrivacyPolicy = () => {
           able to turn off these features through your App, or settings menu on
           your device.{" "}
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           Additionally, we store personal (private) data that you input when you
           use the App. The personal data saved may vary based on what you choose
           to input, but it will generally include your year of birth, height,
@@ -112,14 +122,16 @@ const PrivacyPolicy = () => {
           provide may also include payment and transaction information when you
           make purchases through the Services, such as transaction history.
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           Cookies. We do not utilize cookies. When you login, we will store a
           private authentication token or “key” on your device in a secure
           manner so that you do not have to login every time you access the App.
         </Text>
 
-        <Text style={styles.header}>3. HOW WE USE PERSONAL INFORMATION</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
+          3. HOW WE USE PERSONAL INFORMATION
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           Personal Information: In the course of using the Services, we may
           collect personal information that can be used to contact or identify
           you (“Personal Information”). Personal Information is or may be used:
@@ -132,8 +144,10 @@ const PrivacyPolicy = () => {
           update your account information.
         </Text>
 
-        <Text style={styles.header}>4. INFORMATION SHARING AND DISCLOSURE</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
+          4. INFORMATION SHARING AND DISCLOSURE
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           Service Providers, Business Partners and Others. We may use certain
           trusted third-party companies and individuals to help us provide,
           analyze, and improve the Service. These third parties may have access
@@ -143,21 +157,23 @@ const PrivacyPolicy = () => {
           manner that will not be linked personally to you.
         </Text>
 
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           Below is a list of third-party applications we use in our App:
         </Text>
-        <Text style={styles.text}>Edamam - Food and Grocery Database API</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+          Edamam - Food and Grocery Database API
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           Food and Grocery Database API is a database that helps us provide you
           with nutritional information for the foods you eat. Your data is
           collected and protected by this third party according to their privacy
           policy.
         </Text>
 
-        <Text style={styles.header}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
           5. SOCIAL MEDIA AND OTHER COMMUNICATIONS
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           We advertise our Services on several social media platforms which may
           include, but are not necessarily limited to, Facebook, Instagram,
           Twitter, and LinkedIn. Our Services may also use third-party social
@@ -169,10 +185,10 @@ const PrivacyPolicy = () => {
           privacy policies and terms of use of the third parties.
         </Text>
 
-        <Text style={styles.header}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
           6. CHANGING OR DELETING YOUR INFORMATION
         </Text>
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           If you are a registered user, you may review, update, correct or
           delete the information provided in your registration or account
           profile by changing your “account settings” through the App. If your
@@ -180,8 +196,10 @@ const PrivacyPolicy = () => {
           may update or delete it by making the change on your account settings.
         </Text>
 
-        <Text style={styles.header}>7. DATA RETENTION</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
+          7. DATA RETENTION
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           We will retain your information for as long as your account is active
           or as needed to provide you access to the App. If you wish to cancel
           your account or request that we no longer use your information to
@@ -191,9 +209,11 @@ const PrivacyPolicy = () => {
           exist after deletion.
         </Text>
 
-        <Text style={styles.header}>8. SECURITY</Text>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
+          8. SECURITY
+        </Text>
 
-        <Text style={styles.text}>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           We follow generally accepted standards to protect the information
           submitted to us, both during transmission and once we receive it. No
           method of electronic transmission or storage is 100% secure, however.
@@ -202,14 +222,18 @@ const PrivacyPolicy = () => {
           email.
         </Text>
 
-        <Text style={styles.header}>9. CONTACTING US</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
+          9. CONTACTING US
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           If you have any questions about this Privacy Policy, please contact us
           via our email listed on our posting.
         </Text>
 
-        <Text style={styles.header}>10. CHANGES TO OUR PRIVACY POLICY</Text>
-        <Text style={styles.text}>
+        <Text style={[styles.header, sharedStyles["textColour_" + theme]]}>
+          10. CHANGES TO OUR PRIVACY POLICY
+        </Text>
+        <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
           This Privacy Policy may change from time to time. If we make a change
           to this privacy policy that we believe materially reduces your rights,
           we will provide you with notice (for example, by email). And we may
@@ -225,27 +249,23 @@ const PrivacyPolicy = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   text: {
     alignSelf: "stretch",
     fontSize: 12,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
     marginTop: 10,
   },
   title: {
     alignSelf: "center",
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     marginTop: 30,
   },
   header: {
     alignSelf: "stretch",
     fontSize: 12,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     marginTop: 50,
     textDecorationLine: "underline",
   },

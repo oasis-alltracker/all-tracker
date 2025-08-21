@@ -1,5 +1,5 @@
 import { ValueSheet } from "../../ValueSheet";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { TouchableHighlight } from "react-native-gesture-handler";
 
@@ -20,6 +20,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import { Header, Button } from "../../components";
 import navigationService from "../../navigators/navigationService";
@@ -27,6 +28,8 @@ import NotificationsHandler from "../../api/notifications/notificationsHandler";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { getUniqueId } from "react-native-device-info";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { sharedStyles } from "../styles";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const { width, height } = Dimensions.get("window");
 const SCREEN_WIDTH = width < height ? width : height;
@@ -42,7 +45,7 @@ GoogleSignin.configure({
 
 const UnlockAccount = (props) => {
   const [password, setPassword] = useState("");
-
+  const theme = useContext(ThemeContext).value;
   const [isLoading, setIsLoading] = useState(false);
 
   //--------------------- APPLE LOGIN
@@ -176,29 +179,47 @@ const UnlockAccount = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Header showCenter={false} />
       <Spinner visible={isLoading}></Spinner>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.view}>
           <View style={styles.center}>
-            <Text style={styles.title}>Enter your password</Text>
-            <View style={styles.passwordInputContainer}>
+            <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+              Enter your password
+            </Text>
+            <View
+              style={[
+                styles.passwordInputContainer,
+                sharedStyles["borderedContainer_" + theme],
+              ]}
+            >
               <TextInput
-                style={styles.passwordInput}
+                style={[
+                  styles.passwordInput,
+                  sharedStyles["textColour_" + theme],
+                ]}
                 placeholder="Enter your password"
                 secureTextEntry={true}
-                placeholderTextColor={ValueSheet.colours.black25}
+                placeholderTextColor={ValueSheet.colours[theme].inputGrey}
                 onChangeText={setPassword}
                 value={password}
                 autoCapitalize="none"
               />
             </View>
-            <Button onPress={() => onPressContinue()} style={styles.nextButton}>
+            <Button
+              positiveSelect={true}
+              onPress={() => onPressContinue()}
+              style={styles.nextButton}
+            >
               Continue
             </Button>
             <View style={styles.signContainer}>
-              <Text style={styles.txt}>--or--</Text>
+              <Text style={[styles.txt, sharedStyles["textColour_" + theme]]}>
+                --or--
+              </Text>
               <View
                 style={[
                   styles.rowContainer,
@@ -206,27 +227,34 @@ const UnlockAccount = (props) => {
                 ]}
               >
                 {appleAuthAvailable ? (
-                  <TouchableHighlight
-                    style={styles.iconContainer}
+                  <TouchableOpacity
+                    style={[
+                      styles.iconContainer,
+                      sharedStyles["borderedContainer_" + theme],
+                    ]}
                     onPress={() => appleSignin()}
-                    underlayColor={ValueSheet.colours.black10}
                   >
                     <Image
-                      style={styles.accountIcon}
+                      style={[
+                        styles.accountIcon,
+                        sharedStyles["tint_" + theme],
+                      ]}
                       source={require("../../assets/images/apple-black.png")}
                     />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 ) : null}
-                <TouchableHighlight
-                  style={styles.iconContainer}
+                <TouchableOpacity
+                  style={[
+                    styles.iconContainer,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
                   onPress={() => googleSignIn()}
-                  underlayColor={ValueSheet.colours.black10}
                 >
                   <Image
-                    style={styles.accountIcon}
+                    style={[styles.accountIcon, sharedStyles["tint_" + theme]]}
                     source={require("../../assets/images/google.png")}
                   />
-                </TouchableHighlight>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -239,10 +267,8 @@ const UnlockAccount = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   title: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginVertical: 45,
@@ -257,7 +283,6 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   passwordInput: {
-    color: ValueSheet.colours.black,
     fontSize: 20,
     marginLeft: 10,
     height: 40,
@@ -273,9 +298,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: SCREEN_WIDTH - 50,
     borderRadius: 10,
-    borderColor: ValueSheet.colours.grey,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.background,
     alignSelf: "center",
   },
   signContainer: {
@@ -288,9 +311,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   iconContainer: {
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 100,
-    borderColor: ValueSheet.colours.grey,
     borderWidth: 2,
     padding: 20,
   },

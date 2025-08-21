@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -15,12 +15,14 @@ import NotificationsHandler from "../../../api/notifications/notificationsHandle
 import { getAccessToken } from "../../../user/keychain";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../../ValueSheet";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 const Agreement = () => {
   const { width, height } = useWindowDimensions();
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const theme = useContext(ThemeContext).value;
   const onPressContinue = async () => {
     if (checked) {
       setIsLoading(true);
@@ -103,16 +105,24 @@ const Agreement = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, sharedStyles["pageBackground_" + theme]]}>
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.view}>
         <View style={[styles.center, { marginTop: height * 0.16 }]}>
-          <Text style={styles.title}>Welcome to Oasis!</Text>
+          <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+            Welcome to Oasis!
+          </Text>
           <TouchableOpacity
             onPress={() => navigationService.navigate("termsOfService")}
             style={styles.linkBtn}
           >
-            <Text style={[styles.linkText, { marginVertical: height * 0.004 }]}>
+            <Text
+              style={[
+                styles.linkText,
+                sharedStyles["textColour_" + theme],
+                { marginVertical: height * 0.004 },
+              ]}
+            >
               Read our <Text style={styles.boldText}>Terms of Service</Text>
             </Text>
           </TouchableOpacity>
@@ -120,7 +130,13 @@ const Agreement = () => {
             onPress={() => navigationService.navigate("privacyPolicy")}
             style={styles.linkBtn}
           >
-            <Text style={[styles.linkText, { marginVertical: height * 0.004 }]}>
+            <Text
+              style={[
+                styles.linkText,
+                sharedStyles["textColour_" + theme],
+                { marginVertical: height * 0.004 },
+              ]}
+            >
               Read the <Text style={styles.boldText}>Privacy Policy</Text>
             </Text>
           </TouchableOpacity>
@@ -128,7 +144,13 @@ const Agreement = () => {
             onPress={() => navigationService.navigate("userAgreement")}
             style={styles.linkBtn}
           >
-            <Text style={[styles.linkText, { marginVertical: height * 0.004 }]}>
+            <Text
+              style={[
+                styles.linkText,
+                sharedStyles["textColour_" + theme],
+                { marginVertical: height * 0.004 },
+              ]}
+            >
               Read the <Text style={styles.boldText}>User Agreement</Text>
             </Text>
           </TouchableOpacity>
@@ -141,7 +163,12 @@ const Agreement = () => {
             <TouchableOpacity onPress={() => setChecked((pr) => !pr)}>
               <CheckBox checked={checked} />
             </TouchableOpacity>
-            <Text style={styles.agreementText}>
+            <Text
+              style={[
+                styles.agreementText,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
               I understand and agree to the{" "}
               <Text style={styles.boldText}>Terms of Service</Text>, including
               the <Text style={styles.boldText}>Privacy Policy</Text> and{" "}
@@ -149,7 +176,11 @@ const Agreement = () => {
             </Text>
           </View>
         </View>
-        <Button onPress={() => onPressContinue()} style={styles.nextButton}>
+        <Button
+          positiveSelect={true}
+          onPress={() => onPressContinue()}
+          style={styles.nextButton}
+        >
           Continue
         </Button>
       </View>
