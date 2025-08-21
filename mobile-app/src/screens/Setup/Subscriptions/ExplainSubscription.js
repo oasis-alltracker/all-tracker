@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -16,10 +16,13 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Purchases from "react-native-purchases";
 import { ValueSheet } from "../../../ValueSheet";
 import { Header } from "../../../components";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 const ExplainSubscription = (props) => {
   const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
+  const theme = useContext(ThemeContext).value;
 
   const subscribe = async () => {
     setIsLoading(true);
@@ -54,7 +57,10 @@ const ExplainSubscription = (props) => {
   };
 
   return (
-    <SafeAreaView edges={["bottom"]} style={styles.container}>
+    <SafeAreaView
+      edges={["bottom"]}
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
       <Header showCenter={false} />
       <View
@@ -63,10 +69,11 @@ const ExplainSubscription = (props) => {
           justifyContent: "center",
         }}
       >
-        <Text style={[styles.title, { marginTop: height * 0.05 }]}>
-          1 month <Text style={styles.bold}>free</Text>
+        <Text style={sharedStyles["textColour_" + theme]}>
+          <Text style={[styles.title, { marginTop: height * 0.05 }]}>
+            1 month <Text style={styles.bold}>free{"\n"}</Text>then $2.99/month
+          </Text>
         </Text>
-        <Text style={styles.title}>then $2.99/month</Text>
         <View style={styles.middleContainer}>
           <Image
             source={require("../../../assets/images/subscription-image.png")}
@@ -75,20 +82,33 @@ const ExplainSubscription = (props) => {
               { height: height * 0.26, marginBottom: height * 0.02 },
             ]}
           />
-          <Text style={styles.text}>
-            Find <Text style={styles.bold}>equilibrium</Text>
-          </Text>
-          <Text style={styles.text}>
-            Discover <Text style={styles.bold}>balance</Text>
-          </Text>
-          <Text style={styles.text}>
-            Unleash your{" "}
-            <Text style={[styles.bold, { color: ValueSheet.colours.textPink }]}>
-              Oasis
+          <Text style={sharedStyles["textColour_" + theme]}>
+            <Text style={styles.text}>
+              Find <Text style={styles.bold}>equilibrium{"\n"}</Text>
+            </Text>
+            <Text style={styles.text}>
+              Discover <Text style={styles.bold}>balance{"\n"}</Text>
+            </Text>
+            <Text style={styles.text}>
+              Unleash your{" "}
+              <Text
+                style={[
+                  styles.bold,
+                  { color: ValueSheet.colours[theme].textPink },
+                ]}
+              >
+                Oasis
+              </Text>
             </Text>
           </Text>
           <View style={{ width: width * 0.8 }}>
-            <Text style={[styles.bottomMessage, { marginTop: height * 0.01 }]}>
+            <Text
+              style={[
+                styles.bottomMessage,
+                { marginTop: height * 0.01 },
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
               Payment is optional. If you cancel the subscription, you won't
               lose access
             </Text>
@@ -111,7 +131,6 @@ export default ExplainSubscription;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   nextButton: {
     marginHorizontal: 20,
@@ -125,22 +144,19 @@ const styles = StyleSheet.create({
   poster: {
     width: "100%",
     resizeMode: "contain",
-    backgroundColor: ValueSheet.colours.imageBackgroundYellow,
+    backgroundColor: ValueSheet.colours.dark.imageBackgroundYellow,
   },
   text: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 24,
-    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
   },
   bottomMessage: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 12,
-    color: ValueSheet.colours.primaryColour,
     textAlign: "center",
   },
   title: {
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 28,
     textAlign: "center",

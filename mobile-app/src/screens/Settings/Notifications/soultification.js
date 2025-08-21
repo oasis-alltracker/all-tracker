@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -13,6 +13,9 @@ import { getAccessToken } from "../../../user/keychain";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
+import ThemedSwitch from "../../../components/ThemedSwitch";
 
 const weekDays = ["Every day", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -26,6 +29,7 @@ const Soultification = ({
   disabled,
   group,
 }) => {
+  const theme = useContext(ThemeContext).value;
   const [isLoading, setIsLoading] = useState(false);
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
@@ -463,25 +467,24 @@ const Soultification = ({
 
   return (
     <>
-      <View style={[styles.itemContainer, styles.itemContainer2]}>
+      <View
+        style={[
+          styles.itemContainer,
+          styles.itemContainer2,
+          sharedStyles["borderedContainer_" + theme],
+        ]}
+      >
         <Spinner visible={isLoading}></Spinner>
         <View style={styles.line}>
-          <Text style={styles.itemTitle}>{title}</Text>
-          <Switch
+          <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
+            {title}
+          </Text>
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={onToggle}
             value={isToggled}
             disabled={disabled}
-            trackColor={{
-              true: ValueSheet.colours.secondaryColour,
-              false: ValueSheet.colours.purple,
-            }}
-            thumbColor={
-              isToggled
-                ? ValueSheet.colours.secondaryColour
-                : ValueSheet.colours.purple
-            }
           />
         </View>
         {activeSchedule1 && (
@@ -540,11 +543,24 @@ const Soultification = ({
                     }}
                     style={
                       activeSchedule1[index]
-                        ? [styles.itemContainer, styles.itemContainer4]
+                        ? [
+                            styles.itemContainer,
+                            styles.itemContainer4,
+                            sharedStyles["button_" + theme],
+                          ]
                         : {}
                     }
                   >
-                    <Text style={styles.smallText}>{val}</Text>
+                    <Text
+                      style={[
+                        styles.smallText,
+                        activeSchedule1[index]
+                          ? { color: ValueSheet.colours.light.primaryColour }
+                          : sharedStyles["textColour_" + theme],
+                      ]}
+                    >
+                      {val}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -553,7 +569,7 @@ const Soultification = ({
               <View
                 style={[
                   styles.timePickerContainer,
-                  { backgroundColor: ValueSheet.colours.secondaryColour },
+                  sharedStyles["button_" + theme],
                 ]}
               >
                 <>
@@ -575,7 +591,12 @@ const Soultification = ({
                       }}
                       title="toggleMinMaxDate"
                     >
-                      <Text style={styles.timeText}>
+                      <Text
+                        style={[
+                          styles.timeText,
+                          sharedStyles["textColour_" + theme],
+                        ]}
+                      >
                         {formatDateObject(timeSchedule1)}
                       </Text>
                     </TouchableOpacity>
@@ -653,11 +674,24 @@ const Soultification = ({
                     }}
                     style={
                       activeSchedule2[index]
-                        ? [styles.itemContainer, styles.itemContainer4]
+                        ? [
+                            styles.itemContainer,
+                            styles.itemContainer4,
+                            sharedStyles["button_" + theme],
+                          ]
                         : {}
                     }
                   >
-                    <Text style={styles.smallText}>{val}</Text>
+                    <Text
+                      style={[
+                        styles.smallText,
+                        activeSchedule2[index]
+                          ? { color: ValueSheet.colours.light.primaryColour }
+                          : sharedStyles["textColour_" + theme],
+                      ]}
+                    >
+                      {val}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -666,7 +700,7 @@ const Soultification = ({
               <View
                 style={[
                   styles.timePickerContainer,
-                  { backgroundColor: ValueSheet.colours.secondaryColour },
+                  sharedStyles["button_" + theme],
                 ]}
               >
                 <>
@@ -688,7 +722,12 @@ const Soultification = ({
                       }}
                       title="toggleMinMaxDate"
                     >
-                      <Text style={styles.timeText}>
+                      <Text
+                        style={[
+                          styles.timeText,
+                          sharedStyles["textColour_" + theme],
+                        ]}
+                      >
                         {formatDateObject(timeSchedule2)}
                       </Text>
                     </TouchableOpacity>
@@ -766,11 +805,24 @@ const Soultification = ({
                     }}
                     style={
                       activeSchedule3[index]
-                        ? [styles.itemContainer, styles.itemContainer4]
+                        ? [
+                            styles.itemContainer,
+                            styles.itemContainer4,
+                            sharedStyles["button_" + theme],
+                          ]
                         : {}
                     }
                   >
-                    <Text style={styles.smallText}>{val}</Text>
+                    <Text
+                      style={[
+                        styles.smallText,
+                        activeSchedule3[index]
+                          ? { color: ValueSheet.colours.light.primaryColour }
+                          : sharedStyles["textColour_" + theme],
+                      ]}
+                    >
+                      {val}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -779,7 +831,7 @@ const Soultification = ({
               <View
                 style={[
                   styles.timePickerContainer,
-                  { backgroundColor: ValueSheet.colours.secondaryColour },
+                  sharedStyles["button_" + theme],
                 ]}
               >
                 <>
@@ -801,7 +853,12 @@ const Soultification = ({
                       }}
                       title="toggleMinMaxDate"
                     >
-                      <Text style={styles.timeText}>
+                      <Text
+                        style={[
+                          styles.timeText,
+                          sharedStyles["textColour_" + theme],
+                        ]}
+                      >
                         {formatDateObject(timeSchedule3)}
                       </Text>
                     </TouchableOpacity>
@@ -849,7 +906,7 @@ const Soultification = ({
               <Image
                 source={require("../../../assets/images/trash.png")}
                 resizeMode="contain"
-                style={styles.trashImage}
+                style={[styles.trashImage, sharedStyles["tint_" + theme]]}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -875,7 +932,7 @@ const Soultification = ({
               <Image
                 source={require("../../../assets/images/trash.png")}
                 resizeMode="contain"
-                style={styles.trashImage}
+                style={[styles.trashImage, sharedStyles["tint_" + theme]]}
               />
             </TouchableOpacity>
           </View>
@@ -890,7 +947,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -903,16 +959,12 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: 5,
     alignItems: "center",
-    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 0.7,
     width: 114,
-    borderColor: ValueSheet.colours.grey,
     paddingRight: 5,
-    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   timeText: {
     fontSize: 17,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   itemContainer4: {
@@ -920,7 +972,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 2,
     paddingVertical: 3,
     marginBottom: 0,
-    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   timeContainer: {
     flexDirection: "row",
@@ -938,12 +989,10 @@ export const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
   },
   smallText: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 12,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
