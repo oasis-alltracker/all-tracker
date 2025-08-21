@@ -1,11 +1,7 @@
 import { ValueSheet } from "../../ValueSheet";
 import React, { useContext, useEffect, useState } from "react";
-
-import { TouchableHighlight } from "react-native-gesture-handler";
-
 import * as AppleAuthentication from "expo-apple-authentication";
 import { AppEventsLogger } from "react-native-fbsdk-next";
-
 import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
