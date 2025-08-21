@@ -1,3 +1,5 @@
+import { invert } from "lodash";
+
 export const ValueSheet = {
   fonts: {
     primaryFont: "Quicksand",
@@ -13,6 +15,7 @@ export const ValueSheet = {
       background: "#ffffff",
       backgroundVariation: "#ffffff",
       primaryColour: "#25436B",
+      invertedPrimaryColour: "#F4FDFF",
       secondaryColour: "#D7F6FF",
       secondaryColour70: "rgba(215, 246, 255, 0.70)",
       secondaryColour65: "rgba(215, 246, 255, 0.65)",
@@ -58,6 +61,7 @@ export const ValueSheet = {
       background: "#3D4451",
       backgroundVariation: "#4F5B70",
       primaryColour: "#F4FDFF",
+      invertedPrimaryColour: "#25436B",
       secondaryColour: "#C5DDFF",
       secondaryColour70: "rgba(197, 221, 255, 0.70)",
       secondaryColour65: "rgba(197, 221, 255, 0.65)",

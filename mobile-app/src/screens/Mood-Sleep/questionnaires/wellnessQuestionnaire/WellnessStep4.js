@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,11 +14,14 @@ import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const WellnessStep4 = (props) => {
   const { width, height } = useWindowDimensions();
   const [location, setLocation] = useState("");
   const { moodReport } = props.route.params;
+  const theme = useContext(ThemeContext).value;
 
   const onNext = async () => {
     if (location == "") {
@@ -34,17 +37,25 @@ const WellnessStep4 = (props) => {
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      >
         <>
           <View style={styles.center}>
-            <Text style={styles.title}>Where are you?</Text>
+            <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+              Where are you?
+            </Text>
           </View>
 
           <View style={[styles.textCon, { width: width * 0.9 }]}>
             <TextInput
               placeholderTextColor={ValueSheet.colours.inputGrey}
               placeholder="Work, home, school..."
-              style={styles.input}
+              style={[
+                styles.input,
+                sharedStyles["borderedContainer_" + theme],
+                sharedStyles["textColour_" + theme],
+              ]}
               onChangeText={setLocation}
               value={location}
             />
@@ -71,20 +82,18 @@ const WellnessStep4 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
     alignItems: "center",
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 125,
     textAlign: "center",
   },
   input: {
-    color: ValueSheet.colours.primaryColour,
+    borderRadius: 25,
     fontSize: 22,
     fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
@@ -101,7 +110,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     height: 100,
-    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     textAlign: "center",
   },
@@ -110,7 +118,6 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

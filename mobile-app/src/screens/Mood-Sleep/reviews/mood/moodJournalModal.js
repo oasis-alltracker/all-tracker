@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,12 +13,15 @@ import {
 import RNModal from "react-native-modal";
 import { Button } from "../../../../components";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 export default function MoodJournalModal({ getRef, updateReport }) {
   const [visible, setVisible] = useState(false);
 
   const [moodReport, setMoodReport] = useState(null);
   const [journal, setJournal] = useState(null);
+  const theme = useContext(ThemeContext).value;
 
   const onBack = async () => {
     Alert.alert(
@@ -65,12 +68,18 @@ export default function MoodJournalModal({ getRef, updateReport }) {
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
-      backdropColor={ValueSheet.colours.secondaryColour27}
+      backdropColor={ValueSheet.colours[theme].secondaryColour27}
       style={styles.modal}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <Text style={styles.titleTitle}>Diary</Text>
+        <View
+          style={[styles.container, sharedStyles["borderedContainer_" + theme]]}
+        >
+          <Text
+            style={[styles.titleTitle, sharedStyles["textColour_" + theme]]}
+          >
+            Diary
+          </Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.textCon}
@@ -79,7 +88,7 @@ export default function MoodJournalModal({ getRef, updateReport }) {
               multiline
               placeholderTextColor={ValueSheet.colours.inputGrey}
               placeholder="Write as much detail as you'd like:"
-              style={styles.input}
+              style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setJournal}
               value={journal}
             />
@@ -111,12 +120,10 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     height: 550,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   buttonsRow: {
     flexDirection: "row",
@@ -126,13 +133,11 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   titleTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginVertical: 24,
   },
   input: {
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 14,
     width: "90%",
@@ -144,7 +149,6 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   textCon: {
     width: 340,

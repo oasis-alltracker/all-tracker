@@ -1,11 +1,13 @@
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button } from "../../../../components";
 import MoodJournalModal from "./moodJournalModal";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const data = [
   {
@@ -30,6 +32,7 @@ export default function WellnessReportModal({
   updateMoodReport,
   deleteMoodReport,
 }) {
+  const theme = useContext(ThemeContext).value;
   const [visible, setVisible] = useState(false);
 
   const [title, setTitle] = useState(null);
@@ -111,8 +114,12 @@ export default function WellnessReportModal({
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
-      <View style={styles.container}>
-        <Text style={styles.titleTitle}>{title}</Text>
+      <View
+        style={[styles.container, sharedStyles["borderedContainer_" + theme]]}
+      >
+        <Text style={[styles.titleTitle, sharedStyles["textColour_" + theme]]}>
+          {title}
+        </Text>
         <View style={styles.center}>
           <Image
             style={styles.ratingImage}
@@ -121,29 +128,52 @@ export default function WellnessReportModal({
         </View>
 
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Mood</Text>
-          <Text style={styles.dataValue}>{mood}</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Mood
+          </Text>
+          <Text style={[styles.dataValue, sharedStyles["textColour_" + theme]]}>
+            {mood}
+          </Text>
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Activity</Text>
-          <Text style={styles.dataValue}>{activity}</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Activity
+          </Text>
+          <Text style={[styles.dataValue, sharedStyles["textColour_" + theme]]}>
+            {activity}
+          </Text>
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Company</Text>
-          <Text style={styles.dataValue}>{company}</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Company
+          </Text>
+          <Text style={[styles.dataValue, sharedStyles["textColour_" + theme]]}>
+            {company}
+          </Text>
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Location</Text>
-          <Text style={styles.dataValue}>{location}</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Location
+          </Text>
+          <Text style={[styles.dataValue, sharedStyles["textColour_" + theme]]}>
+            {location}
+          </Text>
         </View>
         <View style={styles.center}>
           <TouchableOpacity
-            style={styles.diaryButton}
+            style={[
+              styles.diaryButton,
+              sharedStyles["borderedContainer_" + theme],
+            ]}
             onPress={() => {
               moodRef.current.open(moodReport);
             }}
           >
-            <Text style={styles.diaryText}>Diary</Text>
+            <Text
+              style={[styles.diaryText, sharedStyles["textColour_" + theme]]}
+            >
+              Diary
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -173,11 +203,9 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   ratingImage: {
     width: 70,
@@ -197,20 +225,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   dataTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
     fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
     marginLeft: 5,
   },
   titleTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 10,
   },
   dataValue: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
@@ -222,14 +247,12 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
   },
   diaryButton: {
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     height: 40,
     width: 150,
@@ -240,7 +263,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   diaryText: {
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 20,
   },

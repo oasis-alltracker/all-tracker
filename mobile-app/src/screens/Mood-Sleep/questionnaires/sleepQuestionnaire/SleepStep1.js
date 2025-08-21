@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,8 @@ import navigationService from "../../../../navigators/navigationService";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const data = [
   {
@@ -38,6 +40,7 @@ const SleepStep1 = (props) => {
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(0);
   var dateStamp, dateString;
+  const theme = useContext(ThemeContext).value;
 
   if (props.route.params) {
     dateStamp = props.route.params.dateStamp;
@@ -71,11 +74,13 @@ const SleepStep1 = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
 
       <View style={styles.center}>
-        <Text style={styles.title}>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
           Overall, how would you rate your sleep?
         </Text>
 
@@ -87,6 +92,7 @@ const SleepStep1 = (props) => {
             }}
             style={[
               styles.imageCon,
+              sharedStyles["borderedContainer_" + theme],
               { height: height * 0.09, width: width * 0.9 },
               active === key + 1 && {
                 backgroundColor: ValueSheet.colours.secondaryColour,
@@ -120,7 +126,6 @@ const SleepStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -130,11 +135,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 40,
     marginBottom: 35,
@@ -150,7 +153,6 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

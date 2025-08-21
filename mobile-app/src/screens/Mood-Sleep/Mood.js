@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Image,
   ScrollView,
@@ -12,6 +12,7 @@ import navigationService from "../../navigators/navigationService";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const today = new Date();
 
@@ -35,6 +36,7 @@ const data = [
 
 export default function Mood({ moodRef, allWellnessReports }) {
   const { width, height } = useWindowDimensions();
+  const theme = useContext(ThemeContext).value;
   const Diaries = () => (
     <View style={{ height: 365 }}>
       <ScrollView
@@ -50,15 +52,23 @@ export default function Mood({ moodRef, allWellnessReports }) {
               }}
               style={[
                 styles.item,
+                sharedStyles["border_" + theme],
                 key === allWellnessReports.length - 1 && {
                   borderBottomWidth: 2,
                 },
               ]}
             >
-              <Text style={styles.itemText}>{val.title}</Text>
+              <Text
+                style={[styles.itemText, sharedStyles["textColour_" + theme]]}
+              >
+                {val.title}
+              </Text>
               <Text>
                 <View
-                  style={styles.moodImageContainer}
+                  style={[
+                    styles.moodImageContainer,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
                   onPress={() => searchImage()}
                 >
                   <Image
@@ -84,12 +94,18 @@ export default function Mood({ moodRef, allWellnessReports }) {
           },
         });
       }}
-      style={[styles.addButton, { width: width - 30, height: height * 0.43 }]}
+      style={[
+        styles.addButton,
+        sharedStyles["borderedContainer_" + theme],
+        { width: width - 30, height: height * 0.43 },
+      ]}
     >
-      <Text style={styles.buttonText}>
+      <Text style={[styles.buttonText, sharedStyles["textColour_" + theme]]}>
         Click here to do a wellness check-in.
       </Text>
-      <View style={styles.plusCon}>
+      <View
+        style={[styles.plusCon, sharedStyles["secondaryBackground_" + theme]]}
+      >
         <Image
           style={styles.plusImage}
           source={require("../../assets/images/plus.png")}
@@ -104,14 +120,24 @@ export default function Mood({ moodRef, allWellnessReports }) {
       contentContainerStyle={styles.container}
       scrollEnabled={false}
     >
-      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          {
+            backgroundColor: ValueSheet.colours[theme].yellow75,
+            borderColor: ValueSheet.colours[theme].borderYellow,
+          },
+        ]}
+      >
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/mood.png")}
         />
       </View>
       <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
-        <Text style={styles.title}>Wellness Diary</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Wellness Diary
+        </Text>
         <TouchableOpacity
           onPress={() =>
             navigationService.navigate("moodTest", {
@@ -124,7 +150,7 @@ export default function Mood({ moodRef, allWellnessReports }) {
           }
         >
           <Image
-            style={styles.plus}
+            style={[styles.plus, sharedStyles["tint_" + theme]]}
             source={require("../../assets/images/plus512.png")}
           />
         </TouchableOpacity>
@@ -169,24 +195,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 31,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   itemText: {
-    color: ValueSheet.colours.black,
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-
     flex: 1,
   },
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -205,29 +226,22 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: ValueSheet.colours.grey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
     opacity: 0.7,
   },
   buttonText: {
-    color: ValueSheet.colours.black50,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   scrollContainer: {
     alignItems: "center",
     overflow: "visible",
     paddingBottom: 80,
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.yellow75,
-    borderColor: ValueSheet.colours.borderYellow,
   },
 });

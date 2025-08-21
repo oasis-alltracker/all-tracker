@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const data = [
   {
@@ -25,6 +27,7 @@ const data = [
 const SleepStep3 = (props) => {
   const { width, height } = useWindowDimensions();
   const [active, setActive] = useState(0);
+  const theme = useContext(ThemeContext).value;
 
   const { sleepReport } = props.route.params;
 
@@ -47,15 +50,20 @@ const SleepStep3 = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.center}>
-        <Text style={styles.title}>Did you wind down before bed?</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Did you wind down before bed?
+        </Text>
 
         {data.map((val, key) => (
           <TouchableOpacity
             key={key}
             style={[
               styles.buttonCon,
+              sharedStyles["borderedContainer_" + theme],
               { width: width * 0.9 },
               active === key + 1 && {
                 backgroundColor: ValueSheet.colours.secondaryColour,
@@ -65,7 +73,17 @@ const SleepStep3 = (props) => {
               setActive(key + 1);
             }}
           >
-            <Text style={styles.yesNoText}>{val.text}</Text>
+            <Text
+              style={[
+                styles.yesNoText,
+                sharedStyles["textColour_" + theme],
+                active === key + 1 && {
+                  color: ValueSheet.colours[theme].invertedPrimaryColour,
+                },
+              ]}
+            >
+              {val.text}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -89,7 +107,6 @@ const SleepStep3 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -100,11 +117,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 120,
     marginBottom: 15,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 70,
     marginBottom: 80,
@@ -112,7 +127,6 @@ const styles = StyleSheet.create({
   },
   yesNoText: {
     fontSize: 25,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     textAlign: "center",
   },
@@ -126,7 +140,6 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

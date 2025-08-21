@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,8 @@ import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import moment from "moment";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const data = [
   {
@@ -36,6 +38,7 @@ const data = [
 const WellnessStep1 = (props) => {
   const { width, height } = useWindowDimensions();
   const [active, setActive] = useState(0);
+  const theme = useContext(ThemeContext).value;
   var dateStamp, dateString;
 
   if (props.route.params) {
@@ -66,9 +69,13 @@ const WellnessStep1 = (props) => {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.center}>
-        <Text style={styles.title}>Overall, how are you feeling?</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Overall, how are you feeling?
+        </Text>
 
         {data.map((val, key) => (
           <TouchableOpacity
@@ -78,6 +85,7 @@ const WellnessStep1 = (props) => {
             }}
             style={[
               styles.imageCon,
+              sharedStyles["borderedContainer_" + theme],
               { height: height * 0.09, width: width * 0.9 },
               active === key + 1 && {
                 backgroundColor: ValueSheet.colours.secondaryColour,
@@ -111,7 +119,6 @@ const WellnessStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -121,11 +128,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 40,
     marginBottom: 35,
@@ -141,7 +146,6 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

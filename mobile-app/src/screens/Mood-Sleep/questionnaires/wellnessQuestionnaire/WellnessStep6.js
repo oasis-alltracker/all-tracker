@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -18,12 +18,15 @@ import Spinner from "react-native-loading-spinner-overlay";
 import WellnessReportsAPI from "../../../../api/mood/wellnessReportsAPI";
 import { getAccessToken } from "../../../../user/keychain";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const WellnessStep6 = (props) => {
   const { width, height } = useWindowDimensions();
   const [journal, setJournal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { moodReport } = props.route.params;
+  const theme = useContext(ThemeContext).value;
 
   const createMoodReport = async (moodReport) => {
     try {
@@ -50,17 +53,22 @@ const WellnessStep6 = (props) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      >
         <>
           <Spinner visible={isLoading}></Spinner>
 
           <View style={styles.center}>
-            <Text style={styles.title}>Anything else?</Text>
+            <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+              Anything else?
+            </Text>
           </View>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={[
               styles.textCon,
+              sharedStyles["borderedContainer_" + theme],
               { width: width * 0.9, height: height * 0.5 },
             ]}
           >
@@ -68,7 +76,11 @@ const WellnessStep6 = (props) => {
               multiline
               placeholderTextColor={ValueSheet.colours.inputGrey}
               placeholder="Write as much as you'd like:"
-              style={styles.input}
+              style={[
+                styles.input,
+                sharedStyles["borderedContainer_" + theme],
+                sharedStyles["textColour_" + theme],
+              ]}
               onChangeText={setJournal}
               value={journal}
               numberOfLines={100}
@@ -96,20 +108,17 @@ const WellnessStep6 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
     alignItems: "center",
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 80,
     textAlign: "center",
   },
   input: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 14,
     fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
@@ -117,6 +126,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     padding: 10,
     textAlignVertical: "top",
+    borderRadius: 25,
   },
   buttons: {
     flexDirection: "row",
@@ -126,14 +136,12 @@ const styles = StyleSheet.create({
   textCon: {
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
   },
   button: {
     width: "47%",
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

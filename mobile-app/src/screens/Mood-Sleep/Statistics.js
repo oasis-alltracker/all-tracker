@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -14,19 +14,24 @@ import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
 import InAppReview from "react-native-in-app-review";
 import Spinner from "react-native-loading-spinner-overlay";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const Statistics = ({ trackingPreferences, updateStats }) => {
-  var thisSunday = new Date();
-  thisSunday.setDate(thisSunday.getDate() - ((thisSunday.getDay() + 7) % 7));
+  var day = new Date();
+  var thisSunday = moment(day).day(0);
+  const theme = useContext(ThemeContext).value;
 
   const [selectedSunday, setSelectedSunday] = useState(thisSunday);
   const [isLoading, setIsLoading] = useState(false);
 
-  const updateWeek = (dateChange) => {
-    var newDate = new Date(
-      selectedSunday.setDate(selectedSunday.getDate() + dateChange)
-    );
-    setSelectedSunday(newDate);
+  const decreaseWeek = () => {
+    var newSunday = moment(selectedSunday).day(-7);
+    setSelectedSunday(newSunday);
+  };
+
+  const increaseWeek = () => {
+    var newSunday = moment(selectedSunday).day(+7);
+    setSelectedSunday(newSunday);
   };
 
   useEffect(() => {
@@ -50,41 +55,55 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
       scrollEnabled={false}
     >
       <Spinner visible={isLoading}></Spinner>
-      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          {
+            backgroundColor: ValueSheet.colours[theme].yellow75,
+            borderColor: ValueSheet.colours[theme].borderYellow,
+          },
+        ]}
+      >
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/stats.png")}
         />
       </View>
 
-      <View style={styles.dateLineMain}>
+      <View style={sharedStyles.datePickerView}>
         <TouchableOpacity
-          style={styles.buttonMain}
-          onPress={() => updateWeek(-7)}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
+          onPress={decreaseWeek}
         >
           <Image
-            style={[styles.preButtonMain, styles.nextButtonMain]}
+            style={sharedStyles.decreaseDateImage}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
-        <>
-          <View style={sharedStyles.dateTextContainer}>
-            {moment(thisSunday).format("YYYYMMDD") ==
-            moment(selectedSunday).format("YYYYMMDD") ? (
-              <Text style={styles.dateNameMain}>This week</Text>
-            ) : (
-              <Text style={styles.dateNameMain}>
-                Week of {selectedSunday.toDateString().slice(4, -5)}
-              </Text>
-            )}
-          </View>
-        </>
+
+        <Text
+          style={[
+            sharedStyles.dateText,
+            sharedStyles["textColour_" + theme],
+            { fontSize: 26, marginVertical: 3.5 },
+          ]}
+        >
+          {thisSunday.isSame(selectedSunday, "day")
+            ? "This week"
+            : selectedSunday.format("[Week of] MMM D")}
+        </Text>
         <TouchableOpacity
-          style={styles.buttonMain}
-          onPress={() => updateWeek(7)}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
+          onPress={increaseWeek}
         >
           <Image
-            style={styles.preButtonMain}
+            style={sharedStyles.increaseDateImage}
             source={require("../../assets/images/left.png")}
           />
         </TouchableOpacity>
@@ -114,45 +133,5 @@ const styles = StyleSheet.create({
     overflow: "visible",
     paddingTop: 30,
     paddingBottom: 80,
-  },
-  dateLineMain: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: ValueSheet.colours.borderGrey,
-    borderRadius: 2,
-  },
-  buttonMain: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    borderWidth: 1,
-    borderTopColor: "transparent",
-    borderBottomColor: "transparent",
-    borderRightColor: ValueSheet.colours.grey,
-    borderLeftColor: ValueSheet.colours.grey,
-  },
-  dateNameMain: {
-    fontSize: 26,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryBold,
-  },
-  preButtonMain: {
-    width: 25,
-    height: 25,
-  },
-  nextButtonMain: {
-    transform: [
-      {
-        rotate: "180deg",
-      },
-    ],
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.yellow75,
-    borderColor: ValueSheet.colours.borderYellow,
   },
 });
