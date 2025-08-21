@@ -71,7 +71,7 @@ const RenderTodos = ({
         >
           {isCheck && (
             <Image
-              style={styles.checkImageRender}
+              style={[styles.checkImageRender, sharedStyles["tint_" + theme]]}
               source={require("../assets/images/check.png")}
             />
           )}
