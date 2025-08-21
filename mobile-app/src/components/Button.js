@@ -28,31 +28,19 @@ const Button = (props) => {
       typeof props.children === "string" ||
       typeof props.children === "number"
     ) {
-      if (positiveSelect) {
-        return (
-          <Text
-            style={[
-              styles.textStyle,
-              sharedStyles["textColour_light"],
-              props.textStyle,
-            ]}
-          >
-            {props.children}
-          </Text>
-        );
-      } else {
-        return (
-          <Text
-            style={[
-              styles.textStyle,
-              sharedStyles["textColour_" + theme],
-              props.textStyle,
-            ]}
-          >
-            {props.children}
-          </Text>
-        );
-      }
+      return (
+        <Text
+          style={[
+            styles.textStyle,
+            positiveSelect
+              ? sharedStyles["textColour_light"]
+              : sharedStyles["textColour_" + theme],
+            props.textStyle,
+          ]}
+        >
+          {props.children}
+        </Text>
+      );
     }
     return props.children;
   };
@@ -72,29 +60,20 @@ const Button = (props) => {
     );
   }
 
-  if (positiveSelect) {
-    return (
-      <TouchableOpacity
-        {...props}
-        style={[styles.button, sharedStyles["button_" + theme], props.style]}
-      >
-        {_renderInnerText()}
-      </TouchableOpacity>
-    );
-  } else {
-    return (
-      <TouchableOpacity
-        {...props}
-        style={[
-          styles.button,
-          sharedStyles["borderedContainer_" + theme],
-          props.style,
-        ]}
-      >
-        {_renderInnerText()}
-      </TouchableOpacity>
-    );
-  }
+  return (
+    <TouchableOpacity
+      {...props}
+      style={[
+        styles.button,
+        positiveSelect
+          ? sharedStyles["button_" + theme]
+          : sharedStyles["borderedContainer_" + theme],
+        props.style,
+      ]}
+    >
+      {_renderInnerText()}
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({

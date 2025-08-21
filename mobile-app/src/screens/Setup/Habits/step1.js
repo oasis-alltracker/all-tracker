@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, Platform } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  Platform,
+  useContext,
+} from "react";
 import {
   View,
   Text,
@@ -19,8 +25,11 @@ import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const HabitsCreation = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { width, height } = useWindowDimensions();
 
   const { selectedTrackers } = props.route.params;
@@ -255,15 +264,16 @@ const HabitsCreation = (props) => {
   const MyHabits = () => (
     <>
       <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
-        <Text style={styles.habitsTitle}>My habits</Text>
+        <Text style={[styles.habitsTitle, sharedStyles["textColour_" + theme]]}>
+          My habits
+        </Text>
         <TouchableOpacity
           onPress={() => {
-            setIsLoading(true);
             modalRef.create.open();
           }}
         >
           <Image
-            style={styles.plus}
+            style={[styles.plus, sharedStyles["tint_" + theme]]}
             source={require("../../../assets/images/plus512.png")}
           />
         </TouchableOpacity>
@@ -282,7 +292,6 @@ const HabitsCreation = (props) => {
               <TouchableOpacity
                 key={key.toString()}
                 onPress={() => {
-                  setIsLoading(true);
                   modalRef.update.open(true, {
                     isPositive: val.isPositive,
                     habitName: val.name,
@@ -294,13 +303,21 @@ const HabitsCreation = (props) => {
                 }}
                 style={[
                   styles.item,
+                  sharedStyles["border_" + theme],
                   key === habits.length - 1 && { borderBottomWidth: 2 },
                 ]}
               >
-                <Text style={styles.itemText}>{val.name}</Text>
+                <Text
+                  style={[styles.itemText, sharedStyles["textColour_" + theme]]}
+                >
+                  {val.name}
+                </Text>
                 <Text>
                   <View
-                    style={styles.habitImageContainer}
+                    style={[
+                      styles.habitImageContainer,
+                      sharedStyles["borderedContainer_" + theme],
+                    ]}
                     onPress={() => searchImage()}
                   >
                     <Image
@@ -317,22 +334,27 @@ const HabitsCreation = (props) => {
     </>
   );
 
-  const CreatHabits = () => (
+  const CreateHabits = () => (
     <>
-      <Text style={styles.title}>
+      <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
         Get started by creating habits you'd like to adopt
       </Text>
       <TouchableOpacity
         onPress={() => {
-          setIsLoading(true);
           modalRef.create.open();
         }}
-        style={[styles.addButton, { width: width - 30, height: height * 0.34 }]}
+        style={[
+          styles.addButton,
+          sharedStyles["border_" + theme],
+          { width: width - 30, height: height * 0.34 },
+        ]}
       >
-        <Text style={styles.buttonText}>
+        <Text style={[styles.buttonText, sharedStyles["textColour_" + theme]]}>
           You can do this later if you'd like
         </Text>
-        <View style={styles.plusCon}>
+        <View
+          style={[styles.plusCon, sharedStyles["secondaryBackground_" + theme]]}
+        >
           <Image
             style={styles.plusImage}
             source={require("../../../assets/images/plus.png")}
@@ -343,27 +365,35 @@ const HabitsCreation = (props) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.center}>
-        <View style={styles.imageCon}>
+        <View style={[styles.imageCon, sharedStyles["pinkContainer_" + theme]]}>
           <Image
             style={styles.image}
             source={require("../../../assets/images/habits512.png")}
           />
-          <Text style={styles.imageText}>habits</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            habits
+          </Text>
         </View>
-        {habits.length > 0 ? <MyHabits /> : <CreatHabits />}
+        {habits.length > 0 ? <MyHabits /> : <CreateHabits />}
       </View>
 
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -387,7 +417,6 @@ export default HabitsCreation;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -396,8 +425,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -407,14 +434,12 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     padding: 10,
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
@@ -429,10 +454,6 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   center: {
     alignItems: "center",
   },
@@ -445,13 +466,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: ValueSheet.colours.borderGrey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
@@ -472,7 +491,6 @@ const styles = StyleSheet.create({
   },
   habitsTitle: {
     fontSize: 31,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   plus: {
@@ -480,7 +498,6 @@ const styles = StyleSheet.create({
     height: 40,
   },
   itemText: {
-    color: ValueSheet.colours.black,
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
@@ -497,12 +514,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
   },
   item: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -513,7 +528,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: ValueSheet.colours.black50,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
 });

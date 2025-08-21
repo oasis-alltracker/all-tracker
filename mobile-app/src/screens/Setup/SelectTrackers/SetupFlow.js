@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
-  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Header, Button } from "../../../components";
@@ -14,6 +13,8 @@ import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const data = [
   {
@@ -25,6 +26,7 @@ const data = [
 ];
 
 const SetupFlow = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { width, height } = useWindowDimensions();
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,11 +96,14 @@ const SetupFlow = (props) => {
   };
 
   return (
-    <SafeAreaView edges={["bottom"]} style={styles.container}>
+    <SafeAreaView
+      edges={["bottom"]}
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Header />
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.middleContainer}>
-        <Text style={styles.title}>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
           Would you like go through the setup process?
         </Text>
 
@@ -107,16 +112,27 @@ const SetupFlow = (props) => {
             key={key}
             style={[
               styles.buttonCon,
+              sharedStyles["borderedContainer_" + theme],
               { width: width * 0.9 },
               active === key + 1 && {
-                backgroundColor: ValueSheet.colours.secondaryColour,
+                backgroundColor: ValueSheet.colours[theme].secondaryColour,
               },
             ]}
             onPress={() => {
               setActive(key + 1);
             }}
           >
-            <Text style={styles.yesNoText}>{val.text}</Text>
+            <Text
+              style={[
+                styles.yesNoText,
+                sharedStyles["textColour_" + theme],
+                active === key + 1 && {
+                  color: ValueSheet.colours.light.primaryColour,
+                },
+              ]}
+            >
+              {val.text}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -124,11 +140,15 @@ const SetupFlow = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -140,7 +160,6 @@ const SetupFlow = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     paddingBottom: 15,
     paddingHorizontal: 15,
     justifyContent: "space-between",
@@ -152,11 +171,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 110,
     marginBottom: 15,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 20,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     paddingHorizontal: 15,
     marginTop: 15,
@@ -165,7 +182,6 @@ const styles = StyleSheet.create({
   },
   yesNoText: {
     fontSize: 25,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     textAlign: "center",
   },
@@ -176,10 +192,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   middleContainer: {
     flex: 1,

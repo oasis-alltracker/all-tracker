@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -22,8 +22,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { todoCompare } from "../../../utils/commonUtils";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const Todos = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers } = props.route.params;
   const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -393,7 +396,9 @@ const Todos = (props) => {
   const Tasks = () => (
     <>
       <View style={[styles.line, { paddingTop: 15, marginBottom: 15 }]}>
-        <Text style={styles.tasksTitle}>My tasks</Text>
+        <Text style={[styles.tasksTitle, sharedStyles["textColour_" + theme]]}>
+          My tasks
+        </Text>
         <View style={styles.buttonItems}>
           <TouchableOpacity
             onPress={() => {
@@ -401,7 +406,7 @@ const Todos = (props) => {
             }}
           >
             <Image
-              style={styles.plus}
+              style={[styles.plus, sharedStyles["tint_" + theme]]}
               source={require("../../../assets/images/plus512.png")}
             />
           </TouchableOpacity>
@@ -458,19 +463,27 @@ const Todos = (props) => {
     </>
   );
 
-  const CreatTasks = () => (
+  const CreateTasks = () => (
     <>
-      <Text style={styles.title}>
+      <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
         Get started by creating tasks for yourself
       </Text>
       <TouchableOpacity
         onPress={() => {
           taskRef.current.open();
         }}
-        style={[styles.addButton, { height: height * 0.34, width: width - 30 }]}
+        style={[
+          styles.addButton,
+          sharedStyles["border_" + theme],
+          { height: height * 0.34, width: width - 30 },
+        ]}
       >
-        <Text style={styles.buttonText}>Click here to create a task</Text>
-        <View style={styles.plusCon}>
+        <Text style={[styles.buttonText, sharedStyles["textColour_" + theme]]}>
+          Click here to create a task
+        </Text>
+        <View
+          style={[styles.plusCon, sharedStyles["secondaryBackground_" + theme]]}
+        >
           <Image
             style={styles.plusImage}
             source={require("../../../assets/images/plus.png")}
@@ -555,26 +568,37 @@ const Todos = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView
+      style={[
+        styles.safeAreaContainer,
+        sharedStyles["pageBackground_" + theme],
+      ]}
+    >
       <Spinner visible={isLoading}></Spinner>
       <View style={styles.center}>
-        <View style={styles.imageCon}>
+        <View style={[styles.imageCon, sharedStyles["pinkContainer_" + theme]]}>
           <Image
             style={styles.image}
             source={require("../../../assets/images/to-dos512.png")}
           />
-          <Text style={styles.imageText}>to-dos</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            to-dos
+          </Text>
         </View>
-        {tasksAndToDos.length > 0 ? <Tasks /> : <CreatTasks />}
+        {tasksAndToDos.length > 0 ? <Tasks /> : <CreateTasks />}
       </View>
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -586,7 +610,6 @@ const Todos = (props) => {
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -595,8 +618,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -606,7 +627,6 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
@@ -624,13 +644,11 @@ const styles = StyleSheet.create({
   },
   tasksTitle: {
     fontSize: 31,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   title: {
     padding: 10,
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
@@ -645,20 +663,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     bottom: 0,
-    backgroundColor: ValueSheet.colours.secondaryColour27,
     alignItems: "center",
     paddingVertical: 15,
   },
   addButton: {
     borderWidth: 1.5,
-    borderColor: ValueSheet.colours.borderGrey75,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
     opacity: 0.7,
   },
   buttonText: {
-    color: ValueSheet.colours.black50,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingBottom: 15,
   },
@@ -675,10 +690,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

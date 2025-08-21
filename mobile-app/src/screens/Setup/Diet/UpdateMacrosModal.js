@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View, Platform } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import RNModal from "react-native-modal";
 import { Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Button } from "../../../components";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
+  const theme = useContext(ThemeContext).value;
   const [visible, setVisible] = useState(false);
 
   const [text, setText] = useState(false);
@@ -91,21 +94,36 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
       isVisible={visible}
       onBackButtonPress={() => backDropPressed()}
       onBackdropPress={() => backDropPressed()}
-      backdropColor={ValueSheet.colours.secondaryColour27}
+      backdropColor={ValueSheet.colours[theme].secondaryColour27}
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
+        <View
+          style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+        >
           <View style={[styles.row, { paddingBottom: 10 }]}>
-            <Image source={imageUri} style={styles.searchImage} />
-            <Text style={styles.inputTitle}>{text}</Text>
+            <Image
+              source={imageUri}
+              style={[styles.searchImage, sharedStyles["tint_" + theme]]}
+            />
+            <Text
+              style={[styles.inputTitle, sharedStyles["textColour_" + theme]]}
+            >
+              {text}
+            </Text>
           </View>
 
-          <View style={styles.countContainer}>
+          <View
+            style={[
+              styles.countContainer,
+              sharedStyles["borderedContainer_" + theme],
+            ]}
+          >
             <TextInput
-              style={styles.countText}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
+              style={[styles.countText, sharedStyles["textColour_" + theme]]}
               placeholder="0"
               keyboardType={isEntry ? "decimal-pad" : "number-pad"}
               onChangeText={setValue}
@@ -119,14 +137,16 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
                 <Button
                   textStyle={styles.unitText}
                   onPress={() => setUnits("kcal")}
-                  style={[styles.unitBtn, units != "kcal" && styles.inactive]}
+                  style={styles.unitBtn}
+                  positiveSelect={units === "kcal"}
                 >
                   kcal
                 </Button>
                 <Button
                   textStyle={styles.unitText}
                   onPress={() => setUnits("kJ")}
-                  style={[styles.unitBtn, units != "kJ" && styles.inactive]}
+                  style={styles.unitBtn}
+                  positiveSelect={units === "kJ"}
                 >
                   kJ
                 </Button>
@@ -137,7 +157,7 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
           <View style={styles.row2}>
             <Button
               onPress={() => backDropPressed()}
-              style={[styles.button, styles.back]}
+              style={styles.button}
               textStyle={styles.closeModalText}
             >
               Close
@@ -146,6 +166,7 @@ export default function UpdateMacrosModal({ getRef, onUpdateMacroValue }) {
               textStyle={styles.closeModalText}
               onPress={() => onSave()}
               style={styles.button}
+              positiveSelect={true}
             >
               Ok
             </Button>
@@ -167,11 +188,9 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 20,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -187,7 +206,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   inputTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
@@ -196,7 +214,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   countText: {
-    color: ValueSheet.colours.primaryColour,
     width: "100%",
     height: "100%",
     textAlign: "center",
@@ -208,14 +225,9 @@ const styles = StyleSheet.create({
     width: 280,
     marginTop: 10,
     height: 40,
-    borderColor: ValueSheet.colours.borderGrey75,
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   row2: {
     flexDirection: "row",
@@ -230,7 +242,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   closeModalText: {
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 18,
   },
@@ -244,10 +255,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 35,
     borderRadius: 12,
-  },
-  inactive: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   buttons: {
     marginTop: 15,
