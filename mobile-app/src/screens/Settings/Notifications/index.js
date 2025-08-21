@@ -714,7 +714,6 @@ const Notifications = () => {
   }, []);
 
   return (
-    //start here
     <SafeAreaView
       style={[styles.container, sharedStyles["pageBackground_" + theme]]}
     >
