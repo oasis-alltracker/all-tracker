@@ -6,9 +6,11 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import { ValueSheet } from "../ValueSheet";
+import { sharedStyles } from "../screens/styles";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 const RenderTodos = ({
   onPress = () => {},
@@ -18,6 +20,7 @@ const RenderTodos = ({
   updateToDoStatus,
   isMainPage,
 }) => {
+  const theme = useContext(ThemeContext).value;
   const [isCheck, setIsCheck] = useState(false);
   const [itemDate, setItemDate] = useState("noDueDate");
 
@@ -50,7 +53,10 @@ const RenderTodos = ({
   }, [item]);
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.itemRenderMain, sharedStyles["border_" + theme]]}
+    >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity
           onPress={async () => {
@@ -61,20 +67,34 @@ const RenderTodos = ({
               await updateToDoStatus(item);
             }
           }}
-          style={styles.checkRender}
+          style={[styles.checkRender, sharedStyles["border_" + theme]]}
         >
           {isCheck && (
             <Image
-              style={styles.checkImageRender}
+              style={[styles.checkImageRender, sharedStyles["tint_" + theme]]}
               source={require("../assets/images/check.png")}
             />
           )}
         </TouchableOpacity>
         <View style={{ width: width * 0.63 }}>
           {isCheck ? (
-            <Text style={styles.itemRenderTextMainStrikeThru}>{item.name}</Text>
+            <Text
+              style={[
+                styles.itemRenderTextMainStrikeThru,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
+              {item.name}
+            </Text>
           ) : (
-            <Text style={styles.itemRenderTextMain}>{item.name}</Text>
+            <Text
+              style={[
+                styles.itemRenderTextMain,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
+              {item.name}
+            </Text>
           )}
         </View>
       </View>
@@ -84,7 +104,14 @@ const RenderTodos = ({
             <>
               {moment(itemDate).format("YYYYMMDD") ==
               moment(currentDay).format("YYYYMMDD") ? (
-                <Text style={styles.dueTodayText}>Today</Text>
+                <Text
+                  style={[
+                    styles.dueTodayText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Today
+                </Text>
               ) : (
                 <>
                   {moment(itemDate).format("YYYYMMDD") <
@@ -93,7 +120,12 @@ const RenderTodos = ({
                       {itemDate.toDateString().slice(4, -4)}
                     </Text>
                   ) : (
-                    <Text style={styles.itemRenderText3Main}>
+                    <Text
+                      style={[
+                        styles.itemRenderText3Main,
+                        sharedStyles["textColour_" + theme],
+                      ]}
+                    >
                       {itemDate.toDateString().slice(4, -4)}
                     </Text>
                   )}
@@ -104,7 +136,14 @@ const RenderTodos = ({
             <View>
               {moment(itemDate).format("YYYYMMDD") ==
               moment(currentDay).format("YYYYMMDD") ? (
-                <Text style={styles.dueTodayText}>Today</Text>
+                <Text
+                  style={[
+                    styles.dueTodayText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Today
+                </Text>
               ) : (
                 <>
                   {moment(itemDate).format("YYYYMMDD") <
@@ -113,7 +152,12 @@ const RenderTodos = ({
                       {itemDate.toDateString().slice(4, -4)}
                     </Text>
                   ) : (
-                    <Text style={styles.itemRenderText3Main}>
+                    <Text
+                      style={[
+                        styles.itemRenderText3Main,
+                        sharedStyles["textColour_" + theme],
+                      ]}
+                    >
                       {itemDate.toDateString().slice(4, -4)}
                     </Text>
                   )}
@@ -142,7 +186,6 @@ const styles = StyleSheet.create({
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -157,7 +200,6 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -166,7 +208,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
   itemRenderTextMain: {
-    color: ValueSheet.colours.black,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
@@ -175,7 +216,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemRenderTextMainStrikeThru: {
-    color: ValueSheet.colours.black,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
@@ -185,19 +225,17 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
   itemRenderText2Main: {
-    color: ValueSheet.colours.borderPink,
+    color: ValueSheet.colours.light.borderPink,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   itemRenderText3Main: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   dueTodayText: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,

@@ -1,24 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { useState, useEffect, useContext } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const ActivityLevelSelection = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers, isEditingMacros } = props.route.params;
   var dietFactors = props.route.params.dietFactors;
   const [activityLevel, setActivityLevel] = useState(null);
-
-  const getButtonColour = (index) => {
-    if (index == activityLevel) {
-      return ValueSheet.colours.secondaryColour65;
-    } else {
-      return "transparent";
-    }
-  };
 
   const onNext = () => {
     if (activityLevel != null) {
@@ -59,19 +54,29 @@ const ActivityLevelSelection = (props) => {
   }, [props]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.center}>
-        <View style={styles.imageCon}>
+        <View
+          style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/images/diet.png")}
           />
-          <Text style={styles.imageText}>diet</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            diet
+          </Text>
         </View>
-        <Text style={styles.title}> How active are you?</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          {" "}
+          How active are you?
+        </Text>
         <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(0) }]}
+          style={[styles.bigButtons]}
           textStyle={styles.buttonsText}
+          positiveSelect={activityLevel == 0}
           onPress={() => {
             setActivityLevel(0);
             dietFactors.activityLevelIndex = 0;
@@ -80,8 +85,9 @@ const ActivityLevelSelection = (props) => {
           Not very active
         </Button>
         <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(1) }]}
+          style={[styles.bigButtons]}
           textStyle={styles.buttonsText}
+          positiveSelect={activityLevel == 1}
           onPress={() => {
             setActivityLevel(1);
             dietFactors.activityLevelIndex = 1;
@@ -90,8 +96,9 @@ const ActivityLevelSelection = (props) => {
           Moderately active
         </Button>
         <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(2) }]}
+          style={[styles.bigButtons]}
           textStyle={styles.buttonsText}
+          positiveSelect={activityLevel == 2}
           onPress={() => {
             setActivityLevel(2);
             dietFactors.activityLevelIndex = 2;
@@ -100,8 +107,9 @@ const ActivityLevelSelection = (props) => {
           Active
         </Button>
         <Button
-          style={[styles.bigButtons, { backgroundColor: getButtonColour(3) }]}
+          style={[styles.bigButtons]}
           textStyle={styles.buttonsText}
+          positiveSelect={activityLevel == 3}
           onPress={() => {
             setActivityLevel(3);
             dietFactors.activityLevelIndex = 3;
@@ -111,10 +119,14 @@ const ActivityLevelSelection = (props) => {
         </Button>
       </View>
       <View style={styles.buttons}>
-        <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
+        <Button onPress={() => onBack()} style={styles.button}>
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -126,7 +138,6 @@ const ActivityLevelSelection = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -135,8 +146,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -146,13 +155,11 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
@@ -165,14 +172,8 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   bigButtons: {
     width: "100%",
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
     height: 65,
     borderRadius: 30,
   },
