@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import { Switch } from "react-native";
+import { Switch, StyleSheet } from "react-native";
 import { ThemeContext } from "../contexts/ThemeProvider";
-import { sharedStyles } from "../screens/styles";
 import { ValueSheet } from "../ValueSheet";
 
 export default function ThemedSwitch(props) {
@@ -9,13 +8,28 @@ export default function ThemedSwitch(props) {
   return (
     <Switch
       {...props}
-      trackColor={sharedStyles["switchTrack_" + theme]}
+      trackColor={styles["switchTrack_" + theme]}
       ios_backgroundColor={ValueSheet.colours[theme].purple65}
       thumbColor={
         props.value
-          ? sharedStyles["switchThumbOn_" + theme]
-          : sharedStyles["switchThumbOff_" + theme]
+          ? styles["switchThumbOn_" + theme]
+          : styles["switchThumbOff_" + theme]
       }
     />
   );
 }
+
+const styles = StyleSheet.create({
+  switchTrack_dark: {
+    true: ValueSheet.colours.dark.secondaryColour65,
+    false: ValueSheet.colours.dark.purple,
+  },
+  switchThumbOn_dark: ValueSheet.colours.dark.secondaryColour,
+  switchThumbOff_dark: ValueSheet.colours.dark.purple,
+  switchTrack_light: {
+    true: ValueSheet.colours.light.secondaryColour27,
+    false: ValueSheet.colours.light.purple65,
+  },
+  switchThumbOn_light: ValueSheet.colours.light.secondaryColour,
+  switchThumbOff_light: ValueSheet.colours.light.purple,
+});
