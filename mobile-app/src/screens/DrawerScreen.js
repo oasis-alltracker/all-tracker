@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { TouchableOpacity, Image, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MenuIcon from "../assets/icons/menu";
@@ -6,10 +6,14 @@ import navigationService from "../navigators/navigationService";
 import { getAccessToken } from "../user/keychain";
 import UserAPI from "../api/user/userAPI";
 import { ValueSheet } from "../ValueSheet";
+import { ThemeContext } from "../contexts/ThemeProvider";
+import { sharedStyles } from "./styles";
+import { SharedObject } from "expo";
 
 const DrawerScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [buttons, setButtons] = useState([]);
+  const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
@@ -74,7 +78,9 @@ const DrawerScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <TouchableOpacity
         style={styles.menuBtn}
         onPress={() => navigation.closeDrawer()}
@@ -84,17 +90,17 @@ const DrawerScreen = ({ navigation }) => {
       {buttons.map((item, index) => (
         <TouchableOpacity
           onPress={item.onPress}
-          style={styles.button}
+          style={[styles.button, styles["line_" + theme]]}
           key={index}
         >
           <Image
             resizeMode="contain"
-            style={styles.image}
+            style={[styles.image, sharedStyles["tint_" + theme]]}
             source={item.image}
           />
         </TouchableOpacity>
       ))}
-      <View style={styles.logoContainer}>
+      <View style={[styles.logoContainer, styles["line_" + theme]]}>
         <Image
           resizeMode="contain"
           style={styles.logoImage}
@@ -107,23 +113,26 @@ const DrawerScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   menuBtn: {
     marginLeft: 20,
     marginVertical: 30,
   },
+  line_dark: {
+    borderTopColor: ValueSheet.colours.dark.borderGrey,
+  },
+  line_light: {
+    borderTopColor: ValueSheet.colours.light.grey,
+  },
   button: {
     borderTopWidth: 2,
-    borderTopColor: ValueSheet.colours.grey,
     height: 80,
     alignItems: "center",
     justifyContent: "center",
   },
   logoContainer: {
     borderTopWidth: 2,
-    borderTopColor: ValueSheet.colours.grey,
     height: 300,
     alignItems: "center",
     justifyContent: "center",
@@ -131,7 +140,6 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    tintColor: ValueSheet.colours.primaryColour,
   },
   logoImage: {
     width: 120,
