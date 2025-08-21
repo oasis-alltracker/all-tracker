@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 32,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     marginTop: 50,
   },
   text: {
@@ -49,14 +48,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   textBold: {
     alignSelf: "center",
     textAlign: "center",
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
 });
 

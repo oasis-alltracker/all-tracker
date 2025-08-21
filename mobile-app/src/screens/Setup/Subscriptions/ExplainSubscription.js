@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   poster: {
     width: "100%",
     resizeMode: "contain",
-    backgroundColor: ValueSheet.colours.imageBackgroundYellow,
+    backgroundColor: ValueSheet.colours.dark.imageBackgroundYellow,
   },
   text: {
     fontFamily: ValueSheet.fonts.primaryFont,

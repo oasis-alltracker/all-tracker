@@ -1126,7 +1126,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 25,
@@ -1137,7 +1136,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
@@ -1163,7 +1161,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   screenName: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 34,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
@@ -1171,7 +1168,6 @@ export const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 32,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 35,
     marginBottom: 8,
@@ -1179,14 +1175,12 @@ export const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginLeft: 15,
     flex: 1,
   },
   timeText: {
     fontSize: 17,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
 });
