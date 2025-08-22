@@ -68,7 +68,7 @@ const SleepStep2 = (props) => {
               sharedStyles["borderedContainer_" + theme],
               { width: width * 0.9 },
               active === key + 1 && {
-                backgroundColor: ValueSheet.colours.secondaryColour,
+                backgroundColor: ValueSheet.colours[theme].secondaryColour,
               },
             ]}
             onPress={() => {
@@ -79,8 +79,9 @@ const SleepStep2 = (props) => {
               style={[
                 styles.yesNoText,
                 sharedStyles["textColour_" + theme],
+                { color: ValueSheet.colours[theme].primaryColour },
                 active === key + 1 && {
-                  color: ValueSheet.colours[theme].invertedPrimaryColour,
+                  color: ValueSheet.colours.light.primaryColour,
                 },
               ]}
             >
