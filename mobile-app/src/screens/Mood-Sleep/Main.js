@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Image,
   ScrollView,
@@ -12,6 +12,7 @@ import moment from "moment";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
 import navigationService from "../../navigators/navigationService";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const moodData = [
   {
@@ -58,6 +59,7 @@ export default function Main({
   wellnessReportForDay,
   sleepReportForDay,
 }) {
+  const theme = useContext(ThemeContext).value;
   const today = new Date();
   const { width, height } = useWindowDimensions();
 
@@ -73,7 +75,12 @@ export default function Main({
           source={require("../../assets/images/soul-white.png")}
         />
       </View>
-      <View style={sharedStyles.datePickerView}>
+      <View
+        style={[
+          sharedStyles.datePickerView,
+          sharedStyles["datePickerView_" + theme],
+        ]}
+      >
         <TouchableOpacity
           style={sharedStyles.changeDateButton}
           onPress={() => updateDate(-1)}
@@ -87,9 +94,21 @@ export default function Main({
           <View style={sharedStyles.dateTextContainer}>
             {moment(day).format("YYYYMMDD") ==
             moment(today).format("YYYYMMDD") ? (
-              <Text style={sharedStyles.dateText}>Today</Text>
+              <Text
+                style={[
+                  sharedStyles.dateText,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
+                Today
+              </Text>
             ) : (
-              <Text style={sharedStyles.dateText}>
+              <Text
+                style={[
+                  sharedStyles.dateText,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
                 {day.toDateString().slice(4, -5)}
               </Text>
             )}

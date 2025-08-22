@@ -253,7 +253,12 @@ const Main = ({
           />
         </View>
 
-        <View style={sharedStyles.datePickerView}>
+        <View
+          style={[
+            sharedStyles.datePickerView,
+            sharedStyles["datePickerView_" + theme],
+          ]}
+        >
           <TouchableOpacity
             style={[
               sharedStyles.changeDateButton,

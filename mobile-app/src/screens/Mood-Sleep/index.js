@@ -1,5 +1,5 @@
 import { ValueSheet } from "../../ValueSheet";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -24,8 +24,10 @@ import SleepReportModal from "./reviews/sleep/sleepReportModal";
 import moment from "moment";
 import Toast from "react-native-toast-message";
 import WellnessReportModal from "./reviews/mood/wellnessReportModal";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const MoodSleep = ({ navigation }) => {
+  const theme = useContext(ThemeContext).value;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
 
@@ -307,9 +309,9 @@ const MoodSleep = ({ navigation }) => {
                 key={key.toString()}
                 style={[
                   sharedStyles.dot,
+                  sharedStyles["dot_" + theme],
                   key === index && {
-                    backgroundColor: ValueSheet.colours.primaryColour,
-                    borderColor: ValueSheet.colours.borderNavy,
+                    backgroundColor: ValueSheet.colours[theme].primaryColour,
                   },
                 ]}
               />

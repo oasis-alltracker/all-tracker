@@ -27,8 +27,13 @@ export const sharedStyles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     borderWidth: 1,
-    borderColor: ValueSheet.colours.borderGrey,
     borderRadius: 2,
+  },
+  datePickerView_dark: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
+  },
+  datePickerView_light: {
+    borderColor: ValueSheet.colours.light.borderGrey,
   },
   changeDateButton: {
     paddingVertical: 15,
@@ -46,12 +51,6 @@ export const sharedStyles = StyleSheet.create({
     borderRightColor: ValueSheet.colours.light.grey,
     borderLeftColor: ValueSheet.colours.light.grey,
     backgroundColor: ValueSheet.colours.light.secondaryColour,
-  },
-  imageTextMain: {
-    fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
-    fontFamily: ValueSheet.fonts.primaryFont,
-    marginTop: 10,
   },
   increaseDateImage: {
     width: 27,
@@ -72,7 +71,6 @@ export const sharedStyles = StyleSheet.create({
   },
   dateText: {
     fontSize: 33,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   trackerDashView: {
@@ -100,7 +98,12 @@ export const sharedStyles = StyleSheet.create({
     backgroundColor: "transparent",
     marginHorizontal: 5,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.black25,
+  },
+  dot_dark: {
+    borderColor: ValueSheet.colours.dark.borderNavy,
+  },
+  dot_light: {
+    borderColor: ValueSheet.colours.light.borderNavy,
   },
   pagination: {
     flexDirection: "row",
