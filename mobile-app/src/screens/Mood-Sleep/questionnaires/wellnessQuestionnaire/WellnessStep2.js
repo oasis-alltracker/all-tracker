@@ -55,7 +55,7 @@ const WellnessStep2 = (props) => {
             ]}
           >
             <TextInput
-              placeholderTextColor={ValueSheet.colours.inputGrey}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               placeholder="Sad, happy, tired, excited.."
               style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setMood}

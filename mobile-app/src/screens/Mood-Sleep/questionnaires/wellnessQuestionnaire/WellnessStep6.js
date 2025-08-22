@@ -74,7 +74,7 @@ const WellnessStep6 = (props) => {
           >
             <TextInput
               multiline
-              placeholderTextColor={ValueSheet.colours.inputGrey}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               placeholder="Write as much as you'd like:"
               style={[
                 styles.input,

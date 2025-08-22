@@ -86,7 +86,7 @@ export default function MoodJournalModal({ getRef, updateReport }) {
           >
             <TextInput
               multiline
-              placeholderTextColor={ValueSheet.colours.inputGrey}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               placeholder="Write as much detail as you'd like:"
               style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setJournal}

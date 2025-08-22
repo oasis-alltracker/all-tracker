@@ -88,7 +88,7 @@ const WellnessStep1 = (props) => {
               sharedStyles["borderedContainer_" + theme],
               { height: height * 0.09, width: width * 0.9 },
               active === key + 1 && {
-                backgroundColor: ValueSheet.colours.secondaryColour,
+                backgroundColor: ValueSheet.colours.light.secondaryColour,
               },
             ]}
           >

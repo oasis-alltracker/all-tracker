@@ -72,15 +72,12 @@ export default function Main({
       <View
         style={[
           sharedStyles.headerImageContainer,
-          {
-            backgroundColor: ValueSheet.colours[theme].yellow75,
-            borderColor: ValueSheet.colours[theme].borderYellow,
-          },
+          sharedStyles["yellowContainer_" + theme],
         ]}
       >
         <Image
-          style={[sharedStyles.headerImage, , sharedStyles.tint_light]}
-          source={require("../../assets/images/soul-white.png")}
+          style={sharedStyles.headerImage}
+          source={require("../../assets/images/soul-blue.png")}
         />
       </View>
       <View style={sharedStyles.datePickerView}>

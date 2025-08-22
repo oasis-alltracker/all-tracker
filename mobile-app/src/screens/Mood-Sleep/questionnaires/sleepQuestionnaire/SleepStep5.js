@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 120,
     marginBottom: 15,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,

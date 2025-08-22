@@ -55,7 +55,7 @@ const WellnessStep5 = (props) => {
             ]}
           >
             <TextInput
-              placeholderTextColor={ValueSheet.colours.inputGrey}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               placeholder="Friends, myself, dog..."
               style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setCompany}

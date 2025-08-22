@@ -69,7 +69,7 @@ export default function DreamJournalModal({ getRef, updateReport }) {
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
-      backdropColor={ValueSheet.colours.secondaryColour27}
+      backdropColor={ValueSheet.colours[theme].secondaryColour27}
       style={styles.modal}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -87,7 +87,7 @@ export default function DreamJournalModal({ getRef, updateReport }) {
           >
             <TextInput
               multiline
-              placeholderTextColor={ValueSheet.colours.inputGrey}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               placeholder="Write as much detail as you'd like:"
               style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setJournal}

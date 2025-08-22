@@ -55,7 +55,7 @@ const WellnessStep3 = (props) => {
             ]}
           >
             <TextInput
-              placeholderTextColor={ValueSheet.colours.inputGrey}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               placeholder="Reading, watching TV.."
               style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setActivity}
