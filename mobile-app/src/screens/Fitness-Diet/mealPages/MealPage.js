@@ -71,6 +71,7 @@ const MealPage = ({ navigation, route }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log("route params" + JSON.stringify(route.params));
       console.log(route.params?.foodEntriesChanged || false);
       foodEntriesChangedRef.current = route.params?.foodEntriesChanged || false;
     }, [])

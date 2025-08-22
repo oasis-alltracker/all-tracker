@@ -157,7 +157,9 @@ const SearchFood = ({ navigation, route }) => {
                 params["dietUnit"] = route.params?.dietUnit;
                 params["foodEntriesChanged"] = route.params?.foodEntriesChanged;
               }
-              console.log(params);
+              console.log(
+                "params passed by search food page" + JSON.stringify(params)
+              );
               navigationService.navigate(prevPage, params);
             }}
           >
