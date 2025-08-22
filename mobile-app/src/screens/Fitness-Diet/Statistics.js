@@ -48,7 +48,12 @@ export default function Statistics({ dietGoals, day, updateStats }) {
           source={require("../../assets/images/stats.png")}
         />
       </View>
-      <View style={sharedStyles.datePickerView}>
+      <View
+        style={[
+          sharedStyles.datePickerView,
+          sharedStyles["datePickerView_" + theme],
+        ]}
+      >
         <TouchableOpacity
           style={[
             sharedStyles.changeDateButton,

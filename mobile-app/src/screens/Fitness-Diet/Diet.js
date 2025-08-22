@@ -277,7 +277,12 @@ export default function Diet({
           </View>
         </View>
 
-        <View style={sharedStyles.datePickerView}>
+        <View
+          style={[
+            sharedStyles.datePickerView,
+            sharedStyles["datePickerView_" + theme],
+          ]}
+        >
           <TouchableOpacity
             style={[
               sharedStyles.changeDateButton,
