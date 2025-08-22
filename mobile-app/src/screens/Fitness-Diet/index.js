@@ -27,8 +27,6 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const FitnessDiet = ({ navigation, route }) => {
   const theme = useContext(ThemeContext).value;
-  // var { refreshGoals } = route.params?.isEditingGoals || false;
-  // var refreshMeal = route.params?.refreshMeal || null;
   const [pageIndex, setPageIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);

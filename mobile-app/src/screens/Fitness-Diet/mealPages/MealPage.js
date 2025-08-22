@@ -70,7 +70,8 @@ const MealPage = ({ navigation, route }) => {
   }, [meal, dateString]);
 
   useEffect(() => {
-    foodEntriesChangedRef.current = route.params?.foodEntriesChanged || false;
+    foodEntriesChangedRef.current =
+      route.params?.foodEntriesChanged || route.params?.refreshMeal || false;
   }, [route]);
 
   const extractDate = () => {
@@ -170,9 +171,7 @@ const MealPage = ({ navigation, route }) => {
           onPress={() => {
             var params = {};
 
-            if (refreshMeal != null) {
-              params["refreshMeal"] = refreshMeal;
-            } else if (foodEntriesChangedRef.current) {
+            if (foodEntriesChangedRef.current) {
               params["refreshMeal"] = mealName.toLowerCase();
             }
             navigationService.navigate("fitness-diet", params);
