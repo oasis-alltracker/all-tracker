@@ -6,17 +6,20 @@ import {
   Text,
   useWindowDimensions,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import navigationService from "../navigators/navigationService";
 import { isAccountCreated } from "../user/keychain";
 import { ValueSheet } from "../ValueSheet";
+import { ThemeContext } from "../contexts/ThemeProvider";
+import { sharedStyles } from "./styles";
 
 const Landing = () => {
   const { width, height } = useWindowDimensions();
   const [viewportWidth, setViewPortWidth] = useState(
     width < height ? width : height
   );
+  const theme = useContext(ThemeContext).value;
 
   useEffect(() => {
     setViewPortWidth(width < height ? width : height);
@@ -32,7 +35,9 @@ const Landing = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Image
         style={[styles.logo, { height: 0.38 * height }]}
         source={require("../assets/images/landing-logo.png")}
@@ -52,6 +57,7 @@ const Landing = () => {
               width: viewportWidth - viewportWidth * 0.1,
               height: height * 0.08,
             },
+            sharedStyles["button_" + theme],
           ]}
           onPress={() => onPressGetStarted()}
         >
@@ -67,8 +73,6 @@ const Landing = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
-    backgroundColor: ValueSheet.colours.background,
     paddingTop: 5,
   },
   logo: {
@@ -87,13 +91,11 @@ const styles = StyleSheet.create({
   btnContainer: {
     borderRadius: 60,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey50,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: ValueSheet.colours.secondaryColour,
   },
   btnText: {
-    color: ValueSheet.colours.textPink,
+    color: ValueSheet.colours.light.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     justifyContent: "center",
     alignItems: "center",

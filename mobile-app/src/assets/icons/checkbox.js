@@ -1,7 +1,10 @@
 import * as React from "react";
 import Svg, { Rect, Path } from "react-native-svg";
+import { ThemeContext } from "../../contexts/ThemeProvider";
+import { ValueSheet } from "../../ValueSheet";
 
 function SvgComponent(props) {
+  const theme = React.useContext(ThemeContext).value;
   return (
     <Svg
       width={28}
@@ -13,7 +16,12 @@ function SvgComponent(props) {
     >
       {props.checked ? (
         <>
-          <Rect width={28} height={28} rx={10} fill="#D7F6FF" />
+          <Rect
+            width={28}
+            height={28}
+            rx={10}
+            fill={ValueSheet.colours[theme].secondaryColour}
+          />
           <Path
             d="M10 14.42l2.41 2.42L17.24 12"
             stroke="#1C1B20"
