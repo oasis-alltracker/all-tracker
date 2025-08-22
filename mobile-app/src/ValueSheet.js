@@ -1,5 +1,3 @@
-import { invert } from "lodash";
-
 export const ValueSheet = {
   fonts: {
     primaryFont: "Quicksand",
