@@ -69,11 +69,16 @@ const ExplainSubscription = (props) => {
           justifyContent: "center",
         }}
       >
-        <Text style={sharedStyles["textColour_" + theme]}>
-          <Text style={[styles.title, { marginTop: height * 0.05 }]}>
-            1 month <Text style={styles.bold}>free{"\n"}</Text>then $2.99/month
-          </Text>
+        <Text
+          style={[
+            styles.title,
+            sharedStyles["textColour_" + theme],
+            { marginTop: height * 0.05 },
+          ]}
+        >
+          1 month <Text style={styles.bold}>free{"\n"}</Text>then $2.99/month
         </Text>
+
         <View style={styles.middleContainer}>
           <Image
             source={require("../../../assets/images/subscription-image.png")}
@@ -82,23 +87,23 @@ const ExplainSubscription = (props) => {
               { height: height * 0.26, marginBottom: height * 0.02 },
             ]}
           />
-          <Text style={sharedStyles["textColour_" + theme]}>
-            <Text style={styles.text}>
-              Find <Text style={styles.bold}>equilibrium{"\n"}</Text>
-            </Text>
-            <Text style={styles.text}>
-              Discover <Text style={styles.bold}>balance{"\n"}</Text>
-            </Text>
-            <Text style={styles.text}>
-              Unleash your{" "}
-              <Text
-                style={[
-                  styles.bold,
-                  { color: ValueSheet.colours[theme].textPink },
-                ]}
-              >
-                Oasis
-              </Text>
+          <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            Find <Text style={styles.bold}>equilibrium</Text>
+          </Text>
+          <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            Discover <Text style={styles.bold}>balance</Text>
+          </Text>
+          <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            Unleash your
+            <Text
+              style={[
+                styles.bold,
+                sharedStyles["textColour_" + theme],
+                { color: ValueSheet.colours[theme].textPink },
+              ]}
+            >
+              {" "}
+              Oasis
             </Text>
           </Text>
           <View style={{ width: width * 0.8 }}>
@@ -118,6 +123,7 @@ const ExplainSubscription = (props) => {
 
       <Button
         onPress={() => subscribe()}
+        positiveSelect={true}
         style={[styles.nextButton, { height: height * 0.065 }]}
       >
         Subscribe
