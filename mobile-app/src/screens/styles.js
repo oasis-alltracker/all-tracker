@@ -85,12 +85,6 @@ export const sharedStyles = StyleSheet.create({
     fontSize: 28,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
-  trackerTitleColour_dark: {
-    color: ValueSheet.colours.dark.primaryColour,
-  },
-  trackerTitleColour_light: {
-    color: ValueSheet.colours.light.primaryColour,
-  },
   dot: {
     width: 16,
     height: 16,

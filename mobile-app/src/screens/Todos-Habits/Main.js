@@ -315,7 +315,7 @@ const Main = ({
               <Text
                 style={[
                   sharedStyles.trackerTitle,
-                  sharedStyles["trackerTitleColour_" + theme],
+                  sharedStyles["textColour_" + theme],
                 ]}
               >
                 Habits
@@ -531,7 +531,7 @@ const Main = ({
               <Text
                 style={[
                   sharedStyles.trackerTitle,
-                  sharedStyles["trackerTitleColour_" + theme],
+                  sharedStyles["textColour_" + theme],
                 ]}
               >
                 To-dos
