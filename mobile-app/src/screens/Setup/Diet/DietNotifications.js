@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Platform,
   Image,
-  Switch,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "../../../components";
@@ -20,6 +19,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { ValueSheet } from "../../../ValueSheet";
 import { sharedStyles } from "../../styles";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
+import ThemedSwitch from "../../../components/ThemedSwitch";
 
 const DietNotifications = (props) => {
   const theme = useContext(ThemeContext).value;
@@ -401,20 +401,11 @@ const DietNotifications = (props) => {
             sharedStyles["borderedContainer_" + theme],
           ]}
         >
-          <Switch
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={breakfastToggled}
             value={isBreakfastEnabled}
-            trackColor={{
-              true: ValueSheet.colours[theme].secondaryColour,
-              false: ValueSheet.colours[theme].purple,
-            }}
-            thumbColor={
-              isBreakfastEnabled
-                ? ValueSheet.colours[theme].secondaryColour
-                : ValueSheet.colours[theme].purple
-            }
           />
           <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
             Breakfast
@@ -445,7 +436,9 @@ const DietNotifications = (props) => {
                   }}
                   title="toggleMinMaxDate"
                 >
-                  <Text style={styles.timeText}>
+                  <Text
+                    style={[styles.timeText, sharedStyles["textColour_light"]]}
+                  >
                     {formatDateObject(breakfastTime)}
                   </Text>
                 </TouchableOpacity>
@@ -473,20 +466,11 @@ const DietNotifications = (props) => {
             sharedStyles["borderedContainer_" + theme],
           ]}
         >
-          <Switch
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={lunchToggled}
             value={isLunchEnabled}
-            trackColor={{
-              true: ValueSheet.colours[theme].secondaryColour,
-              false: ValueSheet.colours[theme].purple,
-            }}
-            thumbColor={
-              isLunchEnabled
-                ? ValueSheet.colours[theme].secondaryColour
-                : ValueSheet.colours[theme].purple
-            }
           />
           <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
             Lunch
@@ -517,7 +501,9 @@ const DietNotifications = (props) => {
                   }}
                   title="toggleMinMaxDate"
                 >
-                  <Text style={styles.timeText}>
+                  <Text
+                    style={[styles.timeText, sharedStyles["textColour_light"]]}
+                  >
                     {formatDateObject(lunchTime)}
                   </Text>
                 </TouchableOpacity>
@@ -545,20 +531,11 @@ const DietNotifications = (props) => {
             sharedStyles["borderedContainer_" + theme],
           ]}
         >
-          <Switch
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={dinnerToggled}
             value={isDinnerEnabled}
-            trackColor={{
-              true: ValueSheet.colours[theme].secondaryColour,
-              false: ValueSheet.colours[theme].purple,
-            }}
-            thumbColor={
-              isDinnerEnabled
-                ? ValueSheet.colours[theme].secondaryColour
-                : ValueSheet.colours[theme].purple
-            }
           />
           <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
             Dinner
@@ -589,7 +566,9 @@ const DietNotifications = (props) => {
                   }}
                   title="toggleMinMaxDate"
                 >
-                  <Text style={styles.timeText}>
+                  <Text
+                    style={[styles.timeText, sharedStyles["textColour_light"]]}
+                  >
                     {formatDateObject(dinnerTime)}
                   </Text>
                 </TouchableOpacity>

@@ -4,11 +4,9 @@ import RNModal from "react-native-modal";
 import {
   Image,
   StyleSheet,
-  useWindowDimensions,
   Platform,
   TouchableOpacity,
   Alert,
-  Switch,
   ActivityIndicator,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -18,6 +16,7 @@ import { getAccessToken } from "../../../user/keychain";
 import { ValueSheet } from "../../../ValueSheet";
 import { sharedStyles } from "../../styles";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
+import ThemedSwitch from "../../../components/ThemedSwitch";
 
 export default function HabitNotificationsModal({ getRef, reopenMain }) {
   const theme = useContext(ThemeContext).value;
@@ -322,20 +321,11 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
           <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
             Notifications
           </Text>
-          <Switch
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={onToggle}
             value={isNotificationsOn}
-            trackColor={{
-              true: ValueSheet.colours[theme].secondaryColour,
-              false: ValueSheet.colours[theme].purple,
-            }}
-            thumbColor={
-              isNotificationsOn
-                ? ValueSheet.colours[theme].secondaryColour
-                : ValueSheet.colours[theme].purple
-            }
           />
         </View>
         <View style={styles.scheduleContainer}>

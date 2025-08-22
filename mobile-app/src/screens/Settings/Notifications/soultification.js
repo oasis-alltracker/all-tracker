@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   Platform,
-  Switch,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
 import { getAccessToken } from "../../../user/keychain";
@@ -555,7 +554,7 @@ const Soultification = ({
                       style={[
                         styles.smallText,
                         activeSchedule1[index]
-                          ? { color: ValueSheet.colours.light.primaryColour }
+                          ? sharedStyles["textColour_light"]
                           : sharedStyles["textColour_" + theme],
                       ]}
                     >
@@ -594,7 +593,7 @@ const Soultification = ({
                       <Text
                         style={[
                           styles.timeText,
-                          sharedStyles["textColour_" + theme],
+                          sharedStyles["textColour_light"],
                         ]}
                       >
                         {formatDateObject(timeSchedule1)}
@@ -725,7 +724,7 @@ const Soultification = ({
                       <Text
                         style={[
                           styles.timeText,
-                          sharedStyles["textColour_" + theme],
+                          sharedStyles["textColour_light"],
                         ]}
                       >
                         {formatDateObject(timeSchedule2)}
@@ -856,7 +855,7 @@ const Soultification = ({
                       <Text
                         style={[
                           styles.timeText,
-                          sharedStyles["textColour_" + theme],
+                          sharedStyles["textColour_light"],
                         ]}
                       >
                         {formatDateObject(timeSchedule3)}

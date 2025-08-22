@@ -1,16 +1,9 @@
-import React, {
-  useState,
-  useMemo,
-  useEffect,
-  useCallback,
-  useContext,
-} from "react";
+import { useState, useMemo, useEffect, useCallback, useContext } from "react";
 import {
   useWindowDimensions,
   Text,
   View,
   TouchableOpacity,
-  Switch,
   Platform,
 } from "react-native";
 import Modal from "react-native-modal";
@@ -24,6 +17,7 @@ import { ValueSheet } from "../ValueSheet";
 import Toast from "react-native-toast-message";
 import { sharedStyles } from "../screens/styles";
 import { ThemeContext } from "../contexts/ThemeProvider";
+import ThemedSwitch from "./ThemedSwitch";
 
 const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -486,20 +480,11 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
         <View
           style={[styles.reminderContainer, sharedStyles["border_" + theme]]}
         >
-          <Switch
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={notificationsToggled}
             value={isReminderEnabled}
-            trackColor={{
-              true: ValueSheet.colours[theme].secondaryColour,
-              false: ValueSheet.colours[theme].purple,
-            }}
-            thumbColor={
-              isReminderEnabled
-                ? ValueSheet.colours[theme].secondaryColour
-                : ValueSheet.colours[theme].purple
-            }
           />
           <Text
             style={[styles.reminderTitle, sharedStyles["textColour_" + theme]]}
