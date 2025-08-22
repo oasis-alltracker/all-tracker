@@ -88,13 +88,13 @@ const ExplainSubscription = (props) => {
             ]}
           />
           <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
-            Find <Text style={styles.bold}>equilibrium{"\n"}</Text>
+            Find <Text style={styles.bold}>equilibrium</Text>
           </Text>
           <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
-            Discover <Text style={styles.bold}>balance{"\n"}</Text>
+            Discover <Text style={styles.bold}>balance</Text>
           </Text>
           <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
-            Unleash your{" "}
+            Unleash your
             <Text
               style={[
                 styles.bold,
