@@ -47,15 +47,17 @@ const WellnessStep2 = (props) => {
             </Text>
           </View>
 
-          <View style={[styles.textCon, { width: width * 0.9 }]}>
+          <View
+            style={[
+              styles.textCon,
+              sharedStyles["borderedContainer_" + theme],
+              { width: width * 0.9 },
+            ]}
+          >
             <TextInput
               placeholderTextColor={ValueSheet.colours.inputGrey}
               placeholder="Sad, happy, tired, excited.."
-              style={[
-                styles.input,
-                sharedStyles["borderedContainer_" + theme],
-                sharedStyles["textColour_" + theme],
-              ]}
+              style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setMood}
               value={mood}
             />

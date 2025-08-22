@@ -47,15 +47,17 @@ const WellnessStep5 = (props) => {
             </Text>
           </View>
 
-          <View style={[styles.textCon, { width: width * 0.9 }]}>
+          <View
+            style={[
+              styles.textCon,
+              sharedStyles["borderedContainer_" + theme],
+              { width: width * 0.9 },
+            ]}
+          >
             <TextInput
               placeholderTextColor={ValueSheet.colours.inputGrey}
               placeholder="Friends, myself, dog..."
-              style={[
-                styles.input,
-                sharedStyles["borderedContainer_" + theme],
-                sharedStyles["textColour_" + theme],
-              ]}
+              style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setCompany}
               value={company}
             />
