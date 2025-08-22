@@ -87,23 +87,22 @@ const ExplainSubscription = (props) => {
               { height: height * 0.26, marginBottom: height * 0.02 },
             ]}
           />
-          <Text style={sharedStyles["textColour_" + theme]}>
-            <Text style={styles.text}>
-              Find <Text style={styles.bold}>equilibrium{"\n"}</Text>
-            </Text>
-            <Text style={styles.text}>
-              Discover <Text style={styles.bold}>balance{"\n"}</Text>
-            </Text>
-            <Text style={styles.text}>
-              Unleash your{" "}
-              <Text
-                style={[
-                  styles.bold,
-                  { color: ValueSheet.colours[theme].textPink },
-                ]}
-              >
-                Oasis
-              </Text>
+          <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            Find <Text style={styles.bold}>equilibrium{"\n"}</Text>
+          </Text>
+          <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            Discover <Text style={styles.bold}>balance{"\n"}</Text>
+          </Text>
+          <Text style={[styles.text, sharedStyles["textColour_" + theme]]}>
+            Unleash your{" "}
+            <Text
+              style={[
+                styles.bold,
+                sharedStyles["textColour_" + theme],
+                { color: ValueSheet.colours[theme].textPink },
+              ]}
+            >
+              Oasis
             </Text>
           </Text>
           <View style={{ width: width * 0.8 }}>
