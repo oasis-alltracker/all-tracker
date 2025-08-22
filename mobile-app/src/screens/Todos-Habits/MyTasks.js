@@ -345,7 +345,10 @@ const MyTasks = ({
         removeClippedSubviews={false}
       >
         <View
-          style={[sharedStyles.headerImageContainer, styles.imageContainer]}
+          style={[
+            sharedStyles.headerImageContainer,
+            sharedStyles["pinkContainer_" + theme],
+          ]}
         >
           <Image
             style={sharedStyles.headerImage}
@@ -537,9 +540,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.light.pink65,
-    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });

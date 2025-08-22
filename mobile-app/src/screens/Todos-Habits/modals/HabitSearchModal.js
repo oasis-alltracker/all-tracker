@@ -209,12 +209,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "transparent",
   },
-  habitSelectorColour_light: {
-    backgroundColor: ValueSheet.colours.light.secondaryColour65,
-  },
-  habitSelectorColour_dark: {
-    backgroundColor: ValueSheet.colours.dark.secondaryColour65,
-  },
   safeAreaContainer: {
     flex: 1,
   },

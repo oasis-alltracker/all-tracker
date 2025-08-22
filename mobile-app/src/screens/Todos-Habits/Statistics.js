@@ -52,7 +52,12 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
       scrollEnabled={false}
     >
       <Spinner visible={isLoading}></Spinner>
-      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          sharedStyles["pinkContainer_" + theme],
+        ]}
+      >
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/stats.png")}
@@ -159,9 +164,5 @@ const styles = StyleSheet.create({
         rotate: "180deg",
       },
     ],
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.light.pink65,
-    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });
