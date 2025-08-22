@@ -91,7 +91,7 @@ const SleepStep6 = (props) => {
           <View style={styles.buttons}>
             <Button
               onPress={() => navigationService.goBack()}
-              style={[styles.button, styles.back]}
+              style={[styles.button]}
             >
               Back
             </Button>
@@ -144,9 +144,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
   },
   center: {
     alignItems: "center",
