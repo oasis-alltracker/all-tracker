@@ -88,7 +88,6 @@ const BarcodeScanner = ({ route }) => {
         data: barcodeData,
       };
     }
-    console.log("new params" + JSON.stringify(params));
 
     navigationService.navigate("searchFood", params);
   };

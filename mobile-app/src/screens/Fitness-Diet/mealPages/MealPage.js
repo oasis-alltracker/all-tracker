@@ -175,7 +175,6 @@ const MealPage = ({ navigation, route }) => {
             } else if (foodEntriesChangedRef.current) {
               params["refreshMeal"] = mealName.toLowerCase();
             }
-            console.log(params);
             navigationService.navigate("fitness-diet", params);
           }}
         >
