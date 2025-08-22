@@ -17,7 +17,9 @@ const FitnessStats = ({ sunday, updateStats, setIsLoading }) => {
           style={styles.imageCircle}
           source={require("../../assets/images/fitness.png")}
         />
-        <Text style={styles.statTitle}>fitness</Text>
+        <Text style={[styles.statTitle, sharedStyles["textColour_light"]]}>
+          fitness
+        </Text>
       </View>
       <View style={styles.chartContainer}>
         <ScrollView
@@ -58,7 +60,6 @@ const styles = StyleSheet.create({
   statTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.light.primaryColour,
   },
   xLabel: {
     fontSize: 14,

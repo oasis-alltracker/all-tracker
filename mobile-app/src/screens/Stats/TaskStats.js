@@ -87,7 +87,9 @@ const TaskStats = ({ sunday, updateStats, setIsLoading }) => {
           style={styles.imageCircle}
           source={require("../../assets/images/to-dos.png")}
         />
-        <Text style={styles.statsTitle}>to-dos</Text>
+        <Text style={[styles.statsTitle, sharedStyles["textColour_light"]]}>
+          to-dos
+        </Text>
       </View>
       <View style={[styles.chartContainer, { height: height * 0.15 }]}>
         <View
@@ -164,13 +166,11 @@ const styles = StyleSheet.create({
   statsTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   xLabel: {
     fontSize: 14,
     paddingTop: 6,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
   chartContainer: {
     alignItems: "center",

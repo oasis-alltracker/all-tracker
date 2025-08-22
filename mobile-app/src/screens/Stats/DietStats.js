@@ -132,12 +132,7 @@ const DietStats = ({ sunday, updateStats, dietGoals, setIsLoading }) => {
           style={styles.imageCircle}
           source={require("../../assets/images/diet.png")}
         />
-        <Text
-          style={[
-            styles.text,
-            { color: ValueSheet.colours.light.primaryColour },
-          ]}
-        >
+        <Text style={[styles.text, sharedStyles["textColour_light"]]}>
           diet
         </Text>
       </View>

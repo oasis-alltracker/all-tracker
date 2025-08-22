@@ -97,7 +97,9 @@ const MoodStats = ({ sunday, updateStats, setIsLoading }) => {
           style={styles.imageCircle}
           source={require("../../assets/images/mood.png")}
         />
-        <Text style={styles.statsTitle}>mood</Text>
+        <Text style={[styles.statsTitle, sharedStyles["textColour_light"]]}>
+          mood
+        </Text>
       </View>
       <View style={styles.chartContainer}>
         <LineChart
@@ -160,7 +162,6 @@ const styles = StyleSheet.create({
   statsTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.light.primaryColour,
   },
   xLabel: {
     fontSize: 14,
