@@ -253,7 +253,9 @@ const CreateAccountLock = (props) => {
             <View
               style={[styles.signContainer, { paddingTop: height * 0.0225 }]}
             >
-              <Text style={styles.txt}>--or--</Text>
+              <Text style={[styles.txt, sharedStyles["textColour_" + theme]]}>
+                --or--
+              </Text>
               <View
                 style={[
                   styles.rowContainer,
