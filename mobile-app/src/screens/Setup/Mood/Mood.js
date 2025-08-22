@@ -209,7 +209,7 @@ const Mood = (props) => {
             body="It's time to check in with yourself"
             notifications={moodNotifications}
             isToggled={isWellnessCheckinToggled}
-            toggled={wellnessCheckinToggled}
+            toggledHandler={wellnessCheckinToggled}
             setIsToggled={setIsWellnessCheckinToggled}
             group="mood"
           />

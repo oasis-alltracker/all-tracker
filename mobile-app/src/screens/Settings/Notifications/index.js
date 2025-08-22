@@ -714,7 +714,6 @@ const Notifications = () => {
   }, []);
 
   return (
-    //start here
     <SafeAreaView
       style={[styles.container, sharedStyles["pageBackground_" + theme]]}
     >
@@ -875,7 +874,7 @@ const Notifications = () => {
                           <Text
                             style={[
                               styles.timeText,
-                              sharedStyles["textColour_" + theme],
+                              sharedStyles["textColour_light"],
                             ]}
                           >
                             {formatDateObject(breakfastTime)}
@@ -956,7 +955,7 @@ const Notifications = () => {
                           <Text
                             style={[
                               styles.timeText,
-                              sharedStyles["textColour_" + theme],
+                              sharedStyles["textColour_light"],
                             ]}
                           >
                             {formatDateObject(lunchTime)}
@@ -1037,7 +1036,7 @@ const Notifications = () => {
                           <Text
                             style={[
                               styles.timeText,
-                              sharedStyles["textColour_" + theme],
+                              sharedStyles["textColour_light"],
                             ]}
                           >
                             {formatDateObject(dinnerTime)}
