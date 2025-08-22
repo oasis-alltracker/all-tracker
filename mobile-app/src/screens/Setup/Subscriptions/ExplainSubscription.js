@@ -102,6 +102,7 @@ const ExplainSubscription = (props) => {
                 { color: ValueSheet.colours[theme].textPink },
               ]}
             >
+              {" "}
               Oasis
             </Text>
           </Text>
