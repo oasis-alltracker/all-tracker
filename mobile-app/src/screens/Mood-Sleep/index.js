@@ -1,11 +1,10 @@
 import { ValueSheet } from "../../ValueSheet";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
-  Platform,
 } from "react-native";
 import MenuIcon from "../../assets/icons/menu";
 import Main from "./Main";
@@ -283,7 +282,9 @@ const MoodSleep = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
 
       <View style={styles.container}>
@@ -335,7 +336,6 @@ const MoodSleep = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   button: {

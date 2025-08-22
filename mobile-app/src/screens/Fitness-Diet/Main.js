@@ -80,8 +80,8 @@ export default function Main({
         ]}
       >
         <Image
-          style={[sharedStyles.headerImage, sharedStyles.tint_light]}
-          source={require("../../assets/images/body-white.png")}
+          style={sharedStyles.headerImage}
+          source={require("../../assets/images/body-blue.png")}
         />
       </View>
       <Spinner visible={isLoading}></Spinner>

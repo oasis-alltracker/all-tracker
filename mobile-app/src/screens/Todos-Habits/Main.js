@@ -248,8 +248,8 @@ const Main = ({
           ]}
         >
           <Image
-            style={[sharedStyles.headerImage, sharedStyles.tint_light]}
-            source={require("../../assets/images/mind-white.png")}
+            style={sharedStyles.headerImage}
+            source={require("../../assets/images/mind-blue.png")}
           />
         </View>
 

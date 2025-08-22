@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,11 +14,14 @@ import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const WellnessStep2 = (props) => {
   const { width, height } = useWindowDimensions();
   const [mood, setMood] = useState("");
   const { moodReport } = props.route.params;
+  const theme = useContext(ThemeContext).value;
 
   const onNext = async () => {
     if (mood == "") {
@@ -34,17 +37,27 @@ const WellnessStep2 = (props) => {
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      >
         <>
           <View style={styles.center}>
-            <Text style={styles.title}>How would you describe your mood?</Text>
+            <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+              How would you describe your mood?
+            </Text>
           </View>
 
-          <View style={[styles.textCon, { width: width * 0.9 }]}>
+          <View
+            style={[
+              styles.textCon,
+              sharedStyles["borderedContainer_" + theme],
+              { width: width * 0.9 },
+            ]}
+          >
             <TextInput
-              placeholderTextColor={ValueSheet.colours.inputGrey}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
               placeholder="Sad, happy, tired, excited.."
-              style={styles.input}
+              style={[styles.input, sharedStyles["textColour_" + theme]]}
               onChangeText={setMood}
               value={mood}
             />
@@ -53,11 +66,15 @@ const WellnessStep2 = (props) => {
           <View style={styles.buttons}>
             <Button
               onPress={() => navigationService.goBack()}
-              style={[styles.button, styles.back]}
+              style={[styles.button]}
             >
               Back
             </Button>
-            <Button onPress={() => onNext()} style={styles.button}>
+            <Button
+              onPress={() => onNext()}
+              style={styles.button}
+              positiveSelect={true}
+            >
               Next
             </Button>
           </View>
@@ -71,21 +88,19 @@ const WellnessStep2 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
     alignItems: "center",
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 125,
     textAlign: "center",
   },
   input: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
+    borderRadius: 25,
     fontFamily: ValueSheet.fonts.primaryFont,
     flex: 1,
     textAlign: "center",
@@ -101,16 +116,11 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     height: 100,
-    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     textAlign: "center",
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
