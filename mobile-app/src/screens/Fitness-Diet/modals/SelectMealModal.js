@@ -107,7 +107,7 @@ export default function SelectMealModal({
               styles.buttonText,
               sharedStyles["textColour_light"],
               selectedIndex == -1 && {
-                color: ValueSheet.colours[theme].black50,
+                color: ValueSheet.colours[theme].black,
               },
             ]}
           >
