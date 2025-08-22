@@ -69,13 +69,9 @@ const MealPage = ({ navigation, route }) => {
     extractDate();
   }, [meal, dateString]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log("route params" + JSON.stringify(route.params));
-      console.log(route.params?.foodEntriesChanged || false);
-      foodEntriesChangedRef.current = route.params?.foodEntriesChanged || false;
-    }, [])
-  );
+  useEffect(() => {
+    foodEntriesChangedRef.current = route.params?.foodEntriesChanged || false;
+  }, [route]);
 
   const extractDate = () => {
     //format of the prop dateString is given as YYYY-MM-DD
