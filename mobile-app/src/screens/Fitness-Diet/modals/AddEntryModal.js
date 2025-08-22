@@ -593,7 +593,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   dropdownContainer: {
-    borderColor: ValueSheet.colours.borderGrey75,
     borderWidth: 2,
     maxHeight: 80,
   },
