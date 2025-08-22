@@ -102,7 +102,11 @@ export default function DreamJournalModal({ getRef, updateReport }) {
             >
               {"Cancel"}
             </Button>
-            <Button onPress={() => onSave()} style={styles.button}>
+            <Button
+              onPress={() => onSave()}
+              style={styles.button}
+              positiveSelect={true}
+            >
               Save
             </Button>
           </View>

@@ -94,7 +94,11 @@ const WellnessStep6 = (props) => {
             >
               Back
             </Button>
-            <Button onPress={() => onNext()} style={styles.button}>
+            <Button
+              onPress={() => onNext()}
+              style={styles.button}
+              positiveSelect={true}
+            >
               Next
             </Button>
           </View>

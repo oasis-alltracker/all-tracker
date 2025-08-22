@@ -221,7 +221,11 @@ export default function SleepReportModal({
           <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             {"Delete"}
           </Button>
-          <Button onPress={() => onDone()} style={styles.button}>
+          <Button
+            onPress={() => onDone()}
+            style={styles.button}
+            positiveSelect={true}
+          >
             Ok
           </Button>
         </View>
