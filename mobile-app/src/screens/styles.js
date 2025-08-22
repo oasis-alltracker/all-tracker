@@ -19,7 +19,6 @@ export const sharedStyles = StyleSheet.create({
   headerImage: {
     width: 72,
     height: 72,
-    tintColor: ValueSheet.colours.primaryColour,
   },
   datePickerView: {
     flexDirection: "row",
@@ -34,12 +33,19 @@ export const sharedStyles = StyleSheet.create({
   changeDateButton: {
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: ValueSheet.colours.secondaryColour,
     borderWidth: 1,
     borderTopColor: "transparent",
     borderBottomColor: "transparent",
-    borderRightColor: ValueSheet.colours.grey,
-    borderLeftColor: ValueSheet.colours.grey,
+  },
+  changeDateButton_dark: {
+    borderRightColor: ValueSheet.colours.dark.grey,
+    borderLeftColor: ValueSheet.colours.dark.grey,
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+  },
+  changeDateButton_light: {
+    borderRightColor: ValueSheet.colours.light.grey,
+    borderLeftColor: ValueSheet.colours.light.grey,
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
   },
   imageTextMain: {
     fontSize: 22,
@@ -77,11 +83,15 @@ export const sharedStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 16,
   },
-
   trackerTitle: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
+  },
+  trackerTitleColour_dark: {
+    color: ValueSheet.colours.dark.primaryColour,
+  },
+  trackerTitleColour_light: {
+    color: ValueSheet.colours.light.primaryColour,
   },
   dot: {
     width: 16,
@@ -100,5 +110,90 @@ export const sharedStyles = StyleSheet.create({
     alignItems: "center",
     left: 0,
     justifyContent: "center",
+  },
+  textColour_dark: {
+    color: ValueSheet.colours.dark.primaryColour,
+  },
+  textColour_light: {
+    color: ValueSheet.colours.light.primaryColour,
+  },
+  tint_dark: {
+    tintColor: ValueSheet.colours.dark.primaryColour,
+  },
+  tint_light: {
+    tintColor: ValueSheet.colours.light.primaryColour,
+  },
+  borderedContainer_dark: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
+    backgroundColor: ValueSheet.colours.dark.backgroundVariation,
+  },
+  borderedContainer_light: {
+    borderColor: ValueSheet.colours.light.borderGrey,
+    backgroundColor: ValueSheet.colours.light.backgroundVariation,
+  },
+  border_light: {
+    borderColor: ValueSheet.colours.light.borderGrey,
+  },
+  border_dark: {
+    borderColor: ValueSheet.colours.dark.borderGrey,
+  },
+  modalBackground_dark: {
+    backgroundColor: ValueSheet.colours.dark.background,
+    borderColor: ValueSheet.colours.dark.borderGrey,
+  },
+  modalBackground_light: {
+    backgroundColor: ValueSheet.colours.light.background,
+    borderColor: ValueSheet.colours.light.borderGrey,
+  },
+  pageBackground_dark: {
+    backgroundColor: ValueSheet.colours.dark.background,
+  },
+  pageBackground_light: {
+    backgroundColor: ValueSheet.colours.light.background,
+  },
+  button_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+    borderColor: ValueSheet.colours.dark.borderGrey75,
+  },
+  button_light: {
+    //maybe rename to blueContainer
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
+    borderColor: ValueSheet.colours.light.borderGrey75,
+  },
+  secondaryBackground_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour27,
+  },
+  secondaryBackground_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour27,
+  },
+  timePicker_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+  },
+  timePicker_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
+  },
+  purpleContainer_dark: {
+    backgroundColor: ValueSheet.colours.dark.purple65,
+    borderColor: ValueSheet.colours.dark.purple,
+  },
+  purpleContainer_light: {
+    backgroundColor: ValueSheet.colours.light.purple65,
+    borderColor: ValueSheet.colours.light.purple,
+  },
+  pinkContainer_dark: {
+    backgroundColor: ValueSheet.colours.dark.pink65,
+    borderColor: ValueSheet.colours.dark.borderPink,
+  },
+  pinkContainer_light: {
+    backgroundColor: ValueSheet.colours.light.pink65,
+    borderColor: ValueSheet.colours.light.borderPink,
+  },
+  yellowContainer_dark: {
+    backgroundColor: ValueSheet.colours.dark.yellow75,
+    borderColor: ValueSheet.colours.dark.borderYellow,
+  },
+  yellowContainer_light: {
+    backgroundColor: ValueSheet.colours.light.yellow75,
+    borderColor: ValueSheet.colours.light.borderYellow,
   },
 });

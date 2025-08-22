@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,8 +18,12 @@ import NotificationsHandler from "../../../api/notifications/notificationsHandle
 import UserAPI from "../../../api/user/userAPI";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ValueSheet } from "../../../ValueSheet";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
+import ThemedSwitch from "../../../components/ThemedSwitch";
 
 const Notifications = () => {
+  const theme = useContext(ThemeContext).value;
   const [isLoading, setIsLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [trackingPreferences, setTrackingPreferences] = useState({});
@@ -47,6 +51,8 @@ const Notifications = () => {
   const [moodNotifications, setMoodNotifications] = useState(false);
 
   const [isMorningAlarmToggled, setIsMorningAlarmToggled] = useState(false);
+  const [isSystemNotificationsEnabled, setIsSystemNotificationsEnabled] =
+    useState(false);
   const [morningNotifications, setMorningNotifications] = useState(false);
   const [isBedTimeReminderToggled, setIsBedTimeReminderToggled] =
     useState(false);
@@ -56,7 +62,7 @@ const Notifications = () => {
     setIsLoading(true);
     const token = await getAccessToken();
 
-    if (isNotificationsEnabled) {
+    if (isNotificationsEnabled && isSystemNotificationsEnabled) {
       await NotificationsHandler.turnOffAllNotifications(token);
       setIsNotificationsEnabled(false);
       setIsHabitsEnabled(false);
@@ -71,9 +77,10 @@ const Notifications = () => {
       var systemNotificationsStatus = true;
       systemNotificationsStatus =
         await NotificationsHandler.checkNotificationsStatus(token);
+      setIsSystemNotificationsEnabled(systemNotificationsStatus ? true : false);
       if (systemNotificationsStatus) {
         await NotificationsHandler.turnOnAllNotifications(token);
-        setIsNotificationsEnabled((previousState) => !previousState);
+        setIsNotificationsEnabled(true);
       } else {
         Toast.show({
           type: "info",
@@ -590,6 +597,9 @@ const Notifications = () => {
             "notifications"
           );
 
+          var systemNotifications =
+            await NotificationsHandler.checkNotificationsStatus(token);
+
           var habitNotifications =
             await NotificationsHandler.getGroupPreferenceNotificationsState(
               token,
@@ -626,6 +636,7 @@ const Notifications = () => {
           var newSleepNotifications =
             await NotificationsHandler.getNotifications(token, "sleep-");
 
+          setIsSystemNotificationsEnabled(systemNotifications ? true : false);
           setIsNotificationsEnabled(allNotifications[0]?.preference === "on");
           setIsHabitsEnabled(habitNotifications == "on");
           setIsTasksEnabled(taskNotificationsIsOn == "on");
@@ -703,75 +714,96 @@ const Notifications = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    //start here
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Header showCenter={false} />
       <Spinner visible={isLoading}></Spinner>
       <ScrollView
         contentContainerStyle={styles.contentContainerStyle}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.screenNameContainer}>
-          <Text style={styles.screenName}>Notifications</Text>
-          <Switch
+        <View
+          style={[
+            styles.screenNameContainer,
+            sharedStyles["borderedContainer_" + theme],
+          ]}
+        >
+          <Text
+            style={[styles.screenName, sharedStyles["textColour_" + theme]]}
+          >
+            Notifications
+          </Text>
+          <ThemedSwitch
             width={55}
             height={32}
             onValueChange={allNotificationsToggled}
-            value={isNotificationsEnabled}
-            trackColor={{
-              true: ValueSheet.colours.secondaryColour,
-              false: ValueSheet.colours.purple,
-            }}
-            thumbColor={
-              isNotificationsEnabled
-                ? ValueSheet.colours.secondaryColour
-                : ValueSheet.colours.purple
-            }
+            value={isNotificationsEnabled && isSystemNotificationsEnabled}
           />
         </View>
 
         {(trackingPreferences.habitsSelected ||
           trackingPreferences.toDosSelected) && (
           <>
-            <Text style={styles.sectionTitle}>Mind</Text>
+            <Text
+              style={[styles.sectionTitle, sharedStyles["textColour_" + theme]]}
+            >
+              Mind
+            </Text>
 
             {trackingPreferences.habitsSelected && (
-              <View style={[styles.habitContainer, styles.itemContainer4]}>
-                <Switch
+              <View
+                style={[
+                  styles.habitContainer,
+                  styles.itemContainer4,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
+              >
+                <ThemedSwitch
                   width={55}
                   height={32}
                   onValueChange={habitsToggled}
-                  value={isHabitsEnabled}
-                  trackColor={{
-                    true: ValueSheet.colours.secondaryColour,
-                    false: ValueSheet.colours.purple,
-                  }}
-                  thumbColor={
-                    isHabitsEnabled
-                      ? ValueSheet.colours.secondaryColour
-                      : ValueSheet.colours.purple
+                  disabled={
+                    !isNotificationsEnabled || !isSystemNotificationsEnabled
                   }
+                  value={isHabitsEnabled}
                 />
-                <Text style={styles.itemTitle}>Habits</Text>
+                <Text
+                  style={[
+                    styles.itemTitle,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Habits
+                </Text>
               </View>
             )}
             {trackingPreferences.toDosSelected && (
-              <View style={[styles.habitContainer, styles.itemContainer4]}>
-                <Switch
+              <View
+                style={[
+                  styles.habitContainer,
+                  styles.itemContainer4,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
+              >
+                <ThemedSwitch
                   width={55}
                   height={32}
                   onValueChange={tasksToggled}
-                  value={isTasksEnabled}
-                  trackColor={{
-                    true: ValueSheet.colours.secondaryColour,
-                    false: ValueSheet.colours.purple,
-                  }}
-                  thumbColor={
-                    isTasksEnabled
-                      ? ValueSheet.colours.secondaryColour
-                      : ValueSheet.colours.purple
+                  disabled={
+                    !isNotificationsEnabled || !isSystemNotificationsEnabled
                   }
+                  value={isTasksEnabled}
                 />
-                <Text style={styles.itemTitle}>To-dos</Text>
+                <Text
+                  style={[
+                    styles.itemTitle,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  To-dos
+                </Text>
               </View>
             )}
           </>
@@ -780,31 +812,45 @@ const Notifications = () => {
         {(trackingPreferences.fitnessSelected ||
           trackingPreferences.dietSelected) && (
           <>
-            <Text style={styles.sectionTitle}>Physical</Text>
+            <Text
+              style={[styles.sectionTitle, sharedStyles["textColour_" + theme]]}
+            >
+              Physical
+            </Text>
             {trackingPreferences.dietSelected && (
               <>
-                <View style={[styles.habitContainer, styles.itemContainer4]}>
-                  <Switch
+                <View
+                  style={[
+                    styles.habitContainer,
+                    styles.itemContainer4,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
+                >
+                  <ThemedSwitch
                     width={55}
                     height={32}
                     onValueChange={breakfastToggled}
                     value={isBreakfastEnabled}
-                    trackColor={{
-                      true: ValueSheet.colours.secondaryColour,
-                      false: ValueSheet.colours.purple,
-                    }}
-                    thumbColor={
-                      isBreakfastEnabled
-                        ? ValueSheet.colours.secondaryColour
-                        : ValueSheet.colours.purple
+                    disabled={
+                      !isNotificationsEnabled || !isSystemNotificationsEnabled
                     }
                   />
-                  <Text style={styles.itemTitle}>Breakfast</Text>
+                  <Text
+                    style={[
+                      styles.itemTitle,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Breakfast
+                  </Text>
                   <View
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: ValueSheet.colours.secondaryColour },
+                      {
+                        backgroundColor:
+                          ValueSheet.colours[theme].secondaryColour,
+                      },
                     ]}
                   >
                     <>
@@ -826,7 +872,12 @@ const Notifications = () => {
                           }}
                           title="toggleMinMaxDate"
                         >
-                          <Text style={styles.timeText}>
+                          <Text
+                            style={[
+                              styles.timeText,
+                              sharedStyles["textColour_" + theme],
+                            ]}
+                          >
                             {formatDateObject(breakfastTime)}
                           </Text>
                         </TouchableOpacity>
@@ -849,28 +900,38 @@ const Notifications = () => {
                     </View>
                   </View>
                 </View>
-                <View style={[styles.habitContainer, styles.itemContainer4]}>
-                  <Switch
+                <View
+                  style={[
+                    styles.habitContainer,
+                    styles.itemContainer4,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
+                >
+                  <ThemedSwitch
                     width={55}
                     height={32}
                     onValueChange={lunchToggled}
                     value={isLunchEnabled}
-                    trackColor={{
-                      true: ValueSheet.colours.secondaryColour,
-                      false: ValueSheet.colours.purple,
-                    }}
-                    thumbColor={
-                      isLunchEnabled
-                        ? ValueSheet.colours.secondaryColour
-                        : ValueSheet.colours.purple
+                    disabled={
+                      !isNotificationsEnabled || !isSystemNotificationsEnabled
                     }
                   />
-                  <Text style={styles.itemTitle}>Lunch</Text>
+                  <Text
+                    style={[
+                      styles.itemTitle,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Lunch
+                  </Text>
                   <View
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: ValueSheet.colours.secondaryColour },
+                      {
+                        backgroundColor:
+                          ValueSheet.colours[theme].secondaryColour,
+                      },
                     ]}
                   >
                     <>
@@ -892,7 +953,12 @@ const Notifications = () => {
                           }}
                           title="toggleMinMaxDate"
                         >
-                          <Text style={styles.timeText}>
+                          <Text
+                            style={[
+                              styles.timeText,
+                              sharedStyles["textColour_" + theme],
+                            ]}
+                          >
                             {formatDateObject(lunchTime)}
                           </Text>
                         </TouchableOpacity>
@@ -915,28 +981,38 @@ const Notifications = () => {
                     </View>
                   </View>
                 </View>
-                <View style={[styles.habitContainer, styles.itemContainer4]}>
-                  <Switch
+                <View
+                  style={[
+                    styles.habitContainer,
+                    styles.itemContainer4,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
+                >
+                  <ThemedSwitch
                     width={55}
                     height={32}
                     onValueChange={dinnerToggled}
-                    value={isDinnerEnabled}
-                    trackColor={{
-                      true: ValueSheet.colours.secondaryColour,
-                      false: ValueSheet.colours.purple,
-                    }}
-                    thumbColor={
-                      isDinnerEnabled
-                        ? ValueSheet.colours.secondaryColour
-                        : ValueSheet.colours.purple
+                    disabled={
+                      !isNotificationsEnabled || !isSystemNotificationsEnabled
                     }
+                    value={isDinnerEnabled}
                   />
-                  <Text style={styles.itemTitle}>Dinner</Text>
+                  <Text
+                    style={[
+                      styles.itemTitle,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Dinner
+                  </Text>
                   <View
                     style={[
                       styles.habitTimeContainer,
                       styles.itemContainer3,
-                      { backgroundColor: ValueSheet.colours.secondaryColour },
+                      {
+                        backgroundColor:
+                          ValueSheet.colours[theme].secondaryColour,
+                      },
                     ]}
                   >
                     <>
@@ -958,7 +1034,12 @@ const Notifications = () => {
                           }}
                           title="toggleMinMaxDate"
                         >
-                          <Text style={styles.timeText}>
+                          <Text
+                            style={[
+                              styles.timeText,
+                              sharedStyles["textColour_" + theme],
+                            ]}
+                          >
                             {formatDateObject(dinnerTime)}
                           </Text>
                         </TouchableOpacity>
@@ -989,7 +1070,11 @@ const Notifications = () => {
         {(trackingPreferences.moodSelected ||
           trackingPreferences.sleepSelected) && (
           <>
-            <Text style={styles.sectionTitle}>Spirit</Text>
+            <Text
+              style={[styles.sectionTitle, sharedStyles["textColour_" + theme]]}
+            >
+              Spirit
+            </Text>
 
             {trackingPreferences.moodSelected && (
               <Soultification
@@ -997,8 +1082,11 @@ const Notifications = () => {
                 body="It's time to check in with yourself"
                 notifications={moodNotifications}
                 isToggled={isWellnessCheckinToggled}
-                toggled={wellnessCheckinToggled}
+                toggledHandler={wellnessCheckinToggled}
                 setIsToggled={setIsWellnessCheckinToggled}
+                disabled={
+                  !isNotificationsEnabled || !isSystemNotificationsEnabled
+                }
                 group="mood"
               />
             )}
@@ -1009,8 +1097,11 @@ const Notifications = () => {
                   body="Time to wake up amd review your sleep"
                   notifications={morningNotifications}
                   isToggled={isMorningAlarmToggled}
-                  toggled={morningAlarmToggled}
+                  toggledHandler={morningAlarmToggled}
                   setIsToggled={setIsMorningAlarmToggled}
+                  disabled={
+                    !isNotificationsEnabled || !isSystemNotificationsEnabled
+                  }
                   group="morning"
                 />
               </>
@@ -1025,7 +1116,6 @@ const Notifications = () => {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   contentContainerStyle: {
     paddingBottom: 20,
@@ -1036,7 +1126,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 25,
@@ -1047,7 +1136,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
@@ -1073,7 +1161,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   screenName: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 34,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
@@ -1081,7 +1168,6 @@ export const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 32,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 35,
     marginBottom: 8,
@@ -1089,14 +1175,12 @@ export const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginLeft: 15,
     flex: 1,
   },
   timeText: {
     fontSize: 17,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
 });

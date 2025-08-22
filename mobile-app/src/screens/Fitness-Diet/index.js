@@ -27,7 +27,6 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const FitnessDiet = ({ navigation, route }) => {
   const theme = useContext(ThemeContext).value;
-  const [styles, setStyles] = useState(generateStyle("light"));
   var { refreshGoals } = route.params?.isEditingGoals || false;
   var { foodEntriesChanged } = route.params?.foodItemsChanged || false;
   var refreshMeal = route.params?.refreshMeal || null;
@@ -160,10 +159,6 @@ const FitnessDiet = ({ navigation, route }) => {
       refreshMeals();
     }
   }, [route]);
-
-  useEffect(() => {
-    setStyles(generateStyle(theme));
-  }, [theme]);
 
   useEffect(() => {
     if (trackingPreferences) {
@@ -369,7 +364,9 @@ const FitnessDiet = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.headerButton}
@@ -412,22 +409,16 @@ const FitnessDiet = ({ navigation, route }) => {
   );
 };
 
-const generateStyle = (theme) => {
-  return StyleSheet.create({
-    container: {
-      backgroundColor: ValueSheet.colours[theme].background,
-      flex: 1,
-    },
-    headerButton: {
-      position: "absolute",
-      top: 25,
-      left: 20,
-      zIndex: 1,
-    },
-    tint: {
-      tintColor: ValueSheet.colours[theme].primaryColour,
-    },
-  });
-};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  headerButton: {
+    position: "absolute",
+    top: 25,
+    left: 20,
+    zIndex: 1,
+  },
+});
 
 export default FitnessDiet;

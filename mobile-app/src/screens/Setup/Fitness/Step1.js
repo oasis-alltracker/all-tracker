@@ -4,23 +4,35 @@ import { Image } from "react-native";
 import { Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { useContext } from "react";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const FitnessStep1 = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers } = props.route.params;
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}
       >
-        <View style={styles.imageCon}>
+        <View
+          style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/images/fitness.png")}
           />
-          <Text style={styles.imageText}>fitness</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            fitness
+          </Text>
         </View>
-        <Text style={styles.title}>What is your goal?</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          What is your goal?
+        </Text>
         <Button style={styles.bigButtons}> Improve explosivity</Button>
         <Button style={styles.bigButtons}>Increase strength</Button>
         <Button style={styles.bigButtons}>Build muscle</Button>
@@ -29,7 +41,7 @@ const FitnessStep1 = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
@@ -38,6 +50,7 @@ const FitnessStep1 = (props) => {
             navigationService.navigate("fitnessStep2", { selectedTrackers })
           }
           style={styles.button}
+          positiveSelect={true}
         >
           Next
         </Button>
@@ -49,7 +62,6 @@ const FitnessStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -58,8 +70,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -69,13 +79,11 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
@@ -88,14 +96,8 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   bigButtons: {
     width: "100%",
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
     height: 90,
     borderRadius: 40,
     marginTop: 10,

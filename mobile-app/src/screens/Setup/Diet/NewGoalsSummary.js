@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,6 +10,8 @@ import UpdateMacrosModal from "./UpdateMacrosModal";
 import DietGoalsAPI from "../../../api/diet/dietGoalsAPI";
 import { getAccessToken } from "../../../user/keychain";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const activityLevelValues = {
   0: 1.2,
@@ -19,6 +21,7 @@ const activityLevelValues = {
 };
 
 const NewGoalsSummary = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers, isEditingMacros } = props.route.params;
   var dietFactors = props.route.params.dietFactors;
 
@@ -189,27 +192,51 @@ const NewGoalsSummary = (props) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
       <>
         <View style={styles.center}>
-          <View style={styles.imageCon}>
+          <View
+            style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+          >
             <Image
               style={styles.image}
               source={require("../../../assets/images/diet.png")}
             />
-            <Text style={styles.imageText}>diet</Text>
+            <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+              diet
+            </Text>
           </View>
-          <Text style={styles.title}>Recommended intake:</Text>
+          <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+            Recommended intake:
+          </Text>
           <View style={styles.contentContainerStyle}>
-            <View style={[styles.item, styles.head]}>
+            <View
+              style={[
+                styles.item,
+                styles.head,
+                sharedStyles["borderedContainer_" + theme],
+              ]}
+            >
               <View style={[styles.item, styles.headItem]}>
                 <View style={styles.row}>
                   <Image
                     source={require("../../../assets/images/calories.png")}
-                    style={styles.calorieItemImg}
+                    style={[
+                      styles.calorieItemImg,
+                      sharedStyles["tint_" + theme],
+                    ]}
                   />
-                  <Text style={styles.calorieText}>Calories</Text>
+                  <Text
+                    style={[
+                      styles.calorieText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Calories
+                  </Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => {
@@ -222,21 +249,49 @@ const NewGoalsSummary = (props) => {
                   }}
                 >
                   <Image
-                    style={styles.calorieEditImg}
+                    style={[
+                      styles.calorieEditImg,
+                      sharedStyles["tint_" + theme],
+                    ]}
                     source={require("../../../assets/images/edit.png")}
                   />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.calorieTitle}>
+              <Text
+                style={[
+                  styles.calorieTitle,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
                 {calories} {calorieUnit}
               </Text>
             </View>
             {datas.map((item, index) => (
-              <View style={styles.item} key={index}>
+              <View
+                style={[
+                  styles.item,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
+                key={index}
+              >
                 <View style={styles.row}>
-                  <Image source={item.img} style={styles.itemImg} />
-                  <Text style={styles.text}>{item.text}</Text>
-                  <Text style={styles.itemTitle}>{item.title}</Text>
+                  <Image
+                    source={item.img}
+                    style={[styles.itemImg, sharedStyles["tint_" + theme]]}
+                  />
+                  <Text
+                    style={[styles.text, sharedStyles["textColour_" + theme]]}
+                  >
+                    {item.text}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.itemTitle,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    {item.title}
+                  </Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => {
@@ -249,7 +304,7 @@ const NewGoalsSummary = (props) => {
                   }}
                 >
                   <Image
-                    style={styles.editImg}
+                    style={[styles.editImg, sharedStyles["tint_" + theme]]}
                     source={require("../../../assets/images/edit.png")}
                   />
                 </TouchableOpacity>
@@ -258,10 +313,14 @@ const NewGoalsSummary = (props) => {
           </View>
         </View>
         <View style={styles.buttons}>
-          <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
+          <Button onPress={() => onBack()} style={styles.button}>
             Back
           </Button>
-          <Button onPress={() => onNext()} style={styles.button}>
+          <Button
+            onPress={() => onNext()}
+            style={styles.button}
+            positiveSelect={true}
+          >
             {isEditingMacros ? "Save" : "Next"}
           </Button>
         </View>
@@ -277,7 +336,6 @@ const NewGoalsSummary = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -286,8 +344,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -297,13 +353,11 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     marginBottom: 20,
@@ -316,10 +370,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
@@ -338,7 +388,6 @@ const styles = StyleSheet.create({
   },
   item: {
     borderWidth: 1,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     marginHorizontal: 20,
     marginBottom: 15,
@@ -351,18 +400,15 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     marginLeft: 15,
   },
   calorieTitle: {
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
   },
   calorieText: {
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   calorieEditImg: {
     width: 30,
@@ -389,7 +435,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
 });
 

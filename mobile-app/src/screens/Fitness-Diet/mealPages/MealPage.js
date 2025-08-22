@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,29 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import AddEntryModal from "../modals/AddEntryModal";
 import { ValueSheet } from "../../../ValueSheet";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
+
+const macroDetails = [
+  {
+    name: "Carbs",
+    icon: require("../../../assets/images/carbs.png"),
+    measurement: "g",
+    macro: "carbCount",
+  },
+  {
+    name: "Protein",
+    icon: require("../../../assets/images/protein.png"),
+    measurement: "g",
+    macro: "proteinCount",
+  },
+  {
+    name: "Fats",
+    icon: require("../../../assets/images/fats.png"),
+    measurement: "g",
+    macro: "fatCount",
+  },
+];
 
 const MealPage = ({ navigation, route }) => {
   const { dateString, mealName, meal } = route.params;
@@ -28,6 +51,7 @@ const MealPage = ({ navigation, route }) => {
   var refreshMeal = route.params?.refreshMeal || null;
   const dietUnit = route.params?.dietUnit;
   const energyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
+  const theme = useContext(ThemeContext).value;
 
   var mealImage;
   if (mealName === "Breakfast") {
@@ -140,8 +164,10 @@ const MealPage = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topArea}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
+      <View style={styles["topArea_" + theme]}>
         <TouchableOpacity
           onPress={() => {
             var params = {};
@@ -174,7 +200,7 @@ const MealPage = ({ navigation, route }) => {
         </View>
       </View>
       <Spinner visible={isLoading}></Spinner>
-      <View style={styles.mainArea}>
+      <View style={[styles.mainArea, sharedStyles["pageBackground_" + theme]]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContainer}
@@ -183,23 +209,37 @@ const MealPage = ({ navigation, route }) => {
             {currentMeal.entries.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                style={styles.mealItem}
+                style={[
+                  styles.mealItem,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
                 onPress={() => {
                   editEntryRef.current.open(item, dietUnit);
                 }}
               >
                 <View style={[styles.mealItemInfo, { flex: 1 }]}>
-                  <Text style={[styles.textStyle, { flexShrink: 1 }]}>
+                  <Text
+                    style={[
+                      styles.textStyle,
+                      sharedStyles["textColour_" + theme],
+                      { flexShrink: 1 },
+                    ]}
+                  >
                     {item.name}
                   </Text>
-                  <Text style={styles.mealItemCalories}>
+                  <Text
+                    style={[
+                      styles.mealItemCalories,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
                     {+(item.calorieCount * energyMultiplier).toFixed(2)}{" "}
                     {dietUnit}
                   </Text>
                 </View>
                 <TouchableOpacity onPress={() => deleteMealItem(item)}>
                   <Image
-                    style={styles.deleteIcon}
+                    style={[styles.deleteIcon, sharedStyles["tint_" + theme]]}
                     source={require("../../../assets/images/trash.png")}
                   ></Image>
                 </TouchableOpacity>
@@ -207,19 +247,39 @@ const MealPage = ({ navigation, route }) => {
             ))}
           </View>
           <View style={styles.buttonSection}>
-            <TouchableOpacity style={styles.addFood} onPress={addMealItem}>
+            <TouchableOpacity
+              style={[styles.addFood, sharedStyles["button_" + theme]]}
+              onPress={addMealItem}
+            >
               <Text style={styles.addFoodText}>Add Food</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.calories}>
+          <TouchableOpacity
+            style={[
+              styles.calories,
+              sharedStyles["borderedContainer_" + theme],
+            ]}
+          >
             <Image
-              style={styles.mealIcon}
+              style={[styles.mealIcon, sharedStyles["tint_" + theme]]}
               source={require("../../../assets/images/calories.png")}
             ></Image>
             <View style={styles.calorieText}>
-              <Text style={styles.caloriesLabel}>Calories</Text>
+              <Text
+                style={[
+                  styles.caloriesLabel,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
+                Calories
+              </Text>
               <View style={styles.calorieInfo}>
-                <Text style={styles.caloriesAmount}>
+                <Text
+                  style={[
+                    styles.caloriesAmount,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
                   {+(currentMeal.calorieCount * energyMultiplier).toFixed(2)}{" "}
                   {dietUnit}
                 </Text>
@@ -227,33 +287,44 @@ const MealPage = ({ navigation, route }) => {
             </View>
           </TouchableOpacity>
           <View style={styles.macroSection}>
-            <TouchableOpacity style={styles.macros}>
-              <Image
-                style={styles.macroIcon}
-                source={require("../../../assets/images/carbs.png")}
-              ></Image>
-              <Text style={styles.textStyle}>Carbs</Text>
-              <Text style={styles.macroAmount}>{currentMeal.carbCount}</Text>
-              <Text style={styles.macroUnit}>g</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.macros}>
-              <Image
-                style={styles.macroIcon}
-                source={require("../../../assets/images/protein.png")}
-              ></Image>
-              <Text style={styles.textStyle}>Protein</Text>
-              <Text style={styles.macroAmount}>{currentMeal.proteinCount}</Text>
-              <Text style={styles.macroUnit}>g</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.macros}>
-              <Image
-                style={styles.macroIcon}
-                source={require("../../../assets/images/fats.png")}
-              ></Image>
-              <Text style={styles.textStyle}>Fats</Text>
-              <Text style={styles.macroAmount}>{currentMeal.fatCount}</Text>
-              <Text style={styles.macroUnit}>g</Text>
-            </TouchableOpacity>
+            {macroDetails.map((item, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.macros,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
+              >
+                <Image
+                  style={[styles.macroIcon, sharedStyles["tint_" + theme]]}
+                  source={item.icon}
+                />
+                <Text
+                  style={[
+                    styles.textStyle,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  {item.name}
+                </Text>
+                <Text
+                  style={[
+                    styles.macroAmount,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  {currentMeal[item.macro]}
+                </Text>
+                <Text
+                  style={[
+                    styles.macroUnit,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  g
+                </Text>
+              </View>
+            ))}
           </View>
         </ScrollView>
         <AddEntryModal
@@ -274,19 +345,21 @@ const MealPage = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     justifyContent: "space-between",
   },
   scrollContainer: {
     overflow: "visible",
     paddingBottom: 30,
   },
-  topArea: {
-    backgroundColor: ValueSheet.colours.secondaryColour,
+  topArea_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+    flex: 1,
+  },
+  topArea_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
     flex: 1,
   },
   mainArea: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 3,
     minWidth: 0,
     justifyContent: "flex-start",
@@ -302,7 +375,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
     marginBottom: 5,
   },
@@ -318,8 +390,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     alignItems: "center",
-    backgroundColor: ValueSheet.colours.secondaryColour,
-    borderColor: ValueSheet.colours.borderGrey75,
     width: "60%",
     paddingTop: 5,
     paddingBottom: 10,
@@ -331,7 +401,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     marginTop: 30,
-    borderColor: ValueSheet.colours.borderGrey75,
     height: 100,
     padding: 10,
   },
@@ -342,7 +411,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 2,
     marginBottom: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
   },
   topAreaBody: {
@@ -366,14 +434,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    color: ValueSheet.colours.primaryColour,
   },
   macroAmount: {
     fontFamily: ValueSheet.fonts.primaryBold,
@@ -381,7 +448,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     marginRight: 35,
-    color: ValueSheet.colours.primaryColour,
   },
   macroUnit: {
     fontFamily: ValueSheet.fonts.primaryFont,
@@ -389,12 +455,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     marginRight: 15,
-    color: ValueSheet.colours.primaryColour,
   },
   caloriesLabel: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 20,
-    color: ValueSheet.colours.primaryColour,
   },
   calorieInfo: {
     flexDirection: "row",
@@ -403,17 +467,15 @@ const styles = StyleSheet.create({
   caloriesAmount: {
     fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 25,
-    color: ValueSheet.colours.primaryColour,
   },
   addFoodText: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 25,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
   },
   mealItemCalories: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 17.5,
-    color: ValueSheet.colours.primaryColour,
   },
   backArrow: {
     height: 35,

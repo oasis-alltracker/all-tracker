@@ -1,16 +1,18 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image, TouchableOpacity, Platform } from "react-native";
 import { Button } from "../../../components";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 export default function UpdateHabitStatusModal({
   getRef,
   onHabitStatusUpdate,
-  refreshHabits,
 }) {
+  const theme = useContext(ThemeContext).value;
   const [visible, setVisible] = useState(false);
 
   const [isPositive, setIsPositive] = useState(false);
@@ -105,12 +107,18 @@ export default function UpdateHabitStatusModal({
       isVisible={visible}
       onBackButtonPress={() => backDropPressed()}
       onBackdropPress={() => backDropPressed()}
-      backdropColor={ValueSheet.colours.secondaryColour27}
+      backdropColor={ValueSheet.colours[theme].secondaryColour27}
       style={styles.modal}
     >
-      <View style={styles.container}>
+      <View
+        style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+      >
         <View style={styles.titleContainer}>
-          <Text style={styles.inputTitle}>{name}</Text>
+          <Text
+            style={[styles.inputTitle, sharedStyles["textColour_" + theme]]}
+          >
+            {name}
+          </Text>
         </View>
 
         <View style={styles.statusRow}>
@@ -119,16 +127,29 @@ export default function UpdateHabitStatusModal({
             style={styles.countButton}
           >
             <Image
-              style={styles.plusMain}
+              style={[styles.plusMain, sharedStyles["tint_" + theme]]}
               source={require("../../../assets/images/remove.png")}
             />
           </TouchableOpacity>
 
-          <View style={styles.countContainer}>
-            <Text style={styles.countText}>{count}</Text>
+          <View
+            style={[styles.countContainer, sharedStyles["border_" + theme]]}
+          >
+            <Text
+              style={[styles.countText, sharedStyles["textColour_" + theme]]}
+            >
+              {count}
+            </Text>
           </View>
           <View style={styles.thresholdContainer}>
-            <Text style={styles.thresholdText}>/ {threshold}</Text>
+            <Text
+              style={[
+                styles.thresholdText,
+                sharedStyles["textColour_" + theme],
+              ]}
+            >
+              / {threshold}
+            </Text>
           </View>
 
           <TouchableOpacity
@@ -136,7 +157,7 @@ export default function UpdateHabitStatusModal({
             style={styles.countButton}
           >
             <Image
-              style={styles.plusMain}
+              style={[styles.plusMain, sharedStyles["tint_" + theme]]}
               source={require("../../../assets/images/plus512.png")}
             />
           </TouchableOpacity>
@@ -145,30 +166,49 @@ export default function UpdateHabitStatusModal({
         <View style={styles.bottomTextContainer}>
           {count == 0 ? (
             <>
-              <Text style={styles.bottomText}>Keep at it!</Text>
+              <Text
+                style={[styles.bottomText, sharedStyles["textColour_" + theme]]}
+              >
+                Keep at it!
+              </Text>
             </>
           ) : (
             <>
               {count >= threshold ? (
                 <>
-                  <Text style={styles.bottomText}>Congratulations!</Text>
+                  <Text
+                    style={[
+                      styles.bottomText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Congratulations!
+                  </Text>
                 </>
               ) : (
                 <>
-                  <Text style={styles.bottomText}>Almost there!</Text>
+                  <Text
+                    style={[
+                      styles.bottomText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Almost there!
+                  </Text>
                 </>
               )}
             </>
           )}
         </View>
         <View style={styles.row2}>
-          <Button
-            onPress={() => backDropPressed()}
-            style={[styles.button, styles.back]}
-          >
+          <Button onPress={() => backDropPressed()} style={styles.button}>
             Close
           </Button>
-          <Button onPress={() => onSave()} style={styles.button}>
+          <Button
+            onPress={() => onSave()}
+            style={styles.button}
+            positiveSelect={true}
+          >
             Ok
           </Button>
         </View>
@@ -188,11 +228,9 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 20,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   titleContainer: {
     flexDirection: "row",
@@ -216,7 +254,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 22,
   },
   inputTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 37,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
@@ -225,12 +262,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   bottomText: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   countText: {
-    color: ValueSheet.colours.black50,
     fontSize: 38,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
@@ -239,14 +274,12 @@ const styles = StyleSheet.create({
     width: 60,
     marginLeft: 15,
     marginRight: 0,
-    borderColor: ValueSheet.colours.borderGrey75,
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
     paddingBottom: 5,
   },
   thresholdText: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 38,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
@@ -257,10 +290,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingBottom: 5,
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   row2: {
     flexDirection: "row",

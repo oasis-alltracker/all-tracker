@@ -1,10 +1,11 @@
 import { ValueSheet } from "../../../ValueSheet";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   ScrollView,
   TextInput,
   Keyboard,
@@ -20,6 +21,8 @@ import { searchFatSecret } from "../../../api/diet/fatSecret/fatSecretAPI";
 import { barcodeSearch } from "../../../api/diet/search/barcodeSearch";
 import { useFocusEffect } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 const SearchFood = ({ navigation, route }) => {
   var prevPage = route.params?.prevPage || "fitness-diet";
@@ -37,8 +40,10 @@ const SearchFood = ({ navigation, route }) => {
   const energyMultiplier = dietUnit == "kcal" ? 1 : 4.184;
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setResults] = useState([]);
+  const [suggestedResults, setSuggestedResults] = useState([]);
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const theme = useContext(ThemeContext).value;
 
   const addEntryRef = useRef(null);
 
@@ -100,8 +105,11 @@ const SearchFood = ({ navigation, route }) => {
     try {
       token = await getAccessToken();
       setIsLoading(true);
-      foodItems = await RecentFoodEntriesAPI.getRecentFoodEntries(token);
+
+      var foodItems = await RecentFoodEntriesAPI.getRecentFoodEntries(token);
       setResults(foodItems);
+      setSuggestedResults(foodItems);
+
       if (foodItems.length == 0) {
         setText("Your recent foods will be shown here");
       }
@@ -111,16 +119,21 @@ const SearchFood = ({ navigation, route }) => {
     }
   };
 
-  const searchFood = async (input) => {
+  const searchFood = async () => {
     try {
       Keyboard.dismiss();
-      setIsLoading(true);
-      response = await searchFatSecret(input);
-      setResults(response);
-      setIsLoading(false);
+      if (searchInput.trim() !== "") {
+        setIsLoading(true);
+        response = await searchFatSecret(searchInput);
+        setResults(response);
+        setIsLoading(false);
 
-      if (response.length == 0) {
-        setText("Sorry, that item isn't available.");
+        if (response.length == 0) {
+          setText("Sorry, that item isn't available.");
+        }
+      } else {
+        setResults(suggestedResults);
+        setText("Your recent foods will be shown here");
       }
     } catch (e) {
       errorResponse(e);
@@ -128,48 +141,79 @@ const SearchFood = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topArea}>
-        <Spinner visible={isLoading}></Spinner>
-        <TouchableOpacity
-          onPress={() => {
-            var params = {};
-            if (prevPage == "mealPage") {
-              params["dateString"] = day.toLocaleDateString();
-              params["mealName"] = mealName;
-              params["meal"] = mealMacros;
-              params["dietUnit"] = route.params?.dietUnit;
-              params["foodEntriesChanged"] = route.params?.foodEntriesChanged;
-            }
-            navigationService.navigate(prevPage, params);
-          }}
-        >
-          <Image
-            style={styles.backArrow}
-            source={require("../../../assets/images/back-arrow.png")}
-          ></Image>
-        </TouchableOpacity>
-        <View style={styles.topAreaBody}>
-          <View style={styles.mealHeader}>
-            <Image style={styles.mealIcon} source={mealImage}></Image>
-            <Text style={styles.title}>{mealName}</Text>
-          </View>
-          <Text style={styles.textStyle}>{formattedDate}</Text>
-        </View>
-      </View>
-      <View style={styles.mainArea}>
-        <View style={[styles.row, { marginBottom: 20 }]}>
-          <View style={styles.searchContainer}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
+      <TouchableWithoutFeedback onPress={() => searchFood()}>
+        <View style={styles["topArea_" + theme]}>
+          <Spinner visible={isLoading}></Spinner>
+          <TouchableOpacity
+            onPress={() => {
+              var params = {};
+              if (prevPage == "mealPage") {
+                params["dateString"] = day.toLocaleDateString();
+                params["mealName"] = mealName;
+                params["meal"] = mealMacros;
+                params["dietUnit"] = route.params?.dietUnit;
+                params["foodEntriesChanged"] = route.params?.foodEntriesChanged;
+              }
+              navigationService.navigate(prevPage, params);
+            }}
+          >
             <Image
-              source={require("../../../assets/images/search2.png")}
-              style={{ width: 30, height: 30 }}
-            />
+              style={styles.backArrow}
+              source={require("../../../assets/images/back-arrow.png")}
+            ></Image>
+          </TouchableOpacity>
+          <View style={styles.topAreaBody}>
+            <View style={styles.mealHeader}>
+              <Image style={styles.mealIcon} source={mealImage}></Image>
+              <Text style={styles.title}>{mealName}</Text>
+            </View>
+            <Text
+              style={[
+                styles.textStyle,
+                { color: ValueSheet.colours.light.primaryColour },
+              ]}
+            >
+              {formattedDate}
+            </Text>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+
+      <View style={[styles.mainArea, sharedStyles["pageBackground_" + theme]]}>
+        <View style={[styles.row, { marginBottom: 20 }]}>
+          <View
+            style={[
+              styles.searchContainer,
+              sharedStyles["borderedContainer_" + theme],
+            ]}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                searchFood();
+              }}
+            >
+              <Image
+                source={require("../../../assets/images/search2.png")}
+                style={[
+                  { width: 30, height: 30 },
+                  sharedStyles["tint_" + theme],
+                ]}
+              />
+            </TouchableOpacity>
             <TextInput
-              style={[styles.textStyle, styles.input]}
+              style={[
+                styles.textStyle,
+                sharedStyles["textColour_" + theme],
+                styles.input,
+              ]}
               onChangeText={setSearchInput}
               value={searchInput}
               placeholder="Food, meal or brand"
-              onSubmitEditing={() => searchFood(searchInput)}
+              placeholderTextColor={ValueSheet.colours[theme].inputGrey}
+              onSubmitEditing={() => searchFood()}
             />
           </View>
 
@@ -186,50 +230,67 @@ const SearchFood = ({ navigation, route }) => {
           >
             <Image
               source={require("../../../assets/images/barcode.png")}
-              style={styles.smallImage}
+              style={[styles.smallImage, sharedStyles["tint_" + theme]]}
             />
           </TouchableOpacity>
         </View>
-        {searchResults.length >= 1 ? (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.scrollContainer}
-          >
-            {searchResults.map((item, index) => (
-              <View key={index} style={styles.resultContainer}>
-                <View style={{ flexDirection: "vertical", flex: 1 }}>
-                  <Text
-                    style={[
-                      styles.textStyle,
-                      { flexShrink: 1, flexWrap: "wrap" },
-                    ]}
-                  >
-                    {item.name}
-                  </Text>
-                  <Text style={[styles.textStyle, { fontSize: 12 }]}>
-                    {Math.round(item.calorieCount * energyMultiplier)}{" "}
-                    {dietUnit}
-                  </Text>
-                </View>
-
-                <TouchableOpacity
-                  onPress={() => {
-                    addEntryRef.current.open(item, dietUnit);
-                  }}
+        <TouchableWithoutFeedback onPress={() => searchFood()}>
+          {searchResults.length >= 1 ? (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.scrollContainer}
+            >
+              {searchResults.map((item, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.resultContainer,
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
                 >
-                  <Image
-                    style={styles.smallImage}
-                    source={require("../../../assets/images/plus512.png")}
-                  />
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
-        ) : (
-          <View style={styles.textContainer}>
-            <Text style={styles.greyText}>{text}</Text>
-          </View>
-        )}
+                  <View style={{ flexDirection: "vertical", flex: 1 }}>
+                    <Text
+                      style={[
+                        styles.textStyle,
+                        sharedStyles["textColour_" + theme],
+                        { flexShrink: 1, flexWrap: "wrap" },
+                      ]}
+                    >
+                      {item.name}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.textStyle,
+                        sharedStyles["textColour_" + theme],
+                        { fontSize: 12 },
+                      ]}
+                    >
+                      {Math.round(item.calorieCount * energyMultiplier)}{" "}
+                      {dietUnit}
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      addEntryRef.current.open(item, dietUnit);
+                    }}
+                  >
+                    <Image
+                      style={[styles.smallImage, sharedStyles["tint_" + theme]]}
+                      source={require("../../../assets/images/plus512.png")}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </ScrollView>
+          ) : (
+            <View style={styles.textContainer}>
+              <Text style={[styles.greyText, styles["greyText_" + theme]]}>
+                {text}
+              </Text>
+            </View>
+          )}
+        </TouchableWithoutFeedback>
 
         <AddEntryModal
           getRef={(ref) => (addEntryRef.current = ref)}
@@ -253,12 +314,15 @@ const styles = StyleSheet.create({
     overflow: "visible",
     paddingBottom: 30,
   },
-  topArea: {
-    backgroundColor: ValueSheet.colours.secondaryColour,
+  topArea_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour,
+    flex: 1,
+  },
+  topArea_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour,
     flex: 1,
   },
   mainArea: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 3,
     minWidth: 0,
     justifyContent: "flex-start",
@@ -268,7 +332,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     justifyContent: "space-between",
     marginVertical: 10,
     paddingHorizontal: 20,
@@ -287,7 +350,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     padding: 10,
   },
   topAreaBody: {
@@ -304,21 +366,25 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: ValueSheet.colours.primaryColour,
+    color: ValueSheet.colours.light.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
   textStyle: {
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
   greyText: {
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.inputGrey,
     textAlign: "center",
     alignSelf: "center",
+  },
+  greyText_dark: {
+    color: ValueSheet.colours.dark.inputGrey,
+  },
+  greyText_light: {
+    color: ValueSheet.colours.light.inputGrey,
   },
   textContainer: {
     alignItems: "center",

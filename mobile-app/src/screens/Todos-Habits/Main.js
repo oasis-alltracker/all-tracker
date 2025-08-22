@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, memo } from "react";
+import React, { useRef, useState, useEffect, memo, useContext } from "react";
 import {
   Image,
   ImageBackground,
@@ -14,6 +14,7 @@ import UpdateHabitStatusModal from "./modals/UpdateHabitStatusModal";
 import moment from "moment";
 import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const Main = ({
   day,
@@ -21,8 +22,6 @@ const Main = ({
   dueToDos,
   dueTasks,
   trackingPreferences,
-  isLoading,
-  setIsLoading,
   updateDate,
   createHabitRef,
   taskRef,
@@ -32,6 +31,7 @@ const Main = ({
   updateDueToDoStatus,
   updateDueTaskStatus,
 }) => {
+  const theme = useContext(ThemeContext).value;
   const updateHabitsStatusRef = useRef(null);
   const { width, height } = useWindowDimensions();
   const today = new Date();
@@ -93,7 +93,10 @@ const Main = ({
     }, []);
 
     return (
-      <TouchableOpacity onPress={onPress} style={styles.itemRenderMain}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.itemRenderMain, sharedStyles["border_" + theme]]}
+      >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             onPress={async () => {
@@ -121,22 +124,34 @@ const Main = ({
                 await updateDueToDoStatus(item);
               }
             }}
-            style={styles.checkRender}
+            style={[styles.checkRender, sharedStyles["border_" + theme]]}
           >
             {isCheck && (
               <Image
-                style={styles.checkImageRender}
+                style={[styles.checkImageRender, sharedStyles["tint_" + theme]]}
                 source={require("../../assets/images/check.png")}
               />
             )}
           </TouchableOpacity>
           <View style={{ width: width * 0.63 }}>
             {isCheck ? (
-              <Text style={styles.itemRenderTextMainStrikeThru}>
+              <Text
+                style={[
+                  styles.itemRenderTextMainStrikeThru,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
                 {item.name}
               </Text>
             ) : (
-              <Text style={styles.itemRenderTextMain}>{item.name}</Text>
+              <Text
+                style={[
+                  styles.itemRenderTextMain,
+                  sharedStyles["textColour_" + theme],
+                ]}
+              >
+                {item.name}
+              </Text>
             )}
           </View>
         </View>
@@ -146,7 +161,14 @@ const Main = ({
               <>
                 {moment(itemDate).format("YYYYMMDD") ==
                 moment(currentDay).format("YYYYMMDD") ? (
-                  <Text style={styles.dueTodayText}>Today</Text>
+                  <Text
+                    style={[
+                      styles.dueTodayText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Today
+                  </Text>
                 ) : (
                   <>
                     {moment(itemDate).format("YYYYMMDD") <
@@ -155,7 +177,12 @@ const Main = ({
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     ) : (
-                      <Text style={styles.itemRenderText3Main}>
+                      <Text
+                        style={[
+                          styles.itemRenderText3Main,
+                          sharedStyles["textColour_" + theme],
+                        ]}
+                      >
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     )}
@@ -166,7 +193,14 @@ const Main = ({
               <View>
                 {moment(itemDate).format("YYYYMMDD") ==
                 moment(currentDay).format("YYYYMMDD") ? (
-                  <Text style={styles.dueTodayText}>Today</Text>
+                  <Text
+                    style={[
+                      styles.dueTodayText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    Today
+                  </Text>
                 ) : (
                   <>
                     {moment(itemDate).format("YYYYMMDD") <
@@ -175,7 +209,12 @@ const Main = ({
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     ) : (
-                      <Text style={styles.itemRenderText3Main}>
+                      <Text
+                        style={[
+                          styles.itemRenderText3Main,
+                          sharedStyles["textColour_" + theme],
+                        ]}
+                      >
                         {itemDate.toDateString().slice(4, -4)}
                       </Text>
                     )}
@@ -206,14 +245,17 @@ const Main = ({
           style={[sharedStyles.headerImageContainer, styles.imageContainer]}
         >
           <Image
-            style={sharedStyles.headerImage}
+            style={[sharedStyles.headerImage, sharedStyles.tint_light]}
             source={require("../../assets/images/mind-white.png")}
           />
         </View>
 
         <View style={sharedStyles.datePickerView}>
           <TouchableOpacity
-            style={sharedStyles.changeDateButton}
+            style={[
+              sharedStyles.changeDateButton,
+              sharedStyles["changeDateButton_" + theme],
+            ]}
             onPress={() => updateDate(-1)}
           >
             <Image
@@ -225,16 +267,31 @@ const Main = ({
             <View style={sharedStyles.dateTextContainer}>
               {moment(day).format("YYYYMMDD") ==
               moment(today).format("YYYYMMDD") ? (
-                <Text style={sharedStyles.dateText}>Today</Text>
+                <Text
+                  style={[
+                    sharedStyles.dateText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
+                  Today
+                </Text>
               ) : (
-                <Text style={sharedStyles.dateText}>
+                <Text
+                  style={[
+                    sharedStyles.dateText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
                   {day.toDateString().slice(4, -5)}
                 </Text>
               )}
             </View>
           </>
           <TouchableOpacity
-            style={sharedStyles.changeDateButton}
+            style={[
+              sharedStyles.changeDateButton,
+              sharedStyles["changeDateButton_" + theme],
+            ]}
             onPress={() => updateDate(1)}
           >
             <Image
@@ -247,7 +304,14 @@ const Main = ({
         {trackingPreferences.habitsSelected && (
           <>
             <View style={sharedStyles.trackerDashView}>
-              <Text style={sharedStyles.trackerTitle}>Habits</Text>
+              <Text
+                style={[
+                  sharedStyles.trackerTitle,
+                  sharedStyles["trackerTitleColour_" + theme],
+                ]}
+              >
+                Habits
+              </Text>
               <View style={styles.buttonItems}>
                 <TouchableOpacity
                   onPress={() => {
@@ -255,7 +319,7 @@ const Main = ({
                   }}
                 >
                   <Image
-                    style={styles.plusMain}
+                    style={[styles.plusMain, sharedStyles["tint_" + theme]]}
                     source={require("../../assets/images/plus512.png")}
                   />
                 </TouchableOpacity>
@@ -276,10 +340,7 @@ const Main = ({
                           <TouchableOpacity
                             style={[
                               styles.habitButtonMain,
-                              {
-                                backgroundColor:
-                                  ValueSheet.colours.secondaryColour65,
-                              },
+                              styles["habitButtonColour_" + theme],
                             ]}
                             key={key.toString()}
                             onPress={() => {
@@ -304,7 +365,7 @@ const Main = ({
                             }}
                           >
                             <Image
-                              style={styles.habitImageMain}
+                              style={[styles.habitImageMain]}
                               source={{ uri: val.pngURL }}
                             />
                           </TouchableOpacity>
@@ -312,11 +373,8 @@ const Main = ({
                           <TouchableOpacity
                             style={[
                               styles.habitButtonMain,
-                              {
-                                backgroundColor: ValueSheet.colours.background,
-                                borderColor: ValueSheet.colours.grey,
-                                borderWidth: 1,
-                              },
+                              styles.habitButtonBordered,
+                              sharedStyles["borderedContainer_" + theme],
                             ]}
                             key={key.toString()}
                             onPress={() => {
@@ -346,7 +404,10 @@ const Main = ({
                               resizeMode="cover"
                             >
                               <Image
-                                style={styles.habitImageMain}
+                                style={[
+                                  styles.habitImageMain,
+                                  sharedStyles["tint_" + theme],
+                                ]}
                                 source={require("../../assets/images/check-mark.png")}
                               />
                             </ImageBackground>
@@ -390,11 +451,8 @@ const Main = ({
                         <TouchableOpacity
                           style={[
                             styles.habitButtonMain,
-                            {
-                              backgroundColor: ValueSheet.colours.background,
-                              borderColor: ValueSheet.colours.grey,
-                              borderWidth: 1,
-                            },
+                            styles.habitButtonBordered,
+                            sharedStyles["borderedContainer_" + theme],
                           ]}
                           key={key.toString()}
                           onPress={() => {
@@ -437,18 +495,18 @@ const Main = ({
                     <TouchableOpacity
                       style={[
                         styles.habitButtonMain,
-                        {
-                          backgroundColor: ValueSheet.colours.background,
-                          borderColor: ValueSheet.colours.grey,
-                          borderWidth: 1,
-                        },
+                        styles.habitButtonBordered,
+                        sharedStyles["borderedContainer_" + theme],
                       ]}
                       onPress={() => {
                         createHabitRef.current.open();
                       }}
                     >
                       <Image
-                        style={styles.habitImageMain}
+                        style={[
+                          styles.habitImageMain,
+                          sharedStyles["tint_" + theme],
+                        ]}
                         source={require("../../assets/images/plus512.png")}
                       />
                     </TouchableOpacity>
@@ -462,7 +520,14 @@ const Main = ({
         {trackingPreferences.toDosSelected && (
           <>
             <View style={[sharedStyles.trackerDashView]}>
-              <Text style={sharedStyles.trackerTitle}>To-dos</Text>
+              <Text
+                style={[
+                  sharedStyles.trackerTitle,
+                  sharedStyles["trackerTitleColour_" + theme],
+                ]}
+              >
+                To-dos
+              </Text>
               <View style={styles.buttonItems}>
                 <TouchableOpacity
                   onPress={() => {
@@ -470,7 +535,7 @@ const Main = ({
                   }}
                 >
                   <Image
-                    style={styles.plusMain}
+                    style={[styles.plusMain, sharedStyles["tint_" + theme]]}
                     source={require("../../assets/images/plus512.png")}
                   />
                 </TouchableOpacity>
@@ -516,7 +581,12 @@ const Main = ({
               </View>
             ) : (
               <View style={{ width: "100%", textAlign: "left" }}>
-                <Text style={styles.quoteText}>
+                <Text
+                  style={[
+                    styles.quoteText,
+                    sharedStyles["textColour_" + theme],
+                  ]}
+                >
                   - "Luck is the residue of hard work."
                 </Text>
               </View>
@@ -559,6 +629,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "transparent",
   },
+  habitButtonBordered: {
+    borderWidth: 1,
+  },
+  habitButtonColour_light: {
+    backgroundColor: ValueSheet.colours.light.secondaryColour65,
+  },
+  habitButtonColour_dark: {
+    backgroundColor: ValueSheet.colours.dark.secondaryColour65,
+  },
   buttonItems: {
     alignItems: "center",
     justifyContent: "space-between",
@@ -566,7 +645,6 @@ const styles = StyleSheet.create({
   },
   quoteText: {
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
     fontSize: 15,
     marginTop: 22,
     paddingHorizontal: 40,
@@ -584,7 +662,6 @@ const styles = StyleSheet.create({
   itemRenderMain: {
     flexDirection: "row",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderBottomWidth: 0,
@@ -599,7 +676,6 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: ValueSheet.colours.grey,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -608,7 +684,6 @@ const styles = StyleSheet.create({
     height: 20,
   },
   itemRenderTextMain: {
-    color: ValueSheet.colours.black,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
@@ -617,7 +692,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   itemRenderTextMainStrikeThru: {
-    color: ValueSheet.colours.black,
     fontSize: 18,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 20,
@@ -627,25 +701,23 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   itemRenderText2Main: {
-    color: ValueSheet.colours.borderPink,
+    color: ValueSheet.colours.light.borderPink,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   itemRenderText3Main: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 6,
   },
   dueTodayText: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
   },
   imageContainer: {
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink70,
+    backgroundColor: ValueSheet.colours.light.pink65,
+    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });

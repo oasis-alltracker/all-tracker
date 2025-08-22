@@ -5,9 +5,8 @@ import {
   Image,
   TouchableOpacity,
   useWindowDimensions,
-  Platform,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Header, Button } from "../../../components";
 import navigationService from "../../../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,8 +15,11 @@ import UserAPI from "../../../api/user/userAPI";
 import Toast from "react-native-toast-message";
 import { DISPLAY_PHYSICAL_SETUP_BUTTONS } from "./experimentFlags";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const SelectTrackers = () => {
+  const theme = useContext(ThemeContext).value;
   const { width, height } = useWindowDimensions();
 
   const [habitsSelected, setHabitsSelected] = useState(false);
@@ -149,9 +151,11 @@ const SelectTrackers = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Header showCenter={false} />
-      <Text style={[styles.subtitle]}>
+      <Text style={[styles.subtitle, sharedStyles["textColour_" + theme]]}>
         Which areas of your daily life would you like to log?
       </Text>
 
@@ -160,10 +164,11 @@ const SelectTrackers = () => {
           <TouchableOpacity
             style={[
               styles.button,
+              sharedStyles["pinkContainer_" + theme],
               !habitsSelected && { opacity: 0.5 },
               habitsSelected && { borderWidth: 1.5 },
               habitsSelected && {
-                borderColor: ValueSheet.colours.primaryColour,
+                borderColor: ValueSheet.colours[theme].primaryColour,
               },
               { width: buttonSize, height: buttonSize },
             ]}
@@ -176,15 +181,18 @@ const SelectTrackers = () => {
               }}
               source={require("../../../assets/images/habits512.png")}
             />
-            <Text style={styles.title}>habits</Text>
+            <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+              habits
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.button,
+              sharedStyles["pinkContainer_" + theme],
               !toDosSelected && { opacity: 0.5 },
               toDosSelected && { borderWidth: 1.5 },
               toDosSelected && {
-                borderColor: ValueSheet.colours.primaryColour,
+                borderColor: ValueSheet.colours[theme].primaryColour,
               },
               { width: buttonSize, height: buttonSize },
             ]}
@@ -197,7 +205,9 @@ const SelectTrackers = () => {
               }}
               source={require("../../../assets/images/to-dos512.png")}
             />
-            <Text style={styles.title}>to-dos</Text>
+            <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+              to-dos
+            </Text>
           </TouchableOpacity>
         </View>
         {DISPLAY_PHYSICAL_SETUP_BUTTONS && (
@@ -205,16 +215,15 @@ const SelectTrackers = () => {
             <TouchableOpacity
               style={[
                 styles.button,
+                sharedStyles["purpleContainer_" + theme],
                 {
-                  backgroundColor: ValueSheet.colours.purple65,
-                  borderColor: ValueSheet.colours.purple,
                   width: buttonSize,
                   height: buttonSize,
                 },
                 !dietSelected && { opacity: 0.5 },
                 dietSelected && { borderWidth: 1.5 },
                 dietSelected && {
-                  borderColor: ValueSheet.colours.primaryColour,
+                  borderColor: ValueSheet.colours[theme].primaryColour,
                 },
               ]}
               onPress={() => setDietSelected(!dietSelected)}
@@ -226,21 +235,22 @@ const SelectTrackers = () => {
                 }}
                 source={require("../../../assets/images/diet512.png")}
               />
-              <Text style={styles.title}>diet</Text>
+              <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+                diet
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.button,
+                sharedStyles["purpleContainer_" + theme],
                 {
-                  backgroundColor: ValueSheet.colours.purple65,
-                  borderColor: ValueSheet.colours.purple,
                   width: buttonSize,
                   height: buttonSize,
                 },
                 !fitnessSelected && { opacity: 0.5 },
                 fitnessSelected && { borderWidth: 1.5 },
                 fitnessSelected && {
-                  borderColor: ValueSheet.colours.primaryColour,
+                  borderColor: ValueSheet.colours[theme].primaryColour,
                 },
               ]}
               onPress={() => setFitnessSelected(!fitnessSelected)}
@@ -252,7 +262,9 @@ const SelectTrackers = () => {
                 }}
                 source={require("../../../assets/images/fitness512.png")}
               />
-              <Text style={styles.title}>fitness</Text>
+              <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+                fitness
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -260,15 +272,16 @@ const SelectTrackers = () => {
           <TouchableOpacity
             style={[
               styles.button,
+              sharedStyles["yellowContainer_" + theme],
               {
-                backgroundColor: ValueSheet.colours.yellow75,
-                borderColor: ValueSheet.colours.borderYellow,
                 width: buttonSize,
                 height: buttonSize,
               },
               !moodSelected && { opacity: 0.5 },
               moodSelected && { borderWidth: 1.5 },
-              moodSelected && { borderColor: ValueSheet.colours.primaryColour },
+              moodSelected && {
+                borderColor: ValueSheet.colours[theme].primaryColour,
+              },
             ]}
             onPress={() => setMoodSelected(!moodSelected)}
           >
@@ -279,21 +292,22 @@ const SelectTrackers = () => {
               }}
               source={require("../../../assets/images/mood512.png")}
             />
-            <Text style={styles.title}>mood</Text>
+            <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+              mood
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
               styles.button,
+              sharedStyles["yellowContainer_" + theme],
               {
-                backgroundColor: ValueSheet.colours.yellow75,
-                borderColor: ValueSheet.colours.borderYellow,
                 width: buttonSize,
                 height: buttonSize,
               },
               !sleepSelected && { opacity: 0.5 },
               sleepSelected && { borderWidth: 1.5 },
               sleepSelected && {
-                borderColor: ValueSheet.colours.primaryColour,
+                borderColor: ValueSheet.colours[theme].primaryColour,
               },
             ]}
             onPress={() => setSleepSelected(!sleepSelected)}
@@ -305,7 +319,9 @@ const SelectTrackers = () => {
               }}
               source={require("../../../assets/images/sleep512.png")}
             />
-            <Text style={styles.title}>sleep</Text>
+            <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+              sleep
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -313,6 +329,7 @@ const SelectTrackers = () => {
         onPress={() => setSelectedTrackers()}
         style={{ marginHorizontal: width * 0.05 }}
         isLoading={isLoading}
+        positiveSelect={true}
       >
         Continue
       </Button>
@@ -326,7 +343,6 @@ export default SelectTrackers;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   center: {
     flexDirection: "row",
@@ -339,17 +355,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: ValueSheet.colours.pink65,
-    borderColor: ValueSheet.colours.borderPink,
   },
   title: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
     marginTop: 7,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   subtitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
     fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",

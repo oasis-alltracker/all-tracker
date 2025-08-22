@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -18,8 +18,11 @@ import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const DietNotifications = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers } = props.route.params;
   const [isBreakfastEnabled, setIsBreakfastEnabled] = useState(false);
   const [breakfastTime, setBreakfastTime] = useState(
@@ -360,45 +363,67 @@ const DietNotifications = (props) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
 
       <View style={styles.center}>
-        <View style={styles.imageCon}>
+        <View
+          style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/images/diet.png")}
           />
-          <Text style={styles.imageText}>diet</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            diet
+          </Text>
         </View>
 
-        <Text style={styles.title}>Notifications:</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Notifications:
+        </Text>
 
-        <Text style={[styles.text, styles.minitext]}>
+        <Text
+          style={[
+            styles.text,
+            styles.minitext,
+            sharedStyles["textColour_" + theme],
+          ]}
+        >
           Get personalized reminders to stay on track
         </Text>
-        <View style={[styles.mealContainer, styles.itemContainer4]}>
+        <View
+          style={[
+            styles.mealContainer,
+            styles.itemContainer4,
+            sharedStyles["borderedContainer_" + theme],
+          ]}
+        >
           <Switch
             width={55}
             height={32}
             onValueChange={breakfastToggled}
             value={isBreakfastEnabled}
             trackColor={{
-              true: ValueSheet.colours.secondaryColour,
-              false: ValueSheet.colours.purple,
+              true: ValueSheet.colours[theme].secondaryColour,
+              false: ValueSheet.colours[theme].purple,
             }}
             thumbColor={
               isBreakfastEnabled
-                ? ValueSheet.colours.secondaryColour
-                : ValueSheet.colours.purple
+                ? ValueSheet.colours[theme].secondaryColour
+                : ValueSheet.colours[theme].purple
             }
           />
-          <Text style={styles.itemTitle}>Breakfast</Text>
+          <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
+            Breakfast
+          </Text>
           <View
             style={[
               styles.mealTimeContainer,
               styles.itemContainer3,
-              { backgroundColor: ValueSheet.colours.secondaryColour },
+              sharedStyles["timePicker_" + theme],
             ]}
           >
             <>
@@ -441,28 +466,36 @@ const DietNotifications = (props) => {
             </View>
           </View>
         </View>
-        <View style={[styles.mealContainer, styles.itemContainer4]}>
+        <View
+          style={[
+            styles.mealContainer,
+            styles.itemContainer4,
+            sharedStyles["borderedContainer_" + theme],
+          ]}
+        >
           <Switch
             width={55}
             height={32}
             onValueChange={lunchToggled}
             value={isLunchEnabled}
             trackColor={{
-              true: ValueSheet.colours.secondaryColour,
-              false: ValueSheet.colours.purple,
+              true: ValueSheet.colours[theme].secondaryColour,
+              false: ValueSheet.colours[theme].purple,
             }}
             thumbColor={
               isLunchEnabled
-                ? ValueSheet.colours.secondaryColour
-                : ValueSheet.colours.purple
+                ? ValueSheet.colours[theme].secondaryColour
+                : ValueSheet.colours[theme].purple
             }
           />
-          <Text style={styles.itemTitle}>Lunch</Text>
+          <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
+            Lunch
+          </Text>
           <View
             style={[
               styles.mealTimeContainer,
               styles.itemContainer3,
-              { backgroundColor: ValueSheet.colours.secondaryColour },
+              sharedStyles["timePicker_" + theme],
             ]}
           >
             <>
@@ -505,28 +538,36 @@ const DietNotifications = (props) => {
             </View>
           </View>
         </View>
-        <View style={[styles.mealContainer, styles.itemContainer4]}>
+        <View
+          style={[
+            styles.mealContainer,
+            styles.itemContainer4,
+            sharedStyles["borderedContainer_" + theme],
+          ]}
+        >
           <Switch
             width={55}
             height={32}
             onValueChange={dinnerToggled}
             value={isDinnerEnabled}
             trackColor={{
-              true: ValueSheet.colours.secondaryColour,
-              false: ValueSheet.colours.purple,
+              true: ValueSheet.colours[theme].secondaryColour,
+              false: ValueSheet.colours[theme].purple,
             }}
             thumbColor={
               isDinnerEnabled
-                ? ValueSheet.colours.secondaryColour
-                : ValueSheet.colours.purple
+                ? ValueSheet.colours[theme].secondaryColour
+                : ValueSheet.colours[theme].purple
             }
           />
-          <Text style={styles.itemTitle}>Dinner</Text>
+          <Text style={[styles.itemTitle, sharedStyles["textColour_" + theme]]}>
+            Dinner
+          </Text>
           <View
             style={[
               styles.mealTimeContainer,
               styles.itemContainer3,
-              { backgroundColor: ValueSheet.colours.secondaryColour },
+              sharedStyles["timePicker_" + theme],
             ]}
           >
             <>
@@ -573,11 +614,15 @@ const DietNotifications = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -589,7 +634,6 @@ const DietNotifications = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -598,8 +642,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -610,7 +652,6 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
@@ -622,13 +663,8 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   center: { alignItems: "center" },
   text: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 24,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
@@ -639,7 +675,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 25,
     textAlign: "center",
@@ -651,7 +686,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     paddingHorizontal: 15,
     paddingVertical: 20,
@@ -678,7 +712,6 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginLeft: 15,
     flex: 1,

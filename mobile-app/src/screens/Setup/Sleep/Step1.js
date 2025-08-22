@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
+import { useState, useEffect, useContext } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { Button } from "../../../components";
@@ -11,8 +11,11 @@ import Spinner from "react-native-loading-spinner-overlay";
 import Soultification from "../../Settings/Notifications/soultification";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const SleepStep1 = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers } = props.route.params;
 
   const [isMorningAlarmToggled, setIsMorningAlarmToggled] = useState(false);
@@ -176,19 +179,25 @@ const SleepStep1 = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}
       >
-        <View style={styles.imageCon}>
+        <View
+          style={[styles.imageCon, sharedStyles["yellowContainer_" + theme]]}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/images/sleep.png")}
           />
-          <Text style={styles.imageText}>sleep</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            sleep
+          </Text>
         </View>
         <View style={{ marginTop: 65 }}>
           <Soultification
@@ -205,11 +214,15 @@ const SleepStep1 = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -221,7 +234,6 @@ const SleepStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -230,8 +242,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.yellow75,
-    borderColor: ValueSheet.colours.borderYellow,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -242,7 +252,6 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },

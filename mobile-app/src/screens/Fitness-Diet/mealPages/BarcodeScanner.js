@@ -6,7 +6,7 @@ import {
   useCameraPermission,
   useCameraFormat,
 } from "react-native-vision-camera";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -20,6 +20,8 @@ import Spinner from "react-native-loading-spinner-overlay";
 import navigationService from "../../../navigators/navigationService";
 import { useFocusEffect } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 const BarcodeScanner = ({ route }) => {
   const device = useCameraDevice("back");
@@ -38,6 +40,7 @@ const BarcodeScanner = ({ route }) => {
   const viewfinderHeight = 300;
 
   const dietUnit = route.params?.dietUnit;
+  const theme = useContext(ThemeContext).value;
 
   useFocusEffect(
     useCallback(() => {
@@ -97,23 +100,35 @@ const BarcodeScanner = ({ route }) => {
 
   const PermissionNotice = () => {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+      >
         <View style={styles.cameraElementsContainer} pointerEvents="box-none">
           <TouchableOpacity
             style={styles.backArrowContainer}
             onPress={() => exitPage(null, null)}
           >
             <Image
-              style={styles.backArrow}
+              style={[styles.backArrow, sharedStyles["tint_" + theme]]}
               source={require("../../../assets/images/back-arrow.png")}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.deniedPermissionsMessage}>
-          <Text style={styles.deniedPermissionsHeader}>
+          <Text
+            style={[
+              styles.deniedPermissionsHeader,
+              sharedStyles["textColour_" + theme],
+            ]}
+          >
             Camera Permissions Required
           </Text>
-          <Text style={styles.deniedPermissionsText}>
+          <Text
+            style={[
+              styles.deniedPermissionsText,
+              sharedStyles["textColour_" + theme],
+            ]}
+          >
             Please close the app and allow camera permissions in your settings,
             then return to this page.
           </Text>

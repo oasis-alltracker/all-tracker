@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
@@ -9,8 +9,11 @@ import { getAccessToken } from "../../../user/keychain";
 import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../../ValueSheet";
+import { sharedStyles } from "../../styles";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const FitnessStep2 = (props) => {
+  const theme = useContext(ThemeContext).value;
   const { selectedTrackers } = props.route.params;
   const [isLoading, setIsLoading] = useState(false);
   const onNext = async () => {
@@ -55,21 +58,29 @@ const FitnessStep2 = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.center}
       >
-        <View style={styles.imageCon}>
+        <View
+          style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}
+        >
           <Image
             style={styles.image}
             source={require("../../../assets/images/fitness.png")}
           />
-          <Text style={styles.imageText}>fitness</Text>
+          <Text style={[styles.imageText, sharedStyles["textColour_light"]]}>
+            fitness
+          </Text>
         </View>
-        <Text style={styles.title}>Select templates</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Select templates
+        </Text>
         <Button style={styles.bigButtons}>Upper - push</Button>
         <Button style={styles.bigButtons}>Upper - pull</Button>
         <Button style={styles.bigButtons}>Legs</Button>
@@ -78,11 +89,15 @@ const FitnessStep2 = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={styles.button}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -94,7 +109,6 @@ const FitnessStep2 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -103,8 +117,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 100,
     borderWidth: 2,
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -114,13 +126,11 @@ const styles = StyleSheet.create({
   },
   imageText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginTop: 10,
   },
   title: {
     fontSize: 28,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 15,
     marginBottom: 20,
@@ -133,14 +143,8 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   bigButtons: {
     width: "100%",
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
     height: 90,
     borderRadius: 40,
     marginTop: 10,

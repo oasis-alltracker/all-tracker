@@ -22,6 +22,7 @@ export const ThemeProvider = ({ children }) => {
   const updateTheme = async (colorScheme) => {
     if (colorScheme == "dark" || colorScheme == "light") {
       setTheme(colorScheme);
+      Appearance.setColorScheme(colorScheme);
       await AsyncStorage.setItem("theme", colorScheme);
     }
   };

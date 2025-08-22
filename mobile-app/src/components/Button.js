@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -7,8 +7,13 @@ import {
   StyleSheet,
 } from "react-native";
 import { ValueSheet } from "../ValueSheet";
+import { sharedStyles } from "../screens/styles";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 const Button = (props) => {
+  const theme = useContext(ThemeContext).value;
+  var positiveSelect = props?.positiveSelect || false;
+
   const _renderInnerText = () => {
     if (props.isLoading) {
       return (
@@ -24,7 +29,15 @@ const Button = (props) => {
       typeof props.children === "number"
     ) {
       return (
-        <Text style={[styles.textStyle, props.textStyle]}>
+        <Text
+          style={[
+            styles.textStyle,
+            positiveSelect
+              ? sharedStyles["textColour_light"]
+              : sharedStyles["textColour_" + theme],
+            props.textStyle,
+          ]}
+        >
           {props.children}
         </Text>
       );
@@ -34,14 +47,30 @@ const Button = (props) => {
 
   if (props.isDisabled === true || props.isLoading === true) {
     return (
-      <View style={[styles.button, props.style, props.style || styles.opacity]}>
+      <View
+        style={[
+          styles.button,
+          sharedStyles["button_" + theme],
+          props.style,
+          props.style || sharedStyles["pageBackground_" + theme],
+        ]}
+      >
         {_renderInnerText()}
       </View>
     );
   }
 
   return (
-    <TouchableOpacity {...props} style={[styles.button, props.style]}>
+    <TouchableOpacity
+      {...props}
+      style={[
+        styles.button,
+        positiveSelect
+          ? sharedStyles["button_" + theme]
+          : sharedStyles["borderedContainer_" + theme],
+        props.style,
+      ]}
+    >
       {_renderInnerText()}
     </TouchableOpacity>
   );
@@ -52,26 +81,20 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: ValueSheet.colours.secondaryColour65,
     borderRadius: 20,
     marginBottom: 20,
     justifyContent: "center",
     overflow: "hidden",
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     paddingHorizontal: 10,
     paddingBottom: 5,
   },
   spinner: {
     alignSelf: "center",
   },
-  opacity: {
-    backgroundColor: ValueSheet.colours.background,
-  },
   textStyle: {
     fontSize: 26,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
   },
 });
 

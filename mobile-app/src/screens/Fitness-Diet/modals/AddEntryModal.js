@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import {
   Image,
   StyleSheet,
@@ -21,6 +21,8 @@ import { ValueSheet } from "../../../ValueSheet";
 import UpdateMacrosModal from "../../Setup/Diet/UpdateMacrosModal";
 import Toast from "react-native-toast-message";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemeContext } from "../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../styles";
 
 const macroTitles = [
   {
@@ -59,6 +61,7 @@ export default function AddEntryModal({
   foodEntriesChangedRef,
   setMeal,
 }) {
+  const theme = useContext(ThemeContext).value;
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const updateMacrosRef = useRef(null);
@@ -343,9 +346,11 @@ export default function AddEntryModal({
             setSelectOpen(false);
           }}
         >
-          <View style={styles.container}>
+          <View
+            style={[styles.container, sharedStyles["modalBackground_" + theme]]}
+          >
             <Text
-              style={styles.titleText}
+              style={[styles.titleText, sharedStyles["textColour_" + theme]]}
               adjustsFontSizeToFit={true}
               numberOfLines={2}
             >
@@ -354,7 +359,11 @@ export default function AddEntryModal({
             <Spinner visible={isLoading}></Spinner>
             <View style={styles.serving}>
               <View style={[styles.row, { zIndex: 1000 }]}>
-                <Text style={styles.rowText}>Serving: </Text>
+                <Text
+                  style={[styles.rowText, sharedStyles["textColour_" + theme]]}
+                >
+                  Serving:{" "}
+                </Text>
                 <View style={{ width: "60%" }}>
                   <DropDownPicker
                     open={selectOpen}
@@ -373,9 +382,18 @@ export default function AddEntryModal({
                       setPrevQuantity("1");
                     }}
                     onOpen={() => Keyboard.dismiss()}
-                    style={[styles.borderedContainer]}
-                    dropDownContainerStyle={styles.dropdownContainer}
-                    textStyle={styles.selectText}
+                    style={[
+                      styles.borderedContainer,
+                      sharedStyles["borderedContainer_" + theme],
+                    ]}
+                    dropDownContainerStyle={[
+                      styles.dropdownContainer,
+                      sharedStyles["borderedContainer_" + theme],
+                    ]}
+                    textStyle={[
+                      styles.selectText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
                     itemSeparator={true}
                     itemSeparatorStyle={{
                       backgroundColor: ValueSheet.colours.borderGrey75,
@@ -385,9 +403,18 @@ export default function AddEntryModal({
               </View>
 
               <View style={styles.row}>
-                <Text style={styles.rowText}>Quantity: </Text>
+                <Text
+                  style={[styles.rowText, sharedStyles["textColour_" + theme]]}
+                >
+                  Quantity:{" "}
+                </Text>
                 <TextInput
-                  style={[styles.borderedContainer, styles.input]}
+                  style={[
+                    styles.borderedContainer,
+                    styles.input,
+                    sharedStyles["textColour_" + theme],
+                    sharedStyles["borderedContainer_" + theme],
+                  ]}
                   inputMode="decimal"
                   onChangeText={setQuantity}
                   value={quantity}
@@ -400,17 +427,32 @@ export default function AddEntryModal({
             {macroTitles.map((item, index) => (
               <View
                 key={index}
-                style={[styles.borderedContainer, styles.macroContainer]}
+                style={[
+                  styles.borderedContainer,
+                  styles.macroContainer,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
               >
                 <View style={styles.row}>
-                  <Image style={styles.icon} source={item.icon} />
-                  <Text style={styles.rowText}>{item.name}</Text>
+                  <Image
+                    style={[styles.icon, sharedStyles["tint_" + theme]]}
+                    source={item.icon}
+                  />
+                  <Text
+                    style={[
+                      styles.rowText,
+                      sharedStyles["textColour_" + theme],
+                    ]}
+                  >
+                    {item.name}
+                  </Text>
                 </View>
 
                 <View style={styles.row}>
                   <Text
                     style={[
                       styles.rowText,
+                      sharedStyles["textColour_" + theme],
                       { fontFamily: ValueSheet.fonts.primaryBold },
                     ]}
                   >
@@ -430,7 +472,7 @@ export default function AddEntryModal({
                     }}
                   >
                     <Image
-                      style={styles.icon}
+                      style={[styles.icon, sharedStyles["tint_" + theme]]}
                       source={require("../../../assets/images/edit.png")}
                     />
                   </TouchableOpacity>
@@ -440,24 +482,37 @@ export default function AddEntryModal({
 
             <View style={styles.row}>
               <TouchableOpacity
-                style={[styles.button, styles.borderedContainer]}
+                style={[
+                  styles.button,
+                  styles.borderedContainer,
+                  sharedStyles["borderedContainer_" + theme],
+                ]}
                 onPress={() => {
                   setVisible(false);
                 }}
               >
-                <Text style={[styles.rowText]}>Cancel</Text>
+                <Text
+                  style={[styles.rowText, sharedStyles["textColour_" + theme]]}
+                >
+                  Cancel
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
                   styles.button,
                   styles.borderedContainer,
-                  { backgroundColor: ValueSheet.colours.secondaryColour },
+                  sharedStyles["button_" + theme],
                 ]}
                 onPress={() => {
                   editing == false ? onAddFoodEntry() : onEditSave();
                 }}
               >
-                <Text style={[styles.rowText]}>
+                <Text
+                  style={[
+                    styles.rowText,
+                    { color: ValueSheet.colours.light.primaryColour },
+                  ]}
+                >
                   {editing == true ? "Save" : "Add"}
                 </Text>
               </TouchableOpacity>
@@ -485,28 +540,23 @@ const styles = StyleSheet.create({
   borderedContainer: {
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: ValueSheet.colours.borderGrey75,
     alignItems: "center",
     padding: 5,
   },
   container: {
     width: "90%",
     padding: 20,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   titleText: {
     fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 33,
-    color: ValueSheet.colours.primaryColour,
     alignSelf: "left",
     marginBottom: 15,
   },
   rowText: {
     fontSize: 22,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
   },
   row: {
@@ -536,13 +586,11 @@ const styles = StyleSheet.create({
     width: "60%",
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
   },
   serving: {
     marginBottom: 20,
   },
   selectText: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 12,
     textAlign: "center",
     fontFamily: ValueSheet.fonts.primaryBold,
