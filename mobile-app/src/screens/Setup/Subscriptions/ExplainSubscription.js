@@ -69,11 +69,16 @@ const ExplainSubscription = (props) => {
           justifyContent: "center",
         }}
       >
-        <Text style={sharedStyles["textColour_" + theme]}>
-          <Text style={[styles.title, { marginTop: height * 0.05 }]}>
-            1 month <Text style={styles.bold}>free{"\n"}</Text>then $2.99/month
-          </Text>
+        <Text
+          style={[
+            styles.title,
+            sharedStyles["textColour_" + theme],
+            { marginTop: height * 0.05 },
+          ]}
+        >
+          1 month <Text style={styles.bold}>free{"\n"}</Text>then $2.99/month
         </Text>
+
         <View style={styles.middleContainer}>
           <Image
             source={require("../../../assets/images/subscription-image.png")}
@@ -118,6 +123,7 @@ const ExplainSubscription = (props) => {
 
       <Button
         onPress={() => subscribe()}
+        positiveSelect={true}
         style={[styles.nextButton, { height: height * 0.065 }]}
       >
         Subscribe
