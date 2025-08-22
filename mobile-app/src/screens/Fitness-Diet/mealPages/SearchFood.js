@@ -157,6 +157,7 @@ const SearchFood = ({ navigation, route }) => {
                 params["dietUnit"] = route.params?.dietUnit;
                 params["foodEntriesChanged"] = route.params?.foodEntriesChanged;
               }
+              console.log(params);
               navigationService.navigate(prevPage, params);
             }}
           >
@@ -225,6 +226,7 @@ const SearchFood = ({ navigation, route }) => {
                 prevPage: prevPage,
                 meal: mealMacros,
                 dietUnit: dietUnit,
+                foodEntriesChanged: route.params?.foodEntriesChanged,
               });
             }}
           >

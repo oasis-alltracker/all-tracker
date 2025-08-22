@@ -27,9 +27,8 @@ import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const FitnessDiet = ({ navigation, route }) => {
   const theme = useContext(ThemeContext).value;
-  var { refreshGoals } = route.params?.isEditingGoals || false;
-  var { foodEntriesChanged } = route.params?.foodItemsChanged || false;
-  var refreshMeal = route.params?.refreshMeal || null;
+  // var { refreshGoals } = route.params?.isEditingGoals || false;
+  // var refreshMeal = route.params?.refreshMeal || null;
   const [pageIndex, setPageIndex] = useState(0);
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
@@ -146,17 +145,14 @@ const FitnessDiet = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    refreshGoals = route.params?.isEditingGoals;
-    foodEntriesChanged = route.params?.foodItemsChanged;
+    var refreshGoals = route.params?.isEditingGoals;
+    var refreshMeal = route.params?.refreshMeal || null;
+
     if (refreshGoals) {
       getGoals();
     }
-
     if (refreshMeal != null) {
       getMeal(refreshMeal);
-    }
-    if (foodEntriesChanged) {
-      refreshMeals();
     }
   }, [route]);
 

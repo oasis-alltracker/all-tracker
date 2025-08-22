@@ -39,7 +39,6 @@ const BarcodeScanner = ({ route }) => {
   const viewfinderWidth = 375;
   const viewfinderHeight = 300;
 
-  const dietUnit = route.params?.dietUnit;
   const theme = useContext(ThemeContext).value;
 
   useFocusEffect(
@@ -81,19 +80,15 @@ const BarcodeScanner = ({ route }) => {
   });
 
   const exitPage = (barcodeType, barcodeData) => {
-    var params = {
-      prevPage: route.params.prevPage,
-      meal: route.params.meal,
-      mealName: route.params.mealName,
-      dayString: route.params.dayString,
-      dietUnit: dietUnit,
-    };
+    var params = { ...route.params };
+
     if (barcodeType && barcodeData) {
       params["barcodeInfo"] = {
         type: barcodeType,
         data: barcodeData,
       };
     }
+    console.log("new params" + JSON.stringify(params));
 
     navigationService.navigate("searchFood", params);
   };

@@ -71,6 +71,7 @@ const MealPage = ({ navigation, route }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      console.log(route.params?.foodEntriesChanged || false);
       foodEntriesChangedRef.current = route.params?.foodEntriesChanged || false;
     }, [])
   );
@@ -174,9 +175,10 @@ const MealPage = ({ navigation, route }) => {
 
             if (refreshMeal != null) {
               params["refreshMeal"] = refreshMeal;
-            } else {
-              params["foodItemsChanged"] = foodEntriesChangedRef.current;
+            } else if (foodEntriesChangedRef.current) {
+              params["refreshMeal"] = mealName.toLowerCase();
             }
+            console.log(params);
             navigationService.navigate("fitness-diet", params);
           }}
         >
