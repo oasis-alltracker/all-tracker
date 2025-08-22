@@ -205,7 +205,7 @@ const SleepStep1 = (props) => {
             body="Time to wake up and review your sleep"
             notifications={morningNotifications}
             isToggled={isMorningAlarmToggled}
-            toggled={morningAlarmToggled}
+            toggledHandler={morningAlarmToggled}
             setIsToggled={setIsMorningAlarmToggled}
             group="morning"
           />
