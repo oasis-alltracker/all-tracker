@@ -76,10 +76,7 @@ export default function Main({
       <View
         style={[
           sharedStyles.headerImageContainer,
-          {
-            backgroundColor: ValueSheet.colours[theme].purple,
-            borderColor: ValueSheet.colours[theme].borderPurple70,
-          },
+          sharedStyles["purpleContainer_" + theme],
         ]}
       >
         <Image

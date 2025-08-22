@@ -187,7 +187,9 @@ const MealPage = ({ navigation, route }) => {
         <View style={styles.topAreaBody}>
           <View style={styles.mealHeader}>
             <Image style={styles.mealIcon} source={mealImage}></Image>
-            <Text style={styles.title}>{mealName}</Text>
+            <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+              {mealName}
+            </Text>
           </View>
           <Text style={styles.textStyle}>
             {currentDate.toLocaleDateString(undefined, {
@@ -250,7 +252,11 @@ const MealPage = ({ navigation, route }) => {
               style={[styles.addFood, sharedStyles["button_" + theme]]}
               onPress={addMealItem}
             >
-              <Text style={styles.addFoodText}>Add Food</Text>
+              <Text
+                style={[styles.addFoodText, sharedStyles["textColour_light"]]}
+              >
+                Add Food
+              </Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
@@ -433,7 +439,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: ValueSheet.colours.light.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
@@ -470,7 +475,6 @@ const styles = StyleSheet.create({
   addFoodText: {
     fontFamily: ValueSheet.fonts.primaryFont,
     fontSize: 25,
-    color: ValueSheet.colours.light.primaryColour,
   },
   mealItemCalories: {
     fontFamily: ValueSheet.fonts.primaryFont,

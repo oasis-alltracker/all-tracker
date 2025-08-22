@@ -160,13 +160,14 @@ const BarcodeScanner = ({ route }) => {
             onPress={() => exitPage(null, null)}
           >
             <Image
-              style={[styles.backArrow, styles.backArrowCameraActive]}
+              style={[styles.backArrow, sharedStyles["tint_dark"]]}
               source={require("../../../assets/images/back-arrow.png")}
             />
           </TouchableOpacity>
           <Image
             style={[
               styles.viewfinder,
+              sharedStyles["tint_dark"],
               {
                 top: windowHeight / 2 - viewfinderHeight / 2,
                 left: windowWidth / 2 - viewfinderWidth / 2,
@@ -208,13 +209,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 10,
   },
-  backArrowCameraActive: {
-    tintColor: ValueSheet.colours.background,
-  },
   viewfinder: {
     flex: 1,
     position: "absolute",
-    tintColor: ValueSheet.colours.background,
   },
   camera: {
     flex: 1,
@@ -228,7 +225,6 @@ const styles = StyleSheet.create({
   deniedPermissionsHeader: {
     fontSize: 32,
     fontFamily: ValueSheet.fonts.primaryBold,
-    color: ValueSheet.colours.primaryColour,
     alignSelf: "center",
     textAlign: "center",
     marginBottom: 100,
@@ -236,7 +232,6 @@ const styles = StyleSheet.create({
   deniedPermissionsText: {
     fontSize: 20,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.primaryColour,
     alignSelf: "center",
     textAlign: "center",
   },

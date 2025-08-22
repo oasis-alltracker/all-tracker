@@ -197,7 +197,7 @@ export default function Diet({
           unfilledColor={innerColor}
           color={outerColor}
           borderWidth={1}
-          borderColor={ValueSheet.colours.borderGrey}
+          borderColor={ValueSheet.colours[theme].borderGrey}
         >
           <View style={styles.progressCircleContent}>
             <Text
@@ -267,6 +267,7 @@ export default function Diet({
               sharedStyles.headerImageContainer,
               styles.imageContainer,
               sharedStyles["tint_" + theme],
+              sharedStyles["purpleContainer_" + theme],
             ]}
           >
             <Image
@@ -492,9 +493,5 @@ const styles = StyleSheet.create({
   },
   line_light: {
     borderBottomColor: ValueSheet.colours.light.grey,
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.purple,
-    borderColor: ValueSheet.colours.borderPurple70,
   },
 });

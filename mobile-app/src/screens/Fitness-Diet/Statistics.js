@@ -40,10 +40,7 @@ export default function Statistics({ dietGoals, day, updateStats }) {
       <View
         style={[
           sharedStyles.headerImageContainer,
-          {
-            backgroundColor: ValueSheet.colours.purple,
-            borderColor: ValueSheet.colours.borderPurple70,
-          },
+          sharedStyles["purpleContainer_" + theme],
         ]}
       >
         <Image
