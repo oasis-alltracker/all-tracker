@@ -12,7 +12,7 @@ import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 import navigationService from "../../navigators/navigationService";
-import { ThemeContext } from "../../contexts/ThemeProvider";
+import { useContext } from "react";
 
 const moodData = [
   {
