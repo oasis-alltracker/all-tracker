@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const data = [
   {
@@ -26,6 +28,7 @@ const SleepStep4 = (props) => {
   const { width, height } = useWindowDimensions();
   const [active, setActive] = useState(0);
   const { sleepReport } = props.route.params;
+  const theme = useContext(ThemeContext).value;
 
   const onNext = async () => {
     if (active == 0) {
@@ -44,25 +47,41 @@ const SleepStep4 = (props) => {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.center}>
-        <Text style={styles.title}>Did you manage your consumption?</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Did you manage your consumption?
+        </Text>
 
         {data.map((val, key) => (
           <TouchableOpacity
             key={key}
             style={[
               styles.buttonCon,
+              sharedStyles["borderedContainer_" + theme],
               { width: width * 0.9 },
               active === key + 1 && {
-                backgroundColor: ValueSheet.colours.secondaryColour,
+                backgroundColor: ValueSheet.colours[theme].secondaryColour,
               },
             ]}
             onPress={() => {
               setActive(key + 1);
             }}
           >
-            <Text style={styles.yesNoText}>{val.text}</Text>
+            <Text
+              style={[
+                styles.yesNoText,
+                sharedStyles["textColour_" + theme],
+                { color: ValueSheet.colours[theme].primaryColour },
+                active === key + 1 && {
+                  color: ValueSheet.colours.light.primaryColour,
+                },
+              ]}
+            >
+              {val.text}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -70,11 +89,15 @@ const SleepStep4 = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.goBack()}
-          style={[styles.button, styles.back]}
+          style={[styles.button]}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -86,7 +109,7 @@ const SleepStep4 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
+
     padding: 15,
     justifyContent: "space-between",
   },
@@ -97,11 +120,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 120,
     marginBottom: 15,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 70,
     marginBottom: 80,
@@ -109,7 +130,6 @@ const styles = StyleSheet.create({
   },
   yesNoText: {
     fontSize: 25,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryFont,
     textAlign: "center",
   },
@@ -120,10 +140,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",

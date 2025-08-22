@@ -1,27 +1,34 @@
+import React, { useEffect, useContext, useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
 import RNModal from "react-native-modal";
 import { Image } from "react-native";
 import { Button } from "../../../../components";
 import DreamJournalModal from "./dreamJournalModal";
 import Spinner from "react-native-loading-spinner-overlay";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const data = [
   {
-    image: require("../../../../assets/images/sleepRating/1.png"),
+    light: require("../../../../assets/images/sleepRating/1_light.png"),
+    dark: require("../../../../assets/images/sleepRating/1_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/2.png"),
+    light: require("../../../../assets/images/sleepRating/2_light.png"),
+    dark: require("../../../../assets/images/sleepRating/2_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/3.png"),
+    light: require("../../../../assets/images/sleepRating/3_light.png"),
+    dark: require("../../../../assets/images/sleepRating/3_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/4.png"),
+    light: require("../../../../assets/images/sleepRating/4_light.png"),
+    dark: require("../../../../assets/images/sleepRating/4_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/5.png"),
+    light: require("../../../../assets/images/sleepRating/5_light.png"),
+    dark: require("../../../../assets/images/sleepRating/5_dark.png"),
   },
 ];
 
@@ -30,6 +37,7 @@ export default function SleepReportModal({
   updateSleepReport,
   deleteSleepReport,
 }) {
+  const theme = useContext(ThemeContext).value;
   const [visible, setVisible] = useState(false);
 
   const [title, setTitle] = useState(null);
@@ -107,59 +115,110 @@ export default function SleepReportModal({
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       onBackdropPress={() => setVisible(false)}
-      backdropColor={ValueSheet.colours.secondaryColour27}
+      backdropColor={ValueSheet.colours[theme].secondaryColour27}
       style={styles.modal}
     >
       <Spinner visible={isLoading}></Spinner>
-      <View style={styles.container}>
-        <Text style={styles.titleTitle}>{title}</Text>
+      <View
+        style={[styles.container, sharedStyles["borderedContainer_" + theme]]}
+      >
+        <Text style={[styles.titleTitle, sharedStyles["textColour_" + theme]]}>
+          {title}
+        </Text>
         <View style={styles.center}>
           <Image
             style={styles.ratingImage}
-            source={data[Number(rating) - 1].image}
+            source={data[Number(rating) - 1][theme]}
           />
         </View>
 
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Comfy?</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Comfy?
+          </Text>
           {wasComfyEnvironment ? (
-            <Text style={styles.dataValue}>Yes</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              Yes
+            </Text>
           ) : (
-            <Text style={styles.dataValue}>No</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              No
+            </Text>
           )}
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Wind down?</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Wind down?
+          </Text>
           {didWindDown ? (
-            <Text style={styles.dataValue}>Yes</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              Yes
+            </Text>
           ) : (
-            <Text style={styles.dataValue}>No</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              No
+            </Text>
           )}
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Managed intake?</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Managed intake?
+          </Text>
           {didManageIntake ? (
-            <Text style={styles.dataValue}>Yes</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              Yes
+            </Text>
           ) : (
-            <Text style={styles.dataValue}>No</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              No
+            </Text>
           )}
         </View>
         <View style={styles.descriptionRow}>
-          <Text style={styles.dataTitle}>Relaxed?</Text>
+          <Text style={[styles.dataTitle, sharedStyles["textColour_" + theme]]}>
+            Relaxed?
+          </Text>
           {didRelaxation ? (
-            <Text style={styles.dataValue}>Yes</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              Yes
+            </Text>
           ) : (
-            <Text style={styles.dataValue}>No</Text>
+            <Text
+              style={[styles.dataValue, sharedStyles["textColour_" + theme]]}
+            >
+              No
+            </Text>
           )}
         </View>
         <View style={styles.center}>
           <TouchableOpacity
-            style={styles.diaryButton}
+            style={[
+              styles.diaryButton,
+              sharedStyles["borderedContainer_" + theme],
+            ]}
             onPress={() => {
               dreamRef.current.open(sleepReport);
             }}
           >
-            <Text style={styles.diaryText}>Dream</Text>
+            <Text
+              style={[styles.diaryText, sharedStyles["textColour_" + theme]]}
+            >
+              Dream
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -167,7 +226,11 @@ export default function SleepReportModal({
           <Button onPress={() => onBack()} style={[styles.button, styles.back]}>
             {"Delete"}
           </Button>
-          <Button onPress={() => onDone()} style={styles.button}>
+          <Button
+            onPress={() => onDone()}
+            style={styles.button}
+            positiveSelect={true}
+          >
             Ok
           </Button>
         </View>
@@ -189,11 +252,9 @@ const styles = StyleSheet.create({
   container: {
     width: "90%",
     paddingVertical: 15,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 30,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderBlockColor: ValueSheet.colours.black50,
   },
   ratingImage: {
     width: 70,
@@ -213,19 +274,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   dataTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
     fontFamily: ValueSheet.fonts.primaryFont,
     marginLeft: 5,
   },
   titleTitle: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 28,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 10,
   },
   dataValue: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 22,
     fontFamily: ValueSheet.fonts.primaryBold,
     flex: 1,
@@ -237,14 +295,12 @@ const styles = StyleSheet.create({
   },
   back: {
     backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
   },
   diaryButton: {
     borderWidth: 2,
-    borderColor: ValueSheet.colours.grey,
     borderRadius: 30,
     height: 40,
     width: 150,
@@ -255,7 +311,6 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   diaryText: {
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     fontSize: 20,
   },

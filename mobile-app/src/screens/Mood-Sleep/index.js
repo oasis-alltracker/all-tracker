@@ -1,5 +1,5 @@
 import { ValueSheet } from "../../ValueSheet";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -24,8 +24,10 @@ import SleepReportModal from "./reviews/sleep/sleepReportModal";
 import moment from "moment";
 import Toast from "react-native-toast-message";
 import WellnessReportModal from "./reviews/mood/wellnessReportModal";
+import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const MoodSleep = ({ navigation }) => {
+  const theme = useContext(ThemeContext).value;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();
 
@@ -281,7 +283,9 @@ const MoodSleep = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <Spinner visible={isLoading}></Spinner>
 
       <View style={styles.container}>
@@ -308,8 +312,8 @@ const MoodSleep = ({ navigation }) => {
                 style={[
                   sharedStyles.dot,
                   key === index && {
-                    backgroundColor: ValueSheet.colours.primaryColour,
-                    borderColor: ValueSheet.colours.borderNavy,
+                    backgroundColor: ValueSheet.colours[theme].primaryColour,
+                    borderColor: ValueSheet.colours[theme].borderNavy,
                   },
                 ]}
               />
@@ -333,7 +337,6 @@ const MoodSleep = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: ValueSheet.colours.background,
     flex: 1,
   },
   button: {

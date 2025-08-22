@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -14,28 +14,36 @@ import navigationService from "../../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import moment from "moment";
 import { ValueSheet } from "../../../../ValueSheet";
+import { ThemeContext } from "../../../../contexts/ThemeProvider";
+import { sharedStyles } from "../../../styles";
 
 const data = [
   {
-    image: require("../../../../assets/images/moodRating/5.png"),
+    light: require("../../../../assets/images/moodRating/5_light.png"),
+    dark: require("../../../../assets/images/moodRating/5_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/4.png"),
+    light: require("../../../../assets/images/moodRating/4_light.png"),
+    dark: require("../../../../assets/images/moodRating/4_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/3.png"),
+    light: require("../../../../assets/images/moodRating/3_light.png"),
+    dark: require("../../../../assets/images/moodRating/3_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/2.png"),
+    light: require("../../../../assets/images/moodRating/2_light.png"),
+    dark: require("../../../../assets/images/moodRating/2_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/1.png"),
+    light: require("../../../../assets/images/moodRating/1_light.png"),
+    dark: require("../../../../assets/images/moodRating/1_dark.png"),
   },
 ];
 
 const WellnessStep1 = (props) => {
   const { width, height } = useWindowDimensions();
   const [active, setActive] = useState(0);
+  const theme = useContext(ThemeContext).value;
   var dateStamp, dateString;
 
   if (props.route.params) {
@@ -66,9 +74,13 @@ const WellnessStep1 = (props) => {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, sharedStyles["pageBackground_" + theme]]}
+    >
       <View style={styles.center}>
-        <Text style={styles.title}>Overall, how are you feeling?</Text>
+        <Text style={[styles.title, sharedStyles["textColour_" + theme]]}>
+          Overall, how are you feeling?
+        </Text>
 
         {data.map((val, key) => (
           <TouchableOpacity
@@ -78,15 +90,16 @@ const WellnessStep1 = (props) => {
             }}
             style={[
               styles.imageCon,
+              sharedStyles["borderedContainer_" + theme],
               { height: height * 0.09, width: width * 0.9 },
               active === key + 1 && {
-                backgroundColor: ValueSheet.colours.secondaryColour,
+                backgroundColor: ValueSheet.colours.light.secondaryColour,
               },
             ]}
           >
             <Image
               style={{ width: height * 0.08, height: height * 0.08 }}
-              source={val.image}
+              source={val[theme]}
             />
           </TouchableOpacity>
         ))}
@@ -95,11 +108,15 @@ const WellnessStep1 = (props) => {
       <View style={styles.buttons}>
         <Button
           onPress={() => navigationService.reset("mood-sleep", 0)}
-          style={[styles.button, styles.back]}
+          style={[styles.button]}
         >
           Back
         </Button>
-        <Button onPress={() => onNext()} style={styles.button}>
+        <Button
+          onPress={() => onNext()}
+          style={styles.button}
+          positiveSelect={true}
+        >
           Next
         </Button>
       </View>
@@ -111,7 +128,6 @@ const WellnessStep1 = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     padding: 15,
     justifyContent: "space-between",
   },
@@ -121,11 +137,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
-    borderColor: ValueSheet.colours.grey,
   },
   title: {
     fontSize: 30,
-    color: ValueSheet.colours.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     marginTop: 40,
     marginBottom: 35,
@@ -138,10 +152,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "47%",
-  },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
   },
   center: {
     alignItems: "center",
