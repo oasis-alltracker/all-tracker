@@ -64,9 +64,14 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
         />
       </View>
 
-      <View style={[styles.dateLineMain, sharedStyles["border_" + theme]]}>
+      <View
+        style={[sharedStyles.datePickerView, sharedStyles["border_" + theme]]}
+      >
         <TouchableOpacity
-          style={[styles.buttonMain, sharedStyles["changeDateButton_" + theme]]}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
           onPress={() => updateWeek(-7)}
         >
           <Image

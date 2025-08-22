@@ -254,10 +254,7 @@ const Main = ({
         </View>
 
         <View
-          style={[
-            sharedStyles.datePickerView,
-            sharedStyles["datePickerView_" + theme],
-          ]}
+          style={[sharedStyles.datePickerView, sharedStyles["border_" + theme]]}
         >
           <TouchableOpacity
             style={[

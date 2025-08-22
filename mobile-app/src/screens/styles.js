@@ -29,12 +29,6 @@ export const sharedStyles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 2,
   },
-  datePickerView_dark: {
-    borderColor: ValueSheet.colours.dark.borderGrey,
-  },
-  datePickerView_light: {
-    borderColor: ValueSheet.colours.light.borderGrey,
-  },
   changeDateButton: {
     paddingVertical: 15,
     paddingHorizontal: 20,
