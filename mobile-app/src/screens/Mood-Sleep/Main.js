@@ -16,37 +16,47 @@ import navigationService from "../../navigators/navigationService";
 
 const moodData = [
   {
-    image: require("../../assets/images/moodRating/1.png"),
+    light: require("../../assets/images/moodRating/1_light.png"),
+    dark: require("../../assets/images/moodRating/1_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/2.png"),
+    light: require("../../assets/images/moodRating/2_light.png"),
+    dark: require("../../assets/images/moodRating/2_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/3.png"),
+    light: require("../../assets/images/moodRating/3_light.png"),
+    dark: require("../../assets/images/moodRating/3_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/4.png"),
+    light: require("../../assets/images/moodRating/4_light.png"),
+    dark: require("../../assets/images/moodRating/4_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/5.png"),
+    light: require("../../assets/images/moodRating/5_light.png"),
+    dark: require("../../assets/images/moodRating/5_dark.png"),
   },
 ];
 
 const sleepData = [
   {
-    image: require("../../assets/images/sleepRating/1.png"),
+    light: require("../../assets/images/sleepRating/1_light.png"),
+    dark: require("../../assets/images/sleepRating/1_dark.png"),
   },
   {
-    image: require("../../assets/images/sleepRating/2.png"),
+    light: require("../../assets/images/sleepRating/2_light.png"),
+    dark: require("../../assets/images/sleepRating/2_dark.png"),
   },
   {
-    image: require("../../assets/images/sleepRating/3.png"),
+    light: require("../../assets/images/sleepRating/3_light.png"),
+    dark: require("../../assets/images/sleepRating/3_dark.png"),
   },
   {
-    image: require("../../assets/images/sleepRating/4.png"),
+    light: require("../../assets/images/sleepRating/4_light.png"),
+    dark: require("../../assets/images/sleepRating/4_dark.png"),
   },
   {
-    image: require("../../assets/images/sleepRating/5.png"),
+    light: require("../../assets/images/sleepRating/5_light.png"),
+    dark: require("../../assets/images/sleepRating/5_dark.png"),
   },
 ];
 
@@ -157,7 +167,7 @@ export default function Main({
               <Image
                 style={{ width: height * 0.08, height: height * 0.08 }}
                 source={
-                  moodData[Number(wellnessReportForDay.feeling) - 1].image
+                  moodData[Number(wellnessReportForDay.feeling) - 1][theme]
                 }
               />
             </TouchableOpacity>
@@ -224,7 +234,7 @@ export default function Main({
             >
               <Image
                 style={{ width: height * 0.08, height: height * 0.08 }}
-                source={sleepData[Number(sleepReportForDay.rating) - 1].image}
+                source={sleepData[Number(sleepReportForDay.rating) - 1][theme]}
               />
             </TouchableOpacity>
           ) : (

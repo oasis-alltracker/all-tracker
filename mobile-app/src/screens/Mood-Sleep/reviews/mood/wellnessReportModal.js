@@ -11,19 +11,24 @@ import { sharedStyles } from "../../../styles";
 
 const data = [
   {
-    image: require("../../../../assets/images/moodRating/1.png"),
+    light: require("../../../../assets/images/moodRating/1_light.png"),
+    dark: require("../../../../assets/images/moodRating/1_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/2.png"),
+    light: require("../../../../assets/images/moodRating/2_light.png"),
+    dark: require("../../../../assets/images/moodRating/2_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/3.png"),
+    light: require("../../../../assets/images/moodRating/3_light.png"),
+    dark: require("../../../../assets/images/moodRating/3_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/4.png"),
+    light: require("../../../../assets/images/moodRating/4_light.png"),
+    dark: require("../../../../assets/images/moodRating/4_dark.png"),
   },
   {
-    image: require("../../../../assets/images/moodRating/5.png"),
+    light: require("../../../../assets/images/moodRating/5_light.png"),
+    dark: require("../../../../assets/images/moodRating/5_dark.png"),
   },
 ];
 
@@ -123,7 +128,7 @@ export default function WellnessReportModal({
         <View style={styles.center}>
           <Image
             style={styles.ratingImage}
-            source={data[Number(feeling) - 1].image}
+            source={data[Number(feeling) - 1][theme]}
           />
         </View>
 

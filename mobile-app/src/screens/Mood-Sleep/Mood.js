@@ -18,19 +18,24 @@ const today = new Date();
 
 const data = [
   {
-    image: require("../../assets/images/moodRating/1.png"),
+    light: require("../../assets/images/moodRating/1_light.png"),
+    dark: require("../../assets/images/moodRating/1_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/2.png"),
+    light: require("../../assets/images/moodRating/2_light.png"),
+    dark: require("../../assets/images/moodRating/2_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/3.png"),
+    light: require("../../assets/images/moodRating/3_light.png"),
+    dark: require("../../assets/images/moodRating/3_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/4.png"),
+    light: require("../../assets/images/moodRating/4_light.png"),
+    dark: require("../../assets/images/moodRating/4_dark.png"),
   },
   {
-    image: require("../../assets/images/moodRating/5.png"),
+    light: require("../../assets/images/moodRating/5_light.png"),
+    dark: require("../../assets/images/moodRating/5_dark.png"),
   },
 ];
 
@@ -73,7 +78,7 @@ export default function Mood({ moodRef, allWellnessReports }) {
                 >
                   <Image
                     style={styles.moodImage}
-                    source={data[Number(val.feeling) - 1].image}
+                    source={data[Number(val.feeling) - 1][theme]}
                   />
                 </View>
               </Text>

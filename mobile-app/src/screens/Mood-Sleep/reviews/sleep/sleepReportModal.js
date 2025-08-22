@@ -11,19 +11,24 @@ import { sharedStyles } from "../../../styles";
 
 const data = [
   {
-    image: require("../../../../assets/images/sleepRating/1.png"),
+    light: require("../../../../assets/images/sleepRating/1_light.png"),
+    dark: require("../../../../assets/images/sleepRating/1_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/2.png"),
+    light: require("../../../../assets/images/sleepRating/2_light.png"),
+    dark: require("../../../../assets/images/sleepRating/2_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/3.png"),
+    light: require("../../../../assets/images/sleepRating/3_light.png"),
+    dark: require("../../../../assets/images/sleepRating/3_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/4.png"),
+    light: require("../../../../assets/images/sleepRating/4_light.png"),
+    dark: require("../../../../assets/images/sleepRating/4_dark.png"),
   },
   {
-    image: require("../../../../assets/images/sleepRating/5.png"),
+    light: require("../../../../assets/images/sleepRating/5_light.png"),
+    dark: require("../../../../assets/images/sleepRating/5_dark.png"),
   },
 ];
 
@@ -123,7 +128,7 @@ export default function SleepReportModal({
         <View style={styles.center}>
           <Image
             style={styles.ratingImage}
-            source={data[Number(rating) - 1].image}
+            source={data[Number(rating) - 1][theme]}
           />
         </View>
 
