@@ -1,11 +1,10 @@
 import { ValueSheet } from "../../ValueSheet";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
-  Platform,
 } from "react-native";
 import MenuIcon from "../../assets/icons/menu";
 import Main from "./Main";
@@ -311,9 +310,9 @@ const MoodSleep = ({ navigation }) => {
                 key={key.toString()}
                 style={[
                   sharedStyles.dot,
+                  sharedStyles["dot_" + theme],
                   key === index && {
                     backgroundColor: ValueSheet.colours[theme].primaryColour,
-                    borderColor: ValueSheet.colours[theme].borderNavy,
                   },
                 ]}
               />

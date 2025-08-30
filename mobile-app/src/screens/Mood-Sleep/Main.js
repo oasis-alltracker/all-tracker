@@ -1,4 +1,3 @@
-import React, { useEffect, useContext } from "react";
 import {
   Image,
   ScrollView,
@@ -13,6 +12,7 @@ import { sharedStyles } from "../styles";
 import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 import navigationService from "../../navigators/navigationService";
+import { useContext } from "react";
 
 const moodData = [
   {
@@ -69,9 +69,9 @@ export default function Main({
   wellnessReportForDay,
   sleepReportForDay,
 }) {
+  const theme = useContext(ThemeContext).value;
   const today = new Date();
   const { width, height } = useWindowDimensions();
-  const theme = useContext(ThemeContext).value;
 
   return (
     <ScrollView
@@ -90,7 +90,9 @@ export default function Main({
           source={require("../../assets/images/soul-blue.png")}
         />
       </View>
-      <View style={sharedStyles.datePickerView}>
+      <View
+        style={[sharedStyles.datePickerView, sharedStyles["border_" + theme]]}
+      >
         <TouchableOpacity
           style={[
             sharedStyles.changeDateButton,

@@ -1,8 +1,10 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
 import NavigationService from "../navigators/navigationService";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ValueSheet } from "../ValueSheet";
+import { sharedStyles } from "../screens/styles";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 const MainHeader = ({
   containerStyle = {},
@@ -22,6 +24,7 @@ const MainHeader = ({
   centerComponent = null,
   numberOfLines = 1,
 }) => {
+  const theme = useContext(ThemeContext).value;
   return (
     <SafeAreaView edges={["top"]} style={[styles.container, style]}>
       <View style={styles.leftCon}>
@@ -30,7 +33,11 @@ const MainHeader = ({
             leftComponent
           ) : (
             <TouchableOpacity
-              style={[styles.iconWrapper, leftStyle]}
+              style={[
+                styles.iconWrapper,
+                leftStyle,
+                sharedStyles["pageBackground_" + theme],
+              ]}
               onPress={onLeftPressed}
             >
               <Image
@@ -92,7 +99,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: ValueSheet.colours.black50,
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   iconWrapper: {
@@ -101,14 +107,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 12,
-    backgroundColor: ValueSheet.colours.background,
     borderRadius: 12,
-  },
-  rightComponent: {
-    flexDirection: "row",
-    padding: 3,
-    backgroundColor: ValueSheet.colours.background,
-    borderRadius: 20,
   },
   icon: {
     width: 30,

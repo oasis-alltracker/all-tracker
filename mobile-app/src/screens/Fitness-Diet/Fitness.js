@@ -43,7 +43,7 @@ export default function Fitness() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
-      <View style={styles.imageCon}>
+      <View style={[styles.imageCon, sharedStyles["purpleContainer_" + theme]]}>
         <Image
           style={styles.image}
           source={require("../../assets/images/fitness.png")}
@@ -126,8 +126,6 @@ const styles = StyleSheet.create({
     width: 180,
     height: 180,
     borderRadius: 100,
-    backgroundColor: ValueSheet.colours.light.purple,
-    borderColor: ValueSheet.colours.light.borderPurple70,
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",

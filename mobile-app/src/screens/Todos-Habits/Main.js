@@ -242,7 +242,10 @@ const Main = ({
         removeClippedSubviews={false}
       >
         <View
-          style={[sharedStyles.headerImageContainer, styles.imageContainer]}
+          style={[
+            sharedStyles.headerImageContainer,
+            sharedStyles["pinkContainer_" + theme],
+          ]}
         >
           <Image
             style={sharedStyles.headerImage}
@@ -250,7 +253,9 @@ const Main = ({
           />
         </View>
 
-        <View style={sharedStyles.datePickerView}>
+        <View
+          style={[sharedStyles.datePickerView, sharedStyles["border_" + theme]]}
+        >
           <TouchableOpacity
             style={[
               sharedStyles.changeDateButton,
@@ -307,7 +312,7 @@ const Main = ({
               <Text
                 style={[
                   sharedStyles.trackerTitle,
-                  sharedStyles["trackerTitleColour_" + theme],
+                  sharedStyles["textColour_" + theme],
                 ]}
               >
                 Habits
@@ -523,7 +528,7 @@ const Main = ({
               <Text
                 style={[
                   sharedStyles.trackerTitle,
-                  sharedStyles["trackerTitleColour_" + theme],
+                  sharedStyles["textColour_" + theme],
                 ]}
               >
                 To-dos
@@ -715,9 +720,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
     paddingRight: 3,
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.light.pink65,
-    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });

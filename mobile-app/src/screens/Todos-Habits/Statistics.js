@@ -52,16 +52,26 @@ const Statistics = ({ trackingPreferences, updateStats }) => {
       scrollEnabled={false}
     >
       <Spinner visible={isLoading}></Spinner>
-      <View style={[sharedStyles.headerImageContainer, styles.imageContainer]}>
+      <View
+        style={[
+          sharedStyles.headerImageContainer,
+          sharedStyles["pinkContainer_" + theme],
+        ]}
+      >
         <Image
           style={sharedStyles.headerImage}
           source={require("../../assets/images/stats.png")}
         />
       </View>
 
-      <View style={[styles.dateLineMain, sharedStyles["border_" + theme]]}>
+      <View
+        style={[sharedStyles.datePickerView, sharedStyles["border_" + theme]]}
+      >
         <TouchableOpacity
-          style={[styles.buttonMain, sharedStyles["changeDateButton_" + theme]]}
+          style={[
+            sharedStyles.changeDateButton,
+            sharedStyles["changeDateButton_" + theme],
+          ]}
           onPress={() => updateWeek(-7)}
         >
           <Image
@@ -159,9 +169,5 @@ const styles = StyleSheet.create({
         rotate: "180deg",
       },
     ],
-  },
-  imageContainer: {
-    backgroundColor: ValueSheet.colours.light.pink65,
-    borderColor: ValueSheet.colours.light.borderPink70,
   },
 });

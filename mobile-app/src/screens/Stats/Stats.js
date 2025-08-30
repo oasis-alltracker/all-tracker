@@ -117,7 +117,12 @@ const Stats = ({ getRef }) => {
         <ScrollView
           style={[styles.tcContainer, { height: height * 0.7, width: width }]}
         >
-          <View style={sharedStyles.datePickerView}>
+          <View
+            style={[
+              sharedStyles.datePickerView,
+              sharedStyles["border_" + theme],
+            ]}
+          >
             <TouchableOpacity
               style={[
                 sharedStyles.changeDateButton,

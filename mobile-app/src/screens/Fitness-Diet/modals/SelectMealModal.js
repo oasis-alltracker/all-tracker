@@ -55,18 +55,11 @@ export default function SelectMealModal({
         </Text>
         {mealTitles.map((item, index) => (
           <View key={index}>
-            <View
-              style={[
-                styles.line,
-                {
-                  borderBottomColor: ValueSheet.colours[theme].grey,
-                },
-              ]}
-            />
+            <View style={[styles.line, sharedStyles["border_" + theme]]} />
             <TouchableOpacity
               style={[
                 selectedIndex == index && {
-                  backgroundColor: ValueSheet.colours.grey25,
+                  backgroundColor: ValueSheet.colours[theme].grey25,
                 },
               ]}
               onPress={() => updateSelected(index)}
@@ -85,27 +78,18 @@ export default function SelectMealModal({
             </TouchableOpacity>
           </View>
         ))}
-        <View
-          style={[
-            styles.line,
-            {
-              borderBottomColor: ValueSheet.colours.grey,
-            },
-          ]}
-        />
+        <View style={[styles.line, sharedStyles["border_" + theme]]} />
 
         <TouchableOpacity
           style={[
             styles.button,
             selectedIndex == -1
               ? {
-                  backgroundColor: ValueSheet.colours.grey75,
-                  borderColor: ValueSheet.colours.grey,
+                  backgroundColor: ValueSheet.colours[theme].grey75,
+                  borderColor: ValueSheet.colours[theme].grey,
                 }
-              : {
-                  backgroundColor: ValueSheet.colours.secondaryColour,
-                  borderColor: ValueSheet.colours.borderGrey75,
-                },
+              : sharedStyles["button_" + theme],
+            ,
           ]}
           disabled={selectedIndex == -1}
           onPress={() => {
@@ -121,8 +105,9 @@ export default function SelectMealModal({
           <Text
             style={[
               styles.buttonText,
+              sharedStyles["textColour_light"],
               selectedIndex == -1 && {
-                color: ValueSheet.colours[theme].black50,
+                color: ValueSheet.colours[theme].black,
               },
             ]}
           >
@@ -185,6 +170,5 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 24,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.light.primaryColour,
   },
 });

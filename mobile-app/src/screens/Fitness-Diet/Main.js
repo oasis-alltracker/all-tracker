@@ -76,10 +76,7 @@ export default function Main({
       <View
         style={[
           sharedStyles.headerImageContainer,
-          {
-            backgroundColor: ValueSheet.colours[theme].purple,
-            borderColor: ValueSheet.colours[theme].borderPurple70,
-          },
+          sharedStyles["purpleContainer_" + theme],
         ]}
       >
         <Image
@@ -89,7 +86,9 @@ export default function Main({
       </View>
       <Spinner visible={isLoading}></Spinner>
 
-      <View style={sharedStyles.datePickerView}>
+      <View
+        style={[sharedStyles.datePickerView, sharedStyles["border_" + theme]]}
+      >
         <TouchableOpacity
           style={[
             sharedStyles.changeDateButton,

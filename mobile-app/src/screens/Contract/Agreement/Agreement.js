@@ -191,10 +191,8 @@ const Agreement = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
   },
   title: {
-    color: ValueSheet.colours.primaryColour,
     fontSize: 34,
     textAlign: "center",
     fontFamily: ValueSheet.fonts.primaryBold,

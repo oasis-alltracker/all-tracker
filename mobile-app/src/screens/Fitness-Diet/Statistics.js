@@ -40,10 +40,7 @@ export default function Statistics({ dietGoals, day, updateStats }) {
       <View
         style={[
           sharedStyles.headerImageContainer,
-          {
-            backgroundColor: ValueSheet.colours.purple,
-            borderColor: ValueSheet.colours.borderPurple70,
-          },
+          sharedStyles["purpleContainer_" + theme],
         ]}
       >
         <Image
@@ -51,7 +48,9 @@ export default function Statistics({ dietGoals, day, updateStats }) {
           source={require("../../assets/images/stats.png")}
         />
       </View>
-      <View style={sharedStyles.datePickerView}>
+      <View
+        style={[sharedStyles.datePickerView, sharedStyles["border_" + theme]]}
+      >
         <TouchableOpacity
           style={[
             sharedStyles.changeDateButton,

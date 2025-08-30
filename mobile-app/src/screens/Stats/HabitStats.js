@@ -84,7 +84,9 @@ const HabitStats = ({ sunday, updateStats, setIsLoading }) => {
           style={styles.imageCircle}
           source={require("../../assets/images/habits.png")}
         />
-        <Text style={styles.statTitle}>habits</Text>
+        <Text style={[styles.statTitle, sharedStyles["textColour_light"]]}>
+          habits
+        </Text>
       </View>
       <View style={[styles.chartContainer, { height: height * 0.15 }]}>
         <View
@@ -163,7 +165,6 @@ const styles = StyleSheet.create({
   statTitle: {
     fontSize: 13,
     fontFamily: ValueSheet.fonts.primaryFont,
-    color: ValueSheet.colours.light.primaryColour,
   },
   xLabel: {
     paddingTop: 6,

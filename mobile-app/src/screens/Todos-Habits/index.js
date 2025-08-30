@@ -1018,9 +1018,9 @@ const TodosHabits = ({ navigation }) => {
                 key={key.toString()}
                 style={[
                   sharedStyles.dot,
+                  sharedStyles["dot_" + theme],
                   key === pageIndex && {
                     backgroundColor: ValueSheet.colours[theme].primaryColour,
-                    borderColor: ValueSheet.colours[theme].borderNavy,
                   },
                 ]}
               />

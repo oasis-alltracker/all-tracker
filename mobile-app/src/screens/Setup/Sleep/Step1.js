@@ -263,10 +263,6 @@ const styles = StyleSheet.create({
   button: {
     width: "47%",
   },
-  back: {
-    backgroundColor: "transparent",
-    borderColor: ValueSheet.colours.grey,
-  },
   center: {},
 });
 

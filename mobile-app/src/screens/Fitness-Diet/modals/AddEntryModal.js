@@ -396,7 +396,7 @@ export default function AddEntryModal({
                     ]}
                     itemSeparator={true}
                     itemSeparatorStyle={{
-                      backgroundColor: ValueSheet.colours.borderGrey75,
+                      backgroundColor: ValueSheet.colours[theme].borderGrey75,
                     }}
                   />
                 </View>
@@ -508,10 +508,7 @@ export default function AddEntryModal({
                 }}
               >
                 <Text
-                  style={[
-                    styles.rowText,
-                    { color: ValueSheet.colours.light.primaryColour },
-                  ]}
+                  style={[styles.rowText, sharedStyles["textColour_light"]]}
                 >
                   {editing == true ? "Save" : "Add"}
                 </Text>
@@ -596,7 +593,6 @@ const styles = StyleSheet.create({
     fontFamily: ValueSheet.fonts.primaryBold,
   },
   dropdownContainer: {
-    borderColor: ValueSheet.colours.borderGrey75,
     borderWidth: 2,
     maxHeight: 80,
   },

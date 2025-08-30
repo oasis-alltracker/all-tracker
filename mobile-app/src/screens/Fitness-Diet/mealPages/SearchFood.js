@@ -166,14 +166,11 @@ const SearchFood = ({ navigation, route }) => {
           <View style={styles.topAreaBody}>
             <View style={styles.mealHeader}>
               <Image style={styles.mealIcon} source={mealImage}></Image>
-              <Text style={styles.title}>{mealName}</Text>
+              <Text style={[styles.title, sharedStyles["textColour_light"]]}>
+                {mealName}
+              </Text>
             </View>
-            <Text
-              style={[
-                styles.textStyle,
-                { color: ValueSheet.colours.light.primaryColour },
-              ]}
-            >
+            <Text style={[styles.textStyle, sharedStyles["textColour_light"]]}>
               {formattedDate}
             </Text>
           </View>
@@ -305,7 +302,6 @@ const SearchFood = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: ValueSheet.colours.background,
     justifyContent: "space-between",
   },
   scrollContainer: {
@@ -364,7 +360,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: ValueSheet.colours.light.primaryColour,
     fontFamily: ValueSheet.fonts.primaryBold,
     textAlign: "center",
   },
