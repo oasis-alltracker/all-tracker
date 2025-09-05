@@ -87,10 +87,6 @@ export default function CreateHabitModal({ getRef, createHabit }) {
       setTimes([...newNewTimes]);
       setIsNotificationsOn(newIsNotificationsOn);
     }
-
-    setTimeout(() => {
-      setIsMainVisible(true);
-    }, 1051);
   };
 
   const selectHabit = async (habitName) => {

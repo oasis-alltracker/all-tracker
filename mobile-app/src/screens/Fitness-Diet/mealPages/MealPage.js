@@ -69,11 +69,10 @@ const MealPage = ({ navigation, route }) => {
     extractDate();
   }, [meal, dateString]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      foodEntriesChangedRef.current = false;
-    }, [])
-  );
+  useEffect(() => {
+    foodEntriesChangedRef.current =
+      route.params?.foodEntriesChanged || route.params?.refreshMeal || false;
+  }, [route]);
 
   const extractDate = () => {
     //format of the prop dateString is given as YYYY-MM-DD
@@ -93,6 +92,7 @@ const MealPage = ({ navigation, route }) => {
       prevPage: "mealPage",
       meal: JSON.parse(JSON.stringify(currentMeal)),
       dietUnit: dietUnit,
+      foodEntriesChanged: foodEntriesChangedRef.current,
     });
   };
 
@@ -171,10 +171,8 @@ const MealPage = ({ navigation, route }) => {
           onPress={() => {
             var params = {};
 
-            if (refreshMeal != null) {
-              params["refreshMeal"] = refreshMeal;
-            } else {
-              params["foodItemsChanged"] = foodEntriesChangedRef.current;
+            if (foodEntriesChangedRef.current) {
+              params["refreshMeal"] = mealName.toLowerCase();
             }
             navigationService.navigate("fitness-diet", params);
           }}
