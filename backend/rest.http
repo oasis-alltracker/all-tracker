@@ -418,6 +418,17 @@ DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodItem
 Authorization: Bearer token
 ###
 
+//get recent food entries
+Get https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/foodEntries/recent
+Authorization: Bearer token
+###
+
+//------------D I E T   S T A T S------------
+//-------------------------------------------
+//get diet stats food entries
+Get https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/dietStats?sunday=20250720
+Authorization: Bearer token
+###
 
 
 //----------F O O D   E N T R I E S----------
