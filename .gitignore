@@ -1,5 +1,5 @@
 node_modules
-.DS_store
+.DS_Store
 .serverless
 .vscode
 oasis-all-tracker.json
@@ -9,3 +9,5 @@ eas.json
 app.json
 rest.http
 config.js
+android/
+ios/
