@@ -8,5 +8,4 @@ config.yml
 eas.json
 app.json
 rest.http
-android/
 ios/
