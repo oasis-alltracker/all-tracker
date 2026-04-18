@@ -26,7 +26,6 @@ import Stats from "./Stats/Stats";
 import MealPage from "./Fitness-Diet/mealPages/MealPage";
 import SearchFood from "./Fitness-Diet/mealPages/SearchFood";
 import SetupNavigator from "./Setup/navigator";
-import BarcodeCamera from "./Fitness-Diet/mealPages/BarcodeCamera";
 import BarcodeScanner from "./Fitness-Diet/mealPages/BarcodeScanner";
 import { sharedStyles } from "./styles";
 import { ThemeContext } from "../contexts/ThemeProvider";
@@ -207,7 +206,6 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
       <Drawer.Screen name="moodTest" component={MoodQuestionnaire} />
       <Drawer.Screen name="mealPage" component={MealPage} />
       <Drawer.Screen name="searchFood" component={SearchFood} />
-      <Drawer.Screen name="cameraPage" component={BarcodeCamera} />
       <Drawer.Screen name="barcodeScanner" component={BarcodeScanner} />
       <Drawer.Screen name="setup" component={SetupNavigator} />
     </Drawer.Navigator>
