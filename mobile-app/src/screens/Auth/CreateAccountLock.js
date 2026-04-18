@@ -1,7 +1,6 @@
 import { ValueSheet } from "../../ValueSheet";
 import React, { useContext, useEffect, useState } from "react";
 import * as AppleAuthentication from "expo-apple-authentication";
-import { AppEventsLogger } from "react-native-fbsdk-next";
 import LoginAPI from "../../api/auth/loginAPI";
 import UserAPI from "../../api/user/userAPI";
 import { saveToken, getAccessToken } from "../../user/keychain";
@@ -106,19 +105,13 @@ const CreateAccountLock = (props) => {
   //--------------------- SAVE USER TOKENS
   const processUserAccessToken = async () => {
     const accessToken = await getAccessToken();
-    const { status: userStatus, data: userData } = await UserAPI.getUser(
-      accessToken
-    );
+    const { status: userStatus, data: userData } =
+      await UserAPI.getUser(accessToken);
 
     setIsLoading(false);
     if (userData.isSetupComplete) {
       await navigationService.reset("main", 0);
     } else {
-      try {
-        AppEventsLogger.logEvent(AppEventsLogger.AppEvents.StartTrial);
-      } catch (e) {
-        console.log(e);
-      }
       await navigationService.navigate("contract");
     }
   };
@@ -132,7 +125,7 @@ const CreateAccountLock = (props) => {
           const deviceID = await getUniqueId();
           const { status, data } = await LoginAPI.loginDevice(
             deviceID,
-            password
+            password,
           );
 
           if (status == 200 && data?.accessToken && data?.refreshToken) {
@@ -155,7 +148,7 @@ const CreateAccountLock = (props) => {
               [{ text: "Ok" }],
               {
                 cancelable: true,
-              }
+              },
             );
           } else {
             setIsLoading(false);

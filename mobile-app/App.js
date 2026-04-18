@@ -10,7 +10,6 @@ import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { ActivityIndicator, StyleSheet, Platform, Alert } from "react-native";
 import { getAccessToken, isLoggedIn, logout } from "./src/user/keychain";
-import { Settings } from "react-native-fbsdk-next";
 import UserAPI from "./src/api/user/userAPI";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
@@ -36,7 +35,7 @@ export default function App() {
   const showAlert = () => {
     Alert.alert(
       "Internet Connection",
-      "You are offline. Some features may not be available."
+      "You are offline. Some features may not be available.",
     );
   };
 
@@ -71,11 +70,9 @@ export default function App() {
         }
       });
 
-    Settings.initializeSDK();
-
     return () => {
       Notifications.removeNotificationSubscription(
-        notificationListener.current
+        notificationListener.current,
       );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
@@ -86,9 +83,8 @@ export default function App() {
       if (await isLoggedIn()) {
         const accessToken = await getAccessToken();
         try {
-          const { status: status, data: userData } = await UserAPI.getUser(
-            accessToken
-          );
+          const { status: status, data: userData } =
+            await UserAPI.getUser(accessToken);
           if (userData) {
             if (userData["isSetupComplete"]) {
               setInitialRoute("main");
