@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "icon": "./src/assets/images/space-oasis-icon-logo.png",
       "supportsTablet": true,
@@ -24,7 +26,23 @@
               "com.googleusercontent.apps.43771055341-6ifjbjlqepa7e78etvbo1qre9008fetv"
             ]
           }
-        ]
+        ],
+        "SKAdNetworkItems": [
+          {
+            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
+          },
+          {
+            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
+          },
+          {
+            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
+          },
+          {
+            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
+          }
+        ],
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -35,7 +53,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.oasistracker",
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -70,7 +92,9 @@
         "expo-notifications",
         {
           "icon": "./src/assets/images/space-oasis-notification-logo-icon.png",
-          "sounds": ["./src/assets/sounds/vibratone_e.wav"],
+          "sounds": [
+            "./src/assets/sounds/vibratone_e.wav"
+          ],
           "color": "#FFFCEE"
         }
       ],
