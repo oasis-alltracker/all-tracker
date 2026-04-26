@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import { Buffer } from "buffer";
+import { Buffer } from "buffer/";
 import { jwtDecode } from "jwt-decode";
 import { FATSECRET_KEYS } from "../../../../config";
 const API = "https://oauth.fatsecret.com/connect/token";
@@ -32,7 +32,7 @@ const isTokenValid = (token) => {
 
 const generateToken = async () => {
   var encoded = Buffer.from(
-    `${FATSECRET_KEYS.client_ID}:${FATSECRET_KEYS.client_secret}`
+    `${FATSECRET_KEYS.client_ID}:${FATSECRET_KEYS.client_secret}`,
   ).toString("base64");
   const headers = {
     Authorization: `Basic ${encoded}`,
