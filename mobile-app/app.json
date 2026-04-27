@@ -41,6 +41,8 @@
             "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
           }
         ],
+        "NSLocationWhenInUseUsageDescription": "This app uses location data to tag where photos were taken.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location data to tag where photos were taken.",
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
         "ITSAppUsesNonExemptEncryption": false
       }
