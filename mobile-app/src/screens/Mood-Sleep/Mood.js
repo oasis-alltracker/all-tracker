@@ -74,7 +74,6 @@ export default function Mood({ moodRef, allWellnessReports }) {
                     styles.moodImageContainer,
                     sharedStyles["borderedContainer_" + theme],
                   ]}
-                  onPress={() => searchImage()}
                 >
                   <Image
                     style={styles.moodImage}

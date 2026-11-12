@@ -35,6 +35,7 @@ import NotificationsHandler from "../../api/notifications/notificationsHandler";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const TodosHabits = ({ navigation }) => {
+  let token, expoIDs, userDueToDos, trigger, userDueTasks, triggers;
   const theme = useContext(ThemeContext).value;
   const [pageIndex, setPageIndex] = useState(0);
   const { width } = useWindowDimensions();
@@ -341,6 +342,7 @@ const TodosHabits = ({ navigation }) => {
   };
 
   const getHabits = async () => {
+    let userHabits;
     try {
       token = await getAccessToken();
       userHabits = await HabitsAPI.getHabits(token);
@@ -352,6 +354,7 @@ const TodosHabits = ({ navigation }) => {
 
   //todo methods
   const getToDos = async (token) => {
+    let userToDos, userDoneToDos;
     try {
       userToDos = await ToDosAPI.getToDos(token, false);
       userDoneToDos = await ToDosAPI.getToDos(token, true);
@@ -368,6 +371,7 @@ const TodosHabits = ({ navigation }) => {
   };
 
   const createToDo = async (toDo, isNotificationsOn, time) => {
+    let toDoID;
     try {
       setIsLoading(true);
       token = await getAccessToken();
@@ -546,6 +550,7 @@ const TodosHabits = ({ navigation }) => {
   };
 
   const updateDoneToDoStatus = async (updatedToDo) => {
+    let index, toDo, doneToDoUpdated;
     try {
       setIsLoading(true);
       index = doneToDos.findIndex((item) => item.toDoID == updatedToDo.toDoID);
@@ -614,6 +619,7 @@ const TodosHabits = ({ navigation }) => {
 
   //task methods
   const getTasks = async (token) => {
+    let userTasks;
     try {
       userTasks = await TasksAPI.getTasks(token);
       userDueTasks = await TasksAPI.getDueAndOverdueTaks(
@@ -628,6 +634,7 @@ const TodosHabits = ({ navigation }) => {
   };
 
   const createTask = async (task, isNotificationsOn, time) => {
+    let taskID;
     try {
       setIsLoading(true);
       token = await getAccessToken();

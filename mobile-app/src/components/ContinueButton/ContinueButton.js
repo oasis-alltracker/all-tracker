@@ -14,6 +14,7 @@ av.addListener(() => {
 });
 
 export default function ContinueButton({ onPress, title }) {
+  let triggerProp;
   const styles = dynamicStyles();
   const [isLoading, setIsLoading] = useState(false);
 

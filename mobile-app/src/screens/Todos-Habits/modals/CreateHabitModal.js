@@ -90,6 +90,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
   };
 
   const selectHabit = async (habitName) => {
+    let presetHabits, presetHabit;
     presetHabits = HabitsDB.viewHabits();
     presetHabit = presetHabits.find((habit) => habit.name === habitName);
     setHabitName(presetHabit.name);
@@ -108,6 +109,7 @@ export default function CreateHabitModal({ getRef, createHabit }) {
   };
 
   const onSave = async () => {
+    let habit;
     Keyboard.dismiss();
     if (!habitName) {
       Toast.show({

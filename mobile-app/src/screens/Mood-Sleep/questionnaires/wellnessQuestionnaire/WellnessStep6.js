@@ -29,6 +29,7 @@ const WellnessStep6 = (props) => {
   const theme = useContext(ThemeContext).value;
 
   const createMoodReport = async (moodReport) => {
+    let token;
     try {
       token = await getAccessToken();
       await WellnessReportsAPI.createWellnessReport(token, moodReport);

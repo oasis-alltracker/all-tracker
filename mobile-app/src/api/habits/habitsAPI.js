@@ -13,6 +13,7 @@ class HabitsAPI {
   }
 
   static async createHabit(token, habit) {
+    let response;
     const headers = {
       Authorization: `Bearer ${token}`,
     };

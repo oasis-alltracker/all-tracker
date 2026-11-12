@@ -23,6 +23,7 @@ import { sharedStyles } from "../../styles";
 import ThemedSwitch from "../../../components/ThemedSwitch";
 
 const Notifications = () => {
+  let timeArray, hour, minute;
   const theme = useContext(ThemeContext).value;
   const [isLoading, setIsLoading] = useState(true);
   const [show, setShow] = useState(false);
@@ -517,7 +518,7 @@ const Notifications = () => {
       breakfastToggled(true);
     }
     if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
+      setIsBreakfastEnabled(false);
     }
   };
 
@@ -544,7 +545,7 @@ const Notifications = () => {
       lunchToggled(true);
     }
     if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
+      setIsLunchEnabled(false);
     }
   };
 
@@ -570,7 +571,7 @@ const Notifications = () => {
       dinnerToggled(true);
     }
     if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
+      setIsDinnerEnabled(false);
     }
   };
 

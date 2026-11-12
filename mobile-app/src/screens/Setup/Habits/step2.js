@@ -31,6 +31,7 @@ const HabitsNotifications = (props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onNext = async () => {
+    let timeArray, hour, minute;
     setIsLoading(true);
     var systemNotificationsStatus = true;
     const token = await getAccessToken();
@@ -172,7 +173,7 @@ const HabitsNotifications = (props) => {
       toggleSwitch(true);
     }
     if (Platform.OS === "android" && event.type === "dismissed") {
-      setIsToggled(false);
+      setIsNotificationsEnabled(false);
     }
   };
 
@@ -196,6 +197,7 @@ const HabitsNotifications = (props) => {
 
   useEffect(() => {
     const getSystemNotificationPreference = async () => {
+      let token, allNotificationsIsOn;
       setIsLoading(true);
       token = await getAccessToken();
       allNotificationsIsOn =

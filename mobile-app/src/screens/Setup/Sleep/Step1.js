@@ -137,29 +137,29 @@ const SleepStep1 = (props) => {
         setIsLoading(true);
         if (!selectedTrackers.toDosSelected) {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
-            token,
+            accessToken,
             "task"
           );
         }
         if (!selectedTrackers.habitsSelected) {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
-            token,
+            accessToken,
             "habit"
           );
         }
         if (!selectedTrackers.moodSelected) {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
-            token,
+            accessToken,
             "mood"
           );
         }
         if (!selectedTrackers.sleepSelected) {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
-            token,
+            accessToken,
             "morning"
           );
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
-            token,
+            accessToken,
             "sleep"
           );
         }

@@ -15,8 +15,8 @@ class UserAPI {
       data = response?.data[0];
     } catch (e) {
       console.log(e);
-      status = error.response.status;
-      data = error.response.data;
+      status = e.response?.status;
+      data = e.response?.data;
     }
     return { status, data };
   }

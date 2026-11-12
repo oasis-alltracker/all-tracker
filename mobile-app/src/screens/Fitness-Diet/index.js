@@ -26,6 +26,7 @@ import { ValueSheet } from "../../ValueSheet";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const FitnessDiet = ({ navigation, route }) => {
+  let token, meals;
   const theme = useContext(ThemeContext).value;
   const [pageIndex, setPageIndex] = useState(0);
   const { width } = useWindowDimensions();
@@ -199,6 +200,7 @@ const FitnessDiet = ({ navigation, route }) => {
   };
 
   const getMeal = async (meal) => {
+    let result;
     try {
       setIsLoading(true);
 
@@ -221,6 +223,7 @@ const FitnessDiet = ({ navigation, route }) => {
   };
 
   const refreshMeals = async (date = false) => {
+    let key;
     try {
       setIsLoading(true);
       if (!date) {
@@ -245,6 +248,7 @@ const FitnessDiet = ({ navigation, route }) => {
   };
 
   const getGoals = async () => {
+    let goals;
     try {
       setIsLoading(true);
       token = await getAccessToken();

@@ -104,6 +104,7 @@ const UnlockAccount = (props) => {
 
   //--------------------- SAVE USER TOKENS
   const processUserAccessToken = async () => {
+    let systemNotificationsStatus;
     const accessToken = await getAccessToken();
     const { status: userStatus, data: userData } = await UserAPI.getUser(
       accessToken
@@ -113,13 +114,13 @@ const UnlockAccount = (props) => {
     if (userData.isSetupComplete) {
       navigationService.reset("main", 0);
       var allNotifications = await NotificationsHandler.getNotifications(
-        token,
+        accessToken,
         "notifications"
       );
       if (allNotifications[0]?.preference === "on") {
         systemNotificationsStatus =
-          await NotificationsHandler.checkNotificationsStatus(token);
-        NotificationsHandler.turnOnAllNotifications(token);
+          await NotificationsHandler.checkNotificationsStatus(accessToken);
+        NotificationsHandler.turnOnAllNotifications(accessToken);
       }
     } else {
       navigationService.navigate("contract");

@@ -143,6 +143,7 @@ const Soultification = ({
   };
 
   const onToggle = async (turnOn = false, scheduleIndex, selectedDate) => {
+    let timeArray, hour, minute;
     setIsLoading(true);
     var notificationTriggers = [];
 
@@ -335,6 +336,7 @@ const Soultification = ({
 
   useEffect(() => {
     const onLoad = async () => {
+      let notification, trigger;
       if (notifications) {
         setIsLoading(true);
         for (notification of notifications) {

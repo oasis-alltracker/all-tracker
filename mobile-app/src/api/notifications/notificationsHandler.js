@@ -5,6 +5,8 @@ import * as Notifications from "expo-notifications";
 import axios from "axios";
 
 import { EXPO_PUBLIC_BASE_URL } from "../../../config";
+
+let notificationsState, notifications, notification;
 const API = EXPO_PUBLIC_BASE_URL + "notifications/";
 
 class NotificationsHandler {
@@ -217,7 +219,7 @@ class NotificationsHandler {
 
   static async turnOnGroupNotifications(token, group, isAllNotificationsOn) {
     notifications = await this.getNotifications(token, group);
-    for (notification of notificaions) {
+    for (notification of notifications) {
       await this.turnOnNotification(
         token,
         notification.SK,

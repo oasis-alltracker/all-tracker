@@ -41,6 +41,7 @@ const Main = ({ navigation }) => {
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
+      let token, user, buttonPreference;
       if (isLoading) {
         setIsLoading(false);
         token = await getAccessToken();

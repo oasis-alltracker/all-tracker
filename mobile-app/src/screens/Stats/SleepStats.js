@@ -33,6 +33,7 @@ const SleepStats = ({ sunday, updateStats, setIsLoading }) => {
   const theme = useContext(ThemeContext).value;
   useEffect(() => {
     const getStatsOnLoad = async () => {
+      let rating;
       try {
         var token = await getAccessToken();
         var ratings = await StatsAPI.getSleepStats(token, sunday);

@@ -153,6 +153,7 @@ export default function HabitNotificationsModal({ getRef, reopenMain }) {
   useEffect(() => {
     let ref = {
       open(props) {
+        let reminderTimeFromNotification;
         setScheduleCount(props.scheduleCount);
 
         var tempTimeSchedule = [...timeSchedule];

@@ -22,6 +22,7 @@ import { ThemeContext } from "../../../contexts/ThemeProvider";
 import ThemedSwitch from "../../../components/ThemedSwitch";
 
 const DietNotifications = (props) => {
+  let timeArray, hour, minute;
   const theme = useContext(ThemeContext).value;
   const { selectedTrackers } = props.route.params;
   const [isBreakfastEnabled, setIsBreakfastEnabled] = useState(false);

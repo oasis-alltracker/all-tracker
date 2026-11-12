@@ -42,6 +42,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
 
   useEffect(() => {
     const setNotificationData = async (itemID) => {
+      let token;
       try {
         token = await getAccessToken();
         var notifications = await NotificationsHandler.getNotifications(
@@ -138,6 +139,7 @@ export default function UpdateHabitModal({ getRef, updateHabit, deleteHabit }) {
   };
 
   const onSave = async () => {
+    let habit;
     Keyboard.dismiss();
     if (threshold <= 0) {
       Toast.show({

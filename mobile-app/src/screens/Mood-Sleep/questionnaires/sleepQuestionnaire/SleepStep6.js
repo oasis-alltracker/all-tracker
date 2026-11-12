@@ -29,6 +29,7 @@ const SleepStep6 = (props) => {
   const theme = useContext(ThemeContext).value;
 
   const createSleepReport = async (sleepReport) => {
+    let token;
     try {
       token = await getAccessToken();
       await SleepReportsAPI.createSleepReport(token, sleepReport);

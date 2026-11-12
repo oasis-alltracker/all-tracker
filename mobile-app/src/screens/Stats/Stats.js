@@ -53,6 +53,7 @@ const Stats = ({ getRef }) => {
 
   useEffect(() => {
     const getPreferencesOnLoad = async () => {
+      let token, user;
       token = await getAccessToken();
       user = await UserAPI.getUser(token);
       var dietGoals = await DietGoalsAPI.getDietGoals(token);
@@ -80,7 +81,7 @@ const Stats = ({ getRef }) => {
       isVisible={visible}
       onBackButtonPress={() => setVisible(false)}
       backdropOpacity={0}
-      onBackdropPress={() => backDropPressed()}
+      onBackdropPress={() => setVisible(false)}
       style={[styles.scrollModal, { height: height * 0.7 }]}
     >
       <SafeAreaView

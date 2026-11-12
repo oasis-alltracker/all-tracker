@@ -26,6 +26,7 @@ import WellnessReportModal from "./reviews/mood/wellnessReportModal";
 import { ThemeContext } from "../../contexts/ThemeProvider";
 
 const MoodSleep = ({ navigation }) => {
+  let token;
   const theme = useContext(ThemeContext).value;
   const [index, setIndex] = useState(0);
   const { width } = useWindowDimensions();

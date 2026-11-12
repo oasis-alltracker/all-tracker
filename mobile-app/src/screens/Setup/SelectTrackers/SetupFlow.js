@@ -12,6 +12,7 @@ import navigationService from "../../../navigators/navigationService";
 import Toast from "react-native-toast-message";
 import Spinner from "react-native-loading-spinner-overlay";
 import NotificationsHandler from "../../../api/notifications/notificationsHandler";
+import { getAccessToken } from "../../../user/keychain";
 import { ValueSheet } from "../../../ValueSheet";
 import { sharedStyles } from "../../styles";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
@@ -61,6 +62,7 @@ const SetupFlow = (props) => {
         }
       } else {
         setIsLoading(true);
+        const token = await getAccessToken();
         if (!selectedTrackers.toDosSelected) {
           await NotificationsHandler.turnOffGroupPreferenceNotifications(
             token,

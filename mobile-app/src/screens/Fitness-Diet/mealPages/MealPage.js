@@ -121,6 +121,7 @@ const MealPage = ({ navigation, route }) => {
   };
 
   const deleteFoodEntry = async (foodEntry) => {
+    let token;
     try {
       setIsLoading(true);
       var updatedMeal = JSON.parse(JSON.stringify(currentMeal));

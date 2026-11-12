@@ -25,6 +25,7 @@ import { ThemeContext } from "../../../contexts/ThemeProvider";
 import { sharedStyles } from "../../styles";
 
 const SearchFood = ({ navigation, route }) => {
+  let token;
   var prevPage = route.params?.prevPage || "fitness-diet";
   var mealMacros = route.params?.meal || null;
   var barcodeInfo = route.params?.barcodeInfo || null;
@@ -120,6 +121,7 @@ const SearchFood = ({ navigation, route }) => {
   };
 
   const searchFood = async () => {
+    let response;
     try {
       Keyboard.dismiss();
       if (searchInput.trim() !== "") {

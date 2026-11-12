@@ -49,6 +49,7 @@ const MoodStats = ({ sunday, updateStats, setIsLoading }) => {
 
   useEffect(() => {
     const getStatsOnLoad = async () => {
+      let rating;
       try {
         var token = await getAccessToken();
         var ratings = await StatsAPI.getMoodStats(token, sunday);

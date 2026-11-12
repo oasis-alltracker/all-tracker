@@ -28,6 +28,7 @@ class ToDosAPI {
     return response?.data;
   }
   static async createToDo(token, toDo) {
+    let response;
     const headers = {
       Authorization: `Bearer ${token}`,
     };

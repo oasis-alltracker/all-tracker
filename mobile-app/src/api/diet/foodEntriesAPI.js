@@ -26,6 +26,7 @@ class FoodEntriesAPI {
     return response?.data;
   }
   static async createFoodEntry(token, foodEntry) {
+    let response;
     const headers = {
       Authorization: `Bearer ${token}`,
     };

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
+import moment from "moment";
 import { Button } from "../../../../components";
 import navigationService from "../../../../navigators/navigationService";
 import Spinner from "react-native-loading-spinner-overlay";

@@ -74,7 +74,6 @@ export default function Sleep({ sleepRef, allSleepReports }) {
                     styles.sleepImageContainer,
                     sharedStyles["borderedContainer_" + theme],
                   ]}
-                  onPress={() => searchImage()}
                 >
                   <Image
                     style={styles.sleepImage}
