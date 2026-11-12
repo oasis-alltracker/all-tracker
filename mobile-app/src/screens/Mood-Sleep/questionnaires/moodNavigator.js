@@ -16,11 +16,7 @@ const options = {
 
 function MoodNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={options}
-      initialRouteName={"moodTest"}
-      useLegacyImplementation={false}
-    >
+    <Stack.Navigator screenOptions={options} initialRouteName={"moodTest"}>
       <Stack.Screen name="moodStep1">
         {(props) => (
           <WellnessStep1

@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./src/navigators";
 import navigationService from "./src/navigators/navigationService";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider } from "react-redux";
 import { store, persistor } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
@@ -126,29 +127,31 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider>
-      <SafeAreaProvider>
-        <Provider store={store}>
-          <StatusBar translucent backgroundColor="transparent" />
-          <PersistGate loading={null} persistor={persistor}>
-            {loading || !isConnected ? (
-              <ActivityIndicator
-                color={"#3097E7"}
-                size={"large"}
-                style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
-              />
-            ) : (
-              <NavigationContainer ref={navigationService._navigator}>
-                <AppNavigator
-                  initialRoute={initialRoute}
-                  initialMainRoute={initialMainRoute}
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider>
+        <SafeAreaProvider>
+          <Provider store={store}>
+            <StatusBar translucent backgroundColor="transparent" />
+            <PersistGate loading={null} persistor={persistor}>
+              {loading || !isConnected ? (
+                <ActivityIndicator
+                  color={"#3097E7"}
+                  size={"large"}
+                  style={{ ...StyleSheet.absoluteFillObject, zIndex: 1 }}
                 />
-              </NavigationContainer>
-            )}
-          </PersistGate>
-        </Provider>
-        <Toast position="top" topOffset={60} visibilityTime={2500} />
-      </SafeAreaProvider>
-    </ThemeProvider>
+              ) : (
+                <NavigationContainer ref={navigationService._navigator}>
+                  <AppNavigator
+                    initialRoute={initialRoute}
+                    initialMainRoute={initialMainRoute}
+                  />
+                </NavigationContainer>
+              )}
+            </PersistGate>
+          </Provider>
+          <Toast position="top" topOffset={60} visibilityTime={2500} />
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
