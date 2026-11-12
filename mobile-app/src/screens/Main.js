@@ -191,6 +191,7 @@ const MainDrawer = ({ navigation, initialMainRoute }) => {
   return (
     <Drawer.Navigator
       initialRouteName={initialMainRoute}
+      useLegacyImplementation={false}
       drawerContent={DrawerScreen}
       screenOptions={{
         headerShown: false,

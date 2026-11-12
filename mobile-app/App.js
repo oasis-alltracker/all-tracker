@@ -71,10 +71,8 @@ export default function App() {
       });
 
     return () => {
-      Notifications.removeNotificationSubscription(
-        notificationListener.current,
-      );
-      Notifications.removeNotificationSubscription(responseListener.current);
+      notificationListener.current?.remove();
+      responseListener.current?.remove();
     };
   }, []);
 
@@ -101,10 +99,14 @@ export default function App() {
       setLoading(false);
     };
 
-    if (Platform.OS === "android") {
-      Purchases.configure({ apiKey: "goog_qebjpCbePNjgIZTDmsuXLciQyyt" });
-    } else if (Platform.OS === "ios") {
-      Purchases.configure({ apiKey: "appl_UOmgvrKMTaUIkAHVZouJukEKHLQ" });
+    try {
+      if (Platform.OS === "android") {
+        Purchases.configure({ apiKey: "goog_qebjpCbePNjgIZTDmsuXLciQyyt" });
+      } else if (Platform.OS === "ios") {
+        Purchases.configure({ apiKey: "appl_UmNtbYioXdkYnRLudqwACDfioTQ" });
+      }
+    } catch (e) {
+      console.log("Error configuring Purchases: ", e);
     }
     checkIsLoggedIn();
     const unsubscribe = NetInfo.addEventListener((state) => {
