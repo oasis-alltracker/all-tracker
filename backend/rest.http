@@ -111,6 +111,29 @@ Authorization: Bearer token
 ###
 
 
+//--------------S E A S O N S----------------
+//-------------------------------------------
+//Get all seasons (history).
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/seasons
+Authorization: Bearer token
+###
+
+//Get seasons started within a date range.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/seasons?startDate=20261101&endDate=20261130
+Authorization: Bearer token
+###
+
+//Start a new season (also sets season + seasonStartedAt on the user).
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/seasons
+Authorization: Bearer token
+
+{
+    "season": "building",
+    "dateStamp": "20261112"
+}
+###
+
+
 //-----------H E A L T H   I N F O-----------
 //-------------------------------------------
 //Get diet goals.

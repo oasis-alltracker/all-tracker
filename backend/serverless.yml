@@ -244,6 +244,23 @@ functions:
           method: delete
           cors: true
 
+  ##Seasons##
+  seasons:
+    handler: userInfo/seasons/index.handler
+    role:
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/seasons
+          method: get
+          cors: true
+      - http:
+          path: v1/seasons
+          method: post
+          cors: true
+
   ##### N O T I F I C A T I O N S #####
   notifications:
     handler: notifications/index.handler
