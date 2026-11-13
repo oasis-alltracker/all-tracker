@@ -36,9 +36,9 @@ class CreateWorkoutEntry {
     const data = {
       PK: `${email}-workoutEntry`,
       SK: `${workoutEntry.dateStamp}-${workoutEntryID}`,
-      time: workoutEntry.time,
-      workoutPlanID: workoutEntry.workoutPlanID,
-      exerciseIDs: workoutEntry.exerciseIDs,
+      name: workoutEntry.name ?? null,
+      time: workoutEntry.time ?? null,
+      workoutPlanID: workoutEntry.workoutPlanID ?? null,
     };
 
     await this.DB.putItem(data);

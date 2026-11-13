@@ -1,11 +1,37 @@
+// Fields an edit can set. Anything else in the body is ignored.
+const ALLOWED_FIELDS = [
+  "name",
+  "type",
+  "muscle",
+  "equipment",
+  "difficulty",
+  "instructions",
+];
+
 class UpdateExercise {
   constructor(db) {
     this.DB = db;
   }
 
   async updateExercise(user, exerciseID, body) {
+    const fields = ALLOWED_FIELDS.filter((field) => body?.[field] !== undefined);
+    if (
+      fields.length === 0 ||
+      (body.name !== undefined &&
+        (typeof body.name !== "string" || body.name.trim() === ""))
+    ) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify("Invalid exercise"),
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+      };
+    }
+
     try {
-      await this.updateEntry(user.email, exerciseID, body);
+      await this.updateEntry(user.email, exerciseID, body, fields);
 
       return {
         statusCode: 200,
@@ -27,29 +53,18 @@ class UpdateExercise {
     }
   }
 
-  async updateEntry(email, exerciseID, exerciseEntry) {
+  async updateEntry(email, exerciseID, exercise, fields) {
     const key = { PK: `${email}-exercise`, SK: exerciseID };
     const expression =
-      "SET #name = :name, #type = :type, #muscle = :muscle, #equipment = :equipment, #difficulty = :difficulty, #instructions = :instructions, #sets = :sets";
-    const names = {
-      "#name": "name",
-      "#type": "type",
-      "#muscle": "muscle",
-      "#equipment": "equipment",
-      "#difficulty": "difficulty",
-      "#instructions": "instructions",
-      "#sets": "sets",
-    };
-    const values = {
-      ":name": exerciseEntry.name,
-      ":type": exerciseEntry.type,
-      ":muscle": exerciseEntry.muscle,
-      ":equipment": exerciseEntry.equipment,
-      ":difficulty": exerciseEntry.difficulty,
-      ":instructions": exerciseEntry.instructions,
-      ":sets": exerciseEntry.sets,
-    };
-    await this.DB.updateItem(expression, key, names, values);
+      "SET " + fields.map((field) => `#${field} = :${field}`).join(", ");
+    const names = {};
+    const values = {};
+    fields.forEach((field) => {
+      names[`#${field}`] = field;
+      values[`:${field}`] = exercise[field];
+    });
+    const condition = "attribute_exists(PK)";
+    await this.DB.updateItem(expression, key, names, values, condition);
   }
 }
 module.exports = UpdateExercise;

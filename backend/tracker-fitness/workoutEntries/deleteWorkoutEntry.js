@@ -27,34 +27,32 @@ class DeleteWorkoutEntry {
     }
   }
 
+  // Deletes the session and every exercise entry logged under it, found by key
+  // prefix.
   async deleteEntry(email, workoutEntryID) {
-    var key;
-    const workoutEntry = await this.getEntry(email, workoutEntryID);
+    const exerciseEntries = await this.getExerciseEntries(
+      email,
+      workoutEntryID,
+    );
+    await this.DB.deleteItems(`${email}-exerciseEntry`, exerciseEntries);
 
-    for (const exerciseID of workoutEntry.exerciseIDs) {
-      key = {
-        PK: `${email}-exerciseEntry`,
-        SK: `${workoutEntryID}-${exerciseID}`,
-      };
-      await this.DB.deleteItem(key);
-    }
-    key = { PK: `${email}-workoutEntry`, SK: workoutEntryID };
+    const key = { PK: `${email}-workoutEntry`, SK: workoutEntryID };
     await this.DB.deleteItem(key);
   }
 
-  async getEntry(user, workoutEntryID) {
-    const expression = "#pk = :pk AND #sk = :sk ";
+  async getExerciseEntries(user, workoutEntryID) {
+    const expression = "#pk = :pk AND begins_with(#sk, :sk)";
     const names = {
       "#pk": "PK",
       "#sk": "SK",
     };
     const values = {
-      ":pk": `${user}-workoutEntry`,
-      ":sk": workoutEntryID,
+      ":pk": `${user}-exerciseEntry`,
+      ":sk": `${workoutEntryID}-`,
     };
 
     const response = await this.DB.queryItem(expression, names, values);
-    return response?.Items[0];
+    return response?.Items ?? [];
   }
 }
 module.exports = DeleteWorkoutEntry;

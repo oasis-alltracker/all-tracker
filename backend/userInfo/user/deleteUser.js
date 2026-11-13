@@ -46,7 +46,7 @@ class DeleteUser {
     await this.DB.deleteItems(`${email}-exercise`, exercises);
 
     const workoutEntries = await this.getAll(email, "workoutEntry");
-    await this.DB.deleteItems(`${email}-exerciseEntry`, workoutEntries);
+    await this.DB.deleteItems(`${email}-workoutEntry`, workoutEntries);
 
     const workoutPlans = await this.getAll(email, "workoutPlan");
     await this.DB.deleteItems(`${email}-workoutPlan`, workoutPlans);
