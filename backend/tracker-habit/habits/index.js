@@ -33,10 +33,11 @@ module.exports.handler = async (event, context, callback) => {
         "Access-Control-Allow-Credentials": true,
       },
     });
+    return;
   }
 
   if (event.httpMethod == "GET") {
-    response = await getHabits.getHabits(user);
+    response = await getHabits.getHabits(user, event.queryStringParameters);
   } else if (event.httpMethod == "PUT") {
     response = await updateHabit.updateHabit(
       user,

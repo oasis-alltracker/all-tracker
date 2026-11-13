@@ -206,6 +206,11 @@ GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
 Authorization: Bearer token
 ###
 
+//Get active (or closed) habits.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits?status=active
+Authorization: Bearer token
+###
+
 //Create habit.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
 Authorization: Bearer token
@@ -216,6 +221,42 @@ Authorization: Bearer token
     "threshold": 1,
     "pngURL": "url",
     "time": "13:00"
+}
+###
+
+//Create habit, recording the season and day it starts in (relaunch app).
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+Authorization: Bearer token
+
+{
+    "name": "Wash Shoes",
+    "isPositive": true,
+    "threshold": 1,
+    "pngURL": "url",
+    "season": "building",
+    "dateStamp": "20261113"
+}
+###
+
+//Close habit. Saves this chapter's completions (total and by season) on the history event.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer token
+
+{
+    "status": "closed",
+    "season": "building",
+    "dateStamp": "20261113"
+}
+###
+
+//Reopen habit.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer token
+
+{
+    "status": "active",
+    "season": "restoring",
+    "dateStamp": "20261114"
 }
 ###
 

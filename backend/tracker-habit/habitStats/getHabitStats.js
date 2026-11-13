@@ -1,3 +1,5 @@
+const { isClosedOn } = require("../../utils/habitHistory");
+
 class GetHabitStats {
   constructor(db) {
     this.DB = db;
@@ -31,7 +33,9 @@ class GetHabitStats {
           currentMonth = "0" + currentMonth;
         }
         var dateSK = parseInt(`${currentYear}${currentMonth}${currentDay}`);
-        const habits = await this.getHabits(user.email);
+        const habits = (await this.getHabits(user.email)).filter(
+          (habit) => !isClosedOn(habit, dateSK)
+        );
         const habitStatuses = await this.getHabitStatusListForDay(
           user.email,
           dateSK.toString()

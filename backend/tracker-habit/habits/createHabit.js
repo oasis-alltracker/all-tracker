@@ -1,4 +1,5 @@
 const { v1: uuidv1 } = require("uuid");
+const { SEASONS } = require("../../userInfo/seasons/createSeason");
 
 class CreateHabit {
   constructor(db) {
@@ -40,7 +41,19 @@ class CreateHabit {
       isPositive: habit.isPositive,
       threshold: habit.threshold,
       pngURL: habit.pngURL,
+      status: "active",
+      history: [],
     };
+
+    // The relaunch app sends the season and day the habit starts in; the legacy
+    // app doesn't, and its habits start with an empty history.
+    if (SEASONS.includes(habit.season) && /^\d{8}$/.test(habit.dateStamp)) {
+      data.history.push({
+        status: "active",
+        season: habit.season,
+        dateStamp: habit.dateStamp,
+      });
+    }
 
     await this.DB.putItem(data);
     return { ID: data.SK };
