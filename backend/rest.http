@@ -695,6 +695,65 @@ Authorization: Bearer token
 //--------------------soul-------------------
 //-------------------------------------------
 
+//--------J O U R N A L   E N T R I E S--------
+//-------------------------------------------
+//Get journal entries for one day.
+//Also returns old wellness/sleep report diary text as read-only entries (isLegacy: true).
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/journalEntries?dateStamp=20261113
+Authorization: Bearer token
+###
+
+//Get journal entries for multiple days (e.g. one month for the past page).
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/journalEntries?startDate=20261101&endDate=20261130
+Authorization: Bearer token
+###
+
+//Create open-writing journal entry (editable).
+//entryType: guided_prompt | dream | free_write
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/journalEntries
+Authorization: Bearer token
+
+{
+    "entryType": "guided_prompt",
+    "season": "building",
+    "promptText": "Who are you building toward?",
+    "bodyText": "Someone who keeps promises to themselves.",
+    "time": "21:30",
+    "dateStamp": "20261113"
+}
+###
+
+//Create question-set journal entry (2-3 questions, not editable).
+//entryType: morning_checkin | evening_reflection
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/journalEntries
+Authorization: Bearer token
+
+{
+    "entryType": "morning_checkin",
+    "season": "building",
+    "responses": [
+        {"question": "Question one?", "answer": "Answer one."},
+        {"question": "Question two?", "answer": "Answer two."}
+    ],
+    "time": "07:15",
+    "dateStamp": "20261113"
+}
+###
+
+//Update journal entry (bodyText only; open-writing entries only, question sets return 400).
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/journalEntries/20261113-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer token
+
+{
+    "bodyText": "Someone who keeps promises to themselves, even small ones."
+}
+###
+
+//Delete journal entry.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/journalEntries/20261113-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer token
+###
+
 //------W E L L N E S S   R E P O R T S------
 //-------------------------------------------
 //Get wellness report for one day.

@@ -521,6 +521,31 @@ functions:
           method: delete
           cors: true
 
+  ##JournalEntries##
+  journalEntries:
+    handler: tracker-wellness/journalEntries/index.handler
+    role:
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/journalEntries
+          method: get
+          cors: true
+      - http:
+          path: v1/journalEntries
+          method: post
+          cors: true
+      - http:
+          path: v1/journalEntries/{journalEntryID}
+          method: put
+          cors: true
+      - http:
+          path: v1/journalEntries/{journalEntryID}
+          method: delete
+          cors: true
+
   ##MoodStats##
   moodStats:
     handler: tracker-wellness/wellnessStats/index.handler
