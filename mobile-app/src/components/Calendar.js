@@ -22,6 +22,7 @@ import ThemedSwitch from "./ThemedSwitch";
 const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
 const DatePicker = ({ getRef, saveDateHandler }) => {
+  let token;
   const theme = useContext(ThemeContext).value;
 
   const oneDay = {
@@ -61,6 +62,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
 
   useEffect(() => {
     const getSystemNotificationPreference = async () => {
+      let allNotificationsIsOn, taskNotificationsIsOn;
       token = await getAccessToken();
       allNotificationsIsOn =
         await NotificationsHandler.getAllNotificationsState(token);
@@ -113,6 +115,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   };
 
   const onChange = async (event, selectedDate) => {
+    let newTimeArray;
     setReminderTime(selectedDate);
     if (Platform.OS === "android") {
       setShow(false);
@@ -187,6 +190,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   };
 
   const onSave = async () => {
+    let i;
     setVisible(false);
     var days = [];
     for (i = 0; i < activeIndexes.length; i++) {
@@ -223,6 +227,7 @@ const DatePicker = ({ getRef, saveDateHandler }) => {
   useEffect(() => {
     let ref = {
       open: (isEdit = false, props) => {
+        let reminderTimeFromNotification;
         setVisible(true);
 
         setIsRecurring(props.isRecurring);

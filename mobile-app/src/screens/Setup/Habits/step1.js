@@ -20,6 +20,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import CreateHabitModal from "../../Todos-Habits/modals/CreateHabitModal";
 import UpdateHabitModal from "../../Todos-Habits/modals/UpdateHabitModal";
 import HabitsAPI from "../../../api/habits/habitsAPI";
+import UserAPI from "../../../api/user/userAPI";
 import Spinner from "react-native-loading-spinner-overlay";
 import Toast from "react-native-toast-message";
 import { getAccessToken } from "../../../user/keychain";
@@ -29,6 +30,7 @@ import { sharedStyles } from "../../styles";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const HabitsCreation = (props) => {
+  let token, expoIDs;
   const theme = useContext(ThemeContext).value;
   const { width, height } = useWindowDimensions();
 
@@ -318,7 +320,6 @@ const HabitsCreation = (props) => {
                       styles.habitImageContainer,
                       sharedStyles["borderedContainer_" + theme],
                     ]}
-                    onPress={() => searchImage()}
                   >
                     <Image
                       style={styles.habitImage}

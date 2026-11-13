@@ -54,6 +54,7 @@ export default function SleepReportModal({
   const dreamRef = useRef(null);
 
   const updateReport = async (journal) => {
+    let newReport;
     setIsLoading(true);
     newReport = sleepReport;
     newReport.journal = journal;

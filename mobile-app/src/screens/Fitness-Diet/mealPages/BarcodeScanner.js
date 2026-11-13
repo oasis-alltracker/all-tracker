@@ -92,7 +92,10 @@ const BarcodeScanner = ({ route }) => {
     navigationService.navigate("searchFood", params);
   };
 
-  const PermissionNotice = () => {
+  const PermissionNotice = ({
+    header = "Camera Permissions Required",
+    message = "Please close the app and allow camera permissions in your settings, then return to this page.",
+  }) => {
     return (
       <SafeAreaView
         style={[styles.container, sharedStyles["pageBackground_" + theme]]}
@@ -115,7 +118,7 @@ const BarcodeScanner = ({ route }) => {
               sharedStyles["textColour_" + theme],
             ]}
           >
-            Camera Permissions Required
+            {header}
           </Text>
           <Text
             style={[
@@ -123,8 +126,7 @@ const BarcodeScanner = ({ route }) => {
               sharedStyles["textColour_" + theme],
             ]}
           >
-            Please close the app and allow camera permissions in your settings,
-            then return to this page.
+            {message}
           </Text>
         </View>
       </SafeAreaView>
@@ -135,7 +137,12 @@ const BarcodeScanner = ({ route }) => {
     return <PermissionNotice />;
   }
   if (device == null) {
-    return <NoCameraErrorView />;
+    return (
+      <PermissionNotice
+        header="No Camera Found"
+        message="This device doesn't have a camera available for barcode scanning."
+      />
+    );
   }
   return (
     <View style={styles.container}>

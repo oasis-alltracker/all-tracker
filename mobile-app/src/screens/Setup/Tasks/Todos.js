@@ -26,6 +26,7 @@ import { sharedStyles } from "../../styles";
 import { ThemeContext } from "../../../contexts/ThemeProvider";
 
 const Todos = (props) => {
+  let userToDos, token, trigger, expoIDs, prevNotification, userTasks, triggers;
   const theme = useContext(ThemeContext).value;
   const { selectedTrackers } = props.route.params;
   const { width, height } = useWindowDimensions();
@@ -61,6 +62,7 @@ const Todos = (props) => {
   };
 
   const createToDo = async (toDo, isNotificationsOn, time) => {
+    let toDoID;
     try {
       setIsLoading(true);
       token = await getAccessToken();
@@ -206,6 +208,7 @@ const Todos = (props) => {
   };
 
   const createTask = async (task, isNotificationsOn, time) => {
+    let taskID;
     try {
       setIsLoading(true);
       token = await getAccessToken();

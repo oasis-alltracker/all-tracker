@@ -55,6 +55,7 @@ export default function WellnessReportModal({
   const moodRef = useRef(null);
 
   const updateReport = async (journal) => {
+    let newReport;
     setIsLoading(true);
     newReport = moodReport;
     newReport.journal = journal;

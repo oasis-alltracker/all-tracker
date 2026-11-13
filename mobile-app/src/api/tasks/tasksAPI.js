@@ -25,6 +25,7 @@ class TasksAPI {
   }
 
   static async createTask(token, task) {
+    let response;
     const headers = {
       Authorization: `Bearer ${token}`,
     };

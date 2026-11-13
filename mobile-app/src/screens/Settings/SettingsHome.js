@@ -134,6 +134,7 @@ const SettingsHome = () => {
 
   useEffect(() => {
     const getDataOnLoad = async () => {
+      let token;
       token = await getAccessToken();
       if (isLoading) {
         const trackingPreferencesLoaded = (await UserAPI.getUser(token)).data

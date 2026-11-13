@@ -113,6 +113,7 @@ export default function TaskModal({
   };
 
   const onSave = async () => {
+    let task, toDo;
     Keyboard.dismiss();
     if (title == "" && description == "") {
       Toast.show({
@@ -212,6 +213,7 @@ export default function TaskModal({
 
   useEffect(() => {
     const setNotificationData = async (itemID) => {
+      let token, notifications;
       token = await getAccessToken();
       notifications = await NotificationsHandler.getNotifications(
         token,

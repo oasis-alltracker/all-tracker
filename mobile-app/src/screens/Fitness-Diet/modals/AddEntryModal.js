@@ -61,6 +61,7 @@ export default function AddEntryModal({
   foodEntriesChangedRef,
   setMeal,
 }) {
+  let token;
   const theme = useContext(ThemeContext).value;
   const [isVisible, setVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -165,6 +166,7 @@ export default function AddEntryModal({
   };
 
   const onAddFoodEntry = async () => {
+    let response;
     try {
       var newFoodEntry = {
         name: foodEntry.name,
