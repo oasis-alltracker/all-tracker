@@ -106,6 +106,15 @@ Authorization: Bearer token
 }
 ###
 
+//Update any subset of: isSetupComplete, trackingPreferences, taskPreference, nutritionPath.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
+Authorization: Bearer token
+
+{
+    "nutritionPath": "reflective"
+}
+###
+
 DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
 Authorization: Bearer token
 ###

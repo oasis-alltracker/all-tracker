@@ -13,8 +13,6 @@ const DeleteUser = require("./deleteUser");
 const deleteUser = new DeleteUser(dbService);
 const UpdateUser = require("./updateUser");
 const updateUser = new UpdateUser(dbService);
-const UpdateTaskPreference = require("./updateTaskPreference");
-const updateTaskPreference = new UpdateTaskPreference(dbService);
 
 const { authenticateToken } = require("../../utils/authenticateToken");
 
@@ -32,6 +30,7 @@ module.exports.handler = async (event, context, callback) => {
         "Access-Control-Allow-Credentials": true,
       },
     });
+    return;
   }
 
   if (event.httpMethod == "GET") {
@@ -39,15 +38,7 @@ module.exports.handler = async (event, context, callback) => {
   } else if (event.httpMethod == "DELETE") {
     response = await deleteUser.deleteUser(user);
   } else if (event.httpMethod == "PUT") {
-    const body = JSON.parse(event.body);
-    if (body.taskPreference) {
-      response = await updateTaskPreference.updateTaskPreference(
-        user,
-        JSON.parse(event.body),
-      );
-    } else {
-      response = await updateUser.updateUser(user, JSON.parse(event.body));
-    }
+    response = await updateUser.updateUser(user, JSON.parse(event.body));
   }
 
   callback(null, response);
