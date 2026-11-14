@@ -29,12 +29,15 @@ class WorkoutEntriesAPI {
     });
     return response?.data;
   }
+  // workoutEntry.entryType is "movement" or "workout". Returns the new entry's
+  // ID, which a workout's exercise entries need.
   static async createWorkoutEntry(token, workoutEntry) {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    await axios.post(API, workoutEntry, { headers: headers });
+    const response = await axios.post(API, workoutEntry, { headers: headers });
+    return response?.data?.ID;
   }
 
   static async updateWorkoutEntry(token, workoutEntryID, workoutEntry) {
