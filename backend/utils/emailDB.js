@@ -1,3 +1,8 @@
+// Delivery status for an email address, stored as its own item next to the
+// user's otp and tempPassword items: { PK: email, SK: "emailStatus" }.
+// It must never be written at SK: email, which is the user's account row.
+const EMAIL_STATUS_SK = "emailStatus";
+
 class EmailDB {
   constructor(dbService) {
     this.dbService = dbService;
@@ -19,26 +24,23 @@ class EmailDB {
   }
 
   getEmailRecord(emailAddress, failedReason) {
-    let recordToInsert = {};
-    recordToInsert.PK = emailAddress;
-    recordToInsert.SK = emailAddress;
-    recordToInsert.failedReason = failedReason;
-
-    return recordToInsert;
+    return {
+      PK: emailAddress,
+      SK: EMAIL_STATUS_SK,
+      failedReason: failedReason,
+      updatedAt: new Date().toISOString(),
+    };
   }
 
+  // false if OTP emails to this address should be skipped.
   async verifyEmailAddress(emailAddress) {
     try {
-      const { expression, names, values } =
-        this.getVerifyEmailCondition(emailAddress);
+      const response = await this.dbService.getItem({
+        PK: emailAddress,
+        SK: EMAIL_STATUS_SK,
+      });
 
-      const response = await this.dbService.queryItem(
-        expression,
-        names,
-        values,
-      );
-
-      if (response?.Items?.[0]?.failedReason) {
+      if (response?.Item?.failedReason) {
         return false;
       } else {
         return true;
@@ -50,17 +52,6 @@ class EmailDB {
       });
     }
   }
-  getVerifyEmailCondition(emailAddress) {
-    return {
-      expression: "#pk = :emailAddress AND #sk = :emailAddress ",
-      names: {
-        "#pk": "PK",
-        "#sk": "SK",
-      },
-      values: {
-        ":emailAddress": emailAddress,
-      },
-    };
-  }
 }
 module.exports = EmailDB;
+module.exports.EMAIL_STATUS_SK = EMAIL_STATUS_SK;

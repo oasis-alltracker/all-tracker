@@ -1,3 +1,7 @@
+// Handles SES bounce and complaint notifications for OTP emails. Only a
+// permanent bounce (the address doesn't exist) stops future OTP emails to
+// that address. Transient/undetermined bounces (e.g. mailbox full) and
+// complaints are logged but don't block, so nobody is locked out of login.
 class ProcessMessages {
   constructor(emailDB) {
     this.emailDB = emailDB;
@@ -9,7 +13,7 @@ class ProcessMessages {
         if (message.bounce) {
           await this.handleBounce(message.bounce);
         } else if (message.complaint) {
-          await this.handleComplaint(message.complaint);
+          this.handleComplaint(message.complaint);
         } else {
           throw new Error("Invalid failed message type.");
         }
@@ -27,16 +31,17 @@ class ProcessMessages {
 
     for (const recipient of bounce.bouncedRecipients) {
       const emailAddress = recipient.emailAddress;
-      await this.emailDB.addFailedEmail(emailAddress, failedReason);
+      if (bounce.bounceType === "Permanent") {
+        await this.emailDB.addFailedEmail(emailAddress, failedReason);
+      } else {
+        console.log(`OTP email ${failedReason} for ${emailAddress}; not blocked.`);
+      }
     }
   }
 
-  async handleComplaint(complaint) {
-    const failedReason = "complaint";
-
+  handleComplaint(complaint) {
     for (const recipient of complaint.complainedRecipients) {
-      const emailAddress = recipient.emailAddress;
-      await this.emailDB.addFailedEmail(emailAddress, failedReason);
+      console.log(`OTP email complaint for ${recipient.emailAddress}; not blocked.`);
     }
   }
 }

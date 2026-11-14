@@ -30,6 +30,7 @@ class DeleteUser {
     await this.DB.deleteItems(email, [{ SK: email }]);
     await this.DB.deleteItems(email, [{ SK: "otp" }]);
     await this.DB.deleteItems(email, [{ SK: "tempPassword" }]);
+    await this.DB.deleteItems(email, [{ SK: "emailStatus" }]);
     await this.DB.deleteItems(`${email}-healthInfo`, [{ SK: "healthInfo" }]);
     await this.DB.deleteItems(`${email}-taskInfo`, [{ SK: "taskInfo" }]);
 

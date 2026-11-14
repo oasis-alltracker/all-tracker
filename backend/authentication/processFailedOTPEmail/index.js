@@ -1,7 +1,7 @@
 const { DynamoDBDocument } = require("@aws-sdk/lib-dynamodb");
 const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 
-const DbUtils = require("../databaseManager");
+const DbUtils = require("../../utils/databaseManager");
 const tableName = process.env.ALL_TRACKER_TABLE_NAME;
 const DB = DynamoDBDocument.from(new DynamoDB());
 const dbService = new DbUtils(DB, tableName);
@@ -17,7 +17,7 @@ module.exports.handler = async (event) => {
 };
 
 function getEventMessages(records) {
-  messages = [];
+  const messages = [];
 
   records.forEach((record) => {
     const body = JSON.parse(record.body);
