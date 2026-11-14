@@ -1,11 +1,44 @@
 const { v1: uuidv1 } = require("uuid");
 
+// [{ exerciseID, setCount }]: exercises come from the user's library.
+function isValidExercisesAndSets(exercisesAndSets) {
+  return (
+    Array.isArray(exercisesAndSets) &&
+    exercisesAndSets.every(
+      (planExercise) =>
+        typeof planExercise?.exerciseID === "string" &&
+        planExercise.exerciseID !== "" &&
+        Number.isInteger(planExercise.setCount) &&
+        planExercise.setCount > 0,
+    )
+  );
+}
+
+function isValidName(name) {
+  return typeof name === "string" && name.trim() !== "";
+}
+
 class CreateWorkoutPlan {
   constructor(db) {
     this.DB = db;
   }
 
   async createWorkoutPlan(user, body) {
+    if (
+      !isValidName(body?.name) ||
+      (body.exercisesAndSets !== undefined &&
+        !isValidExercisesAndSets(body.exercisesAndSets))
+    ) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify("Invalid workout plan"),
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+        },
+      };
+    }
+
     try {
       const response = await this.createPlan(user.email, body);
 
@@ -37,7 +70,12 @@ class CreateWorkoutPlan {
       PK: `${email}-workoutPlan`,
       SK: `${workoutPlanID}`,
       name: workoutPlan.name,
-      exerciseIDs: workoutPlan.exerciseIDs,
+      exercisesAndSets: (workoutPlan.exercisesAndSets ?? []).map(
+        (planExercise) => ({
+          exerciseID: planExercise.exerciseID,
+          setCount: planExercise.setCount,
+        }),
+      ),
     };
 
     await this.DB.putItem(data);
@@ -45,3 +83,5 @@ class CreateWorkoutPlan {
   }
 }
 module.exports = CreateWorkoutPlan;
+module.exports.isValidExercisesAndSets = isValidExercisesAndSets;
+module.exports.isValidName = isValidName;

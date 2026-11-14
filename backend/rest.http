@@ -579,21 +579,24 @@ Authorization: Bearer token
 
 {
     "name": "Upper",
-    "exerciseIDs": []
+    "exercisesAndSets": []
 }
 ###
 
-//Update workout plan.
+//Update workout plan (name and/or exercisesAndSets). Exercises come from the user's library.
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
 Authorization: Bearer token
 
 {
     "name": "Upper",
-    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
+    "exercisesAndSets": [
+        {"exerciseID": "c46748e0-ac14-11ed-83ff-bbb6a057b089", "setCount": 3},
+        {"exerciseID": "c81c88b0-ac14-11ed-83ff-bbb6a057b089", "setCount": 4}
+    ]
 }
 ###
 
-//Delete workout plan.
+//Delete workout plan (its exercises stay in the library).
 DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutPlans/b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
 Authorization: Bearer token
 ###
@@ -602,12 +605,17 @@ Authorization: Bearer token
 
 //----------E X E R C I S E S----------
 //-------------------------------------------
-//Get exercises for a given workout plan.
+//Get the user's exercise library.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises
+Authorization: Bearer token
+###
+
+//Get a workout plan's exercises (plan order, with setCount).
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises?workoutPlanID=b4bd9480-ac14-11ed-aeb4-516f1c8bdaab
 Authorization: Bearer token
 ###
 
-//Create exercise.
+//Create exercise in the library (only name is required).
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises
 Authorization: Bearer token
 
@@ -617,29 +625,21 @@ Authorization: Bearer token
     "muscle": "back",
     "equipment": "bar",
     "difficulty": "medium",
-    "instructions": "Grab par and pull yourself up",
-    "sets": 3,
-    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab"
+    "instructions": "Grab par and pull yourself up"
 }
 ###
 
-//Update exercise.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/72-ee5b41b0-abe2-11ed-82c5-61c662303908
+//Update exercise (any subset of the fields above).
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/ee5b41b0-abe2-11ed-82c5-61c662303908
 Authorization: Bearer token
 
 {
-    "name": "pull ups",
-    "type": "back",
-    "muscle": "shoulder",
-    "equipment": "bar",
-    "difficulty": "medium",
-    "instructions": "Grab par and pull yourself up",
-    "sets": 4
+    "muscle": "lats"
 }
 ###
 
-//Delete exercise.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/72-7b0b54b0-abd4-11ed-990e-03ef98465e29
+//Delete exercise (plans that list it skip it; past exercise entries keep their name).
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exercises/7b0b54b0-abd4-11ed-990e-03ef98465e29
 Authorization: Bearer token
 ###
 
@@ -662,23 +662,23 @@ POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEnt
 Authorization: Bearer token
 
 {
+    "name": "Push day",
     "time": "12:00",
     "dateStamp": "20230208",
-    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab",
-    "exerciseIDs": ["c46748e0-ac14-11ed-83ff-bbb6a057b089", "c81c88b0-ac14-11ed-83ff-bbb6a057b089"]
+    "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab"
 }
 ###
 
-//Update workout entry.
+//Update workout entry (name and/or time).
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries/20230209-65fb8d40-aa55-11ed-bfee-c93f00eb950c
 Authorization: Bearer token
 
 {
-    "exerciseEntryIDs": ["1"]
+    "name": "Push day (short)"
 }
 ###
 
-//Delete workout entry.
+//Delete workout entry (also deletes its exercise entries).
 DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries/20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
 Authorization: Bearer token
 ###
@@ -687,12 +687,23 @@ Authorization: Bearer token
 
 //----------E X E R C I S E   E N T R I E S----------
 //-------------------------------------------
-//Get exercise entries for a given workout.
+//Get exercise entries for a given workout (in position order).
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries?workoutEntryID=20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c
 Authorization: Bearer token
 ###
 
-//Create exercise entry.
+//Get exercise entries for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries?dateStamp=20230208
+Authorization: Bearer token
+###
+
+//Get exercise entries for multiple days (e.g. past page), grouped by workout then position.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries?startDate=20230201&endDate=20230228
+Authorization: Bearer token
+###
+
+//Create exercise entry. The same exercise can be logged more than once per workout.
+//Returns { ID } = workoutEntryID-exerciseEntryID.
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries
 Authorization: Bearer token
 
@@ -700,7 +711,8 @@ Authorization: Bearer token
     "name": "Pull-ups",
     "exerciseID": "c81c88b0-ac14-11ed-83ff-bbb6a057b089",
     "workoutEntryID": "20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c",
-    "sets": [ {
+    "position": 0,
+    "setInfo": [ {
         "weight": 30,
         "reps": 34,
         "time": "ehdfh"
@@ -709,12 +721,12 @@ Authorization: Bearer token
 }
 ###
 
-//Update exercise entry.
-PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/20230208-d6e42ec0-a764-11ed-9730-4386437e422e
+//Update exercise entry (setInfo and/or position). ID is workoutEntryID-exerciseEntryID.
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c-e1a2b3c0-ac14-11ed-83ff-bbb6a057b089
 Authorization: Bearer token
 
 {
-    "sets": [ {
+    "setInfo": [ {
         "weight": 33,
         "reps": 34,
         "time": "ehdfh"
@@ -723,7 +735,7 @@ Authorization: Bearer token
 ###
 
 //Delete exercise entry.
-DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/23-1
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/exerciseEntries/20230208-d8f0d960-ac1f-11ed-85ac-276c9faf893c-e1a2b3c0-ac14-11ed-83ff-bbb6a057b089
 Authorization: Bearer token
 ###
 

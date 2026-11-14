@@ -3,16 +3,17 @@ class GetExercises {
     this.DB = db;
   }
 
+  // No parameter: the user's whole exercise library.
+  // ?workoutPlanID=: that plan's exercises, in plan order, each with its setCount.
   async getExercises(user, queryStringParameters) {
     try {
-      var exercises;
-      if (queryStringParameters.workoutPlanID) {
-        exercises = await this.get(
+      var exercises = await this.getAll(user.email);
+      if (queryStringParameters?.workoutPlanID) {
+        const workoutPlan = await this.getPlan(
           user.email,
           queryStringParameters.workoutPlanID,
         );
-      } else {
-        throw new Error("Missing queryStringParameters");
+        exercises = this.forPlan(workoutPlan, exercises);
       }
 
       return {
@@ -36,19 +37,38 @@ class GetExercises {
     }
   }
 
-  async get(user, workoutPlanID) {
-    const expression = "#pk = :pk AND begins_with(#sk, :sk)";
+  // Exercises deleted from the library since the plan was made are skipped.
+  forPlan(workoutPlan, exercises) {
+    const exercisesByID = new Map(
+      exercises.map((exercise) => [exercise.SK, exercise]),
+    );
+    return (workoutPlan?.exercisesAndSets ?? [])
+      .filter((planExercise) => exercisesByID.has(planExercise.exerciseID))
+      .map((planExercise) => ({
+        ...exercisesByID.get(planExercise.exerciseID),
+        setCount: planExercise.setCount,
+      }));
+  }
+
+  async getAll(user) {
+    const expression = "#pk = :pk";
     const names = {
       "#pk": "PK",
-      "#sk": "SK",
     };
     const values = {
       ":pk": `${user}-exercise`,
-      ":sk": workoutPlanID,
     };
 
     const response = await this.DB.queryItem(expression, names, values);
-    return response?.Items;
+    return response?.Items ?? [];
+  }
+
+  async getPlan(user, workoutPlanID) {
+    const response = await this.DB.getItem({
+      PK: `${user}-workoutPlan`,
+      SK: workoutPlanID,
+    });
+    return response?.Item;
   }
 }
 module.exports = GetExercises;

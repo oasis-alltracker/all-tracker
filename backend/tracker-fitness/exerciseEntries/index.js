@@ -34,6 +34,7 @@ module.exports.handler = async (event, context, callback) => {
         "Access-Control-Allow-Credentials": true,
       },
     });
+    return;
   }
 
   if (event.httpMethod == "GET") {

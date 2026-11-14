@@ -27,30 +27,11 @@ class DeleteWorkoutPlan {
     }
   }
 
+  // Only the plan is deleted. Its exercises belong to the user's library and
+  // may be in other plans; past workout entries keep their own records.
   async deletePlan(email, workoutPlanID) {
-    var key;
-    const workoutPlan = await this.getPlan(email);
-    for (const exerciseID of workoutPlan.exerciseIDs) {
-      key = { PK: `${email}-exercise`, SK: `${workoutPlanID}-${exerciseID}` };
-
-      await this.DB.deleteItem(key);
-    }
-
-    key = { PK: `${email}-workoutPlan`, SK: workoutPlanID };
+    const key = { PK: `${email}-workoutPlan`, SK: workoutPlanID };
     await this.DB.deleteItem(key);
-  }
-
-  async getPlan(user) {
-    const expression = "#pk = :pk";
-    const names = {
-      "#pk": "PK",
-    };
-    const values = {
-      ":pk": `${user}-workoutPlan`,
-    };
-
-    const response = await this.DB.queryItem(expression, names, values);
-    return response?.Items[0];
   }
 }
 module.exports = DeleteWorkoutPlan;

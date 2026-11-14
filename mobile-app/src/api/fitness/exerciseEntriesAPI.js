@@ -3,6 +3,19 @@ import { EXPO_PUBLIC_BASE_URL } from "../../../config";
 const API = EXPO_PUBLIC_BASE_URL + "exerciseEntries/";
 
 class ExerciseEntriesAPI {
+  // One session's exercises, in the order they were done.
+  static async getExerciseEntriesForWorkout(token, workoutEntryID) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await axios.get(API, {
+      headers: headers,
+      params: { workoutEntryID: workoutEntryID },
+    });
+    return response?.data;
+  }
+
   static async getExerciseEntriesForToday(token, dateStamp) {
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -30,7 +43,8 @@ class ExerciseEntriesAPI {
       Authorization: `Bearer ${token}`,
     };
 
-    await axios.post(API, exerciseEntry, { headers: headers });
+    const response = await axios.post(API, exerciseEntry, { headers: headers });
+    return response?.data?.ID;
   }
 
   static async updateExerciseEntry(token, exerciseEntryID, exerciseEntry) {
