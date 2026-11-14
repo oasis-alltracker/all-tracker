@@ -139,7 +139,7 @@ functions:
               - Arn
 
   processFailedOTPEmail:
-    handler: authentication/processFailedEmail/index.handler
+    handler: authentication/processFailedOTPEmail/index.handler
     role:
       Fn::GetAtt:
         - processFailedOTPEmailRole
