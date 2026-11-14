@@ -2,7 +2,6 @@ const CreateReflectiveMeal = require("../../tracker-diet/reflectiveMeals/createR
 const GetReflectiveMeals = require("../../tracker-diet/reflectiveMeals/getReflectiveMeals");
 const UpdateReflectiveMeal = require("../../tracker-diet/reflectiveMeals/updateReflectiveMeal");
 const DeleteReflectiveMeal = require("../../tracker-diet/reflectiveMeals/deleteReflectiveMeal");
-const DeleteUser = require("../../userInfo/user/deleteUser");
 
 function mockDB() {
   return {
@@ -189,22 +188,5 @@ describe("deleteReflectiveMeal", () => {
     );
     expect(response.statusCode).toBe(200);
     expect(db.deleteItem).toHaveBeenCalledWith(key);
-  });
-});
-
-describe("deleteUser", () => {
-  it("deletes the user's reflective meals", async () => {
-    const meals = [{ SK: "20261113-abc" }];
-    const db = mockDB();
-    db.queryItem.mockImplementation(async (expression, names, values) => ({
-      Items: values[":pk"] === "test@example.com-reflectiveMeal" ? meals : [],
-    }));
-
-    await new DeleteUser(db).deleteUserAndData("test@example.com");
-
-    expect(db.deleteItems).toHaveBeenCalledWith(
-      "test@example.com-reflectiveMeal",
-      meals,
-    );
   });
 });

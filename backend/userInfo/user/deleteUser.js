@@ -85,6 +85,8 @@ class DeleteUser {
     await this.DB.deleteItems(`${email}-reflectiveMeal`, reflectiveMeals);
   }
 
+  // Every item in the partition, across all pages. A single query stops at
+  // 1MB, which would leave a heavy user's data behind.
   async getAll(user, pkSuffix) {
     const expression = "#pk = :pk";
     const names = {
@@ -93,8 +95,7 @@ class DeleteUser {
     const values = {
       ":pk": `${user}-${pkSuffix}`,
     };
-    const response = await this.DB.queryItem(expression, names, values);
-    return response?.Items;
+    return this.DB.queryAllItems(expression, names, values);
   }
 }
 module.exports = DeleteUser;
