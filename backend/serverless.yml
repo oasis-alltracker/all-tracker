@@ -351,6 +351,31 @@ functions:
           method: get
           cors: true
 
+  ##Reflective Meals##
+  reflectiveMeals:
+    handler: tracker-diet/reflectiveMeals/index.handler
+    role:
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/reflectiveMeals
+          method: get
+          cors: true
+      - http:
+          path: v1/reflectiveMeals
+          method: post
+          cors: true
+      - http:
+          path: v1/reflectiveMeals/{reflectiveMealID}
+          method: put
+          cors: true
+      - http:
+          path: v1/reflectiveMeals/{reflectiveMealID}
+          method: delete
+          cors: true
+
   ##FoodItems##
   foodItems:
     handler: tracker-diet/foodItems/index.handler
