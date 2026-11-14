@@ -36,6 +36,12 @@ function daysBetween(startDateStamp, endDateStamp) {
   return days;
 }
 
+function addDays(dateStamp, days) {
+  const date = toDate(dateStamp);
+  date.setUTCDate(date.getUTCDate() + days);
+  return toDateStamp(date);
+}
+
 function isCompleteDay(habit, status) {
   const threshold = status?.threshold ?? habit.threshold;
   if (habit.isPositive) {
@@ -57,26 +63,34 @@ function seasonOn(seasons, dateStamp) {
 }
 
 // statuses: this habit's habitStatus rows between startDate and endDate.
+// First logged day of a habit, or undefined if nothing was ever logged.
+function firstLoggedDay(statuses) {
+  return statuses.map(dateOf).sort()[0];
+}
+
+// Sorted dateStamps of completed days between startDate and endDate.
 // startDate may be undefined for habits with no history; the count then starts
 // at their first logged day.
-function countCompletions(habit, statuses, seasons, startDate, endDate) {
+function completedDaysBetween(habit, statuses, startDate, endDate) {
   const statusByDay = new Map(statuses.map((status) => [dateOf(status), status]));
-  const sortedSeasons = [...seasons].sort((a, b) => (a.SK < b.SK ? -1 : 1));
 
   var days;
   if (habit.isPositive) {
     days = [...statusByDay.keys()];
   } else {
-    const firstLogged = [...statusByDay.keys()].sort()[0];
-    const start = startDate ?? firstLogged ?? endDate;
+    const start = startDate ?? firstLoggedDay(statuses) ?? endDate;
     days = daysBetween(start, endDate);
   }
 
-  const completedDays = days
+  return days
     .filter((day) => (!startDate || day >= startDate) && day <= endDate)
     .filter((day) => isCompleteDay(habit, statusByDay.get(day)))
     .sort();
+}
 
+// [{ season, completions }] in the order seasons first appear.
+function completionsBySeasonFor(completedDays, seasons) {
+  const sortedSeasons = [...seasons].sort((a, b) => (a.SK < b.SK ? -1 : 1));
   const completionsBySeason = [];
   for (const day of completedDays) {
     const season = seasonOn(sortedSeasons, day);
@@ -87,8 +101,28 @@ function countCompletions(habit, statuses, seasons, startDate, endDate) {
       completionsBySeason.push({ season, completions: 1 });
     }
   }
-
-  return { completions: completedDays.length, completionsBySeason };
+  return completionsBySeason;
 }
 
-module.exports = { countCompletions, daysBetween, seasonOn };
+function countCompletions(habit, statuses, seasons, startDate, endDate) {
+  const completedDays = completedDaysBetween(
+    habit,
+    statuses,
+    startDate,
+    endDate,
+  );
+  return {
+    completions: completedDays.length,
+    completionsBySeason: completionsBySeasonFor(completedDays, seasons),
+  };
+}
+
+module.exports = {
+  countCompletions,
+  completedDaysBetween,
+  completionsBySeasonFor,
+  firstLoggedDay,
+  daysBetween,
+  addDays,
+  seasonOn,
+};

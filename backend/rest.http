@@ -336,6 +336,19 @@ Authorization: Bearer token
 
 
 
+//---------H A B I T   P R O G R E S S-------
+//-------------------------------------------
+//Get one habit's progress view (dateStamp = user's today).
+//Returns startDate, seasonStarted, totalCompletions, daysSinceStart, currentStreak,
+//longestStreak, completionsBySeason (grouped by season name), currentSeason (since the
+//user's latest season change), currentChapter (since created/reopened; null if closed),
+//chapters (each create/reopen → close span) and a 44-day timeline (complete | missed | inactive).
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habitProgress?habitID=62962c80-a773-11ed-8679-d7059b0ed0d6&dateStamp=20261113
+Authorization: Bearer token
+###
+
+
+
 //-----------------T A S K S-----------------
 //-------------------------------------------
 //Get all recurring tasks.
