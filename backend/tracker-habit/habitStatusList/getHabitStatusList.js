@@ -1,3 +1,5 @@
+const { isClosedOn } = require("../../utils/habitHistory");
+
 class GetHabitStatusList {
   constructor(db) {
     this.DB = db;
@@ -5,7 +7,11 @@ class GetHabitStatusList {
 
   async getHabitStatusList(user, dateStamp) {
     try {
-      const habits = await this.getHabits(user.email);
+      // Habits closed on this day are left out; any status logged that day
+      // still comes through below, like statuses of deleted habits.
+      const habits = (await this.getHabits(user.email)).filter(
+        (habit) => !isClosedOn(habit, dateStamp),
+      );
       const habitStatuses = await this.getHabitStatusListForDay(
         user.email,
         dateStamp,

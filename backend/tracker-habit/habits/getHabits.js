@@ -1,11 +1,19 @@
+const { currentStatus } = require("../../utils/habitHistory");
+
 class GetHabits {
   constructor(db) {
     this.DB = db;
   }
 
-  async getHabits(user) {
+  // ?status=active or ?status=closed filters; no parameter returns every habit.
+  async getHabits(user, queryStringParameters) {
     try {
-      const habits = await this.get(user.email);
+      var habits = await this.get(user.email);
+      if (queryStringParameters?.status) {
+        habits = habits.filter(
+          (habit) => currentStatus(habit) === queryStringParameters.status,
+        );
+      }
 
       return {
         statusCode: 200,

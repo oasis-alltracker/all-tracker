@@ -144,5 +144,37 @@ class DbUtils {
       });
     });
   }
+
+  // Like queryItem, but follows LastEvaluatedKey so results past DynamoDB's
+  // 1MB page limit are included. Returns the items array.
+  async queryAllItems(expression, names, values, filters = null) {
+    var params = {
+      TableName: this.tableName,
+      KeyConditionExpression: expression,
+      ExpressionAttributeNames: names,
+      ExpressionAttributeValues: values,
+    };
+
+    if (filters) {
+      params["FilterExpression"] = filters;
+    }
+
+    const items = [];
+    do {
+      const data = await new Promise((resolve, reject) => {
+        this.DB.query(params, function (err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
+      });
+      items.push(...(data?.Items ?? []));
+      params = { ...params, ExclusiveStartKey: data?.LastEvaluatedKey };
+    } while (params.ExclusiveStartKey);
+
+    return items;
+  }
 }
 module.exports = DbUtils;
