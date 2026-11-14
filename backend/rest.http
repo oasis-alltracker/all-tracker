@@ -727,6 +727,17 @@ Authorization: Bearer token
 
 
 
+//----------F I T N E S S   S T A T S----------
+//-------------------------------------------
+//Get fitness stats (dateStamp = user's today). Returns every stat; the app picks per season.
+//season, seasonStartedAt, sessionsThisSeason, workoutsThisSeason, movementsThisSeason,
+//movementMix, currentStreak, longestStreak, lastLoggedDate, daysWithoutLogging, inRhythm
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/fitnessStats?dateStamp=20261113
+Authorization: Bearer token
+###
+
+
+
 //----------E X E R C I S E   E N T R I E S----------
 //-------------------------------------------
 //Get exercise entries for a given workout (in position order).
