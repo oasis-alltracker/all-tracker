@@ -712,6 +712,19 @@ functions:
           method: delete
           cors: true
 
+  ##Fitness Stats##
+  fitnessStats:
+    handler: tracker-fitness/fitnessStats/index.handler
+    role:
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/fitnessStats
+          method: get
+          cors: true
+
   ##Workout Plans##
   workoutPlans:
     handler: tracker-fitness/workoutPlans/index.handler

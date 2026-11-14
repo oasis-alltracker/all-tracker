@@ -80,5 +80,20 @@ class StatsAPI {
     });
     return response?.data;
   }
+
+  // Season session counts, streaks and rhythm for the fitness screen.
+  // dateStamp is the user's today.
+  static async getFitnessStats(token, dateStamp) {
+    const api = EXPO_PUBLIC_BASE_URL + "fitnessStats/";
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await axios.get(api, {
+      headers: headers,
+      params: { dateStamp: dateStamp },
+    });
+    return response?.data;
+  }
 }
 export default StatsAPI;
