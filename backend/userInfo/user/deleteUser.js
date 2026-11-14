@@ -77,6 +77,9 @@ class DeleteUser {
 
     const seasons = await this.getAll(email, "season");
     await this.DB.deleteItems(`${email}-season`, seasons);
+
+    const journalEntries = await this.getAll(email, "journalEntry");
+    await this.DB.deleteItems(`${email}-journalEntry`, journalEntries);
   }
 
   async getAll(user, pkSuffix) {
