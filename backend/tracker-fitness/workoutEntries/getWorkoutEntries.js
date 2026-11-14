@@ -6,14 +6,14 @@ class GetWorkoutEntries {
   async getWorkoutEntries(user, queryStringParameters) {
     try {
       var workoutEntries;
-      if (queryStringParameters.dateStamp) {
+      if (queryStringParameters?.dateStamp) {
         workoutEntries = await this.getEntriesForOneDay(
           user.email,
           queryStringParameters.dateStamp,
         );
       } else if (
-        queryStringParameters.startDate &&
-        queryStringParameters.endDate
+        queryStringParameters?.startDate &&
+        queryStringParameters?.endDate
       ) {
         workoutEntries = await this.getEntriesForMulitpleDays(
           user.email,
@@ -69,7 +69,9 @@ class GetWorkoutEntries {
     const values = {
       ":pk": `${user}-workoutEntry`,
       ":startDate": `${startDate}`,
-      ":endDate": `${endDate}`,
+      // SK is `${dateStamp}-${workoutEntryID}`, so the end bound needs a
+      // suffix to include entries on endDate itself.
+      ":endDate": `${endDate}-~`,
     };
 
     const response = await this.DB.queryItem(expression, names, values);

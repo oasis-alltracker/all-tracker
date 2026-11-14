@@ -6,6 +6,7 @@ const UpdateWorkoutPlan = require("../../tracker-fitness/workoutPlans/updateWork
 const DeleteWorkoutPlan = require("../../tracker-fitness/workoutPlans/deleteWorkoutPlan");
 const CreateWorkoutEntry = require("../../tracker-fitness/workoutEntries/createWorkoutEntry");
 const UpdateWorkoutEntry = require("../../tracker-fitness/workoutEntries/updateWorkoutEntry");
+const GetWorkoutEntries = require("../../tracker-fitness/workoutEntries/getWorkoutEntries");
 const DeleteWorkoutEntry = require("../../tracker-fitness/workoutEntries/deleteWorkoutEntry");
 const CreateExerciseEntry = require("../../tracker-fitness/exerciseEntries/createExerciseEntry");
 const GetExerciseEntries = require("../../tracker-fitness/exerciseEntries/getExerciseEntries");
@@ -178,42 +179,210 @@ describe("workout plans", () => {
 });
 
 describe("workout entries", () => {
-  it("stores the workout name", async () => {
+  const workout = {
+    entryType: "workout",
+    name: "Push day",
+    season: "building",
+    dateStamp: "20261113",
+  };
+  const movement = {
+    entryType: "movement",
+    activityType: "walk",
+    durationMinutes: 20,
+    season: "restoring",
+    dateStamp: "20261113",
+  };
+  const entryKey = { PK: "test@example.com-workoutEntry", SK: "20261113-w1" };
+
+  it("creates a workout with reflection fields empty until the end", async () => {
     const db = mockDB();
-    await new CreateWorkoutEntry(db).createWorkoutEntry(user, {
-      name: "Push day",
-      dateStamp: "20261113",
-    });
+    const response = await new CreateWorkoutEntry(db).createWorkoutEntry(
+      user,
+      workout,
+    );
+
+    expect(response.statusCode).toBe(200);
     const row = db.putItem.mock.calls[0][0];
     expect(row).toMatchObject({
       SK: expect.stringMatching(/^20261113-/),
+      entryType: "workout",
       name: "Push day",
+      season: "building",
       time: null,
       workoutPlanID: null,
+      effortDescriptor: null,
+      bodyFeelDescriptor: null,
+      note: null,
     });
+    expect(row.createdAt).toEqual(expect.any(String));
     expect(row.exerciseIDs).toBeUndefined();
+    expect(row.durationMinutes).toBeUndefined();
+    expect(JSON.parse(response.body)).toEqual({ ID: row.SK });
   });
 
-  it("updates name and time only; exercises live in exercise entries", async () => {
+  it("creates a quick movement with feel questions skipped", async () => {
     const db = mockDB();
-    await new UpdateWorkoutEntry(db).updateWorkoutEntry(user, "20261113-w1", {
-      name: "Legs",
-      exerciseIDs: ["ignored"],
-    });
-    expect(db.updateItem).toHaveBeenCalledWith(
-      "SET #name = :name",
-      { PK: "test@example.com-workoutEntry", SK: "20261113-w1" },
-      { "#name": "name" },
-      { ":name": "Legs" },
-      "attribute_exists(PK)",
-    );
+    await new CreateWorkoutEntry(db).createWorkoutEntry(user, movement);
 
+    const row = db.putItem.mock.calls[0][0];
+    expect(row).toMatchObject({
+      entryType: "movement",
+      activityType: "walk",
+      activityLabel: null,
+      durationMinutes: 20,
+      effortDescriptor: null,
+      bodyFeelDescriptor: null,
+      note: null,
+      season: "restoring",
+    });
+    expect(row.name).toBeUndefined();
+    expect(row.workoutPlanID).toBeUndefined();
+  });
+
+  it("creates a movement with a reflection, keeping the label only for other", async () => {
+    const db = mockDB();
+    const create = new CreateWorkoutEntry(db);
+    await create.createWorkoutEntry(user, {
+      ...movement,
+      activityType: "other",
+      activityLabel: "Climbing",
+      effortDescriptor: "pushed_it",
+      bodyFeelDescriptor: "lighter",
+      note: "New route.",
+    });
+    await create.createWorkoutEntry(user, {
+      ...movement,
+      activityLabel: "ignored",
+    });
+
+    expect(db.putItem.mock.calls[0][0]).toMatchObject({
+      activityType: "other",
+      activityLabel: "Climbing",
+      effortDescriptor: "pushed_it",
+      bodyFeelDescriptor: "lighter",
+      note: "New route.",
+    });
+    expect(db.putItem.mock.calls[1][0].activityLabel).toBeNull();
+  });
+
+  it.each([
+    ["missing entryType", { ...workout, entryType: undefined }],
+    ["unknown entryType", { ...workout, entryType: "class" }],
+    ["unknown season", { ...workout, season: "winter" }],
+    ["bad dateStamp", { ...workout, dateStamp: "2026-11-13" }],
+    ["unknown effort", { ...workout, effortDescriptor: "medium" }],
+    ["unknown body feel", { ...workout, bodyFeelDescriptor: "happy" }],
+    ["movement without activityType", { ...movement, activityType: undefined }],
+    ["movement with unknown activity", { ...movement, activityType: "dance" }],
+    ["movement other without label", { ...movement, activityType: "other" }],
+    ["movement without duration", { ...movement, durationMinutes: undefined }],
+    ["movement with zero duration", { ...movement, durationMinutes: 0 }],
+    ["movement with string duration", { ...movement, durationMinutes: "20" }],
+    ["null body", null],
+  ])("rejects %s with 400", async (label, body) => {
+    const db = mockDB();
+    const response = await new CreateWorkoutEntry(db).createWorkoutEntry(
+      user,
+      body,
+    );
+    expect(response.statusCode).toBe(400);
+    expect(db.putItem).not.toHaveBeenCalled();
+  });
+
+  it("saves the end-of-workout reflection", async () => {
+    const db = mockDB({ item: { ...entryKey, entryType: "workout" } });
     const response = await new UpdateWorkoutEntry(db).updateWorkoutEntry(
       user,
       "20261113-w1",
-      { exerciseIDs: ["ex1"] },
+      {
+        effortDescriptor: "pushed_it",
+        bodyFeelDescriptor: "strong",
+        note: "PR.",
+        season: "restoring",
+        exerciseIDs: ["ignored"],
+      },
+    );
+
+    expect(response.statusCode).toBe(200);
+    expect(db.updateItem).toHaveBeenCalledWith(
+      "SET #effortDescriptor = :effortDescriptor, #bodyFeelDescriptor = :bodyFeelDescriptor, #note = :note",
+      entryKey,
+      {
+        "#effortDescriptor": "effortDescriptor",
+        "#bodyFeelDescriptor": "bodyFeelDescriptor",
+        "#note": "note",
+      },
+      { ":effortDescriptor": "pushed_it", ":bodyFeelDescriptor": "strong", ":note": "PR." },
+      "attribute_exists(PK)",
+    );
+  });
+
+  it("treats entries without entryType as workouts", async () => {
+    const db = mockDB({ item: { ...entryKey } });
+    await new UpdateWorkoutEntry(db).updateWorkoutEntry(user, "20261113-w1", {
+      name: "Legs",
+    });
+    expect(db.updateItem.mock.calls[0][0]).toBe("SET #name = :name");
+  });
+
+  it("edits a movement and clears the label when leaving other", async () => {
+    const db = mockDB({ item: { ...entryKey, entryType: "movement" } });
+    await new UpdateWorkoutEntry(db).updateWorkoutEntry(user, "20261113-w1", {
+      activityType: "run",
+      durationMinutes: 30,
+      effortDescriptor: null,
+    });
+
+    const [expression, , , values] = db.updateItem.mock.calls[0];
+    expect(expression).toBe(
+      "SET #effortDescriptor = :effortDescriptor, #activityType = :activityType, #durationMinutes = :durationMinutes, #activityLabel = :activityLabel",
+    );
+    expect(values).toEqual({
+      ":effortDescriptor": null,
+      ":activityType": "run",
+      ":durationMinutes": 30,
+      ":activityLabel": null,
+    });
+  });
+
+  it.each([
+    ["only fields of the other type", "workout", { durationMinutes: 30 }],
+    ["only fields of the other type", "movement", { name: "Legs" }],
+    ["switching to other without label", "movement", { activityType: "other" }],
+    ["bad duration", "movement", { durationMinutes: -5 }],
+    ["unknown effort", "workout", { effortDescriptor: "medium" }],
+    ["empty body", "workout", {}],
+  ])("rejects an update with %s (%s)", async (label, entryType, body) => {
+    const db = mockDB({ item: { ...entryKey, entryType } });
+    const response = await new UpdateWorkoutEntry(db).updateWorkoutEntry(
+      user,
+      "20261113-w1",
+      body,
     );
     expect(response.statusCode).toBe(400);
+    expect(db.updateItem).not.toHaveBeenCalled();
+  });
+
+  it("returns 400 when the entry doesn't exist", async () => {
+    const db = mockDB();
+    const response = await new UpdateWorkoutEntry(db).updateWorkoutEntry(
+      user,
+      "20261113-w1",
+      { note: "x" },
+    );
+    expect(response.statusCode).toBe(400);
+    expect(JSON.parse(response.body)).toBe("Entry not found");
+  });
+
+  it("includes entries on endDate in a range", async () => {
+    const db = mockDB();
+    await new GetWorkoutEntries(db).getWorkoutEntries(user, {
+      startDate: "20261101",
+      endDate: "20261130",
+    });
+    const values = db.queryItem.mock.calls[0][2];
+    expect("20261130-w1" <= values[":endDate"]).toBe(true);
+    expect("20261201-w1" <= values[":endDate"]).toBe(false);
   });
 
   it("deletes the session and its exercise entries found by key prefix", async () => {

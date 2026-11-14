@@ -647,34 +647,63 @@ Authorization: Bearer token
 
 //----------W O R K O U T   E N T R I E S----------
 //-------------------------------------------
-//Get workout entries for one day.
+//Fitness entries: entryType "movement" (quick log) or "workout" (session with exercise entries).
+//Both take an optional reflection:
+//effortDescriptor: easy | steady | hard | pushed_it | gentle | exhausting
+//bodyFeelDescriptor: energized | strong | tired | sore | clear | calm | depleted | lighter
+
+//Get workout entries for one day (movements and workouts).
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries?dateStamp=20230208
 Authorization: Bearer token
 ###
 
-//Get workout entries for multiple days.
+//Get workout entries for multiple days (includes endDate).
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries?startDate=20230208&endDate=20230210
 Authorization: Bearer token
 ###
 
-//Create workout entry.
+//Create movement entry.
+//activityType: walk | run | yoga | swim | stretch | cycle | other (other needs activityLabel)
 POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries
 Authorization: Bearer token
 
 {
+    "entryType": "movement",
+    "activityType": "other",
+    "activityLabel": "Climbing",
+    "durationMinutes": 45,
+    "effortDescriptor": "hard",
+    "bodyFeelDescriptor": "energized",
+    "note": "New route.",
+    "season": "building",
+    "time": "18:30",
+    "dateStamp": "20230208"
+}
+###
+
+//Create workout entry (start of session; returns { ID } for its exercise entries).
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries
+Authorization: Bearer token
+
+{
+    "entryType": "workout",
     "name": "Push day",
+    "season": "building",
     "time": "12:00",
     "dateStamp": "20230208",
     "workoutPlanID": "b4bd9480-ac14-11ed-aeb4-516f1c8bdaab"
 }
 ###
 
-//Update workout entry (name and/or time).
+//Update workout entry: end-of-workout reflection (null clears a field).
+//Workouts: name, workoutPlanID, time + reflection. Movements: activityType, activityLabel, durationMinutes, time + reflection.
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/workoutEntries/20230209-65fb8d40-aa55-11ed-bfee-c93f00eb950c
 Authorization: Bearer token
 
 {
-    "name": "Push day (short)"
+    "effortDescriptor": "pushed_it",
+    "bodyFeelDescriptor": "strong",
+    "note": "New bench PR."
 }
 ###
 
