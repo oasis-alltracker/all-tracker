@@ -457,6 +457,19 @@ functions:
           method: get
           cors: true
 
+  ##HabitProgress
+  habitProgress:
+    handler: tracker-habit/habitProgress/index.handler
+    role:
+      Fn::GetAtt:
+        - LambdaExecutionRole
+        - Arn
+    events:
+      - http:
+          path: v1/habitProgress
+          method: get
+          cors: true
+
   ##### W E L L N E S S #####
   ##SleepReports##
   sleepReports:

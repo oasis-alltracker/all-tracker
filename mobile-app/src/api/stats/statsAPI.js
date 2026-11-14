@@ -14,6 +14,21 @@ class StatsAPI {
     });
     return response?.data;
   }
+  // One habit's progress view: streaks, totals, season split and the 44-day
+  // dot timeline. dateStamp is the user's today.
+  static async getHabitProgress(token, habitID, dateStamp) {
+    const api = EXPO_PUBLIC_BASE_URL + "habitProgress/";
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const response = await axios.get(api, {
+      headers: headers,
+      params: { habitID: habitID, dateStamp: dateStamp },
+    });
+    return response?.data;
+  }
+
   static async getTaskStats(token, sunday) {
     const api = EXPO_PUBLIC_BASE_URL + "taskStats/";
     const headers = {
