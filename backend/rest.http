@@ -1011,21 +1011,3 @@ Authorization: Bearer token
 GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/sleepStats?sunday=20240609
 Authorization: Bearer token
 ###
-
-
-
-
-//----------------N O T I O N----------------
-//-------------------------------------------
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/notion/initiateIntegration
-
-{
-    "user":"userToken",
-    "code": "userCode"
-}
-###
-
-POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/notion/checkIntegration
-Authorization: Bearer token
-
-###
