@@ -517,6 +517,54 @@ Authorization: Bearer token
 ###
 
 
+//------R E F L E C T I V E   M E A L S------
+//-------------------------------------------
+//Reflective nutrition path. No breakfast/lunch/dinner; meals are logged when eaten.
+//feelingDescriptors (multi): nourishing | satisfying | energizing | light | heavy | rushed | comforting | indulgent | guilt_free
+//bodyFeelingDescriptors (multi): energized | sluggish | clear | bloated | steady | tired
+
+//Get reflective meals for one day.
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/reflectiveMeals?dateStamp=20261113
+Authorization: Bearer token
+###
+
+//Get reflective meals for multiple days (e.g. past page; includes endDate).
+GET https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/reflectiveMeals?startDate=20261101&endDate=20261130
+Authorization: Bearer token
+###
+
+//Log a meal. Only mealDescription, season and dateStamp are required.
+//seasonalQuestion is the question shown above the note.
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/reflectiveMeals
+Authorization: Bearer token
+
+{
+    "mealDescription": "Big salad with salmon",
+    "feelingDescriptors": ["nourishing", "light"],
+    "bodyFeelingDescriptors": ["clear"],
+    "seasonalQuestion": "Did this meal fuel what you're building today?",
+    "note": "Yes. Felt steady all afternoon.",
+    "season": "building",
+    "time": "12:45",
+    "dateStamp": "20261113"
+}
+###
+
+//Update a meal (any subset of mealDescription, feelingDescriptors, bodyFeelingDescriptors, note, time).
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/reflectiveMeals/20261113-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer token
+
+{
+    "bodyFeelingDescriptors": ["clear", "steady"]
+}
+###
+
+//Delete a meal.
+DELETE https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/reflectiveMeals/20261113-6c6021b0-a7fc-11ed-bdb0-bbf5057b4e83
+Authorization: Bearer token
+###
+
+
 //----------F O O D   E N T R I E S----------
 //-------------------------------------------
 //Get food entries for one day.

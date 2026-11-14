@@ -80,6 +80,9 @@ class DeleteUser {
 
     const journalEntries = await this.getAll(email, "journalEntry");
     await this.DB.deleteItems(`${email}-journalEntry`, journalEntries);
+
+    const reflectiveMeals = await this.getAll(email, "reflectiveMeal");
+    await this.DB.deleteItems(`${email}-reflectiveMeal`, reflectiveMeals);
   }
 
   async getAll(user, pkSuffix) {
