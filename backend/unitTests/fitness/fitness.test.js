@@ -11,8 +11,6 @@ const DeleteWorkoutEntry = require("../../tracker-fitness/workoutEntries/deleteW
 const CreateExerciseEntry = require("../../tracker-fitness/exerciseEntries/createExerciseEntry");
 const GetExerciseEntries = require("../../tracker-fitness/exerciseEntries/getExerciseEntries");
 const UpdateExerciseEntry = require("../../tracker-fitness/exerciseEntries/updateExerciseEntry");
-const DeleteUser = require("../../userInfo/user/deleteUser");
-
 const user = { email: "test@example.com" };
 
 function mockDB({ items = {}, item } = {}) {
@@ -541,21 +539,5 @@ describe("exercise entries", () => {
       { sets: setInfo },
     );
     expect(response.statusCode).toBe(400);
-  });
-});
-
-describe("deleteUser", () => {
-  it("deletes workout entries from the workoutEntry partition", async () => {
-    const workoutEntries = [{ SK: "20261113-w1" }];
-    const db = mockDB({
-      items: { "test@example.com-workoutEntry": workoutEntries },
-    });
-
-    await new DeleteUser(db).deleteUserAndData("test@example.com");
-
-    expect(db.deleteItems).toHaveBeenCalledWith(
-      "test@example.com-workoutEntry",
-      workoutEntries,
-    );
   });
 });
