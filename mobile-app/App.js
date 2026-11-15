@@ -18,11 +18,24 @@ import Purchases from "react-native-purchases";
 import Toast from "react-native-toast-message";
 import { ThemeProvider } from "./src/contexts/ThemeProvider";
 import axios from "axios";
+import { fontAssets } from "./src/theme";
+import * as SplashScreen from "expo-splash-screen";
+
+// Hide the splash screen ourselves once fonts are ready (see the effect in
+// App). Expo's automatic hide waits for a native "content appeared" signal,
+// which doesn't always fire after a dev Reload, leaving the app running
+// invisibly under the splash.
+SplashScreen.preventAutoHideAsync().catch(() => {});
+
+// DEV ONLY: `EXPO_PUBLIC_DS_GALLERY=1 npx expo start -c` shows the design
+// system gallery instead of the app. Always false in production builds.
+const SHOW_DS_GALLERY = __DEV__ && process.env.EXPO_PUBLIC_DS_GALLERY === "1";
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Quicksand: require("./src/assets/fonts/Quicksand-Regular.ttf"),
     "Quicksand-SemiBold": require("./src/assets/fonts/Quicksand-SemiBold.ttf"),
+    ...fontAssets, // Oasis relaunch fonts: Cormorant Garamond + DM Sans
   });
   const [loading, setLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
@@ -122,8 +135,36 @@ export default function App() {
     };
   }, []);
 
-  if (!fontsLoaded) {
+  useEffect(() => {
+    if (fontError) console.warn("[fonts] failed to load:", fontError);
+  }, [fontError]);
+
+  // Fonts loaded (or failed: carry on with system fonts) → reveal the app.
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
+  }, [fontsLoaded, fontError]);
+
+  // Wait for fonts, but never forever: if one fails to load, carry on with
+  // the system font instead of leaving the user on the splash screen.
+  if (!fontsLoaded && !fontError) {
     return null;
+  }
+
+  if (SHOW_DS_GALLERY) {
+    // Required lazily so the gallery is never loaded unless the flag is on.
+    const DesignGallery = require("./src/dev/DesignGallery").default;
+    return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider>
+          <SafeAreaProvider>
+            <StatusBar style="dark" />
+            <DesignGallery />
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </GestureHandlerRootView>
+    );
   }
 
   return (
