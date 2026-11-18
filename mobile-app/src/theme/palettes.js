@@ -48,6 +48,16 @@ const light = {
     completion: ["#faf8f4", "#f5f0e8"], // completion screen (drawn at 160deg)
   },
 
+  // Onboarding-only colours (oasis_onboarding_flow.html).
+  onboarding: {
+    // Soft blurred orbs behind the Welcome screen
+    orbs: ["#f5dde8", "#ede8f8", "#f8f4e0"], // pink, lavender, yellow
+    // Leaf mark on the Welcome screen: fill, stroke, inner shade
+    mark: { fill: "#e8ddf5", stroke: "#c8b8e8", shade: "#d8c8f0" },
+    // Box around the first journal prompt
+    journalMoment: "#f5dde8",
+  },
+
   // Daily Practice card gradient, one per season (from the home mock).
   // Decided 2026-11-14 over the spec's single lavender/blue gradient.
   // Use: <Card gradient={t.practiceGradients[user.season]} />

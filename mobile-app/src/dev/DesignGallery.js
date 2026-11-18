@@ -307,7 +307,8 @@ export default function DesignGallery() {
       {/* ───────── Season copy ───────── */}
       <Section title={`Season copy · ${season.emoji} ${season.name}`}>
         {Object.entries(season)
-          .filter(([field]) => !["key", "emoji", "name"].includes(field))
+          // onboarding is a nested config (steps, habit copy), shown by the flow itself.
+          .filter(([field]) => !["key", "emoji", "name", "onboarding"].includes(field))
           .map(([field, value]) => (
             <View key={field} style={styles.copyRow}>
               <Text style={[t.text.sectionLabel, styles.muted]}>{field}</Text>

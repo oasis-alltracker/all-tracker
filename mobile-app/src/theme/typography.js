@@ -73,6 +73,36 @@ export const baseText = {
   fulfilledCheck: { fontFamily: fonts.sansMedium, fontSize: 10 }, // ✓ in the 18px card check
   completionCheck: { fontFamily: fonts.sans, fontSize: 28 }, // ✓ in the 72px completion check
   habitToggleCheck: { fontFamily: fonts.sansMedium, fontSize: 12 },
+
+  // Onboarding (oasis_onboarding_flow.html)
+  welcomeWordmark: { fontFamily: fonts.serifLight, fontSize: 44, letterSpacing: 6 },
+  welcomeLine1: { fontFamily: fonts.serif, fontSize: 20 },
+  welcomeLine2: { fontFamily: fonts.serifLightItalic, fontSize: 16, lineHeight: 24 },
+  welcomeLine3: { fontFamily: fonts.sansLight, fontSize: 12, letterSpacing: 0.5 },
+  onboardingQuestion: { fontFamily: fonts.serif, fontSize: 26, lineHeight: 34 },
+  onboardingLabel: {
+    fontFamily: fonts.sansMedium,
+    fontSize: 11,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+  onboardingGuidance: { fontFamily: fonts.sansLight, fontSize: 13, lineHeight: 21 },
+  onboardingHelper: { fontFamily: fonts.serifLightItalic, fontSize: 16, lineHeight: 23 },
+  seasonEmoji: { fontFamily: fonts.sans, fontSize: 28 },
+  seasonName: { fontFamily: fonts.sansMedium, fontSize: 15 },
+  seasonDesc: { fontFamily: fonts.sansLight, fontSize: 12, lineHeight: 17 },
+  chipEmoji: { fontFamily: fonts.sans, fontSize: 20 },
+  chipLabel: { fontFamily: fonts.sans, fontSize: 13 },
+  onboardingTask: { fontFamily: fonts.sansLight, fontSize: 14 },
+  firstEntryPrompt: { fontFamily: fonts.serifItalic, fontSize: 22, lineHeight: 31 },
+  closingBody: { fontFamily: fonts.sansLight, fontSize: 14, lineHeight: 24 },
+  closingAlso: { fontFamily: fonts.sansLight, fontSize: 13, lineHeight: 21 },
+  closingAlsoLabel: {
+    fontFamily: fonts.sansMedium,
+    fontSize: 12,
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
+  },
 };
 
 // Multiplies every fontSize/lineHeight by `factor` (letter spacing unchanged).
