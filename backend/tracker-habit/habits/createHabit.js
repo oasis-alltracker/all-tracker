@@ -1,5 +1,6 @@
 const { v1: uuidv1 } = require("uuid");
 const { SEASONS } = require("../../userInfo/seasons/createSeason");
+const { isValidEmoji } = require("../../utils/habitEmoji");
 
 class CreateHabit {
   constructor(db) {
@@ -45,6 +46,10 @@ class CreateHabit {
       history: [],
     };
 
+    // The relaunch app sends an emoji icon; legacy habits only have pngURL.
+    if (isValidEmoji(habit.emoji)) {
+      data.emoji = habit.emoji.trim();
+    }
     // The relaunch app sends the season and day the habit starts in; the legacy
     // app doesn't, and its habits start with an empty history.
     if (SEASONS.includes(habit.season) && /^\d{8}$/.test(habit.dateStamp)) {

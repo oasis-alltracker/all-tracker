@@ -5,7 +5,19 @@ const ALLOWED_FIELDS = [
   "trackingPreferences",
   "taskPreference",
   "nutritionPath",
+  "name",
 ];
+
+// The name the app greets the user by ("Good morning, [Name]").
+const MAX_NAME_LENGTH = 50;
+
+function isValidName(name) {
+  return (
+    typeof name === "string" &&
+    name.trim() !== "" &&
+    name.trim().length <= MAX_NAME_LENGTH
+  );
+}
 
 class UpdateUser {
   constructor(db) {
@@ -14,10 +26,11 @@ class UpdateUser {
 
   async updateUser(user, body) {
     const fields = ALLOWED_FIELDS.filter((field) => body?.[field] !== undefined);
-    if (fields.length === 0) {
+    const invalidName = body?.name !== undefined && !isValidName(body.name);
+    if (fields.length === 0 || invalidName) {
       return {
         statusCode: 400,
-        body: JSON.stringify("No updatable fields"),
+        body: JSON.stringify(invalidName ? "Invalid name" : "No updatable fields"),
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": true,
@@ -56,7 +69,8 @@ class UpdateUser {
     const values = {};
     fields.forEach((field) => {
       names[`#${field}`] = field;
-      values[`:${field}`] = userInfo[field];
+      values[`:${field}`] =
+        field === "name" ? userInfo.name.trim() : userInfo[field];
     });
     await this.DB.updateItem(expression, key, names, values);
   }

@@ -57,6 +57,28 @@ describe("createHabit", () => {
       { status: "active", season: "building", dateStamp: "20261113" },
     ]);
   });
+
+  it("stores an emoji icon when sent", async () => {
+    const db = mockDB();
+    await new CreateHabit(db).createHabit(user, {
+      name: "Meditate",
+      isPositive: true,
+      threshold: 1,
+      emoji: "🧘",
+    });
+
+    expect(db.putItem.mock.calls[0][0].emoji).toBe("🧘");
+  });
+
+  it("leaves emoji off legacy and invalid bodies", async () => {
+    const db = mockDB();
+    const create = new CreateHabit(db);
+    await create.createHabit(user, { name: "Read", pngURL: "url" });
+    await create.createHabit(user, { name: "Read", emoji: "x".repeat(17) });
+
+    expect(db.putItem.mock.calls[0][0]).not.toHaveProperty("emoji");
+    expect(db.putItem.mock.calls[1][0]).not.toHaveProperty("emoji");
+  });
 });
 
 describe("getHabits", () => {
@@ -111,6 +133,18 @@ describe("updateHabit edits", () => {
     );
   });
 
+  it("edits the emoji icon", async () => {
+    const db = mockDB();
+    await new UpdateHabit(db).updateHabit(user, "habit1", { emoji: "📖" });
+
+    expect(db.updateItem).toHaveBeenCalledWith(
+      "SET #emoji = :emoji",
+      key,
+      { "#emoji": "emoji" },
+      { ":emoji": "📖" },
+    );
+  });
+
   it("allows partial edits and ignores unknown fields", async () => {
     const db = mockDB();
     await new UpdateHabit(db).updateHabit(user, "habit1", {
@@ -128,6 +162,8 @@ describe("updateHabit edits", () => {
 
   it.each([
     ["empty body", {}],
+    ["empty emoji", { emoji: " " }],
+    ["non-string emoji", { name: "Read", emoji: 5 }],
     ["bad status", { status: "archived", season: "building", dateStamp: "20261113" }],
     ["status without season", { status: "closed", dateStamp: "20261113" }],
     ["status with bad dateStamp", { status: "closed", season: "building", dateStamp: "2026-11-13" }],

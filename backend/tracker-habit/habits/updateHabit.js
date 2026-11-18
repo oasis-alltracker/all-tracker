@@ -4,9 +4,10 @@ const {
   currentChapterStart,
 } = require("../../utils/habitHistory");
 const { countCompletions } = require("../../utils/habitCompletions");
+const { isValidEmoji } = require("../../utils/habitEmoji");
 
 // Fields an edit can set. Anything else in the body is ignored.
-const ALLOWED_FIELDS = ["name", "isPositive", "threshold", "pngURL"];
+const ALLOWED_FIELDS = ["name", "isPositive", "threshold", "pngURL", "emoji"];
 const STATUSES = ["active", "closed"];
 
 class UpdateHabit {
@@ -28,7 +29,8 @@ class UpdateHabit {
           !SEASONS.includes(body.season) ||
           !/^\d{8}$/.test(body.dateStamp) ||
           editFields.length > 0
-        : editFields.length === 0
+        : editFields.length === 0 ||
+          (body.emoji !== undefined && !isValidEmoji(body.emoji))
     ) {
       return {
         statusCode: 400,

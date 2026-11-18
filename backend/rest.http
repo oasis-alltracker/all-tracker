@@ -106,12 +106,21 @@ Authorization: Bearer token
 }
 ###
 
-//Update any subset of: isSetupComplete, trackingPreferences, taskPreference, nutritionPath.
+//Update any subset of: isSetupComplete, trackingPreferences, taskPreference, nutritionPath, name.
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
 Authorization: Bearer token
 
 {
     "nutritionPath": "reflective"
+}
+###
+
+//Set the name the home screen greets the user by (trimmed; empty or over 50 characters → 400).
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/user
+Authorization: Bearer token
+
+{
+    "name": "Sam"
 }
 ###
 
@@ -238,6 +247,20 @@ Authorization: Bearer token
 }
 ###
 
+//Create habit with an emoji icon, as onboarding does (relaunch app; emoji over 16 characters is ignored).
+POST https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits
+Authorization: Bearer token
+
+{
+    "name": "Meditate",
+    "emoji": "🧘",
+    "isPositive": true,
+    "threshold": 1,
+    "season": "building",
+    "dateStamp": "20261115"
+}
+###
+
 //Close habit. Saves this chapter's completions (total and by season) on the history event.
 PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
 Authorization: Bearer token
@@ -270,6 +293,15 @@ Authorization: Bearer token
     "threshold": 2,
     "pngURL": "url",
     "time": "15:00"
+}
+###
+
+//Change a habit's emoji icon (empty or non-string emoji → 400).
+PUT https://8svmwrf55j.execute-api.ca-central-1.amazonaws.com/dev/v1/habits/62962c80-a773-11ed-8679-d7059b0ed0d6
+Authorization: Bearer token
+
+{
+    "emoji": "📖"
 }
 ###
 

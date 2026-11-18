@@ -60,6 +60,36 @@ describe("updateUser", () => {
     );
   });
 
+  it("updates name, trimmed", async () => {
+    const db = mockDB();
+    const response = await new UpdateUser(db).updateUser(user, {
+      name: "  Sam ",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(db.updateItem).toHaveBeenCalledWith(
+      "SET #name = :name",
+      key,
+      { "#name": "name" },
+      { ":name": "Sam" },
+    );
+  });
+
+  it.each([
+    ["empty", "   "],
+    ["not a string", 42],
+    ["too long", "x".repeat(51)],
+  ])("rejects a %s name with 400 and writes nothing", async (label, name) => {
+    const db = mockDB();
+    const response = await new UpdateUser(db).updateUser(user, {
+      name,
+      nutritionPath: "tracking",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(db.updateItem).not.toHaveBeenCalled();
+  });
+
   it("ignores fields outside the allowlist", async () => {
     const db = mockDB();
     await new UpdateUser(db).updateUser(user, {
