@@ -85,7 +85,7 @@ const Agreement = () => {
 
         setChecked(false);
         setIsLoading(false);
-        navigationService.navigate("setup");
+        navigationService.navigate("onboarding");
       } catch (e) {
         console.log(e);
         setIsLoading(false);

@@ -68,6 +68,23 @@ class UserAPI {
     return { status };
   }
 
+  // The name the home screen greets the user by. The backend trims it and
+  // rejects an empty or over-long name with 400.
+  static async updateName(name, token) {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    var status;
+    try {
+      const response = await axios.put(API, { name }, { headers: headers });
+      status = response?.status;
+    } catch (error) {
+      status = error.response?.status;
+    }
+    return { status };
+  }
+
   static async updateNutritionPath(nutritionPath, token) {
     const headers = {
       Authorization: `Bearer ${token}`,

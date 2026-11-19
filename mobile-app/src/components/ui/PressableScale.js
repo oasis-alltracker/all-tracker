@@ -26,6 +26,7 @@ export default function PressableScale({
   style,
   accessibilityLabel,
   accessibilityRole = "button",
+  accessibilityState,
   hitSlop,
   children,
 }) {
@@ -52,7 +53,7 @@ export default function PressableScale({
       }}
       accessibilityRole={accessibilityRole}
       accessibilityLabel={accessibilityLabel}
-      accessibilityState={{ disabled: !!disabled }}
+      accessibilityState={{ ...accessibilityState, disabled: !!disabled }}
       style={[style, animatedStyle]}
     >
       {children}
